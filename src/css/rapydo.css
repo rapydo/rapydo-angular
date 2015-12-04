@@ -1,0 +1,132 @@
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+/* Bootstrap v4 */
+.card-block {
+  padding:20px;
+}
+.datatable-header {
+  font-weight: bold;
+  font-size: 1.1em;
+  border-bottom: 1px solid #BBB;
+  padding-bottom:30px;
+  margin-bottom:20px;
+}
+
+.vertical-center {
+  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh; /* These two lines are counted as one :-)       */
+
+  display: flex;
+  align-items: center;
+}
+
+.horizontal-center {
+	width:1000px;
+	text-align: center;
+}
+
+.flex-container {
+    padding: 0;
+    margin: 0;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+}
+
+.flex-hcentered {
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-vcentered {
+    height: 100%;
+}
+.flex-element {
+    width: auto;
+}
+
+.table-borderless td, .table-borderless th {
+    border: none !important;
+}
+
+/* FORMLY ERRORS */
+
+.error-messages {
+  position: relative;
+}
+
+.error-messages, .message {
+  opacity: 1;
+  transition: .3s linear all;
+}
+
+.message {
+  font-size: .8em;
+  position: absolute;
+  width: 100%;
+  color: #a94442;
+  margin-top: 2px;
+  text-align: right;
+}
+
+.error-messages.ng-enter.ng-enter-active,
+.message.ng-enter.ng-enter-active {
+  opacity: 1;
+  top: 0;
+}
+
+.error-messages.ng-enter,
+.message.ng-enter {
+  opacity: 0;
+  top: -10px;
+}
+
+.error-messages.ng-leave,
+.message.ng-leave {
+  opacity: 1;
+  top: 0;
+}
+
+.error-messages.ng-leave-active,
+.message.ng-leave-active {
+  opacity: 0;
+  top: -10px;
+}
+
+
+.glyphicon.spinning {
+    animation: spin 2s infinite linear;
+    -webkit-animation: spin2 2s infinite linear;
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg); }
+    to { transform: scale(1) rotate(360deg); }
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+
+
+.fa-xlarge {
+  font-size: 2em !important;
+}
+.fa-large {
+  font-size: 1.5em !important;
+}
+.fa-medium {
+  font-size: 1em !important;
+}
+.fa-small {
+  font-size: 0.5em !important;
+}
+.fa-xsmall {
+  font-size: 0.33em !important;
+}

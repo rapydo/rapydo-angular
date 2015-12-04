@@ -1,0 +1,71 @@
+
+<div class='container-fluid'>
+<div class="row justify-content-md-center" *ngIf="user">
+<div class='col-12 col-lg-8'>
+
+<div class='card'>
+<div class='card-header'>
+    <h4><i class='fa fa-user-circle-o'></i> User profile</h4>
+</div>
+
+<div class='card-block'>
+<div class="table-responsive">
+	<table class='table'>
+
+        <tr>
+            <th>Name</th>
+            <td>{{user.name}} {{user.surname}}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{user.email}}</td>
+        </tr>
+
+        <tr>
+            <th>Roles</th>
+            <td>
+                <span *ngFor="let role of user.roles | iterate">
+                    {{role.value}}
+                </span>
+            </td>
+        </tr>
+
+		<tr *ngFor="let value of user | iterate: 'uuid'">
+
+    		<th *ngIf="['name', 'surname', 'email', 'password', 'roles'].indexOf(value.key) < 0">
+                {{value.key}}
+            </th>
+
+    		<td *ngIf="['name', 'surname', 'email', 'password', 'roles'].indexOf(value.key) < 0">
+                {{value.value}}
+            </td>
+
+		</tr>
+
+        <tr>
+        <th>Password</th>
+        <td>
+            <a routerLink='changepassword'>
+                <i>Change your password</i>
+            </a>
+        </td>
+        </tr>
+
+        <tr>
+        <th>Open Sessions</th>
+        <td>
+            <a routerLink='sessions'>
+                <i>View list of your open sessions</i>
+            </a>
+        </td>
+        </tr>
+
+    </table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+</div>

@@ -1,0 +1,8 @@
+
+import { Routes } from '@angular/router';
+import { AuthGuard } from '/rapydo/src/app/app.auth.guard';
+
+export const appRoutes: Routes = [
+
+];
+

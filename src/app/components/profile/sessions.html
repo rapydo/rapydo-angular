@@ -1,0 +1,94 @@
+
+<div class='container-fluid'>
+<div class="row justify-content-md-center">
+<div class='col-12'>
+
+<div class='card'>
+<div class='card-header'>
+    <h4>List of your open sessions</h4>
+</div>
+
+<div class='card-block' *ngIf='tokens'>
+<div class="table-responsive">
+    <table class='table table-hover table-condensed'>
+
+        <tr>
+            <th>ID</th>
+            <th>IP</th>
+            <th>host</th>
+            <th>Emitted</th>
+            <th>Last access</th>
+            <th>Expiration</th>
+            <th>Revoke</th>
+            <th>Token</th>
+        </tr>
+        <tr *ngFor="let values of tokens | iterate">
+
+        <td>{{values.value.id}}</td>
+        <td>{{values.value.IP}}</td>
+
+        <td>{{values.value.hostname}}</td>
+        <td>
+            <span 
+                ngbTooltip="{{1000*values.value.emitted | date : 'yyyy MMM dd HH:mm:ss'}}"
+                >
+                {{values.value.emitted | amFromUnix | amTimeAgo:false }}
+            </span>
+        </td>
+
+        <td>
+            <span 
+                ngbTooltip="{{1000*values.value.last_access | date : 'yyyy MMM dd HH:mm:ss'}}"
+                >
+                {{values.value.last_access | amFromUnix | amTimeAgo:false }}
+            </span>
+        </td>
+
+        <td>
+            <span 
+                ngbTooltip="{{1000*values.value.expiration | date : 'yyyy MMM dd HH:mm:ss'}}"
+                >
+                {{values.value.expiration | amFromUnix | amTimeAgo:false}}
+            </span>
+        </td>
+
+        <td *ngIf="currentToken != values.value.token; else activeCurrent">
+            <i 
+                class='fa fa-trash fa-large' style='color:red;'
+                mwlConfirmationPopover
+                [popoverTitle]="'Confirmation required'"
+                [popoverMessage]="'Are you really sure you want to delete this session?'"
+                placement="left"
+                (confirm)="revokeToken(values.value.id)"
+            ></i>
+        </td>
+        <ng-template #activeCurrent>
+        <td>-</td>
+        </ng-template>
+
+        <td>
+            <i class='fa fa-clipboard fa-large'
+                ngxClipboard [cbContent]="values.value.token"
+                ngbTooltip="Copy token to clipboard"
+            ></i>
+        </td>
+
+        </tr>
+    </table>
+</div>
+</div>
+
+<div class='card-footer text-muted'>
+<div class='text-left' style='float:right;'>
+    <button class='btn btn-secondary' type="submit" routerLink="..">
+       <i class='fa fa-backward'></i> Back to profile
+    </button>
+</div>
+</div>
+
+</div>
+<!-- CARD END -->
+
+</div>
+</div>
+</div>

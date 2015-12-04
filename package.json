@@ -1,0 +1,70 @@
+{
+  "name": "rapydo",
+  "version": "0.6.2",
+  "private": true,
+  "description": "Frontend for RAPyDo framework",
+  "scripts": {
+    "start": "webpack-dev-server --inline --progress --colors --port 80",
+    "test": "karma start",
+    "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@angular/common": "5.2.11",
+    "@angular/compiler": "5.2.11",
+    "@angular/core": "5.2.11",
+    "@angular/forms": "5.2.11",
+    "@angular/http": "5.2.11",
+    "@angular/platform-browser": "5.2.11",
+    "@angular/platform-browser-dynamic": "5.2.11",
+    "@angular/router": "5.2.11",
+    "@angular/upgrade": "5.2.11",
+    "core-js": "^2.5.3",
+    "rxjs": "5.5.5",
+    "zone.js": "^0.8.4",
+
+    "bootstrap": "4.1.1",
+    "@ng-bootstrap/ng-bootstrap": "1.1.2",
+    "@ngx-formly/core": "3.1.0",
+    "@ngx-formly/bootstrap": "3.1.0",
+
+    "angular-confirmation-popover": "4.1.0",
+
+    "moment": "2.22.0",
+    "ngx-moment": "2.0.0",
+    "@swimlane/ngx-datatable": "11.2.0",
+
+    "ngx-clipboard": "10.0.0",
+
+    "font-awesome": "4.7.0",
+    "jquery": "3.3.1",
+    
+    "noty": "^3.2.0-beta"
+  },
+  "devDependencies": {
+    "@types/node": "^6.0.45",
+    "@types/jasmine": "2.5.36",
+    "angular2-template-loader": "^0.6.0",
+    "awesome-typescript-loader": "^3.0.4",
+    "css-loader": "^0.26.1",
+    "extract-text-webpack-plugin": "2.0.0-beta.5",
+    "file-loader": "^0.9.0",
+    "html-loader": "^0.4.3",
+    "html-webpack-plugin": "^2.16.1",
+    "copy-webpack-plugin": "", 
+    "jasmine-core": "^2.4.1",
+    "karma": "^1.2.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-jasmine": "^1.0.2",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^2.0.1",
+    "null-loader": "^0.1.1",
+    "raw-loader": "^0.5.1",
+    "rimraf": "^2.5.2",
+    "style-loader": "^0.13.1",
+    "typescript": "~2.4.2",
+    "webpack": "2.2.1",
+    "webpack-dev-server": "2.4.1",
+    "webpack-merge": "^3.0.0"
+  }
+}

@@ -1,0 +1,65 @@
+
+<div class='container-fluid'>
+<div class="row justify-content-md-center">
+<div class='col-12 col-md-8 col-lg-6'>
+
+<!-- 1 -->
+
+<div class='card' *ngIf='!token && !invalid_token && !reset_message'>
+  <div class='card-header'>
+    <h4>Reset your password</h4>
+  </div>
+
+  <div class='card-block'>
+    <form [formGroup]="step1_form" (ngSubmit)="resetRequest()">
+        <formly-form [form]="step1_form" [fields]="step1_fields" [model]="model">
+          <button type="submit" class="btn btn-success">Submit request</button>
+        </formly-form>
+    </form>
+  </div>
+
+</div>
+
+<!-- 2 -->
+<div class='card' *ngIf='reset_message'>
+  <div class='card-header'>
+    <h4>Reset your password</h4>
+  </div>
+
+  <div class='card-block'>
+    {{reset_message}}
+  </div>
+</div>
+
+<!-- 3 -->
+
+<div class='card' *ngIf='invalid_token'>
+  <div class='card-header'>
+    <h4>Invalid request</h4>
+  </div>
+
+  <div class='card-block'>
+    {{invalid_token}}
+  </div>
+
+</div>
+
+<!-- 4 -->
+<div class='card' *ngIf='token'>
+  <div class='card-header'>
+    <h4>Change your password</h4>
+  </div>
+
+  <div class='card-block'>
+    <form [formGroup]="step2_form" (ngSubmit)="changePassword()">
+        <formly-form [form]="step2_form" [fields]="step2_fields" [model]="model">
+          <button type="submit" class="btn btn-success">Submit</button>
+        </formly-form>
+    </form>
+  </div>
+
+</div>
+
+</div>
+</div>
+</div>

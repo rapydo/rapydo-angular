@@ -1,0 +1,48 @@
+<div class='container-fluid'>
+<div class="row justify-content-md-center">
+<div class='col-12 col-md-8 col-lg-6'>
+
+<div class='card'>
+<div class='card-header'>
+    <h4>Login</h4>
+</div>
+
+<div class='card-block'>
+    <form [formGroup]="form" (ngSubmit)="login()">
+        <formly-form [form]="form" [fields]="fields" [model]="model">
+
+            <button [disabled]="loading" class="btn btn-primary">Login</button>
+            <i *ngIf="loading" class='fa fa-spinner fa-spin'></i>
+
+        </formly-form>
+    </form>
+
+    <div class='text-left' *ngIf='allowRegistration'>
+      You don't have an account yet? <a href="#" routerLink='/public/register'>Register here</a>.
+    </div>
+
+    <div class='text-left' *ngIf='allowPasswordReset'>
+      Forgot your password? <a href="#" routerLink='/public/reset'>Click here</a>.
+    </div>
+
+</div>
+</div>
+
+
+<br><br>
+
+<div class='card' *ngIf='account_not_active'>
+<div class='card-header'>
+    <h4>This account is not active</h4>
+</div>
+
+<div class='card-block'>
+    Didn't receive an activation link?
+    <a (click)='ask_activation_link()'>Click here to send again</a>
+</div>
+</div>
+
+
+</div>
+</div>
+</div>
