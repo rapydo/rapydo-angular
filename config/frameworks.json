@@ -62,7 +62,5 @@
 
     },
     "css" : [
-        "css/style.css",
-        "css/myfonts.css"
     ]
 }
