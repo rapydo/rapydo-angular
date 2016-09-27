@@ -26,17 +26,6 @@
         "angular-ui-router": [
             "release/angular-ui-router.min.js"
         ],
-        "materialize": [
-            "dist/js/materialize.min.js",
-            "dist/css/materialize.min.css"
-        ],
-        "angular-materialize": [
-            "src/angular-materialize.js"
-        ],
-        "angular-material": [
-            "angular-material.min.css",
-            "angular-material.min.js"
-        ],
         "satellizer": [
             "satellizer.min.js"
         ],
@@ -58,12 +47,26 @@
         ],
         "angular-formly-templates-bootstrap": [
             "dist/angular-formly-templates-bootstrap.min.js"
+        ],
+        "bootstrap": [
+            "dist/css/bootstrap.min.css",
+            "dist/css/bootstrap-theme.min.css"
+            // "dist/fonts/glyphicons-halflings-regular.eot/svg/ttf/woff/woff2"
+        ],
+        "angular-bootstrap": [
+            "ui-bootstrap.min.js",
+            "ui-bootstrap-tpls.min.js"
+        ],
+        // "google-material-icons": [
+        //     "google-material-icons.min.css"
+        // ],
+        "google-material-color": [
+            "dist/palette.css"
         ]
 
     },
     "css" : [
-        "css/style.css",
-        "css/myfonts.css",
-        "css/custom_material.css"
+        "css/framework.css",
+        "css/material.icons.css"
     ]
 }

@@ -1,9 +1,12 @@
+(function() {
+  'use strict';
+
 angular.module('web').controller('FormDialogController', FormDialogController);
 angular.module('web').controller('FormlyDialogController', FormlyDialogController);
 angular.module('web').controller('SchemaFormDialogController', SchemaFormDialogController);
+angular.module('web').service('FormDialogService', FormDialogService);
 
-
-function FormlyDialogController($scope, $mdDialog, $controller, FormlyService, noty) {
+function FormlyDialogController($scope, $controller, FormlyService, noty) {
     $controller('FormDialogController', {$scope: $scope});
 
   $scope.createForm = function(promise, form_data, DataController) {
@@ -23,7 +26,7 @@ function FormlyDialogController($scope, $mdDialog, $controller, FormlyService, n
 
 }
 
-function SchemaFormDialogController($scope, $mdDialog, $controller, SchemaFormService, noty) {
+function SchemaFormDialogController($scope, $controller, SchemaFormService, noty) {
     $controller('FormDialogController', {$scope: $scope});
 
   $scope.createForm = function(promise, form_data, DataController) {
@@ -43,7 +46,16 @@ function SchemaFormDialogController($scope, $mdDialog, $controller, SchemaFormSe
   }
 }
 
-function FormDialogController($scope, $mdDialog, noty) {
+function DialogController($scope, $uibModalInstance) {
+    $scope.cancel = function() {
+      $uibModalInstance.dismiss();
+    };
+    $scope.confirm = function(answer) {
+      $uibModalInstance.close(answer);
+    };
+}
+
+function FormDialogController($scope, noty) {
 
   var self = this;
 
@@ -75,43 +87,71 @@ function FormDialogController($scope, $mdDialog, noty) {
     return true
   }
 
-  $scope.hide = function() {
-    $mdDialog.hide();
-  };
-  $scope.cancel = function() {
-    $mdDialog.cancel();
-  };
-  $scope.answer = function(answer) {
-    $mdDialog.hide(answer);
-  };
+  // $scope.hide = function() {
+  //   $uibModal.hide();
+  // };
+  $scope.initParent = function(modal) {
+    $scope.cancel = function() {
+      modal.dismiss();
+    };
+    $scope.answer = function(answer) {
+      modal.close(answer);
+    };
+  }
 
 }
 
-var showFormlyDialog = function(ev, $mdDialog, $mdMedia, form_data, dataCtrl) {
-  return $mdDialog.show({
-      controller: dataCtrl,
-      templateUrl: self.templateDir+'/show.formly.html',
+function FormDialogService($log, $uibModal, $rootScope) {
+  var self = this;
+
+  self.showConfirmDialog = function(text, subtext) {
+    var template = "<div class='panel panel-warning text-center' style='margin-bottom:0px;'>";
+        template+= "<div class='panel-heading'>Confirmation required</div>";
+        template+= "<div class='panel-body'><h4>"+text+"</h4><br>"+subtext+"</div>";
+        template+= "<div class='panel-footer'>";
+
+        template+= "<div class='row'>";
+        template+= "<div class='col-xs-4 col-xs-offset-2'>";
+        template+= "<button class='btn btn-danger' ng-click='confirm()'>Yes</button>";
+        template+= "</div>";
+        template+= "<div class='col-xs-4'>";
+        template+= "<button class='btn btn-default' ng-click='cancel()'>No</button>";
+        template+= "</div>";
+
+        template+= "</div>";
+        template+= "</div>";
+
+    return $uibModal.open({
+      controller: DialogController,
+      template: template,
       parent: angular.element(document.body),
-      locals: {
-        form_data: form_data
-      },
-      targetEvent: ev,
-      clickOutsideToClose:true,
-      fullscreen: (!$mdMedia('sm') || $mdMedia('xs'))
-    });
-};
+      clickOutsideToClose:true
+    }).result;
+  }
+  self.showFormlyDialog = function(form_data, dataCtrl) {
+    var scope = $rootScope.$new()
+    scope.form_data = form_data
+    return $uibModal.open({
+        controller: dataCtrl,
+        templateUrl: templateDir+'/show.formly.html',
+        parent: angular.element(document.body),
+        scope: scope,
+        clickOutsideToClose:true
+      }).result;
+  };
 
 
-var showSchemaFormDialog = function(ev, $mdDialog, $mdMedia, form_data, dataCtrl) {
-  return $mdDialog.show({
-      controller: dataCtrl,
-      templateUrl: self.templateDir+'/show.schemaform.html',
-      parent: angular.element(document.body),
-      locals: {
-        form_data: form_data
-      },
-      targetEvent: ev,
-      clickOutsideToClose:true,
-      fullscreen: (!$mdMedia('sm') || $mdMedia('xs'))
-    });
-};
+  self.showSchemaFormDialog = function(form_data, dataCtrl) {
+    var scope = $rootScope.$new()
+    scope.form_data = form_data
+    return $uibModal.open({
+        controller: dataCtrl,
+        templateUrl: templateDir+'/show.schemaform.html',
+        parent: angular.element(document.body),
+        scope: scope,
+        clickOutsideToClose:true
+      }).result;
+  };
+}
+
+})();

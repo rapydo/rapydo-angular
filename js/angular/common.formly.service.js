@@ -32,7 +32,7 @@ function FormlyService(noty)
 			} else if (s['type'] == "int") {
 				ftype = "input";
 				ttype = "number";
-			} else if (s['type'] == "timestamp") {
+			} else if (s['type'] == "date") {
 				ftype = "input";
 				ttype = "date";
 			} else if (s['type'] == "select") {
@@ -70,6 +70,10 @@ function FormlyService(noty)
 			if (ttype == 'autocomplete') {
 				field['controller'] = DataController+" as ctrl";
 			}
+			if (ttype == 'date') {
+				console.log(data)
+			}
+
 
 			fields.push(field);
 
