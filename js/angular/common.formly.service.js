@@ -3,6 +3,10 @@
 
 angular.module('web').service('FormlyService', FormlyService);
 
+function isArray(obj){
+    return !!obj && Array === obj.constructor;
+}
+
 function FormlyService(noty)
 {
 
@@ -16,64 +20,77 @@ function FormlyService(noty)
 			var s = schema[i];
 			var k = s.key;
 
-			var ftype = "";
-			var ttype = "";
+			var field_type = "";
+			var template_type = "";
 
 			var field = {}
+			var multiple = ('multiple' in s && s['multiple'] == "true")
 			field['templateOptions'] = {}
 
-
 			if (s['type'] == "text") {
-				ftype = "input";
-				ttype = "text";
+				field_type = "input";
+				template_type = "text";
+				if (multiple) {
+					field['templateOptions']["inputOptions"] = {}
+					field['templateOptions']["inputOptions"]["type"] = field_type;
+					field['type'] = "multiInput"
+				}
 			} else if (s['type'] == "longtext") {
-				ftype = "textarea";
-				ttype = "text";
+				field_type = "textarea";
+				template_type = "text";
 			} else if (s['type'] == "int") {
-				ftype = "input";
-				ttype = "number";
+				field_type = "input";
+				template_type = "number";
 			} else if (s['type'] == "date") {
-				ftype = "input";
-				ttype = "date";
+				field_type = "input";
+				template_type = "date";
 			} else if (s['type'] == "select") {
-				ftype = "select";
-				ttype = "select";
+				field_type = "select";
+				template_type = "select";
 			} else if (s['type'] == "autocomplete") {
 				// Custom defined type
-				ftype = "autocomplete";
-				ttype = "autocomplete";
-			} else if (s['type'] == "typeahead") {
-				// Custom defined type (bootstrap) - to ovveride autocomplete
-				ftype = "typeahead";
-				ttype = "typeahead";
+				field_type = "autocomplete";
+				template_type = "autocomplete";
+
+				if (multiple) {
+					field['templateOptions']["inputOptions"] = {}
+					field['templateOptions']["inputOptions"]["type"] = field_type;
+					field_type = "multiAutocomplete"
+				}
+
 			}
 
 			field['key'] = s['key'];
-			field['type'] = ftype; 
+			field['type'] = field_type ; 
 			if ('default' in s)
 				field['defaultValue'] = s['default'];
 
 			field['templateOptions']['label'] = s['label'];
 			field['templateOptions']['placeholder'] = s['description'];
-			field['templateOptions']['type'] = ttype; 
+			field['templateOptions']['type'] = template_type; 
 			field['templateOptions']['required'] = (s['required'] == "true");
-			if (ttype == 'textarea') {
+			if (template_type == 'textarea') {
 				field['templateOptions']['rows'] = 5;
 			}
-			if (ttype == 'select') {
+			if (template_type == 'select') {
 				field['templateOptions']['labelProp'] = "value";
       			field['templateOptions']['valueProp'] = "id";
       			field['templateOptions']['options'] = s['options']
       			//field['templateOptions']['multiple'] = false;
 			}
 
-			if (ttype == 'autocomplete') {
+			if (template_type == 'autocomplete') {
 				field['controller'] = DataController+" as ctrl";
 			}
-			if (ttype == 'date') {
-				console.log(data)
-			}
+			// if (template_type == 'date') {
+			// 	console.log(data)
+			// }
 
+			if (multiple) {
+				if (!isArray(model[k])) {
+					model[k] = [model[k]];
+				}
+			}
 
 			fields.push(field);
 
@@ -85,7 +102,7 @@ function FormlyService(noty)
 				} else {
 					model[k] = data[k];
 				}
-				if (ttype == "number") {
+				if (template_type == "number") {
 					model[k] = parseInt(model[k]);
 				}
 			}
