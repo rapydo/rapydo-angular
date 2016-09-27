@@ -42,8 +42,9 @@ function FormlyService(noty)
 				field_type = "input";
 				template_type = "number";
 			} else if (s['type'] == "date") {
-				field_type = "input";
-				template_type = "date";
+				field_type = "datepicker";
+				template_type = "datepicker";
+				console.log(data[k]);
 			} else if (s['type'] == "select") {
 				field_type = "select";
 				template_type = "select";
