@@ -6,20 +6,22 @@
 
 <div class='panel-body'>
 
+  <form novalidate ng-submit="save()" name="form">
     <formly-form 
       layout="column"
       model="model"
       fields="fields"
+      form="form"
       >
       <br>
       <button 
         type="submit"
         class="btn btn-default"
-        ng-click="save()"
       >
         {{buttonText}}
       </button>
     </formly-form>
+    </form>
 
 </div>
 
