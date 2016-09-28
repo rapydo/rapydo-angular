@@ -66,10 +66,7 @@ function FormDialogController($scope, noty) {
 
   $scope.formIsValid = function() {
 
-    // $scope.$broadcast('schemaFormValidate');
-    //if (form.$valid) {
-
-    return true;
+    return $scope.form.$valid;
 
   }
   $scope.closeDialog = function(promise) {
