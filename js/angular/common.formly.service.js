@@ -27,6 +27,8 @@ function FormlyService(noty)
 			var multiple = ('multiple' in s && s['multiple'] == "true")
 			field['templateOptions'] = {}
 
+			if (k == 'genes') s['type'] = 'repeatSection';
+
 			if (s['type'] == "text") {
 				field_type = "input";
 				template_type = "text";
@@ -58,7 +60,43 @@ function FormlyService(noty)
 					field['templateOptions']["inputOptions"]["type"] = field_type;
 					field_type = "multiAutocomplete"
 				}
-
+			} else if (s['type'] == 'repeatSection') {
+				field_type = "repeatSection";
+				template_type = "repeatSection";
+				field['templateOptions']['btnText'] = "Add";
+				field['templateOptions']['fields'] = 
+											[
+								              {
+								                className: 'row',
+								                fieldGroup: [
+								                  {
+								                    className: 'col-xs-4',
+								                    type: 'input',
+								                    key: 'gene',
+								                    templateOptions: {
+								                      label: 'Gene symbol',
+								                      required: true
+								                    }
+								                  },
+								                  {
+								                    type: 'input',
+								                    key: 'B',
+								                    className: 'col-xs-4',
+								                    templateOptions: {
+								                      label: 'Field B',
+								                    }
+								                  },
+								                  {
+								                    type: 'input',
+								                    key: 'C',
+								                    className: 'col-xs-4',
+								                    templateOptions: {
+								                      label: 'Field C'
+								                    }
+								                  }
+								                ]
+								              }
+								            ];
 			}
 
 			field['key'] = s['key'];

@@ -82,6 +82,69 @@ formlyConfigProvider.setType({
   });
 
 
+    var unique = 1;
+    formlyConfigProvider.setType({
+      name: 'repeatSection',
+      template: '<label ng-click="addNew()" class="control-label"><i class="material-icons">add</i> {{to.label}}</label>'+
+                '   <div class="panel panel-default" ng-repeat="element in model[options.key]" ng-init="fields = copyFields(to.fields)">'+
+                '     <div class="panel-body">'+
+                '      <formly-form fields="fields"'+
+                '                   model="element"'+
+                '                   form="form">'+
+                '      </formly-form>'+
+                ' <div class="text-right">'+
+                '   <i class="material-icons palette-Red-500 text" uib-tooltip="Remove this group of elements" ng-click="model[options.key].splice($index, 1)">delete</i>'+
+                '</div>'+
+                '     </div>'+
+
+                '</div>',
+
+      controller: function($scope) {
+        $scope.formOptions = {formState: $scope.formState};
+        $scope.addNew = addNew;
+        
+        $scope.copyFields = copyFields;
+        
+        
+        function copyFields(fields) {
+          fields = angular.copy(fields);
+          addRandomIds(fields);
+          return fields;
+        }
+        
+        function addNew() {
+          $scope.model[$scope.options.key] = $scope.model[$scope.options.key] || [];
+          var repeatsection = $scope.model[$scope.options.key];
+          var newsection = {};
+          repeatsection.push(newsection);
+        }
+        
+        function addRandomIds(fields) {
+          unique++;
+          angular.forEach(fields, function(field, index) {
+            if (field.fieldGroup) {
+              addRandomIds(field.fieldGroup);
+              return; // fieldGroups don't need an ID
+            }
+            
+            if (field.templateOptions && field.templateOptions.fields) {
+              addRandomIds(field.templateOptions.fields);
+            }
+            
+            field.id = field.id || (field.key + '_' + index + '_' + unique + getRandomInt(0, 9999));
+          });
+        }
+        
+        function getRandomInt(min, max) {
+          return Math.floor(Math.random() * (max - min)) + min;
+        }
+      }
+  });
+
+
+
+
+
 // var offset = new Date().getTimezoneOffset();
 
 // var tz = "'+400'";
