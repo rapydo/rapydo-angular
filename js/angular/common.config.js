@@ -6,8 +6,23 @@ function hotkeysConfig(hotkeysProvider) {
   hotkeysProvider.useNgRoute = false;
 }
 
+angular.module('web').run(function(formlyValidationMessages) {
+  formlyValidationMessages.addStringMessage('required', 'This field is required');
+});
+
 function formlyConfig(formlyConfigProvider) {
-  // self.templateDir+'/show.formly.html',
+  formlyConfigProvider.extras.errorExistsAndShouldBeVisibleExpression = function($viewValue, $modelValue, scope) {
+    return (scope.fc.$invalid && scope.form.$submitted);
+  };
+
+  formlyConfigProvider.setWrapper({
+    name: 'validation',
+    template: '<formly-transclude></formly-transclude>'+
+              '<div ng-messages="fc.$error" ng-if="form.$submitted || options.formControl.$touched" class="error-messages">'+
+              '  <div ng-message="{{ ::name }}" ng-repeat="(name, message) in ::options.validation.messages" class="message">{{ message(fc.$viewValue, fc.$modelValue, this)}}</div>'+
+              '</div>',
+    types: ['input', 'textarea', 'checkbox', 'radio', 'select'] // and soon, 'multiCheckbox'
+  });
   //Custom template for autocomplete fields
   formlyConfigProvider.setType({
     name: 'autocomplete',
@@ -67,9 +82,10 @@ formlyConfigProvider.setType({
   });
 
 
+// var offset = new Date().getTimezoneOffset();
 
-
-
+// var tz = "'+400'";
+var tz = "'utc'";
 formlyConfigProvider.setType({
     name: 'datepicker',
     extends: 'input',
@@ -78,7 +94,7 @@ formlyConfigProvider.setType({
               '          id="{{::id}}"'+
               '          name="{{::id}}"'+
               '          ng-model="model[options.key]"'+
-              // '          ng-model-options="{timezone: \'utc\'}"'+
+              '          ng-model-options="{timezone: '+tz+'}"'+
               '          class="form-control"'+
               '          ng-click="datepicker.open($event)"'+
               '          uib-datepicker-popup="{{to.datepickerOptions.format}}"'+
