@@ -257,9 +257,6 @@ function routeConfig(
                 if (view.dir == 'blueprint') {
                     dir = blueprintTemplateDir;
                 }
-                // else if (view.dir == 'custom') {
-                //     dir = customTemplateDir;
-                // }
                 myViews[viewName] = {templateUrl: dir + view.templateUrl};
             });
 

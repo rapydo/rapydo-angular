@@ -1,8 +1,6 @@
 
-<nav class="navbar navbar-default" ng-if="!main.avoidTheToolbar"
-    ng-class="main.toolbarColor + ' ' + main.shade">
-    <div class="container-fluid">
-
+<nav class="navbar navbar-default" ng-if="!main.avoidTheToolbar" ng-class="main.toolbarBgColor">
+  <div class="container-fluid">
 
     <div class="navbar-header">
 <!-- 
@@ -23,19 +21,18 @@
 
       <li>
         <a href ui-sref="logged.profile" ng-if="logged">
-          <i class="material-icons">people</i>
-          <i><small>{{profile.email}}</small></i>
+          <i uib-tooltip='Enter profile {{profile.email}}' tooltip-placement='bottom' class="material-icons">people</i>
         </a>
       </li>
 
       <!-- login/logout buttons -->
       <li>
       <a href ui-sref="public.login" ng-if="!logged">
-              Login
+        Login
       </a>
 
       <a href ui-sref="logged.logout" ng-if="logged">
-          Logout
+      <i class='material-icons' uib-tooltip='Logout' tooltip-placement='bottom'>exit_to_app</i>
       </a>
       </li>
 
@@ -45,5 +42,4 @@
 
   </div>
 
-  </div>
 </nav>

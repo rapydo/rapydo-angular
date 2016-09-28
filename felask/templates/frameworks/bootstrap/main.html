@@ -18,14 +18,19 @@
 <div ui-view='sidebar'></div>
 
 <!-- MAIN CONTAINER. Note: passing the project name from Jinja template to Angular -->
-<main ng-hide="main.splash" class="container-fluid"
-    ng-init="myproject = '{{ project[0].upper() + project[1:].lower() }}'">
+<main ng-hide="main.splash" ng-init="myproject = '{{ project[0].upper() + project[1:].lower() }}'">
     <!-- TOPBAR -->
-    <div ng-hide="main.load" ng-include="main.templateDir + 'topbar.html'"></div>
+    <div class="container-fluid" style='padding:0px;'>
+        <div ng-hide="main.load" ng-include="main.templateDir + 'topbar.html'"></div>
+    </div>
+
     <!-- WHILE WAITING (for API/RESOURCES) -->
-    <div ng-if="main.load" ng-include="main.templateDir + 'loader.html'"></div>
+    <div class="container-fluid">
+        <div ng-if="main.load" ng-include="main.templateDir + 'loader.html'"></div>
+    </div>
+
     <!-- WHEN READY -->
-    <div class='container-fluid' ng-hide="main.load" style="height: calc(100% - 5rem);" ui-view='main'></div>
+    <div class="container-fluid" ng-hide="main.load" style="height: calc(100% - 5rem);" ui-view='main'></div>
 </main>
 
 <!-- THE SIDEBAR FOR HISTORY -->
