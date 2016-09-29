@@ -102,8 +102,7 @@ formlyConfigProvider.setType({
     formlyConfigProvider.setType({
       name: 'repeatSection',
       template: 
-                // '<label ng-click="addNew()" class="control-label"><i class="material-icons">add</i> {{to.label}}</label>'+
-                '<label class="control-label">{{to.label}}</label>'+
+                '<label ng-click="addNew()" class="control-label">{{to.label}}</label>'+
                 '   <div class="panel panel-default" ng-repeat="element in model[options.key]" ng-init="fields = copyFields(to.fields)">'+
                 '     <div class="panel-body">'+
                 '      <formly-form fields="fields"'+
