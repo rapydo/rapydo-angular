@@ -125,11 +125,11 @@ function FormlyService(noty)
 			// 	console.log(data)
 			// }
 
-			if (multiple) {
-				if (!isArray(model[k])) {
-					model[k] = [model[k]];
-				}
-			}
+			// if (multiple) {
+			// 	if (!isArray(model[k])) {
+			// 		model[k] = [model[k]];
+			// 	}
+			// }
 
 			fields.push(field);
 
