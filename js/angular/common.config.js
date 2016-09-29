@@ -101,7 +101,9 @@ formlyConfigProvider.setType({
     var unique = 1;
     formlyConfigProvider.setType({
       name: 'repeatSection',
-      template: '<label ng-click="addNew()" class="control-label"><i class="material-icons">add</i> {{to.label}}</label>'+
+      template: 
+                // '<label ng-click="addNew()" class="control-label"><i class="material-icons">add</i> {{to.label}}</label>'+
+                '<label class="control-label">{{to.label}}</label>'+
                 '   <div class="panel panel-default" ng-repeat="element in model[options.key]" ng-init="fields = copyFields(to.fields)">'+
                 '     <div class="panel-body">'+
                 '      <formly-form fields="fields"'+
@@ -112,8 +114,8 @@ formlyConfigProvider.setType({
                 '   <i class="material-icons palette-Red-500 text" uib-tooltip="Remove this group of elements" ng-click="model[options.key].splice($index, 1)">delete</i>'+
                 '</div>'+
                 '     </div>'+
-
-                '</div>',
+                '</div>'+
+                '<div class="text-right"><label ng-click="addNew()" class="control-label"><a class="btn btn-default">Add new</a></div>',
 
       controller: function($scope) {
         $scope.formOptions = {formState: $scope.formState};
