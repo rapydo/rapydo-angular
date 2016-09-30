@@ -85,9 +85,12 @@ custom_path = os.path.join(app_path, 'custom', CURRENT_BLUEPRINT)
 # Save the right order:
 # Main app angular js is right after bower libs
 main_app = os.path.join(prefix, staticdir, 'app', 'commons', 'app.js')
-jfiles.append(main_app)
 custom_app = os.path.join(custom_path, 'app.js')
-jfiles.append(custom_app)
+
+if os.path.isfile(custom_app):
+    jfiles.append(custom_app)
+elif os.path.isfile(main_app):
+    jfiles.append(main_app)
 
 # jfiles.extend(Path(app_path).glob('*.js'))
 # JS common files
