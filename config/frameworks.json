@@ -62,6 +62,10 @@
         // ],
         "google-material-color": [
             "dist/palette.css"
+        ],
+        "angular-chips": [
+            "dist/angular-chips.min.js",
+            "dist/main.css"
         ]
 
     },
