@@ -35,6 +35,7 @@ customcss = user_config['css']
 
 css = []
 js = []
+jfiles = []
 
 # Bower libs
 for lib, files in fconfig['bower_components'].items():
@@ -62,12 +63,7 @@ for scss in customcss:
         scss = os.path.join(staticdir, 'css', scss)
     css.append(scss)
 
-# Save the right order:
-# Main app angular js is right after bower libs
-# mainapp = os.path.join(staticdir, 'app', 'app.js')
-# js.append(mainapp)
-
-#######################################
+    #######################################
 # ## JS BLUEPRINTS
 
 # Load only a specified angular blueprint
@@ -81,15 +77,17 @@ logger.info("Adding JS blueprint '%s'" % CURRENT_BLUEPRINT)
 
 prefix = __package__
 # JS BLUEPRINT config
-jfiles = [Path(prefix + '/js/blueprint.js')]
+jfiles.append(Path(prefix + '/js/blueprint.js'))
 # JS files in the root directory
 app_path = os.path.join(prefix, staticdir, 'app')
 custom_path = os.path.join(app_path, 'custom', CURRENT_BLUEPRINT)
 
 # Save the right order:
 # Main app angular js is right after bower libs
-mainapp = os.path.join(custom_path, 'app.js')
-jfiles.append(mainapp)
+main_app = os.path.join(prefix, staticdir, 'app', 'commons', 'app.js')
+jfiles.append(main_app)
+custom_app = os.path.join(custom_path, 'app.js')
+jfiles.append(custom_app)
 
 # jfiles.extend(Path(app_path).glob('*.js'))
 # JS common files
