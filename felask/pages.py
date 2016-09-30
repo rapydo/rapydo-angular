@@ -36,6 +36,7 @@ customcss = user_config['css']
 css = []
 js = []
 jfiles = []
+skip_files = []
 
 # Bower libs
 for lib, files in fconfig['bower_components'].items():
@@ -89,6 +90,7 @@ custom_app = os.path.join(custom_path, 'app.js')
 
 if os.path.isfile(custom_app):
     jfiles.append(custom_app)
+    skip_files.append(main_app)
 elif os.path.isfile(main_app):
     jfiles.append(main_app)
 
@@ -102,6 +104,8 @@ jfiles.extend(Path(custom_path).glob('**/*.js'))
 # Use all files found
 for pathfile in jfiles:
     strfile = str(pathfile)
+    if strfile in skip_files:
+        continue
     jfile = strfile[len(prefix) + 1:]
     if jfile not in js:
         js.append(jfile)
