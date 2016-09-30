@@ -10,7 +10,8 @@
         'satellizer',
         'cfp.hotkeys',
         'formly',
-        'formlyBootstrap'
+        'formlyBootstrap',
+        'angular.chips'
     ]);
 
 })();
