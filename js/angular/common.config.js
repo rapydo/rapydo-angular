@@ -23,20 +23,20 @@ function formlyConfig(formlyConfigProvider) {
               '</div>',
     types: ['input', 'textarea', 'checkbox', 'radio', 'select'] // and soon, 'multiCheckbox'
   });
-  //Custom template for autocomplete fields
+
   formlyConfigProvider.setType({
     name: 'autocomplete',
     extends: 'input',
-    // controller: 'AutocompleteController as ctrl',
-    // templateUrl: templateDir+'show.formly.html'
-    template: '<input type="text" '+
-              ' ng-model="model[options.key]" '+
-              ' ng-model-options="{ getterSetter: true }"'+
-              ' uib-typeahead="item as item.name for item in ctrl.querySearch(options.key, $viewValue)"'+
-              ' typeahead-select-on-blur=true'+
-              ' typeahead-show-hint=true'+
-              ' class="form-control"'+
-              '>',
+    template: `
+              <input 
+                type="text" 
+                ng-model="model[options.key]" 
+                ng-model-options="{ getterSetter: true }"
+                uib-typeahead="item as item.name for item in ctrl.querySearch(options.key, $viewValue)"
+                typeahead-select-on-blur=true
+                typeahead-show-hint=true
+                class="form-control">
+              `,
     wrapper: ['bootstrapLabel', 'bootstrapHasError']
 
   });
@@ -44,14 +44,16 @@ function formlyConfig(formlyConfigProvider) {
 formlyConfigProvider.setType({
     name: 'multiInput',
     extends: 'input',
-    template: '<div class="input-group" ng-repeat="item in model[options.key] track by $index">'+
-              '    <input type="text" class="form-control" ng-model="model[options.key][$index]"></input>'+
-              '    <a ng-if="$index == 0" class="input-group-addon" uib-tooltip="Cannot remove the first element">x</a>'+
-              '    <a ng-if="$index > 0" class="input-group-addon" uib-tooltip="Remove this element" ng-click="model[options.key].splice($index, 1)">x</a>'+
-              '</div>'+
-              '<div class="text-right">'+
-              '    <button type="button" class="btn btn-success btn-sm" ng-click="model[options.key].push('+"''"+')">Add new element</button>'+
-              '</div>',
+    template: `
+              <div class="input-group" ng-repeat="item in model[options.key] track by $index">
+                <input type="text" class="form-control" ng-model="model[options.key][$index]"></input>
+                <a ng-if="$index == 0" class="input-group-addon" uib-tooltip="Cannot remove the first element">x</a>
+                <a ng-if="$index > 0" class="input-group-addon" uib-tooltip="Remove this element" ng-click="model[options.key].splice($index, 1)">x</a>
+              </div>
+              <div class="text-right">
+                <button type="button" class="btn btn-success btn-sm" ng-click="model[options.key].push('+"''"+')">Add new element</button>
+              </div>
+              `,
     wrapper: ['bootstrapLabel', 'bootstrapHasError']
 
   });
@@ -60,39 +62,24 @@ formlyConfigProvider.setType({
 formlyConfigProvider.setType({
     name: 'multiAutocomplete',
     extends: 'input',
-        template: '<chips ng-model="model[options.key]">'+
-                  '   <chip-tmpl>'+
-                  '     <div class="default-chip">'+
-                  '       {{chip.name}}'+
-                  '       <span class="glyphicon glyphicon-remove" remove-chip></span>'+
-                  '     </div>'+
-                  '   </chip-tmpl>'+
-                  '   <input type="text" '+
-                  '   ng-model-control ng-model="typeaheadmodel"'+
-                  // '  ng-model="model[options.key]" '+
-                  '   ng-model-options="{ getterSetter: true }"'+
-                  '   uib-typeahead="item as item.name for item in ctrl.querySearch(options.key, $viewValue)"'+
-                  '   typeahead-select-on-blur=true'+
-                  '   typeahead-show-hint=true'+
-                  '   class="form-control"'+
-                  '   >'+
-                  '</chips>',
+        template: `
+                  <chips ng-model="model[options.key]">
+                     <chip-tmpl>
+                       <div class="default-chip">
+                          {{chip.name}}
+                          <span class="glyphicon glyphicon-remove" remove-chip></span>
+                       </div>
+                     </chip-tmpl>
+                     <input type="text" 
+                        ng-model-control ng-model="typeaheadmodel"
+                        ng-model-options="{ getterSetter: true }"
+                        uib-typeahead="item as item.name for item in ctrl.querySearch(options.key, $viewValue)"
+                        typeahead-select-on-blur=true
+                        typeahead-show-hint=true
+                        class="form-control">
+                  </chips>
+                  `,
 
-    // template: '<div class="input-group" ng-repeat="item in model[options.key] track by $index">'+
-    //           '<input type="text" '+
-    //           ' ng-model="model[options.key][$index]" '+
-    //           ' ng-model-options="{ getterSetter: true }"'+
-    //           ' uib-typeahead="item as item.name for item in ctrl.querySearch(options.key, $viewValue)"'+
-    //           ' typeahead-select-on-blur=true'+
-    //           ' typeahead-show-hint=true'+
-    //           ' class="form-control"'+
-    //           '>'+
-    //           '    <a ng-if="model[options.key].length == 1" class="input-group-addon" uib-tooltip="Cannot remove the first element">x</a>'+
-    //           '    <a ng-if="model[options.key].length > 1" class="input-group-addon" uib-tooltip="Remove this element" ng-click="model[options.key].splice($index, 1)">x</a>'+
-    //           '</div>'+
-    //           '<div class="text-right">'+
-    //           '    <button type="button" class="btn btn-success btn-sm" ng-click="model[options.key].push('+"''"+')">Add new element</button>'+
-    //           '</div>',
     wrapper: ['bootstrapLabel', 'bootstrapHasError']
 
   });
@@ -101,20 +88,29 @@ formlyConfigProvider.setType({
     var unique = 1;
     formlyConfigProvider.setType({
       name: 'repeatSection',
-      template: 
-                '<label ng-click="addNew()" class="control-label">{{to.label}}</label>'+
-                '   <div class="panel panel-default" ng-repeat="element in model[options.key]" ng-init="fields = copyFields(to.fields)">'+
-                '     <div class="panel-body">'+
-                '      <formly-form fields="fields"'+
-                '                   model="element"'+
-                '                   form="form">'+
-                '      </formly-form>'+
-                ' <div class="text-right">'+
-                '   <i class="material-icons palette-Red-500 text" uib-tooltip="Remove this group of elements" ng-click="model[options.key].splice($index, 1)">delete</i>'+
-                '</div>'+
-                '     </div>'+
-                '</div>'+
-                '<div class="text-right"><label ng-click="addNew()" class="control-label"><a class="btn btn-default">Add new</a></div>',
+      template: ` 
+                <label ng-click="addNew()" class="control-label">
+                  {{to.label}}
+                </label>
+                <div class="panel panel-default" ng-repeat="element in model[options.key]" ng-init="fields = copyFields(to.fields)">
+                  <div class="panel-body">
+                    <formly-form fields="fields"
+                                 model="element"
+                                 form="form">
+                    </formly-form>
+                    <div class="text-right">
+                      <i class="material-icons palette-Red-500 text" uib-tooltip="Remove this group of elements" ng-click="model[options.key].splice($index, 1)">delete</i>
+                    </div>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <label ng-click="addNew()" class="control-label">
+                    <a class="btn btn-default">
+                      Add new
+                    </a>
+                  </label>
+                </div>
+                `,
 
       controller: function($scope) {
         $scope.formOptions = {formState: $scope.formState};
@@ -161,7 +157,6 @@ formlyConfigProvider.setType({
 
 
 
-
 // var offset = new Date().getTimezoneOffset();
 
 // var tz = "'+400'";
@@ -169,21 +164,27 @@ var tz = "'utc'";
 formlyConfigProvider.setType({
     name: 'datepicker',
     extends: 'input',
-    template: '<p class="input-group">{{model[options.key]}}'+
-              '  <input  type="text"'+
-              '          id="{{::id}}"'+
-              '          name="{{::id}}"'+
-              '          ng-model="model[options.key]"'+
-              '          ng-model-options="{timezone: '+tz+'}"'+
-              '          class="form-control"'+
-              '          ng-click="datepicker.open($event)"'+
-              '          uib-datepicker-popup="{{to.datepickerOptions.format}}"'+
-              '          is-open="datepicker.opened"'+
-              '          datepicker-options="to.datepickerOptions" />'+
-              '  <span class="input-group-btn">'+
-              '      <button type="button" class="btn btn-default" ng-click="datepicker.open($event)" ng-disabled="to.disabled"><i class="glyphicon glyphicon-calendar"></i></button>'+
-              '  </span>'+
-              '</p>',
+    template: `
+              <p class="input-group">
+                {{model[options.key]}}
+                <input
+                  type="text"
+                  id="{{::id}}"
+                  name="{{::id}}"
+                  ng-model="model[options.key]"
+                  ng-model-options="{timezone: '+tz+'}"
+                  class="form-control"
+                  ng-click="datepicker.open($event)"
+                  uib-datepicker-popup="{{to.datepickerOptions.format}}"
+                  is-open="datepicker.opened"
+                  datepicker-options="to.datepickerOptions" />
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="datepicker.open($event)" ng-disabled="to.disabled">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                  </button>
+                </span>
+              </p>
+              `,
     wrapper: ['bootstrapLabel', 'bootstrapHasError'],
     defaultOptions: {
       templateOptions: {
