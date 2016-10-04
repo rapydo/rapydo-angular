@@ -43,8 +43,7 @@ function FormlyService(noty)
 				template_type = "number";
 			} else if (s['type'] == "date") {
 				field_type = "datepicker";
-				template_type = "datepicker";
-				console.log(data[k]);
+				template_type = "date";
 			} else if (s['type'] == "select") {
 				field_type = "select";
 				template_type = "select";
@@ -57,7 +56,21 @@ function FormlyService(noty)
 					field['templateOptions']["inputOptions"] = {}
 					field['templateOptions']["inputOptions"]["type"] = field_type;
 					field_type = "multiAutocomplete"
+					template_type = "multiAutocomplete"
 				}
+
+				if ("select_id" in s) {
+					field['templateOptions']['select_id'] = s.select_id;
+				} else {
+					field['templateOptions']['select_id'] = "value"
+				}
+
+				if ("select_label" in s) {
+					field['templateOptions']['select_label'] = s.select_label;
+				} else {
+					field['templateOptions']['select_label'] = "name"
+				}
+				
 			} else if (s['type'] == 'multi_section') {
 				field_type = "repeatSection";
 				template_type = "repeatSection";
@@ -115,9 +128,6 @@ function FormlyService(noty)
 			if (template_type == 'autocomplete') {
 				field['controller'] = DataController+" as ctrl";
 			}
-			// if (template_type == 'date') {
-			// 	console.log(data)
-			// }
 
 			// if (multiple) {
 			// 	if (!isArray(model[k])) {
@@ -128,15 +138,34 @@ function FormlyService(noty)
 			fields.push(field);
 
 			if (data) {
-				if (data[k] == null) {
-					model[k] = ""
-				} else if (typeof data[k] === "object") {
-					model[k] = data[k]["id"];
-				} else {
-					model[k] = data[k];
+
+				var model_key = k;
+				if (s.islink == "true" && "model_key" in s) {
+					model_key = s['model_key']
 				}
-				if (template_type == "number") {
-					model[k] = parseInt(model[k]);
+
+				var default_data = data[model_key];
+				if (default_data == null || default_data == "") {
+					model[k] = ""
+				} else {
+
+					if (template_type == "number") {
+						default_data = parseInt(default_data);
+					} else if (template_type == "date") {
+						default_data = new Date(default_data);
+					} else if (template_type == "autocomplete") {
+						if (s.islink == "true") {
+							// Array copy
+							default_data = (default_data.slice())[0];
+						}
+					} else if (template_type == "multiAutocomplete") {
+
+						console.log(k);
+						console.log(default_data);
+					}
+
+					model[k] = default_data;
+
 				}
 			}
 		}

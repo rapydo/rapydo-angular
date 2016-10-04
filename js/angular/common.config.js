@@ -32,7 +32,7 @@ function formlyConfig(formlyConfigProvider) {
                 type="text" 
                 ng-model="model[options.key]" 
                 ng-model-options="{ getterSetter: true }"
-                uib-typeahead="item as item.name for item in ctrl.querySearch(options.key, $viewValue)"
+                uib-typeahead="item as item[to.select_label] for item in ctrl.querySearch(options.key, $viewValue)"
                 typeahead-select-on-blur=true
                 typeahead-show-hint=true
                 class="form-control">
@@ -62,7 +62,7 @@ formlyConfigProvider.setType({
 formlyConfigProvider.setType({
     name: 'multiAutocomplete',
     extends: 'input',
-        template: `
+        template: `{{model[options.key]}}
                   <chips ng-model="model[options.key]">
                      <chip-tmpl>
                        <div class="default-chip">
@@ -159,20 +159,17 @@ formlyConfigProvider.setType({
 
 // var offset = new Date().getTimezoneOffset();
 
-// var tz = "'+400'";
-var tz = "'utc'";
 formlyConfigProvider.setType({
     name: 'datepicker',
     extends: 'input',
     template: `
               <p class="input-group">
-                {{model[options.key]}}
                 <input
                   type="text"
                   id="{{::id}}"
                   name="{{::id}}"
                   ng-model="model[options.key]"
-                  ng-model-options="{timezone: '+tz+'}"
+                  ng-model-options="{timezone: 'UTC'}"
                   class="form-control"
                   ng-click="datepicker.open($event)"
                   uib-datepicker-popup="{{to.datepickerOptions.format}}"
@@ -189,7 +186,7 @@ formlyConfigProvider.setType({
     defaultOptions: {
       templateOptions: {
         datepickerOptions: {
-          // initDate: new Date(),
+          initDate: new Date(),
           format: 'dd/MM/yyyy'
         }
       }
