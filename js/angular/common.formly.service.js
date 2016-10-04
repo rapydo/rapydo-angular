@@ -125,7 +125,7 @@ function FormlyService(noty)
       			//field['templateOptions']['multiple'] = false;
 			}
 
-			if (template_type == 'autocomplete') {
+			if (template_type == 'autocomplete' || template_type == 'multiAutocomplete') {
 				field['controller'] = DataController+" as ctrl";
 			}
 
@@ -160,8 +160,6 @@ function FormlyService(noty)
 						}
 					} else if (template_type == "multiAutocomplete") {
 
-						console.log(k);
-						console.log(default_data);
 					}
 
 					model[k] = default_data;

@@ -62,18 +62,19 @@ formlyConfigProvider.setType({
 formlyConfigProvider.setType({
     name: 'multiAutocomplete',
     extends: 'input',
-        template: `{{model[options.key]}}
+        template: `
                   <chips ng-model="model[options.key]">
                      <chip-tmpl>
-                       <div class="default-chip">
-                          {{chip.name}}
+                       <div class="default-chip" uib-tooltip="? {{chip[to['select_label']]}}">
+                          {{chip[to['select_id']]}}
+                          {{chip}}
                           <span class="glyphicon glyphicon-remove" remove-chip></span>
                        </div>
                      </chip-tmpl>
                      <input type="text" 
                         ng-model-control ng-model="typeaheadmodel"
                         ng-model-options="{ getterSetter: true }"
-                        uib-typeahead="item as item.name for item in ctrl.querySearch(options.key, $viewValue)"
+                        uib-typeahead="item as item[to['select_label']] for item in ctrl.querySearch(options.key, $viewValue)"
                         typeahead-select-on-blur=true
                         typeahead-show-hint=true
                         class="form-control">
