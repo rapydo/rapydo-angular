@@ -1,6 +1,35 @@
 (function() {
   'use strict';
 
+// AngularJS directive to patch datepickers up so that the widgets will 
+// automatically store dates or timings that are timezone-neutral (UTC).
+// Got from:
+// http://www.ericluwj.com/2015/11/06/angularui-ui-bootstrap-datepicker-and-timepicker-neutral-timezone.html
+angular.module('web')
+  .directive('datetimepickerNeutralTimezone', function() {
+	// You would need to use the directive on the same HTML elements with the 
+	// ng-model attributes by adding the datetimepicker-neutral-timezone attribute
+	// (added such attribute in datepicker formly template in common.config.js)
+    return {
+      restrict: 'A',
+      priority: 1,
+      require: 'ngModel',
+      link: function (scope, element, attrs, ctrl) {
+        ctrl.$formatters.push(function (value) {
+          var date = new Date(Date.parse(value));
+          date = new Date(date.getTime() + (60000 * date.getTimezoneOffset()));
+          return date;
+        });
+
+        ctrl.$parsers.push(function (value) {
+          var date = new Date(value.getTime() - (60000 * value.getTimezoneOffset()));
+          return date;
+        });
+      }
+    };
+  });
+
+
 angular.module('web').service('FormlyService', FormlyService);
 
 function isArray(obj){
@@ -129,6 +158,20 @@ function FormlyService(noty)
 				field['controller'] = DataController+" as ctrl";
 			}
 
+			if (template_type == 'date') {
+
+				var d = new Date()
+				var offset = d.getTimezoneOffset();
+
+				offset/=-60;
+
+				if (offset > 0) {
+				  field['templateOptions']['timezone'] ="+"+offset+"00";
+				} else {
+				  field['templateOptions']['timezone'] = offset+"00";
+				}
+			}
+
 			// if (multiple) {
 			// 	if (!isArray(model[k])) {
 			// 		model[k] = [model[k]];
@@ -139,12 +182,14 @@ function FormlyService(noty)
 
 			if (data) {
 
+
 				var model_key = k;
 				if (s.islink == "true" && "model_key" in s) {
 					model_key = s['model_key']
 				}
 
 				var default_data = data[model_key];
+
 				if (default_data == null || default_data == "") {
 					model[k] = ""
 				} else {
@@ -153,6 +198,14 @@ function FormlyService(noty)
 						default_data = parseInt(default_data);
 					} else if (template_type == "date") {
 						default_data = new Date(default_data);
+					} else if (template_type == "select") {
+						if (s.islink == "true") {
+							// Array copy
+							default_data = (default_data.slice())[0];
+						}
+						if ("select_id" in s && s["select_id"] in default_data) {
+							default_data = default_data[s["select_id"]];
+						}
 					} else if (template_type == "autocomplete") {
 						if (s.islink == "true") {
 							// Array copy

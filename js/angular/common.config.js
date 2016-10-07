@@ -156,24 +156,23 @@ formlyConfigProvider.setType({
   });
 
 
-
-
-// var offset = new Date().getTimezoneOffset();
-
 formlyConfigProvider.setType({
     name: 'datepicker',
     extends: 'input',
+              // ng-model-options="{timezone: to.timezone}"
     template: `
+              {{to.timezone}}
+              {{model[options.key]}}
               <p class="input-group">
                 <input
                   type="text"
                   id="{{::id}}"
                   name="{{::id}}"
                   ng-model="model[options.key]"
-                  ng-model-options="{timezone: 'UTC'}"
                   class="form-control"
                   ng-click="datepicker.open($event)"
                   uib-datepicker-popup="{{to.datepickerOptions.format}}"
+                  datetimepicker-neutral-timezone
                   is-open="datepicker.opened"
                   datepicker-options="to.datepickerOptions" />
                 <span class="input-group-btn">
