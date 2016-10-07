@@ -158,30 +158,9 @@ function FormlyService(noty)
 				field['controller'] = DataController+" as ctrl";
 			}
 
-			if (template_type == 'date') {
-
-				var d = new Date()
-				var offset = d.getTimezoneOffset();
-
-				offset/=-60;
-
-				if (offset > 0) {
-				  field['templateOptions']['timezone'] ="+"+offset+"00";
-				} else {
-				  field['templateOptions']['timezone'] = offset+"00";
-				}
-			}
-
-			// if (multiple) {
-			// 	if (!isArray(model[k])) {
-			// 		model[k] = [model[k]];
-			// 	}
-			// }
-
 			fields.push(field);
 
 			if (data) {
-
 
 				var model_key = k;
 				if (s.islink == "true" && "model_key" in s) {

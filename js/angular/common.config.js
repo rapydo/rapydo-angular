@@ -159,10 +159,7 @@ formlyConfigProvider.setType({
 formlyConfigProvider.setType({
     name: 'datepicker',
     extends: 'input',
-              // ng-model-options="{timezone: to.timezone}"
     template: `
-              {{to.timezone}}
-              {{model[options.key]}}
               <p class="input-group">
                 <input
                   type="text"
