@@ -65,9 +65,8 @@ formlyConfigProvider.setType({
         template: `
                   <chips ng-model="model[options.key]">
                      <chip-tmpl>
-                       <div class="default-chip" uib-tooltip="? {{chip[to['select_label']]}}">
+                       <div class="default-chip" uib-tooltip="{{chip[to['select_label']]}}">
                           {{chip[to['select_id']]}}
-                          {{chip}}
                           <span class="glyphicon glyphicon-remove" remove-chip></span>
                        </div>
                      </chip-tmpl>
