@@ -30,6 +30,7 @@ function formlyConfig(formlyConfigProvider) {
     template: `
               <input 
                 type="text" 
+                autocomplete="off" 
                 ng-model="model[options.key]" 
                 ng-model-options="{ getterSetter: true }"
                 uib-typeahead="item as item[to.select_label] for item in ctrl.querySearch(options.key, $viewValue)"
@@ -70,7 +71,9 @@ formlyConfigProvider.setType({
                           <span class="glyphicon glyphicon-remove" remove-chip></span>
                        </div>
                      </chip-tmpl>
-                     <input type="text" 
+                     <input 
+                        type="text" 
+                        autocomplete="off" 
                         ng-model-control ng-model="typeaheadmodel"
                         ng-model-options="{ getterSetter: true }"
                         uib-typeahead="item as item[to['select_label']] for item in ctrl.querySearch(options.key, $viewValue)"

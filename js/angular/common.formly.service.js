@@ -48,6 +48,7 @@ function FormlyService(noty)
 
 			var s = schema[i];
 			var k = s.key;
+			var stype = s['type'];
 
 			var field_type = "";
 			var template_type = "";
@@ -56,7 +57,7 @@ function FormlyService(noty)
 			var multiple = ('multiple' in s && s['multiple'] == "true")
 			field['templateOptions'] = {}
 
-			if (s['type'] == "text") {
+			if (stype == "text") {
 				field_type = "input";
 				template_type = "text";
 				if (multiple) {
@@ -64,19 +65,22 @@ function FormlyService(noty)
 					field['templateOptions']["inputOptions"]["type"] = field_type;
 					field['type'] = "multiInput"
 				}
-			} else if (s['type'] == "longtext") {
+			} else if (stype == "longtext") {
 				field_type = "textarea";
 				template_type = "text";
-			} else if (s['type'] == "int") {
+			} else if (stype == "int") {
 				field_type = "input";
 				template_type = "number";
-			} else if (s['type'] == "date") {
+			} else if (stype == "date") {
 				field_type = "datepicker";
 				template_type = "date";
-			} else if (s['type'] == "select") {
+			} else if (stype == "select") {
 				field_type = "select";
 				template_type = "select";
-			} else if (s['type'] == "autocomplete") {
+			} else if (stype == "radio") {
+				field_type = "radio";
+				template_type = "radio";
+			} else if (stype == "autocomplete") {
 				// Custom defined type
 				field_type = "autocomplete";
 				template_type = "autocomplete";
@@ -100,7 +104,7 @@ function FormlyService(noty)
 					field['templateOptions']['select_label'] = "name"
 				}
 				
-			} else if (s['type'] == 'multi_section') {
+			} else if (stype == 'multi_section') {
 				field_type = "repeatSection";
 				template_type = "repeatSection";
 
@@ -153,7 +157,11 @@ function FormlyService(noty)
       			field['templateOptions']['options'] = s['options']
       			//field['templateOptions']['multiple'] = false;
 			}
-
+			if (template_type == 'radio') {
+				field['templateOptions']['labelProp'] = "value";
+      			field['templateOptions']['valueProp'] = "name";
+      			field['templateOptions']['options'] = s['options']
+			}
 			if (template_type == 'autocomplete' || template_type == 'multiAutocomplete') {
 				field['controller'] = DataController+" as ctrl";
 			}
