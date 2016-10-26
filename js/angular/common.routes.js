@@ -116,7 +116,7 @@ function routeConfig(
     try {
         extraRoutes = $injector.get(blueprintRoutes);
         extraRoutesSize = Object.keys(extraRoutes).length;
-        console.debug("Loaded extra routes:", blueprintRoutes);
+        // console.debug("Loaded extra routes:", blueprintRoutes);
     } catch(e) {
         console.error("Error! Failed to find a JS object to define extra routes." +
             "\nIt should be called '" + blueprintRoutes + "'");
