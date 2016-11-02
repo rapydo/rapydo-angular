@@ -129,9 +129,6 @@ function FormlyService(noty)
 					field['templateOptions']['fields'].push(row);
 				}
 
-				// How to handle model values??
-				// sections.model
-
 				field['templateOptions']['btnText'] = "Add";
 
 			}

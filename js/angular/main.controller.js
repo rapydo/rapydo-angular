@@ -87,9 +87,9 @@ function MainController($scope, $rootScope, $log, $timeout, $state, api)
         var lastRoute = {state: toState, params: toParams};
         //console.log("Current is", toState);
 
-        if ($rootScope.logged) {
-            console.log("Should check LOGIN!");
-        }
+        // if ($rootScope.logged) {
+        //     console.log("Should check LOGIN!");
+        // }
 
         // To execute only if we are loading the page
         if (temporaryRoutingHistory.length < 1) {
