@@ -53,11 +53,11 @@ function RestApiService($http, $q, $auth, $log) {
         var currentUrl = self.API_URL + endpoint;
 //////////////////////////////
 // WARNING PORCATA
-        if (endpoint == self.endpoints.login) 
+        if (endpoint == self.endpoints.login)
             currentUrl = self.AUTH_URL + endpoint;
-        else if (endpoint == self.endpoints.logged) 
+        else if (endpoint == self.endpoints.logged)
             currentUrl = self.AUTH_URL + endpoint;
-        else if (endpoint == self.endpoints.tokens) 
+        else if (endpoint == self.endpoints.tokens)
             currentUrl = self.AUTH_URL + endpoint;
         else if (endpoint == self.endpoints.register)
             currentUrl = self.FRONTEND_URL + endpoint;
@@ -65,6 +65,7 @@ function RestApiService($http, $q, $auth, $log) {
             currentUrl = self.FRONTEND_URL + endpoint;
         }
 //////////////////////////////
+        console.log("CURRENT", currentUrl);
 
         if (typeof id !== 'undefined' && method != 'POST') {
             currentUrl += '/' + id;
@@ -107,7 +108,7 @@ function RestApiService($http, $q, $auth, $log) {
 
                 if (!response.data || !response.data.hasOwnProperty('Response')) {
                     return $q.reject(null);
-                } 
+                }
                 if (typeof response.data.Response === 'undefined') {
                     return $q.reject(null);
                 }
@@ -156,7 +157,7 @@ function RestApiService($http, $q, $auth, $log) {
             }
             );
     }
- 
+
 }
 
 })();

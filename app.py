@@ -50,10 +50,15 @@ debug = app.config.get("DEBUG")
 if __name__ == '__main__':
     if debug:
         app.logger.debug("Server is development Flask instance")
+        # app.logger.info("PORT %s" % port)
         app.run(
             host=host, port=port,
             debug=debug, use_reloader=True, threaded=True)
+
     else:
+
+## // TO FIX:
+# use it back in production
 
         if TORNADO:
             app.logger.info("Tornado mode on")

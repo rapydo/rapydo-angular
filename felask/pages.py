@@ -6,11 +6,10 @@ from __future__ import absolute_import
 import os
 from pathlib import Path
 from flask import Blueprint, render_template, request, jsonify
-from config import user_config
+from config import user_config, CURRENT_FRAMEWORK, BACKEND_PUBLIC_PORT
 from .security import login_api, register_api, logout_api
 from commons import htmlcodes as hcodes
 from commons.logs import get_logger
-from config import CURRENT_FRAMEWORK
 
 logger = get_logger(__name__)
 CURRENT_BLUEPRINT = 'blueprint_example'
@@ -151,7 +150,7 @@ def forward_response(response):
     return jsonify(**resp), code
 
 
-@cms.route('/auth', methods=['POST'])
+@cms.route('/doauth', methods=['POST'])
 def auth():
     """
     IMPORTANT: This route is a proxy for JS code to APIs login.
@@ -191,6 +190,7 @@ def jsblueprint():
         'name': CURRENT_BLUEPRINT,
         'time': user_config['variables']['js']['load_timeout'],
         'api_url': request.url_root,
+        'api_port': BACKEND_PUBLIC_PORT,
         'js_template': js_template
     }
     return render_template("blueprint.js", **variables)

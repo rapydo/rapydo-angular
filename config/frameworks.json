@@ -70,7 +70,7 @@
 
     },
     "css" : [
-        "css/framework.css",
-        "css/material.icons.css"
+        "css/base/framework.css",
+        "css/base/material.icons.css"
     ]
 }

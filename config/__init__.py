@@ -59,11 +59,17 @@ BACKEND_NAME = None
 try:
     BACKEND_NAME = os.environ.get('MYAPI_NAME').split('/').pop()
 except:
-    raise BaseException("Fatal error: could not find a backend container.")
+    logger.warning("Not linked to backend container")
+    # raise BaseException("Fatal error: could not find a backend container.")
 
 ########################################
-PORT = os.environ.get('BACKEND_1_PORT', 5000).split(':').pop()
-URL = 'http://%s:%s' % (BACKEND_NAME, PORT)
+# BACKEND_PUBLIC_PORT = 80
+# BACKEND_PRIVATE_PORT = 80
+BACKEND_PUBLIC_PORT = \
+    os.environ.get('BACKEND_1_PORT', "80").split(':').pop()
+BACKEND_PRIVATE_PORT = \
+    os.environ.get('BACKEND_1_PORT', "8080").split(':').pop()
+URL = 'http://%s:%s' % (BACKEND_NAME, BACKEND_PRIVATE_PORT)
 API_URL = URL + '/api/'
 AUTH_URL = URL + '/auth/'
 
