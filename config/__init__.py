@@ -65,10 +65,24 @@ except:
 ########################################
 # BACKEND_PUBLIC_PORT = 80
 # BACKEND_PRIVATE_PORT = 80
-BACKEND_PUBLIC_PORT = \
-    os.environ.get('BACKEND_1_PORT', "80").split(':').pop()
+
+backend_linked = 'BACKEND_1_PORT' in os.environ
+
+# TO BE USED FROM FRONTEND TO CALL APIs
+# BACKEND_PUBLIC_PORT = \
+    # os.environ.get('BACKEND_1_PORT', "80").split(':').pop()
+
+if backend_linked:
+    # DIRECT ACCESS TO BACKEND
+    BACKEND_PUBLIC_PORT = 8081
+else:
+    # ACCESS VIA PROXY
+    BACKEND_PUBLIC_PORT = 80
+
+# TO BE USED TO REDIRECT AUTHENTICATION FROM FRONTEND TO BACKEND
 BACKEND_PRIVATE_PORT = \
     os.environ.get('BACKEND_1_PORT', "8080").split(':').pop()
+
 URL = 'http://%s:%s' % (BACKEND_NAME, BACKEND_PRIVATE_PORT)
 API_URL = URL + '/api/'
 AUTH_URL = URL + '/auth/'

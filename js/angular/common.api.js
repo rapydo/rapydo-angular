@@ -65,7 +65,6 @@ function RestApiService($http, $q, $auth, $log) {
             currentUrl = self.FRONTEND_URL + endpoint;
         }
 //////////////////////////////
-        console.log("CURRENT", currentUrl);
 
         if (typeof id !== 'undefined' && method != 'POST') {
             currentUrl += '/' + id;
