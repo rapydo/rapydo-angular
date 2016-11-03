@@ -2,51 +2,28 @@
 ###############################
 # GLOBAL CONFIGURATION
 conf:
-    image: busybox
-    command: ./boot
-    environment:
-        # Decide which service should handle users inside the backend server
-        BACKEND_AUTH_SERVICE: relationaldb
-
-        ## If you are still developing
-        ## (flask wsgi restartable on edit + sqllite dbs + print DEBUG level)
-        # APP_MODE: development
-
-        ## If you need to get serious
-        ## (gunicorn/nginx servers + postgres dbs + print INFO level)
-        # APP_MODE: production
-
-        ## If you are testing something that does not work
-        ## (containers that do not start anything)
-        APP_MODE: debug
+  image: alpine
+  command: ./boot
+  environment:
+    APP_MODE: ${SELECTED_APP_MODE}
 ###############################
 
-
 frontend:
-    extends:
-        service: conf
-    image: pdonorio/flasking
-    hostname: frontend
-    working_dir: /data/frontend
-    volumes:
-        # # Sql lite database & common models
-        # - restangulask_apilitedb:/dbs
-        # Main dir. It has to be the root directory, to make links work
-        - ..:/data
-        - ../backend/commons:/data/frontend/commons
-        # js/css libraries installed via bower
-        - ../libs/bower_components:/data/frontend/felask/static/bower
-        # custom css files
-        - ../css:/data/frontend/felask/static/css/custom
-        # All the angular blueprints (&& templates)
-        - ../frontend/js/angular:/data/frontend/felask/static/app/commons
-        - ../js:/data/frontend/felask/static/app/custom
-        - ../frontend/templates:/data/frontend/felask/static/app/templates/common
-        - ../templates:/data/frontend/felask/static/app/templates/custom
-        # Configuration files 
-        - ../specs:/data/frontend/config/specs
-    ports:
-        - 80:5000
+  extends:
+    service: conf
+  image: pdonorio/flasking
+  hostname: frontend
+  working_dir: /data/frontend
+  volumes_from:
+    - htmlfiles
+  volumes:
+    # # Sql lite database & common models
+    # - restangulask_apilitedb:/dbs
+    # Main dir. It has to be the root directory, to make links work
+    - ..:/data
+    - ../backend/commons:/data/frontend/commons
+    # Configuration files
+    - ../specs:/data/frontend/config/specs
 
 ###############################
 # Make automatic to install libraries

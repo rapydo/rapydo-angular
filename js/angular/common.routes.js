@@ -55,7 +55,7 @@ function _redirectIfNotAuthenticated($log, $rootScope,
 
 // Skip authentication
 // Check for API available
-function _skipAuthenticationCheckApiOnline($state, $timeout, $auth, api)
+function _skipAuthenticationCheckApiOnline($state, $timeout, $auth, $rootScope, api)
 {
     var checkLogged = false;
     return api.verify(checkLogged)
@@ -64,6 +64,14 @@ function _skipAuthenticationCheckApiOnline($state, $timeout, $auth, api)
         // API available
         if (response) {
           //console.log("RESPONSE LOGIN:", response);
+
+          // BUG FIX:
+          // to know if you are logged also in public pages
+          if ($auth.isAuthenticated()) {
+            $rootScope.logged = true;
+            $rootScope.profile = response;
+          }
+
           return response;
         }
         // Not available
@@ -277,10 +285,10 @@ function routeConfig(
     loadStates(allRoutes);
 ////////////////////////////
 
-// TO FIX: move it to custom routing somehow
-// Missing bar on some routes
-    $urlRouterProvider.when("/app/search", "/app/search/");
-    $urlRouterProvider.when("/app/admin", "/app/admin/");
+// // TO FIX: move it to custom routing somehow
+// // Missing bar on some routes
+//     $urlRouterProvider.when("/app/search", "/app/search/");
+//     $urlRouterProvider.when("/app/admin", "/app/admin/");
 
 // Ui router kinda bug fixing
 // CHECK THIS IN THE NEAR FUTURE
@@ -290,6 +298,8 @@ function routeConfig(
         var $state = $injector.get('$state');
         //return $state.go('login');
         return $state.go('public.welcome');
+        // console.log("TEST");
+        // return $state.go('logged.profile');
     });
 
 }   // END ROUTES

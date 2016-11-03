@@ -10,7 +10,7 @@ var blueprint = '{{name}}';
 var timeToWait = {{time}}; // measured in ms
 
 // Api URI
-var apiPort = 8081;
+var apiPort = '{{api_port}}';
 var serverUrl = '{{api_url}}'.slice(0, -1);
 var apiUrl = serverUrl + ':' + apiPort + '/api';
 var authApiUrl = serverUrl + ':' + apiPort + '/auth';
