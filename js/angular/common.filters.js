@@ -2,6 +2,7 @@
   'use strict';
 
   angular.module('web').filter('bytes', Bytes);
+  angular.module('web').filter('percentage', Percentage);
   angular.module('web').filter('moment', Moment);
   angular.module('web').filter('moment_unix', MomentUnix);
   angular.module('web').filter('unix_date', Unix2Date);
@@ -20,6 +21,12 @@
           }
           return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +  ' ' + units[number];
       }
+  }
+
+  function Percentage($filter) {
+    return function(input, decimals) {
+      return $filter('number')(input * 100, decimals) + '%';
+    }
   }
 
   function Unix2Date() {
