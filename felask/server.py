@@ -74,10 +74,10 @@ def create_app():
         if 'static/' not in req.url and '/js/' not in req.url:
             log = logger.info
 
-        from commons.logs import obscure_passwords
+        from commons.logs import handle_log_output
         log("{} {} {} {}".format(
             req.method, req.url,
-            obscure_passwords(req.data), resp))
+            handle_log_output(req.data), resp))
         return resp
 
     return app
