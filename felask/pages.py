@@ -187,10 +187,9 @@ def jsblueprint():
         js_template = "'" + user_config['content'][key] + "'"
 
     api_url = request.url_root
-    if os.environ.get('APP_MODE', '') == 'production':
-        if api_url.startswith("http://"):
-            api_url = api_url.replace("http://", "https://")
-            logger.critical(api_url)
+    # if os.environ.get('APP_MODE', '') == 'production':
+    #     if api_url.startswith("http://"):
+    #         api_url = api_url.replace("http://", "https://")
 
     variables = {
         'name': CURRENT_BLUEPRINT,
