@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 from flask import Blueprint, render_template, request, jsonify
 from config import user_config, CURRENT_FRAMEWORK, BACKEND_PUBLIC_PORT
+from restapi.confs.config import PRODUCTION
 from .security import login_api, register_api, logout_api
 from commons import htmlcodes as hcodes
 from commons.logs import get_logger
@@ -185,6 +186,9 @@ def jsblueprint():
     key = 'angular_template'
     if key in user_config['content']:
         js_template = "'" + user_config['content'][key] + "'"
+
+    if PRODUCTION:
+        logger.critical(request.url_root)
 
     variables = {
         'name': CURRENT_BLUEPRINT,
