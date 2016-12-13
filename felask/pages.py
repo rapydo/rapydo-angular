@@ -4,6 +4,8 @@
 
 from __future__ import absolute_import
 import os
+import re
+from urllib.parse import urlparse
 from pathlib import Path
 from flask import Blueprint, render_template, request, jsonify
 from config import user_config, CURRENT_FRAMEWORK, BACKEND_PUBLIC_PORT
@@ -187,9 +189,12 @@ def jsblueprint():
         js_template = "'" + user_config['content'][key] + "'"
 
     api_url = request.url_root
-    # if os.environ.get('APP_MODE', '') == 'production':
-    #     if api_url.startswith("http://"):
-    #         api_url = api_url.replace("http://", "https://")
+    if os.environ.get('APP_MODE', '') == 'production':
+        parsed = urlparse(api_url)
+        if parsed.port is not None and parsed.port == 443:
+            BACKEND_PUBLIC_PORT = parsed.port 
+            removed_port = re.sub(r':[\d]+$', '', parsed.netloc)
+            api_url = parsed._replace(scheme="https", netloc=removed_port).geturl()
 
     variables = {
         'name': CURRENT_BLUEPRINT,
