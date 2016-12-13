@@ -70,13 +70,14 @@ backend_linked = 'BACKEND_1_PORT' in os.environ
 
 # TO BE USED FROM FRONTEND TO CALL APIs
 # BACKEND_PUBLIC_PORT = \
-    # os.environ.get('BACKEND_1_PORT', "80").split(':').pop()
+#     os.environ.get('BACKEND_1_PORT', "80").split(':').pop()
 
 if backend_linked:
     # DIRECT ACCESS TO BACKEND
     BACKEND_PUBLIC_PORT = 8081
 else:
     # ACCESS VIA PROXY
+    # NOTE: IF SSL is ENABLED this port will be changed to 443 in pages.py
     BACKEND_PUBLIC_PORT = 80
 
 # TO BE USED TO REDIRECT AUTHENTICATION FROM FRONTEND TO BACKEND
