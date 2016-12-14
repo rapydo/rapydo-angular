@@ -187,20 +187,23 @@ def jsblueprint():
     key = 'angular_template'
     if key in user_config['content']:
         js_template = "'" + user_config['content'][key] + "'"
+    backend_port = BACKEND_PUBLIC_PORT
 
     api_url = request.url_root
     if os.environ.get('APP_MODE', '') == 'production':
         parsed = urlparse(api_url)
         if parsed.port is not None and parsed.port == 443:
-            BACKEND_PUBLIC_PORT = parsed.port 
+            backend_port = parsed.port
             removed_port = re.sub(r':[\d]+$', '', parsed.netloc)
-            api_url = parsed._replace(scheme="https", netloc=removed_port).geturl()
+            api_url = parsed._replace(
+                scheme="https", netloc=removed_port
+            ).geturl()
 
     variables = {
         'name': CURRENT_BLUEPRINT,
         'time': user_config['variables']['js']['load_timeout'],
         'api_url': api_url,
-        'api_port': BACKEND_PUBLIC_PORT,
+        'api_port': backend_port,
         'js_template': js_template
     }
     return render_template("blueprint.js", **variables)
