@@ -21,7 +21,7 @@
 <main ng-hide="main.splash" ng-init="myproject = '{{ project[0].upper() + project[1:].lower() }}'">
     <!-- TOPBAR -->
     <div class="container-fluid" style='padding:0px;'>
-        <div ng-hide="main.load" ng-include="main.templateDir + 'topbar.html'"></div>
+        <div ng-hide="main.load" ng-include="{{topbar}}"></div>
     </div>
 
     <!-- WHILE WAITING (for API/RESOURCES) -->

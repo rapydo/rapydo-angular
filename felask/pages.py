@@ -133,7 +133,32 @@ def templating(page, framework=CURRENT_FRAMEWORK, **whatever):
 def jstemplate(title='App', mydomain='/'):
     """ If you decide a different domain, use slash as end path,
         e.g. /app/ """
-    return templating('main.html', mydomain=mydomain, jstitle=title)
+
+    topbar_file = "topbar.html"
+    template_dir = os.path.join(app_path, "templates")
+    base_template_dir = os.path.join(
+        template_dir, 'common')
+    custom_template_dir = os.path.join(
+        template_dir, 'custom', CURRENT_BLUEPRINT)
+
+    if os.path.isfile(os.path.join(custom_template_dir, topbar_file)):
+        topbar_template = "main.blueprintTemplateDir + '%s'" % topbar_file
+    elif os.path.isfile(os.path.join(base_template_dir, topbar_file)):
+        topbar_template = "main.templateDir + '%s'" % topbar_file
+    else:
+        logger.critical(
+            "Unable to find any topbar defined in %s/%s"
+            % (base_template_dir, topbar_file)
+        )
+# TO FIX: ng-include will work very wrong with empty variable
+        topbar_template = ""
+
+    return templating(
+        'main.html',
+        mydomain=mydomain,
+        jstitle=title,
+        topbar=topbar_template
+    )
 
 
 # #################################
