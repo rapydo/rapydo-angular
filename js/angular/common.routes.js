@@ -67,12 +67,19 @@ function _skipAuthenticationCheckApiOnline($state, $timeout, $auth, $rootScope, 
 
           // BUG FIX:
           // to know if you are logged also in public pages
-          if ($auth.isAuthenticated()) {
-            $rootScope.logged = true;
-            $rootScope.profile = response;
-          }
+            if ($auth.isAuthenticated()) {
+                checkLogged = true;
+                return api.verify(checkLogged).then(function(response) {
+                    // Token is available and API confirm that is good
+                    if (response && $auth.isAuthenticated()) {
+                        $rootScope.logged = true;
+                        $rootScope.profile = response;
+                        return response;
+                    }
+                });
+            }
 
-          return response;
+            return response;
         }
         // Not available
         $timeout(function () {
