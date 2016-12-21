@@ -1,4 +1,14 @@
 	<uib-progressbar 
+		ng-if='file.error' 
+		animate="true" 
+		max="1" 
+		value="file.progress()" 
+		type="danger"
+	>
+		<label>error</label>
+	</uib-progressbar>
+
+	<uib-progressbar 
 		ng-if='file.paused && !file.isComplete()' 
 		animate="true" 
 		max="1" 
@@ -19,7 +29,7 @@
 	</uib-progressbar>
 
 	<uib-progressbar 
-		ng-if='file.isComplete()' 
+		ng-if='file.isComplete() && !file.error' 
 		animate="true" 
 		max="1" 
 		value="file.progress()" 
