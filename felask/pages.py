@@ -33,6 +33,7 @@ bowerdir = staticdir + fconfig['bowerdir'] + '/'
 # Custom configurations
 bwlibs = user_config['bower_components']
 customcss = user_config['css']
+customjs = user_config['js']
 
 css = []
 js = []
@@ -56,6 +57,10 @@ for lib, files in bwlibs.items():
             css.append(filepath)
         else:
             js.append(filepath)
+for sjs in customjs:
+    if 'http' not in sjs:
+        sjs = os.path.join(staticdir, 'js', sjs)
+    js.append(sjs)
 
 # CSS files
 for scss in fconfig['css']:
