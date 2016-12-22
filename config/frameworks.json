@@ -66,6 +66,10 @@
         "angular-chips": [
             "dist/angular-chips.min.js",
             "dist/main.css"
+        ],
+        "angular-tablesort": [
+            "js/angular-tablesort.js",
+            "tablesort.css"
         ]
 
     },
