@@ -33,7 +33,10 @@ bowerdir = staticdir + fconfig['bowerdir'] + '/'
 # Custom configurations
 bwlibs = user_config['bower_components']
 customcss = user_config['css']
-customjs = user_config['js']
+if 'js' in user_config:
+    customjs = user_config['js']
+else:
+    customjs = []
 
 css = []
 js = []
