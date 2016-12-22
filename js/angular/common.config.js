@@ -205,7 +205,7 @@ formlyConfigProvider.setType({
 }
 
 function tableSortConfig(tableSortConfigProvider) {
-        var filterString = "<div class='row' ng-if='TOTAL_COUNT > 20'>";
+        var filterString = "<div class='row' ng-if='TOTAL_COUNT > 10'>";
         filterString +=      "<div class='col-sm-4 col-md-3 col-sm-offset-8 col-md-offset-9'>";
         filterString +=        "<div class='form-group has-feedback'>";
         filterString +=          "<input type='search' class='form-control' placeholder='filter {{ITEM_NAME_PLURAL}}' ng-model='FILTER_STRING'/>";
