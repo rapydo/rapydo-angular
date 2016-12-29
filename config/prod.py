@@ -16,6 +16,7 @@ class MyConfig(BaseConfig):
     WTF_CSRF_SECRET_KEY = 'a production random string'
 
     try:
+#NOTE: this sqlalchemy is required?
         # We have POSTGRESQL. Use docker environment variables
         dbhost = os.environ["DB_NAME"].split('/')[2]
         dbport = int(os.environ["DB_PORT"].split(':')[2])

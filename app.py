@@ -57,8 +57,7 @@ if __name__ == '__main__':
 
     else:
 
-## // TO FIX:
-# use it back in production
+# TO FIX: use it back in production
 
         if TORNADO:
             app.logger.info("Tornado mode on")
