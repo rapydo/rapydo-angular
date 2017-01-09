@@ -159,19 +159,21 @@ def login_api(username, password):
 
         # Get the JWT token
         token = out['Response']['data']['token']
+        #########################
+        # JWT STUFF
+        # try:
 
-        try:
-            #########################
-            # JWT STUFF
-            from flask import current_app
-            JWT_ALGO = 'HS256'
-            import jwt
-            payload = jwt.decode(
-                token, current_app.config['SECRET_KEY'], algorithms=[JWT_ALGO])
-            print("TOKEN PAYLOAD", payload)
-            #########################
-        except:
-            logger.critical("Cannot decrypt JWT token")
+        #     from flask import current_app
+        #     JWT_ALGO = 'HS256'
+        #     import jwt
+        #     payload = jwt.decode(
+        #         token, current_app.config['SECRET_KEY'],
+        #         algorithms=[JWT_ALGO]
+        #     )
+        #     print("TOKEN PAYLOAD", payload)
+        # except:
+        #     logger.critical("Cannot decrypt JWT token")
+        #########################
 
         ####################################
         # Save token inside frontend db ?

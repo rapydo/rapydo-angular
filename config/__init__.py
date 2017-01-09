@@ -100,7 +100,6 @@ class BaseConfig(object):
     BASE_DB_DIR = '/dbs'
     SQLLITE_DBFILE = 'frontend.db'
     dbfile = os.path.join(BASE_DB_DIR, SQLLITE_DBFILE)
-    SECRET_KEY = 'simplesecret'
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + dbfile
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
