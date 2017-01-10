@@ -20,6 +20,7 @@
 
 	<uib-progressbar 
 		ng-if='file.isUploading()'
+		uib-tooltip="Average speed: {{file.averageSpeed | bytes}}/s | Current speed: {{file.currentSpeed | bytes}}/s | Remaining: {{file.timeRemaining()}} seconds"
 		animate="true"
 		max="1"
 		value="file.progress()"
@@ -37,3 +38,6 @@
 	>
 		<b>completed</b>
 	</uib-progressbar>
+
+
+
