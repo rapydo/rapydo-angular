@@ -47,7 +47,7 @@ function FormlyService(noty)
 		for (var i=0; i<schema.length; i++) {
 
 			var s = schema[i];
-			var k = s.key;
+			// var k = s.key;
 			var stype = s['type'];
 
 			var field_type = "";
@@ -56,6 +56,33 @@ function FormlyService(noty)
 			var field = {}
 			var multiple = ('multiple' in s && s['multiple'] == "true")
 			field['templateOptions'] = {}
+
+			// Swagger compatibility
+			if (!s['key']) {
+				s['key'] = s['name']
+				s['label'] = s['name']	// to be added in custom section
+
+				if (stype == "string") {
+					stype = "text";
+
+					// to be added in custom section
+					// if s['custom']['htmltype'] == 'textarea'
+					// 	stype = "longtext"
+				}
+
+				if (s['enum']) {
+					stype = "select"
+					s['options'] = []
+
+					for (var j in s['enum']) {
+						var option = s['enum'][j];
+						for (var key in option) {
+							s['options'].push({"id": key, "value": option[key]});
+						}
+					}
+				}
+			}
+			// End of swagger compatibility
 
 			if (stype == "text") {
 				field_type = "input";
@@ -167,7 +194,7 @@ function FormlyService(noty)
 
 			if (data) {
 
-				var model_key = k;
+				var model_key = s['key'];
 				if (s.islink == "true" && "model_key" in s) {
 					model_key = s['model_key']
 				}
@@ -175,7 +202,7 @@ function FormlyService(noty)
 				var default_data = data[model_key];
 
 				if (default_data == null || default_data == "") {
-					model[k] = ""
+					model[s['key']] = ""
 				} else {
 
 					if (template_type == "number") {
@@ -199,8 +226,7 @@ function FormlyService(noty)
 
 					}
 
-					model[k] = default_data;
-
+					model[s['key']] = default_data;
 				}
 			}
 		}
