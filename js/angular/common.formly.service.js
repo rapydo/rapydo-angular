@@ -36,7 +36,7 @@ function isArray(obj){
     return !!obj && Array === obj.constructor;
 }
 
-function FormlyService(noty)
+function FormlyService(noty, $log)
 {
 
 	var self = this;
@@ -44,7 +44,11 @@ function FormlyService(noty)
 	self.json2Form = function(schema, data, DataController) {
 		var fields = [];
 		var model = {}
-		for (var i=0; i<schema.length; i++) {
+		var schema_length = 0;
+		if (typeof schema !== 'undefined')
+			schema_length = schema.length
+
+		for (var i=0; i<schema_length; i++) {
 
 			var s = schema[i];
 			// var k = s.key;
@@ -58,16 +62,23 @@ function FormlyService(noty)
 			field['templateOptions'] = {}
 
 			// Swagger compatibility
-			if (!s['key']) {
+			if (! ('key' in s)) {
+				// $log.info(s)
 				s['key'] = s['name']
-				s['label'] = s['name']	// to be added in custom section
+				if ('custom' in s) {
 
-				if (stype == "string") {
-					stype = "text";
+					if ('label' in s['custom']) {
+						s['label'] = s['custom']['label']
+					}
 
-					// to be added in custom section
-					// if s['custom']['htmltype'] == 'textarea'
-					// 	stype = "longtext"
+					if ('htmltype' in s['custom']) {
+						stype = s['custom']['htmltype']
+					}
+				}
+
+
+				if (s['required']) {
+					s['required'] = "true"
 				}
 
 				if (s['enum']) {
@@ -84,7 +95,7 @@ function FormlyService(noty)
 			}
 			// End of swagger compatibility
 
-			if (stype == "text") {
+			if (stype == "text" || stype == "string") {
 				field_type = "input";
 				template_type = "text";
 				if (multiple) {
@@ -92,7 +103,7 @@ function FormlyService(noty)
 					field['templateOptions']["inputOptions"]["type"] = field_type;
 					field['type'] = "multiInput"
 				}
-			} else if (stype == "longtext") {
+			} else if (stype == "longtext" || stype == "textarea") {
 				field_type = "textarea";
 				template_type = "text";
 			} else if (stype == "int") {
