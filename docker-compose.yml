@@ -11,7 +11,7 @@ conf:
 frontend:
   extends:
     service: conf
-  image: pdonorio/flasking
+  image: rapydo/frontend
   hostname: frontend
   working_dir: /data/frontend
   environment:

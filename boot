@@ -1,6 +1,7 @@
 #!/bin/bash
 
-main_command=" ./app.py"
+# main_command=" ./app.py"
+main_command="python3.6 app.py"
 
 if [ "$1" == "devel" ]; then
     APP_MODE='development'

@@ -3,9 +3,11 @@
 """ Configurations """
 
 import os
-import commentjson as json
-from collections import OrderedDict
+# import commentjson as json
+# from collections import OrderedDict
 from commons.logs import get_logger
+from commons.customization import Customizer
+from commons import PRODUCTION
 
 logger = get_logger(__name__)
 
@@ -17,7 +19,7 @@ PATH = 'specs'   # Main directory where all conf files are found
 #######################
 
 CONFIG_PATH = 'config'
-JSON_EXT = 'json'
+# JSON_EXT = 'json'
 # FRAMEWORKS = ['materialize', 'bootstrap', 'foundation']
 # CURRENT_FRAMEWORK = FRAMEWORKS.pop(0)
 CURRENT_FRAMEWORK = 'bootstrap'
@@ -25,31 +27,38 @@ CURRENT_FRAMEWORK = 'bootstrap'
 
 ########################################
 # Read user config
-def get_json_conf(config_root, path, file):
+# def get_json_conf(config_root, path, file):
 
-# print error?
-    filename = os.path.join(config_root, path, file + "." + JSON_EXT)
-    logger.debug("Reading file %s" % filename)
+# # print error?
+#     filename = os.path.join(config_root, path, file + "." + JSON_EXT)
+#     logger.debug("Reading file %s" % filename)
 
-    with open(filename) as f:
-        return json.load(f, object_pairs_hook=OrderedDict)
+#     with open(filename) as f:
+#         return json.load(f, object_pairs_hook=OrderedDict)
 
-    return None
+#     return None
 
 ##################
 # # DEFAULT
+
+# Initialize reading of all files
+customizer = Customizer(__package__, False, PRODUCTION)
+# logger.pp(customizer)
+
 # Add a value for all possibilities
-defaults = get_json_conf('commons', 'confs', file='defaults')
+# defaults = get_json_conf('commons', 'confs', file='defaults')
 
 ##################
 # # CUSTOM
-tmp = get_json_conf(CONFIG_PATH, PATH, "blueprint")
-blueprint = tmp['blueprint']
+# tmp = get_json_conf(CONFIG_PATH, PATH, "blueprint")
+# blueprint = tmp['blueprint']
 
-user_config = get_json_conf(CONFIG_PATH, PATH, blueprint)
+# user_config = get_json_conf(CONFIG_PATH, PATH, blueprint)
+user_config = customizer._configurations
 
-user_config['blueprint'] = blueprint
-user_config['frameworks'] = get_json_conf(CONFIG_PATH, "", "frameworks")
+# user_config['blueprint'] = blueprint
+# user_config['frameworks'] = get_json_conf(CONFIG_PATH, "", "frameworks")
+user_config['frameworks'] = customizer._frameworks
 
 auth = user_config['variables']['containers']['authentication']
 

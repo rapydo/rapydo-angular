@@ -1,0 +1,53 @@
+---
+staticdir: static
+bowerdir: bower
+bower_components:
+  jquery:
+  - dist/jquery.min.js
+  angular:
+  - angular.min.js
+  angular-sanitize:
+  - angular-sanitize.min.js
+  angular-animate:
+  - angular-animate.min.js
+  angular-aria:
+  - angular-aria.min.js
+  angular-messages:
+  - angular-messages.min.js
+  angular-ui-router:
+  - release/angular-ui-router.min.js
+  satellizer:
+  - satellizer.min.js
+  noty:
+  - js/noty/packaged/jquery.noty.packaged.js
+  moment:
+  - min/moment.min.js
+  angular-hotkeys:
+  - build/hotkeys.min.js
+  - build/hotkeys.min.css
+  api-check:
+  - dist/api-check.min.js
+  angular-formly:
+  - dist/formly.min.js
+  angular-formly-templates-bootstrap:
+  - dist/angular-formly-templates-bootstrap.min.js
+  bootstrap:
+  - dist/css/bootstrap.min.css
+  - dist/css/bootstrap-theme.min.css
+  - dist/fonts/glyphicons-halflings-regular.eot/svg/ttf/woff/woff2
+  angular-bootstrap:
+  - ui-bootstrap.min.js
+  - ui-bootstrap-tpls.min.js
+  google-material-icons:
+  - google-material-icons.min.css
+  google-material-color:
+  - dist/palette.css
+  angular-chips:
+  - dist/angular-chips.min.js
+  - dist/main.css
+  angular-tablesort:
+  - js/angular-tablesort.js
+  - tablesort.css
+css:
+- css/base/framework.css
+- css/base/material.icons.css
