@@ -72,6 +72,7 @@
   function MomentUnix() {
 
     return function (input, momentFn /*, param1, param2, ...param n */) {
+        if (input == "") return "";
         var args = Array.prototype.slice.call(arguments, 2),
         momentObj = moment.unix(input)
         return momentObj[momentFn].apply(momentObj, args);
