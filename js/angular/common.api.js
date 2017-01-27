@@ -4,7 +4,7 @@
 angular.module('web')
     .service('api', RestApiService);
 
-function RestApiService($http, $q, $auth, $log) {
+function RestApiService($http, $q, $auth, $log, $httpParamSerializerJQLike) {
 
     var self = this;
     // Api URI
@@ -31,7 +31,10 @@ function RestApiService($http, $q, $auth, $log) {
         return $auth.getToken();
     };
 
-    self.apiCall = function (endpoint, method, data, id, returnRawResponse, skipPromiseResolve)
+    self.postFormData = function (endpoint, method, data) {
+        return self.apiCall(endpoint, method, data, undefined, false, false, true);
+    }
+    self.apiCall = function (endpoint, method, data, id, returnRawResponse, skipPromiseResolve, formData)
     {
 
       ////////////////////////
@@ -41,6 +44,8 @@ function RestApiService($http, $q, $auth, $log) {
 
         method = self.getOrDefault(method, 'GET');
         skipPromiseResolve = self.getOrDefault(skipPromiseResolve, false);
+        formData = self.getOrDefault(formData, false);
+
 
         var params = {};
         if (method == 'GET') {
@@ -70,13 +75,19 @@ function RestApiService($http, $q, $auth, $log) {
             currentUrl += '/' + id;
         }
 
+        var contentType = 'application/json';
+        if (formData) {
+            data = $httpParamSerializerJQLike(data)
+            contentType = 'application/x-www-form-urlencoded';
+        }
+
         var token = self.checkToken(),
             timeout = 30000,
             req = {
                 method: method,
                 url: currentUrl,
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': contentType,
                     'Authorization': 'Bearer ' + token,
                 },
                 data: data,

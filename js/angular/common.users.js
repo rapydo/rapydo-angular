@@ -10,7 +10,7 @@ function ProfileController($scope, $log, $state, $auth, api, noty)
 
 	// var token_in_use = $auth.getToken();
 
-	self.changePassword = function() {
+	self.changePassword = function(uuid) {
 
 		if (self.newPwd != self.confirmPwd) {
 			noty.showError("New password does not match with confirmation");
@@ -18,7 +18,7 @@ function ProfileController($scope, $log, $state, $auth, api, noty)
 		}
 
 		var data = {"password": self.currentPwd, "newpassword": self.newPwd}
-		api.apiCall('profile', 'PUT', data).then(
+		api.apiCall('profile/'+uuid, 'PUT', data).then(
 			function(out_data) {
 				self.newPwd = ""
 				self.confirmPwd = ""

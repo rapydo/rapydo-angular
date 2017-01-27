@@ -36,7 +36,7 @@ function isArray(obj){
     return !!obj && Array === obj.constructor;
 }
 
-function FormlyService(noty)
+function FormlyService(noty, $log)
 {
 
 	var self = this;
@@ -44,10 +44,14 @@ function FormlyService(noty)
 	self.json2Form = function(schema, data, DataController) {
 		var fields = [];
 		var model = {}
-		for (var i=0; i<schema.length; i++) {
+		var schema_length = 0;
+		if (typeof schema !== 'undefined')
+			schema_length = schema.length
+
+		for (var i=0; i<schema_length; i++) {
 
 			var s = schema[i];
-			var k = s.key;
+			// var k = s.key;
 			var stype = s['type'];
 
 			var field_type = "";
@@ -55,9 +59,71 @@ function FormlyService(noty)
 
 			var field = {}
 			var multiple = ('multiple' in s && s['multiple'] == "true")
+			var islink = ('islink' in s && s['islink'] == "true")
 			field['templateOptions'] = {}
 
-			if (stype == "text") {
+			// Swagger compatibility
+			if (! ('key' in s)) {
+				// $log.info(s)
+				s['key'] = s['name']
+				if ('custom' in s) {
+
+					var custom = s['custom']
+
+					if ('label' in custom) {
+						s['label'] = custom['label']
+					}
+
+					if ('htmltype' in custom) {
+						stype = custom['htmltype']
+					}
+
+					if ('islink' in custom) {
+						islink = custom['islink']
+					}
+
+					if ('multiple' in custom) {
+						multiple = custom['multiple']
+					}
+
+					if ('autocomplete' in custom) {
+						stype = 'autocomplete'
+					}
+					if ('model_key' in custom) {
+						s['model_key'] = custom['model_key']
+					}
+					if ('select_id' in custom) {
+						s['select_id'] = custom['select_id']
+					}
+					if ('select_label' in custom) {
+						s['select_label'] = custom['select_label']
+					}
+				}
+
+				if ('format' in s) {
+					var format = s['format']
+					if (format == "date") stype = "date"
+				}
+
+				if (s['required']) {
+					s['required'] = "true"
+				}
+
+				if (s['enum']) {
+					stype = "select"
+					s['options'] = []
+
+					for (var j in s['enum']) {
+						var option = s['enum'][j];
+						for (var key in option) {
+							s['options'].push({"id": key, "value": option[key]});
+						}
+					}
+				}
+			}
+			// End of swagger compatibility
+
+			if (stype == "text" || stype == "string") {
 				field_type = "input";
 				template_type = "text";
 				if (multiple) {
@@ -65,7 +131,7 @@ function FormlyService(noty)
 					field['templateOptions']["inputOptions"]["type"] = field_type;
 					field['type'] = "multiInput"
 				}
-			} else if (stype == "longtext") {
+			} else if (stype == "longtext" || stype == "textarea") {
 				field_type = "textarea";
 				template_type = "text";
 			} else if (stype == "int") {
@@ -77,9 +143,9 @@ function FormlyService(noty)
 			} else if (stype == "select") {
 				field_type = "select";
 				template_type = "select";
-			} else if (stype == "radio") {
-				field_type = "radio";
-				template_type = "radio";
+			// } else if (stype == "radio") {
+			// 	field_type = "radio";
+			// 	template_type = "radio";
 			} else if (stype == "autocomplete") {
 				// Custom defined type
 				field_type = "autocomplete";
@@ -154,11 +220,11 @@ function FormlyService(noty)
       			field['templateOptions']['options'] = s['options']
       			//field['templateOptions']['multiple'] = false;
 			}
-			if (template_type == 'radio') {
-				field['templateOptions']['labelProp'] = "value";
-      			field['templateOptions']['valueProp'] = "name";
-      			field['templateOptions']['options'] = s['options']
-			}
+			// if (template_type == 'radio') {
+			// 	field['templateOptions']['labelProp'] = "value";
+			// 	field['templateOptions']['valueProp'] = "name";
+			// 	field['templateOptions']['options'] = s['options']
+			// }
 			if (template_type == 'autocomplete' || template_type == 'multiAutocomplete') {
 				field['controller'] = DataController+" as ctrl";
 			}
@@ -167,15 +233,15 @@ function FormlyService(noty)
 
 			if (data) {
 
-				var model_key = k;
-				if (s.islink == "true" && "model_key" in s) {
+				var model_key = s['key'];
+				if (islink && "model_key" in s) {
 					model_key = s['model_key']
 				}
 
 				var default_data = data[model_key];
 
 				if (default_data == null || default_data == "") {
-					model[k] = ""
+					model[s['key']] = ""
 				} else {
 
 					if (template_type == "number") {
@@ -183,15 +249,19 @@ function FormlyService(noty)
 					} else if (template_type == "date") {
 						default_data = new Date(default_data);
 					} else if (template_type == "select") {
-						if (s.islink == "true") {
+						if (islink) {
 							// Array copy
-							default_data = (default_data.slice())[0];
+							// default_data = (default_data.slice())[0];
+							default_data = default_data[0];
 						}
+
 						if ("select_id" in s && s["select_id"] in default_data) {
 							default_data = default_data[s["select_id"]];
+							default_data = default_data.toString()
 						}
+
 					} else if (template_type == "autocomplete") {
-						if (s.islink == "true") {
+						if (islink) {
 							// Array copy
 							default_data = (default_data.slice())[0];
 						}
@@ -199,8 +269,7 @@ function FormlyService(noty)
 
 					}
 
-					model[k] = default_data;
-
+					model[s['key']] = default_data;
 				}
 			}
 		}

@@ -23,15 +23,15 @@ function NotyService() {
 		if (messages)
 		for (var i=0; i<messages.length; i++) {
 		    var message = messages[i];
-		    var label = Object.keys(message).pop();
-		    var text = message[label];
+		    // var label = Object.keys(message).pop();
+		    // var text = message[label];
 
-		    var m = label+": "+text;
+		    // var m = label+": "+text;
 
-		    if (type == self.CRITICAL) self.showCritical(m);
-		    else if (type == self.ERROR) self.showError(m);
-		    else if (type == self.WARNING) self.showWarning(m);
-		    else if (type == self.INFO) self.showInfo(m);
+		    if (type == self.CRITICAL) self.showCritical(message);
+		    else if (type == self.ERROR) self.showError(message);
+		    else if (type == self.WARNING) self.showWarning(message);
+		    else if (type == self.INFO) self.showInfo(message);
 		    else $log.warn("Unknown message type. NotyService is unable to satisfy this request");
 		}
 	}
