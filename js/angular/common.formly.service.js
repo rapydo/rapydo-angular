@@ -59,6 +59,7 @@ function FormlyService(noty, $log)
 
 			var field = {}
 			var multiple = ('multiple' in s && s['multiple'] == "true")
+			var islink = ('islink' in s && s['islink'] == "true")
 			field['templateOptions'] = {}
 
 			// Swagger compatibility
@@ -67,15 +68,42 @@ function FormlyService(noty, $log)
 				s['key'] = s['name']
 				if ('custom' in s) {
 
-					if ('label' in s['custom']) {
-						s['label'] = s['custom']['label']
+					var custom = s['custom']
+
+					if ('label' in custom) {
+						s['label'] = custom['label']
 					}
 
-					if ('htmltype' in s['custom']) {
-						stype = s['custom']['htmltype']
+					if ('htmltype' in custom) {
+						stype = custom['htmltype']
+					}
+
+					if ('islink' in custom) {
+						islink = custom['islink']
+					}
+
+					if ('multiple' in custom) {
+						multiple = custom['multiple']
+					}
+
+					if ('autocomplete' in custom) {
+						stype = 'autocomplete'
+					}
+					if ('model_key' in custom) {
+						s['model_key'] = custom['model_key']
+					}
+					if ('select_id' in custom) {
+						s['select_id'] = custom['select_id']
+					}
+					if ('select_label' in custom) {
+						s['select_label'] = custom['select_label']
 					}
 				}
 
+				if ('format' in s) {
+					var format = s['format']
+					if (format == "date") stype = "date"
+				}
 
 				if (s['required']) {
 					s['required'] = "true"
@@ -115,9 +143,9 @@ function FormlyService(noty, $log)
 			} else if (stype == "select") {
 				field_type = "select";
 				template_type = "select";
-			} else if (stype == "radio") {
-				field_type = "radio";
-				template_type = "radio";
+			// } else if (stype == "radio") {
+			// 	field_type = "radio";
+			// 	template_type = "radio";
 			} else if (stype == "autocomplete") {
 				// Custom defined type
 				field_type = "autocomplete";
@@ -192,11 +220,11 @@ function FormlyService(noty, $log)
       			field['templateOptions']['options'] = s['options']
       			//field['templateOptions']['multiple'] = false;
 			}
-			if (template_type == 'radio') {
-				field['templateOptions']['labelProp'] = "value";
-      			field['templateOptions']['valueProp'] = "name";
-      			field['templateOptions']['options'] = s['options']
-			}
+			// if (template_type == 'radio') {
+			// 	field['templateOptions']['labelProp'] = "value";
+			// 	field['templateOptions']['valueProp'] = "name";
+			// 	field['templateOptions']['options'] = s['options']
+			// }
 			if (template_type == 'autocomplete' || template_type == 'multiAutocomplete') {
 				field['controller'] = DataController+" as ctrl";
 			}
@@ -206,7 +234,7 @@ function FormlyService(noty, $log)
 			if (data) {
 
 				var model_key = s['key'];
-				if (s.islink == "true" && "model_key" in s) {
+				if (islink && "model_key" in s) {
 					model_key = s['model_key']
 				}
 
@@ -221,15 +249,19 @@ function FormlyService(noty, $log)
 					} else if (template_type == "date") {
 						default_data = new Date(default_data);
 					} else if (template_type == "select") {
-						if (s.islink == "true") {
+						if (islink) {
 							// Array copy
-							default_data = (default_data.slice())[0];
+							// default_data = (default_data.slice())[0];
+							default_data = default_data[0];
 						}
+
 						if ("select_id" in s && s["select_id"] in default_data) {
 							default_data = default_data[s["select_id"]];
+							default_data = default_data.toString()
 						}
+
 					} else if (template_type == "autocomplete") {
-						if (s.islink == "true") {
+						if (islink) {
 							// Array copy
 							default_data = (default_data.slice())[0];
 						}
