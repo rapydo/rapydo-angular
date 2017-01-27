@@ -34,12 +34,12 @@ bower_components:
   bootstrap:
   - dist/css/bootstrap.min.css
   - dist/css/bootstrap-theme.min.css
-  - dist/fonts/glyphicons-halflings-regular.eot/svg/ttf/woff/woff2
+  # - dist/fonts/glyphicons-halflings-regular.eot/svg/ttf/woff/woff2
   angular-bootstrap:
   - ui-bootstrap.min.js
   - ui-bootstrap-tpls.min.js
-  google-material-icons:
-  - google-material-icons.min.css
+  # google-material-icons:
+  # - google-material-icons.min.css
   google-material-color:
   - dist/palette.css
   angular-chips:
