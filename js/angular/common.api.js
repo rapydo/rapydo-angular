@@ -1,8 +1,7 @@
 (function() {
   'use strict';
 
-angular.module('web')
-    .service('api', RestApiService);
+angular.module('web').service('api', RestApiService);
 
 function RestApiService($http, $q, $auth, $log, $httpParamSerializerJQLike) {
 
@@ -21,6 +20,7 @@ function RestApiService($http, $q, $auth, $log, $httpParamSerializerJQLike) {
         logout: 'loggedout',
         admin: 'verifyadmin',
         register: 'doregistration',
+        queue: 'queue'
     };
 
 
