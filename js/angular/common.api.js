@@ -16,8 +16,7 @@ function RestApiService($http, $q, $auth, $log, $httpParamSerializerJQLike) {
         logged: 'profile',
         login: 'login',
         tokens: 'tokens',
-        // logout: 'logout',
-        logout: 'loggedout',
+        logout: 'logout',
         admin: 'verifyadmin',
         register: 'doregistration',
         queue: 'queue'
@@ -67,7 +66,7 @@ function RestApiService($http, $q, $auth, $log, $httpParamSerializerJQLike) {
         else if (endpoint == self.endpoints.register)
             currentUrl = self.FRONTEND_URL + endpoint;
         else if (endpoint == self.endpoints.logout) {
-            currentUrl = self.FRONTEND_URL + endpoint;
+            currentUrl = self.AUTH_URL + endpoint;
         }
 //////////////////////////////
 

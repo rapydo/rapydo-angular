@@ -7,10 +7,8 @@ import os
 import re
 from urllib.parse import urlparse
 from pathlib import Path
-from flask import Blueprint, render_template, request, jsonify
+from flask import Blueprint, render_template, request
 from config import user_config, CURRENT_FRAMEWORK, BACKEND_PUBLIC_PORT
-from .security import login_api, register_api, logout_api
-from commons import htmlcodes as hcodes
 from commons.logs import get_logger
 
 logger = get_logger(__name__)
@@ -125,8 +123,6 @@ user_config['content'] = {
 }
 user_config['content']['stylesheets'] = css
 user_config['content']['jsfiles'] = js
-# user_config['content']['images'] = imgs
-# user_config['content']['htmlfonts'] = fonts
 
 
 #######################################
@@ -169,45 +165,18 @@ def jstemplate(title='App', mydomain='/'):
     )
 
 
-# #################################
-# # BASIC INTERFACE ROUTES
-def forward_response(response):
+######################################################
+# MAIN ROUTE: give angular the power
+
+@cms.route('/', methods=["GET"])
+@cms.route('/<path:mypath>', methods=["GET"])
+def home(mypath=None):
     """
-    Utility to use a response from requests
-    and forward it with Flask server rules
+    The main and only real HTML route in this server.
+    The only real purpose is to serve angular pages and routes.
     """
-    # Split the duo
-    resp, code = response
-    # Make sure that resp is at least an empty dictionary
-    if resp is None:
-        resp = {}
-    # Now, safely, forward response
-    return jsonify(**resp), code
-
-
-@cms.route('/doauth', methods=['POST'])
-def auth():
-    """
-    IMPORTANT: This route is a proxy for JS code to APIs login.
-    With this we can 'intercept' the request and save extra info on server
-    side, such as: ip, user, token
-    """
-
-    # Verify POST data
-    if request.json is None:
-        return ("", hcodes.HTTP_BAD_UNAUTHORIZED)
-    if not ('username' in request.json and 'password' in request.json):
-        return "No valid (json) data credentials", hcodes.HTTP_BAD_UNAUTHORIZED
-
-    # Request login (with or without API)
-    return forward_response(
-        login_api(request.json['username'], request.json['password']))
-
-
-@cms.route('/doregistration', methods=['POST'])
-def register():
-    """ Registration endpoint to cover API and other needs """
-    return forward_response(register_api(request.json))
+    logger.debug("Using angular route. PATH is '%s'" % mypath)
+    return jstemplate()
 
 
 ################################################
@@ -240,22 +209,3 @@ def jsblueprint():
         'js_template': js_template
     }
     return render_template("blueprint.js", **variables)
-
-
-######################################################
-# MAIN ROUTE: give angular the power
-
-@cms.route('/', methods=["GET"])
-@cms.route('/<path:mypath>', methods=["GET"])
-def home(mypath=None):
-    """
-    The main and only real HTML route in this server.
-    The only real purpose is to serve angular pages and routes.
-    """
-    logger.debug("Using angular route. PATH is '%s'" % mypath)
-    if mypath is None:
-        # return templating('welcome.html')
-        pass
-    elif mypath == 'loggedout':
-        return forward_response(logout_api(request.headers))
-    return jstemplate()

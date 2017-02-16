@@ -9,8 +9,9 @@ angular.module('web')
 
 .config(function($authProvider) {
 
-	$authProvider.loginUrl = serverUrl + "/doauth";
-	$authProvider.tokenName = 'authentication_token';
+    $authProvider.loginUrl = authApiUrl + "/login"
+    $authProvider.tokenName = 'token';
+    $authProvider.tokenRoot = 'Response.data'
 
 	$authProvider.oauth1({
 		  name: null,
@@ -23,35 +24,6 @@ angular.module('web')
 
 })
 ;
-
-/* NOTE TO SELF:
-A quick note to make login/logout work in combination with flask:
-
-JS works wherever you want, while python pages has to be really loaded
-to make python code work on server side.
-
-To make this possible you have to use buttons,
-were you make the browser go to URLs which are not intercepted by angular router.
-
-As i found out here:
-http://stackoverflow.com/a/25799503
-there is a quick paragraph in angular docs to make this happen:
-https://docs.angularjs.org/guide/$location
-
-"In cases like the following, links are not rewritten;
-instead, the browser will perform a full page reload to the original link.
-Links that contain target element
-Example: <a href="/ext/link?a=b" target="_self">link</a>
-Absolute links that go to a different domain
-Example: <a href="http://angularjs.org/">link</a>
-Links starting with '/' that lead to a different base path
-Example: <a href="/not-my-base/link">link</a>"
-
-So for login i can make the page reload, for instance
-(even if I do not like much this, but that's the best for now)
-While for logout i made the button "Yes" to let it happen.
-
-*/
 
 //////////////////////////////
 function LoginController($scope, $log, $window,
@@ -87,7 +59,7 @@ function LoginController($scope, $log, $window,
         $auth.login(credentials).then(
             function (loginResponse) {
                 self.userMessage = null;
-                $log.info("Login request", loginResponse);
+                // $log.info("Login request", loginResponse);
                 //console.log($auth.getToken());
                 //$rootScope.logged = true;
 
