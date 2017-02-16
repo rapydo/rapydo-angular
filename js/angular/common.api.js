@@ -9,7 +9,7 @@ function RestApiService($http, $q, $auth, $log, $httpParamSerializerJQLike) {
     // Api URI
     self.API_URL = apiUrl + '/';
     self.AUTH_URL = authApiUrl + '/';
-    self.FRONTEND_URL = serverUrl + '/';
+    // self.FRONTEND_URL = serverUrl + '/';
 
     self.endpoints = {
         check: 'status',
@@ -18,7 +18,6 @@ function RestApiService($http, $q, $auth, $log, $httpParamSerializerJQLike) {
         tokens: 'tokens',
         logout: 'logout',
         admin: 'verifyadmin',
-        register: 'doregistration',
         queue: 'queue'
     };
 
@@ -63,8 +62,6 @@ function RestApiService($http, $q, $auth, $log, $httpParamSerializerJQLike) {
             currentUrl = self.AUTH_URL + endpoint;
         else if (endpoint == self.endpoints.tokens)
             currentUrl = self.AUTH_URL + endpoint;
-        else if (endpoint == self.endpoints.register)
-            currentUrl = self.FRONTEND_URL + endpoint;
         else if (endpoint == self.endpoints.logout) {
             currentUrl = self.AUTH_URL + endpoint;
         }
