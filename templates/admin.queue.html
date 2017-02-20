@@ -59,14 +59,14 @@
 
 					<td>{{data.worker}}</td>
 
- 					<td ng-if='data.status != "REVOKED"' 
+ 					<td ng-if='data.status != "REVOKED" && data.status != "ACTIVE"'
  						ng-click='ctrl.pauseTask(data.task_id)'>
 						<i class='material-icons'
 						   uib-tooltip='Pause this task'
 						>pause</i>
 					</td>
 
-					<td ng-if='data.status == "REVOKED"'>
+					<td ng-if='data.status == "REVOKED" || data.status == "ACTIVE"'>
 						<i class='material-icons palette-Grey-500 text'>pause</i>
 					</td>
 
