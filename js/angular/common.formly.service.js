@@ -42,13 +42,42 @@ function FormlyService(noty, $log)
 	var self = this;
 
 	self.json2Form = function(schema, data, DataController) {
+
 		var fields = [];
 		var model = {}
-		var schema_length = 0;
-		if (typeof schema !== 'undefined')
-			schema_length = schema.length
+		if (typeof schema == 'undefined') {
+			return {"fields":fields, "model": model};
+		}
 
-		for (var i=0; i<schema_length; i++) {
+		// search for multi_sections
+		var add_sections = {}
+		for (var i=0; i<schema.length; i++) {
+			var s = schema[i];
+			if (! ('custom' in s)) continue
+
+
+			if ('section' in s['custom']) {
+				schema[i]["type"] = "multi_section" // should be if multiple
+				schema[i]["sections"] = []
+				add_sections[s["name"]] = i
+
+			} else if ('section_key' in s['custom']) {
+				var section_key = s['custom']['section_key'];
+				var row_identifier = s['custom']['row'];
+
+				delete s['custom']['section_key'];
+				var index = add_sections[section_key]
+
+				if (! (row_identifier in schema[index]["sections"]))
+					schema[index]["sections"][row_identifier] = []
+				schema[index]["sections"][row_identifier].push(s);
+				// remove element from array
+				schema.splice(i, 1);
+				i--;
+			}
+		}
+
+		for (var i=0; i<schema.length; i++) {
 
 			var s = schema[i];
 			// var k = s.key;
@@ -64,7 +93,6 @@ function FormlyService(noty, $log)
 
 			// Swagger compatibility
 			if (! ('key' in s)) {
-				// $log.info(s)
 				s['key'] = s['name']
 				if ('custom' in s) {
 
@@ -84,6 +112,10 @@ function FormlyService(noty, $log)
 
 					if ('multiple' in custom) {
 						multiple = custom['multiple']
+					}
+
+					if ('size' in custom) {
+						s['size'] = custom['size']
 					}
 
 					if ('autocomplete' in custom) {
@@ -134,7 +166,7 @@ function FormlyService(noty, $log)
 			} else if (stype == "longtext" || stype == "textarea") {
 				field_type = "textarea";
 				template_type = "text";
-			} else if (stype == "int") {
+			} else if (stype == "int" || stype == "number") {
 				field_type = "input";
 				template_type = "number";
 			} else if (stype == "date") {
