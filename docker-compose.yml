@@ -14,8 +14,8 @@ frontend:
   image: rapydo/frontend
   hostname: frontend
   working_dir: /data/frontend
-  environment:
-    PYTHON_SERVER_CATEGORY: frontend
+  # environment:
+  #   PYTHON_SERVER_CATEGORY: frontend
   volumes_from:
     - htmlfiles
   volumes:

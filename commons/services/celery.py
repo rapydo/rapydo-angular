@@ -9,12 +9,7 @@ import os
 from commons.logs import get_logger
 from celery import Celery
 
-# TO FIX: since we are in commons and detect in restapi we cannot import here
-# Please butta-al-secchio the frontend repository, remove the commos stuff and
-# enable this import
-# from ..services.detect import CELERY_AVAILABLE
-# Porcat waiting for the fix above:
-CELERY_AVAILABLE = 'QUEUE_NAME' in os.environ
+from rapydo.resources.services.detect import CELERY_AVAILABLE
 
 log = get_logger(__name__)
 

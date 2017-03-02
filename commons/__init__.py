@@ -33,13 +33,6 @@ myself = "Paolo D'Onorio De Meo <p.donoriodemeo@gmail.com>"
 lic = "MIT"
 
 #######################
-IS_FRONTEND = os.getenv("PYTHON_SERVER_CATEGORY", "").lower() == 'frontend'
-IS_BACKEND = not IS_FRONTEND
-
-# IS_BACKEND = os.getenv("HOSTNAME", "").lower() == 'api'
-# IS_FRONTEND = not IS_BACKEND
-
-#######################
 PROJECT_DIR = __package__
 CONFIG_DIR = 'confs'
 LOGGING_CONFIG_FILE = 'logging_config.ini'
@@ -49,7 +42,7 @@ AVOID_COLORS_ENV_LABEL = 'TESTING_FLASK'
 
 #################################
 # ENDPOINTS bases
-BACKEND_PACKAGE = 'restapi'
+BACKEND_PACKAGE = 'rapydo'
 API_URL = '/api'
 AUTH_URL = '/auth'
 STATIC_URL = '/static'
@@ -65,18 +58,9 @@ DEFAULTS_PATH = "defaults"
 CONFIG_PATH = ""
 BLUEPRINT_KEY = 'blueprint'
 
-if IS_FRONTEND:
-    # Main directory where all conf files are found
-    CONFIG_PATH = 'config'
-    PATH = 'specs'
-
-if IS_BACKEND:
-    CONFIG_PATH = os.path.join(BACKEND_PACKAGE, CONFIG_DIR)
-    PATH = 'main'
-
-# # FRAMEWORKS = ['materialize', 'bootstrap', 'foundation']
-# # CURRENT_FRAMEWORK = FRAMEWORKS.pop(0)
-# CURRENT_FRAMEWORK = 'bootstrap'
+# Main directory where all conf files are found
+CONFIG_PATH = 'config'
+PATH = 'specs'
 
 # NOTE: this decides about final configuration
 DEBUG = True
@@ -102,13 +86,6 @@ else:
 # TO BE USED TO REDIRECT AUTHENTICATION FROM FRONTEND TO BACKEND
 BACKEND_PRIVATE_PORT = \
     os.environ.get('BACKEND_1_PORT', "8080").split(':').pop()
-
-if IS_FRONTEND:
-    # TO FIX: @mdantonio change names, use inside frontend config/__init__.py
-    # URL = 'http://%s:%s' % (BACKEND_NAME, BACKEND_PRIVATE_PORT)
-    # API_URL = URL + '/api/'
-    # AUTH_URL = URL + '/auth/'
-    pass
 
 #################################
 # THE APP
