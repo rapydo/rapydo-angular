@@ -84,12 +84,6 @@ class Customizer(object):
                 if label not in custom_config[key]:
                     custom_config[key][label] = element
 
-        # # FRONTEND?
-        # TO FIX: see with @mdantonio what to do here
-        # custom_config['frameworks'] = \
-        #     self.load_json(CONFIG_PATH, "", "frameworks")
-        # auth = custom_config['variables']['containers']['authentication']
-
         # Save in memory all of the current configuration
         self._configurations = custom_config
 

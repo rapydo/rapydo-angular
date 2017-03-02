@@ -13,7 +13,6 @@ https://docs.mongodb.com/manual/applications/data-models-relationships
 
 from pymongo.write_concern import WriteConcern
 from pymodm import MongoModel, fields
-# from commons.services.uuid import getUUID
 
 
 # TO FIX: inheritance? Not working at the moment

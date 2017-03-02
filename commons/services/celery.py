@@ -9,7 +9,7 @@ import os
 from commons.logs import get_logger
 from celery import Celery
 
-from rapydo.resources.services.detect import CELERY_AVAILABLE
+from rapydo.core.services.detect import CELERY_AVAILABLE
 
 log = get_logger(__name__)
 
