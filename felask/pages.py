@@ -29,8 +29,8 @@ staticdir = fconfig['staticdir'] + '/'
 bowerdir = staticdir + fconfig['bowerdir'] + '/'
 
 # Custom configurations
-bwlibs = user_config['bower_components']
-customcss = user_config['css']
+bwlibs = user_config.get('bower_components', {})
+customcss = user_config.get('css', {})
 if 'js' in user_config:
     customjs = user_config['js']
 else:
@@ -201,9 +201,15 @@ def jsblueprint():
                 scheme="https", netloc=removed_port
             ).geturl()
 
+    load_timeout = \
+        user_config \
+        .get('variables', {}) \
+        .get('js', {}) \
+        .get('load_timeout', 500)
+
     variables = {
         'name': CURRENT_BLUEPRINT,
-        'time': user_config['variables']['js']['load_timeout'],
+        'time': load_timeout,
         'api_url': api_url,
         'api_port': backend_port,
         'js_template': js_template
