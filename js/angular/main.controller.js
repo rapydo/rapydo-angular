@@ -3,7 +3,7 @@
 
 angular.module('web').controller('MainController', MainController);
 
-function MainController($scope, $rootScope, $log, $timeout, $state, api)
+function MainController($scope, $rootScope, $window, $log, $timeout, $state, api)
 {
     // Init controller
     var self = this;
@@ -21,6 +21,39 @@ function MainController($scope, $rootScope, $log, $timeout, $state, api)
         self.splash = false;
     }, 2000);
 
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
+
+         // called every time the state transition is attempted
+
+        if ($rootScope.transitionConfirmationRequested) {
+            var msg = $rootScope.transitionConfirmationMessage;
+            if (typeof msg == 'undefined') {
+                msg = "Are you really sure you want to leave this page?";
+            }
+            var answer = confirm(msg);
+            if (!answer) {
+                event.preventDefault();
+                return false;
+            } else {
+                $rootScope.transitionConfirmationRequested = false;
+                delete $rootScope.transitionConfirmationMessage;
+            }
+        }
+
+        return true;
+
+    });
+
+    $window.onbeforeunload = function (evt) {
+        if ($rootScope.transitionConfirmationRequested) {
+            var msg = $rootScope.transitionConfirmationMessage;
+            if (typeof msg == 'undefined') {
+                msg = "Are you really sure you want to leave this page?";
+            }
+
+            return msg;
+        }
+    }
 // SET TO LOAD APIs?
     self.load = false;
 
