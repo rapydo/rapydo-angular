@@ -4,37 +4,68 @@
 
   <div class="panel panel-info">
 
+    <div class="alert alert-danger" ng-if='login.userMessage'>
+      {{login.userMessage}}
+    </div>
+
     <div class="panel-heading">
-      <h3 class="panel-title">Provide your credentials</h3>
+      <h3 class="panel-title">{{login.panelTitle}}</h3>
     </div>
 
     <div class="panel-body text-left">
 
       <form name="myForm">
 
-          <div class="form-group">
-            <i class="material-icons prefix">account_circle</i>
-            <label for="icon_prefix">Username</label>
-            <input class="form-control"
-              ng-model="login.user.username" id="username" name="username"
-              id="icon_prefix" type="text" 
-              required autofocus>
-          </div>
+        <div class="form-group" ng-if='login.askUsername'>
+          <i class="material-icons prefix">account_circle</i>
+          <label for="icon_prefix">Username</label>
+          <input class="form-control"
+            ng-model="login.user.username" id="username" name="username"
+            id="icon_prefix" type="text" 
+            required autofocus>
+        </div>
 
-          <div class="form-group">
-            <i class="material-icons prefix">vpn_key</i>
-            <label for="icon_telephone">Password</label>
-            <input class="form-control"
-              ng-model="login.user.password" id="password" name="password"
-              type="password"
-              required>
-          </div>
+        <div class="form-group" ng-if='login.askPassword'>
+          <i class="material-icons prefix">vpn_key</i>
+          <label for="icon_telephone">Password</label>
+          <input class="form-control"
+            ng-model="login.user.password" id="password" name="password"
+            type="password"
+            required>
+        </div>
 
-          <div class='text-right'>
-            <button type="submit" class="btn btn-default" ng-click='login.check()'>
-              Signin
-            </button>
-          </div>
+        <div class="form-group" ng-if='login.askNewPassword'>
+          <i class="material-icons prefix">vpn_key</i>
+          <label for="icon_telephone">New password</label>
+          <input class="form-control"
+            ng-model="login.user.new_password" id="new_password" name="new_password"
+            type="password"
+            required>
+        </div>
+
+        <div class="form-group" ng-if='login.askNewPassword'>
+          <i class="material-icons prefix">vpn_key</i>
+          <label for="icon_telephone">Password confirmation</label>
+          <input class="form-control"
+            ng-model="login.user.password_confirm" id="password_confirm" name="password_confirm"
+            type="password"
+            required>
+        </div>
+
+        <div class="form-group" ng-if='login.askTOTP'>
+          <i class="material-icons prefix">account_circle</i>
+          <label for="icon_prefix">Code</label>
+          <input class="form-control"
+            ng-model="login.user.totp_code" id="totp_code" name="totp_code"
+            id="icon_prefix" type="text" 
+            required autofocus>
+        </div>
+
+        <div class='text-right'>
+          <button type="submit" class="btn btn-default" ng-click='login.check()'>
+            {{login.buttonText}}
+          </button>
+        </div>
 
       </form>
 
