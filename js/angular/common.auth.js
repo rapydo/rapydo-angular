@@ -71,7 +71,7 @@ function LoginController($scope, $log, $window,
             }, function(errorResponse) {
 
                 $log.warn("Auth: failed", errorResponse);
-                noty.showAll(errorResponse.data.errors, noty.ERROR);
+                noty.showAll(errorResponse.data.Response.errors, noty.ERROR);
 
             }
         );
