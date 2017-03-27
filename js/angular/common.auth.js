@@ -33,20 +33,27 @@ function LoginController($scope, $log, $window,
     // Init controller
     $log.debug("Login Controller");
     var self = this;
-    self.panelTitle = "Provide your credentials"
-    self.buttonText = "Signin"
-    self.askUsername = true;
-    self.askPassword = true;
-    self.askNewPassword = false;
-    self.askTOTP = false;
 
-    self.userMessage = null;
+    self.setDefaultForm = function() {
+        self.panelTitle = "Provide your credentials"
+        self.buttonText = "Signin"
+        self.askUsername = true;
+        self.askPassword = true;
+        self.askNewPassword = false;
+        self.askTOTP = false;
+        self.userMessage = null;
+        self.qr_code = null;
+
+        self.user = {
+           new_password: null,
+           password_confirm: null,
+           totp_code: null,
+        };
+    }
+    self.setDefaultForm();
 
     // Init the models
-    self.user = {
-       username: null,
-       password: null,
-    };
+
 
     // In case i am already logged, skip
     if ($auth.isAuthenticated())
@@ -70,15 +77,17 @@ function LoginController($scope, $log, $window,
                 // Now we can check again reloading this page
                 $window.location.reload();
                 console.log("DO YOU SEE ME?")
-                noty.showAll(response.data.errors, noty.WARNING);
+                noty.showAll(response.data.Response.errors, noty.WARNING);
 
             }, function(response) {
 
-                if (response.status == 403) {
+                if (response.status == 409) {
+                    $log.warn("Auth raised errors", response);
+                    noty.showAll(response.data.Response.errors, noty.WARNING);
+                } else if (response.status == 403) {
                     $log.warn("Auth not completed", response);
 
                     self.userMessage = "Unrecognized response from server"
-
 
                     if (typeof response.data.Response.data.actions === 'undefined') {
                         noty.showError(self.userMessage)
@@ -98,13 +107,14 @@ function LoginController($scope, $log, $window,
 
                         for (var i=0; i<actions.length; i++) {
                             var action = actions[i];
+                            var notyLevel = noty.ERROR;
                             if (action == 'FIRST LOGIN') {
                                 self.panelTitle = "Change your temporary password"
                                 self.buttonText = "Change"
                                 self.askUsername = false;
                                 self.askPassword = false;
                                 self.askNewPassword = true;
-                                noty.showAll(response.data.Response.errors, noty.WARNING);
+                                notyLevel = noty.WARNING;
 
                             } else if (action == 'PASSWORD EXPIRED') {
                                 self.panelTitle = "Change your password"
@@ -112,7 +122,7 @@ function LoginController($scope, $log, $window,
                                 self.askUsername = false;
                                 self.askPassword = false;
                                 self.askNewPassword = true;
-                                noty.showAll(response.data.Response.errors, noty.WARNING);
+                                notyLevel = noty.WARNING;
 
                             } else if (action == 'TOTP') {
                                 self.panelTitle = "Provide your authorization code"
@@ -120,19 +130,27 @@ function LoginController($scope, $log, $window,
                                 self.askUsername = false;
                                 self.askPassword = false;
                                 self.askTOTP = true
-                                noty.showAll(response.data.Response.errors, noty.WARNING);
+                                notyLevel = noty.WARNING;
                                 
                             } else {
                                 self.userMessage = originalUerMessage;
                                 noty.showError(self.userMessage)
-                                noty.showAll(response.data.Response.errors, noty.ERROR);
                             }
+                            noty.showAll(response.data.Response.errors, notyLevel);
+
+                        }
+
+                        if (response.data.Response.data.qr_code) {
+
+                            self.qr_code = response.data.Response.data.qr_code;
+
                         }
                         // $auth.setToken(temp_token)
                     }
 
                 } else {
                     // $log.warn("Auth: failed", response);
+                    self.setDefaultForm();
                     noty.showAll(response.data.Response.errors, noty.ERROR);
                     self.userMessage = response.data.Response.errors[0];
                 }
