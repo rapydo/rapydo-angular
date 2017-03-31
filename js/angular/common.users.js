@@ -17,8 +17,18 @@ function ProfileController($scope, $log, $state, $auth, api, noty)
 			return false;
 		}
 
-		var data = {"password": self.currentPwd, "newpassword": self.newPwd}
-		api.apiCall('profile/'+uuid, 'PUT', data).then(
+		var data = {}
+		data["new_password"] = self.newPwd;
+		data["password_confirm"] = self.confirmPwd;
+
+		if (self.currentPwd)	
+			data["password"] = self.currentPwd;
+
+		if (self.totp_code)
+			data["totp_code"] = self.totp_code;
+
+		// api.apiCall('profile/'+uuid, 'PUT', data).then(
+		api.apiCall('profile', 'PUT', data).then(
 			function(out_data) {
 				self.newPwd = ""
 				self.confirmPwd = ""
