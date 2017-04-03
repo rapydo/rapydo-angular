@@ -6,11 +6,12 @@
   <div class="panel panel-warning" ng-if='login.qr_code'>
 
     <div class="panel-heading">
-      <h3 class="panel-title">Configure Google Authenticator with the following QR code</h3>
+      <h3 class="panel-title">Configure Two-Factor with Google Auth</h3>
     </div>
 
     <!-- Full credits to: https://github.com/bennyn/html5-demos/blob/master/quick-hacks/draw-svg-string-on-canvas.html -->
     <div class="panel-body">
+      After installing the Google Authenticator app, scan the QR code below
       <img src='data:image/svg+xml,{{login.qr_code}}'></img>
     </div>
   </div>
@@ -67,7 +68,7 @@
 
         <div class="form-group" ng-if='login.askTOTP'>
           <i class="material-icons prefix">security</i>
-          <label for="icon_prefix">Authorization code</label>
+          <label for="icon_prefix">Verification code</label>
           <input class="form-control"
             ng-model="login.user.totp_code" id="totp_code" name="totp_code"
             id="icon_prefix" type="text" 

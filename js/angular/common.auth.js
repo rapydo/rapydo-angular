@@ -126,7 +126,7 @@ function LoginController($scope, $log, $window,
                                 notyLevel = noty.WARNING;
 
                             } else if (action == 'TOTP') {
-                                self.panelTitle = "Provide your authorization code"
+                                self.panelTitle = "Provide the verification code"
                                 self.buttonText = "Authorize"
                                 self.askUsername = false;
                                 self.askPassword = false;
