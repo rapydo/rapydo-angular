@@ -87,7 +87,8 @@ function LoginController($scope, $log, $window,
                 } else if (response.status == 403) {
                     $log.warn("Auth not completed", response);
 
-                    self.userMessage = "Unrecognized response from server"
+                    // self.userMessage = "Unrecognized response from server"
+                    self.userMessage = ""
 
                     if (typeof response.data.Response.data.actions === 'undefined') {
                         noty.showError(self.userMessage)
@@ -100,7 +101,7 @@ function LoginController($scope, $log, $window,
                     //     noty.showAll(response.data.Response.errors, noty.ERROR);
                     } else {
                         var originalUerMessage = self.userMessage
-                        self.userMessage = response.data.Response.errors[0];
+                        // self.userMessage = response.data.Response.errors[0];
 
                         // var temp_token = response.data.Response.data.token
                         var actions = response.data.Response.data.actions
@@ -109,7 +110,7 @@ function LoginController($scope, $log, $window,
                             var action = actions[i];
                             var notyLevel = noty.ERROR;
                             if (action == 'FIRST LOGIN') {
-                                self.panelTitle = "Change your temporary password"
+                                self.panelTitle = "Please change your temporary password"
                                 self.buttonText = "Change"
                                 self.askUsername = false;
                                 self.askPassword = false;
@@ -117,7 +118,7 @@ function LoginController($scope, $log, $window,
                                 notyLevel = noty.WARNING;
 
                             } else if (action == 'PASSWORD EXPIRED') {
-                                self.panelTitle = "Change your password"
+                                self.panelTitle = "Your password is expired, please change it"
                                 self.buttonText = "Change"
                                 self.askUsername = false;
                                 self.askPassword = false;
@@ -136,7 +137,7 @@ function LoginController($scope, $log, $window,
                                 self.userMessage = originalUerMessage;
                                 noty.showError(self.userMessage)
                             }
-                            noty.showAll(response.data.Response.errors, notyLevel);
+                            // noty.showAll(response.data.Response.errors, notyLevel);
 
                         }
 
