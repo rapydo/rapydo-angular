@@ -1,17 +1,18 @@
 
 ###############################
 # GLOBAL CONFIGURATION
-conf:
-  image: alpine
-  command: ./boot
-  environment:
-    APP_MODE: ${SELECTED_APP_MODE}
+# conf:
+#   image: alpine
+#   command: ./boot
+#   environment:
+#     APP_MODE: ${SELECTED_APP_MODE}
 ###############################
 
 frontend:
-  extends:
-    service: conf
+  # extends:
+  #   service: conf
   image: rapydo/frontend
+  command: ./boot
   hostname: frontend
   working_dir: /data/frontend
   # environment:
@@ -26,6 +27,8 @@ frontend:
     # - ../backend/commons:/data/frontend/commons
     # Configuration files
     - ../specs:/data/frontend/config/specs
+  environment:
+    APP_MODE: ${SELECTED_APP_MODE}
 
 ###############################
 # Make automatic to install libraries
