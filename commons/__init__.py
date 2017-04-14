@@ -54,9 +54,9 @@ CORE_DIR = 'base'
 USER_CUSTOM_DIR = 'custom'
 
 PATH = ""
-DEFAULTS_PATH = "defaults"
 CONFIG_PATH = ""
-BLUEPRINT_KEY = 'blueprint'
+PROJECT_CONF_FILE = 'project_configuration'
+# BLUEPRINT_KEY = 'blueprint'
 
 # Main directory where all conf files are found
 CONFIG_PATH = 'config'
