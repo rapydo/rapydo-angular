@@ -11,6 +11,7 @@ from commons import PRODUCTION
 
 logger = get_logger(__name__)
 
+###################################
 #######################
 # Warning: this decides about final configuration
 DEBUG = True
@@ -23,7 +24,6 @@ CONFIG_PATH = 'config'
 # FRAMEWORKS = ['materialize', 'bootstrap', 'foundation']
 # CURRENT_FRAMEWORK = FRAMEWORKS.pop(0)
 CURRENT_FRAMEWORK = 'bootstrap'
-
 
 ########################################
 # Read user config
@@ -63,39 +63,35 @@ user_config['frameworks'] = customizer._frameworks
 auth = user_config['variables']['containers']['authentication']
 
 
-########################################
-BACKEND_NAME = None
-try:
-    BACKEND_NAME = os.environ.get('MYAPI_NAME').split('/').pop()
-except:
-    logger.warning("Not linked to backend container")
-    # raise BaseException("Fatal error: could not find a backend container.")
+# ########################################
+# BACKEND_NAME = None
+# try:
+#     BACKEND_NAME = os.environ.get('MYAPI_NAME').split('/').pop()
+# except:
+#     logger.warning("Not linked to backend container")
+#     # raise BaseException("Fatal error: could not find a backend container.")
 
-########################################
-# BACKEND_PUBLIC_PORT = 80
-# BACKEND_PRIVATE_PORT = 80
+# ########################################
 
-backend_linked = 'BACKEND_1_PORT' in os.environ
+# backend_linked = 'BACKEND_1_PORT' in os.environ
 
-# TO BE USED FROM FRONTEND TO CALL APIs
-# BACKEND_PUBLIC_PORT = \
-#     os.environ.get('BACKEND_1_PORT', "80").split(':').pop()
+# if backend_linked:
+#     # DIRECT ACCESS TO BACKEND
+#     BACKEND_PUBLIC_PORT = 8081
+# else:
+#     # ACCESS VIA PROXY
+#     # NOTE: IF SSL is ENABLED this port will be changed to 443 in pages.py
+#     BACKEND_PUBLIC_PORT = 80
 
-if backend_linked:
-    # DIRECT ACCESS TO BACKEND
-    BACKEND_PUBLIC_PORT = 8081
-else:
-    # ACCESS VIA PROXY
-    # NOTE: IF SSL is ENABLED this port will be changed to 443 in pages.py
-    BACKEND_PUBLIC_PORT = 80
 
+BACKEND_PUBLIC_PORT = os.environ.get('BACKEND_PORT', 80)
 # TO BE USED TO REDIRECT AUTHENTICATION FROM FRONTEND TO BACKEND
-BACKEND_PRIVATE_PORT = \
-    os.environ.get('BACKEND_1_PORT', "8080").split(':').pop()
+# BACKEND_PRIVATE_PORT = \
+#     os.environ.get('BACKEND_1_PORT', "8080").split(':').pop()
 
-URL = 'http://%s:%s' % (BACKEND_NAME, BACKEND_PRIVATE_PORT)
-API_URL = URL + '/api/'
-AUTH_URL = URL + '/auth/'
+# URL = 'http://%s:%s' % (BACKEND_NAME, BACKEND_PRIVATE_PORT)
+# API_URL = URL + '/api/'
+# AUTH_URL = URL + '/auth/'
 
 
 ########################################

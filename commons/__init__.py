@@ -3,12 +3,13 @@
 from __future__ import division
 
 import os
+import json
 import pkg_resources
 
 #######################
 try:
     __version__ = pkg_resources.get_distribution(__name__).version
-except:
+except BaseException:
     __version__ = 'unknown'
 
 #######################
@@ -24,7 +25,6 @@ except:
 
 #######################
 # Make a json and yaml test
-import json
 json.dumps({})
 
 #######################
@@ -66,26 +66,20 @@ PATH = 'specs'
 DEBUG = True
 
 ########################################
-# BACKEND_PUBLIC_PORT = 80
-# BACKEND_PRIVATE_PORT = 80
 
-backend_linked = 'BACKEND_1_PORT' in os.environ
+# backend_linked = 'BACKEND_1_PORT' in os.environ
 
-# TO BE USED FROM FRONTEND TO CALL APIs
-# BACKEND_PUBLIC_PORT = \
-#     os.environ.get('BACKEND_1_PORT', "80").split(':').pop()
+# if backend_linked:
+#     # DIRECT ACCESS TO BACKEND
+#     BACKEND_PUBLIC_PORT = 8081
+# else:
+#     # ACCESS VIA PROXY
+#     # NOTE: IF SSL is ENABLED this port will be changed to 443 in pages.py
+#     BACKEND_PUBLIC_PORT = 80
 
-if backend_linked:
-    # DIRECT ACCESS TO BACKEND
-    BACKEND_PUBLIC_PORT = 8081
-else:
-    # ACCESS VIA PROXY
-    # NOTE: IF SSL is ENABLED this port will be changed to 443 in pages.py
-    BACKEND_PUBLIC_PORT = 80
-
-# TO BE USED TO REDIRECT AUTHENTICATION FROM FRONTEND TO BACKEND
-BACKEND_PRIVATE_PORT = \
-    os.environ.get('BACKEND_1_PORT', "8080").split(':').pop()
+# # TO BE USED TO REDIRECT AUTHENTICATION FROM FRONTEND TO BACKEND
+# BACKEND_PRIVATE_PORT = \
+#     os.environ.get('BACKEND_1_PORT', "8080").split(':').pop()
 
 #################################
 # THE APP
@@ -99,29 +93,29 @@ if os.environ.get('APP_MODE', '') == 'production':
 
 
 ########################################
-def get_api_url():
-    """ Get api URL and PORT
+# def get_api_url():
+#     """ Get api URL and PORT
 
-    Usefull to handle https and similar
-    unfiltering what is changed from nginx and container network configuration
+#     Usefull to handle https and similar
+#     unfiltering what is changed from nginx and container network configuration
 
-    Warning: it works only if called inside a Flask endpoint
-    """
+#     Warning: it works only if called inside a Flask endpoint
+#     """
 
-    import re
-    from flask import request
-    from urllib.parse import urlparse
+#     import re
+#     from flask import request
+#     from urllib.parse import urlparse
 
-    backend_port = BACKEND_PUBLIC_PORT
-    api_url = request.url_root
+#     backend_port = BACKEND_PUBLIC_PORT
+#     api_url = request.url_root
 
-    if PRODUCTION:
-        parsed = urlparse(api_url)
-        if parsed.port is not None and parsed.port == 443:
-            backend_port = parsed.port
-            removed_port = re.sub(r':[\d]+$', '', parsed.netloc)
-            api_url = parsed._replace(
-                scheme="https", netloc=removed_port
-            ).geturl()
+#     if PRODUCTION:
+#         parsed = urlparse(api_url)
+#         if parsed.port is not None and parsed.port == 443:
+#             backend_port = parsed.port
+#             removed_port = re.sub(r':[\d]+$', '', parsed.netloc)
+#             api_url = parsed._replace(
+#                 scheme="https", netloc=removed_port
+#             ).geturl()
 
-    return api_url, backend_port
+#     return api_url, backend_port
