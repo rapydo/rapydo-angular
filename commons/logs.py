@@ -14,7 +14,12 @@ import logging
 
 from logging.config import fileConfig
 from json.decoder import JSONDecodeError
-from . import AVOID_COLORS_ENV_LABEL, LOG_CONFIG
+
+PROJECT_DIR = __package__
+CONFIG_DIR = 'confs'
+LOGGING_CONFIG_FILE = 'logging_config.ini'
+LOG_CONFIG = os.path.join(PROJECT_DIR, CONFIG_DIR, LOGGING_CONFIG_FILE)
+AVOID_COLORS_ENV_LABEL = 'TESTING_FLASK'
 
 #######################
 # DEBUG level is 10 (https://docs.python.org/3/howto/logging.html)

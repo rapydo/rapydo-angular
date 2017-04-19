@@ -1,7 +1,7 @@
 // JINJA TEMPLATE (not AngularJs syntax)
 
 // Choose your blueprint
-var blueprint = '{{name}}';
+// var blueprint = '{{name}}';
 
 // Note: remember to define '{{name}}Routes' or you will get
 // a strange injection error!

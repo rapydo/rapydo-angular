@@ -12,7 +12,7 @@ from config import user_config, CURRENT_FRAMEWORK, BACKEND_PUBLIC_PORT
 from commons.logs import get_logger
 
 logger = get_logger(__name__)
-CURRENT_BLUEPRINT = 'blueprint_example'
+# CURRENT_BLUEPRINT = 'blueprint_example'
 
 #######################################
 # Blueprint for base pages, if any
@@ -75,12 +75,12 @@ for scss in customcss:
 # ## JS BLUEPRINTS
 
 # Load only a specified angular blueprint
-if 'blueprint' not in user_config:
-    logger.critical("No blueprint found in user config!")
-else:
-    CURRENT_BLUEPRINT = user_config['blueprint']
+# if 'blueprint' not in user_config:
+#     logger.critical("No blueprint found in user config!")
+# else:
+#     CURRENT_BLUEPRINT = user_config['blueprint']
 
-logger.info("Adding JS blueprint '%s'" % CURRENT_BLUEPRINT)
+# logger.info("Adding JS blueprint '%s'" % CURRENT_BLUEPRINT)
 
 
 prefix = __package__
@@ -88,7 +88,8 @@ prefix = __package__
 jfiles.append(Path(prefix + '/js/blueprint.js'))
 # JS files in the root directory
 app_path = os.path.join(prefix, staticdir, 'app')
-custom_path = os.path.join(app_path, 'custom', CURRENT_BLUEPRINT)
+# custom_path = os.path.join(app_path, 'custom', CURRENT_BLUEPRINT)
+custom_path = os.path.join(app_path, 'custom')
 
 # Save the right order:
 # Main app angular js is right after bower libs
@@ -142,8 +143,9 @@ def jstemplate(title='App', mydomain='/'):
     template_dir = os.path.join(app_path, "templates")
     base_template_dir = os.path.join(
         template_dir, 'common')
-    custom_template_dir = os.path.join(
-        template_dir, 'custom', CURRENT_BLUEPRINT)
+    # custom_template_dir = os.path.join(
+    #     template_dir, 'custom', CURRENT_BLUEPRINT)
+    custom_template_dir = os.path.join(template_dir, 'custom')
 
     if os.path.isfile(os.path.join(custom_template_dir, topbar_file)):
         topbar_template = "main.blueprintTemplateDir + '%s'" % topbar_file
@@ -208,7 +210,7 @@ def jsblueprint():
         .get('load_timeout', 500)
 
     variables = {
-        'name': CURRENT_BLUEPRINT,
+        # 'name': CURRENT_BLUEPRINT,
         'time': load_timeout,
         'api_url': api_url,
         'api_port': backend_port,

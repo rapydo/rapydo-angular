@@ -11,8 +11,8 @@ import re
 import glob
 # from collections import OrderedDict
 from . import (
-    CORE_DIR, USER_CUSTOM_DIR, DEFAULTS_PATH,
-    PATH, CONFIG_PATH, BLUEPRINT_KEY, API_URL, BASE_URLS,
+    CORE_DIR, USER_CUSTOM_DIR, PROJECT_CONF_FILE,
+    PATH, CONFIG_PATH, API_URL, BASE_URLS,
 )
 from .attrs.api import EndpointElements, ExtraAttributes
 
@@ -35,6 +35,7 @@ class Customizer(object):
     Read all of available configurations and definitions.
 
     """
+
     def __init__(self, package, testing=False, production=False):
 
         # Input
@@ -60,18 +61,20 @@ class Customizer(object):
         # Reading configuration
 
         # Find out what is the active blueprint
-        bp_file = os.path.join(CONFIG_PATH, PATH, '%s.init' % BLUEPRINT_KEY)
-        with open(bp_file) as bp_hd:
-            blueprint = bp_hd.read().strip()
+        # bp_file = os.path.join(CONFIG_PATH, PATH, '%s.init' % BLUEPRINT_KEY)
+        # with open(bp_file) as bp_hd:
+        #     blueprint = bp_hd.read().strip()
 
         # Read the custom configuration from the active blueprint file
+
+        # ########################
+
         custom_path = os.path.join(CONFIG_PATH, PATH)
-        custom_config = load_yaml_file(blueprint, path=custom_path)
-        custom_config[BLUEPRINT_KEY] = blueprint
+        custom_config = load_yaml_file(PROJECT_CONF_FILE, path=custom_path)
+        # custom_config[BLUEPRINT_KEY] = blueprint
 
         # Read default configuration
-        defaults_path = os.path.join(CONFIG_PATH, DEFAULTS_PATH)
-        defaults = load_yaml_file(BLUEPRINT_KEY, path=defaults_path)
+        defaults = load_yaml_file("defaults", path=CONFIG_PATH)
         if len(defaults) < 0:
             raise ValueError("Missing defaults for server configuration!")
 

@@ -6,7 +6,8 @@
 // var framework = 'materialize';
 var templateDirBase = '/static/app/templates/';
 var templateDir = templateDirBase + 'common/';
-var blueprintTemplateDir = templateDirBase + 'custom/' + blueprint + '/';
+// var blueprintTemplateDir = templateDirBase + 'custom/' + blueprint + '/';
+var blueprintTemplateDir = templateDirBase + 'custom/';
 
 // var loggedLandingPage = "public.welcome";
 var loggedLandingPage = "logged.profile";
