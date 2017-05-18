@@ -1,48 +1,44 @@
+version: '3'
 
-###############################
-# GLOBAL CONFIGURATION
-# conf:
-#   image: alpine
-#   command: ./boot
-#   environment:
-#     APP_MODE: ${SELECTED_APP_MODE}
-###############################
-
-frontend:
-  # extends:
-  #   service: conf
-  image: rapydo/frontend
-  command: ./boot
-  hostname: frontend
-  working_dir: /data/frontend
-  # environment:
-  #   PYTHON_SERVER_CATEGORY: frontend
-  volumes_from:
-    - htmlfiles
-  volumes:
-    # # Sql lite database & common models
-    # - restangulask_apilitedb:/dbs
-    # Main dir. It has to be the root directory, to make links work
-    - ..:/data
-    # - ../backend/commons:/data/frontend/commons
-    # Configuration files
-    - ../specs:/data/frontend/config/specs
-  environment:
-    APP_MODE: ${SELECTED_APP_MODE}
-
-###############################
-# Make automatic to install libraries
-bower:
-    image: pdonorio/jsdev
-    working_dir: /data/libs
+services:
+  frontend:
+    image: rapydo/frontend
+    command: ./boot
+    hostname: frontend
+    working_dir: /data/frontend
     volumes:
-        - ..:/data
+      # Main dir. It has to be the root directory, to make links work
+      - ..:/data
+      # Configuration files
+      - ../specs:/data/frontend/config/specs
+      # SHARED WITH PROXY:
+      # js/css libraries installed via bower
+      - ../libs/bower_components:/data/frontend/felask/static/bower
+      # custom css files
+      - ../css:/data/frontend/felask/static/css/custom
+      # All the angular blueprints (&& templates)
+      - ../frontend/js/angular:/data/frontend/felask/static/app/commons
+      - ../frontend/css:/data/frontend/felask/static/css/base
+      - ../frontend/fonts:/data/frontend/felask/static/fonts
+      - ../js:/data/frontend/felask/static/app/custom
+      - ../frontend/templates:/data/frontend/felask/static/app/templates/common
+      - ../templates:/data/frontend/felask/static/app/templates/custom
+    environment:
+      APP_MODE: ${SELECTED_APP_MODE}
 
-###############################
-# Make automatic to install libraries
-karma:
-    image: pdonorio/jsdev
-    working_dir: /data
-    volumes:
-        - ../libs/bower_components:/data/bower_components
-        - ../jscode:/data
+  ###############################
+  # Make automatic to install libraries
+  bower:
+      image: pdonorio/jsdev
+      working_dir: /data/libs
+      volumes:
+          - ..:/data
+
+  ###############################
+  # Make automatic to install libraries
+  # karma:
+  #     image: pdonorio/jsdev
+  #     working_dir: /data
+  #     volumes:
+  #         - ../libs/bower_components:/data/bower_components
+  #         - ../jscode:/data
