@@ -12,17 +12,16 @@ services:
       # Configuration files
       - ../specs:/data/frontend/config/specs
       # SHARED WITH PROXY:
-      # js/css libraries installed via bower
-      - ../libs/bower_components:/data/frontend/felask/static/bower
-      # custom css files
-      - ../css:/data/frontend/felask/static/css/custom
-      # All the angular blueprints (&& templates)
       - ../frontend/js/angular:/data/frontend/felask/static/app/commons
       - ../frontend/css:/data/frontend/felask/static/css/base
       - ../frontend/fonts:/data/frontend/felask/static/fonts
-      - ../js:/data/frontend/felask/static/app/custom
       - ../frontend/templates:/data/frontend/felask/static/app/templates/common
+      # js/css libraries installed via bower
+      - ../libs/bower_components:/data/frontend/felask/static/bower
+      # js/css custom
+      - ../js:/data/frontend/felask/static/app/custom
       - ../templates:/data/frontend/felask/static/app/templates/custom
+      - ../css:/data/frontend/felask/static/css/custom
     environment:
       APP_MODE: ${SELECTED_APP_MODE}
 
@@ -33,6 +32,21 @@ services:
       working_dir: /data/libs
       volumes:
           - ..:/data
+
+  ###############################
+  proxy:
+    volumes:
+      # SHARED WITH FRONTEND:
+      - ../frontend/js/angular:/data/frontend/felask/static/app/commons
+      - ../frontend/css:/data/frontend/felask/static/css/base
+      - ../frontend/fonts:/data/frontend/felask/static/fonts
+      - ../frontend/templates:/data/frontend/felask/static/app/templates/common
+      # js/css libraries installed via bower
+      - ../libs/bower_components:/data/frontend/felask/static/bower
+      # Custom css/js
+      - ../js:/data/frontend/felask/static/app/custom
+      - ../templates:/data/frontend/felask/static/app/templates/custom
+      - ../css:/data/frontend/felask/static/css/custom
 
   ###############################
   # Make automatic to install libraries
