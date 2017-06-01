@@ -22,8 +22,6 @@ services:
       - ../js:/data/frontend/felask/static/app/custom
       - ../templates:/data/frontend/felask/static/app/templates/custom
       - ../css:/data/frontend/felask/static/css/custom
-    environment:
-      APP_MODE: ${SELECTED_APP_MODE}
 
   ###############################
   # Make automatic to install libraries
@@ -31,7 +29,7 @@ services:
       image: pdonorio/jsdev
       working_dir: /data/libs
       volumes:
-          - ..:/data
+        - ..:/data
 
   ###############################
   proxy:
