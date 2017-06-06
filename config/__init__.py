@@ -60,7 +60,7 @@ user_config = customizer._configurations
 # user_config['frameworks'] = get_json_conf(CONFIG_PATH, "", "frameworks")
 user_config['frameworks'] = customizer._frameworks
 
-auth = user_config['variables']['containers']['authentication']
+# auth = user_config['variables']['containers']['authentication']
 
 
 # ########################################
@@ -114,8 +114,8 @@ class BaseConfig(object):
     HOST = 'localhost'
     PORT = int(os.environ.get('PORT', 5000))
 
-    BASIC_USER = {
-        'username': auth.get('username', 'prototype'),
-        'password': auth.get('password', 'test'),
-        'email': auth.get('email', 'idonotexist@test.com')
-    }
+    # BASIC_USER = {
+    #     'username': auth.get('username', 'prototype'),
+    #     'password': auth.get('password', 'test'),
+    #     'email': auth.get('email', 'idonotexist@test.com')
+    # }
