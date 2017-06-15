@@ -70,7 +70,9 @@ class Customizer(object):
         # ########################
 
         custom_path = os.path.join(CONFIG_PATH, PATH)
-        custom_config = load_yaml_file(PROJECT_CONF_FILE, path=custom_path)
+        # custom_config = load_yaml_file(PROJECT_CONF_FILE, path=custom_path)
+        # TO FIX: change paths in frontend compose
+        custom_config = load_yaml_file(PROJECT_CONF_FILE, path="/temporaryfix")
         # custom_config[BLUEPRINT_KEY] = blueprint
 
         # Read default configuration
