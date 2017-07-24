@@ -15,18 +15,18 @@ class MyConfig(BaseConfig):
     LOG_DEBUG = False
     WTF_CSRF_SECRET_KEY = 'a production random string'
 
-    try:
-#NOTE: this sqlalchemy is required?
-        # We have POSTGRESQL. Use docker environment variables
-        dbhost = os.environ["DB_NAME"].split('/')[2]
-        dbport = int(os.environ["DB_PORT"].split(':')[2])
-        dbuser = os.environ["DB_ENV_POSTGRES_USER"]
-        dbpw = os.environ["DB_ENV_POSTGRES_PASSWORD"]
-        database = os.environ["DB_ENV_POSTGRES_DB"]
-        dbdriver = "postgresql"
+    # try:
+    #     #NOTE: this sqlalchemy is required?
+    #     # We have POSTGRESQL. Use docker environment variables
+    #     dbhost = os.environ["DB_NAME"].split('/')[2]
+    #     dbport = int(os.environ["DB_PORT"].split(':')[2])
+    #     dbuser = os.environ["DB_ENV_POSTGRES_USER"]
+    #     dbpw = os.environ["DB_ENV_POSTGRES_PASSWORD"]
+    #     database = os.environ["DB_ENV_POSTGRES_DB"]
+    #     dbdriver = "postgresql"
 
-        SQLALCHEMY_DATABASE_URI = "%s://%s:%s@%s:%d/%s" \
-            % (dbdriver, dbuser, dbpw, dbhost, dbport, database)
-    except Exception:
-        logger.warning(
-            "Cannot found a postgres database instance. Switching to sqllite.")
+    #     SQLALCHEMY_DATABASE_URI = "%s://%s:%s@%s:%d/%s" \
+    #         % (dbdriver, dbuser, dbpw, dbhost, dbport, database)
+    # except Exception:
+    #     logger.warning(
+    #         "Cannot found a postgres db instance. Switching to sqllite.")
