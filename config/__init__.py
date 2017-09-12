@@ -29,6 +29,8 @@ BACKEND_PUBLIC_PORT = os.environ.get('BACKEND_PORT', 80)
 class BaseConfig(object):
 
     DEBUG = os.environ.get('APP_DEBUG', DEBUG)
+    if DEBUG == 'false':
+        DEBUG = False
     # LOG_DEBUG = True
     LOG_DEBUG = False
     TESTING = False

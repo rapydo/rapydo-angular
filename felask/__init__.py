@@ -19,4 +19,4 @@ config_name = os.getenv('FLASK_CONFIGURATION', 'default')
 CONFIG_MODULE = config[config_name]
 configuration_module = m().get_module_from_string(CONFIG_MODULE)
 
-logger.debug("Configuration:\t%s in [%s]" % (config_name, CONFIG_MODULE))
+logger.debug("Configuration: %s in [%s]" % (config_name, CONFIG_MODULE))
