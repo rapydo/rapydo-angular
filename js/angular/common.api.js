@@ -85,6 +85,7 @@ function RestApiService($http, $q, $auth, $log, $httpParamSerializerJQLike) {
                 headers: {
                     'Content-Type': contentType,
                     'Authorization': 'Bearer ' + token,
+                    'Accept': 'application/json',
                 },
                 data: data,
                 params: params,
@@ -136,6 +137,7 @@ function RestApiService($http, $q, $auth, $log, $httpParamSerializerJQLike) {
                     // API offline
                     return null;
                 }
+                console.log(response);
                 return response.data.Response.data;
                 //return true;
             }, function errorCallback(response) {
