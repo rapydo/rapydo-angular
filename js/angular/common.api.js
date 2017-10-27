@@ -95,7 +95,6 @@ function RestApiService($http, $q, $auth, $log, $httpParamSerializerJQLike) {
         for (var v in requestConfig) {
             req[v] = requestConfig[v]
         }
-        console.log(req);
 
         if (skipPromiseResolve) return $http(req);
 
