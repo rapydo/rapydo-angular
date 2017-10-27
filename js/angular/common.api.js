@@ -32,7 +32,7 @@ function RestApiService($http, $q, $auth, $log, $httpParamSerializerJQLike) {
     self.postFormData = function (endpoint, method, data) {
         return self.apiCall(endpoint, method, data, undefined, false, false, true);
     }
-    self.apiCall = function (endpoint, method, data, id, returnRawResponse, skipPromiseResolve, formData)
+    self.apiCall = function (endpoint, method, data, id, returnRawResponse, skipPromiseResolve, formData, requestConfig)
     {
 
       ////////////////////////
@@ -43,7 +43,7 @@ function RestApiService($http, $q, $auth, $log, $httpParamSerializerJQLike) {
         method = self.getOrDefault(method, 'GET');
         skipPromiseResolve = self.getOrDefault(skipPromiseResolve, false);
         formData = self.getOrDefault(formData, false);
-
+        requestConfig = self.getOrDefault(requestConfig, {});
 
         var params = {};
         if (method == 'GET') {
@@ -92,6 +92,11 @@ function RestApiService($http, $q, $auth, $log, $httpParamSerializerJQLike) {
                 timeout: timeout,
             }
 
+        for (var v in requestConfig) {
+            req[v] = requestConfig[v]
+        }
+        console.log(req);
+
         if (skipPromiseResolve) return $http(req);
 
         return $http(req).then(
@@ -137,7 +142,6 @@ function RestApiService($http, $q, $auth, $log, $httpParamSerializerJQLike) {
                     // API offline
                     return null;
                 }
-                console.log(response);
                 return response.data.Response.data;
                 //return true;
             }, function errorCallback(response) {
