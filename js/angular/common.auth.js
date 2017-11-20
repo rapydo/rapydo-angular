@@ -41,6 +41,8 @@ function LoginController($scope, $log, $window,
         self.askPassword = true;
         self.askNewPassword = false;
         self.askTOTP = false;
+        // allowRegistration is defined in common.globals.js and overriding in routing.extra.js
+        self.allowRegistration = allowRegistration;
         self.userMessage = null;
         self.qr_code = null;
 
