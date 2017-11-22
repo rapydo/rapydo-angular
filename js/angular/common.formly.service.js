@@ -175,6 +175,9 @@ function FormlyService(noty, $log)
 			} else if (stype == "select") {
 				field_type = "select";
 				template_type = "select";
+			} else if (stype == "checkbox" || stype == "boolean") {
+				field_type = "checkbox";
+				template_type = "checkbox";
 			// } else if (stype == "radio") {
 			// 	field_type = "radio";
 			// 	template_type = "radio";
