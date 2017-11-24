@@ -232,37 +232,71 @@ function RegisterController($scope, $log, $auth, api, noty)
 }
 
 
-function LogoutController($scope, $rootScope, $log, $auth, $window, $state, api, noty)
+function LogoutController($scope, $rootScope, $log, $auth, $window, $uibModal, $state, api, noty)
 {
     // Init controller
     $log.debug("Logout Controller");
     var self = this;
 
+    function DialogController($scope, $uibModalInstance) {
+        $scope.cancel = function() {
+          $uibModalInstance.dismiss();
+        };
+        $scope.confirm = function(answer) {
+          $uibModalInstance.close(answer);
+        };
+    }
+    self.showConfirmDialog = function() {
+        var template = "<div class='panel panel-danger text-center' style='margin-bottom:0px;'>";
+            template+= "<div class='panel-heading'>Logout request</div>";
+            template+= "<div class='panel-body'><h4>Do you really want to close this session?</h4></div>";
+            template+= "<div class='panel-footer'>";
+
+            template+= "<div class='row'>";
+            template+= "<div class='col-xs-4 col-xs-offset-2'>";
+            template+= "<button class='btn btn-danger' ng-click='confirm()'>Yes</button>";
+            template+= "</div>";
+            template+= "<div class='col-xs-4'>";
+            template+= "<button class='btn btn-default' ng-click='cancel()'>No</button>";
+            template+= "</div>";
+
+            template+= "</div>";
+            template+= "</div>";
+
+        return $uibModal.open({
+          controller: DialogController,
+          template: template,
+          parent: angular.element(document.body),
+          clickOutsideToClose:true
+        }).result;
+    }
+
     // Log out satellizer
     self.exit = function() {
 
-        // I am going to call log out on the python frontend
-        api.apiCall(
-            api.endpoints.logout, 'GET',
-            undefined, undefined, true)
-         .then(
-          function(response) {
-            $log.info("Logging out", response);
+        self.showConfirmDialog().then(
+            function(answer) {
+                api.apiCall(api.endpoints.logout, 'GET', undefined, undefined, true) .then(
+                    function(response) {
+                        $log.info("Logging out", response);
 
-/*
-            console.log("LOGOUT IS ON PROGRESS AT THE MOMENT");
-*/
-        	$auth.logout().then(function() {
-                $log.debug("Token cleaned:", $auth.getToken());
-            });
-            $window.location.reload();
-            $rootScope.logged = false;
-            //$state.go('welcome');
-          }, function(error) {
-            $log.warn("Error for logout", error);
-            noty.showAll([error.data], noty.ERROR);
-          }
+                        $auth.logout().then(function() {
+                            $log.debug("Token cleaned:", $auth.getToken());
+                        });
+                        $window.location.reload();
+                        $rootScope.logged = false;
+                        //$state.go('welcome');
+                    }, function(error) {
+                        $log.warn("Error for logout", error);
+                        noty.showAll([error.data], noty.ERROR);
+                    }
+                );
+            },
+            function() {
+                // user did'nt confirmed logout request
+            }
         );
+
 
     }
 
