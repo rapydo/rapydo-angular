@@ -135,6 +135,7 @@ function FormlyService(noty, $log)
 				if ('format' in s) {
 					var format = s['format']
 					if (format == "date") stype = "date"
+					if (format == "email") stype = "email"
 				}
 
 				if (s['required']) {
@@ -172,6 +173,9 @@ function FormlyService(noty, $log)
 			} else if (stype == "date") {
 				field_type = "datepicker";
 				template_type = "date";
+			} else if (stype == "email") {
+				field_type = "input";
+				template_type = "email";
 			} else if (stype == "select") {
 				field_type = "select";
 				template_type = "select";
