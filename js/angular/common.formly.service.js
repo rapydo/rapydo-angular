@@ -298,6 +298,9 @@ function FormlyService(noty, $log)
 							default_data = default_data[s["select_id"]];
 							default_data = default_data.toString()
 						}
+						if ("description" in default_data && "key" in default_data) {
+							default_data = default_data["key"];
+						}
 
 					} else if (template_type == "autocomplete") {
 						if (islink) {
