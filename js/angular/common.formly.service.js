@@ -135,6 +135,7 @@ function FormlyService(noty, $log)
 				if ('format' in s) {
 					var format = s['format']
 					if (format == "date") stype = "date"
+					if (format == "email") stype = "email"
 				}
 
 				if (s['required']) {
@@ -172,9 +173,15 @@ function FormlyService(noty, $log)
 			} else if (stype == "date") {
 				field_type = "datepicker";
 				template_type = "date";
+			} else if (stype == "email") {
+				field_type = "input";
+				template_type = "email";
 			} else if (stype == "select") {
 				field_type = "select";
 				template_type = "select";
+			} else if (stype == "checkbox" || stype == "boolean") {
+				field_type = "checkbox";
+				template_type = "checkbox";
 			// } else if (stype == "radio") {
 			// 	field_type = "radio";
 			// 	template_type = "radio";
@@ -290,6 +297,11 @@ function FormlyService(noty, $log)
 						if ("select_id" in s && s["select_id"] in default_data) {
 							default_data = default_data[s["select_id"]];
 							default_data = default_data.toString()
+						}
+
+						if (typeof default_data["key"] !== 'undefined' &&
+								typeof default_data["description"] !== 'undefined') {
+							default_data = default_data["key"];
 						}
 
 					} else if (template_type == "autocomplete") {
