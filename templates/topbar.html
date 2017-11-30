@@ -31,8 +31,10 @@
         Login
       </a>
 
-      <a href ui-sref="logged.logout" ng-if="logged">
-      <i class='material-icons' uib-tooltip='Logout' tooltip-placement='bottom'>exit_to_app</i>
+      <a 
+        ng-controller='LogoutController as logout' 
+        ng-click='logout.exit()' ng-if="logged">
+        <i class='material-icons' uib-tooltip='Logout' tooltip-placement='bottom'>exit_to_app</i>
       </a>
       </li>
 
