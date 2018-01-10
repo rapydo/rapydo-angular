@@ -1,0 +1,101 @@
+<div 
+	ng-if="ctrl.loading" 
+	ng-include="main.templateDir + 'loader.html'">
+</div>
+
+<div class='row' ng-if='!profile.isAdmin'>
+    <div class='col-xs-12 text-center'>
+        <div class='panel panel-danger'>
+            <div class='panel-body palette-Red-100 bg'>
+                 <i class='material-icons medium palette-Red-500 text'>warning</i>
+                <br>
+                <h3>Unauthorized</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-controller='UsersController as ctrl' ng-if='profile.isAdmin'>
+
+<div class='panel panel-default' ng-if='!datactrl.loading'>
+<!-- PANEL HEADING START -->
+<div class='panel-heading'>
+	<h4 class='panel-title'>
+		<i class='material-icons'>face</i> Users list
+	</h4>
+</div>
+<!-- PANEL HEADING END -->
+
+<!-- PANEL BODY + TABLE START -->
+<div class='panel-body'>
+<div class="table-responsive">
+	<table 
+		ng-show="ctrl.users && ctrl.users.length" 
+		class='table table-hover table-condensed'
+		ts-filter-fields="email,name,surname,_belongs_to[0].shortname"
+		ts-wrapper>
+
+		<thead>
+	        <tr>
+	        	<th ts-criteria='email'>Email</th>
+	            <th ts-criteria='name'>Name</th>
+	            <th ts-criteria='surname'>Surname</th>
+				<th ts-criteria='_belongs_to[0].shortname'>Group</th>
+				<th>Roles</th>
+	            <th colspan=2 style='width:1%;'></th>
+	        </tr>
+	    </thead>
+
+		<tbody>
+			<tr ng-repeat="data in ctrl.users" ts-repeat>
+
+					<td>{{data.email}}</td>
+					<td>{{data.name}}</td>
+					<td>{{data.surname}}</td>
+					<td>
+						<span
+							uib-tooltip='{{data._belongs_to[0].fullname}}'
+						>
+						{{data._belongs_to[0].shortname}}
+						</span>
+					</td>
+					<td>
+						<label 
+							class='label label-default' style='margin-right:3px;'
+							ng-repeat="value in data._roles" 
+							uib-tooltip='{{value.description}}'>
+							{{value.name}}
+						</label>
+					</td>
+					<td 
+						ng-click='ctrl.updateUser(data)'>
+						<i class='material-icons'>edit</i>
+					</td>
+					<td 
+						ng-click='ctrl.deleteUser(data.id)'>
+						<i class='material-icons palette-Red-500 text'>delete</i>
+					</td>
+
+			</tr>
+		</tbody>
+		</table>
+</div>
+</div>
+<!-- PANEL BODY +  TABLE END -->
+
+
+<!-- PANEL FOOTER START -->
+<div class="panel-footer">
+<div class='text-right'>
+	<button class="btn btn-success" ng-click="ctrl.addNewUser()">
+		Add new user
+	</button>
+</div>
+</div>
+<!-- PANEL FOOTER END -->
+
+</div>
+<!-- PANEL END -->
+
+</div>
+
