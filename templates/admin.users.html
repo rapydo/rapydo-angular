@@ -3,7 +3,7 @@
 	ng-include="main.templateDir + 'loader.html'">
 </div>
 
-<div class='row' ng-if='!profile.isAdmin'>
+<div class='row' ng-if='!profile.isAdmin && !profile.isGroupAdmin'>
     <div class='col-xs-12 text-center'>
         <div class='panel panel-danger'>
             <div class='panel-body palette-Red-100 bg'>
@@ -15,7 +15,9 @@
     </div>
 </div>
 
-<div ng-controller='UsersController as ctrl' ng-if='profile.isAdmin'>
+<div 
+	ng-controller='UsersController as ctrl'
+	ng-if='profile.isAdmin || profile.isGroupAdmin'>
 
 <div class='panel panel-default' ng-if='!datactrl.loading'>
 <!-- PANEL HEADING START -->
