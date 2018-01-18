@@ -32,7 +32,7 @@ function RestApiService($http, $q, $auth, $log, $httpParamSerializerJQLike) {
     self.postFormData = function (endpoint, method, data) {
         return self.apiCall(endpoint, method, data, undefined, false, false, true);
     }
-    self.apiCall = function (endpoint, method, data, id, returnRawResponse, skipPromiseResolve, formData)
+    self.apiCall = function (endpoint, method, data, id, returnRawResponse, skipPromiseResolve, formData, requestConfig)
     {
 
       ////////////////////////
@@ -43,7 +43,7 @@ function RestApiService($http, $q, $auth, $log, $httpParamSerializerJQLike) {
         method = self.getOrDefault(method, 'GET');
         skipPromiseResolve = self.getOrDefault(skipPromiseResolve, false);
         formData = self.getOrDefault(formData, false);
-
+        requestConfig = self.getOrDefault(requestConfig, {});
 
         var params = {};
         if (method == 'GET') {
@@ -85,11 +85,16 @@ function RestApiService($http, $q, $auth, $log, $httpParamSerializerJQLike) {
                 headers: {
                     'Content-Type': contentType,
                     'Authorization': 'Bearer ' + token,
+                    'Accept': 'application/json',
                 },
                 data: data,
                 params: params,
                 timeout: timeout,
             }
+
+        for (var v in requestConfig) {
+            req[v] = requestConfig[v]
+        }
 
         if (skipPromiseResolve) return $http(req);
 
