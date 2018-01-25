@@ -5,14 +5,14 @@ angular.module('web').controller('UsersController', UsersController);
 angular.module('web').controller('UserDialogController', UserDialogController);
 angular.module('web').controller('AutocompleteUserController', AutocompleteUserController);
 
-function UsersController($scope, $log, DataService, noty, FormDialogService)
+function UsersController($scope, $log, CommonDataService, noty, FormDialogService)
 {
 	var self = this;
 
 	self.loadUsers = function() {
 		self.loading = true
 		self.users = []
-		DataService.getUsers().then(
+		CommonDataService.getUsers().then(
 			function(out_data) {
 				self.loading = false
 				self.users = out_data.data;
@@ -51,7 +51,7 @@ function UsersController($scope, $log, DataService, noty, FormDialogService)
 		var subtext = "This operation cannot be undone.";
 		FormDialogService.showConfirmDialog(text, subtext).then(
 			function(answer) {
-				DataService.deleteUser(user_id).then(
+				CommonDataService.deleteUser(user_id).then(
 					function(out_data) {
 			    		$log.debug("User removed");
 			    		noty.showWarning("User successfully deleted.");
@@ -69,7 +69,7 @@ function UsersController($scope, $log, DataService, noty, FormDialogService)
 	}
 }
 
-function AutocompleteUserController($scope, $log, DataService)
+function AutocompleteUserController($scope, $log, CommonDataService)
 {
 	var self = this;
 
@@ -87,7 +87,7 @@ function AutocompleteUserController($scope, $log, DataService)
 
 	self.group_querySearch = function( query) {
 		if (!query) query = "" 
-	 	return DataService.getUserGroups(query).then(
+	 	return CommonDataService.getUserGroups(query).then(
 			function(out_data) {
 				return out_data.data;
 	  		},
@@ -98,7 +98,7 @@ function AutocompleteUserController($scope, $log, DataService)
 	}
 	self.roles_querySearch = function( query) {
 		if (!query) query = "" 
-	 	return DataService.getUserRoles(query).then(
+	 	return CommonDataService.getUserRoles(query).then(
 			function(out_data) {
 				return out_data.data;
 	  		},
@@ -109,7 +109,7 @@ function AutocompleteUserController($scope, $log, DataService)
 	}
 }
 
-function UserDialogController($scope, $controller, $uibModalInstance, $log, DataService, noty)
+function UserDialogController($scope, $controller, $uibModalInstance, $log, CommonDataService, noty)
 {
 	$controller('FormlyDialogController', {$scope: $scope});
 	// ! IMPORTANT !
@@ -124,7 +124,7 @@ function UserDialogController($scope, $controller, $uibModalInstance, $log, Data
 		$scope.buttonText = 'Update'
 	}
 
-	$scope.createForm(DataService.getUserSchema(), form_data, "AutocompleteUserController")
+	$scope.createForm(CommonDataService.getUserSchema(), form_data, "AutocompleteUserController")
 
 	$scope.save = function() {
 
@@ -132,9 +132,9 @@ function UserDialogController($scope, $controller, $uibModalInstance, $log, Data
 
 		var promise;
 		if (form_data && form_data.id) 
-			promise = DataService.updateUser(form_data.id, $scope.model);
+			promise = CommonDataService.updateUser(form_data.id, $scope.model);
 		else
-			promise = DataService.saveUser($scope.model);
+			promise = CommonDataService.saveUser($scope.model);
 
 		return $scope.closeDialog(promise)
 
