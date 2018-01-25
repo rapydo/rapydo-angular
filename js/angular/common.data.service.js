@@ -31,6 +31,11 @@ function CommonDataService($log, api, $q, jsonapi_parser) {
         var endpoint = 'role/'+query;
         return api.apiCall(endpoint, 'GET');
     };
+
+    self.getUserGroups = function(query) {
+        var endpoint = 'group/'+query;
+        return api.apiCall(endpoint, 'GET');
+    };
 	
 }
 
