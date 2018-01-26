@@ -1,8 +1,7 @@
 (function() {
   'use strict';
 
-angular.module('web')
-    .config(routeConfig);
+angular.module('web').config(routeConfig);
 
 /////////////////////////////////
 // ROUTES AND AUTHENTICATION
@@ -87,6 +86,7 @@ function _skipAuthenticationCheckApiOnline($state, $timeout, $auth, $rootScope, 
             return response;
         });
     });
+
 }
 
 
@@ -99,6 +99,7 @@ function routeConfig(
     $urlRouterProvider, $authProvider
     )
 {
+
 
 // ROUTER CONFIGURATION
 
@@ -173,7 +174,6 @@ function routeConfig(
             }
         },
     });
-
 
     // DEFINE BASE ROUTES
     var baseRoutes = {
@@ -251,7 +251,6 @@ function routeConfig(
             }
         }
 
-
         // Routes definition ends here
     };
 
@@ -290,12 +289,6 @@ function routeConfig(
     }
     // Build the routes from the blueprint configuration
     loadStates(allRoutes);
-////////////////////////////
-
-// // TO FIX: move it to custom routing somehow
-// // Missing bar on some routes
-//     $urlRouterProvider.when("/app/search", "/app/search/");
-//     $urlRouterProvider.when("/app/admin", "/app/admin/");
 
 // Ui router kinda bug fixing
 // CHECK THIS IN THE NEAR FUTURE
