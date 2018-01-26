@@ -13,6 +13,12 @@ function MainController($scope, $rootScope, $window, $log, $timeout, $state, api
     self.templateDir = templateDir;
     self.blueprintTemplateDir = blueprintTemplateDir;
 
+    if (topbar_type == "custom") {
+        self.topbar_path = self.blueprintTemplateDir + 'topbar.html'; 
+    } else {
+        self.topbar_type = self.templateDir + 'topbar.html'; 
+    }
+
     // Init the models
     $rootScope.loaders = {};
 

@@ -6,6 +6,9 @@
 var templateDir = '/static/commons/templates/';
 var blueprintTemplateDir = '/static/custom/templates/';
 
+var apiUrl = serverUrl + ':' + apiPort + '/api';
+var authApiUrl = serverUrl + ':' + apiPort + '/auth';
+
 // var loggedLandingPage = "public.welcome";
 var loggedLandingPage = "logged.profile";
 var allowRegistration = false;
