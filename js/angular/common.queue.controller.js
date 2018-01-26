@@ -76,34 +76,4 @@ function QueueController($scope, $log, api, noty, FormDialogService)
 	}
 }
 
-// function QueueDialogController($scope, $controller, $log, $uibModalInstance, DataService, noty)
-// {
-// 	$controller('FormlyDialogController', {$scope: $scope});
-// 	// ! IMPORTANT !
-// 	$scope.initParent($uibModalInstance);
-// 	var form_data = $scope.form_data
-
-// 	if (!form_data) {
-// 		$scope.dialogTitle = 'Create new queue';
-// 		$scope.buttonText = 'Save'
-// 	} else {
-// 		$scope.dialogTitle = 'Update queue';
-// 		$scope.buttonText = 'Update'
-// 	}
-
-// 	$scope.createForm(DataService.getQueueSchema(), form_data)
-
-// 	$scope.save = function() {
-// 		if (!$scope.formIsValid()) return false;
-
-// 		var promise;
-// 		if (form_data && form_data.id) 
-// 			promise = DataService.updateQueue(form_data.id, $scope.model);
-// 		else 
-// 			promise = DataService.saveQueue($scope.model);
-
-// 		return $scope.closeDialog(promise)
-// 	}
-// }
-
 })();

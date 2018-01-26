@@ -3,11 +3,8 @@
 **********************************/
 
 // BASE CONFS
-// var framework = 'materialize';
-var templateDirBase = '/static/app/templates/';
-var templateDir = templateDirBase + 'common/';
-// var blueprintTemplateDir = templateDirBase + 'custom/' + blueprint + '/';
-var blueprintTemplateDir = templateDirBase + 'custom/';
+var templateDir = '/static/commons/templates/';
+var blueprintTemplateDir = '/static/custom/templates/';
 
 // var loggedLandingPage = "public.welcome";
 var loggedLandingPage = "logged.profile";
