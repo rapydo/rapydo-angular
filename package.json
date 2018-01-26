@@ -5,8 +5,8 @@
   "repository": {},
   "license": "MIT",
   "scripts": {
-    "start": "node /rapydo/server.js",
-    "build": "sh /rapydo/build.sh"
+    "start": "node /rapydo/nodejs/server.js",
+    "build": "sh /rapydo/nodejs/build.sh"
   },
   "dependencies": {
     "@uirouter/angularjs": "^1.0.13",
