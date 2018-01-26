@@ -3,6 +3,11 @@
 
 angular.module('web').service('noty', NotyService);
 
+/*
+import Noty from 'noty';
+const Noty = require('noty');
+*/
+
 function NotyService() {
 
 	var self = this;
@@ -38,7 +43,7 @@ function NotyService() {
 
 	self.showCritical = function(msg) {
 
-	    var n = noty({
+	    new Noty({
 	        text        : msg,
 	        type        : "error",
 	        dismissQueue: true,
@@ -48,13 +53,13 @@ function NotyService() {
 	        force		: true,
 	        killer      : true,
 	        layout      : 'bottom',
-	        theme       : 'defaultTheme'
-	    });
+	        theme       : 'mint'
+	    }).show();
 	}
 
 	self.showError = function(msg) {
 
-	    var n = noty({
+	    new Noty({
 	        text        : msg,
 	        type        : "error",
 	        dismissQueue: true,
@@ -63,12 +68,12 @@ function NotyService() {
 	        timeout     : 10000,
 	        layout      : 'bottom',
 	        theme       : 'relax'
-	    });
+	    }).show();
 	}
 
 	self.showWarning = function(msg) {
 
-	    var n = noty({
+	    new Noty({
 	        text        : msg,
 	        type        : "warning",
 	        dismissQueue: true,
@@ -77,12 +82,12 @@ function NotyService() {
 	        timeout     : 5000,
 	        layout      : 'bottomRight',
 	        theme       : 'relax'
-	    });
+	    }).show();
 	}
 
 	self.showSuccess = function(msg) {
 
-	    var n = noty({
+	    new Noty({
 	        text        : msg,
 	        type        : "success",
 	        dismissQueue: true,
@@ -91,11 +96,11 @@ function NotyService() {
 	        timeout     : 5000,
 	        layout      : 'bottomRight',
 	        theme       : 'relax'
-	    });
+	    }).show();
 	}
 	self.showInfo = function(msg) {
 
-	    var n = noty({
+	    new Noty({
 	        text        : msg,
 	        type        : "information",
 	        dismissQueue: true,
@@ -104,7 +109,7 @@ function NotyService() {
 	        timeout     : 5000,
 	        layout      : 'bottomRight',
 	        theme       : 'relax'
-	    });
+	    }).show();
 	}
 	
 }
