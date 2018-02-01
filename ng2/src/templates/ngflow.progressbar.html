@@ -1,0 +1,44 @@
+	<uib-progressbar 
+		ng-if='file.error' 
+		animate="true" 
+		max="1" 
+		value="file.progress()" 
+		type="danger"
+		uib-tooltip='{{file.error_message}}'
+	>
+		<label>error</label>
+	</uib-progressbar>
+
+	<uib-progressbar 
+		ng-if='file.paused && !file.isComplete()' 
+		animate="true" 
+		max="1" 
+		value="file.progress()" 
+		type="warning"
+	>
+		<label style='color:#444;'>paused</label>
+	</uib-progressbar>
+
+	<uib-progressbar 
+		ng-if='file.isUploading()'
+		uib-tooltip="Average speed: {{file.averageSpeed | bytes}}/s | Current speed: {{file.currentSpeed | bytes}}/s | Remaining: {{file.timeRemaining()}} seconds"
+		animate="true"
+		max="1"
+		value="file.progress()"
+		type="info"
+	>
+		<label style='color:#444;'>{{file.progress() | percentage:2}}</label>
+	</uib-progressbar>
+
+	<uib-progressbar 
+		ng-if='file.isComplete() && !file.error' 
+		animate="true" 
+		max="1" 
+		value="file.progress()" 
+		type="success"
+	>
+		<b>completed</b>
+	</uib-progressbar>
+
+
+

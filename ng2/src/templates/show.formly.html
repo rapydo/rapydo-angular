@@ -1,0 +1,34 @@
+<div class='panel panel-info' style='margin-bottom:0px;'>
+
+<div class='panel-heading'>
+<h5 class='panel-title'>{{dialogTitle}}</h5>
+</div>
+
+<div class='panel-body'>
+
+  <form novalidate ng-submit="save()" name="form">
+    <formly-form 
+      layout="column"
+      model="model"
+      fields="fields"
+      form="form"
+      >
+      <br>
+      <button 
+        type="submit"
+        class="btn btn-default"
+      >
+        {{buttonText}}
+      </button>
+    </formly-form>
+    </form>
+
+</div>
+
+<div class='panel-footer text-right'>
+    <button class='btn btn-default' ng-click="cancel()" style="margin-right:20px;">
+      Close
+    </button>
+</div>
+
+</div>
