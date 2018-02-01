@@ -1,7 +1,7 @@
 (function() {
-  'use strict';
+    'use strict';
 
-  angular.module('web', [
+    angular.module('web', [
         'ngSanitize',
         'ngAnimate',
         'ngMessages',
@@ -12,7 +12,9 @@
         'formly',
         'formlyBootstrap',
         'angular.chips',
-        'tableSort'
+        'tableSort',
+        'flow'
+        'ngFileSaver',
     ]);
 
 })();

@@ -4,7 +4,7 @@ const express = require('express');
 const fs = require('fs')
 
 // Constants
-const PORT = 8080;
+const PORT = 8081;
 const HOST = '0.0.0.0';
 
 // App
@@ -17,6 +17,7 @@ app.use('/static/custom/templates', express.static('/app/frontend/templates'));
 
 app.use('/static/assets', express.static('/app/frontend/assets'));
 
+app.use('/static/commons/app', express.static('/rapydo/ng2'));
 app.use('/static/commons/js', express.static('/rapydo/js/angular'));
 app.use('/static/commons/css', express.static('/rapydo/css'));
 app.use('/static/commons/templates', express.static('/rapydo/templates'));

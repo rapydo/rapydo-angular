@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="web">
+<html lang="en">
   <head>
     <title>ProjectTitleIsMissing</title>
     <!-- meta -->
@@ -16,16 +16,39 @@
     <link rel='stylesheet' href='static/modules/bootstrap/dist/css/bootstrap.min.css'></script>
     <link rel='stylesheet' href='static/modules/bootstrap/dist/css/bootstrap-theme.min.css'/>
     <link rel='stylesheet' href='static/modules/noty/lib/noty.css'/>
+    <link rel='stylesheet' href='static/modules/noty/lib/themes/relax.css'/>
+    <link rel='stylesheet' href='static/modules/noty/lib/themes/metroui.css'/>
     <link rel='stylesheet' href='static/modules/google-material-color/dist/palette.css'/>
-    <!-- <link rel='stylesheet' href='static/modules/angular-chips/dist/main.css'/> -->
+    <link rel='stylesheet' href='static/modules/angular-chips/dist/main.css'/>
     <link rel='stylesheet' href='static/modules/angular-tablesort/tablesort.css'/>
     <link rel='stylesheet' href='static/commons/css/framework.css'/>
     <link rel='stylesheet' href='static/commons/css/material.icons.css'/>
     <link rel='stylesheet' href='static/custom/css/style.css'/>
 
+    <!-- Angular -->
+    <!-- Polyfill(s) for older browsers -->
+    <script src='static/modules/core-js/client/shim.min.js'></script>
+
+    <script src='static/modules/zone.js/dist/zone.js'></script>
+    <script src='static/modules/reflect-metadata/Reflect.js'></script>
+    <script src='static/modules/systemjs/dist/system.js'></script>
+    <script src='static/commons/app/systemjs.config.js'></script>
+
+    <script>
+        console.log("Before");
+        System.import('static/commons/app/main.ts')
+            .then(function(out) { console.log("It is ok?"); })
+            .catch(function(err) { console.error(err); });
+
+        console.log("After");
+    </script>
+
 </head>
 
 <body ng-controller='MainController as main' ng-cloak>
+
+<app-root>Loading...<br><br><br></app-root>
+
 
 <!-- SPLASH SCREEN -->
 <div ng-if="main.splash" class="flex-container flex-hcentered flex-vcentered palette-Cyan-500 bg">
@@ -59,7 +82,7 @@
 
 <!-- THE SIDEBAR FOR HISTORY -->
 <div ui-view='hsidebar'></div>
-
+<!-- 
 <script type="text/javascript" src="static/modules/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="static/modules/angular/angular.min.js"></script>
 <script type="text/javascript" src="static/modules/angular-sanitize/angular-sanitize.min.js"></script>
@@ -76,24 +99,25 @@
 <script type="text/javascript" src="static/modules/angular-formly-templates-bootstrap/dist/angular-formly-templates-bootstrap.min.js"></script>
 <script type="text/javascript" src="static/modules/angular-ui-bootstrap/dist/ui-bootstrap.js"></script>
 <script type="text/javascript" src="static/modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
-<!-- <script type="text/javascript" src="static/modules/angular-chips/dist/angular-chips.min.js"></script> -->
+<script type="text/javascript" src="static/modules/angular-chips/dist/angular-chips.min.js"></script>
 <script type="text/javascript" src="static/modules/angular-tablesort/js/angular-tablesort.js"></script>
+<script type="text/javascript" src="static/modules/ng-flow/dist/ng-flow-standalone.min.js"></script>
+<script type="text/javascript" src="static/modules/angular-file-saver/dist/angular-file-saver.bundle.min.js"></script>
 
-<!-- <script type="text/javascript" src="static/commons/js/blueprint.js"></script> -->
 <script type="text/javascript" src="static/config.js"></script>
 <script type="text/javascript" src="static/custom/js/app.js"></script>
 
 <script type="text/javascript" src="static/commons/js/common.jsonapi.parser.js"></script>
 <script type="text/javascript" src="static/commons/js/common.data.service.js"></script>
-<!-- <script type="text/javascript" src="static/commons/js/common.ngflow.controller.js"></script> -->
+<script type="text/javascript" src="static/commons/js/common.ngflow.controller.js"></script>
 <script type="text/javascript" src="static/commons/js/common.sessions.js"></script>
 <script type="text/javascript" src="static/commons/js/common.formly.service.js"></script>
 <script type="text/javascript" src="static/commons/js/common.users.js"></script>
-<!-- <script type="text/javascript" src="static/commons/js/common.queue.controller.js"></script> -->
 <script type="text/javascript" src="static/commons/js/admin.users.controller.js"></script>
 <script type="text/javascript" src="static/commons/js/common.globals.js"></script>
 <script type="text/javascript" src="static/commons/js/common.noty.js"></script>
 <script type="text/javascript" src="static/commons/js/common.filters.js"></script>
+<script type="text/javascript" src="static/commons/js/common.lists.controller.js"></script>
 <script type="text/javascript" src="static/commons/js/common.config.js"></script>
 <script type="text/javascript" src="static/commons/js/common.form_dialogs.js"></script>
 <script type="text/javascript" src="static/commons/js/common.api.js"></script>
@@ -104,5 +128,9 @@
 <script type="text/javascript" src="static/custom/js/routing.extra.js"></script>
 <script type="text/javascript" src="static/custom/js/data.service.js"></script>
 
+<script type="text/javascript" src="static/custom/js/stage.controller.js"></script>
+
+<script type="text/javascript" src="static/commons/js/start.js"></script>
+ -->
 </body>
 </html>

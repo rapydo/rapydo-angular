@@ -20,9 +20,8 @@ function NotyService() {
 	// [label1: msg1, label2: msg2]
 
 	self.extractErrors = function(response, type) {
-		if (response)
-			if (response.errors)
-				return self.showAll(response.errors, type);
+		if (response && response.errors)
+			return self.showAll(response.errors, type);
 	}
 	self.showAll = function(messages, type) {
 		if (messages)
@@ -49,11 +48,11 @@ function NotyService() {
 	        dismissQueue: true,
 	        modal       : true,
 	        maxVisible  : 1,
-	        timeout     : 0,
+	        timeout     : false,
 	        force		: true,
 	        killer      : true,
-	        layout      : 'bottom',
-	        theme       : 'mint'
+	        layout      : 'bottomRight',
+	        theme       : 'metroui'
 	    }).show();
 	}
 
@@ -66,7 +65,7 @@ function NotyService() {
 	        modal       : false,
 	        maxVisible  : 5,
 	        timeout     : 10000,
-	        layout      : 'bottom',
+	        layout      : 'bottomRight',
 	        theme       : 'relax'
 	    }).show();
 	}
