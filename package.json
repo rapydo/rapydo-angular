@@ -1,15 +1,13 @@
 {
-  "name": "rapydo",
-  "description": "rapydo frontend component",
-  "version": "0.1.0",
-  "repository": {},
-  "license": "MIT",
+  "name": "angular2-webpack",
+  "version": "1.0.0",
+  "description": "A webpack starter for Angular",
   "scripts": {
-    "start": "node /rapydo/nodejs/server.js",
-    "start2": "webpack-dev-server --inline --progress --port 8080",
-    "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail",
-    "build2": "sh /rapydo/nodejs/build.sh"
+    "start": "webpack-dev-server --inline --progress --colors --port 80",
+    "test": "karma start",
+    "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail"
   },
+  "license": "MIT",
   "dependencies": {
     "@uirouter/angularjs": "^1.0.13",
     "angular": "~1.5.5",
@@ -34,26 +32,41 @@
     "angular-file-saver": "^1.1.3",
     "angular-chips": "mdantonio/angular-chips#v2.0",
 
-    "@angular/animations": "^5.2.3",
-    "@angular/common": "^5.2.3",
-    "@angular/compiler": "^5.2.3",
-    "@angular/core": "^5.2.3",
-    "@angular/forms": "^5.2.3",
-    "@angular/http": "^5.2.3",
-    "@angular/platform-browser": "^5.2.3",
-    "@angular/platform-browser-dynamic": "^5.2.3",
-    "@angular/router": "^5.2.3",
-    "@angular/upgrade": "^5.2.3",
-    "core-js": "",
-    "rxjs": "",
-    "zone.js": "",
-    "systemjs": "",
-    "reflect-metadata": "",
-    "typescript": "",
-    "plugin-typescript": ""
-
+    "@angular/common": "~4.2.0",
+    "@angular/compiler": "~4.2.0",
+    "@angular/core": "~4.2.0",
+    "@angular/forms": "~4.2.0",
+    "@angular/http": "~4.2.0",
+    "@angular/platform-browser": "~4.2.0",
+    "@angular/platform-browser-dynamic": "~4.2.0",
+    "@angular/router": "~4.2.0",
+    "core-js": "^2.4.1",
+    "rxjs": "5.0.1",
+    "zone.js": "^0.8.4"
   },
   "devDependencies": {
-
+    "@types/node": "^6.0.45",
+    "@types/jasmine": "2.5.36",
+    "angular2-template-loader": "^0.6.0",
+    "awesome-typescript-loader": "^3.0.4",
+    "css-loader": "^0.26.1",
+    "extract-text-webpack-plugin": "2.0.0-beta.5",
+    "file-loader": "^0.9.0",
+    "html-loader": "^0.4.3",
+    "html-webpack-plugin": "^2.16.1",
+    "jasmine-core": "^2.4.1",
+    "karma": "^1.2.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-jasmine": "^1.0.2",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^2.0.1",
+    "null-loader": "^0.1.1",
+    "raw-loader": "^0.5.1",
+    "rimraf": "^2.5.2",
+    "style-loader": "^0.13.1",
+    "typescript": "~2.3.1",
+    "webpack": "2.2.1",
+    "webpack-dev-server": "2.4.1",
+    "webpack-merge": "^3.0.0"
   }
 }
