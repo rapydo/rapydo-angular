@@ -10,7 +10,7 @@
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true,
     "typeRoots": ["/modules/node_modules/@types"],
-    "outDir": "dist",
+    "outDir": "/modules/dist",
     "baseUrl": "/modules/node_modules/"
   }
 }
