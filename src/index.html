@@ -1,12 +1,45 @@
 <!DOCTYPE html>
+
 <html>
   <head>
     <base href="/">
-    <title>Angular With Webpack</title>
+    <title>ProjectTitleIsMissing</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
+
   <body>
-    <my-app>Loading...</my-app>
+
+    <my-app>Loading angular...</my-app>
+	<div ng-controller='MainController as main' ng-cloak>
+
+        <div ng-if="main.splash" class="flex-container flex-hcentered flex-vcentered palette-Cyan-500 bg">
+        <div class='flex-element palette-White text'>
+            <i class="material-icons xlarge">insert_chart</i>
+            <br>
+            <span style='padding-left:8px;'>loading</span>
+        </div>
+        </div>
+
+    <!-- MAIN CONTAINER -->
+    <main ng-hide="main.splash" ng-init="myproject = 'ProjectTitleIsMissing'">
+        <!-- TOPBAR COMMON / CUSTOM-->
+
+        <div class="container-fluid" style='padding:0px;'>
+            <div ng-hide="main.load" ng-include="main.topbar_path"></div>
+        </div>
+
+
+        <!-- WHILE WAITING (for API/RESOURCES) -->
+        <div class="container-fluid">
+            <div ng-if="main.load" ng-include="main.templateDir + 'loader.html'"></div>
+        </div>
+
+        <!-- WHEN READY -->
+        <div class="container-fluid" ng-hide="main.load" style="height: calc(100% - 5rem);" ui-view='main'></div>
+    </main>
+
+    </div>
+
   </body>
 </html>
