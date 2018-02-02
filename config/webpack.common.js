@@ -1,22 +1,38 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var CopyWebpackPublic = require('copy-webpack-plugin');
 var helpers = require('./helpers');
 
 module.exports = {
   entry: {
     'polyfills': './src/polyfills.ts',
     'vendor': './src/vendor.ts',
-    'app': './src/main.ts'
+    'app': './src/main.ts',
+    'rapydo': './src/angularjs.ts',
+    'custom': '/app/frontend/custom.ts'
   },
+/*
+  devServer: {
+    publicPath: '/app/frontend'
+  },
+*/
+
+/*
+  output: {
+    publicPath: '/app/'
+  },
+*/
 
   resolve: {
     extensions: ['.ts', '.js'],
     modules: ["/modules/node_modules"]
   },
+
   resolveLoader: {
     modules: ["/modules/node_modules"]
   },
+
   module: {
     rules: [
       {
@@ -59,12 +75,35 @@ module.exports = {
     ),
 
     new webpack.optimize.CommonsChunkPlugin({
-      name: ['app', 'vendor', 'polyfills']
+      name: ['app', 'vendor', 'custom', 'rapydo', 'polyfills']
     }),
 
     new HtmlWebpackPlugin({
       template: 'src/index.html'
-    })
-  ]
+    }),
+
+    new CopyWebpackPublic(
+      [
+        { from: '/app/frontend/templates', to: 'static/custom/templates/'},
+        { from: '/app/frontend/css', to: 'static/custom/css/'},
+        { from: '/app/frontend/assets', to: 'static/assets/'},
+
+        { from: '/rapydo/src/templates', to: 'static/commons/templates/'},
+        { from: '/rapydo/src/css', to: 'static/commons/css/'},
+
+        { from: '/rapydo/src/fonts', to: 'static/fonts/'}
+      ]
+    )
+  ],
+
+  externals: {
+    'globalConfig': `{
+      apiUrl: 'http://localhost:8080/api',
+      authApiUrl: 'http://localhost:8080/auth',
+      templateDir: '/static/commons/templates/',
+      blueprintTemplateDir: '/static/custom/templates/',
+      topbar_type: "custom"
+    }`
+  }
 };
 
