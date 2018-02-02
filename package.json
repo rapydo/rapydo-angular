@@ -31,6 +31,7 @@
     "ng-flow": "~2",
     "angular-file-saver": "^1.1.3",
     "angular-chips": "mdantonio/angular-chips#v2.0",
+    "font-awesome": "",
 
     "@angular/common": "5.2.3",
     "@angular/compiler": "5.2.3",
