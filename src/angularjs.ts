@@ -45,8 +45,6 @@ import '/app/frontend/js/stage.controller.js'
 import '/rapydo/src/css/framework.css'
 import '/rapydo/src/css/material.icons.css'
 
-import '/rapydo/src/ng1/start.js'
-
 
 // angular-hotkeys/build/hotkeys.min.css'
 import 'bootstrap/dist/css/bootstrap.min.css'

@@ -1,15 +1,22 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
+import { UpgradeModule }  from '@angular/upgrade/static';
 
 import { AppComponent } from './app.component';
 
 @NgModule({
   imports: [
-    BrowserModule
+    BrowserModule,
+    UpgradeModule
   ],
   declarations: [
     AppComponent
-  ],
-  bootstrap: [ AppComponent ]
+  ]
+  //, bootstrap: [ AppComponent ]
 })
-export class AppModule { }
+export class AppModule {
+	constructor(private upgrade: UpgradeModule) { }
+	ngDoBootstrap() {
+		this.upgrade.bootstrap(document.body, ['web'], {strictDi: false});	
+	}
+}
