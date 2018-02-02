@@ -1,6 +1,7 @@
 (function() {
   'use strict';
 
+
 angular.module('web').service('noty', NotyService);
 
 const Noty = require('noty');
