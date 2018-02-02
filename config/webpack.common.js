@@ -102,7 +102,9 @@ module.exports = {
       authApiUrl: 'http://localhost:8080/auth',
       templateDir: '/static/commons/templates/',
       blueprintTemplateDir: '/static/custom/templates/',
-      topbar_type: "custom"
+      topbar_type: "custom",
+      allowRegistration: false,
+      loggedLandingPage = 'logged.search'
     }`
   }
 };
