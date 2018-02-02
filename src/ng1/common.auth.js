@@ -36,15 +36,17 @@ function LoginController($scope, $log, $window,
     $log.debug("Login Controller");
     var self = this;
 
+    const globalConfig = require('globalConfig');
+
     self.setDefaultForm = function() {
+
         self.panelTitle = "Provide your credentials"
         self.buttonText = "Signin"
         self.askUsername = true;
         self.askPassword = true;
         self.askNewPassword = false;
         self.askTOTP = false;
-        // allowRegistration is defined in common.globals.js and overriding in routing.extra.js
-        self.allowRegistration = allowRegistration;
+        self.allowRegistration = globalConfig.allowRegistration;
         self.userMessage = null;
         self.qr_code = null;
 
@@ -64,7 +66,7 @@ function LoginController($scope, $log, $window,
     {
         $timeout(function () {
             $log.debug("Already logged");
-            $state.go(loggedLandingPage);
+            $state.go(globalConfig.loggedLandingPage);
         });
     }
 
@@ -188,9 +190,10 @@ function RegisterController($scope, $log, $auth, api, noty)
     // Skip if already logged
     if ($auth.isAuthenticated())
     {
+        const globalConfig = require('globalConfig');
         $timeout(function () {
             $log.debug("Already logged");
-            $state.go(loggedLandingPage);
+            $state.go(globalConfig.loggedLandingPage);
         });
     }
 

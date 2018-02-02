@@ -104,7 +104,7 @@ module.exports = {
       blueprintTemplateDir: '/static/custom/templates/',
       topbar_type: "custom",
       allowRegistration: false,
-      loggedLandingPage = 'logged.search'
+      loggedLandingPage: 'logged.search'
     }`
   }
 };
