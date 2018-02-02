@@ -138,12 +138,13 @@ function routeConfig(
             "\nIt should be called '" + blueprintRoutes + "'");
     }
 
+    const globalConfig = require('globalConfig');
 
 // If i find out that APIs are not available...
     $stateProvider.state("offline", {
         url: "/offline",
         views: {
-            "main": {templateUrl: templateDir + 'offline.html'}
+            "main": {templateUrl: globalConfig.templateDir + 'offline.html'}
         }
     }).
 
@@ -254,6 +255,23 @@ function routeConfig(
         // Routes definition ends here
     };
 
+    /////////////////////////////////
+    // FOR EACH AUTO IMPLEMENTATION
+     //https://toddmotto.com/simple-foreach-implementation-for-objects-nodelists-arrays-with-automatic-type-looping/
+    var forEach = function (collection, callback, scope) {
+      if (Object.prototype.toString.call(collection) === '[object Object]') {
+        for (var prop in collection) {
+          if (Object.prototype.hasOwnProperty.call(collection, prop)) {
+            callback.call(scope, collection[prop], prop, collection);
+          }
+        }
+      } else {
+        for (var i = 0; i < collection.length; i++) {
+          callback.call(scope, collection[i], i, collection);
+        }
+      }
+    };
+
     var allRoutes = angular.copy(extraRoutes);
     forEach(baseRoutes, function(x, stateName) {
         if (!allRoutes.hasOwnProperty(stateName)) {
@@ -262,14 +280,15 @@ function routeConfig(
     });
 
     function loadStates(states) {
+        const globalConfig = require('globalConfig');
         forEach(states, function(x, stateName){
             // Build VIEWS for this single state
             var myViews = {};
             forEach(x.views, function(view, viewName){
-                var dir = templateDir;
+                var dir = globalConfig.templateDir;
 
                 if (view.dir == 'blueprint') {
-                    dir = blueprintTemplateDir;
+                    dir = globalConfig.blueprintTemplateDir;
                 }
                 myViews[viewName] = {templateUrl: dir + view.templateUrl};
             });

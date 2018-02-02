@@ -3,11 +3,8 @@
 **********************************/
 
 // BASE CONFS
-var templateDir = '/static/commons/templates/';
-var blueprintTemplateDir = '/static/custom/templates/';
 
-var apiUrl = serverUrl + ':' + apiPort + '/api';
-var authApiUrl = serverUrl + ':' + apiPort + '/auth';
+const globalConfig = require('globalConfig');
 
 // var loggedLandingPage = "public.welcome";
 var loggedLandingPage = "logged.profile";
@@ -50,14 +47,6 @@ var lastRoute = function()
     }
     return routingHistory[lastIndex]
 }
-
-/////////////////////////////////
-/*
-var projectInfo = {
-    name: "RestAngulask",
-    description: "Angularjs meets Flask",
-}
-*/
 
 /////////////////////////////////
 // FOR EACH AUTO IMPLEMENTATION

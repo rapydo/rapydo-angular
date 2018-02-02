@@ -107,9 +107,10 @@ function FormDialogService($log, $uibModal, $rootScope) {
   self.showFormlyDialog = function(form_data, dataCtrl) {
     var scope = $rootScope.$new()
     scope.form_data = form_data
+    const globalConfig = require('globalConfig');
     return $uibModal.open({
         controller: dataCtrl,
-        templateUrl: templateDir+'/show.formly.html',
+        templateUrl: globalConfig.templateDir+'/show.formly.html',
         parent: angular.element(document.body),
         scope: scope,
         clickOutsideToClose:true

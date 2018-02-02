@@ -9,7 +9,9 @@ angular.module('web')
 
 .config(function($authProvider) {
 
-    $authProvider.loginUrl = authApiUrl + "/login"
+    const globalConfig = require('globalConfig');
+
+    $authProvider.loginUrl = globalConfig.authApiUrl + "/login"
     $authProvider.tokenName = 'token';
     $authProvider.tokenRoot = 'Response.data'
 

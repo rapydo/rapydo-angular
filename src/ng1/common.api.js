@@ -7,9 +7,10 @@ function RestApiService($http, $q, $auth, $log, $httpParamSerializerJQLike) {
 
     var self = this;
     // Api URI
-    self.API_URL = apiUrl + '/';
-    self.AUTH_URL = authApiUrl + '/';
-    // self.FRONTEND_URL = serverUrl + '/';
+    const globalConfig = require('globalConfig');
+
+    self.API_URL = globalConfig.apiUrl + '/';
+    self.AUTH_URL = globalConfig.authApiUrl + '/';
 
     self.endpoints = {
         check: 'status',
