@@ -3,10 +3,7 @@
 
 angular.module('web').service('noty', NotyService);
 
-/*
-import Noty from 'noty';
 const Noty = require('noty');
-*/
 
 function NotyService() {
 
