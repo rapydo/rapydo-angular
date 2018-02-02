@@ -21,6 +21,8 @@ import 'angular-tablesort'
 import 'angular-file-saver'
 
 import '/app/frontend/js/app.js'
+import '/app/frontend/js/routing.extra.js'
+
 import '/rapydo/src/ng1/common.jsonapi.parser.js'
 import '/rapydo/src/ng1/common.data.service.js'
 import '/rapydo/src/ng1/common.ngflow.controller.js'
@@ -38,23 +40,17 @@ import '/rapydo/src/ng1/common.routes.js'
 import '/rapydo/src/ng1/common.auth.js'
 import '/rapydo/src/ng1/main.controller.js'
 
-import '/app/frontend/js/routing.extra.js'
-import '/app/frontend/js/data.service.js'
-import '/app/frontend/js/stage.controller.js'
-
 import '/rapydo/src/css/framework.css'
 import '/rapydo/src/css/material.icons.css'
 
-
-// angular-hotkeys/build/hotkeys.min.css'
+import 'angular-hotkeys/build/hotkeys.min.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/css/bootstrap-theme.min.css'
-// noty/lib/noty.css'
-// noty/lib/themes/relax.css'
-// noty/lib/themes/metroui.css'
-
+import 'noty/lib/noty.css'
+import 'noty/lib/themes/relax.css'
+import 'noty/lib/themes/metroui.css'
+import 'font-awesome/css/font-awesome.min.css'
 // Search all palette-
 import 'google-material-color/dist/palette.css'
-
-// angular-chips/dist/main.css'
-// angular-tablesort/tablesort.css'
+import 'angular-chips/dist/main.css'
+import 'angular-tablesort/tablesort.css'
