@@ -11,12 +11,14 @@ import { AppComponent } from './app.component';
   ],
   declarations: [
     AppComponent
-  ]
-  //, bootstrap: [ AppComponent ]
+  ],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule {
+/*
 	constructor(private upgrade: UpgradeModule) { }
 	ngDoBootstrap() {
 		this.upgrade.bootstrap(document.body, ['web'], {strictDi: false});	
 	}
+*/
 }
