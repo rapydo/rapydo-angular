@@ -1,8 +1,6 @@
 import { Component, VERSION as NG_VERSION } from '@angular/core';
 import {version as NGJS_VERSION} from 'angular';
 
-import '../assets/css/styles.css';
-
 @Component({
   selector: 'rapydo',
   templateUrl: './app.component.html',
