@@ -4,7 +4,7 @@ import {version as NGJS_VERSION} from 'angular';
 import '../assets/css/styles.css';
 
 @Component({
-  selector: 'my-app',
+  selector: 'rapydo',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
