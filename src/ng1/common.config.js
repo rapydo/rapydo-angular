@@ -1,11 +1,5 @@
-angular.module('web').config(hotkeysConfig);
 angular.module('web').config(formlyConfig);
 angular.module('web').config(tableSortConfig);
-
-function hotkeysConfig(hotkeysProvider) {
-  //Disable ngRoute integration to prevent listening for $routeChangeSuccess events
-  hotkeysProvider.useNgRoute = false;
-}
 
 angular.module('web').run(function(formlyValidationMessages) {
   formlyValidationMessages.addStringMessage('required', 'This field is required');
