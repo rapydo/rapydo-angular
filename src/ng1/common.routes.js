@@ -251,7 +251,6 @@ function routeConfig(
                 }
             }
         }
-
         // Routes definition ends here
     };
 
@@ -305,6 +304,10 @@ function routeConfig(
             // Add provider state to the ui router ROUTES
             $stateProvider.state(stateName, finalRoute);
         });
+
+        // Used to clear out ui-view when angualar router is activated
+        $stateProvider.state('empty', { url: "empty", template: ''});
+
     }
     // Build the routes from the blueprint configuration
     loadStates(allRoutes);
@@ -312,13 +315,18 @@ function routeConfig(
 // Ui router kinda bug fixing
 // CHECK THIS IN THE NEAR FUTURE
 //https://github.com/angular-ui/ui-router/issues/1022#issuecomment-50628789
-    // $urlRouterProvider.otherwise('/login');
-    $urlRouterProvider.otherwise(function ($injector) {
+    $urlRouterProvider.otherwise(function ($injector, $location) {
         var $state = $injector.get('$state');
-        //return $state.go('login');
-        return $state.go('public.welcome');
-        // console.log("TEST");
-        // return $state.go('logged.profile');
+        var u = $location.path();
+        if (u.startsWith("/app") || u.startsWith("/public")) {
+
+            return $state.go('public.welcome');
+
+        } else if (u.startsWith("/new")) {
+
+            return $state.go('empty', {}, { location: false } );
+
+        }
     });
 
 }   // END ROUTES

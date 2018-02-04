@@ -1,17 +1,25 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, UrlHandlingStrategy } from '@angular/router';
 import { UpgradeModule }  from '@angular/upgrade/static';
 
 import { AppComponent } from './app.component';
 import { TestComponent } from './app.test';
 import { BlaComponent } from './app.bla';
-import { FallbackNG1Component } from './app.fallback.ng1';
+
+
+export class HybridUrlHandlingStrategy implements UrlHandlingStrategy {
+  
+  shouldProcessUrl(url) {
+    return url.toString().startsWith("/new");
+  }
+  extract(url) { return url; }
+  merge(url, whole) { return url; }
+}
 
 const appRoutes: Routes = [
-  { path: 'test', component: TestComponent },
-  { path: 'bla', component: BlaComponent },
-  { path: '**', component: FallbackNG1Component }
+  { path: 'new/test', component: TestComponent},
+  { path: 'new/bla', component: BlaComponent }
 ];
 
 @NgModule({
@@ -25,10 +33,12 @@ const appRoutes: Routes = [
   ],
   declarations: [
     AppComponent,
-    FallbackNG1Component,
     BlaComponent, TestComponent
   ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [ AppComponent ],
+  providers: [
+    { provide: UrlHandlingStrategy, useClass: HybridUrlHandlingStrategy}
+  ]
 })
 export class AppModule {
 
