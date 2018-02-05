@@ -65,6 +65,7 @@
   /*uses Moment.js and can apply any Moment.js transform function, such as the popular 'fromNow'*/
   function Moment() {
 
+    const moment = require('moment');
     return function (input, momentFn /*, param1, param2, ...param n */) {
         if (input == "") return "";
         var args = Array.prototype.slice.call(arguments, 2),
@@ -75,6 +76,7 @@
 
   function MomentUnix() {
 
+    const moment = require('moment');
     return function (input, momentFn /*, param1, param2, ...param n */) {
         if (input == "") return "";
         var args = Array.prototype.slice.call(arguments, 2),
