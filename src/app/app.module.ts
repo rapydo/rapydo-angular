@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
 import { RouterModule, Routes, UrlHandlingStrategy } from '@angular/router';
 import { UpgradeModule }  from '@angular/upgrade/static';
+import { UpgradeAdapter } from '@angular/upgrade';
 
 import { AppComponent } from './app.component';
+import { ProfileComponent } from './app.profile';
 import { TestComponent } from './app.test';
-import { BlaComponent } from './app.bla';
 
 
 export class HybridUrlHandlingStrategy implements UrlHandlingStrategy {
@@ -19,7 +20,7 @@ export class HybridUrlHandlingStrategy implements UrlHandlingStrategy {
 
 const appRoutes: Routes = [
   { path: 'new/test', component: TestComponent},
-  { path: 'new/bla', component: BlaComponent }
+  { path: 'new/profile', component: ProfileComponent }
 ];
 
 @NgModule({
@@ -33,7 +34,8 @@ const appRoutes: Routes = [
   ],
   declarations: [
     AppComponent,
-    BlaComponent, TestComponent
+    ProfileComponent,
+    TestComponent
   ],
   bootstrap: [ AppComponent ],
   providers: [
@@ -43,3 +45,7 @@ const appRoutes: Routes = [
 export class AppModule {
 
 }
+
+export const upgradeAdapter = new UpgradeAdapter(AppModule);
+
+upgradeAdapter.upgradeNg1Provider('$rootScope');

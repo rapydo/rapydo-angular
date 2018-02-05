@@ -1,12 +1,12 @@
 import { Component, VERSION as NG_VERSION } from '@angular/core';
-import {version as NGJS_VERSION} from 'angular';
+import { version as NGJS_VERSION } from 'angular';
 
 @Component({
   selector: 'rapydo',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent { 
+export class AppComponent {
 
 	versions = {
 		angularjs: NGJS_VERSION.full,
