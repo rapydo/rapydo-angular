@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
 import { RouterModule, Routes, UrlHandlingStrategy } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 import { UpgradeModule }  from '@angular/upgrade/static';
 import { UpgradeAdapter } from '@angular/upgrade';
 
@@ -30,6 +31,8 @@ const appRoutes: Routes = [
       { enableTracing: false} // <-- debugging purposes only
     ),
     BrowserModule,
+    // import HttpClientModule after BrowserModule
+    HttpClientModule,
     UpgradeModule
   ],
   declarations: [

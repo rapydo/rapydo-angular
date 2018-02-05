@@ -2,8 +2,11 @@
 import { Component } from '@angular/core';
 import { Injectable, Inject } from '@angular/core';
 
+import { ApiService } from './api.service';
+
 @Component({
   selector: 'profile',
+  providers: [ApiService],
   template: `
   	<div *ngIf="_rootScope.profile; else notLogged">You are logged as {{_rootScope.profile.email}}</div>
   	<ng-template #notLogged>
@@ -11,10 +14,13 @@ import { Injectable, Inject } from '@angular/core';
   	</ng-template>
   `
 })
-@Injectable()
 export class ProfileComponent { 
 
-	constructor(@Inject('$rootScope') private _rootScope: any) {
+	constructor(
+		api: ApiService,
+		@Inject('$rootScope') private _rootScope: any) {
+
+			console.log(api.get())
 
 	}
 
