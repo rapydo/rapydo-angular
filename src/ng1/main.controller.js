@@ -168,6 +168,10 @@ function MainController($scope, $rootScope, $window, $log, $timeout, $state, api
       }
     )
 
-}
+};
+
+MainController.$inject = [
+    "$scope", "$rootScope", "$window", "$log", "$timeout", "$state", "api"
+];
 
 })();

@@ -10,9 +10,8 @@ angular.module('web').config(routeConfig);
 // original source http://j.mp/1VnxlQS heavily modified
 
 // Check authentication via Token
-function _redirectIfNotAuthenticated($log, $rootScope,
-    $state, $auth, $timeout, api)
-{
+function _redirectIfNotAuthenticated(
+    $log, $rootScope, $state, $auth, $timeout, api) {
     //console.log("CHECK LOGGED");
     var checkLogged = true;
     return api.verify(checkLogged).then(function(response)
@@ -50,7 +49,11 @@ function _redirectIfNotAuthenticated($log, $rootScope,
             return false;
         });
     });
-}
+};
+
+_redirectIfNotAuthenticated.$inject = [
+    "$log", "$rootScope", "$state", "$auth", "$timeout", "api"
+];
 
 // Skip authentication
 // Check for API available
@@ -88,6 +91,9 @@ function _skipAuthenticationCheckApiOnline($state, $timeout, $auth, $rootScope, 
     });
 
 }
+_skipAuthenticationCheckApiOnline.$inject = [
+    "$state", "$timeout", "$auth", "$rootScope", "api"
+]
 
 
 /*********************************
@@ -96,7 +102,7 @@ function _skipAuthenticationCheckApiOnline($state, $timeout, $auth, $rootScope, 
 function routeConfig(
     $stateProvider,
     $logProvider, $locationProvider, $httpProvider, $injector,
-    $urlRouterProvider, $authProvider
+    $urlRouterProvider
     )
 {
 
@@ -329,6 +335,15 @@ function routeConfig(
         }
     });
 
-}   // END ROUTES
+};   // END ROUTES
+
+routeConfig.$inject = [
+    "$stateProvider",
+    "$logProvider",
+    "$locationProvider",
+    "$httpProvider",
+    "$injector",
+    "$urlRouterProvider"
+];
 
 })();

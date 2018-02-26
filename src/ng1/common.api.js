@@ -170,6 +170,9 @@ function RestApiService($http, $q, $auth, $log, $httpParamSerializerJQLike) {
             );
     }
 
-}
+};
+RestApiService.$inject = [
+    "$http", "$q", "$auth", "$log", "$httpParamSerializerJQLike"
+];
 
 })();

@@ -12,5 +12,5 @@ platformBrowserDynamic().bootstrapModule(AppModule)
 	.then(platformRef => {
 
 	const upgrade = platformRef.injector.get(UpgradeModule) as UpgradeModule;
-	upgrade.bootstrap(document.body, ['web'], {strictDi: false});
+	upgrade.bootstrap(document.body, ['web'], {strictDi: true});
 });

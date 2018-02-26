@@ -7,7 +7,10 @@ angular.module('web')
 .controller('RegisterController', RegisterController)
 .controller('LogoutController', LogoutController)
 
-.config(function($authProvider) {
+.config(authConfig)
+;
+
+function authConfig($authProvider) {
 
     const globalConfig = require('globalConfig');
 
@@ -15,17 +18,18 @@ angular.module('web')
     $authProvider.tokenName = 'token';
     $authProvider.tokenRoot = 'Response.data'
 
-	$authProvider.oauth1({
-		  name: null,
-		  url: null,
-		  authorizationEndpoint: null,
-		  redirectUri: null,
-		  type: null,
-		  popupOptions: null
-	});
+    $authProvider.oauth1({
+          name: null,
+          url: null,
+          authorizationEndpoint: null,
+          redirectUri: null,
+          type: null,
+          popupOptions: null
+    });
 
-})
-;
+};
+
+authConfig.$inject = ["$authProvider"];
 
 //////////////////////////////
 function LoginController($scope, $log, $window,
