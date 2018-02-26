@@ -27,6 +27,8 @@ function NgFlowController($rootScope, $log, noty)
     	$file.error_message = errorMessage;
 
     }
-}
+};
+
+NgFlowController.$inject = ["$rootScope", "$log", "noty"];
 
 })();

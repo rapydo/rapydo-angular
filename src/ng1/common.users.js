@@ -43,7 +43,9 @@ function ProfileController($scope, $log, $state, $auth, api, noty)
 			}
 		);
 	};
-}
+};
+
+ProfileController.$inject = ["$scope", "$log", "$state", "$auth", "api", "noty"];
 
 })();
 

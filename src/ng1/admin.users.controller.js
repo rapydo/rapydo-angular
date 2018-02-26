@@ -67,7 +67,11 @@ function UsersController($scope, $log, CommonDataService, noty, FormDialogServic
 			}
 		);
 	}
-}
+};
+
+UsersController.$inject = [
+	"$scope", "$log", "CommonDataService", "noty", "FormDialogService"
+];
 
 function AutocompleteUserController($scope, $log, CommonDataService)
 {
@@ -139,6 +143,11 @@ function UserDialogController($scope, $controller, $uibModalInstance, $log, Comm
 		return $scope.closeDialog(promise)
 
 	}
-}
+};
+
+UserDialogController.$inject = [
+	"$scope", "$controller", "$uibModalInstance",
+	"$log", "CommonDataService", "noty"
+];
 
 })();

@@ -117,6 +117,8 @@ function FormDialogService($log, $uibModal, $rootScope) {
       }).result;
   };
 
-}
+};
+
+FormDialogService.$inject = ["$log", "$uibModal", "$rootScope"];
 
 })();

@@ -2,8 +2,7 @@
   'use strict';
 
 angular.module('web').controller('ListsController', ListsController);
-function ListsController($scope, $log)
-{
+function ListsController($scope, $log) {
 	var self = this;
 	self.selectedElements = 0;
 
@@ -46,6 +45,8 @@ function ListsController($scope, $log)
 	    }
 
 	}
-}
+};
+
+ListsController.$inject = ["$scope", "$log"];
 
 })();

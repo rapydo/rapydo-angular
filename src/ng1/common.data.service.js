@@ -37,6 +37,8 @@ function CommonDataService($log, api, $q, jsonapi_parser) {
         return api.apiCall(endpoint, 'GET');
     };
 	
-}
+};
+
+CommonDataService.$inject = ["$log", "api", "$q", "jsonapi_parser"];
 
 })();
