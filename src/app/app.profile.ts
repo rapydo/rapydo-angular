@@ -1,6 +1,6 @@
 
-import { Component } from '@angular/core';
-import { Injectable, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Injectable, Inject, Injector } from '@angular/core';
 
 import { ApiService } from './api.service';
 
@@ -14,14 +14,19 @@ import { ApiService } from './api.service';
   	</ng-template>
   `
 })
-export class ProfileComponent { 
+export class ProfileComponent implements OnInit { 
 
-	constructor(
-		api: ApiService,
-		@Inject('$rootScope') private _rootScope: any) {
+  private _rootScope: any
+
+	constructor(api: ApiService, private injector: Injector) {
 
 			console.log(api.get())
 
 	}
+
+  ngOnInit() {
+
+    this._rootScope = this.injector.get('$rootScope');
+  }
 
 }
