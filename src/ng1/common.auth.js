@@ -6,9 +6,7 @@ angular.module('web')
 .controller('LoginController', LoginController)
 .controller('RegisterController', RegisterController)
 .controller('LogoutController', LogoutController)
-
-.config(authConfig)
-;
+.config(authConfig);
 
 function authConfig($authProvider) {
 
@@ -32,9 +30,8 @@ function authConfig($authProvider) {
 authConfig.$inject = ["$authProvider"];
 
 //////////////////////////////
-function LoginController($scope, $log, $window,
-    $auth, $document, $timeout, $state, noty)
-{
+function LoginController(
+    $scope, $log, $window, $auth, $document, $timeout, $state, noty) {
 
     // Init controller
     $log.debug("Login Controller");
@@ -181,7 +178,12 @@ function LoginController($scope, $log, $window,
     self.changePassword = function() {
         console.log("changePassword not yet implemented")
     }
-}
+};
+
+LoginController.$inject = [
+    "$scope", "$log", "$window", "$auth",
+    "$document", "$timeout", "$state", "noty"
+];
 
 function RegisterController($scope, $log, $auth, api, noty)
 {
@@ -241,8 +243,8 @@ function RegisterController($scope, $log, $auth, api, noty)
 }
 
 
-function LogoutController($scope, $rootScope, $log, $auth, $window, $uibModal, $state, api, noty)
-{
+function LogoutController(
+    $scope, $rootScope, $log, $auth, $window, $uibModal, $state, api, noty) {
     // Init controller
     $log.debug("Logout Controller");
     var self = this;
@@ -309,7 +311,12 @@ function LogoutController($scope, $rootScope, $log, $auth, $window, $uibModal, $
 
     }
 
-}
+};
+
+LogoutController.$inject = [
+    "$scope", "$rootScope", "$log", "$auth", "$window",
+    "$uibModal", "$state", "api", "noty"
+];
 
 // THE END
 })();

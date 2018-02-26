@@ -3,7 +3,7 @@
 
 angular.module('web').service('jsonapi_parser', JsonAPIParser);
 
-function JsonAPIParser($log, $q) {
+function JsonAPIParser($q) {
 
     var self = this;
 
@@ -58,6 +58,7 @@ function JsonAPIParser($log, $q) {
             }
         );
     }
-}
+};
+JsonAPIParser.$inject = ["$q"]
 
 })();

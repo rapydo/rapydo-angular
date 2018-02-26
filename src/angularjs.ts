@@ -1,4 +1,4 @@
-import 'jquery'
+// import 'jquery'
 import 'angular'
 import 'angular-sanitize'
 import 'angular-animate'
