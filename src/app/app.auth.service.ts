@@ -6,7 +6,10 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class AuthService {
 
-	@Output() userChanged: EventEmitter<any> = new EventEmitter<any>();
+	@Output() userChanged: EventEmitter<string> = new EventEmitter<string>();
+
+	readonly LOGGED_IN = "logged-in";
+	readonly LOGGED_OUT = "logged-out";
 
 	constructor(private http: HttpClient) { }
 
@@ -37,13 +40,13 @@ export class AuthService {
 		localStorage.removeItem('token');
 		localStorage.removeItem('currentUser');
 		console.log("Bye bye");
-		this.userChanged.emit("logged-out");
+		this.userChanged.emit(this.LOGGED_OUT);
 	}
 
 	public setUser(user: any) {
 		localStorage.setItem('currentUser', user);
 		console.log("Logged in");
-		this.userChanged.emit("logged-in");
+		this.userChanged.emit(this.LOGGED_IN);
 	}
 	public getUser() {
 		return JSON.parse(localStorage.getItem('currentUser'))

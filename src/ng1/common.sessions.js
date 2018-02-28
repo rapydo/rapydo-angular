@@ -4,12 +4,12 @@
 angular.module('web')
     .controller('SessionsController', SessionsController);
 
-function SessionsController($scope, $log, $auth,  api, FormDialogService)
+function SessionsController($scope, $log, AuthService2,  api, FormDialogService)
 {
 
 	var self = this;
 
-	var token_in_use = $auth.getToken();
+	var token_in_use = AuthService2.getToken();
 
 	self.loadTokens = function() {
 		api.getActiveSessions().then(

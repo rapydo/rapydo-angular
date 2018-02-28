@@ -5,37 +5,17 @@ angular.module('web')
 //.service('auth', authService)
 .controller('LoginController', LoginController)
 .controller('RegisterController', RegisterController)
-.controller('LogoutController', LogoutController)
-.config(authConfig);
-
-function authConfig($authProvider) {
-
-    const globalConfig = require('globalConfig');
-
-    $authProvider.loginUrl = globalConfig.authApiUrl + "/login"
-    $authProvider.tokenName = 'token';
-    $authProvider.tokenRoot = 'Response.data'
-
-    $authProvider.oauth1({
-          name: null,
-          url: null,
-          authorizationEndpoint: null,
-          redirectUri: null,
-          type: null,
-          popupOptions: null
-    });
-
-};
-
-authConfig.$inject = ["$authProvider"];
+.controller('LogoutController', LogoutController);
 
 //////////////////////////////
 function LoginController(
-    $scope, $log, $window, $auth, $document, $timeout, $state, noty) {
+    $scope, $log, $window, AuthService2, $document, $timeout, $state, noty) {
 
     // Init controller
     $log.debug("Login Controller");
     var self = this;
+
+    console.log(AuthService2.getToken());
 
     const globalConfig = require('globalConfig');
 
@@ -63,7 +43,7 @@ function LoginController(
 
 
     // In case i am already logged, skip
-    if ($auth.isAuthenticated())
+    if (AuthService2.isAuthenticated())
     {
         $timeout(function () {
             $log.debug("Already logged");
@@ -77,7 +57,7 @@ function LoginController(
         var credentials = self.user;
         $log.debug("Requested with", credentials);
 
-        $auth.login(credentials).then(
+        AuthService2.login(credentials).then(
             function (response) {
                 self.userMessage = null;
 
@@ -153,7 +133,6 @@ function LoginController(
                             self.qr_code = response.data.Response.data.qr_code;
 
                         }
-                        // $auth.setToken(temp_token)
                     }
 
                 } else {
@@ -181,11 +160,11 @@ function LoginController(
 };
 
 LoginController.$inject = [
-    "$scope", "$log", "$window", "$auth",
+    "$scope", "$log", "$window", "AuthService2",
     "$document", "$timeout", "$state", "noty"
 ];
 
-function RegisterController($scope, $log, $auth, api, noty)
+function RegisterController($scope, $log, AuthService2, api, noty)
 {
     // Init controller
     var self = this;
@@ -194,7 +173,7 @@ function RegisterController($scope, $log, $auth, api, noty)
     $log.debug("Register Controller");
 
     // Skip if already logged
-    if ($auth.isAuthenticated())
+    if (AuthService2.isAuthenticated())
     {
         const globalConfig = require('globalConfig');
         $timeout(function () {
@@ -244,7 +223,7 @@ function RegisterController($scope, $log, $auth, api, noty)
 
 
 function LogoutController(
-    $scope, $rootScope, $log, $auth, $window, $uibModal, $state, api, noty) {
+    $scope, $rootScope, $log, AuthService2, $window, $uibModal, $state, api, noty) {
     // Init controller
     $log.debug("Logout Controller");
     var self = this;
@@ -256,7 +235,9 @@ function LogoutController(
         $scope.confirm = function(answer) {
           $uibModalInstance.close(answer);
         };
-    }
+    };
+    DialogController.$inject = ["$scope", "$uibModalInstance"];
+
     self.showConfirmDialog = function() {
         var template = "<div class='panel panel-danger text-center' style='margin-bottom:0px;'>";
             template+= "<div class='panel-heading'>Logout request</div>";
@@ -282,7 +263,6 @@ function LogoutController(
         }).result;
     }
 
-    // Log out satellizer
     self.exit = function() {
 
         self.showConfirmDialog().then(
@@ -291,9 +271,7 @@ function LogoutController(
                     function(response) {
                         $log.info("Logging out", response);
 
-                        $auth.logout().then(function() {
-                            $log.debug("Token cleaned:", $auth.getToken());
-                        });
+                        AuthService2.logout();
                         $window.location.reload();
                         $rootScope.logged = false;
                         //$state.go('welcome');
@@ -314,7 +292,7 @@ function LogoutController(
 };
 
 LogoutController.$inject = [
-    "$scope", "$rootScope", "$log", "$auth", "$window",
+    "$scope", "$rootScope", "$log", "AuthService2", "$window",
     "$uibModal", "$state", "api", "noty"
 ];
 

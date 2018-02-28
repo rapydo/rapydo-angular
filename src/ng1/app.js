@@ -7,7 +7,6 @@
         'ngMessages',
         'ui.router',
         'ui.bootstrap',
-        'satellizer',
         'cfp.hotkeys',
         'formly',
         'formlyBootstrap',

@@ -4,11 +4,11 @@
 angular.module('web')
     .controller('ProfileController', ProfileController);
 
-function ProfileController($scope, $log, $state, $auth, api, noty)
+function ProfileController($scope, $log, $state, AuthService2, api, noty)
 {
 	var self = this;
 
-	// var token_in_use = $auth.getToken();
+	// var token_in_use = AuthService2.getToken();
 
 	self.changePassword = function(uuid) {
 
@@ -33,7 +33,7 @@ function ProfileController($scope, $log, $state, $auth, api, noty)
 				self.newPwd = ""
 				self.confirmPwd = ""
     			noty.showSuccess("Password successfully changed. Please login with your new password")
-    			$auth.removeToken();
+    			AuthService2.logout();
     			$state.go("public.login");
 	        	return true;
     		},
@@ -45,7 +45,7 @@ function ProfileController($scope, $log, $state, $auth, api, noty)
 	};
 };
 
-ProfileController.$inject = ["$scope", "$log", "$state", "$auth", "api", "noty"];
+ProfileController.$inject = ["$scope", "$log", "$state", "AuthService2", "api", "noty"];
 
 })();
 

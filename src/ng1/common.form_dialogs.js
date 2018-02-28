@@ -34,6 +34,8 @@ function DialogController($scope, $uibModalInstance) {
     };
 }
 
+DialogController.$inject = ["$scope", "$uibModalInstance"];
+
 function FormDialogController($scope, noty) {
 
   var self = this;

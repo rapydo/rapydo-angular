@@ -3,7 +3,7 @@
 
 angular.module('web').service('api', RestApiService);
 
-function RestApiService($http, $q, $auth, $log, $httpParamSerializerJQLike) {
+function RestApiService($http, $q, AuthService2, $log, $httpParamSerializerJQLike) {
 
     var self = this;
     // Api URI
@@ -27,7 +27,7 @@ function RestApiService($http, $q, $auth, $log, $httpParamSerializerJQLike) {
         return typeof value !== 'undefined' ? value : mydefault;
     };
     self.checkToken = function () {
-        return $auth.getToken();
+        return AuthService2.getToken();
     };
 
     self.postFormData = function (endpoint, method, data) {
@@ -172,7 +172,7 @@ function RestApiService($http, $q, $auth, $log, $httpParamSerializerJQLike) {
 
 };
 RestApiService.$inject = [
-    "$http", "$q", "$auth", "$log", "$httpParamSerializerJQLike"
+    "$http", "$q", "AuthService2", "$log", "$httpParamSerializerJQLike"
 ];
 
 })();

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes, UrlHandlingStrategy } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UpgradeModule }  from '@angular/upgrade/static';
+import { downgradeInjectable } from '@angular/upgrade/static';
 import { UpgradeAdapter } from '@angular/upgrade';
 
 import { AppComponent } from './app.component';
@@ -79,3 +80,6 @@ export class AppModule {
 export const upgradeAdapter = new UpgradeAdapter(AppModule);
 
 upgradeAdapter.upgradeNg1Provider('$rootScope');
+
+import * as angular from "angular";
+angular.module('web').factory("AuthService2", downgradeInjectable(AuthService) as any)
