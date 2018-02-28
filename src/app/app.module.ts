@@ -1,13 +1,21 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes, UrlHandlingStrategy } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UpgradeModule }  from '@angular/upgrade/static';
 import { UpgradeAdapter } from '@angular/upgrade';
 
 import { AppComponent } from './app.component';
+
 import { ProfileComponent } from './app.profile';
+import { NavbarComponent } from './app.navbar';
 import { TestComponent } from './app.test';
+
+import { AuthGuard } from './app.auth.guard';
+import { AuthService } from './app.auth.service';
+import { LoginComponent } from './login.component';
+import { JwtInterceptor } from './jwt.interceptor';
 
 
 export class HybridUrlHandlingStrategy implements UrlHandlingStrategy {
@@ -20,8 +28,22 @@ export class HybridUrlHandlingStrategy implements UrlHandlingStrategy {
 }
 
 const appRoutes: Routes = [
-  { path: 'new/test', component: TestComponent},
-  { path: 'new/profile', component: ProfileComponent }
+  {
+    path: 'new/login', component: LoginComponent
+  },
+  {
+    path: 'new/test',
+    component: TestComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: 'admin'
+    }
+  },
+  {
+    path: 'new/profile',
+    component: ProfileComponent,
+    canActivate: [AuthGuard]
+  }
 ];
 
 @NgModule({
@@ -31,17 +53,22 @@ const appRoutes: Routes = [
       { enableTracing: false} // <-- debugging purposes only
     ),
     BrowserModule,
+    FormsModule,
     // import HttpClientModule after BrowserModule
     HttpClientModule,
     UpgradeModule
   ],
   declarations: [
     AppComponent,
+    LoginComponent,
     ProfileComponent,
+    NavbarComponent,
     TestComponent
   ],
   bootstrap: [ AppComponent ],
   providers: [
+    AuthService, AuthGuard,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     { provide: UrlHandlingStrategy, useClass: HybridUrlHandlingStrategy}
   ]
 })

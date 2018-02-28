@@ -23,10 +23,7 @@
             <div ng-if="main.load" ng-include="main.templateDir + 'loader.html'"></div>
         </div>
 
-        <a routerLink='/new/test' routerLinkActive="active">Test5</a> 
-        | <a routerLink='/new/profile' routerLinkActive="active">Profile5</a> 
-        | <a href ui-sref="logged.admin.users">User1</a> 
-        | <a href ui-sref="logged.admin.groups">Groups1</a> 
+        <navbar></navbar>
 
         <router-outlet> 
 
@@ -44,7 +41,13 @@
 </div>
 
 
-<small><i>
-    Angular v{{ versions.angular }}, AngularJS v{{ versions.angularjs }}
-</i></small>
+<footer class='footer'>
+    <div class='container'>
+        <span class='text-muted'>
+            <small><i>
+                Angular v{{ versions.angular }}, AngularJS v{{ versions.angularjs }}
+            </i></small>
+        </span>
+    </div>
+</footer>
     

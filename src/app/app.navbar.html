@@ -1,0 +1,28 @@
+
+<nav class="navbar navbar-default">
+	<div class="container-fluid">
+<!-- 		<div class="navbar-header">
+			...
+		</div> -->
+
+		<ul class="nav navbar-nav navbar-left">
+	        <li><a routerLink='/new/test' routerLinkActive="active">Admin</a></li>
+	        <li><a routerLink='/new/profile' routerLinkActive="active">Profile</a></li>
+
+
+	        <li><a href ui-sref="logged.admin.users">User1</a></li>
+	        <li><a href ui-sref="logged.admin.groups">Groups1</a></li>
+		</ul>
+
+
+		<ul class="nav navbar-nav navbar-right">
+
+	      <li *ngIf="user"><a routerLink='/new/login' routerLinkActive="active">Logout</a></li>
+	      <li *ngIf="!user"><a routerLink='/new/login' routerLinkActive="active">Login</a></li>
+
+		</ul>
+
+		{{user}}
+	</div>
+</nav>
+
