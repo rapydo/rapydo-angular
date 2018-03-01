@@ -322,6 +322,7 @@ function FormlyService(noty, $log)
 		return {"fields":fields, "model": model};
 	}
 
-}
+};
+FormlyService.$inject = ["noty", "$log"];
 
 })();

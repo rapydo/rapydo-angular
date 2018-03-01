@@ -23,7 +23,10 @@ function FormlyDialogController($scope, $controller, FormlyService, noty) {
     );
   }
 
-}
+};
+FormlyDialogController.$inject = [
+  "$scope", "$controller", "FormlyService", "noty"
+];
 
 function DialogController($scope, $uibModalInstance) {
     $scope.cancel = function() {
@@ -32,8 +35,7 @@ function DialogController($scope, $uibModalInstance) {
     $scope.confirm = function(answer) {
       $uibModalInstance.close(answer);
     };
-}
-
+};
 DialogController.$inject = ["$scope", "$uibModalInstance"];
 
 function FormDialogController($scope, noty) {
@@ -77,7 +79,10 @@ function FormDialogController($scope, noty) {
     };
   }
 
-}
+};
+FormDialogController.$inject = [
+  "$scope", "noty"
+];
 
 function FormDialogService($log, $uibModal, $rootScope) {
   var self = this;

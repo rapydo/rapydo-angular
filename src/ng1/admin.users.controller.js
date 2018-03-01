@@ -111,7 +111,8 @@ function AutocompleteUserController($scope, $log, CommonDataService)
 			}
 	  	);
 	}
-}
+};
+AutocompleteUserController.$inject = ["$scope", "$log", "CommonDataService"];
 
 function UserDialogController($scope, $controller, $uibModalInstance, $log, CommonDataService, noty)
 {

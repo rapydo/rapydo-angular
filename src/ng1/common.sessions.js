@@ -1,10 +1,9 @@
 (function() {
   'use strict';
 
-angular.module('web')
-    .controller('SessionsController', SessionsController);
+angular.module('web').controller('SessionsController', SessionsController);
 
-function SessionsController($scope, $log, AuthService2,  api, FormDialogService)
+function SessionsController(AuthService2, api, FormDialogService)
 {
 
 	var self = this;
@@ -33,7 +32,7 @@ function SessionsController($scope, $log, AuthService2,  api, FormDialogService)
 				var data = {}
 				return api.revokeToken(id).then(
 					function(out_data) {
-			    		$log.debug("Token invalidated");
+			    		ebug("Token invalidated");
 						self.loadTokens();
 			        	return true;
 		    		},
@@ -46,6 +45,8 @@ function SessionsController($scope, $log, AuthService2,  api, FormDialogService)
 			}
 		);
 	}
-}
+};
+
+SessionsController.$inject = ["AuthService2", "api", "FormDialogService"];
 
 })();
