@@ -23,7 +23,7 @@
 
 
 		    <li *ngIf="user && user.roles['Archive']">
-			    <a routerLink="/app/upload">
+			    <a routerLink="/app/upload" ui-sref="logged.upload">
 		          Upload
 		        </a>
 		    </li>
@@ -35,19 +35,19 @@
 		    </li>
 
 		    <li *ngIf="user && (user.isAdmin || user.isGroupAdmin)">
-		        <a routerLink="/app/admin/users">
+		        <a routerLink="/app/admin/users" ui-sref="logged.admin.users">
 		          Users
 		        </a>
 		    </li>
 
 		    <li *ngIf="user && user.isAdmin">
-			    <a routerLink="/app/admin/groups">
+			    <a routerLink="/app/admin/groups" ui-sref="logged.admin.groups">
 		          Groups
 		        </a>
 		    </li>
 
 		    <li *ngIf="user && user.isAdmin">
-		        <a routerLink="/app/admin/archive">
+		        <a routerLink="/app/admin/archive" ui-sref="logged.admin.archive">
 		          Archive 
 		        </a>
 		    </li>
@@ -58,7 +58,7 @@
 		<ul class="nav navbar-nav navbar-right">
 
 	      <li *ngIf="user">
-	      	<a routerLink='/app/profile' routerLinkActive="active">
+	      	<a routerLink='/app/profile' routerLinkActive="active" ui-sref="logged.profile">
 	      		<i uib-tooltip="Profile" tooltip-placement='bottom' class="material-icons">people</i>
 	      	</a>
 	      </li>
@@ -72,7 +72,6 @@
 
 		</ul>
 
-		<!-- {{user.email}} -->
 	</div>
 </nav>
 
