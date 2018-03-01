@@ -1,0 +1,66 @@
+
+<div class="row" *ngIf="user">
+<div class='col-xs-8 col-xs-offset-2'>
+
+<!-- PANEL HEADING START -->
+<div class='panel-heading'>
+    <h4 class='panel-title'>
+        <i class='material-icons'>face</i> User profile
+    </h4>
+</div>
+<!-- PANEL HEADING END -->
+
+<!-- PANEL BODY + TABLE START -->
+<div class='panel-body'>
+<div class="table-responsive">
+	<table class='table table-striped'>
+
+		<tr *ngFor="let value of user | iterate: 'uuid'">
+		<th>{{value.key}}</th>
+
+		<td *ngIf="value.key != 'roles'">{{value.value}}</td>
+
+        <td *ngIf="value.key == 'roles'">
+            <span *ngFor="let role of value.value | iterate">
+                {{role.value}}
+            </span>
+        </td>
+
+		</tr>
+
+        <tr>
+        <th>Password</th>
+        <td>
+            <a ui-sref='logged.profile.changepassword'>
+                <i>Change your password</i>
+            </a>
+        </td>
+        </tr>
+
+        <tr>
+        <th>Open Sessions</th>
+        <td>
+            <a ui-sref='logged.profile.sessions'>
+                <i>View list of your open sessions</i>
+            </a>
+        </td>
+        </tr>
+
+    </table>
+</div>
+</div>
+<!-- PANEL BODY +  TABLE END -->
+
+
+<!-- PANEL FOOTER START -->
+<div class="panel-footer">
+<div class='text-right'>
+
+</div>
+</div>
+<!-- PANEL FOOTER END -->
+
+</div>
+<!-- PANEL END -->
+
+</div>
