@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { VERSION as NG_VERSION } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { AuthService } from './app.auth.service';
@@ -11,9 +11,8 @@ import { version as NGJS_VERSION } from 'angular';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 
-    private rootScope: any
 	private user: any;
 
 	versions = {
@@ -23,17 +22,11 @@ export class AppComponent implements OnInit {
 
 	constructor(
 			private auth: AuthService,
-			private injector: Injector,	// Only required for AngularJS, remove me!
 			private ref: ChangeDetectorRef) {
 		this.user = auth.getUser();
 		auth.userChanged.subscribe(user => this.changeLogged(user));
 	}
 
-	ngOnInit() {
-
-		this.rootScope = this.injector.get('$rootScope');
-
-	}
 
 	changeLogged(user: any) {
 
@@ -45,13 +38,11 @@ export class AppComponent implements OnInit {
 		} else if (user == this.auth.LOGGED_IN) {
 			console.log("Received <" + user  + "> event");
 			this.user = this.auth.getUser();
-			this.ref.detectChanges();
+			/*this.ref.detectChanges();*/
 
 		} else {
 			console.log("Received unknown user event: <" + user  + ">");
 		}
-
-		this.rootScope.profile = this.user;
 
 	}
 
