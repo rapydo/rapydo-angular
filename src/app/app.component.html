@@ -14,16 +14,16 @@
     <main ng-hide="main.splash" ng-init="myproject = 'ProjectTitleIsMissing'">
         <!-- TOPBAR COMMON / CUSTOM-->
 
-        <div class="container-fluid" style='padding:0px;'>
+<!--         <div class="container-fluid" style='padding:0px;'>
             <div ng-hide="main.load" ng-include="main.topbar_path"></div>
         </div>
-
+ -->
         <!-- WHILE WAITING (for API/RESOURCES) -->
         <div class="container-fluid">
             <div ng-if="main.load" ng-include="main.templateDir + 'loader.html'"></div>
         </div>
 
-        <navbar></navbar>
+        <navbar [user]="user"></navbar>
 
         <router-outlet> 
 

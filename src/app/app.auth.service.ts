@@ -39,13 +39,11 @@ export class AuthService {
 	public logout() {
 		localStorage.removeItem('token');
 		localStorage.removeItem('currentUser');
-		console.log("Bye bye");
 		this.userChanged.emit(this.LOGGED_OUT);
 	}
 
 	public setUser(user: any) {
 		localStorage.setItem('currentUser', user);
-		console.log("Logged in");
 		this.userChanged.emit(this.LOGGED_IN);
 	}
 	public getUser() {
@@ -70,7 +68,7 @@ export class AuthService {
 
 	public hasRole(expectedRole: string): boolean {
 		if (expectedRole) {
-			console.log(expectedRole);
+			console.log("Expected role: " + expectedRole + " -> not implemented");
 			return false
 		} else {
 			// No role expected -> that's ok, return true
