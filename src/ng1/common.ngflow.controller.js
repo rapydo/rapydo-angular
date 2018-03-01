@@ -1,7 +1,16 @@
 (function() {
   'use strict';
 
+angular.module('web').config(FlowFactory);
 angular.module('web').controller('NgFlowController', NgFlowController);
+
+function FlowFactory(flowFactoryProvider) {
+    flowFactoryProvider.factory = function(opts) {
+        var Flow = require("ng-flow/dist/ng-flow-standalone.min.js");
+        return new Flow(opts);
+    }
+};
+FlowFactory.$inject = ["flowFactoryProvider"];
 
 function NgFlowController($rootScope, $log, noty)
 {

@@ -31,7 +31,8 @@
     return function(input, decimals) {
       return $filter('number')(input * 100, decimals) + '%';
     }
-  }
+  };
+  Percentage.$inject = ["$filter"];
 
   function Unix2Date() {
 
