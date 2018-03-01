@@ -1,9 +1,12 @@
 angular.module('web').config(formlyConfig);
 angular.module('web').config(tableSortConfig);
+angular.module('web').run(formlyValidation);
 
-angular.module('web').run(function(formlyValidationMessages) {
+function formlyValidation(formlyValidationMessages) {
   formlyValidationMessages.addStringMessage('required', 'This field is required');
-});
+};
+
+formlyValidation.$inject = ["formlyValidationMessages"];
 
 function formlyConfig(formlyConfigProvider) {
   formlyConfigProvider.extras.errorExistsAndShouldBeVisibleExpression = function($viewValue, $modelValue, scope) {
@@ -12,10 +15,10 @@ function formlyConfig(formlyConfigProvider) {
 
   formlyConfigProvider.setWrapper({
     name: 'validation',
-    template: '<formly-transclude></formly-transclude>'+
-              '<div ng-messages="fc.$error" ng-if="form.$submitted || options.formControl.$touched" class="error-messages">'+
-              '  <div ng-message="{{ ::name }}" ng-repeat="(name, message) in ::options.validation.messages" class="message">{{ message(fc.$viewValue, fc.$modelValue, this)}}</div>'+
-              '</div>',
+    template: `<formly-transclude></formly-transclude>
+              <div ng-messages="fc.$error" ng-if="form.$submitted || options.formControl.$touched" class="error-messages">
+                <div ng-message="{{ ::name }}" ng-repeat="(name, message) in ::options.validation.messages" class="message">{{ message(fc.$viewValue, fc.$modelValue, this)}}</div>
+              </div>`,
     types: ['input', 'textarea', 'checkbox', 'radio', 'select'] // and soon, 'multiCheckbox'
   });
 
@@ -37,7 +40,7 @@ function formlyConfig(formlyConfigProvider) {
 
   });
 
-formlyConfigProvider.setType({
+  formlyConfigProvider.setType({
     name: 'multiInput',
     extends: 'input',
     template: `
@@ -54,8 +57,7 @@ formlyConfigProvider.setType({
 
   });
 
-
-formlyConfigProvider.setType({
+  formlyConfigProvider.setType({
     name: 'multiAutocomplete',
     extends: 'input',
         template: `
@@ -81,7 +83,6 @@ formlyConfigProvider.setType({
     wrapper: ['bootstrapLabel', 'bootstrapHasError']
 
   });
-
 
     var unique = 1;
     formlyConfigProvider.setType({
@@ -196,29 +197,32 @@ formlyConfigProvider.setType({
     }]
   });
 
-}
+};
+formlyConfig.$inject = ["formlyConfigProvider"];
 
 function tableSortConfig(tableSortConfigProvider) {
-        var filterString = "<div class='row' ng-if='TOTAL_COUNT > 10'>";
-        filterString +=      "<div class='col-sm-4 col-md-3 col-sm-offset-8 col-md-offset-9'>";
-        filterString +=        "<div class='form-group has-feedback' style='margin-right:10px;'>";
-        filterString +=          "<input type='search' class='form-control' placeholder='filter {{ITEM_NAME_PLURAL}}' ng-model='FILTER_STRING'/>";
-        filterString +=          "<span class='glyphicon glyphicon-search form-control-feedback' aria-hidden='true'></span>";
-        filterString +=        "</div>";
-        filterString +=      "</div>";
-        filterString +=    "</div>";
-        tableSortConfigProvider.filterTemplate = filterString;
+  var filterString = "<div class='row' ng-if='TOTAL_COUNT > 10'>";
+  filterString +=      "<div class='col-sm-4 col-md-3 col-sm-offset-8 col-md-offset-9'>";
+  filterString +=        "<div class='form-group has-feedback' style='margin-right:10px;'>";
+  filterString +=          "<input type='search' class='form-control' placeholder='filter {{ITEM_NAME_PLURAL}}' ng-model='FILTER_STRING'/>";
+  filterString +=          "<span class='glyphicon glyphicon-search form-control-feedback' aria-hidden='true'></span>";
+  filterString +=        "</div>";
+  filterString +=      "</div>";
+  filterString +=    "</div>";
+  tableSortConfigProvider.filterTemplate = filterString;
 
-        var pagerString = "<div class='text-right' style='margin-right:10px;'>";
-        pagerString +=      "<small class='text-muted'>Showing {{CURRENT_PAGE_RANGE}} {{FILTERED_COUNT === 0 ? '' : 'of'}} ";
-        pagerString +=        "<span ng-if='FILTERED_COUNT === TOTAL_COUNT'>{{TOTAL_COUNT | number}} {{TOTAL_COUNT === 1 ? ITEM_NAME_SINGULAR : ITEM_NAME_PLURAL}}</span>";
-        pagerString +=        "<span ng-if='FILTERED_COUNT !== TOTAL_COUNT'>{{FILTERED_COUNT | number}} {{FILTERED_COUNT === 1 ? ITEM_NAME_SINGULAR : ITEM_NAME_PLURAL}} (filtered from {{TOTAL_COUNT | number}})</span>";
-        pagerString +=      "</small>&nbsp;";
-        pagerString +=      "<ul uib-pagination style='vertical-align:middle;' ng-if='ITEMS_PER_PAGE < TOTAL_COUNT' ng-model='CURRENT_PAGE_NUMBER' ";
-        pagerString +=        "total-items='FILTERED_COUNT' items-per-page='ITEMS_PER_PAGE' max-size='5' force-ellipses='true'></ul>&nbsp;";
-        pagerString +=      "<div class='form-group' style='display:inline-block;'>";
-        pagerString +=        "<select class='form-control' ng-model='ITEMS_PER_PAGE' ng-options='opt as (opt + \" per page\") for opt in PER_PAGE_OPTIONS'></select>";
-        pagerString +=      "</div>";
-        pagerString +=    "</div>";
-        tableSortConfigProvider.paginationTemplate = pagerString;
-    }
+  var pagerString = "<div class='text-right' style='margin-right:10px;'>";
+  pagerString +=      "<small class='text-muted'>Showing {{CURRENT_PAGE_RANGE}} {{FILTERED_COUNT === 0 ? '' : 'of'}} ";
+  pagerString +=        "<span ng-if='FILTERED_COUNT === TOTAL_COUNT'>{{TOTAL_COUNT | number}} {{TOTAL_COUNT === 1 ? ITEM_NAME_SINGULAR : ITEM_NAME_PLURAL}}</span>";
+  pagerString +=        "<span ng-if='FILTERED_COUNT !== TOTAL_COUNT'>{{FILTERED_COUNT | number}} {{FILTERED_COUNT === 1 ? ITEM_NAME_SINGULAR : ITEM_NAME_PLURAL}} (filtered from {{TOTAL_COUNT | number}})</span>";
+  pagerString +=      "</small>&nbsp;";
+  pagerString +=      "<ul uib-pagination style='vertical-align:middle;' ng-if='ITEMS_PER_PAGE < TOTAL_COUNT' ng-model='CURRENT_PAGE_NUMBER' ";
+  pagerString +=        "total-items='FILTERED_COUNT' items-per-page='ITEMS_PER_PAGE' max-size='5' force-ellipses='true'></ul>&nbsp;";
+  pagerString +=      "<div class='form-group' style='display:inline-block;'>";
+  pagerString +=        "<select class='form-control' ng-model='ITEMS_PER_PAGE' ng-options='opt as (opt + \" per page\") for opt in PER_PAGE_OPTIONS'></select>";
+  pagerString +=      "</div>";
+  pagerString +=    "</div>";
+  tableSortConfigProvider.paginationTemplate = pagerString;
+}
+
+tableSortConfig.$inject = ["tableSortConfigProvider"];
