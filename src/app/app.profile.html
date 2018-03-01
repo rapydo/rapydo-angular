@@ -1,17 +1,17 @@
 
-<div class="row" *ngIf="user">
+<div class='container-fluid'>
+<div class="row justify-content-md-center" *ngIf="user">
 <div class='col-xs-8 col-xs-offset-2'>
 
 <!-- PANEL HEADING START -->
-<div class='panel-heading'>
-    <h4 class='panel-title'>
-        <i class='material-icons'>face</i> User profile
-    </h4>
+<div class='card'>
+<div class='card-header'>
+    <i class='material-icons'>face</i> User profile
 </div>
 <!-- PANEL HEADING END -->
 
 <!-- PANEL BODY + TABLE START -->
-<div class='panel-body'>
+<div class='card-block'>
 <div class="table-responsive">
 	<table class='table table-striped'>
 
@@ -31,7 +31,7 @@
         <tr>
         <th>Password</th>
         <td>
-            <a ui-sref='logged.profile.changepassword'>
+            <a routerLink='changepassword'>
                 <i>Change your password</i>
             </a>
         </td>
@@ -40,7 +40,7 @@
         <tr>
         <th>Open Sessions</th>
         <td>
-            <a ui-sref='logged.profile.sessions'>
+            <a routerLink='sessions'>
                 <i>View list of your open sessions</i>
             </a>
         </td>
@@ -50,15 +50,6 @@
 </div>
 </div>
 <!-- PANEL BODY +  TABLE END -->
-
-
-<!-- PANEL FOOTER START -->
-<div class="panel-footer">
-<div class='text-right'>
-
-</div>
-</div>
-<!-- PANEL FOOTER END -->
 
 </div>
 <!-- PANEL END -->

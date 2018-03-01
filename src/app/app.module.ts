@@ -6,6 +6,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UpgradeModule }  from '@angular/upgrade/static';
 import { downgradeInjectable } from '@angular/upgrade/static';
 import { UpgradeAdapter } from '@angular/upgrade';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { MomentModule } from 'angular2-moment/moment.module';
 
 import { AppComponent } from './app.component';
 
@@ -16,6 +19,8 @@ import { declarations as customDeclarations } from '/app/frontend/app/app.declar
 import { IteratePipe } from './app.pipes'
 
 import { ProfileComponent } from './app.profile';
+import { ChangePasswordComponent } from './app.profile.changepassword';
+import { SessionsComponent } from './app.profile.sessions';
 import { NavbarComponent } from './app.navbar';
 import { TestComponent } from './app.test';
 
@@ -37,7 +42,7 @@ export class HybridUrlHandlingStrategy implements UrlHandlingStrategy {
 var declarations = [
   AppComponent,
   LoginComponent,
-  ProfileComponent,
+  ProfileComponent, ChangePasswordComponent, SessionsComponent,
   NavbarComponent,
   TestComponent,
   IteratePipe
@@ -56,6 +61,8 @@ appRoutes.concat(customRoutes);
     FormsModule,
     // import HttpClientModule after BrowserModule
     HttpClientModule,
+    NgbModule.forRoot(),
+    MomentModule,
     UpgradeModule
   ],
   declarations: declarations,

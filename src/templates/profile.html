@@ -21,11 +21,9 @@
 		<td ng-if="key != 'roles'">{{value}}</td>
 
         <td ng-if="key == 'roles'">
-            <md-chips 
-                ng-model="value" 
-                readonly="true"
-            >
-            </md-chips>
+            <span class='label label-default' ng-repeat="(k, v) in value">
+                {{v}}
+            </span>
         </td>
 
 		</tr>
@@ -52,15 +50,6 @@
 </div>
 </div>
 <!-- PANEL BODY +  TABLE END -->
-
-
-<!-- PANEL FOOTER START -->
-<div class="panel-footer">
-<div class='text-right'>
-
-</div>
-</div>
-<!-- PANEL FOOTER END -->
 
 </div>
 <!-- PANEL END -->
