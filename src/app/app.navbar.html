@@ -13,8 +13,13 @@
 		</div>
 
 		<ul class="nav navbar-nav navbar-left">
-	        <li><a routerLink='/new/test' routerLinkActive="active">*Admin*</a></li>
-	        <li><a routerLink='/new/profile' routerLinkActive="active">*Profile*</a></li>
+	        <li *ngIf="user && user.isAdmin">
+	        	<a routerLink='/new/test' routerLinkActive="active">*Admin*</a>
+	        </li>
+
+	        <li *ngIf="user">
+	        	<a routerLink='/new/profile' routerLinkActive="active">*Profile*</a>
+	        </li>
 
 
 		    <li *ngIf="user && user.roles['Archive']">
@@ -29,19 +34,19 @@
 		        </a>
 		    </li>
 
-		    <li *ngIf="user.isAdmin || user.isGroupAdmin">
+		    <li *ngIf="user && (user.isAdmin || user.isGroupAdmin)">
 		        <a routerLink="/app/admin/users">
 		          Users
 		        </a>
 		    </li>
 
-		    <li *ngIf="user.isAdmin">
+		    <li *ngIf="user && user.isAdmin">
 			    <a routerLink="/app/admin/groups">
 		          Groups
 		        </a>
 		    </li>
 
-		    <li *ngIf="user.isAdmin">
+		    <li *ngIf="user && user.isAdmin">
 		        <a routerLink="/app/admin/archive">
 		          Archive 
 		        </a>
