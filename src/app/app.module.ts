@@ -13,6 +13,8 @@ import { appRoutes } from './app.routes';
 import { appRoutes as customRoutes } from '/app/frontend/app/app.routes';
 import { declarations as customDeclarations } from '/app/frontend/app/app.declarations';
 
+import { IteratePipe } from './app.pipes'
+
 import { ProfileComponent } from './app.profile';
 import { NavbarComponent } from './app.navbar';
 import { TestComponent } from './app.test';
@@ -37,7 +39,8 @@ var declarations = [
   LoginComponent,
   ProfileComponent,
   NavbarComponent,
-  TestComponent
+  TestComponent,
+  IteratePipe
 ];
 
 declarations.concat(customDeclarations);
