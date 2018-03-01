@@ -9,6 +9,10 @@ import { UpgradeAdapter } from '@angular/upgrade';
 
 import { AppComponent } from './app.component';
 
+import { appRoutes } from './app.routes';
+import { appRoutes as customRoutes } from '/app/frontend/app/app.routes';
+import { declarations as customDeclarations } from '/app/frontend/app/app.declarations';
+
 import { ProfileComponent } from './app.profile';
 import { NavbarComponent } from './app.navbar';
 import { TestComponent } from './app.test';
@@ -28,24 +32,16 @@ export class HybridUrlHandlingStrategy implements UrlHandlingStrategy {
   merge(url, whole) { return url; }
 }
 
-const appRoutes: Routes = [
-  {
-    path: 'new/login', component: LoginComponent
-  },
-  {
-    path: 'new/test',
-    component: TestComponent,
-    canActivate: [AuthGuard],
-    data: {
-      role: 'admin'
-    }
-  },
-  {
-    path: 'new/profile',
-    component: ProfileComponent,
-    canActivate: [AuthGuard]
-  }
+var declarations = [
+  AppComponent,
+  LoginComponent,
+  ProfileComponent,
+  NavbarComponent,
+  TestComponent
 ];
+
+declarations.concat(customDeclarations);
+appRoutes.concat(customRoutes);
 
 @NgModule({
   imports: [
@@ -59,13 +55,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     UpgradeModule
   ],
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    ProfileComponent,
-    NavbarComponent,
-    TestComponent
-  ],
+  declarations: declarations,
   bootstrap: [ AppComponent ],
   providers: [
     AuthService, AuthGuard,
