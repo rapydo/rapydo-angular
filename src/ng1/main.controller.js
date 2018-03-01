@@ -9,15 +9,8 @@ function MainController($scope, $rootScope, $window, $log, $timeout, $state, api
     var self = this;
     $log.debug("This is the main controller");
 
-    const globalConfig = require('globalConfig');
-    self.templateDir = globalConfig.templateDir;
-    self.blueprintTemplateDir = globalConfig.blueprintTemplateDir;
-/*
-    if (globalConfig.topbar_type == "custom") {
-        self.topbar_path = self.blueprintTemplateDir + 'topbar.html'; 
-    } else {
-        self.topbar_path = self.templateDir + 'topbar.html'; 
-    }*/
+    self.templateDir = process.env.templateDir;
+    self.blueprintTemplateDir = process.env.blueprintTemplateDir;
 
     // Init the models
     $rootScope.loaders = {};

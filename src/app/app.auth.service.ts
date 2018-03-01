@@ -14,8 +14,7 @@ export class AuthService {
 	constructor(private http: HttpClient) { }
 
 	public login(username: string, password: string) {
-		const globalConfig = require('globalConfig');
-		return this.http.post<any>(globalConfig.authApiUrl + '/login', {username: username, password: password}
+		return this.http.post<any>(process.env.authApiUrl + '/login', {username: username, password: password}
 			).map(response => {
 				if (response && response.Response && response.Response.data && response.Response.data.token) {
 					this.setToken(JSON.stringify(response.Response.data.token))
@@ -27,8 +26,7 @@ export class AuthService {
 
 	public loadUser() {
 
-		const globalConfig = require('globalConfig');
-		return this.http.get<any>(globalConfig.authApiUrl + '/profile').map(
+		return this.http.get<any>(process.env.authApiUrl + '/profile').map(
 			response => {
 				if (response && response.Response && response.Response.data) {
 					this.setUser(JSON.stringify(response.Response.data));

@@ -4,6 +4,18 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPublic = require('copy-webpack-plugin');
 var helpers = require('./helpers');
 
+var backendURI = ""
+
+if (process.env.APP_MODE == "production") {
+  backendURI += "https://";
+  backendURI += process.env.BACKEND_HOST;
+} else {
+  backendURI += "http://";
+  backendURI += process.env.BACKEND_HOST;
+  backendURI += ":";
+  backendURI += process.env.BACKEND_PORT;
+}
+
 module.exports = {
   entry: {
     'polyfills': './src/polyfills.ts',
@@ -81,6 +93,16 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'src/index.html'
     }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'apiUrl': JSON.stringify(backendURI + '/api'),
+        'authApiUrl': JSON.stringify(backendURI + '/auth'),
+        'templateDir': JSON.stringify('/static/commons/templates/'),
+        'blueprintTemplateDir': JSON.stringify('/static/custom/templates/'),
+        'allowRegistration': JSON.stringify(false),
+        'loggedLandingPage': JSON.stringify('logged.search')
+      }
+    }),
 
     new CopyWebpackPublic(
       [
@@ -94,18 +116,6 @@ module.exports = {
         { from: '/rapydo/src/fonts', to: 'static/fonts/'}
       ]
     )
-  ],
-
-  externals: {
-    'globalConfig': `{
-      apiUrl: 'http://localhost:8080/api',
-      authApiUrl: 'http://localhost:8080/auth',
-      templateDir: '/static/commons/templates/',
-      blueprintTemplateDir: '/static/custom/templates/',
-      topbar_type: "custom",
-      allowRegistration: false,
-      loggedLandingPage: 'logged.search'
-    }`
-  }
+  ]
 };
 

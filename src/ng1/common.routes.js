@@ -144,13 +144,11 @@ function routeConfig(
             "\nIt should be called '" + blueprintRoutes + "'");
     }
 
-    const globalConfig = require('globalConfig');
-
 // If i find out that APIs are not available...
     $stateProvider.state("offline", {
         url: "/offline",
         views: {
-            "main": {templateUrl: globalConfig.templateDir + 'offline.html'}
+            "main": {templateUrl: process.env.templateDir + 'offline.html'}
         }
     }).
 
@@ -285,15 +283,14 @@ function routeConfig(
     });
 
     function loadStates(states) {
-        const globalConfig = require('globalConfig');
         forEach(states, function(x, stateName){
             // Build VIEWS for this single state
             var myViews = {};
             forEach(x.views, function(view, viewName){
-                var dir = globalConfig.templateDir;
+                var dir = process.env.templateDir;
 
                 if (view.dir == 'blueprint') {
-                    dir = globalConfig.blueprintTemplateDir;
+                    dir = process.env.blueprintTemplateDir;
                 }
                 myViews[viewName] = {templateUrl: dir + view.templateUrl};
             });

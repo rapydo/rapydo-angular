@@ -17,8 +17,6 @@ function LoginController(
 
     console.log(AuthService2.getToken());
 
-    const globalConfig = require('globalConfig');
-
     self.setDefaultForm = function() {
 
         self.panelTitle = "Provide your credentials"
@@ -27,7 +25,7 @@ function LoginController(
         self.askPassword = true;
         self.askNewPassword = false;
         self.askTOTP = false;
-        self.allowRegistration = globalConfig.allowRegistration;
+        self.allowRegistration = process.env.allowRegistration;
         self.userMessage = null;
         self.qr_code = null;
 
@@ -47,7 +45,7 @@ function LoginController(
     {
         $timeout(function () {
             $log.debug("Already logged");
-            $state.go(globalConfig.loggedLandingPage);
+            $state.go(process.env.loggedLandingPage);
         });
     }
 
@@ -175,10 +173,9 @@ function RegisterController($scope, $log, AuthService2, api, noty)
     // Skip if already logged
     if (AuthService2.isAuthenticated())
     {
-        const globalConfig = require('globalConfig');
         $timeout(function () {
             $log.debug("Already logged");
-            $state.go(globalConfig.loggedLandingPage);
+            $state.go(process.env.loggedLandingPage);
         });
     }
 

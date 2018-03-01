@@ -6,11 +6,8 @@ angular.module('web').service('api', RestApiService);
 function RestApiService($http, $q, AuthService2, $log, $httpParamSerializerJQLike) {
 
     var self = this;
-    // Api URI
-    const globalConfig = require('globalConfig');
-
-    self.API_URL = globalConfig.apiUrl + '/';
-    self.AUTH_URL = globalConfig.authApiUrl + '/';
+    self.API_URL = process.env.apiUrl + '/';
+    self.AUTH_URL = process.env.authApiUrl + '/';
 
     self.endpoints = {
         check: 'status',
