@@ -17,8 +17,14 @@ export class AuthGuard implements CanActivate {
             this.router.navigate(['new/login']);
             return false;
         } else if (!this.auth.hasRole(expectedRole)) {
-            window.alert("You are not authorized - missing role");
-            return false;
+
+            var user = this.auth.getUser();
+
+            if (!(expectedRole in user.roles)) {
+                window.alert("You are not authorized - missing role");
+                return false;
+            }
+            return true
 		} else {
             return true;
 
