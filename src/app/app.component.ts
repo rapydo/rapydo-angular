@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { VERSION as NG_VERSION } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { AuthService } from './app.auth.service';
 import { NavbarComponent } from './app.navbar';
 import { version as NGJS_VERSION } from 'angular';
@@ -22,7 +23,14 @@ export class AppComponent {
 
 	constructor(
 			private auth: AuthService,
+			private titleService: Title,
 			private ref: ChangeDetectorRef) {
+
+		var t = process.env.projectTitle;
+		t = t.replace(/^'/, "");
+		t = t.replace(/'$/, "");
+		titleService.setTitle(t);
+
 		this.user = auth.getUser();
 		auth.userChanged.subscribe(user => this.changeLogged(user));
 	}

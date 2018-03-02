@@ -16,6 +16,8 @@ if (process.env.APP_MODE == "production") {
   backendURI += process.env.BACKEND_PORT;
 }
 
+var projectTitle = process.env.PROJECT_TITLE;
+
 module.exports = {
   entry: {
     'polyfills': './src/polyfills.ts',
@@ -99,6 +101,7 @@ module.exports = {
         'authApiUrl': JSON.stringify(backendURI + '/auth'),
         'templateDir': JSON.stringify('/static/commons/templates/'),
         'blueprintTemplateDir': JSON.stringify('/static/custom/templates/'),
+        'projectTitle': JSON.stringify(projectTitle),
         'allowRegistration': JSON.stringify(false),
         'loggedLandingPage': JSON.stringify('logged.search')
       }
