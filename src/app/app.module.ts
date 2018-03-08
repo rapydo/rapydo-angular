@@ -19,6 +19,8 @@ import { declarations as customDeclarations } from '/app/frontend/app/app.declar
 import { IteratePipe } from './app.pipes'
 
 import { ProfileComponent } from './app.profile';
+import { HomeComponent } from './app.home';
+import { Error404Component } from './app.error.404';
 import { ChangePasswordComponent } from './app.profile.changepassword';
 import { SessionsComponent } from './app.profile.sessions';
 import { NavbarComponent } from './app.navbar';
@@ -33,7 +35,16 @@ import { JwtInterceptor } from './jwt.interceptor';
 export class HybridUrlHandlingStrategy implements UrlHandlingStrategy {
   
   shouldProcessUrl(url) {
-    return url.toString().startsWith("/new");
+    url = url.toString();
+
+    if (url == '/') return true;
+    if (url.toString().startsWith("/new")) return true;
+
+    if (url.toString().startsWith("/app")) return false;
+
+    console.log(url);
+
+    return true;
   }
   extract(url) { return url; }
   merge(url, whole) { return url; }
@@ -43,6 +54,7 @@ var declarations = [
   AppComponent,
   LoginComponent,
   ProfileComponent, ChangePasswordComponent, SessionsComponent,
+  HomeComponent, Error404Component,
   NavbarComponent,
   TestComponent,
   IteratePipe

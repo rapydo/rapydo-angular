@@ -184,7 +184,7 @@ function routeConfig(
     var baseRoutes = {
 
         // Welcome page
-        "public.welcome": {
+/*        "public.welcome": {
             url: "/welcome",
             views: {
                 "unlogged": {
@@ -192,21 +192,9 @@ function routeConfig(
                     templateUrl: 'welcome.html',
                 }
             }
-        },
+        },*/
 
-        // To log the user in
-        "public.login": {
-            url: "/login",
-            views: {
-                "unlogged": {
-                    dir: "base",
-                    templateUrl: 'login.html'
-                }
-            }
-        },
-
-        // To log the user in
-        "public.register": {
+/*        "public.register": {
             url: "/register",
             views: {
                 "unlogged": {
@@ -215,17 +203,7 @@ function routeConfig(
                 }
             }
         },
-
-        "logged.logout": {
-            url: "/logout",
-            views: {
-                "loggedview": {
-                    dir: "base",
-                    templateUrl: 'logout.html'
-                }
-            }
-        },
-
+*/
         "logged.profile": {
             url: "/profile",
             views: {
