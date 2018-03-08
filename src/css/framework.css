@@ -3,6 +3,15 @@ html, body {
     width: 100%;
 }
 
+/* Bootstrap v3.3.7 -> remove me in a near future! */
+.modal-dialog {
+  position:absolute;
+  top:20%;
+  z-index: 10040;
+  overflow: auto;
+  overflow-y: auto
+}
+
 .vertical-center {
   min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
   min-height: 100vh; /* These two lines are counted as one :-)       */

@@ -17,7 +17,7 @@
     "angular-formly-templates-bootstrap": "^6.5.1",
     "angular-messages": "~1.5.5",
     "angular-sanitize": "~1.5.5",
-    "angular-tablesort": "^1.6.0",
+    "angular-tablesort": "1.6.0",
     "angular-ui-bootstrap": "~2.5.0",
     "api-check": "^7.5.5",
     "express": "^4.16.1",
@@ -42,7 +42,7 @@
     "rxjs": "5.5.5",
     "zone.js": "^0.8.4",
 
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^4.0.0",
     "@ng-bootstrap/ng-bootstrap": "",
 
     "moment": "^2.21.0",
