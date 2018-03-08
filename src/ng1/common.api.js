@@ -15,8 +15,7 @@ function RestApiService($http, $q, AuthService2, $log, $httpParamSerializerJQLik
         login: 'login',
         tokens: 'tokens',
         logout: 'logout',
-        admin: 'verifyadmin',
-        queue: 'queue'
+        admin: 'verifyadmin'
     };
 
 
