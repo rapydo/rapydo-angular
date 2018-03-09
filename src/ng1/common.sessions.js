@@ -3,7 +3,7 @@
 
 angular.module('web').controller('SessionsController', SessionsController);
 
-function SessionsController(AuthService2, api, FormDialogService)
+function SessionsController($log, AuthService2, api, FormDialogService)
 {
 
 	var self = this;
@@ -32,7 +32,7 @@ function SessionsController(AuthService2, api, FormDialogService)
 				var data = {}
 				return api.revokeToken(id).then(
 					function(out_data) {
-			    		ebug("Token invalidated");
+			    		$log.debug("Token invalidated");
 						self.loadTokens();
 			        	return true;
 		    		},
@@ -47,6 +47,8 @@ function SessionsController(AuthService2, api, FormDialogService)
 	}
 };
 
-SessionsController.$inject = ["AuthService2", "api", "FormDialogService"];
+SessionsController.$inject = [
+	"$log", "AuthService2", "api", "FormDialogService"
+];
 
 })();
