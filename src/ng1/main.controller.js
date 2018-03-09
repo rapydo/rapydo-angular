@@ -53,20 +53,8 @@ function MainController($scope, $rootScope, $window, $log, $timeout, $state, api
             return msg;
         }
     }
-// SET TO LOAD APIs?
+    // SET TO LOAD APIs?
     self.load = false;
-
-/*
-    // Init keys
-    hotkeys.bindTo($scope)
-        .add({
-            combo: "/",
-            description: "Use quick search form",
-            callback: function() {
-                keyshortcuts.search(event, self);
-            }
-        });
-*/
 
     // Handling logged states
     var loggedKey = 'logged.';

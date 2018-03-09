@@ -7,7 +7,6 @@
         'ngMessages',
         'ui.router',
         'ui.bootstrap',
-        'cfp.hotkeys',
         'formly',
         'formlyBootstrap',
         'angular.chips',
