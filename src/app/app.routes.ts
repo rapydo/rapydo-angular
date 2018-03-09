@@ -6,10 +6,11 @@ import { AuthGuard } from './app.auth.guard';
 
 import { LoginComponent } from './login.component';
 import { ProfileComponent } from './app.profile';
-import { HomeComponent } from './app.home';
+import { HomeComponent } from '/app/frontend/app/app.home';
 import { Error404Component } from './app.error.404';
 import { ChangePasswordComponent } from './app.profile.changepassword';
 import { SessionsComponent } from './app.profile.sessions';
+
 import { TestComponent } from './app.test';
 
 export const appRoutes: Routes = [

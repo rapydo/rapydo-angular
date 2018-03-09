@@ -3,13 +3,20 @@ import { NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'navbar',
-  templateUrl: './app.navbar.html',
+  template: require('/app/frontend/app/app.navbar.html'),
 })
 export class NavbarComponent {
 
 	@Input() user: any;
 
-	constructor(private modalService: NgbModal) { }
+	public myproject: string
+
+	constructor(private modalService: NgbModal) { 
+		var t = process.env.projectTitle;
+		t = t.replace(/^'/, "");
+		t = t.replace(/'$/, "");
+		this.myproject = t; 
+	}
 
 	logout(content) {
 	    this.modalService.open(content).result.then((result) => {

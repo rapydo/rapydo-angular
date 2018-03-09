@@ -10,6 +10,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { MomentModule } from 'angular2-moment/moment.module';
 
+
 import { AppComponent } from './app.component';
 
 import { appRoutes } from './app.routes';
@@ -19,11 +20,13 @@ import { declarations as customDeclarations } from '/app/frontend/app/app.declar
 import { IteratePipe } from './app.pipes'
 
 import { ProfileComponent } from './app.profile';
-import { HomeComponent } from './app.home';
 import { Error404Component } from './app.error.404';
 import { ChangePasswordComponent } from './app.profile.changepassword';
 import { SessionsComponent } from './app.profile.sessions';
+
+import { HomeComponent } from '/app/frontend/app/app.home';
 import { NavbarComponent } from './app.navbar';
+
 import { TestComponent } from './app.test';
 
 import { AuthGuard } from './app.auth.guard';
