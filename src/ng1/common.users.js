@@ -1,8 +1,7 @@
 (function() {
   'use strict';
 
-angular.module('web')
-    .controller('ProfileController', ProfileController);
+angular.module('web').controller('ProfileController', ProfileController);
 
 function ProfileController($scope, $log, $state, AuthService2, api, noty)
 {
