@@ -162,7 +162,7 @@ LoginController.$inject = [
 
 
 function LogoutController(
-    $scope, $rootScope, $log, AuthService2, $window, $uibModal, $state, api, noty) {
+    $scope, $rootScope, $log, AuthService2, $window, $uibModal, $state, CommonDataService, noty) {
     // Init controller
     $log.debug("Logout Controller");
     var self = this;
@@ -206,7 +206,7 @@ function LogoutController(
 
         self.showConfirmDialog().then(
             function(answer) {
-                api.apiCall(api.endpoints.logout, 'GET', undefined, undefined, true) .then(
+                CommonDataService.logout().then(
                     function(response) {
                         $log.info("Logging out", response);
 
@@ -232,7 +232,7 @@ function LogoutController(
 
 LogoutController.$inject = [
     "$scope", "$rootScope", "$log", "AuthService2", "$window",
-    "$uibModal", "$state", "api", "noty"
+    "$uibModal", "$state", "CommonDataService", "noty"
 ];
 
 // THE END
