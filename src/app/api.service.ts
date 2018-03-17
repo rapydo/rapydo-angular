@@ -18,7 +18,7 @@ export class ApiService {
 		return this.call("PUT", endpoint, id, data, formData, extraConfig)
 	}
 	public delete(endpoint: string, id="", formData=false, extraConfig={}) {
-		return this.call("GET", endpoint, id, [], formData, extraConfig)
+		return this.call("DELETE", endpoint, id, [], formData, extraConfig)
 	}
 
 	private call(method:string, endpoint: string, id="", data={}, formData=false, extraConfig={}) {
@@ -66,42 +66,45 @@ export class ApiService {
 
         if (skipPromiseResolve) return httpCall;
 
-        return httpCall.subscribe(
-        	response => {
+        try {
+	        return httpCall.map(
+	        	response => {
 
-                //$log.debug("API call successful");
+	                //$log.debug("API call successful");
+	                if (returnRawResponse) return response;
 
-                if (returnRawResponse) return response;
+	                if (response === null) {
+	                	response = {}
+	                	response.Meta = {}
+	                	response.Meta.status = 204
+	                	response.Response = {}
+	                	response.Response.data = ""
+	                }
 
-                if (response.Meta.status == 204) {
-                	console.log("Debug me: status == 204");
-                	console.log(response.Response);
+	                return response.Response;
+	          },
+	          error => {
+					console.log("errorCallback");
+	                /*$log.warn("API failed to call")*/
+	                console.log("Warning: API failed to call")
+	            	console.log(error);
+	/*
+	                if (returnRawResponse) return $q.reject(error);
 
-                    if (response.Response.data == "") {
-                        response.Response.data = "";
-                    }
-                }
+	                if (!error.data || !error.data.hasOwnProperty('Response')) {
+	                    return $q.reject(null);
+	                }
+	                if (typeof error.data.Response === 'undefined') {
+	                    return $q.reject(null);
+	                }
 
-                return response.Response;
-          },
-          error => {
-				console.log("errorCallback");
-                /*$log.warn("API failed to call")*/
-                console.log("Warning: API failed to call")
-            	console.log(error);
-/*
-                if (returnRawResponse) return $q.reject(error);
-
-                if (!error.data || !error.data.hasOwnProperty('Response')) {
-                    return $q.reject(null);
-                }
-                if (typeof error.data.Response === 'undefined') {
-                    return $q.reject(null);
-                }
-
-                return $q.reject(error.data.Response);
-*/
-        });
+	                return $q.reject(error.data.Response);
+	*/
+	        });
+	    } catch(err) {
+	    	console.log("argh!");
+	    	console.log(err);
+	    }
 
 	}
 
