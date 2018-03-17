@@ -3,7 +3,7 @@
 
 angular.module('web').controller('ProfileController', ProfileController);
 
-function ProfileController($scope, $log, $state, AuthService2, api, noty)
+function ProfileController($scope, $log, $state, AuthService2, CommonDataService, noty)
 {
 	var self = this;
 
@@ -26,14 +26,14 @@ function ProfileController($scope, $log, $state, AuthService2, api, noty)
 		if (self.totp_code)
 			data["totp_code"] = self.totp_code;
 
-		// api.apiCall('profile/'+uuid, 'PUT', data).then(
-		api.apiCall('profile', 'PUT', data).then(
+		CommonDataService.modifyProfile(data).then(
 			function(out_data) {
 				self.newPwd = ""
 				self.confirmPwd = ""
     			noty.showSuccess("Password successfully changed. Please login with your new password")
     			AuthService2.logout();
-    			$state.go("public.login");
+    			// should be public.login
+    			$state.go("logged.profile");
 	        	return true;
     		},
     		function(out_data) {
@@ -44,7 +44,7 @@ function ProfileController($scope, $log, $state, AuthService2, api, noty)
 	};
 };
 
-ProfileController.$inject = ["$scope", "$log", "$state", "AuthService2", "api", "noty"];
+ProfileController.$inject = ["$scope", "$log", "$state", "AuthService2", "CommonDataService", "noty"];
 
 })();
 

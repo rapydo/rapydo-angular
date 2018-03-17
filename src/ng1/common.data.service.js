@@ -6,15 +6,15 @@ angular.module('web').service('CommonDataService', CommonDataService);
 function CommonDataService(ApiService2, jsonapi_parser) {
 	var self = this;
 
-
     self.getActiveSessions = function() {
        return ApiService2.get('tokens', "", [], {"base": "auth"}).toPromise(); 
     }
     self.revokeToken = function(id) {
        return ApiService2.delete('tokens', id, {"base": "auth"}).toPromise(); 
     }
-    self.getUserSchema = function(study) {
-        return ApiService2.get('schemas/admin/users').toPromise();
+
+    self.modifyProfile = function(data) {
+        return ApiService2.put('profile', "", data, {"base": "auth"}).toPromise();
     };
 
     self.getUsers = function() {

@@ -23,8 +23,8 @@ function _redirectIfNotAuthenticated(
         $rootScope.profile = response;
         return true;
       }
-      /**/var state = 'public.login';
-      var state = 'public.login';
+      // Should be public.login
+      var state = 'logged.profile';
       // API not reachable
       if (response === null) {
         state = 'offline';
