@@ -7,31 +7,45 @@ export class ApiService {
 
 	constructor(private http:HttpClient) { }
 
-
-	public get(
-				endpoint: string, id="", data=[],
-				formData=false, extraConfig={}, base='api', returnRawResponse=false) {
-		return this.call("GET", endpoint, id, data, formData, extraConfig, base, returnRawResponse)
+	private opt(dict, value, defaultValue) {
+		if (value in dict) {
+			return dict[value];
+		} else {
+			return defaultValue;
+		}
 	}
-	public post(
-				endpoint: string, data=[],
-				formData=false, extraConfig={}, base='api', returnRawResponse=false) {
-		return this.call("POST", endpoint, "", data, formData, extraConfig, base, returnRawResponse)
+	public get(endpoint: string, id="", data=[], options={}) {
+		var formData = this.opt(options, "formData", undefined);
+		var extraConfig = this.opt(options, "extraConfig", undefined);
+		var base = this.opt(options, "base", undefined);
+		var rawResponse = this.opt(options, "rawResponse", undefined);
+		return this.call("GET", endpoint, id, data, formData, extraConfig, base, rawResponse);
 	}
-	public put(
-				endpoint: string, id="", data=[],
-				formData=false, extraConfig={}, base='api', returnRawResponse=false) {
-		return this.call("PUT", endpoint, id, data, formData, extraConfig, base, returnRawResponse)
+	public post(endpoint: string, data=[], options={}) {
+		var formData = this.opt(options, "formData", undefined);
+		var extraConfig = this.opt(options, "extraConfig", undefined);
+		var base = this.opt(options, "base", undefined);
+		var rawResponse = this.opt(options, "rawResponse", undefined);
+		return this.call("POST", endpoint, "", data, formData, extraConfig, base, rawResponse)
 	}
-	public delete(
-				endpoint: string, id="",
-				formData=false, extraConfig={}, base='api', returnRawResponse=false) {
-		return this.call("DELETE", endpoint, id, [], formData, extraConfig, base, returnRawResponse)
+	public put(endpoint: string, id="", data=[], options={}) {
+		var formData = this.opt(options, "formData", undefined);
+		var extraConfig = this.opt(options, "extraConfig", undefined);
+		var base = this.opt(options, "base", undefined);
+		var rawResponse = this.opt(options, "rawResponse", undefined);
+		return this.call("PUT", endpoint, id, data, formData, extraConfig, base, rawResponse)
+	}
+	public delete(endpoint: string, id="", options={}) {
+		var formData = this.opt(options, "formData", undefined);
+		var extraConfig = this.opt(options, "extraConfig", undefined);
+		var base = this.opt(options, "base", undefined);
+		var rawResponse = this.opt(options, "rawResponse", undefined);
+		return this.call("DELETE", endpoint, id, [], formData, extraConfig, base, rawResponse)
 	}
 
 	private call(
 		method:string, endpoint: string, id="", data={},
-		formData=false, extraConfig={}, base='api', returnRawResponse=false) {
+		formData=false, extraConfig={}, base='api', rawResponse=false) {
 
 		var ep = "";
 		if (base == "auth") {
@@ -85,7 +99,7 @@ export class ApiService {
 	        	response => {
 
 	                //$log.debug("API call successful");
-	                if (returnRawResponse) return response;
+	                if (rawResponse) return response;
 
 	                if (response === null) {
 	                	response = {}
@@ -103,7 +117,7 @@ export class ApiService {
 	                console.log("Warning: API failed to call")
 	            	console.log(error);
 	/*
-	                if (returnRawResponse) return $q.reject(error);
+	                if (rawResponse) return $q.reject(error);
 
 	                if (!error.data || !error.data.hasOwnProperty('Response')) {
 	                    return $q.reject(null);
@@ -135,7 +149,7 @@ export class ApiService {
         	base = "api"
         }
         /*return self.apiCall(endpoint, 'GET', undefined, undefined, true)*/
-        return this.get(endpoint, "", [], false, {}, base, true).map(
+        return this.get(endpoint, "", [], {"base": base, "rawResponse": true}).map(
 
         	function successCallback(response) {
                 if (response.Meta.status < 0) {
@@ -154,7 +168,7 @@ export class ApiService {
 
 
 
-    /*apiCall = function (endpoint, method, data, id, returnRawResponse, skipPromiseResolve, formData, requestConfig)*/
+    /*apiCall = function (endpoint, method, data, id, rawResponse, skipPromiseResolve, formData, requestConfig)*/
     
 
 }

@@ -1,8 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { ApiService } from './api.service';
 
 @Component({
   selector: 'navbar',
+  providers: [ApiService],
   template: require('/app/frontend/app/app.navbar.html'),
 })
 export class NavbarComponent {
@@ -11,11 +13,18 @@ export class NavbarComponent {
 
 	public myproject: string
 
-	constructor(private modalService: NgbModal) { 
+	constructor(private modalService: NgbModal, private api: ApiService) { 
 		var t = process.env.projectTitle;
 		t = t.replace(/^'/, "");
 		t = t.replace(/'$/, "");
 		this.myproject = t; 
+
+/*		
+		this.api.get('default_fields').subscribe(
+			test => console.log(test)
+		);
+*/
+
 	}
 
 	logout(content) {
