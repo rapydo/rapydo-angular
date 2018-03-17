@@ -36,6 +36,11 @@ function JsonAPIParser($q) {
     }
 
     self.parseResponse = function(response) {
+
+        try {
+            response = response.toPromise();
+        } catch(err) {}
+
         return response.then(
             function(response) {
                 if (!response.data) {
@@ -58,6 +63,7 @@ function JsonAPIParser($q) {
             }
         );
     }
+
 };
 JsonAPIParser.$inject = ["$q"]
 
