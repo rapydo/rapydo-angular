@@ -3,42 +3,39 @@
 
 angular.module('web').service('CommonDataService', CommonDataService);
 
-function CommonDataService($log, api, $q, jsonapi_parser) {
+function CommonDataService(ApiService2, jsonapi_parser) {
 	var self = this;
 
     self.getUserSchema = function(study) {
-        return api.apiCall("schemas/admin/users", 'GET');
+        return ApiService2.get("schemas/admin/users").toPromise();
     };
 
     self.getUsers = function() {
-        var out = api.apiCall('admin/users', 'GET')
-        return jsonapi_parser.parseResponse(out);
+        return jsonapi_parser.parseResponse(ApiService2.get('admin/users'));
     };
 
     self.saveUser = function(data) {
-        return api.apiCall('admin/users', 'POST', data);
+        return ApiService2.post('admin/users', data).toPromise();
     };
 
     self.deleteUser = function(user) {
-        return api.apiCall('admin/users/'+user, 'DELETE');
+        return ApiService2.delete('admin/users', user).toPromise();
     };
 
     self.updateUser = function(user, data) {
-        return api.apiCall('admin/users/'+user, 'PUT', data);
+        return ApiService2.put('admin/users', user, data).toPromise();
     };
 
     self.getUserRoles = function(query) {
-        var endpoint = 'role/'+query;
-        return api.apiCall(endpoint, 'GET');
+        return ApiService2.get('role', query).toPromise();
     };
 
     self.getUserGroups = function(query) {
-        var endpoint = 'group/'+query;
-        return api.apiCall(endpoint, 'GET');
+        return ApiService2.get('group', query).toPromise();
     };
 	
 };
 
-CommonDataService.$inject = ["$log", "api", "$q", "jsonapi_parser"];
+CommonDataService.$inject = ["ApiService2", "jsonapi_parser"];
 
 })();
