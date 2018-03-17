@@ -124,7 +124,7 @@ function RestApiService($http, $q, AuthService2, $log, $httpParamSerializerJQLik
                 return $q.reject(response.data.Response);
         });
     }
-
+/*
     self.verify = function(logged)
     {
         var endpoint = self.endpoints.check;
@@ -144,6 +144,7 @@ function RestApiService($http, $q, AuthService2, $log, $httpParamSerializerJQLik
                 return false
             });
     }
+*/
     self.getActiveSessions = function()
     {
         return self.apiCall("tokens", 'GET').then(

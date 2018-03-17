@@ -8,22 +8,37 @@ export class ApiService {
 	constructor(private http:HttpClient) { }
 
 
-	public get(endpoint: string, id="", data=[], formData=false, extraConfig={}) {
-		return this.call("GET", endpoint, id, data, formData, extraConfig)
+	public get(
+				endpoint: string, id="", data=[],
+				formData=false, extraConfig={}, base='api', returnRawResponse=false) {
+		return this.call("GET", endpoint, id, data, formData, extraConfig, base, returnRawResponse)
 	}
-	public post(endpoint: string, data=[], formData=false, extraConfig={}) {
-		return this.call("POST", endpoint, "", data, formData, extraConfig)
+	public post(
+				endpoint: string, data=[],
+				formData=false, extraConfig={}, base='api', returnRawResponse=false) {
+		return this.call("POST", endpoint, "", data, formData, extraConfig, base, returnRawResponse)
 	}
-	public put(endpoint: string, id="", data=[], formData=false, extraConfig={}) {
-		return this.call("PUT", endpoint, id, data, formData, extraConfig)
+	public put(
+				endpoint: string, id="", data=[],
+				formData=false, extraConfig={}, base='api', returnRawResponse=false) {
+		return this.call("PUT", endpoint, id, data, formData, extraConfig, base, returnRawResponse)
 	}
-	public delete(endpoint: string, id="", formData=false, extraConfig={}) {
-		return this.call("DELETE", endpoint, id, [], formData, extraConfig)
+	public delete(
+				endpoint: string, id="",
+				formData=false, extraConfig={}, base='api', returnRawResponse=false) {
+		return this.call("DELETE", endpoint, id, [], formData, extraConfig, base, returnRawResponse)
 	}
 
-	private call(method:string, endpoint: string, id="", data={}, formData=false, extraConfig={}) {
+	private call(
+		method:string, endpoint: string, id="", data={},
+		formData=false, extraConfig={}, base='api', returnRawResponse=false) {
 
-		var ep = process.env.apiUrl + "/" + endpoint;
+		var ep = "";
+		if (base == "auth") {
+			ep = process.env.authApiUrl + "/" + endpoint;
+		} else {
+			ep = process.env.apiUrl + "/" + endpoint;
+		}
 		if (id != "") {
 			ep += "/" + id;
 		}
@@ -62,7 +77,6 @@ export class ApiService {
 		}
 
 		var skipPromiseResolve = false;
-		var returnRawResponse = false;
 
         if (skipPromiseResolve) return httpCall;
 
@@ -100,6 +114,7 @@ export class ApiService {
 
 	                return $q.reject(error.data.Response);
 	*/
+					return error.data.Response;
 	        });
 	    } catch(err) {
 	    	console.log("argh!");
@@ -107,6 +122,33 @@ export class ApiService {
 	    }
 
 	}
+
+    private verify = function(logged)
+    {
+        var endpoint = '';
+        var base = '';
+        if (logged) {
+            endpoint = 'profile';
+            base = "auth"
+        } else {
+        	endpoint = 'status';
+        	base = "api"
+        }
+        /*return self.apiCall(endpoint, 'GET', undefined, undefined, true)*/
+        return this.get(endpoint, "", [], false, {}, base, true).map(
+
+        	function successCallback(response) {
+                if (response.Meta.status < 0) {
+                	console.log("API offline?")
+                    // API offline
+                    return null;
+                }
+                return response.Response.data;
+                //return true;
+            }, function errorCallback(response) {
+                return false
+            });
+    }
 
 
 

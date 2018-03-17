@@ -11,10 +11,10 @@ angular.module('web').config(routeConfig);
 
 // Check authentication via Token
 function _redirectIfNotAuthenticated(
-    $log, $rootScope, $state, AuthService2, $timeout, api) {
+    $log, $rootScope, $state, AuthService2, $timeout, ApiService2) {
     //console.log("CHECK LOGGED");
     var checkLogged = true;
-    return api.verify(checkLogged).then(function(response)
+    return ApiService2.verify(checkLogged).subscribe(function(response)
     {
       // Token is available and API confirm that is good
       if (response && AuthService2.isAuthenticated()) {
@@ -23,6 +23,7 @@ function _redirectIfNotAuthenticated(
         $rootScope.profile = response;
         return true;
       }
+      /**/var state = 'public.login';
       var state = 'public.login';
       // API not reachable
       if (response === null) {
@@ -45,23 +46,22 @@ function _redirectIfNotAuthenticated(
         $log.error("Failed with", error);
         $rootScope.logged = false;
         $timeout(function () {
-            $state.go('public.login');
+            $state.go('offline');
             return false;
         });
     });
 };
 
 _redirectIfNotAuthenticated.$inject = [
-    "$log", "$rootScope", "$state", "AuthService2", "$timeout", "api"
+    "$log", "$rootScope", "$state", "AuthService2", "$timeout", "ApiService2"
 ];
 
 // Skip authentication
 // Check for API available
-function _skipAuthenticationCheckApiOnline($state, $timeout, AuthService2, $rootScope, api)
+function _skipAuthenticationCheckApiOnline($state, $timeout, AuthService2, $rootScope, ApiService2)
 {
     var checkLogged = false;
-    return api.verify(checkLogged)
-      .then(function(response){
+    return ApiService2.verify(checkLogged).subscribe(function(response){
 
         // API available
         if (response) {
@@ -71,7 +71,7 @@ function _skipAuthenticationCheckApiOnline($state, $timeout, AuthService2, $root
           // to know if you are logged also in public pages
             if (AuthService2.isAuthenticated()) {
                 checkLogged = true;
-                return api.verify(checkLogged).then(function(response) {
+                return ApiService2.verify(checkLogged).subscribe(function(response) {
                     // Token is available and API confirm that is good
                     if (response && AuthService2.isAuthenticated()) {
                         $rootScope.logged = true;
@@ -92,7 +92,7 @@ function _skipAuthenticationCheckApiOnline($state, $timeout, AuthService2, $root
 
 }
 _skipAuthenticationCheckApiOnline.$inject = [
-    "$state", "$timeout", "AuthService2", "$rootScope", "api"
+    "$state", "$timeout", "AuthService2", "$rootScope", "ApiService2"
 ]
 
 

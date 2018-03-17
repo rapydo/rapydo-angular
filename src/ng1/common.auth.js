@@ -7,7 +7,7 @@ angular.module('web')
 
 //////////////////////////////
 function LoginController(
-    $scope, $log, $window, AuthService2, $document, $timeout, $state, noty) {
+    $log, $window, AuthService2, $document, $timeout, $state, noty) {
 
     // Init controller
     $log.debug("Login Controller");
@@ -156,7 +156,7 @@ function LoginController(
 };
 
 LoginController.$inject = [
-    "$scope", "$log", "$window", "AuthService2",
+    "$log", "$window", "AuthService2",
     "$document", "$timeout", "$state", "noty"
 ];
 
