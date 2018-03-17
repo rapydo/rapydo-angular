@@ -2,9 +2,7 @@
   'use strict';
 
 angular.module('web')
-//.service('auth', authService)
 .controller('LoginController', LoginController)
-.controller('RegisterController', RegisterController)
 .controller('LogoutController', LogoutController);
 
 //////////////////////////////
@@ -161,62 +159,6 @@ LoginController.$inject = [
     "$scope", "$log", "$window", "AuthService2",
     "$document", "$timeout", "$state", "noty"
 ];
-
-function RegisterController($scope, $log, AuthService2, api, noty)
-{
-    // Init controller
-    var self = this;
-    self.errors = null;
-    self.userMessage = null;
-    $log.debug("Register Controller");
-
-    // Skip if already logged
-    if (AuthService2.isAuthenticated())
-    {
-        $timeout(function () {
-            $log.debug("Already logged");
-            $state.go(process.env.loggedLandingPage);
-        });
-    }
-
-    // Init the model
-    self.user = {
-       email: null,
-       name: null,
-       surname: null,
-       password: null,
-       password_confirm: null,
-    };
-
-    self.request = function()
-    {
-        var credentials = self.user;
-        if (credentials.name == null || credentials.surname == null)
-            return false;
-
-        $log.debug("Requested registration:", credentials);
-
-        api.apiCall(api.endpoints.register, 'POST', credentials, null, true)
-         .then(
-            function(response) {
-                $log.debug("REG Success call", response);
-
-                if (response.status > 210) {
-                    var errors = response.data.errors;
-                    $log.warn("Registration: failed", errors);
-                    self.errors = errors;
-                    noty.showError("Failed to register...")
-                } else {
-                    noty.showSuccess("New user created")
-                    self.errors = null;
-                    self.userMessage =
-                        "Account registered. Pending admin approval.";
-                }
-            }
-        );
-
-    }
-}
 
 
 function LogoutController(

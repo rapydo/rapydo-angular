@@ -194,16 +194,6 @@ function routeConfig(
             }
         },*/
 
-/*        "public.register": {
-            url: "/register",
-            views: {
-                "unlogged": {
-                    dir: "base",
-                    templateUrl: 'registration.html'
-                }
-            }
-        },
-*/
         "logged.profile": {
             url: "/profile",
             views: {
