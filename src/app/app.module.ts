@@ -31,6 +31,7 @@ import { TestComponent } from './app.test';
 
 import { AuthGuard } from './app.auth.guard';
 import { AuthService } from './app.auth.service';
+import { ApiService } from './api.service';
 import { LoginComponent } from './login.component';
 import { JwtInterceptor } from './jwt.interceptor';
 
@@ -83,7 +84,7 @@ appRoutes.concat(customRoutes);
   declarations: declarations,
   bootstrap: [ AppComponent ],
   providers: [
-    AuthService, AuthGuard,
+    AuthService, AuthGuard, ApiService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     { provide: UrlHandlingStrategy, useClass: HybridUrlHandlingStrategy}
   ]
@@ -98,3 +99,4 @@ upgradeAdapter.upgradeNg1Provider('$rootScope');
 
 import * as angular from "angular";
 angular.module('web').factory("AuthService2", downgradeInjectable(AuthService) as any)
+angular.module('web').factory("ApiService2", downgradeInjectable(ApiService) as any)

@@ -2,14 +2,12 @@
   'use strict';
 
 angular.module('web')
-//.service('auth', authService)
 .controller('LoginController', LoginController)
-.controller('RegisterController', RegisterController)
 .controller('LogoutController', LogoutController);
 
 //////////////////////////////
 function LoginController(
-    $scope, $log, $window, AuthService2, $document, $timeout, $state, noty) {
+    $log, $window, AuthService2, $document, $timeout, $state, noty) {
 
     // Init controller
     $log.debug("Login Controller");
@@ -158,69 +156,13 @@ function LoginController(
 };
 
 LoginController.$inject = [
-    "$scope", "$log", "$window", "AuthService2",
+    "$log", "$window", "AuthService2",
     "$document", "$timeout", "$state", "noty"
 ];
 
-function RegisterController($scope, $log, AuthService2, api, noty)
-{
-    // Init controller
-    var self = this;
-    self.errors = null;
-    self.userMessage = null;
-    $log.debug("Register Controller");
-
-    // Skip if already logged
-    if (AuthService2.isAuthenticated())
-    {
-        $timeout(function () {
-            $log.debug("Already logged");
-            $state.go(process.env.loggedLandingPage);
-        });
-    }
-
-    // Init the model
-    self.user = {
-       email: null,
-       name: null,
-       surname: null,
-       password: null,
-       password_confirm: null,
-    };
-
-    self.request = function()
-    {
-        var credentials = self.user;
-        if (credentials.name == null || credentials.surname == null)
-            return false;
-
-        $log.debug("Requested registration:", credentials);
-
-        api.apiCall(api.endpoints.register, 'POST', credentials, null, true)
-         .then(
-            function(response) {
-                $log.debug("REG Success call", response);
-
-                if (response.status > 210) {
-                    var errors = response.data.errors;
-                    $log.warn("Registration: failed", errors);
-                    self.errors = errors;
-                    noty.showError("Failed to register...")
-                } else {
-                    noty.showSuccess("New user created")
-                    self.errors = null;
-                    self.userMessage =
-                        "Account registered. Pending admin approval.";
-                }
-            }
-        );
-
-    }
-}
-
 
 function LogoutController(
-    $scope, $rootScope, $log, AuthService2, $window, $uibModal, $state, api, noty) {
+    $scope, $rootScope, $log, AuthService2, $window, $uibModal, $state, CommonDataService, noty) {
     // Init controller
     $log.debug("Logout Controller");
     var self = this;
@@ -264,7 +206,7 @@ function LogoutController(
 
         self.showConfirmDialog().then(
             function(answer) {
-                api.apiCall(api.endpoints.logout, 'GET', undefined, undefined, true) .then(
+                CommonDataService.logout().then(
                     function(response) {
                         $log.info("Logging out", response);
 
@@ -290,7 +232,7 @@ function LogoutController(
 
 LogoutController.$inject = [
     "$scope", "$rootScope", "$log", "AuthService2", "$window",
-    "$uibModal", "$state", "api", "noty"
+    "$uibModal", "$state", "CommonDataService", "noty"
 ];
 
 // THE END

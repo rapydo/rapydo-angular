@@ -3,7 +3,7 @@
 
 angular.module('web').controller('SessionsController', SessionsController);
 
-function SessionsController($log, AuthService2, api, FormDialogService)
+function SessionsController($log, AuthService2, CommonDataService, FormDialogService)
 {
 
 	var self = this;
@@ -11,9 +11,9 @@ function SessionsController($log, AuthService2, api, FormDialogService)
 	var token_in_use = AuthService2.getToken();
 
 	self.loadTokens = function() {
-		api.getActiveSessions().then(
+		CommonDataService.getActiveSessions().then(
 			function(response) {
-				self.tokens = response
+				self.tokens = response.data;
 
 				for (var i = 0; i < self.tokens.length; i++) {
 					self.tokens[i].inuse = (self.tokens[i].token == token_in_use);
@@ -30,7 +30,7 @@ function SessionsController($log, AuthService2, api, FormDialogService)
 		FormDialogService.showConfirmDialog(text, subtext).then(
 			function(answer) {
 				var data = {}
-				return api.revokeToken(id).then(
+				CommonDataService.revokeToken(id).then(
 					function(out_data) {
 			    		$log.debug("Token invalidated");
 						self.loadTokens();
@@ -48,7 +48,7 @@ function SessionsController($log, AuthService2, api, FormDialogService)
 };
 
 SessionsController.$inject = [
-	"$log", "AuthService2", "api", "FormDialogService"
+	"$log", "AuthService2", "CommonDataService", "FormDialogService"
 ];
 
 })();

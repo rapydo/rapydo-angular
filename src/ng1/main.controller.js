@@ -3,7 +3,7 @@
 
 angular.module('web').controller('MainController', MainController);
 
-function MainController($scope, $rootScope, $window, $log, $timeout, $state, api)
+function MainController($scope, $rootScope, $window, $log, $timeout, $state, AuthService2)
 {
     // Init controller
     var self = this;
@@ -69,7 +69,7 @@ function MainController($scope, $rootScope, $window, $log, $timeout, $state, api
         if (self.intro) { timeToWait = 0; }
 
         // Check if not logged state and not authorized
-        if (!checkLoggedState(current) && api.checkToken() !== null)
+        if (!checkLoggedState(current) && AuthService2.getToken() !== null)
         {
             // If login page, we need extra time
             if (current.name == 'login') {
@@ -152,7 +152,7 @@ function MainController($scope, $rootScope, $window, $log, $timeout, $state, api
 };
 
 MainController.$inject = [
-    "$scope", "$rootScope", "$window", "$log", "$timeout", "$state", "api"
+    "$scope", "$rootScope", "$window", "$log", "$timeout", "$state", "AuthService2"
 ];
 
 })();

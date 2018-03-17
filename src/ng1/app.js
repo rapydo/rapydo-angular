@@ -11,8 +11,8 @@
         'formlyBootstrap',
         'angular.chips',
         'tableSort',
-        'flow'
-        'ngFileSaver',
+        'flow',
+        'ngFileSaver'
     ]);
 
 })();

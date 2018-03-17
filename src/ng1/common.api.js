@@ -22,9 +22,6 @@ function RestApiService($http, $q, AuthService2, $log, $httpParamSerializerJQLik
     self.getOrDefault = function (value, mydefault) {
         return typeof value !== 'undefined' ? value : mydefault;
     };
-    self.checkToken = function () {
-        return AuthService2.getToken();
-    };
 
     self.postFormData = function (endpoint, method, data) {
         return self.apiCall(endpoint, method, data, undefined, false, false, true);
@@ -74,7 +71,7 @@ function RestApiService($http, $q, AuthService2, $log, $httpParamSerializerJQLik
             contentType = 'application/x-www-form-urlencoded';
         }
 
-        var token = self.checkToken(),
+        var token = AuthService2.getToken(),
             timeout = 30000,
             req = {
                 method: method,
@@ -124,48 +121,6 @@ function RestApiService($http, $q, AuthService2, $log, $httpParamSerializerJQLik
                 return $q.reject(response.data.Response);
         });
     }
-
-    self.verify = function(logged)
-    {
-        var endpoint = self.endpoints.check;
-        if (logged) {
-            endpoint = self.endpoints.logged;
-        }
-        return self.apiCall(endpoint, 'GET', undefined, undefined, true)
-            .then(function successCallback(response) {
-                $log.debug("API verify:", response);
-                if (response.status < 0) {
-                    // API offline
-                    return null;
-                }
-                return response.data.Response.data;
-                //return true;
-            }, function errorCallback(response) {
-                return false
-            });
-    }
-    self.getActiveSessions = function()
-    {
-        return self.apiCall("tokens", 'GET').then(
-            function(response) {
-                return response.data
-            }, function(response) {
-                return response
-            }
-            );
-    }
-
-    self.revokeToken = function(id)
-    {
-        return self.apiCall("tokens", 'DELETE', {}, id).then(
-            function(response) {
-                return response
-            }, function(response) {
-                return response
-            }
-            );
-    }
-
 };
 RestApiService.$inject = [
     "$http", "$q", "AuthService2", "$log", "$httpParamSerializerJQLike"
