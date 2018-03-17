@@ -22,9 +22,6 @@ function RestApiService($http, $q, AuthService2, $log, $httpParamSerializerJQLik
     self.getOrDefault = function (value, mydefault) {
         return typeof value !== 'undefined' ? value : mydefault;
     };
-    self.checkToken = function () {
-        return AuthService2.getToken();
-    };
 
     self.postFormData = function (endpoint, method, data) {
         return self.apiCall(endpoint, method, data, undefined, false, false, true);
@@ -74,7 +71,7 @@ function RestApiService($http, $q, AuthService2, $log, $httpParamSerializerJQLik
             contentType = 'application/x-www-form-urlencoded';
         }
 
-        var token = self.checkToken(),
+        var token = AuthService2.getToken(),
             timeout = 30000,
             req = {
                 method: method,
