@@ -1,8 +1,7 @@
 
 <nav class="navbar navbar-expand navbar-light bg-light">
-	<a class="navbar-brand" href="https://imediacities.eu" target="_blank">
-		<!-- {{ myproject }} -->
-		<img ng-src="static/assets/images/IMC-Logo-transp.png">
+	<a class="navbar-brand" href="" target="_blank">
+		{{ myproject }}
 	</a>
 
 	<ul class="navbar-nav">
@@ -13,37 +12,6 @@
         <li class='nav-item' *ngIf="user">
         	<a class='nav-link' routerLink='/new/profile' routerLinkActive="active">*Profile*</a>
         </li>
-
-
-	    <li class='nav-item' *ngIf="user && user.roles['Archive']">
-		    <a class='nav-link' routerLink="/app/upload" ui-sref="logged.upload">
-	          Upload
-	        </a>
-	    </li>
-
-	    <li class='nav-item' *ngIf="user">
-	        <a class='nav-link' href ui-sref="logged.new-search({q: null})" ui-sref-opts="{reload: true}">
-	          Search
-	        </a>
-	    </li>
-
-	    <li class='nav-item' *ngIf="user && (user.isAdmin || user.isGroupAdmin)">
-	        <a class='nav-link' routerLink="/app/admin/users" ui-sref="logged.admin.users">
-	          Users
-	        </a>
-	    </li>
-
-	    <li class='nav-item' *ngIf="user && user.isAdmin">
-		    <a class='nav-link' routerLink="/app/admin/groups" ui-sref="logged.admin.groups">
-	          Groups
-	        </a>
-	    </li>
-
-	    <li class='nav-item' *ngIf="user && user.isAdmin">
-	        <a class='nav-link' routerLink="/app/admin/archive" ui-sref="logged.admin.archive">
-	          Archive 
-	        </a>
-	    </li>
 
 	</ul>
 
