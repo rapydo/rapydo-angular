@@ -1,12 +1,31 @@
 
 import { Injectable } from '@angular/core';
+import { catchError, map } from 'rxjs/operators';
+import { _throw } from 'rxjs/observable/throw';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class ApiService {
 
+	public static is_online: boolean; 
+
 	constructor(private http:HttpClient) { }
 
+	public is_online(): boolean {
+		return ApiService.is_online;
+	}
+	public set_online() {
+
+		ApiService.is_online = true;
+		return ApiService.is_online;
+
+	}
+	public set_offline() {
+
+		ApiService.is_online = false;
+		return ApiService.is_online;
+		
+	}
 	private opt(dict, value, defaultValue) {
 		if (value in dict) {
 			return dict[value];
@@ -91,76 +110,35 @@ export class ApiService {
 			return false;
 		}
 
-		var skipPromiseResolve = false;
+        return httpCall.pipe(
+        	map(response => {
 
-        if (skipPromiseResolve) return httpCall;
+        		this.set_online();
+                //$log.debug("API call successful");
+                if (rawResponse) return response;
 
-        try {
-	        return httpCall.map(
-	        	response => {
+                if (response === null) {
+/*                	response = {}
+                	response.Meta = {}
+                	response.Meta.status = 204
+                	response.Response = {}
+                	response.Response.data = ""*/
+                }
 
-	                //$log.debug("API call successful");
-	                if (rawResponse) return response;
+                return response["Response"];
+            }),
+            catchError((error, caught) => {
 
-	                if (response === null) {
-	                	response = {}
-	                	response.Meta = {}
-	                	response.Meta.status = 204
-	                	response.Response = {}
-	                	response.Response.data = ""
-	                }
+                console.log("Warning: API failed to call")
+            	if (error.status <= 0) {
+            		this.set_offline();
+            	} else {
+            		this.set_online();
+            	}
 
-	                return response.Response;
-	          },
-	          error => {
-					console.log("errorCallback");
-	                /*$log.warn("API failed to call")*/
-	                console.log("Warning: API failed to call")
-	            	console.log(error);
-	/*
-	                if (rawResponse) return $q.reject(error);
-
-	                if (!error.data || !error.data.hasOwnProperty('Response')) {
-	                    return $q.reject(null);
-	                }
-	                if (typeof error.Response === 'undefined') {
-	                    return $q.reject(null);
-	                }
-
-	                return $q.reject(error.Response);
-	*/
-					return error.Response;
-	        });
-	    } catch(err) {
-	    	console.log("argh!");
-	    	console.log(err);
-	    }
-
+            	return _throw(error)
+	        })
+        );
 	}
 
-    private verify = function(logged)
-    {
-        var endpoint = '';
-        var base = '';
-        if (logged) {
-            endpoint = 'profile';
-            base = "auth"
-        } else {
-        	endpoint = 'status';
-        	base = "api"
-        }
-        return this.get(endpoint, "", [], {"base": base, "rawResponse": true}).map(
-
-        	function successCallback(response) {
-                if (response.Meta.status < 0) {
-                	console.log("API offline?")
-                    // API offline
-                    return null;
-                }
-                return response.Response.data;
-                //return true;
-            }, function errorCallback(response) {
-                return false
-            });
-    }
 }

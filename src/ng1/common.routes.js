@@ -5,79 +5,28 @@ angular.module('web').config(routeConfig);
 
 // Check authentication via Token
 function _redirectIfNotAuthenticated($log, $rootScope, $window, AuthService2, ApiService2) {
-    //console.log("CHECK LOGGED");
-    return ApiService2.verify(true).subscribe(
+
+    return AuthService2.isAuthenticated().subscribe(
         function(response) {
             $log.debug("Checked: logged!")
             $rootScope.logged = true;
-            $rootScope.profile = response;
+            $rootScope.profile = AuthService2.getUser();
             return true;
-
         }, function(error) {
+            if (ApiService2.is_online()) {
 
-            if (error.status == 0) {
-                /*$log.error("Failed with", error.status);*/
-                $rootScope.logged = false;
-                $window.location.href = '/offline';
-            } else {
-
-                $rootScope.logged = false;
-                if (AuthService2.getToken() !== null) {
-                    // Token has expired...
-                    $log.info("Removed token, because it seems expired.");
-                    AuthService2.removeToken();
-                } else {
-                    $log.debug("Authentication check failed");
-
-                }
                 $window.location.href = '/new/login';
-                return false;
-
+            } else {
+                $window.location.href = '/offline';
             }
+            return false;
         }
     );
-};
+}
 
 _redirectIfNotAuthenticated.$inject = [
     "$log", "$rootScope", "$window", "AuthService2", "ApiService2"
 ];
-
-// Skip authentication
-// Check for API available
-function _skipAuthenticationCheckApiOnline($state, $timeout, AuthService2, $rootScope, ApiService2)
-{
-    return ApiService2.verify(false).subscribe(
-        function(response) {
-            // API available
-            if (AuthService2.isAuthenticated()) {
-                return ApiService2.verify(true).subscribe(
-                    function(response) {
-                        // Token is available and API confirm that is good
-                        if (response && AuthService2.isAuthenticated()) {
-                            $rootScope.logged = true;
-                            $rootScope.profile = response;
-                            return response;
-                        }
-                    }, function(error) {
-                        AuthService2.removeToken();
-                    }
-                );
-            }
-
-            return response;
-
-        }, function(error) {
-            // API not available
-            $rootScope.logged = false;
-            $window.location.href = '/offline';
-        }
-    );
-
-}
-_skipAuthenticationCheckApiOnline.$inject = [
-    "$state", "$timeout", "AuthService2", "$rootScope", "ApiService2"
-]
-
 
 /*********************************
 * ROUTING
@@ -132,19 +81,6 @@ function routeConfig(
         url: "/_offline",
         views: {
             "main": {templateUrl: process.env.templateDir + 'offline.html'}
-        }
-    }).
-
-// A public state
-    state("public", {
-        url: "/public",
-        resolve: {
-            skip: _skipAuthenticationCheckApiOnline,
-        },
-        views: {
-            "main": {
-                template: "<div ui-view='unlogged' style='height: calc(100% - 5rem);'></div>",
-            }
         }
     }).
 
@@ -265,14 +201,7 @@ function routeConfig(
 
             return $state.go('empty', {}, { location: false } );
 
-        } 
-        /*
-        else if (u.startsWith("/app") || u.startsWith("/public")) {
-
-            return $state.go('public.welcome');
-
         }
-        */
     });
 
 };   // END ROUTES

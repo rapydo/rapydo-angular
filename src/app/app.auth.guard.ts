@@ -1,33 +1,48 @@
 
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot } from '@angular/router'
+import { catchError, map } from 'rxjs/operators';
+import { _throw } from 'rxjs/observable/throw';
+import { of } from 'rxjs/observable/of';
 import { AuthService } from './app.auth.service';
+import { ApiService } from './api.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
 	
-	constructor(public auth: AuthService, public router: Router) {}
+	constructor(
+        public auth: AuthService,
+        public api: ApiService,
+        public router: Router
+     ) {}
 
 	canActivate(route: ActivatedRouteSnapshot): boolean {
 
         const expectedRole = route.data.role;
 
-		if (!this.auth.isAuthenticated()) {
-            window.alert("You are not authorized");
-            this.router.navigate(['new/login']);
+/*        if (!this.api.is_online()) {
+
+            console.log("Api offline");
+            this.router.navigate(['offline']);
             return false;
-        } else if (!this.auth.hasRole(expectedRole)) {
+        }*/
 
-            var user = this.auth.getUser();
+		return this.auth.isAuthenticated().pipe(
+            map(response => {
 
-            if (!(expectedRole in user.roles)) {
-                window.alert("You are not authorized - missing role");
-                return false;
-            }
-            return true
-		} else {
-            return true;
+                // User is authenticated, verify roles
+                return this.auth.hasRole(expectedRole);
+            }),
+            catchError((error, caught) => {
 
-		}
-	}
+                if (this.api.is_online()) {
+                    this.router.navigate(['new/login']);
+                } else {
+                    this.router.navigate(['offline']);
+                }
+                /*window.alert("You are not authorized");*/
+                return of(false);
+            })
+        );
+    }
 }

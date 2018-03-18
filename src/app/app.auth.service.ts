@@ -1,6 +1,9 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import { catchError, map } from 'rxjs/operators';
+import { _throw } from 'rxjs/observable/throw';
+import { ApiService } from './api.service';
 import 'rxjs/add/operator/map';
 
 @Injectable()
@@ -11,7 +14,7 @@ export class AuthService {
 	readonly LOGGED_IN = "logged-in";
 	readonly LOGGED_OUT = "logged-out";
 
-	constructor(private http: HttpClient) { }
+	constructor(private http: HttpClient, private api: ApiService) { }
 
 	public login(username: string, password: string) {
 		return this.http.post<any>(process.env.authApiUrl + '/login', {username: username, password: password}
@@ -50,7 +53,10 @@ console.log(err.Response.errors);*/
 				}
 
 				return response;
-		});
+			}, error => {
+				console.log("Unable to load user")
+			}
+			);
 	}
 
 	public removeToken() {
@@ -73,24 +79,42 @@ console.log(err.Response.errors);*/
 	public getToken() {
 		return JSON.parse(localStorage.getItem('token'))
 	}
-	public isAuthenticated(): boolean {
+	public isAuthenticated() {
 
 		var token = this.getToken();
-		if (token) {
-			return true;
-		} else {
-			return false;
+		if (!token) {
+			return _throw(false);
 		}
+
+       	var opt =  {"base": "auth", "rawResponse": true};
+        return this.api.get('profile', "", [], opt).pipe(
+		/*return this.api.verify(true).pipe(*/
+			map(response => {
+				return true;
+			}),
+			catchError((error, caught) => {
+				if (this.api.is_online()) {
+					console.log("remove token?");
+					this.removeToken();
+				}
+				return _throw(false); 
+			})
+		);
 	}
 
 	public hasRole(expectedRole: string): boolean {
-		if (expectedRole) {
-			console.log("Expected role: " + expectedRole + " -> not implemented");
-			return false
-		} else {
-			// No role expected -> that's ok, return true
+		if (!expectedRole) {
+			console.log("no role required")
 			return true;
 		}
+
+        var user = this.getUser();
+        if (!(expectedRole in user.roles)) {
+            console.log("You are not authorized - missing role: " + expectedRole);
+            return false;
+        }
+        console.log("ok " + expectedRole + " you are authorized")
+        return true
 	}
 }
 
