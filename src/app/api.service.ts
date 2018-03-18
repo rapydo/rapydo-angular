@@ -14,38 +14,39 @@ export class ApiService {
 			return defaultValue;
 		}
 	}
-	public get(endpoint: string, id="", data=[], options={}) {
+	public get(endpoint: string, id="", data={}, options={}) {
 		var formData = this.opt(options, "formData", undefined);
-		var extraConfig = this.opt(options, "extraConfig", undefined);
+		var conf = this.opt(options, "conf", undefined);
 		var base = this.opt(options, "base", undefined);
 		var rawResponse = this.opt(options, "rawResponse", undefined);
-		return this.call("GET", endpoint, id, data, formData, extraConfig, base, rawResponse);
+		return this.call("GET", endpoint, id, data, formData, conf, base, rawResponse);
 	}
-	public post(endpoint: string, data=[], options={}) {
+	public post(endpoint: string, data={}, options={}) {
 		var formData = this.opt(options, "formData", undefined);
-		var extraConfig = this.opt(options, "extraConfig", undefined);
+		var conf = this.opt(options, "conf", undefined);
 		var base = this.opt(options, "base", undefined);
 		var rawResponse = this.opt(options, "rawResponse", undefined);
-		return this.call("POST", endpoint, "", data, formData, extraConfig, base, rawResponse)
+
+		return this.call("POST", endpoint, "", data, formData, conf, base, rawResponse)
 	}
-	public put(endpoint: string, id="", data=[], options={}) {
+	public put(endpoint: string, id="", data={}, options={}) {
 		var formData = this.opt(options, "formData", undefined);
-		var extraConfig = this.opt(options, "extraConfig", undefined);
+		var conf = this.opt(options, "conf", undefined);
 		var base = this.opt(options, "base", undefined);
 		var rawResponse = this.opt(options, "rawResponse", undefined);
-		return this.call("PUT", endpoint, id, data, formData, extraConfig, base, rawResponse)
+		return this.call("PUT", endpoint, id, data, formData, conf, base, rawResponse)
 	}
 	public delete(endpoint: string, id="", options={}) {
 		var formData = this.opt(options, "formData", undefined);
-		var extraConfig = this.opt(options, "extraConfig", undefined);
+		var conf = this.opt(options, "conf", undefined);
 		var base = this.opt(options, "base", undefined);
 		var rawResponse = this.opt(options, "rawResponse", undefined);
-		return this.call("DELETE", endpoint, id, [], formData, extraConfig, base, rawResponse)
+		return this.call("DELETE", endpoint, id, {}, formData, conf, base, rawResponse)
 	}
 
 	private call(
 		method:string, endpoint: string, id="", data={},
-		formData=false, extraConfig={}, base='api', rawResponse=false) {
+		formData=false, conf={}, base='api', rawResponse=false) {
 
 		var ep = "";
 		if (base == "auth") {
@@ -71,8 +72,8 @@ export class ApiService {
 			})
 		};
 		options["timeout"] = 30000;
-        for (var k in extraConfig) {
-            options[k] = extraConfig[k]
+        for (var k in conf) {
+            options[k] = conf[k]
         }
 
         var httpCall = undefined;
@@ -122,13 +123,13 @@ export class ApiService {
 	                if (!error.data || !error.data.hasOwnProperty('Response')) {
 	                    return $q.reject(null);
 	                }
-	                if (typeof error.data.Response === 'undefined') {
+	                if (typeof error.Response === 'undefined') {
 	                    return $q.reject(null);
 	                }
 
-	                return $q.reject(error.data.Response);
+	                return $q.reject(error.Response);
 	*/
-					return error.data.Response;
+					return error.Response;
 	        });
 	    } catch(err) {
 	    	console.log("argh!");
@@ -148,7 +149,6 @@ export class ApiService {
         	endpoint = 'status';
         	base = "api"
         }
-        /*return self.apiCall(endpoint, 'GET', undefined, undefined, true)*/
         return this.get(endpoint, "", [], {"base": base, "rawResponse": true}).map(
 
         	function successCallback(response) {
@@ -163,12 +163,4 @@ export class ApiService {
                 return false
             });
     }
-
-
-
-
-
-    /*apiCall = function (endpoint, method, data, id, rawResponse, skipPromiseResolve, formData, requestConfig)*/
-    
-
 }

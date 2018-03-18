@@ -23,9 +23,6 @@ function RestApiService($http, $q, AuthService2, $log, $httpParamSerializerJQLik
         return typeof value !== 'undefined' ? value : mydefault;
     };
 
-    self.postFormData = function (endpoint, method, data) {
-        return self.apiCall(endpoint, method, data, undefined, false, false, true);
-    }
     self.apiCall = function (endpoint, method, data, id, returnRawResponse, skipPromiseResolve, formData, requestConfig)
     {
 
@@ -96,7 +93,10 @@ function RestApiService($http, $q, AuthService2, $log, $httpParamSerializerJQLik
             function successCallback(response) {
                 //$log.debug("API call successful");
 
-                if (returnRawResponse) return response;
+                if (returnRawResponse) {
+                    console.log(response);
+                    return response;
+                }
 
                 if (response.status == 204) {
                     if (response.data == "") {

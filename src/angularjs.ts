@@ -29,7 +29,7 @@ import '/rapydo/src/ng1/common.filters.js'
 import '/rapydo/src/ng1/common.lists.controller.js'
 import '/rapydo/src/ng1/common.config.js'
 import '/rapydo/src/ng1/common.form_dialogs.js'
-import '/rapydo/src/ng1/common.api.js'
+/*import '/rapydo/src/ng1/common.api.js'*/
 
 import '/rapydo/src/ng1/common.routes.js'
 import '/rapydo/src/ng1/common.auth.js'
