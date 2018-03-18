@@ -5,7 +5,7 @@ import { ApiService } from './api.service';
 @Component({
   selector: 'navbar',
   providers: [ApiService],
-  template: require('/app/frontend/app/app.navbar.html'),
+  templateUrl: './app.navbar.html',
 })
 export class NavbarComponent {
 
@@ -14,6 +14,7 @@ export class NavbarComponent {
 	public myproject: string
 
 	constructor(private modalService: NgbModal, private api: ApiService) { 
+		console.log("base");
 		var t = process.env.projectTitle;
 		t = t.replace(/^'/, "");
 		t = t.replace(/'$/, "");

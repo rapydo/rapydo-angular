@@ -10,7 +10,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { MomentModule } from 'angular2-moment/moment.module';
 
-
 import { AppComponent } from './app.component';
 
 import { appRoutes } from './app.routes';
@@ -64,7 +63,7 @@ var declarations = [
   IteratePipe
 ];
 
-declarations.concat(customDeclarations);
+declarations = declarations.concat(customDeclarations);
 appRoutes.concat(customRoutes);
 
 @NgModule({

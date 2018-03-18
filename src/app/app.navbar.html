@@ -1,20 +1,11 @@
 
 <nav class="navbar navbar-expand navbar-light bg-light">
-	<a class="navbar-brand" href="" target="_blank">
-		{{ myproject }}
+	<a class="navbar-brand" href="https://imediacities.eu" target="_blank">
+		<!-- {{ myproject }} -->
+		<img ng-src="static/assets/images/IMC-Logo-transp.png">
 	</a>
 
-	<ul class="navbar-nav">
-        <li class='nav-item' *ngIf="user && user.isAdmin">
-        	<a class='nav-link' routerLink='/new/test' routerLinkActive="active">*Admin*</a>
-        </li>
-
-        <li class='nav-item' *ngIf="user">
-        	<a class='nav-link' routerLink='/new/profile' routerLinkActive="active">*Profile*</a>
-        </li>
-
-	</ul>
-
+	<customlinks [user]='user'></customlinks>
 
 	<ul class="nav navbar-nav ml-auto">
 
