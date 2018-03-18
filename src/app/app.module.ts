@@ -46,8 +46,6 @@ export class HybridUrlHandlingStrategy implements UrlHandlingStrategy {
 
     if (url.toString().startsWith("/app")) return false;
 
-    console.log(url);
-
     return true;
   }
   extract(url) { return url; }

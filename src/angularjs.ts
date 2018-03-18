@@ -32,7 +32,7 @@ import '/rapydo/src/ng1/common.form_dialogs.js'
 /*import '/rapydo/src/ng1/common.api.js'*/
 
 import '/rapydo/src/ng1/common.routes.js'
-import '/rapydo/src/ng1/common.auth.js'
+/*import '/rapydo/src/ng1/common.auth.js'*/
 import '/rapydo/src/ng1/main.controller.js'
 
 import '/rapydo/src/css/framework.css'

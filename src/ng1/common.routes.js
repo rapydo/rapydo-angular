@@ -3,99 +3,75 @@
 
 angular.module('web').config(routeConfig);
 
-/////////////////////////////////
-// ROUTES AND AUTHENTICATION
-
-// Ui Resolve + Satellizer to authenticate
-// original source http://j.mp/1VnxlQS heavily modified
-
 // Check authentication via Token
-function _redirectIfNotAuthenticated(
-    $log, $rootScope, $state, AuthService2, $timeout, ApiService2) {
-    console.log("_redirectIfNotAuthenticated");
+function _redirectIfNotAuthenticated($log, $rootScope, $window, AuthService2, ApiService2) {
     //console.log("CHECK LOGGED");
-    var checkLogged = true;
-    return ApiService2.verify(checkLogged).subscribe(function(response)
-    {
-      // Token is available and API confirm that is good
-      if (response && AuthService2.isAuthenticated()) {
-        $log.debug("Checked: logged!")
-        $rootScope.logged = true;
-        $rootScope.profile = response;
-        return true;
-      }
-      // Should be public.login
-      var state = 'logged.profile';
-      // API not reachable
-      if (response === null) {
-        state = 'offline';
-      } else {
-        // Token has expired...
-        AuthService2.logout();
-        $rootScope.logged = false;
-        $log.info("Removed token, because it seems expired.");
-      }
+    return ApiService2.verify(true).subscribe(
+        function(response) {
+            $log.debug("Checked: logged!")
+            $rootScope.logged = true;
+            $rootScope.profile = response;
+            return true;
 
-      $log.debug("Authentication check failed, going to", state);
-      // Not logged or API down
-      $timeout(function () {
-          // redirect
-          $state.go(state);
-          return false;
-      });
-    }, function(error) {
+        }, function(error) {
 
-        if (error.status == 0) {
-            /*$log.error("Failed with", error.status);*/
-            $rootScope.logged = false;
-            $timeout(function () {
-                $state.go('offline');
+            if (error.status == 0) {
+                /*$log.error("Failed with", error.status);*/
+                $rootScope.logged = false;
+                $window.location.href = '/offline';
+            } else {
+
+                $rootScope.logged = false;
+                if (AuthService2.getToken() !== null) {
+                    // Token has expired...
+                    $log.info("Removed token, because it seems expired.");
+                    AuthService2.removeToken();
+                } else {
+                    $log.debug("Authentication check failed");
+
+                }
+                $window.location.href = '/new/login';
                 return false;
-            });
-        } else {
-            console.log("not auth");
+
+            }
         }
-    });
+    );
 };
 
 _redirectIfNotAuthenticated.$inject = [
-    "$log", "$rootScope", "$state", "AuthService2", "$timeout", "ApiService2"
+    "$log", "$rootScope", "$window", "AuthService2", "ApiService2"
 ];
 
 // Skip authentication
 // Check for API available
 function _skipAuthenticationCheckApiOnline($state, $timeout, AuthService2, $rootScope, ApiService2)
 {
-    var checkLogged = false;
-    console.log("_skipAuthenticationCheckApiOnline");
-    return ApiService2.verify(checkLogged).subscribe(function(response){
-
-        // API available
-        if (response) {
-          //console.log("RESPONSE LOGIN:", response);
-
-          // BUG FIX:
-          // to know if you are logged also in public pages
+    return ApiService2.verify(false).subscribe(
+        function(response) {
+            // API available
             if (AuthService2.isAuthenticated()) {
-                checkLogged = true;
-                return ApiService2.verify(checkLogged).subscribe(function(response) {
-                    // Token is available and API confirm that is good
-                    if (response && AuthService2.isAuthenticated()) {
-                        $rootScope.logged = true;
-                        $rootScope.profile = response;
-                        return response;
+                return ApiService2.verify(true).subscribe(
+                    function(response) {
+                        // Token is available and API confirm that is good
+                        if (response && AuthService2.isAuthenticated()) {
+                            $rootScope.logged = true;
+                            $rootScope.profile = response;
+                            return response;
+                        }
+                    }, function(error) {
+                        AuthService2.removeToken();
                     }
-                });
+                );
             }
 
             return response;
+
+        }, function(error) {
+            // API not available
+            $rootScope.logged = false;
+            $window.location.href = '/offline';
         }
-        // Not available
-        $timeout(function () {
-            $state.go('offline');
-            return response;
-        });
-    });
+    );
 
 }
 _skipAuthenticationCheckApiOnline.$inject = [
@@ -189,17 +165,6 @@ function routeConfig(
 
     // DEFINE BASE ROUTES
     var baseRoutes = {
-
-        // Welcome page
-/*        "public.welcome": {
-            url: "/welcome",
-            views: {
-                "unlogged": {
-                    dir: "base",
-                    templateUrl: 'welcome.html',
-                }
-            }
-        },*/
 
         "logged.profile": {
             url: "/profile",
@@ -296,15 +261,18 @@ function routeConfig(
     $urlRouterProvider.otherwise(function ($injector, $location) {
         var $state = $injector.get('$state');
         var u = $location.path();
-        if (u.startsWith("/app") || u.startsWith("/public")) {
-
-            return $state.go('public.welcome');
-
-        } else if (u.startsWith("/new")) {
+        if (u.startsWith("/new")) {
 
             return $state.go('empty', {}, { location: false } );
 
+        } 
+        /*
+        else if (u.startsWith("/app") || u.startsWith("/public")) {
+
+            return $state.go('public.welcome');
+
         }
+        */
     });
 
 };   // END ROUTES

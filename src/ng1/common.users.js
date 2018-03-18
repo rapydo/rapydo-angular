@@ -3,7 +3,7 @@
 
 angular.module('web').controller('ProfileController', ProfileController);
 
-function ProfileController($scope, $log, $state, AuthService2, CommonDataService, noty)
+function ProfileController($window, AuthService2, CommonDataService, noty)
 {
 	var self = this;
 
@@ -33,8 +33,7 @@ function ProfileController($scope, $log, $state, AuthService2, CommonDataService
     			noty.showSuccess("Password successfully changed. Please login with your new password")
     			AuthService2.logout().subscribe(
     				function(response) {
-		    			// should be public.login
-		    			$state.go("logged.profile");
+		    			$window.location.href = '/new/login';
     				}
     			);
 
@@ -48,7 +47,7 @@ function ProfileController($scope, $log, $state, AuthService2, CommonDataService
 	};
 };
 
-ProfileController.$inject = ["$scope", "$log", "$state", "AuthService2", "CommonDataService", "noty"];
+ProfileController.$inject = ["$window", "AuthService2", "CommonDataService", "noty"];
 
 })();
 
