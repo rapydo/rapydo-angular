@@ -24,6 +24,22 @@ export class AuthService {
 			});
 	}
 
+	public logout() {
+		return this.http.get<any>(process.env.authApiUrl + '/logout').map(
+			response => {
+				this.removeToken();
+
+				return response;
+			},
+			err => {
+/*console.log(err.Meta.status);
+console.log(err.Response.errors);*/
+			}
+
+		);
+	}
+
+
 	public loadUser() {
 
 		return this.http.get<any>(process.env.authApiUrl + '/profile').map(
@@ -36,7 +52,7 @@ export class AuthService {
 		});
 	}
 
-	public logout() {
+	public removeToken() {
 		localStorage.removeItem('token');
 		localStorage.removeItem('currentUser');
 		this.userChanged.emit(this.LOGGED_OUT);

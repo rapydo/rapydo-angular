@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from './api.service';
+import { AuthService } from './app.auth.service';
 
 @Component({
   selector: 'navbar',
@@ -12,9 +13,14 @@ export class NavbarComponent {
 	@Input() user: any;
 
 	public myproject: string
+	private modalRef: NgbModalRef;
 
-	constructor(private modalService: NgbModal, private api: ApiService) { 
-		console.log("base");
+
+	constructor(
+			private modalService: NgbModal,
+			private api: ApiService,
+			private auth: AuthService,
+		) { 
 		var t = process.env.projectTitle;
 		t = t.replace(/^'/, "");
 		t = t.replace(/'$/, "");
@@ -28,11 +34,19 @@ export class NavbarComponent {
 
 	}
 
-	logout(content) {
-	    this.modalService.open(content).result.then((result) => {
-	      console.log("Closed with: ${result}");
+	do_logout() {
+		this.auth.logout().subscribe(
+			response =>  {
+				this.modalRef.close("");
+			}
+		);
+	}
+	ask_logout(content) {
+	    this.modalRef = this.modalService.open(content, {size: 'lg'});
+	    this.modalRef.result.then((result) => {
+			/*console.log("Closed with: " + result)*/;
 	    }, (reason) => {
-	    	console.log(`Dismissed ${this.getDismissReason(reason)}`);
+			/*console.log(`Dismissed ${this.getDismissReason(reason)}`)*/;
 	    });
 	}
 

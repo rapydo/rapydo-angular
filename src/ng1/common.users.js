@@ -31,9 +31,13 @@ function ProfileController($scope, $log, $state, AuthService2, CommonDataService
 				self.newPwd = ""
 				self.confirmPwd = ""
     			noty.showSuccess("Password successfully changed. Please login with your new password")
-    			AuthService2.logout();
-    			// should be public.login
-    			$state.go("logged.profile");
+    			AuthService2.logout().subscribe(
+    				function(response) {
+		    			// should be public.login
+		    			$state.go("logged.profile");
+    				}
+    			);
+
 	        	return true;
     		},
     		function(out_data) {
