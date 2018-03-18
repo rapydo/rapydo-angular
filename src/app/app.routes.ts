@@ -8,6 +8,7 @@ import { LoginComponent } from './login.component';
 import { ProfileComponent } from './app.profile';
 import { HomeComponent } from '/app/frontend/app/app.home';
 import { Error404Component } from './app.error.404';
+import { OfflineComponent } from './app.error.offline';
 import { ChangePasswordComponent } from './app.profile.changepassword';
 import { SessionsComponent } from './app.profile.sessions';
 
@@ -19,6 +20,9 @@ export const appRoutes: Routes = [
   },
   {
     path: '404', component: Error404Component
+  },
+  {
+    path: 'offline', component: OfflineComponent
   },
   {
     path: 'new/login', component: LoginComponent

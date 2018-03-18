@@ -20,6 +20,7 @@ import { IteratePipe } from './app.pipes'
 
 import { ProfileComponent } from './app.profile';
 import { Error404Component } from './app.error.404';
+import { OfflineComponent } from './app.error.offline';
 import { ChangePasswordComponent } from './app.profile.changepassword';
 import { SessionsComponent } from './app.profile.sessions';
 
@@ -57,7 +58,7 @@ var declarations = [
   AppComponent,
   LoginComponent,
   ProfileComponent, ChangePasswordComponent, SessionsComponent,
-  HomeComponent, Error404Component,
+  HomeComponent, Error404Component, OfflineComponent,
   NavbarComponent,
   TestComponent,
   IteratePipe

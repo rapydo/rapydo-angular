@@ -32,6 +32,7 @@ export class AuthService {
 				return response;
 			},
 			err => {
+				this.removeToken();
 /*console.log(err.Meta.status);
 console.log(err.Response.errors);*/
 			}
@@ -91,5 +92,5 @@ console.log(err.Response.errors);*/
 			return true;
 		}
 	}
-
 }
+

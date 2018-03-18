@@ -41,13 +41,25 @@ export class LoginComponent implements OnInit {
                             this.router.navigate([this.returnUrl]);
                         }, 
                         error => {
-                            window.alert(error.error.Response.errors[0])
+                            if (error.status == 0) {
+                                this.router.navigate(["/offline"]);
+
+                            } else {
+                                window.alert(error.error.Response.errors[0])
+                            }
                             this.loading = false;
                         }
                     );
                 },
                 error => {
-                    window.alert(error.error.Response.errors[0])
+                    if (error.status == 0) {
+                        console.log("offline");
+                        this.router.navigate(["/offline"]);
+
+                    } else {
+                        window.alert(error.error.Response.errors[0])
+                    }
+
                     this.loading = false;
                 });
     }

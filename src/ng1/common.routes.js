@@ -12,6 +12,7 @@ angular.module('web').config(routeConfig);
 // Check authentication via Token
 function _redirectIfNotAuthenticated(
     $log, $rootScope, $state, AuthService2, $timeout, ApiService2) {
+    console.log("_redirectIfNotAuthenticated");
     //console.log("CHECK LOGGED");
     var checkLogged = true;
     return ApiService2.verify(checkLogged).subscribe(function(response)
@@ -43,12 +44,17 @@ function _redirectIfNotAuthenticated(
           return false;
       });
     }, function(error) {
-        $log.error("Failed with", error);
-        $rootScope.logged = false;
-        $timeout(function () {
-            $state.go('offline');
-            return false;
-        });
+
+        if (error.status == 0) {
+            /*$log.error("Failed with", error.status);*/
+            $rootScope.logged = false;
+            $timeout(function () {
+                $state.go('offline');
+                return false;
+            });
+        } else {
+            console.log("not auth");
+        }
     });
 };
 
@@ -61,6 +67,7 @@ _redirectIfNotAuthenticated.$inject = [
 function _skipAuthenticationCheckApiOnline($state, $timeout, AuthService2, $rootScope, ApiService2)
 {
     var checkLogged = false;
+    console.log("_skipAuthenticationCheckApiOnline");
     return ApiService2.verify(checkLogged).subscribe(function(response){
 
         // API available
@@ -146,7 +153,7 @@ function routeConfig(
 
 // If i find out that APIs are not available...
     $stateProvider.state("offline", {
-        url: "/offline",
+        url: "/_offline",
         views: {
             "main": {templateUrl: process.env.templateDir + 'offline.html'}
         }
