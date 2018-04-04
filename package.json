@@ -46,7 +46,10 @@
     "@ng-bootstrap/ng-bootstrap": "",
 
     "moment": "^2.21.0",
-    "angular2-moment": ""
+    "angular2-moment": "",
+
+    "@ngx-formly/core": "",
+    "@ngx-formly/bootstrap": ""
   },
   "devDependencies": {
     "@types/node": "^6.0.45",

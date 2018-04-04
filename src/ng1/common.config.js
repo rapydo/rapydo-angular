@@ -2,6 +2,37 @@ angular.module('web').config(formlyConfig);
 angular.module('web').config(tableSortConfig);
 angular.module('web').run(formlyValidation);
 
+
+
+// AngularJS directive to patch datepickers up so that the widgets will 
+// automatically store dates or timings that are timezone-neutral (UTC).
+// Got from:
+// http://www.ericluwj.com/2015/11/06/angularui-ui-bootstrap-datepicker-and-timepicker-neutral-timezone.html
+angular.module('web')
+  .directive('datetimepickerNeutralTimezone', function() {
+  // You would need to use the directive on the same HTML elements with the 
+  // ng-model attributes by adding the datetimepicker-neutral-timezone attribute
+  // (added such attribute in datepicker formly template in common.config.js)
+    return {
+      restrict: 'A',
+      priority: 1,
+      require: 'ngModel',
+      link: function (scope, element, attrs, ctrl) {
+        ctrl.$formatters.push(function (value) {
+          var date = new Date(Date.parse(value));
+          date = new Date(date.getTime() + (60000 * date.getTimezoneOffset()));
+          return date;
+        });
+
+        ctrl.$parsers.push(function (value) {
+          var date = new Date(value.getTime() - (60000 * value.getTimezoneOffset()));
+          return date;
+        });
+      }
+    };
+  });
+
+
 function formlyValidation(formlyValidationMessages) {
   formlyValidationMessages.addStringMessage('required', 'This field is required');
 };

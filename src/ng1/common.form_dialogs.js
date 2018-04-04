@@ -5,13 +5,14 @@ angular.module('web').controller('FormDialogController', FormDialogController);
 angular.module('web').controller('FormlyDialogController', FormlyDialogController);
 angular.module('web').service('FormDialogService', FormDialogService);
 
-function FormlyDialogController($scope, $controller, FormlyService, noty) {
+function FormlyDialogController($scope, $controller, FormlyService2, noty) {
     $controller('FormDialogController', {$scope: $scope});
 
   $scope.createForm = function(promise, form_data, DataController) {
     promise.then(
       function(out_data) {
-        var data = FormlyService.json2Form(out_data.data, form_data, DataController)
+        var data = FormlyService2.json2Form(out_data.data, form_data, DataController)
+        /*var data = FormlyService.json2Form(out_data.data, form_data, DataController)*/
 
         $scope.fields = data.fields;
         $scope.model = data.model;
@@ -25,7 +26,7 @@ function FormlyDialogController($scope, $controller, FormlyService, noty) {
 
 };
 FormlyDialogController.$inject = [
-  "$scope", "$controller", "FormlyService", "noty"
+  "$scope", "$controller", "FormlyService2", "noty"
 ];
 
 function DialogController($scope, $uibModalInstance) {

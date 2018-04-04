@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes, UrlHandlingStrategy } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UpgradeModule }  from '@angular/upgrade/static';
@@ -9,6 +10,8 @@ import { UpgradeAdapter } from '@angular/upgrade';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { MomentModule } from 'angular2-moment/moment.module';
+import { FormlyModule } from '@ngx-formly/core';
+import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 
 import { AppComponent } from './app.component';
 
@@ -32,6 +35,7 @@ import { TestComponent } from './app.test';
 import { AuthGuard } from './app.auth.guard';
 import { AuthService } from './app.auth.service';
 import { ApiService } from './api.service';
+import { FormlyService } from './app.formly.service';
 import { LoginComponent } from './login.component';
 import { JwtInterceptor } from './jwt.interceptor';
 
@@ -72,7 +76,8 @@ appRoutes.concat(customRoutes);
       { enableTracing: false} // <-- debugging purposes only
     ),
     BrowserModule,
-    FormsModule,
+    FormsModule, ReactiveFormsModule,
+    FormlyModule, FormlyBootstrapModule,
     // import HttpClientModule after BrowserModule
     HttpClientModule,
     NgbModule.forRoot(),
@@ -82,7 +87,7 @@ appRoutes.concat(customRoutes);
   declarations: declarations,
   bootstrap: [ AppComponent ],
   providers: [
-    AuthService, AuthGuard, ApiService,
+    AuthService, AuthGuard, ApiService, FormlyService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     { provide: UrlHandlingStrategy, useClass: HybridUrlHandlingStrategy}
   ]
@@ -98,3 +103,4 @@ upgradeAdapter.upgradeNg1Provider('$rootScope');
 import * as angular from "angular";
 angular.module('web').factory("AuthService2", downgradeInjectable(AuthService) as any)
 angular.module('web').factory("ApiService2", downgradeInjectable(ApiService) as any)
+angular.module('web').factory("FormlyService2", downgradeInjectable(FormlyService) as any)
