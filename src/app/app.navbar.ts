@@ -12,19 +12,13 @@ export class NavbarComponent {
 
 	@Input() user: any;
 
-	public myproject: string
 	private modalRef: NgbModalRef;
-
 
 	constructor(
 			private modalService: NgbModal,
 			private api: ApiService,
 			private auth: AuthService,
 		) { 
-		var t = process.env.projectTitle;
-		t = t.replace(/^'/, "");
-		t = t.replace(/'$/, "");
-		this.myproject = t; 
 
 /*		
 		this.api.get('default_fields').subscribe(

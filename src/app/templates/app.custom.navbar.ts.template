@@ -7,9 +7,9 @@ import { Component, Input } from '@angular/core';
 })
 export class CustomNavbarComponent {
 
-    @Input() user: any;
+	@Input() user: any;
 
-    constructor() { }
+	constructor() { }
 
 }
 
@@ -21,6 +21,13 @@ export class CustomNavbarComponent {
 })
 export class CustomBrandComponent {
 
-    constructor() { }
+	public myproject: string
+
+	constructor() {
+		var t = process.env.projectTitle;
+		t = t.replace(/^'/, "");
+		t = t.replace(/'$/, "");
+		this.myproject = t; 
+	}
 
 }
