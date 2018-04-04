@@ -20,6 +20,10 @@ function CommonDataService(ApiService2, jsonapi_parser) {
         return ApiService2.put('profile', "", data, {"base": "auth"}).toPromise();
     };
 
+    self.getUserSchema = function(study) {
+        return ApiService2.post('admin/users', {'get_schema': true}).toPromise();
+    }
+
     self.getUsers = function() {
         return jsonapi_parser.parseResponse(ApiService2.get('admin/users'));
     };
