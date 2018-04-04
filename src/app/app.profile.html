@@ -15,6 +15,14 @@
 <div class="table-responsive">
 	<table class='table table-striped'>
 
+    <!-- JUST A TEST -->
+    <form [formGroup]="form" (ngSubmit)="submit(model)">
+        <formly-form [form]="form" [fields]="fields" [model]="model">
+            <button type="submit" class="btc btc-default">Submit</button>
+        </formly-form>
+    </form>
+
+
 		<tr *ngFor="let value of user | iterate: 'uuid'">
 		<th>{{value.key}}</th>
 
