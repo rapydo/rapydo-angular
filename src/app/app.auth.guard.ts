@@ -29,19 +29,16 @@ export class AuthGuard implements CanActivate {
 
 		return this.auth.isAuthenticated().pipe(
             map(response => {
-
                 // User is authenticated, verify roles
-                return this.auth.hasRole(expectedRole);
-            }),
-            catchError((error, caught) => {
+                if (response) return this.auth.hasRole(expectedRole);
 
                 if (this.api.is_online()) {
                     this.router.navigate(['new/login']);
                 } else {
                     this.router.navigate(['offline']);
                 }
-                /*window.alert("You are not authorized");*/
-                return of(false);
+
+                return false;
             })
         );
     }

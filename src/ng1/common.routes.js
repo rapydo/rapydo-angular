@@ -8,18 +8,21 @@ function _redirectIfNotAuthenticated($log, $rootScope, $window, AuthService2, Ap
 
     return AuthService2.isAuthenticated().subscribe(
         function(response) {
-            $log.debug("Checked: logged!")
-            $rootScope.logged = true;
-            $rootScope.profile = AuthService2.getUser();
-            return true;
-        }, function(error) {
-            if (ApiService2.is_online()) {
 
-                $window.location.href = '/new/login';
+            if (response) {
+                $log.debug("Checked: logged!")
+                $rootScope.logged = true;
+                $rootScope.profile = AuthService2.getUser();
+                return true;
             } else {
-                $window.location.href = '/offline';
+                if (ApiService2.is_online()) {
+
+                    $window.location.href = '/new/login';
+                } else {
+                    $window.location.href = '/offline';
+                }
+                return false;
             }
-            return false;
         }
     );
 }

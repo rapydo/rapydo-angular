@@ -127,7 +127,7 @@ export class ApiService {
 
                 return response["Response"];
             }),
-            catchError((error, caught) => {
+            catchError(error => {
 
                 console.log("Warning: API failed to call")
             	if (error.status <= 0) {

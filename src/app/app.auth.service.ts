@@ -2,7 +2,7 @@ import { Injectable, Output, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { catchError, map } from 'rxjs/operators';
-import { _throw } from 'rxjs/observable/throw';
+import { of } from 'rxjs/observable/of';
 import { ApiService } from './api.service';
 import 'rxjs/add/operator/map';
 
@@ -83,7 +83,7 @@ console.log(err.Response.errors);*/
 
 		var token = this.getToken();
 		if (!token) {
-			return _throw(false);
+			return of(false);
 		}
 
        	var opt =  {"base": "auth", "rawResponse": true};
@@ -97,7 +97,7 @@ console.log(err.Response.errors);*/
 					console.log("remove token?");
 					this.removeToken();
 				}
-				return _throw(false); 
+				return of(false); 
 			})
 		);
 	}
