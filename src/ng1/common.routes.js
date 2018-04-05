@@ -67,16 +67,11 @@ function routeConfig(
 // WHERE THE MAGIC HAPPENS
 
     // Dinamically inject the routes from the choosen blueprint
-    var extraRoutes = {};
-    var extraRoutesSize = 0;
-    var blueprintRoutes = 'customRoutes';
+    var allRoutes = {};
     try {
-        extraRoutes = $injector.get(blueprintRoutes);
-        extraRoutesSize = Object.keys(extraRoutes).length;
-        // console.debug("Loaded extra routes:", blueprintRoutes);
+        allRoutes = $injector.get('customRoutes');
     } catch(e) {
-        console.error("Error! Failed to find a JS object to define extra routes." +
-            "\nIt should be called '" + blueprintRoutes + "'");
+        console.error("Error! Failed to find a JS object to define extra routes.");
     }
 
 // If i find out that APIs are not available...
@@ -102,41 +97,6 @@ function routeConfig(
         },
     });
 
-    // DEFINE BASE ROUTES
-    var baseRoutes = {
-
-        "logged.profile": {
-            url: "/profile",
-            views: {
-                "loggedview@logged": {
-                    dir: "base",
-                    templateUrl: 'profile.html'
-                }
-            }
-        },
-
-        "logged.profile.sessions": {
-            url: "/sessions",
-            views: {
-                "loggedview@logged": {
-                    dir: "base",
-                    templateUrl: 'token_sessions.html'
-                }
-            }
-        },
-
-        "logged.profile.changepassword": {
-            url: "/changepassword",
-            views: {
-                "loggedview@logged": {
-                    dir: "base",
-                    templateUrl: 'changepassword.html'
-                }
-            }
-        }
-        // Routes definition ends here
-    };
-
     /////////////////////////////////
     // FOR EACH AUTO IMPLEMENTATION
      //https://toddmotto.com/simple-foreach-implementation-for-objects-nodelists-arrays-with-automatic-type-looping/
@@ -153,13 +113,6 @@ function routeConfig(
         }
       }
     };
-
-    var allRoutes = angular.copy(extraRoutes);
-    forEach(baseRoutes, function(x, stateName) {
-        if (!allRoutes.hasOwnProperty(stateName)) {
-            allRoutes[stateName] = x;
-        }
-    });
 
     function loadStates(states) {
         forEach(states, function(x, stateName){

@@ -1,17 +1,15 @@
 
-<div class="row">
+<div class='container-fluid'>
+<div class="row justify-content-md-center">
 <div class='col-xs-12'>
 
-<div class='panel panel-default'>
-<!-- PANEL HEADING START -->
-<div class='panel-heading'>
-    <h4 class='panel-title'>
-        List of your open sessions
-    </h4>
+<div class='card'>
+<div class='card-header'>
+    <h4>List of your open sessions</h4>
 </div>
 <!-- PANEL HEADING END -->
 <!-- PANEL BODY + TABLE START -->
-<div class='panel-body' *ngIf='tokens'>
+<div class='card-block' *ngIf='tokens'>
 <div class="table-responsive">
     <table class='table table-hover table-condensed'>
 
@@ -76,17 +74,9 @@
 </div>
 <!-- PANEL BODY +  TABLE END -->
 
-
-<!-- PANEL FOOTER START -->
-<div class="panel-footer">
-<div class='text-right'>
+</div>
+<!-- CARD END -->
 
 </div>
-</div>
-<!-- PANEL FOOTER END -->
-
-</div>
-<!-- PANEL END -->
-
 </div>
 </div>

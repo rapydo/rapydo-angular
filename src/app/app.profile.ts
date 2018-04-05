@@ -13,19 +13,6 @@ import { AuthService } from './app.auth.service';
 })
 export class ProfileComponent { 
 
-	form = new FormGroup({});
-	model = {email: 'email@gmail.com'};
-	fields: FormlyFieldConfig[] = [{
-		key: 'email',
-		type: 'input',
-		templateOptions: {
-			type: 'email',
-			label: 'Email address',
-			placeholder: 'Enter email',
-			required: true,
-		}
-	}]
-  
   private user: any
 
 	constructor(api: ApiService, auth: AuthService) {
@@ -33,9 +20,5 @@ export class ProfileComponent {
 			//console.log(api.get());
       this.user = auth.getUser();
 
-	}
-
-	submit(model) {
-		console.log(model);
 	}
 }
