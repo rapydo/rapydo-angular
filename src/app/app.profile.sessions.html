@@ -11,7 +11,7 @@
 </div>
 <!-- PANEL HEADING END -->
 <!-- PANEL BODY + TABLE START -->
-<div class='panel-body' ng-if='ctrl.tokens'>
+<div class='panel-body' *ngIf='tokens'>
 <div class="table-responsive">
     <table class='table table-hover table-condensed'>
 
@@ -25,49 +25,50 @@
             <th>Revoke</th>
             <th>Token</th>
         </tr>
-        <tr ng-repeat="(key, values) in ctrl.tokens">
+        <tr *ngFor="let values of tokens | iterate">
 
-        <td ng-class="{'green-text': values.inuse}">{{values.id}}</td>
-        <td>{{values.IP}}</td>
-        <td>{{values.hostname}}</td>
+        <td>{{values.value.id}}</td>
+        <td>{{values.value.IP}}</td>
+
+        <td>{{values.value.hostname}}</td>
         <td>
             <span 
-                ngbTooltip="{{1000*values.emitted | date : 'yyyy MMM dd HH:mm:ss'}}"
+                ngbTooltip="{{1000*values.value.emitted | date : 'yyyy MMM dd HH:mm:ss'}}"
                 >
-                {{values.emitted | amFromUnix | amTimeAgo: true }}
+                {{values.value.emitted | amFromUnix | amTimeAgo: true }}
             </span>
         </td>
 
         <td>
             <span 
-                ngbTooltip="{{1000*values.last_access | date : 'yyyy MMM dd HH:mm:ss'}}"
+                ngbTooltip="{{1000*values.value.last_access | date : 'yyyy MMM dd HH:mm:ss'}}"
                 >
-                {{values.last_access | amFromUnix | amTimeAgo: true }}
+                {{values.value.last_access | amFromUnix | amTimeAgo: true }}
             </span>
         </td>
 
         <td>
             <span 
-                ngbTooltip="{{1000*values.expiration | date : 'yyyy MMM dd HH:mm:ss'}}"
+                ngbTooltip="{{1000*values.value.expiration | date : 'yyyy MMM dd HH:mm:ss'}}"
                 >
-                {{values.expiration | amFromUnix | amTimeAgo: true }}
+                {{values.value.expiration | amFromUnix | amTimeAgo: true }}
             </span>
         </td>
 
         <td>
             <i class="material-icons palette-Red-500 text"
-                ng-click='ctrl.revokeToken(values.id);'
-            >
-                delete
-            </i>
-
+                mwlConfirmationPopover
+                [popoverTitle]="confirmationTitle"
+                [popoverMessage]="confirmationMessage"
+                placement="bottom"
+                (confirm)="revokeToken(values.value.id)"
+                (cancel)="cancelRequest()">delete</i>
 
         </td>
 
         <td style='max-width:300px;font-size: 6px; word-break: break-all;'>
-            {{values.token}}
+            {{values.value.token}}
         </td>
-
 
         </tr>
     </table>
