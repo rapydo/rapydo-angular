@@ -109,4 +109,4 @@ import * as angular from "angular";
 angular.module('web').factory("AuthService2", downgradeInjectable(AuthService) as any)
 angular.module('web').factory("ApiService2", downgradeInjectable(ApiService) as any)
 angular.module('web').factory("FormlyService2", downgradeInjectable(FormlyService) as any)
-angular.module('web').factory("noty2", downgradeInjectable(NotificationService) as any)
+angular.module('web').factory("noty", downgradeInjectable(NotificationService) as any)
