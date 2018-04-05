@@ -10,6 +10,7 @@ import { UpgradeAdapter } from '@angular/upgrade';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { MomentModule } from 'angular2-moment/moment.module';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 
@@ -36,6 +37,7 @@ import { AuthGuard } from './app.auth.guard';
 import { AuthService } from './app.auth.service';
 import { ApiService } from './api.service';
 import { FormlyService } from './app.formly.service';
+import { NotificationService } from './app.notification.service';
 import { LoginComponent } from './login.component';
 import { JwtInterceptor } from './jwt.interceptor';
 
@@ -82,12 +84,15 @@ appRoutes.concat(customRoutes);
     HttpClientModule,
     NgbModule.forRoot(),
     MomentModule,
+    ConfirmationPopoverModule.forRoot(
+      {confirmButtonType: 'danger'} // set defaults here
+     ),
     UpgradeModule
   ],
   declarations: declarations,
   bootstrap: [ AppComponent ],
   providers: [
-    AuthService, AuthGuard, ApiService, FormlyService,
+    AuthService, AuthGuard, ApiService, FormlyService, NotificationService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     { provide: UrlHandlingStrategy, useClass: HybridUrlHandlingStrategy}
   ]
@@ -104,3 +109,4 @@ import * as angular from "angular";
 angular.module('web').factory("AuthService2", downgradeInjectable(AuthService) as any)
 angular.module('web').factory("ApiService2", downgradeInjectable(ApiService) as any)
 angular.module('web').factory("FormlyService2", downgradeInjectable(FormlyService) as any)
+angular.module('web').factory("noty2", downgradeInjectable(NotificationService) as any)

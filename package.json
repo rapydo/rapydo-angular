@@ -23,11 +23,12 @@
     "express": "^4.16.1",
     "google-material-color": "^1.3.1",
     "jquery": "^3.3.1",
-    "noty": "^3.2.0-beta",
     "ng-flow": "~2",
     "angular-file-saver": "^1.1.3",
     "angular-chips": "mdantonio/angular-chips#v2.0",
     "font-awesome": "",
+    
+    "noty": "^3.2.0-beta",
 
     "@angular/common": "5.2.3",
     "@angular/compiler": "5.2.3",
@@ -44,6 +45,7 @@
 
     "bootstrap": "^4.0.0",
     "@ng-bootstrap/ng-bootstrap": "",
+    "angular-confirmation-popover": "",
 
     "moment": "^2.21.0",
     "angular2-moment": "",

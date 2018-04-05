@@ -129,14 +129,15 @@ export class ApiService {
             }),
             catchError(error => {
 
-                console.log("Warning: API failed to call")
+                /*console.log("Warning: API failed to call")*/
             	if (error.status <= 0) {
             		this.set_offline();
             	} else {
             		this.set_online();
             	}
 
-            	return _throw(error)
+            	if (rawResponse) return _throw(error);
+            	return _throw(error.error["Response"])
 	        })
         );
 	}

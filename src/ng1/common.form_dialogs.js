@@ -12,7 +12,6 @@ function FormlyDialogController($scope, $controller, FormlyService2, noty) {
     promise.then(
       function(out_data) {
         var data = FormlyService2.json2Form(out_data.data, form_data, DataController)
-        /*var data = FormlyService.json2Form(out_data.data, form_data, DataController)*/
 
         $scope.fields = data.fields;
         $scope.model = data.model;
