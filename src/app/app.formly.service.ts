@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
+import { NgbModal, NgbModalRef, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable()
 export class FormlyService {
 
-	constructor() {}
+	private modalRef: NgbModalRef;
+
+	constructor(private modalService: NgbModal) {}
 
 	public json2Form(schema, data, DataController) {
 
@@ -287,5 +290,19 @@ export class FormlyService {
 		// Return all information
 		return {"fields":fields, "model": model};
 	}
+
+	showForm() {
+
+		var template = "<div>test</div>";
+	    this.modalRef = this.modalService.open(template, {size: 'lg'});
+	    this.modalRef.result.then((result) => {
+			/*console.log("Closed with: " + result)*/;
+	    }, (reason) => {
+			/*console.log(`Dismissed ${this.getDismissReason(reason)}`)*/;
+	    });
+		console.log("evviva");
+	}
+
+
 
 }
