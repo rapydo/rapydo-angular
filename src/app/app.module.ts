@@ -69,12 +69,13 @@ var declarations = [
 ];
 
 declarations = declarations.concat(customDeclarations);
-appRoutes.concat(customRoutes);
+var routes = appRoutes.concat(customRoutes);
+routes = routes.concat({path: '**', redirectTo: '/404', pathMatch: 'full'});
 
 @NgModule({
   imports: [
     RouterModule.forRoot(
-      appRoutes,
+      routes,
       { enableTracing: false} // <-- debugging purposes only
     ),
     BrowserModule,

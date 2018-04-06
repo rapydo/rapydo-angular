@@ -49,8 +49,6 @@ export const appRoutes: Routes = [
     path: 'new/profile/sessions',
     component: SessionsComponent,
     canActivate: [AuthGuard]
-  },
-  {
-    path: '**', redirectTo: '/404', pathMatch: 'full'
   }
+
 ];
