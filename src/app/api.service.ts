@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { catchError, map } from 'rxjs/operators';
 import { _throw } from 'rxjs/observable/throw';
+import { of } from 'rxjs/observable/of';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
@@ -117,18 +118,21 @@ export class ApiService {
                 //$log.debug("API call successful");
                 if (rawResponse) return response;
 
-                if (response === null) {
-/*                	response = {}
-                	response.Meta = {}
-                	response.Meta.status = 204
-                	response.Response = {}
-                	response.Response.data = ""*/
-                }
-
                 return response["Response"];
             }),
             catchError(error => {
 
+            	if (error.status == null && error.error == null) {
+            		// 204 empty responses
+				/* 
+					response = {}
+                	response.Meta = {}
+                	response.Meta.status = 204
+                	response.Response = {}
+                	response.Response.data = ""
+            	*/
+            		return of("");
+            	}
                 /*console.log("Warning: API failed to call")*/
             	if (error.status <= 0) {
             		this.set_offline();
@@ -141,5 +145,52 @@ export class ApiService {
 	        })
         );
 	}
+
+
+    public parseElement(element) {
+
+        if (element.hasOwnProperty('attributes')) {
+            var newelement = element.attributes;
+        } else {
+            var newelement = element;
+        }
+
+        if (element.hasOwnProperty('id')) {
+            newelement.id = element.id;
+        }
+
+        if (element.hasOwnProperty('relationships')) {
+            for (var key in element.relationships) {
+                var subelement = element.relationships[key]
+                var k = '_'+key;
+                if (subelement.length == 1) {
+                    newelement[k] = [this.parseElement(subelement[0])];
+                } else {
+                    newelement[k] = [];
+                    for (var i=0; i<subelement.length; i++) {
+                        newelement[k].push(this.parseElement(subelement[i]));
+                    }
+                }
+            }
+        }
+
+        return newelement;
+    }
+
+    public parseResponse(response) {
+
+        if (!response || !response.length) {
+            return response;
+        }
+
+        var newresponse = []
+        for (var i=0; i<response.length; i++) {
+            var element = this.parseElement(response[i]);
+
+            newresponse.push(element);
+        }
+        return newresponse;
+    }
+
 
 }
