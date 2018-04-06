@@ -53,7 +53,7 @@
             </span>
         </td>
 
-        <td>
+        <td *ngIf="currentToken != values.value.token; else activeCurrent">
             <i class="material-icons palette-Red-500 text"
                 mwlConfirmationPopover
                 [popoverTitle]="confirmationTitle"
@@ -63,6 +63,9 @@
                 (cancel)="cancelRequest()">delete</i>
 
         </td>
+        <ng-template #activeCurrent>
+        <td>-</td>
+        </ng-template>
 
         <td style='max-width:300px;font-size: 6px; word-break: break-all;'>
             {{values.value.token}}

@@ -24,11 +24,13 @@ export class SessionsComponent {
 		`;
 
     private tokens: any
+    private currentToken: string;
 
 	constructor(private api: ApiService, private auth: AuthService, private notify: NotificationService) {
 
       // this.user = auth.getUser();
       	this.loadTokens();
+      	this.currentToken = this.auth.getToken();
 
 
 	}
@@ -46,7 +48,6 @@ export class SessionsComponent {
 
 		this.api.delete('tokens', id, {"base": "auth"}).subscribe(
 			response => {
-				console.log("invalidated")
 				this.notify.showSuccess("Token successfully revoked");
 				this.loadTokens();
 			}, error => {
