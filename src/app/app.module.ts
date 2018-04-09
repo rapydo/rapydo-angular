@@ -11,6 +11,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { MomentModule } from 'angular2-moment/moment.module';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 
@@ -81,6 +82,7 @@ routes = routes.concat({path: '**', redirectTo: '/404', pathMatch: 'full'});
     BrowserModule,
     FormsModule, ReactiveFormsModule,
     FormlyModule, FormlyBootstrapModule,
+    NgxDatatableModule,
     // import HttpClientModule after BrowserModule
     HttpClientModule,
     NgbModule.forRoot(),

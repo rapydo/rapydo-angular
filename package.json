@@ -49,6 +49,7 @@
 
     "moment": "^2.21.0",
     "angular2-moment": "",
+    "@swimlane/ngx-datatable": "",
 
     "@ngx-formly/core": "",
     "@ngx-formly/bootstrap": ""
