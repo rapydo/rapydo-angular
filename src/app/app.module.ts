@@ -21,7 +21,7 @@ import { appRoutes } from './app.routes';
 import { appRoutes as customRoutes } from '/app/frontend/app/app.routes';
 import { declarations as customDeclarations } from '/app/frontend/app/app.declarations';
 
-import { IteratePipe } from './app.pipes'
+import { IteratePipe, BytesPipe } from './app.pipes'
 
 import { ProfileComponent } from './app.profile';
 import { Error404Component } from './app.error.404';
@@ -67,7 +67,7 @@ var declarations = [
   HomeComponent, Error404Component, OfflineComponent,
   NavbarComponent,
   TestComponent,
-  IteratePipe
+  IteratePipe, BytesPipe
 ];
 
 declarations = declarations.concat(customDeclarations);
