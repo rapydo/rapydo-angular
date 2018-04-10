@@ -10,8 +10,6 @@ export class FormlyService {
 
 	public json2Form(schema, data, DataController) {
 
-		console.log(schema);
-
 		var fields = [];
 		var model = {}
 		if (typeof schema == 'undefined') {
@@ -300,7 +298,7 @@ export class FormlyService {
 	    }, (reason) => {
 			/*console.log(`Dismissed ${this.getDismissReason(reason)}`)*/;
 	    });
-		console.log("evviva");
+		/*console.log("evviva");*/
 	}
 
 
