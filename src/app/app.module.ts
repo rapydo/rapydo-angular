@@ -39,6 +39,7 @@ import { AuthService } from './app.auth.service';
 import { ApiService } from './api.service';
 import { FormlyService } from './app.formly.service';
 import { NotificationService } from './app.notification.service';
+import { TemplatingService } from './app.templating.service';
 import { LoginComponent } from './login.component';
 import { JwtInterceptor } from './jwt.interceptor';
 
@@ -95,7 +96,7 @@ routes = routes.concat({path: '**', redirectTo: '/404', pathMatch: 'full'});
   declarations: declarations,
   bootstrap: [ AppComponent ],
   providers: [
-    AuthService, AuthGuard, ApiService, FormlyService, NotificationService,
+    AuthService, AuthGuard, ApiService, FormlyService, NotificationService, TemplatingService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     { provide: UrlHandlingStrategy, useClass: HybridUrlHandlingStrategy}
   ]
