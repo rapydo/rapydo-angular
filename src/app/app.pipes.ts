@@ -25,3 +25,28 @@ export class IteratePipe {
 		return keys;
 	}
 }
+
+
+@Pipe({
+	name: 'bytes'
+})
+@Injectable()
+export class BytesPipe {
+
+    transform(bytes, precision):string {
+        if (bytes == 0)
+          return "0"
+
+        if (bytes == -1 || isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
+
+        var units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
+            number = Math.floor(Math.log(bytes) / Math.log(1024));
+
+        if (typeof precision === 'undefined') {
+            if (number <= 1) precision = 0;
+            else precision = 1;
+        }
+        return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +  ' ' + units[number];
+      }
+
+}
