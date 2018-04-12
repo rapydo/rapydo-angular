@@ -27,7 +27,7 @@ module.exports = {
     'polyfills': './src/polyfills.ts',
     'vendor': './src/vendor.ts',
     'app': './src/main.ts',
-    'rapydo': './src/angularjs.ts',
+    'angularjs': './src/angularjs.ts',
     'custom': '/app/frontend/custom.ts'
   },
 /*
@@ -93,7 +93,7 @@ module.exports = {
     ),
 
     new webpack.optimize.CommonsChunkPlugin({
-      name: ['app', 'vendor', 'custom', 'rapydo', 'polyfills']
+      name: ['app', 'custom', 'vendor', 'angularjs', 'polyfills']
     }),
 
     new HtmlWebpackPlugin({
