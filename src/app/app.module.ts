@@ -8,7 +8,6 @@ import { UpgradeModule }  from '@angular/upgrade/static';
 import { downgradeInjectable } from '@angular/upgrade/static';
 import { UpgradeAdapter } from '@angular/upgrade';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css'
 import { MomentModule } from 'angular2-moment/moment.module';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
