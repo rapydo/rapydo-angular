@@ -19,6 +19,7 @@ import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
 import { appRoutes as customRoutes } from '/app/frontend/app/app.routes';
 import { declarations as customDeclarations } from '/app/frontend/app/app.declarations';
+import { providers as customProviders } from '/app/frontend/app/app.providers';
 
 import { IteratePipe, BytesPipe } from './app.pipes'
 
@@ -70,6 +71,15 @@ var declarations = [
 ];
 
 declarations = declarations.concat(customDeclarations);
+
+var providers = [
+  AuthService, AuthGuard, ApiService, FormlyService, NotificationService, TemplatingService,
+  { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+  { provide: UrlHandlingStrategy, useClass: HybridUrlHandlingStrategy}
+];
+
+providers = providers.concat(customProviders);
+
 var routes = appRoutes.concat(customRoutes);
 routes = routes.concat({path: '**', redirectTo: '/404', pathMatch: 'full'});
 
@@ -94,11 +104,7 @@ routes = routes.concat({path: '**', redirectTo: '/404', pathMatch: 'full'});
   ],
   declarations: declarations,
   bootstrap: [ AppComponent ],
-  providers: [
-    AuthService, AuthGuard, ApiService, FormlyService, NotificationService, TemplatingService,
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-    { provide: UrlHandlingStrategy, useClass: HybridUrlHandlingStrategy}
-  ]
+  providers: providers,
 })
 export class AppModule {
 
