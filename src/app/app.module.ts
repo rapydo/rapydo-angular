@@ -20,6 +20,7 @@ import { appRoutes } from './app.routes';
 import { appRoutes as customRoutes } from '/app/frontend/app/app.routes';
 import { declarations as customDeclarations } from '/app/frontend/app/app.declarations';
 import { providers as customProviders } from '/app/frontend/app/app.providers';
+import { entryComponents as customEntryComponents } from '/app/frontend/app/app.entryComponents';
 
 import { IteratePipe, BytesPipe } from './app.pipes'
 
@@ -80,6 +81,9 @@ var providers = [
 
 providers = providers.concat(customProviders);
 
+var entryComponents = [];
+entryComponents = entryComponents.concat(customEntryComponents);
+
 var routes = appRoutes.concat(customRoutes);
 routes = routes.concat({path: '**', redirectTo: '/404', pathMatch: 'full'});
 
@@ -104,6 +108,7 @@ routes = routes.concat({path: '**', redirectTo: '/404', pathMatch: 'full'});
   ],
   declarations: declarations,
   bootstrap: [ AppComponent ],
+  entryComponents: entryComponents,
   providers: providers,
 })
 export class AppModule {
