@@ -44,7 +44,7 @@ export class ChangePasswordComponent {
 	    			this.notify.showSuccess("Password successfully changed. Please login with your new password")
 	    			this.auth.logout().subscribe(
 	    				function(response) {
-			    			//$window.location.href = '/new/login';
+			    			//$window.location.href = '/app/login';
 			    			console.log("NOT IMPLEMENTED: redirect to login")
 	    				}
 	    			);

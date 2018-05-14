@@ -7,7 +7,7 @@
 	<ul class="nav navbar-nav ml-auto">
 
 		<li class='nav-item' *ngIf="user">
-	      	<a class='nav-link' routerLink='/new/profile' routerLinkActive="active">
+	      	<a class='nav-link' routerLink='/app/profile' routerLinkActive="active">
       		<i uib-tooltip="Profile" tooltip-placement='bottom' class="material-icons">people</i>
 	      	</a>
 		</li>
@@ -48,14 +48,14 @@
 		</ng-template>
 
 		<li class='nav-item' *ngIf="user">
-	      	<!-- <a routerLink='/new/login' class='nav-link' routerLinkActive="active"> -->
+	      	<!-- <a routerLink='/app/login' class='nav-link' routerLinkActive="active"> -->
 	      	<a class='nav-link' (click)="ask_logout(content)">
       		<i class='material-icons' uib-tooltip='Logout' tooltip-placement='bottom'>exit_to_app</i>
 	      	</a>
 		</li>
 
 		<li class='nav-item' *ngIf="!user">
-			<a routerLink='/new/login' routerLinkActive="active">Login
+			<a routerLink='/app/login' routerLinkActive="active">Login
 			</a>
 		</li>
 	</ul>

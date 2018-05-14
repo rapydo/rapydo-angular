@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
         private router: Router,
         private authService: AuthService) { 
 
-            this.returnUrl = "/new/test";
+            this.returnUrl = "/app/home";
     }
  
     ngOnInit() {

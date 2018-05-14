@@ -33,7 +33,7 @@ export class AuthGuard implements CanActivate {
                 if (response) return this.auth.hasRole(expectedRole);
 
                 if (this.api.is_online()) {
-                    this.router.navigate(['new/login']);
+                    this.router.navigate(['app/login']);
                 } else {
                     this.router.navigate(['offline']);
                 }

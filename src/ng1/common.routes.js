@@ -17,7 +17,7 @@ function _redirectIfNotAuthenticated($log, $rootScope, $window, AuthService2, Ap
             } else {
                 if (ApiService2.is_online()) {
 
-                    $window.location.href = '/new/login';
+                    $window.location.href = '/app/login';
                 } else {
                     $window.location.href = '/offline';
                 }

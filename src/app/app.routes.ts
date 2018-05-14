@@ -23,10 +23,10 @@ export const appRoutes: Routes = [
     path: 'offline', component: OfflineComponent
   },
   {
-    path: 'new/login', component: LoginComponent
+    path: 'app/login', component: LoginComponent
   },
 /*  {
-    path: 'new/test',
+    path: 'app/test',
     component: MyComponent,
     canActivate: [AuthGuard],
     data: {
@@ -34,17 +34,17 @@ export const appRoutes: Routes = [
     }
   },*/
   {
-    path: 'new/profile',
+    path: 'app/profile',
     component: ProfileComponent,
     canActivate: [AuthGuard]
   },
   {
-    path: 'new/profile/changepassword',
+    path: 'app/profile/changepassword',
     component: ChangePasswordComponent,
     canActivate: [AuthGuard]
   },
   {
-    path: 'new/profile/sessions',
+    path: 'app/profile/sessions',
     component: SessionsComponent,
     canActivate: [AuthGuard]
   }
