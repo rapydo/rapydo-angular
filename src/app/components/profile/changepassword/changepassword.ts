@@ -8,7 +8,7 @@ import { NotificationService} from './services/notification';
 @Component({
   selector: 'changepassword',
   providers: [ApiService, AuthService, NotificationService],
-  templateUrl: './app.profile.changepassword.html'
+  templateUrl: './changepassword.html'
 })
 export class ChangePasswordComponent { 
 

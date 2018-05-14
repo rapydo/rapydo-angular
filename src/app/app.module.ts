@@ -25,11 +25,11 @@ import { entryComponents as customEntryComponents } from '/app/frontend/app/app.
 
 import { IteratePipe, BytesPipe } from './pipes/pipes'
 
-import { ProfileComponent } from './app.profile';
-import { Error404Component } from './errors/404';
-import { OfflineComponent } from './errors/offline';
-import { ChangePasswordComponent } from './app.profile.changepassword';
-import { SessionsComponent } from './app.profile.sessions';
+import { ProfileComponent } from './components/profile/profile';
+import { Error404Component } from './components/errors/404';
+import { OfflineComponent } from './components/errors/offline';
+import { ChangePasswordComponent } from './components/profile/changepassword/changepassword';
+import { SessionsComponent } from './components/profile/sessions/sessions';
 
 import { HomeComponent } from '/app/frontend/app/app.home';
 import { NavbarComponent } from './components/navbar/navbar';

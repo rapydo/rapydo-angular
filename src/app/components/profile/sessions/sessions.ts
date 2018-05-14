@@ -9,7 +9,7 @@ import { NotificationService} from './services/notification';
 @Component({
   selector: 'sessions',
   providers: [ApiService, AuthService, NotificationService],
-  templateUrl: './app.profile.sessions.html'
+  templateUrl: './sessions.html'
 })
 export class SessionsComponent { 
 

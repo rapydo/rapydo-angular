@@ -9,7 +9,7 @@ import { AuthService } from './services/auth';
 @Component({
   selector: 'profile',
   providers: [ApiService, AuthService],
-  templateUrl: './app.profile.html'
+  templateUrl: './profile.html'
 })
 export class ProfileComponent { 
 
