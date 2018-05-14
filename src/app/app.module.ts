@@ -40,7 +40,7 @@ import { ApiService } from './services/api';
 import { FormlyService } from './services/formly';
 import { NotificationService } from './services/notification';
 import { TemplatingService } from './services/templating';
-import { LoginComponent } from './components/login';
+import { LoginComponent } from './components/login/login';
 import { JwtInterceptor } from './jwt.interceptor';
 
 /*

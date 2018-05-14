@@ -2,9 +2,9 @@
 import { Component } from '@angular/core';
 import { catchError, map } from 'rxjs/operators';
 
-import { ApiService } from './services/api';
-import { AuthService } from './services/auth';
-import { NotificationService} from './services/notification';
+import { ApiService } from '../../services/api';
+import { AuthService } from '../../services/auth';
+import { NotificationService} from '../../services/notification';
 
 @Component({
   selector: 'sessions',

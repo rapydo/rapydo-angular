@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { NgbModal, NgbModalRef, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-import { ApiService } from './services/api';
-import { AuthService } from './services/auth';
+import { ApiService } from '../../services/api';
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'navbar',
