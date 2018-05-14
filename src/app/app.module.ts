@@ -35,7 +35,7 @@ import { HomeComponent } from '/app/frontend/app/app.home';
 import { NavbarComponent } from './app.navbar';
 
 import { AuthGuard } from './app.auth.guard';
-import { AuthService } from './app.auth.service';
+import { AuthService } from './services/auth';
 import { ApiService } from './services/api';
 import { FormlyService } from './app.formly.service';
 import { NotificationService } from './app.notification.service';

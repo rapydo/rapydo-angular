@@ -4,7 +4,7 @@ import { Router, CanActivate, ActivatedRouteSnapshot } from '@angular/router'
 import { catchError, map } from 'rxjs/operators';
 import { _throw } from 'rxjs/observable/throw';
 import { of } from 'rxjs/observable/of';
-import { AuthService } from './app.auth.service';
+import { AuthService } from './services/auth';
 import { ApiService } from './services/api';
 
 @Injectable()

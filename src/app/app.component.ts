@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { VERSION as NG_VERSION } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { AuthService } from './app.auth.service';
+import { AuthService } from './services/auth';
 import { NavbarComponent } from './app.navbar';
 
 @Component({

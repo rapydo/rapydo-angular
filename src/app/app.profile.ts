@@ -4,7 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 
 import { ApiService } from './services/api';
-import { AuthService } from './app.auth.service';
+import { AuthService } from './services/auth';
 
 @Component({
   selector: 'profile',
