@@ -28,8 +28,8 @@ import { IteratePipe, BytesPipe } from './pipes/pipes'
 import { ProfileComponent } from './components/profile/profile';
 import { Error404Component } from './components/errors/404';
 import { OfflineComponent } from './components/errors/offline';
-import { ChangePasswordComponent } from './components/profile/changepassword/changepassword';
-import { SessionsComponent } from './components/profile/sessions/sessions';
+import { ChangePasswordComponent } from './components/profile/changepassword';
+import { SessionsComponent } from './components/profile/sessions';
 
 import { HomeComponent } from '/app/frontend/app/app.home';
 import { NavbarComponent } from './components/navbar/navbar';
