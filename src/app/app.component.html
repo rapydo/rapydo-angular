@@ -1,45 +1,16 @@
 
-<div ng-controller='MainController as main' ng-cloak>
+<navbar [user]="user"></navbar>
 
-    <div ng-if='main.splash' class="flex-container flex-hcentered flex-vcentered palette-Cyan-500 bg">
-    <div class='flex-element palette-White text'>
-        <i class="material-icons xlarge">cached</i>
-        <br>
-        <span style='padding-left:2px;'>Loading<br>angularjs...</span>
-    </div>
-    </div>
+<router-outlet> 
 
+    <div 
+        ui-view='main'
+        ng-hide="main.load"
+        class="container-fluid"
+        style="height: calc(100% - 5rem);"
+    ></div>
 
-    <!-- MAIN CONTAINER -->
-    <main ng-hide="main.splash" ng-init="myproject = 'ProjectTitleIsMissing'">
-        <!-- TOPBAR COMMON / CUSTOM-->
-
-<!--         <div class="container-fluid" style='padding:0px;'>
-            <div ng-hide="main.load" ng-include="main.topbar_path"></div>
-        </div>
- -->
-        <!-- WHILE WAITING (for API/RESOURCES) -->
-        <div class="container-fluid">
-            <div ng-if="main.load" ng-include="main.templateDir + 'loader.html'"></div>
-        </div>
-
-        <navbar [user]="user"></navbar>
-
-        <router-outlet> 
-
-        <!-- WHEN READY -->
-        <div 
-            ui-view='main'
-            ng-hide="main.load"
-            class="container-fluid"
-            style="height: calc(100% - 5rem);"
-        ></div>
-
-        </router-outlet>
-    </main>
-
-</div>
-
+</router-outlet>
 
 <footer class='footer'>
     <div class='container'>
