@@ -12,8 +12,6 @@ import { OfflineComponent } from './app.error.offline';
 import { ChangePasswordComponent } from './app.profile.changepassword';
 import { SessionsComponent } from './app.profile.sessions';
 
-import { TestComponent } from './app.test';
-
 export const appRoutes: Routes = [
   {
     path: '', component: HomeComponent
@@ -27,14 +25,14 @@ export const appRoutes: Routes = [
   {
     path: 'new/login', component: LoginComponent
   },
-  {
+/*  {
     path: 'new/test',
-    component: TestComponent,
+    component: MyComponent,
     canActivate: [AuthGuard],
     data: {
       role: 'admin_root'
     }
-  },
+  },*/
   {
     path: 'new/profile',
     component: ProfileComponent,

@@ -34,8 +34,6 @@ import { SessionsComponent } from './app.profile.sessions';
 import { HomeComponent } from '/app/frontend/app/app.home';
 import { NavbarComponent } from './app.navbar';
 
-import { TestComponent } from './app.test';
-
 import { AuthGuard } from './app.auth.guard';
 import { AuthService } from './app.auth.service';
 import { ApiService } from './api.service';
@@ -68,7 +66,6 @@ var declarations = [
   ProfileComponent, ChangePasswordComponent, SessionsComponent,
   HomeComponent, Error404Component, OfflineComponent,
   NavbarComponent,
-  TestComponent,
   IteratePipe, BytesPipe
 ];
 
