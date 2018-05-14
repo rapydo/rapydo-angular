@@ -6,14 +6,6 @@ var helpers = require('./helpers');
 
 var backendURI = ""
 
-var hybridApp = process.env.ANGULARJS != 'disabled'
-
-if (!hybridApp) {
-  console.log("hybridApp is DISABLED!")
-} else {
-  console.log("hybridApp is ENABLED!")
-}
-
 if (process.env.APP_MODE == "production") {
   backendURI += "https://";
   backendURI += process.env.BACKEND_HOST;
@@ -30,28 +22,13 @@ if (process.env.APP_MODE == "production") {
 
 var projectTitle = process.env.PROJECT_TITLE;
 
-var entries = {
+module.exports = {
+  entry: {
   'polyfills': './src/polyfills.ts',
   'vendor': './src/vendor.ts',
   'app': './src/main.ts',
   'custom': '/app/frontend/custom.ts'
-}
-
-if (hybridApp) {
-  entries['angularjs'] = './src/angularjs.ts';
-}
-
-var chunks = []
-chunks.push('app');
-chunks.push('custom');
-chunks.push('vendor');
-if (hybridApp) {
-  chunks.push('angularjs');
-}
-chunks.push('polyfills');
-
-module.exports = {
-  entry: entries,
+},
 /*
   devServer: {
     publicPath: '/app/frontend'
@@ -114,7 +91,9 @@ module.exports = {
       {} // a map of your routes
     ),
 
-    new webpack.optimize.CommonsChunkPlugin({name: chunks}),
+    new webpack.optimize.CommonsChunkPlugin(
+      {name: ['app', 'custom', 'vendor', 'polyfills']}
+    ),
 
     new HtmlWebpackPlugin({
       template: 'src/index.html'
@@ -127,7 +106,6 @@ module.exports = {
         'blueprintTemplateDir': JSON.stringify('/static/custom/templates/'),
         'projectTitle': JSON.stringify(projectTitle),
         'allowRegistration': JSON.stringify(false),
-        'hybridApp': JSON.stringify(hybridApp),
         'loggedLandingPage': JSON.stringify('logged.search')
       }
     }),

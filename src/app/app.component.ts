@@ -4,7 +4,6 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from './app.auth.service';
 import { NavbarComponent } from './app.navbar';
-import { version as NGJS_VERSION } from 'angular';
 
 @Component({
   selector: 'rapydo',
@@ -17,7 +16,6 @@ export class AppComponent {
 	private user: any;
 
 	versions = {
-		angularjs: NGJS_VERSION.full,
 		angular: NG_VERSION.full
 	}
 
