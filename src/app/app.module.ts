@@ -23,7 +23,7 @@ import { declarations as customDeclarations } from '/app/frontend/app/app.declar
 import { providers as customProviders } from '/app/frontend/app/app.providers';
 import { entryComponents as customEntryComponents } from '/app/frontend/app/app.entryComponents';
 
-import { IteratePipe, BytesPipe } from './app.pipes'
+import { IteratePipe, BytesPipe } from './pipes/pipes'
 
 import { ProfileComponent } from './app.profile';
 import { Error404Component } from './app.error.404';
