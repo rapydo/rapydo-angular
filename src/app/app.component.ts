@@ -3,7 +3,7 @@ import { VERSION as NG_VERSION } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from './services/auth';
-import { NavbarComponent } from './app.navbar';
+import { NavbarComponent } from './components/navbar/navbar';
 
 @Component({
   selector: 'rapydo',

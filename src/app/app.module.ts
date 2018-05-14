@@ -32,7 +32,7 @@ import { ChangePasswordComponent } from './app.profile.changepassword';
 import { SessionsComponent } from './app.profile.sessions';
 
 import { HomeComponent } from '/app/frontend/app/app.home';
-import { NavbarComponent } from './app.navbar';
+import { NavbarComponent } from './components/navbar/navbar';
 
 import { AuthGuard } from './app.auth.guard';
 import { AuthService } from './services/auth';

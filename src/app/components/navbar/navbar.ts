@@ -6,7 +6,7 @@ import { AuthService } from './services/auth';
 @Component({
   selector: 'navbar',
   providers: [ApiService],
-  templateUrl: './app.navbar.html',
+  templateUrl: './navbar.html',
 })
 export class NavbarComponent {
 
