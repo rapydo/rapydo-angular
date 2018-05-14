@@ -38,7 +38,7 @@ import { AuthGuard } from './app.auth.guard';
 import { AuthService } from './services/auth';
 import { ApiService } from './services/api';
 import { FormlyService } from './app.formly.service';
-import { NotificationService } from './app.notification.service';
+import { NotificationService } from './services/notification';
 import { TemplatingService } from './app.templating.service';
 import { LoginComponent } from './login.component';
 import { JwtInterceptor } from './jwt.interceptor';

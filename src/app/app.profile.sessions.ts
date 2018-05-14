@@ -4,7 +4,7 @@ import { catchError, map } from 'rxjs/operators';
 
 import { ApiService } from './services/api';
 import { AuthService } from './services/auth';
-import { NotificationService} from './app.notification.service';
+import { NotificationService} from './services/notification';
 
 @Component({
   selector: 'sessions',
