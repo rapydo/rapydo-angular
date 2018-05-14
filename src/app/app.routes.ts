@@ -7,8 +7,8 @@ import { AuthGuard } from './app.auth.guard';
 import { LoginComponent } from './components/login/login';
 import { ProfileComponent } from './app.profile';
 import { HomeComponent } from '/app/frontend/app/app.home';
-import { Error404Component } from './app.error.404';
-import { OfflineComponent } from './app.error.offline';
+import { Error404Component } from './errors/404';
+import { OfflineComponent } from './errors/offline';
 import { ChangePasswordComponent } from './app.profile.changepassword';
 import { SessionsComponent } from './app.profile.sessions';
 

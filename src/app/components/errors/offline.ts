@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 
 @Component({
   selector: 'offline',
-  templateUrl: `app.error.offline.html`
+  templateUrl: `offline.html`
 })
 export class OfflineComponent {
 

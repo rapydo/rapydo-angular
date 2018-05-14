@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 
 @Component({
   selector: 'error404',
-  templateUrl: `app.error.404.html`
+  templateUrl: `404.html`
 })
 export class Error404Component {
 

@@ -26,8 +26,8 @@ import { entryComponents as customEntryComponents } from '/app/frontend/app/app.
 import { IteratePipe, BytesPipe } from './pipes/pipes'
 
 import { ProfileComponent } from './app.profile';
-import { Error404Component } from './app.error.404';
-import { OfflineComponent } from './app.error.offline';
+import { Error404Component } from './errors/404';
+import { OfflineComponent } from './errors/offline';
 import { ChangePasswordComponent } from './app.profile.changepassword';
 import { SessionsComponent } from './app.profile.sessions';
 
