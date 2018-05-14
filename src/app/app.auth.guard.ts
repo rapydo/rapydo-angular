@@ -5,7 +5,7 @@ import { catchError, map } from 'rxjs/operators';
 import { _throw } from 'rxjs/observable/throw';
 import { of } from 'rxjs/observable/of';
 import { AuthService } from './app.auth.service';
-import { ApiService } from './api.service';
+import { ApiService } from './services/api';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

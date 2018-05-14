@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NgbModal, NgbModalRef, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-import { ApiService } from './api.service';
+import { ApiService } from './services/api';
 import { AuthService } from './app.auth.service';
 
 @Component({

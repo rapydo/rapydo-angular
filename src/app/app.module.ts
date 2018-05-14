@@ -36,7 +36,7 @@ import { NavbarComponent } from './app.navbar';
 
 import { AuthGuard } from './app.auth.guard';
 import { AuthService } from './app.auth.service';
-import { ApiService } from './api.service';
+import { ApiService } from './services/api';
 import { FormlyService } from './app.formly.service';
 import { NotificationService } from './app.notification.service';
 import { TemplatingService } from './app.templating.service';

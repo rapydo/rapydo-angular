@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { catchError, map } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
-import { ApiService } from './api.service';
+import { ApiService } from './services/api';
 import 'rxjs/add/operator/map';
 
 @Injectable()

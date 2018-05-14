@@ -2,7 +2,7 @@
 import { Component } from '@angular/core';
 import { catchError, map } from 'rxjs/operators';
 
-import { ApiService } from './api.service';
+import { ApiService } from './services/api';
 import { AuthService } from './app.auth.service';
 import { NotificationService} from './app.notification.service';
 
