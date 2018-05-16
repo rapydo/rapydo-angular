@@ -94,10 +94,10 @@ function FormDialogService($log, $uibModal, $rootScope) {
         template+= "<div class='panel-footer'>";
 
         template+= "<div class='row'>";
-        template+= "<div class='col-xs-4 col-xs-offset-2'>";
+        template+= "<div class='col-4 offset-2'>";
         template+= "<button class='btn btn-danger' ng-click='confirm()'>Yes</button>";
         template+= "</div>";
-        template+= "<div class='col-xs-4'>";
+        template+= "<div class='col-4'>";
         template+= "<button class='btn btn-default' ng-click='cancel()'>No</button>";
         template+= "</div>";
 

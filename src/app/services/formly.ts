@@ -211,7 +211,7 @@ export class FormlyService {
 				field['defaultValue'] = s['default'];
 
 			if ('size' in s)
-				field['className'] = 'col-xs-'+s['size'];
+				field['className'] = 'col-'+s['size'];
 
 			field['templateOptions']['label'] = s['label'];
 			field['templateOptions']['placeholder'] = s['description'];
