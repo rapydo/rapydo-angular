@@ -69,6 +69,7 @@ var declarations = [
   ProfileComponent, ChangePasswordComponent, SessionsComponent,
   HomeComponent, Error404Component, OfflineComponent,
   NavbarComponent,
+  AdminUsersComponent,
   IteratePipe, BytesPipe
 ];
 
