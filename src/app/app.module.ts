@@ -17,7 +17,7 @@ import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 
 import { AppComponent } from './app.component';
 
-import { appRoutes } from './app.routes';
+import { appRoutes } from './rapydo.routes';
 import { appRoutes as customRoutes } from '/app/frontend/app/app.routes';
 import { declarations as customDeclarations } from '/app/frontend/app/app.declarations';
 import { providers as customProviders } from '/app/frontend/app/app.providers';
@@ -25,9 +25,10 @@ import { entryComponents as customEntryComponents } from '/app/frontend/app/app.
 
 import { IteratePipe, BytesPipe } from './pipes/pipes'
 
-import { ProfileComponent } from './components/profile/profile';
 import { Error404Component } from './components/errors/404';
 import { OfflineComponent } from './components/errors/offline';
+
+import { ProfileComponent } from './components/profile/profile';
 import { ChangePasswordComponent } from './components/profile/changepassword';
 import { SessionsComponent } from './components/profile/sessions';
 
