@@ -28,6 +28,8 @@ import { IteratePipe, BytesPipe } from './pipes/pipes'
 import { Error404Component } from './components/errors/404';
 import { OfflineComponent } from './components/errors/offline';
 
+import { LoadingComponent } from './components/loading/loading';
+
 import { ProfileComponent } from './components/profile/profile';
 import { ChangePasswordComponent } from './components/profile/changepassword';
 import { SessionsComponent } from './components/profile/sessions';
@@ -67,7 +69,7 @@ var declarations = [
   AppComponent,
   LoginComponent,
   ProfileComponent, ChangePasswordComponent, SessionsComponent,
-  HomeComponent, Error404Component, OfflineComponent,
+  HomeComponent, Error404Component, OfflineComponent, LoadingComponent,
   NavbarComponent,
   AdminUsersComponent,
   IteratePipe, BytesPipe
