@@ -1,0 +1,71 @@
+<div class="table-responsive">
+
+<div>
+</div>
+	<ngx-datatable
+		[rows]="rows"
+		[columns]="columns"
+		[columnMode]="'force'"
+		[loadingIndicator]='true'
+		[footerHeight]="50"
+		[limit]="itemsPerPage">
+		<ngx-datatable-footer>
+			<ng-template 
+				ngx-datatable-footer-template
+				let-pageSize="pageSize"
+				let-selectedCount="selectedCount"
+				let-curPage="curPage"
+				let-offset="offset">
+				<div class='col-xs-3'>
+					{{dataLength}} total
+				</div>
+				<div class='col-xs-9'>
+				<div class='float-right'>
+				<ngb-pagination
+					boundaryLinks="true"
+					directionLinks="true"
+					[page]="page"
+					[pageSize]="itemsPerPage"
+					[collectionSize]="dataLength"
+					size="sm"
+					(pageChange)="setPage($event)"
+				>
+				</ngb-pagination>
+				</div>
+				</div>
+			</ng-template>
+		</ngx-datatable-footer>
+	</ngx-datatable>
+
+	<ng-template #dataSize let-row="row" let-value="value" let-i="index">
+		{{value | bytes}}
+	</ng-template>
+
+	<ng-template #dataModification let-row="row" let-value="value" let-i="index">
+
+        <span ngbTooltip="{{1000*value | date : 'yyyy MMM dd HH:mm:ss'}}">
+            <!-- {{value | amFromUnix | amTimeAgo: true }} -->
+            {{value | amFromUnix | date : 'yyyy MMM dd' }}
+        </span>
+
+	</ng-template>
+
+	<ng-template #dataStatus let-row="row" let-value="value" let-i="index">
+
+        <span *ngIf="row.status_message; else noMessage" ngbTooltip="{{row.status_message}}">
+        	<p [ngClass]="{
+		  		'text-success': (row.status == 'COMPLETED'),
+		  		'text-danger': (row.status == 'ERROR'),
+		  		'text-info': (row.status == 'IMPORTING')
+		  	}">
+		  	{{row.status}}
+		  	</p>
+		</span>
+        <ng-template #noMessage>
+        	{{row.status}}
+        </ng-template>
+
+	</ng-template>
+
+</div>
+

@@ -1,16 +1,17 @@
-
-
 import { Routes } from '@angular/router';
 
 import { AuthGuard } from './app.auth.guard';
 
 import { LoginComponent } from './components/login/login';
-import { ProfileComponent } from './components/profile/profile';
 import { HomeComponent } from '/app/frontend/app/app.home';
 import { Error404Component } from './components/errors/404';
 import { OfflineComponent } from './components/errors/offline';
+
+import { ProfileComponent } from './components/profile/profile';
 import { ChangePasswordComponent } from './components/profile/changepassword';
 import { SessionsComponent } from './components/profile/sessions';
+
+import { AdminUsersComponent } from './components/admin_users/admin_users';
 
 export const appRoutes: Routes = [
   {
@@ -25,14 +26,6 @@ export const appRoutes: Routes = [
   {
     path: 'app/login', component: LoginComponent
   },
-/*  {
-    path: 'app/test',
-    component: MyComponent,
-    canActivate: [AuthGuard],
-    data: {
-      role: 'admin_root'
-    }
-  },*/
   {
     path: 'app/profile',
     component: ProfileComponent,
@@ -47,6 +40,14 @@ export const appRoutes: Routes = [
     path: 'app/profile/sessions',
     component: SessionsComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'app/admin/users',
+    component: AdminUsersComponent,
+    canActivate: [AuthGuard],
+    data: {
+      role: 'admin_root'
+    }
   }
 
 ];

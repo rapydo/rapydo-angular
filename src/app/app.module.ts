@@ -35,6 +35,8 @@ import { SessionsComponent } from './components/profile/sessions';
 import { HomeComponent } from '/app/frontend/app/app.home';
 import { NavbarComponent } from './components/navbar/navbar';
 
+import { AdminUsersComponent } from './components/admin_users/admin_users';
+
 import { AuthGuard } from './app.auth.guard';
 import { AuthService } from './services/auth';
 import { ApiService } from './services/api';
