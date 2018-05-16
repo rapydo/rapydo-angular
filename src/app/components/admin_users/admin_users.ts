@@ -48,7 +48,6 @@ export class AdminUsersComponent implements OnInit {
 				this.dataLength = this.data.length;
 				this.numPages = Math.ceil(this.dataLength / this.itemsPerPage);
 				this.rows = this.changePage(this.data);
-				console.log(this.data);
 				this.notify.extractErrors(response, this.notify.WARNING);
 				this.loading = false;
 			}, error => {
