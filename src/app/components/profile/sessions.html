@@ -54,13 +54,13 @@
         </td>
 
         <td *ngIf="currentToken != values.value.token; else activeCurrent">
-            <i class="material-icons palette-Red-500 text"
+            <i class="fa fa-trash palette-Red-500 text"
                 mwlConfirmationPopover
                 [popoverTitle]="confirmationTitle"
                 [popoverMessage]="confirmationMessage"
                 placement="bottom"
                 (confirm)="revokeToken(values.value.id)"
-                (cancel)="cancelRequest()">delete</i>
+                (cancel)="cancelRequest()"></i>
 
         </td>
         <ng-template #activeCurrent>

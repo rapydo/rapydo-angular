@@ -45,7 +45,6 @@ export class AdminUsersComponent implements OnInit {
       		response => {
 
 				this.data = this.api.parseResponse(response.data);
-				console.log(this.data);
 				this.dataLength = this.data.length;
 				this.numPages = Math.ceil(this.dataLength / this.itemsPerPage);
 				this.rows = this.changePage(this.data);

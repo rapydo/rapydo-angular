@@ -118,9 +118,7 @@ module.exports = {
         { from: '/app/frontend/assets', to: 'static/assets/'},
 
         { from: '/rapydo/src/templates', to: 'static/commons/templates/'},
-        { from: '/rapydo/src/css', to: 'static/commons/css/'},
-
-        { from: '/rapydo/src/fonts', to: 'static/fonts/'}
+        { from: '/rapydo/src/css', to: 'static/commons/css/'}
       ]
     )
   ]

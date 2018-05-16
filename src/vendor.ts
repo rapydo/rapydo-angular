@@ -17,7 +17,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 
 import '/rapydo/src/css/rapydo.css'
-import '/rapydo/src/css/material.icons.css'
 
 // import 'moment'
 import 'noty/lib/noty.css'
