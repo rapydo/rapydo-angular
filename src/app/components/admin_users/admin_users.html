@@ -1,7 +1,21 @@
-<div class="table-responsive">
 
-<div>
+<div class='container-fluid'>
+<div class="row justify-content-md-center">
+<div class='col-12'>
+
+<div class='card'>
+<div class='card-header'>
+	<h4 class='panel-title'>
+		<i class='material-icons'>face</i> Users list
+	</h4>
 </div>
+
+<div class='card-block'>
+
+<loading *ngIf="loading"></loading>
+
+<div class="table-responsive" *ngIf="!loading">
+
 	<ngx-datatable
 		[rows]="rows"
 		[columns]="columns"
@@ -37,35 +51,29 @@
 		</ngx-datatable-footer>
 	</ngx-datatable>
 
-	<ng-template #dataSize let-row="row" let-value="value" let-i="index">
-		{{value | bytes}}
+</div>
+	<ng-template #dataRoles let-row="row" let-value="value" let-i="index">
+
+		<span
+			class='badge badge-light' style='margin-right:3px;'
+			*ngFor="let role of value | iterate"
+			ngbTooltip="{{role['value']['description']}}">
+			{{role['value']['name']}}
+		</span>	
+
 	</ng-template>
 
-	<ng-template #dataModification let-row="row" let-value="value" let-i="index">
+	<ng-template #dataGroup let-row="row" let-value="value" let-i="index">
 
-        <span ngbTooltip="{{1000*value | date : 'yyyy MMM dd HH:mm:ss'}}">
-            <!-- {{value | amFromUnix | amTimeAgo: true }} -->
-            {{value | amFromUnix | date : 'yyyy MMM dd' }}
+		<span ngbTooltip='{{value[0].fullname}}'>
+	        {{value[0].shortname}}
         </span>
 
 	</ng-template>
 
-	<ng-template #dataStatus let-row="row" let-value="value" let-i="index">
-
-        <span *ngIf="row.status_message; else noMessage" ngbTooltip="{{row.status_message}}">
-        	<p [ngClass]="{
-		  		'text-success': (row.status == 'COMPLETED'),
-		  		'text-danger': (row.status == 'ERROR'),
-		  		'text-info': (row.status == 'IMPORTING')
-		  	}">
-		  	{{row.status}}
-		  	</p>
-		</span>
-        <ng-template #noMessage>
-        	{{row.status}}
-        </ng-template>
-
-	</ng-template>
-
+</div>
 </div>
 
+</div>
+</div>
+</div>
