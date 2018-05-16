@@ -23,5 +23,3 @@ import 'noty/lib/noty.css'
 import 'noty/lib/themes/relax.css'
 import 'noty/lib/themes/metroui.css'
 import 'font-awesome/css/font-awesome.min.css'
-// Search all palette-
-import 'google-material-color/dist/palette.css'

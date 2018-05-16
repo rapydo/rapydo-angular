@@ -129,7 +129,7 @@ function formlyConfig(formlyConfigProvider) {
                                  form="form">
                     </formly-form>
                     <div class="text-right">
-                      <i class="fa fa-trash palette-Red-500 text" uib-tooltip="Remove this group of elements" ng-click="model[options.key].splice($index, 1)"></i>
+                      <i class="fa fa-trash" style="color:red;" uib-tooltip="Remove this group of elements" ng-click="model[options.key].splice($index, 1)"></i>
                     </div>
                   </div>
                 </div>
