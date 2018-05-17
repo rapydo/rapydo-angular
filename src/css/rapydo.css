@@ -14,12 +14,6 @@ html, body {
   padding-bottom:30px;
   margin-bottom:20px;
 }
-/* Bootstrap v4 modals */
-
-.modal{
-}
-.modal-backdrop{
-}​
 
 .vertical-center {
   min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
