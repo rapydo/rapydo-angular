@@ -175,6 +175,10 @@ export class FormlyService {
 				} else {
 					field['templateOptions']['select_label'] = "name"
 				}
+
+				// Not implemented!!!
+				field_type = "input";
+				template_type = "text";
 				
 			} else if (stype == 'multi_section') {
 				field_type = "repeatSection";
