@@ -19,7 +19,7 @@
 	<ngx-datatable
 		[rows]="rows"
 		[columns]="columns"
-		[columnMode]="'force'"
+		[columnMode]="'flex'"
 		[loadingIndicator]='true'
 		[footerHeight]="50"
 		[limit]="itemsPerPage">
@@ -80,9 +80,9 @@
 	</ng-template>
 
 	<ng-template #controlsCell let-row="row" let-value="value" let-i="index">
-		<i class='fa fa-pencil' (click)='update(row)'></i>
+		<i class='fa fa-pencil fa-large' (click)='update(row)'></i>
 		<i 
-			class='fa fa-trash' style='color:red;'
+			class='fa fa-trash fa-large' style='color:red;'
 	        mwlConfirmationPopover
 	        [popoverTitle]="deleteConfirmation.title"
 	        [popoverMessage]="deleteConfirmation.message"

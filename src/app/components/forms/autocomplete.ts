@@ -10,21 +10,18 @@ import { ApiService } from '/rapydo/src/app/services/api';
   selector: 'formly-autocomplete',
   providers: [ApiService],
   template: `
-  {{to | json}}
-	<input [type]="text" 
-		[formControl]="formControl"
-		[formlyAttributes]="field"
-
-		[(ngModel)]="model['group']"
+  {{prova | json}}
+	<input type="text" class="form-control" 
+		[(ngModel)]="prova"
 		[ngbTypeahead]="search"
-
-
-		class="form-control">
+		>
   `
 })
 
 
-		/*autocomplete="off" 
+		/*
+
+		autocomplete="off" 
 		ng-model="model[options.key]" 
 		ng-model-options="{ getterSetter: true }"
 		uib-typeahead="item as item[to.select_label] for item in ctrl.querySearch(options.key, $viewValue)"
@@ -38,9 +35,9 @@ export class AutocompleteComponent extends FieldType implements OnInit {
 
 	public ngOnInit(): void { }
 
-	search(text): Observable<string[]> {
+	search = (text$: Observable<string>) => {
 
-		console.log(text);
+		console.log(text$);
 		return of(['a', 'b', 'c']);
 /*		return this.api.get('group', text).pipe(
 			map(response => {

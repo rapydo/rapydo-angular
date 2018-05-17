@@ -53,14 +53,13 @@ export class AdminUsersComponent implements OnInit {
 
 	public ngOnInit(): void {
 
-
 		this.columns = [
-	        {name: 'Email', prop: "email"},
-	        {name: 'Name', prop: "name"},
-	        {name: 'Surname', prop: "surname"},
-	        {name: 'Group', prop: "_belongs_to", cellTemplate: this.dataGroup},
-	        {name: 'Roles', prop: "_roles", cellTemplate: this.dataRoles},
-			{name: 'controls', prop: 'controls', cellTemplate: this.controlsCell, headerTemplate: this.emptyHeader},
+	        {name: 'Email', prop: "email", flexGrow: 1.3},
+	        {name: 'Name', prop: "name", flexGrow: 1.0},
+	        {name: 'Surname', prop: "surname", flexGrow: 1.0},
+	        {name: 'Group', prop: "_belongs_to", cellTemplate: this.dataGroup, flexGrow: 0.4},
+	        {name: 'Roles', prop: "_roles", cellTemplate: this.dataRoles, flexGrow: 1.0},
+			{name: 'controls', prop: 'controls', cellTemplate: this.controlsCell, headerTemplate: this.emptyHeader, flexGrow: 0.2},
 		];
 	}
 
@@ -89,7 +88,7 @@ export class AdminUsersComponent implements OnInit {
 
 	create() {
 
-		this.api.post("admin/users", {'get_schema': true}).subscribe(
+		this.api.post("admin/users", {'get_schema': true, 'autocomplete': false}).subscribe(
 			response => {
 				let data = this.formly.json2Form(response.data, {}, this);
 				this.modalTitle = "Create a new user";
@@ -121,7 +120,7 @@ export class AdminUsersComponent implements OnInit {
 
 	update(row) {
 
-		this.api.post("admin/users", {'get_schema': true}).subscribe(
+		this.api.post("admin/users", {'get_schema': true, 'autocomplete': false}).subscribe(
 			response => {
 				let data = this.formly.json2Form(response.data, row, undefined);
 				this.modalTitle = "Update user";
@@ -143,6 +142,7 @@ export class AdminUsersComponent implements OnInit {
 
 	submit(data) {
 		if (this.form.valid) {
+
 			var apiCall;
 			var type = "";
 			if (this.model["_id"]) {

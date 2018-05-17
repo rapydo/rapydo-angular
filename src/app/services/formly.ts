@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NgbModal, NgbModalRef, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class FormlyService {
@@ -153,7 +154,7 @@ export class FormlyService {
 				field['templateOptions']['labelProp'] = "value";
       			field['templateOptions']['valueProp'] = "id";
       			field['templateOptions']['options'] = s['options']
-      			//field['templateOptions']['multiple'] = false;
+      			field['templateOptions']['multiple'] = multiple;
 
 			} else if (stype == "checkbox" || stype == "boolean") {
 				field_type = "checkbox";
@@ -172,11 +173,11 @@ export class FormlyService {
 					field_type = "multiAutocomplete"
 					template_type = "multiAutocomplete"
 
-					// Not implemented!!!
-					field_type = "input";
-					template_type = "text";
-
 				}
+				console.log(field_type + " not implemented!");
+				// Not implemented!!!
+				field_type = "input";
+				template_type = "text";
 
 				if ("select_id" in s) {
 					field['templateOptions']['select_id'] = s.select_id;
