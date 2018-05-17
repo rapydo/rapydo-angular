@@ -91,8 +91,7 @@ export class AdminUsersComponent implements OnInit {
 
 		this.api.get("schemas/admin/users").subscribe(
 			response => {
-				let data = this.formly.json2Form(response.data, {}, undefined);
-				console.log(data);
+				let data = this.formly.json2Form(response.data, {}, this);
 				this.modalTitle = "Create a new user";
 				this.fields = data.fields;
 				this.model = data.model;

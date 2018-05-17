@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, FormControl } from '@angular/forms';
+import { ReactiveFormsModule, ValidationErrors } from '@angular/forms';
 import { RouterModule, Routes, UrlHandlingStrategy } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 // import { UpgradeModule }  from '@angular/upgrade/static';
@@ -29,6 +29,8 @@ import { Error404Component } from './components/errors/404';
 import { OfflineComponent } from './components/errors/offline';
 
 import { LoadingComponent } from './components/loading/loading';
+
+import { AutocompleteComponent } from './components/forms/autocomplete'
 
 import { ProfileComponent } from './components/profile/profile';
 import { ChangePasswordComponent } from './components/profile/changepassword';
@@ -65,6 +67,11 @@ export class HybridUrlHandlingStrategy implements UrlHandlingStrategy {
   merge(url, whole) { return url; }
 }
 */
+
+export function emailValidator(control: FormControl): ValidationErrors {
+  return /^[a-zA-Z]+[a-zA-Z0-9._]*@[a-zA-Z]+\.[a-zA-Z.]{2,5}$/.test(control.value) ? null : {'email': true};
+}
+
 var declarations = [
   AppComponent,
   LoginComponent,
@@ -72,7 +79,8 @@ var declarations = [
   HomeComponent, Error404Component, OfflineComponent, LoadingComponent,
   NavbarComponent,
   AdminUsersComponent,
-  IteratePipe, BytesPipe
+  IteratePipe, BytesPipe,
+  AutocompleteComponent
 ];
 
 declarations = declarations.concat(customDeclarations);
@@ -99,7 +107,19 @@ routes = routes.concat({path: '**', redirectTo: '/404', pathMatch: 'full'});
     ),
     BrowserModule,
     FormsModule, ReactiveFormsModule,
-    FormlyModule, FormlyBootstrapModule,
+    FormlyBootstrapModule,
+    FormlyModule.forRoot({
+      types: [
+        { name: 'autocomplete', component: AutocompleteComponent }
+      ],
+      validationMessages: [
+        {name: 'required', message: 'This field is required'},
+        {name: 'email', message: 'Invalid email address'},
+      ],
+      validators: [
+        {name: 'email', validation: emailValidator}
+      ]
+    }),
     NgxDatatableModule,
     // import HttpClientModule after BrowserModule
     HttpClientModule,

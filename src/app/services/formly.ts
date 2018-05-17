@@ -57,6 +57,7 @@ export class FormlyService {
 			var multiple = ('multiple' in s && s['multiple'] == "true")
 			var islink = ('islink' in s && s['islink'] == "true")
 			field['templateOptions'] = {}
+			field['validators'] = {}
 
 			// Swagger compatibility
 			if (! ('key' in s)) {
@@ -134,6 +135,7 @@ export class FormlyService {
 			} else if (stype == "longtext" || stype == "textarea") {
 				field_type = "textarea";
 				template_type = "text";
+				field['templateOptions']['rows'] = 5;
 			} else if (stype == "int" || stype == "number") {
 				field_type = "input";
 				template_type = "number";
@@ -143,9 +145,16 @@ export class FormlyService {
 			} else if (stype == "email") {
 				field_type = "input";
 				template_type = "email";
+				field['validators']['validation']  = ['email']
 			} else if (stype == "select") {
 				field_type = "select";
 				template_type = "select";
+
+				field['templateOptions']['labelProp'] = "value";
+      			field['templateOptions']['valueProp'] = "id";
+      			field['templateOptions']['options'] = s['options']
+      			//field['templateOptions']['multiple'] = false;
+
 			} else if (stype == "checkbox" || stype == "boolean") {
 				field_type = "checkbox";
 				template_type = "checkbox";
@@ -162,6 +171,11 @@ export class FormlyService {
 					field['templateOptions']["inputOptions"]["type"] = field_type;
 					field_type = "multiAutocomplete"
 					template_type = "multiAutocomplete"
+
+					// Not implemented!!!
+					field_type = "input";
+					template_type = "text";
+
 				}
 
 				if ("select_id" in s) {
@@ -176,9 +190,10 @@ export class FormlyService {
 					field['templateOptions']['select_label'] = "name"
 				}
 
-				// Not implemented!!!
-				field_type = "input";
-				template_type = "text";
+				/*console.log(DataController);*/
+				/*field['controller'] = DataController+" as ctrl";*/
+
+
 				
 			} else if (stype == 'multi_section') {
 				field_type = "repeatSection";
@@ -221,23 +236,12 @@ export class FormlyService {
 			field['templateOptions']['placeholder'] = s['description'];
 			field['templateOptions']['type'] = template_type; 
 			field['templateOptions']['required'] = (s['required'] == "true");
-			if (template_type == 'textarea') {
-				field['templateOptions']['rows'] = 5;
-			}
-			if (template_type == 'select') {
-				field['templateOptions']['labelProp'] = "value";
-      			field['templateOptions']['valueProp'] = "id";
-      			field['templateOptions']['options'] = s['options']
-      			//field['templateOptions']['multiple'] = false;
-			}
+
 			// if (template_type == 'radio') {
 			// 	field['templateOptions']['labelProp'] = "value";
 			// 	field['templateOptions']['valueProp'] = "name";
 			// 	field['templateOptions']['options'] = s['options']
 			// }
-			if (template_type == 'autocomplete' || template_type == 'multiAutocomplete') {
-				field['controller'] = DataController+" as ctrl";
-			}
 
 			fields.push(field);
 
