@@ -31,16 +31,19 @@
 				let-curPage="curPage"
 				let-offset="offset">
 				<div class='col-3'>
-					{{dataLength}} total
+					<button class="btn btn-success" (click)="create()">
+						Add new user
+					</button>
+					{{templating.paging.dataLength}} total
 				</div>
 				<div class='col-9'>
 				<div class='float-right'>
 				<ngb-pagination
 					boundaryLinks="true"
 					directionLinks="true"
-					[page]="page"
-					[pageSize]="itemsPerPage"
-					[collectionSize]="dataLength"
+					[page]="templating.paging.page"
+					[pageSize]="templating.paging.itemsPerPage"
+					[collectionSize]="templating.paging.dataLength"
 					size="sm"
 					(pageChange)="setPage($event)"
 				>
@@ -70,6 +73,44 @@
         </span>
 
 	</ng-template>
+
+
+	<ng-template #emptyHeader let-column="column">
+		&nbsp;
+	</ng-template>
+
+	<ng-template #controlsCell let-row="row" let-value="value" let-i="index">
+		<i class='fa fa-pencil' (click)='update(row)'></i>
+		<i 
+			class='fa fa-trash' style='color:red;'
+	        mwlConfirmationPopover
+	        [popoverTitle]="deleteConfirmation.title"
+	        [popoverMessage]="deleteConfirmation.message"
+	        placement="left"
+	        (confirm)="delete(row.id)"
+	        (cancel)="cancelRequest()"></i>
+	</ng-template>
+
+	<ng-template #formModal let-c="close" let-d="dismiss">
+
+	  <div class="modal-header bg-default">
+	    <h4 class="modal-title">{{modalTitle}}</h4>
+	    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+	      <span aria-hidden="true">&times;</span>
+	    </button>
+	  </div>
+	  <div class="modal-body">
+	  	<form [formGroup]="form" (ngSubmit)="submit()">
+	  		<formly-form [form]="form" [fields]="fields" [model]="model">
+		    <button type="submit" class="btn btn-default">
+			    <h4>Submit</h4>
+		    </button>
+	  		</formly-form>
+  		</form>
+	  </div>
+
+	</ng-template>
+
 
 </div>
 </div>
