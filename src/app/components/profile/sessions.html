@@ -7,8 +7,7 @@
 <div class='card-header'>
     <h4>List of your open sessions</h4>
 </div>
-<!-- PANEL HEADING END -->
-<!-- PANEL BODY + TABLE START -->
+
 <div class='card-block' *ngIf='tokens'>
 <div class="table-responsive">
     <table class='table table-hover table-condensed'>
@@ -58,7 +57,7 @@
                 mwlConfirmationPopover
                 [popoverTitle]="confirmationTitle"
                 [popoverMessage]="confirmationMessage"
-                placement="bottom"
+                placement="left"
                 (confirm)="revokeToken(values.value.id)"
                 (cancel)="cancelRequest()"></i>
 
@@ -78,7 +77,14 @@
     </table>
 </div>
 </div>
-<!-- PANEL BODY +  TABLE END -->
+
+<div class='card-footer text-muted'>
+<div class='text-left' style='float:right;'>
+    <button class='btn btn-secondary' type="submit" routerLink="..">
+       <i class='fa fa-backward'></i> Back to profile
+    </button>
+</div>
+</div>
 
 </div>
 <!-- CARD END -->
