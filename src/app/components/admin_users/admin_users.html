@@ -58,9 +58,9 @@
 	<ng-template #dataRoles let-row="row" let-value="value" let-i="index">
 
 		<span
-			class='badge badge-light' style='margin-right:3px;'
-			*ngFor="let role of value | iterate"
-			ngbTooltip="{{role['value']['description']}}">
+			class='badge badge-info' style='margin-right:3px;'
+			ngbTooltip="{{role['value']['description']}}"
+			*ngFor="let role of value | iterate">
 			{{role['value']['name']}}
 		</span>	
 
@@ -68,7 +68,7 @@
 
 	<ng-template #dataGroup let-row="row" let-value="value" let-i="index">
 
-		<span ngbTooltip='{{value[0].fullname}}'>
+		<span ngbTooltip='{{value[0].fullname}}' *ngIf="value[0]"">
 	        {{value[0].shortname}}
         </span>
 
