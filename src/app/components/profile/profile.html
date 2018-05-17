@@ -3,28 +3,42 @@
 <div class="row justify-content-md-center" *ngIf="user">
 <div class='col-8'>
 
-<!-- PANEL HEADING START -->
 <div class='card'>
 <div class='card-header'>
     <h4><i class='fa fa-user-circle-o'></i> User profile</h4>
 </div>
-<!-- PANEL HEADING END -->
 
-<!-- PANEL BODY + TABLE START -->
 <div class='card-block'>
 <div class="table-responsive">
-	<table class='table table-striped'>
+	<table class='table'>
+
+        <tr>
+            <th>Name</th>
+            <td>{{user.name}} {{user.surname}}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{user.email}}</td>
+        </tr>
+
+        <tr>
+            <th>Roles</th>
+            <td>
+                <span *ngFor="let role of user.roles | iterate">
+                    {{role.value}}
+                </span>
+            </td>
+        </tr>
 
 		<tr *ngFor="let value of user | iterate: 'uuid'">
-		<th>{{value.key}}</th>
 
-		<td *ngIf="value.key != 'roles'">{{value.value}}</td>
+    		<th *ngIf="['name', 'surname', 'email', 'password', 'roles'].indexOf(value.key) < 0">
+                {{value.key}}
+            </th>
 
-        <td *ngIf="value.key == 'roles'">
-            <span *ngFor="let role of value.value | iterate">
-                {{role.value}}
-            </span>
-        </td>
+    		<td *ngIf="['name', 'surname', 'email', 'password', 'roles'].indexOf(value.key) < 0">
+                {{value.value}}
+            </td>
 
 		</tr>
 
@@ -49,10 +63,8 @@
     </table>
 </div>
 </div>
-<!-- PANEL BODY +  TABLE END -->
 
 </div>
-<!-- PANEL END -->
 
 </div>
 </div>
