@@ -14,14 +14,12 @@ html, body {
   padding-bottom:30px;
   margin-bottom:20px;
 }
-/* Bootstrap v3.3.7 -> remove me in a near future! */
-.modal-dialog {
-  position:absolute;
-  top:20%;
-  z-index: 10040;
-  overflow: auto;
-  overflow-y: auto
+/* Bootstrap v4 modals */
+
+.modal{
 }
+.modal-backdrop{
+}​
 
 .vertical-center {
   min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
