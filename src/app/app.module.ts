@@ -4,6 +4,8 @@ import { FormsModule, FormControl } from '@angular/forms';
 import { ReactiveFormsModule, ValidationErrors } from '@angular/forms';
 import { RouterModule, Routes, UrlHandlingStrategy } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ClipboardModule } from 'ngx-clipboard';
+
 // import { UpgradeModule }  from '@angular/upgrade/static';
 // import { downgradeInjectable } from '@angular/upgrade/static';
 // import { UpgradeAdapter } from '@angular/upgrade';
@@ -107,6 +109,7 @@ routes = routes.concat({path: '**', redirectTo: '/404', pathMatch: 'full'});
     ),
     BrowserModule,
     FormsModule, ReactiveFormsModule,
+    ClipboardModule,
     FormlyBootstrapModule,
     FormlyModule.forRoot({
       types: [

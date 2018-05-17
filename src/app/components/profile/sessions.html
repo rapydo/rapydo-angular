@@ -33,7 +33,7 @@
             <span 
                 ngbTooltip="{{1000*values.value.emitted | date : 'yyyy MMM dd HH:mm:ss'}}"
                 >
-                {{values.value.emitted | amFromUnix | amTimeAgo: true }}
+                {{values.value.emitted | amFromUnix | amTimeAgo:false }}
             </span>
         </td>
 
@@ -41,7 +41,7 @@
             <span 
                 ngbTooltip="{{1000*values.value.last_access | date : 'yyyy MMM dd HH:mm:ss'}}"
                 >
-                {{values.value.last_access | amFromUnix | amTimeAgo: true }}
+                {{values.value.last_access | amFromUnix | amTimeAgo:false }}
             </span>
         </td>
 
@@ -49,12 +49,12 @@
             <span 
                 ngbTooltip="{{1000*values.value.expiration | date : 'yyyy MMM dd HH:mm:ss'}}"
                 >
-                {{values.value.expiration | amFromUnix | amTimeAgo: true }}
+                {{values.value.expiration | amFromUnix | amTimeAgo:false}}
             </span>
         </td>
 
         <td *ngIf="currentToken != values.value.token; else activeCurrent">
-            <i class="fa fa-trash" style='color:red;'
+            <i class="fa fa-trash fa-large" style='color:red;'
                 mwlConfirmationPopover
                 [popoverTitle]="confirmationTitle"
                 [popoverMessage]="confirmationMessage"
@@ -67,8 +67,11 @@
         <td>-</td>
         </ng-template>
 
-        <td style='max-width:300px;font-size: 6px; word-break: break-all;'>
-            {{values.value.token}}
+        <td>
+            <i class='fa fa-clipboard fa-large'
+                ngxClipboard [cbContent]="values.value.token"
+                ngbTooltip="Copy token to clipboard"
+            ></i>
         </td>
 
         </tr>

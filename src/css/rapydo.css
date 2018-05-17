@@ -113,3 +113,20 @@ html, body {
     from { -webkit-transform: rotate(0deg); }
     to { -webkit-transform: rotate(360deg); }
 }
+
+
+.fa-xlarge {
+  font-size: 2em !important;
+}
+.fa-large {
+  font-size: 1.5em !important;
+}
+.fa-medium {
+  font-size: 1em !important;
+}
+.fa-small {
+  font-size: 0.5em !important;
+}
+.fa-xsmall {
+  font-size: 0.33em !important;
+}

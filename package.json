@@ -33,6 +33,8 @@
     "@ngx-formly/core": "",
     "@ngx-formly/bootstrap": "",
 
+    "ngx-clipboard": "10.0.0",
+
     "font-awesome": "",
     "jquery": "^3.3.1",
     
