@@ -14,13 +14,15 @@ if (process.env.APP_MODE == "production") {
   backendURI += process.env.BACKEND_HOST;
   backendURI += ":";
   backendURI += process.env.BACKEND_PORT;
-
-  
 } else {
   console.log("Unknown APP MODE: " + process.env.APP_MODE)
 }
 
 var projectTitle = process.env.PROJECT_TITLE;
+
+
+var allowRegistration = process.env.ALLOW_REGISTRATION == "true";
+var allowPasswordReset = process.env.ALLOW_PASSWORD_RESET == "true";
 
 module.exports = {
   entry: {
@@ -105,7 +107,8 @@ module.exports = {
         'templateDir': JSON.stringify('/static/commons/templates/'),
         'blueprintTemplateDir': JSON.stringify('/static/custom/templates/'),
         'projectTitle': JSON.stringify(projectTitle),
-        'allowRegistration': JSON.stringify(false),
+        'allowRegistration': JSON.stringify(allowRegistration),
+        'allowPasswordReset': JSON.stringify(allowPasswordReset),
         'loggedLandingPage': JSON.stringify('logged.search')
       }
     }),

@@ -8,6 +8,10 @@ import { AuthService } from '../../services/auth';
 })
  
 export class LoginComponent implements OnInit {
+
+    private allowPasswordReset: boolean = false;
+    private allowRegistration: boolean = false;
+
     model: any = {};
     loading = false;
     returnUrl: string;
@@ -18,6 +22,9 @@ export class LoginComponent implements OnInit {
         private authService: AuthService) { 
 
             this.returnUrl = "/app/home";
+
+            this.allowRegistration = process.env.allowRegistration;
+            this.allowPasswordReset = process.env.allowPasswordReset;
     }
  
     ngOnInit() {

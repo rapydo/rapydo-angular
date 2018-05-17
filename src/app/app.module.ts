@@ -50,6 +50,7 @@ import { FormlyService } from './services/formly';
 import { NotificationService } from './services/notification';
 import { TemplatingService } from './services/templating';
 import { LoginComponent } from './components/login/login';
+import { ResetPasswordComponent } from './components/login/reset';
 import { JwtInterceptor } from './jwt.interceptor';
 
 /*
@@ -76,7 +77,7 @@ export function emailValidator(control: FormControl): ValidationErrors {
 
 var declarations = [
   AppComponent,
-  LoginComponent,
+  LoginComponent, ResetPasswordComponent,
   ProfileComponent, ChangePasswordComponent, SessionsComponent,
   HomeComponent, Error404Component, OfflineComponent, LoadingComponent,
   NavbarComponent,
