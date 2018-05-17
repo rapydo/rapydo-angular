@@ -89,7 +89,7 @@ export class AdminUsersComponent implements OnInit {
 
 	create() {
 
-		this.api.get("schemas/admin/users").subscribe(
+		this.api.post("admin/users", {'get_schema': true}).subscribe(
 			response => {
 				let data = this.formly.json2Form(response.data, {}, this);
 				this.modalTitle = "Create a new user";
@@ -121,8 +121,7 @@ export class AdminUsersComponent implements OnInit {
 
 	update(row) {
 
-		console.log("update admin/users: " + row.id);
-		this.api.get("schemas/admin/users").subscribe(
+		this.api.post("admin/users", {'get_schema': true}).subscribe(
 			response => {
 				let data = this.formly.json2Form(response.data, row, undefined);
 				this.modalTitle = "Update user";
