@@ -1,5 +1,6 @@
 
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { ApiService } from '../../services/api';
 import { AuthService } from '../../services/auth';
@@ -14,7 +15,13 @@ export class ChangePasswordComponent {
 
   private user: any
 
-	constructor(private api: ApiService, private auth: AuthService, private notify: NotificationService) {
+	constructor(
+		private api: ApiService,
+		private auth: AuthService,
+		private notify: NotificationService,
+		private router: Router
+
+	) {
 
 			//console.log(api.get());
       this.user = auth.getUser();
@@ -42,12 +49,9 @@ export class ChangePasswordComponent {
 					form.value["newPwd"] = ""
 					form.value["confirmPwd"]= ""
 	    			this.notify.showSuccess("Password successfully changed. Please login with your new password")
-	    			this.auth.logout().subscribe(
-	    				function(response) {
-			    			//$window.location.href = '/app/login';
-			    			console.log("NOT IMPLEMENTED: redirect to login")
-	    				}
-	    			);
+	    			this.auth.removeToken()
+
+	    			this.router.navigate(['app', 'login']);
 
 	    			return true;
 
@@ -58,7 +62,17 @@ export class ChangePasswordComponent {
 			);
 
 		} else {
-			this.notify.showError("Invalid form...");
+
+			if (form.value["currentPwd"] == "") {
+				this.notify.showError("Please provide your current password");
+			} else if (form.value["newPwd"] == "") {
+				this.notify.showError("Please provide your new password");
+			} else if (form.value["confirmPwd"] == "") {
+				this.notify.showError("Please confirm your new password");
+			} else {
+				this.notify.showError("Invalid form...");
+				console.log(form);
+			}
 
 			return false;
 		}
