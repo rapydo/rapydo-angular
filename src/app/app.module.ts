@@ -22,6 +22,7 @@ import { appRoutes as customRoutes } from '/app/frontend/app/app.routes';
 import { declarations as customDeclarations } from '/app/frontend/app/app.declarations';
 import { providers as customProviders } from '/app/frontend/app/app.providers';
 import { entryComponents as customEntryComponents } from '/app/frontend/app/app.entryComponents';
+import { imports as customImports } from '/app/frontend/app/app.imports';
 
 import { IteratePipe, BytesPipe } from './app.pipes'
 
@@ -88,25 +89,30 @@ entryComponents = entryComponents.concat(customEntryComponents);
 var routes = appRoutes.concat(customRoutes);
 routes = routes.concat({path: '**', redirectTo: '/404', pathMatch: 'full'});
 
+var imports = [
+  RouterModule.forRoot(
+    routes,
+    { enableTracing: false} // <-- debugging purposes only
+  ),
+  BrowserModule,
+  FormsModule, ReactiveFormsModule,
+  FormlyModule, FormlyBootstrapModule,
+  NgxDatatableModule,
+  // import HttpClientModule after BrowserModule
+  HttpClientModule,
+  NgbModule.forRoot(),
+  MomentModule,
+  ConfirmationPopoverModule.forRoot(
+    {confirmButtonType: 'danger'} // set defaults here
+   ),
+  UpgradeModule
+];
+
+imports = imports.concat(customImports);
+
+
 @NgModule({
-  imports: [
-    RouterModule.forRoot(
-      routes,
-      { enableTracing: false} // <-- debugging purposes only
-    ),
-    BrowserModule,
-    FormsModule, ReactiveFormsModule,
-    FormlyModule, FormlyBootstrapModule,
-    NgxDatatableModule,
-    // import HttpClientModule after BrowserModule
-    HttpClientModule,
-    NgbModule.forRoot(),
-    MomentModule,
-    ConfirmationPopoverModule.forRoot(
-      {confirmButtonType: 'danger'} // set defaults here
-     ),
-    UpgradeModule
-  ],
+  imports: imports,
   declarations: declarations,
   bootstrap: [ AppComponent ],
   entryComponents: entryComponents,
