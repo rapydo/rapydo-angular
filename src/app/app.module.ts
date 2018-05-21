@@ -24,6 +24,7 @@ import { appRoutes as customRoutes } from '/app/frontend/app/app.routes';
 import { declarations as customDeclarations } from '/app/frontend/app/app.declarations';
 import { providers as customProviders } from '/app/frontend/app/app.providers';
 import { entryComponents as customEntryComponents } from '/app/frontend/app/app.entryComponents';
+import { imports as customImports } from '/app/frontend/app/app.imports';
 
 import { IteratePipe, BytesPipe } from './pipes/pipes'
 
@@ -102,8 +103,7 @@ entryComponents = entryComponents.concat(customEntryComponents);
 var routes = appRoutes.concat(customRoutes);
 routes = routes.concat({path: '**', redirectTo: '/404', pathMatch: 'full'});
 
-@NgModule({
-  imports: [
+var imports = [
     RouterModule.forRoot(
       routes,
       { enableTracing: false} // <-- debugging purposes only
@@ -133,7 +133,13 @@ routes = routes.concat({path: '**', redirectTo: '/404', pathMatch: 'full'});
       {confirmButtonType: 'danger'} // set defaults here
      ),
     // UpgradeModule
-  ],
+];
+
+imports = imports.concat(customImports);
+
+
+@NgModule({
+  imports: imports,
   declarations: declarations,
   bootstrap: [ AppComponent ],
   entryComponents: entryComponents,
