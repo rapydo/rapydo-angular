@@ -73,7 +73,7 @@ export class HybridUrlHandlingStrategy implements UrlHandlingStrategy {
 */
 
 export function emailValidator(control: FormControl): ValidationErrors {
-  return /^[a-zA-Z]+[a-zA-Z0-9._]*@[a-zA-Z]+\.[a-zA-Z.]{2,5}$/.test(control.value) ? null : {'email': true};
+  return /^[a-zA-Z]+[a-zA-Z0-9._-]*@[a-zA-Z\.]+[a-zA-Z.]{2,5}$/.test(control.value) ? null : {'email': true};
 }
 
 var declarations = [
