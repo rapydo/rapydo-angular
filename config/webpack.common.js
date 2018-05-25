@@ -104,23 +104,23 @@ module.exports = {
       'process.env': {
         'apiUrl': JSON.stringify(backendURI + '/api'),
         'authApiUrl': JSON.stringify(backendURI + '/auth'),
-        'templateDir': JSON.stringify('/static/commons/templates/'),
-        'blueprintTemplateDir': JSON.stringify('/static/custom/templates/'),
+        /*'templateDir': JSON.stringify('/static/commons/templates/'),*/
+        /*'blueprintTemplateDir': JSON.stringify('/static/custom/templates/'),*/
         'projectTitle': JSON.stringify(projectTitle),
         'allowRegistration': JSON.stringify(allowRegistration),
         'allowPasswordReset': JSON.stringify(allowPasswordReset),
-        'loggedLandingPage': JSON.stringify('logged.search')
+        /*'loggedLandingPage': JSON.stringify('logged.search')*/
       }
     }),
 
     new CopyWebpackPublic(
       [
-        { from: '/app/frontend/templates', to: 'static/custom/templates/'},
+        /*{ from: '/app/frontend/templates', to: 'static/custom/templates/'},*/
         { from: '/app/frontend/css', to: 'static/custom/css/'},
-        { from: '/app/frontend/js', to: 'static/custom/js/'},
+        /*{ from: '/app/frontend/js', to: 'static/custom/js/'},*/
         { from: '/app/frontend/assets', to: 'static/assets/'},
 
-        { from: '/rapydo/src/templates', to: 'static/commons/templates/'},
+        /*{ from: '/rapydo/src/templates', to: 'static/commons/templates/'},*/
         { from: '/rapydo/src/css', to: 'static/commons/css/'}
       ]
     )
