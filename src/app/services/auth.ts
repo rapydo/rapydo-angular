@@ -43,7 +43,6 @@ console.log(err.Response.errors);*/
 		);
 	}
 
-
 	public loadUser() {
 
 		return this.http.get<any>(process.env.authApiUrl + '/profile').map(

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
  
 import { AuthService } from '../../services/auth';
+import { NotificationService} from '/rapydo/src/app/services/notification';
  
 @Component({
     templateUrl: 'login.html'
@@ -19,6 +20,7 @@ export class LoginComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private router: Router,
+        private notify: NotificationService,
         private authService: AuthService) { 
 
             this.returnUrl = "/app/home";
@@ -42,15 +44,16 @@ export class LoginComponent implements OnInit {
                 data => {
 
                     this.authService.loadUser().subscribe(
-                        data => {
+                        response => {
                             this.router.navigate([this.returnUrl]);
+                            this.notify.extractErrors(response, this.notify.WARNING);
                         }, 
                         error => {
                             if (error.status == 0) {
                                 this.router.navigate(["/offline"]);
 
                             } else {
-                                window.alert(error.error.Response.errors[0])
+                                this.notify.extractErrors(error, this.notify.ERROR);
                             }
                             this.loading = false;
                         }
@@ -63,7 +66,8 @@ export class LoginComponent implements OnInit {
 
                     } else if (error.status == 409) {
                         //$log.warn("Auth raised errors", response);
-                        window.alert(error.error.Response.errors[0])
+                        this.notify.extractErrors(error, this.notify.ERROR);
+                        /*window.alert(error.error.Response.errors[0])*/
 
                     } else if (error.status == 403) {
                         //$log.warn("Auth not completed", response);
@@ -133,7 +137,7 @@ export class LoginComponent implements OnInit {
                         }
 */
                     } else {
-                        window.alert(error.error.Response.errors[0])
+                        this.notify.extractErrors(error.error.Response, this.notify.CRITICAL);
                     }
 
                     this.loading = false;
