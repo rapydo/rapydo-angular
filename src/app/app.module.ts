@@ -30,6 +30,7 @@ import { IteratePipe, BytesPipe } from './pipes/pipes'
 
 import { Error404Component } from './components/errors/404';
 import { OfflineComponent } from './components/errors/offline';
+import { BasePaginationComponent } from './components/base.pagination.component';
 
 import { LoadingComponent } from './components/loading/loading';
 
@@ -49,7 +50,6 @@ import { AuthService } from './services/auth';
 import { ApiService } from './services/api';
 import { FormlyService } from './services/formly';
 import { NotificationService } from './services/notification';
-import { TemplatingService } from './services/templating';
 import { LoginComponent } from './components/login/login';
 import { ResetPasswordComponent } from './components/login/reset';
 import { JwtInterceptor } from './jwt.interceptor';
@@ -81,6 +81,7 @@ var declarations = [
   LoginComponent, ResetPasswordComponent,
   ProfileComponent, ChangePasswordComponent, SessionsComponent,
   HomeComponent, Error404Component, OfflineComponent, LoadingComponent,
+  BasePaginationComponent,
   NavbarComponent,
   AdminUsersComponent,
   IteratePipe, BytesPipe,
@@ -90,7 +91,7 @@ var declarations = [
 declarations = declarations.concat(customDeclarations);
 
 var providers = [
-  AuthService, AuthGuard, ApiService, FormlyService, NotificationService, TemplatingService,
+  AuthService, AuthGuard, ApiService, FormlyService, NotificationService,
   { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
   // { provide: UrlHandlingStrategy, useClass: HybridUrlHandlingStrategy}
 ];

@@ -32,18 +32,18 @@
 				let-offset="offset">
 				<div class='col-3'>
 					<button class="btn btn-success" (click)="create()">
-						Add new user
+						Add new {{resource_name}}
 					</button>
-					{{templating.paging.dataLength}} total
+					{{paging.dataLength}} total
 				</div>
 				<div class='col-9'>
 				<div class='float-right'>
 				<ngb-pagination
 					boundaryLinks="true"
 					directionLinks="true"
-					[page]="templating.paging.page"
-					[pageSize]="templating.paging.itemsPerPage"
-					[collectionSize]="templating.paging.dataLength"
+					[page]="paging.page"
+					[pageSize]="paging.itemsPerPage"
+					[collectionSize]="paging.dataLength"
 					size="sm"
 					(pageChange)="setPage($event)"
 				>
