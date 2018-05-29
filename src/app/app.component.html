@@ -1,11 +1,14 @@
 
 <loading *ngIf="loading"></loading>
 
-<navbar [user]="user" *ngIf="!loading"></navbar>
+<div *ngIf="!api.is_online()">
+API ERROR
+</div>
+
+<navbar [user]="user" *ngIf="!loading && api.is_online()"></navbar>
 
 <br><br>
-
-<router-outlet *ngIf="!loading"> 
+<router-outlet *ngIf="!loading && api.is_online()"> 
 
 </router-outlet>
 

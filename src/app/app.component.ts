@@ -4,11 +4,12 @@ import { catchError, map } from 'rxjs/operators';
 import { ChangeDetectorRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from './services/auth';
+import { ApiService} from './services/api';
 import { NavbarComponent } from './components/navbar/navbar';
 
 @Component({
   selector: 'rapydo',
-  providers: [AuthService, NavbarComponent],
+  providers: [AuthService, ApiService, NavbarComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -23,6 +24,7 @@ export class AppComponent {
 
 	constructor(
 			private auth: AuthService,
+			private api: ApiService,
 			private titleService: Title,
 			private ref: ChangeDetectorRef) {
 
