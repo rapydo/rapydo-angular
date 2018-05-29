@@ -20,11 +20,13 @@ import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { AppComponent } from './app.component';
 
 import { appRoutes } from './rapydo.routes';
-import { appRoutes as customRoutes } from '/app/frontend/app/app.routes';
-import { declarations as customDeclarations } from '/app/frontend/app/app.declarations';
-import { providers as customProviders } from '/app/frontend/app/app.providers';
-import { entryComponents as customEntryComponents } from '/app/frontend/app/app.entryComponents';
-import { imports as customImports } from '/app/frontend/app/app.imports';
+
+import { appRoutes as customRoutes } from '/app/frontend/app/custom.routes';
+
+import { declarations as customDeclarations } from '/app/frontend/app/custom.declarations';
+import { providers as customProviders } from '/app/frontend/app/custom.declarations';
+import { entryComponents as customEntryComponents } from '/app/frontend/app/custom.declarations';
+import { imports as customImports } from '/app/frontend/app/custom.declarations';
 
 import { IteratePipe, BytesPipe } from './pipes/pipes'
 
@@ -40,7 +42,7 @@ import { ProfileComponent } from './components/profile/profile';
 import { ChangePasswordComponent } from './components/profile/changepassword';
 import { SessionsComponent } from './components/profile/sessions';
 
-import { HomeComponent } from '/app/frontend/app/app.home';
+import { HomeComponent } from '/app/frontend/app/custom.home';
 import { NavbarComponent } from './components/navbar/navbar';
 
 import { AdminUsersComponent } from './components/admin_users/admin_users';

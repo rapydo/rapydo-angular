@@ -1,5 +1,0 @@
-// import { YourComponent } from "./your/components";
-
-export const entryComponents: any[] = [
-	// YourComponent
-];
