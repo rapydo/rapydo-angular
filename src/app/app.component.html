@@ -1,7 +1,7 @@
 
 <loading *ngIf="loading"></loading>
 
-<div *ngIf="!api.is_online()">
+<div *ngIf="!loading && !api.is_online()">
 API ERROR
 </div>
 
