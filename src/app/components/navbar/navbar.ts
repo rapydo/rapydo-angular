@@ -18,15 +18,7 @@ export class NavbarComponent {
 			private modalService: NgbModal,
 			private api: ApiService,
 			private auth: AuthService,
-		) { 
-
-/*		
-		this.api.get('default_fields').subscribe(
-			test => console.log(test)
-		);
-*/
-
-	}
+		) { }
 
 	do_logout() {
 		this.auth.logout().subscribe(

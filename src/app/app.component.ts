@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { VERSION as NG_VERSION } from '@angular/core';
+import { catchError, map } from 'rxjs/operators';
+/*import { VERSION as NG_VERSION } from '@angular/core';*/
 import { ChangeDetectorRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from './services/auth';
@@ -13,11 +14,12 @@ import { NavbarComponent } from './components/navbar/navbar';
 })
 export class AppComponent {
 
+	private loading: boolean = false;
 	private user: any;
 
-	versions = {
+/*	versions = {
 		angular: NG_VERSION.full
-	}
+	}*/
 
 	constructor(
 			private auth: AuthService,
@@ -28,21 +30,30 @@ export class AppComponent {
 		t = t.replace(/^'/, "");
 		t = t.replace(/'$/, "");
 		titleService.setTitle(t);
-
-		this.user = auth.getUser();
+		
 		auth.userChanged.subscribe(user => this.changeLogged(user));
+
+		this.loading = true;
+		this.auth.isAuthenticated().subscribe(
+            is_auth => {
+            	if (is_auth) {
+	                this.user = auth.getUser();
+	            }
+            	this.loading = false;
+            }
+        );
 	}
 
 
 	changeLogged(user: any) {
 
 		if (user == this.auth.LOGGED_OUT) {
-			console.log("Received <" + user  + "> event");
+			/*console.log("Received <" + user  + "> event");*/
 			this.user = undefined;
 			this.ref.detectChanges();
 
 		} else if (user == this.auth.LOGGED_IN) {
-			console.log("Received <" + user  + "> event");
+			/*console.log("Received <" + user  + "> event");*/
 			this.user = this.auth.getUser();
 			/*this.ref.detectChanges();*/
 

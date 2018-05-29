@@ -36,8 +36,6 @@ export class AuthService {
 			},
 			err => {
 				this.removeToken();
-/*console.log(err.Meta.status);
-console.log(err.Response.errors);*/
 			}
 
 		);
@@ -87,7 +85,6 @@ console.log(err.Response.errors);*/
 
        	var opt =  {"base": "auth", "rawResponse": true};
         return this.api.get('profile', "", [], opt).pipe(
-		/*return this.api.verify(true).pipe(*/
 			map(response => {
 				return true;
 			}),
