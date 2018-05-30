@@ -1,20 +1,20 @@
-<div class="col-6 offset-3">
-    <h2>Login</h2>
-    <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
-        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
-            <label for="username">Username</label>
-            <input type="text" class="form-control" name="username" [(ngModel)]="model.username" #username="ngModel" required />
-            <div *ngIf="f.submitted && !username.valid" class="help-block">Username is required</div>
-        </div>
-        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" required />
-            <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
-        </div>
-        <div class="form-group">
+<div class='container-fluid'>
+<div class="row justify-content-md-center">
+<div class='col-12 col-md-8 col-lg-6'>
+
+<div class='card'>
+<div class='card-header'>
+    <h4>Login</h4>
+</div>
+
+<div class='card-block'>
+    <form [formGroup]="form" (ngSubmit)="login()">
+        <formly-form [form]="form" [fields]="fields" [model]="model">
+
             <button [disabled]="loading" class="btn btn-primary">Login</button>
             <i *ngIf="loading" class='fa fa-spinner fa-spin'></i>
-        </div>
+
+        </formly-form>
     </form>
 
     <div class='text-left' *ngIf='allowRegistration'>
@@ -25,4 +25,9 @@
       Forgot your password? <a href="#" routerLink='/public/reset'>Click here</a>.
     </div>
 
+</div>
+</div>
+
+</div>
+</div>
 </div>

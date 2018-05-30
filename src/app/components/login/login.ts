@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { FormGroup } from '@angular/forms';
+import { FormlyFieldConfig } from '@ngx-formly/core';
  
 import { AuthService } from '../../services/auth';
 import { NotificationService} from '/rapydo/src/app/services/notification';
@@ -13,17 +15,18 @@ export class LoginComponent implements OnInit {
     private allowPasswordReset: boolean = false;
     private allowRegistration: boolean = false;
 
-    model: any = {};
-    loading = false;
-    returnUrl: string;
+    private form = new FormGroup({});
+    private fields: FormlyFieldConfig[] = []; 
+    private model:any = {}
+
+    private loading = false;
+    private returnUrl: string = "";
  
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private notify: NotificationService,
         private authService: AuthService) { 
-
-            this.returnUrl = "/app/home";
 
             this.allowRegistration = process.env.allowRegistration;
             this.allowPasswordReset = process.env.allowPasswordReset;
@@ -32,12 +35,40 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
         // reset login status
         this.authService.logout();
- 
+
+        this.fields.push(
+            {
+                "key": 'username',
+                "type": 'input',
+                "templateOptions": {
+                    "type": 'email',
+                    "label": 'Username',
+                    "required": true
+                },
+                "validators": { "validation": ["email"]}
+            }
+        );
+
+        this.fields.push(
+            {
+                "key": 'password',
+                "type": 'input',
+                "templateOptions": {
+                    "type": 'password',
+                    "label": 'Password',
+                    "required": true
+                }
+            }
+        );
+
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     }
  
     login() {
+        if (!this.form.valid) {
+            return false;
+        }
         this.loading = true;
         this.authService.login(this.model.username, this.model.password)
             .subscribe(
