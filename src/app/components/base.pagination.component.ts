@@ -191,8 +191,6 @@ export class BasePaginationComponent implements OnInit {
 					this.notify.extractErrors(error, this.notify.ERROR);
 				}
 			);
-		} else {
-			console.log("Invalid form");
 		}
 	}
 
