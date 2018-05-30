@@ -38,6 +38,9 @@ export class ChangePasswordComponent {
 					"templateOptions": {
 						"type": 'number',
 						"label": 'Verification code',
+	                    "addonLeft": {
+	                        "class": "fa fa-shield"
+	                    },
 						"required": true,
 						"min": 100000,
 						"max": 999999
@@ -53,6 +56,9 @@ export class ChangePasswordComponent {
 					"templateOptions": {
 						"type": 'password',
 						"label": 'Current password',
+	                    "addonLeft": {
+	                        "class": "fa fa-key"
+	                    },
 						"required": true
 					}
 				}
@@ -67,6 +73,9 @@ export class ChangePasswordComponent {
 				"templateOptions": {
 					"type": 'password',
 					"label": 'New password',
+                    "addonLeft": {
+                        "class": "fa fa-key"
+                    },
 					"required": true,
 					"minLength": 8
 				}
@@ -79,6 +88,9 @@ export class ChangePasswordComponent {
 				"templateOptions": {
 					"type": 'password',
 					"label": 'Confirm password',
+                    "addonLeft": {
+                        "class": "fa fa-key"
+                    },
 					"required": true
 				},
 				"validators": {
