@@ -57,7 +57,6 @@ export class AppComponent {
 		} else if (user == this.auth.LOGGED_IN) {
 			/*console.log("Received <" + user  + "> event");*/
 			this.user = this.auth.getUser();
-			/*this.ref.detectChanges();*/
 
 		} else {
 			console.log("Received unknown user event: <" + user  + ">");

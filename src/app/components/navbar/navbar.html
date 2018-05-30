@@ -12,45 +12,16 @@
 	      	</a>
 		</li>
 
-		<ng-template #content let-c="close" let-d="dismiss">
-		<div class='modal-dialog-centered' role="document">
-		<div class='modal-content'>
-		  <div class="modal-header bg-warning">
-		    <h2 class="modal-title">Logout request</h2>
-		    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-		      <span aria-hidden="true">&times;</span>
-		    </button>
-		  </div>
-		  <div class="modal-body">
-		  	<h3>
-		    <p class='text-center'>
-		    	Do you really want to close this session?
-		    </p>
-		    </h3>
-		  </div>
-		  <div class="modal-footer">
-
-			    <button 
-			    	type="button" 
-			    	class="btn btn-danger" (click)="do_logout()">
-			    <h4>YES</h4>
-			    </button>
-
-			    <button 
-			    	type="button" 
-			    	class="btn btn-outline-dark" (click)="c('Close click')">
-			    <h4>NO</h4>
-			    </button>
-
-		  </div>
-		</div>
-		</div>
-		</ng-template>
-
 		<li class='nav-item' *ngIf="user">
-	      	<a class='nav-link' (click)="ask_logout(content)">
-      		<i class='fa fa-sign-out' ngbTooltip='Logout' placement='bottom'></i>
-	      	</a>
+			<a class='nav-link'>
+      		<i class='fa fa-sign-out' ngbTooltip='Logout' placement='left'
+                mwlConfirmationPopover
+                [popoverTitle]="logoutConfirmationTitle"
+                [popoverMessage]="logoutConfirmationMessage"
+                placement="bottom"
+                (confirm)="do_logout()"
+      		></i>
+      		</a>
 		</li>
 
 		<li class='nav-item' *ngIf="!user">
