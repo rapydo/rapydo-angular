@@ -78,6 +78,14 @@ export function emailValidator(control: FormControl): ValidationErrors {
   return /^[a-zA-Z]+[a-zA-Z0-9._-]*@[a-zA-Z\.]+[a-zA-Z.]{2,5}$/.test(control.value) ? null : {'email': true};
 }
 
+export function minLengthValidationError(error, field) {
+  return `Should have at least ${field.templateOptions.minLength} characters`;
+}
+
+export function maxLengthValidationError(error, field) {
+  return `Should have no more than ${field.templateOptions.maxLength} characters`;
+}
+
 var declarations = [
   AppComponent,
   LoginComponent, ResetPasswordComponent,
@@ -121,6 +129,8 @@ var imports = [
       ],
       validationMessages: [
         {name: 'required', message: 'This field is required'},
+        {name: 'minlength', message: minLengthValidationError},
+        {name: 'maxlength', message: maxLengthValidationError},
         {name: 'email', message: 'Invalid email address'},
       ],
       validators: [
