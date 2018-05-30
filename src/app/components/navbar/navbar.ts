@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { ApiService } from '../../services/api';
 import { AuthService } from '../../services/auth';
 
@@ -13,12 +15,12 @@ export class NavbarComponent {
 	private logoutConfirmationTitle:string = "Logout request";
 	private logoutConfirmationMessage:string = "Do you really want to close this session?";	
 
-	constructor(private api: ApiService, private auth: AuthService) { }
+	constructor(private router: Router, private api: ApiService, private auth: AuthService) { }
 
 	do_logout() {
 		this.auth.logout().subscribe(
 			response =>  {
-				console.log("bye bye")
+				this.router.navigate(['']);
 			}
 		);
 	}
