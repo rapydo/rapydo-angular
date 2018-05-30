@@ -43,6 +43,9 @@ export class LoginComponent implements OnInit {
                 "templateOptions": {
                     "type": 'email',
                     "label": 'Username',
+                    "addonLeft": {
+                        "class": "fa fa-envelope"
+                    },
                     "required": true
                 },
                 "validators": { "validation": ["email"]}
@@ -56,6 +59,9 @@ export class LoginComponent implements OnInit {
                 "templateOptions": {
                     "type": 'password',
                     "label": 'Password',
+                    "addonLeft": {
+                        "class": "fa fa-key"
+                    },
                     "required": true
                 }
             }
