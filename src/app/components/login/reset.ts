@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
- 
+import { FormGroup } from '@angular/forms';
+import { FormlyFieldConfig } from '@ngx-formly/core'; 
+
 import { NotificationService} from '../../services/notification';
 import { ApiService } from '../../services/api';
 import { AuthService } from '../../services/auth';
@@ -15,8 +17,13 @@ export class ResetPasswordComponent implements OnInit {
     private invalid_token: string;
     private reset_message: string;
 
-    model: any = {};
-    loading = false;
+    private step1_form = new FormGroup({});
+    private step2_form = new FormGroup({});
+    private step1_fields: FormlyFieldConfig[] = []; 
+    private step2_fields: FormlyFieldConfig[] = []; 
+    private model:any = {}
+
+    private loading = false;
  
     constructor(
         private router: Router,
@@ -31,7 +38,6 @@ export class ResetPasswordComponent implements OnInit {
 
                     this.api.put('reset', params["token"], {}, {"base": "auth"}).subscribe(
                        response => {
-                            console.log(response);
                             this.token = params["token"]
                             this.notify.extractErrors(response, this.notify.ERROR);
                             return true;
@@ -51,68 +57,105 @@ export class ResetPasswordComponent implements OnInit {
     ngOnInit() {
         // reset login status
         this.authService.logout();
-    }
 
-    resetRequest(form: any): boolean {
-
-        if (form.valid) {
-            
-            var data = {"reset_email": form.value["reset_email"]};
-            return this.api.post('reset', data, {"base": "auth"}).subscribe(
-                response => {
-                    console.log(response);
-                    this.reset_message = response.data;
-                    this.notify.extractErrors(response, this.notify.ERROR);
-                    return true;
-
-                }, error => {
-                    this.notify.extractErrors(error, this.notify.ERROR);
-                    return false;
-                }
-            );
-
-        } else {
-
-            if (form.value["reset_email"] == "") {
-                this.notify.showError("Please provide your reset email");
-            } else {
-                this.notify.showError("Invalid request...");
-                console.log(form);
+        this.step1_fields.push(
+            {
+                "key": 'reset_email',
+                "type": 'input',
+                "templateOptions": {
+                    "type": 'email',
+                    "label": 'Your e-mail address',
+                    "addonLeft": {
+                        "class": "fa fa-envelope"
+                    },
+                    "required": true
+                },
+                "validators": { "validation": ["email"]}
             }
-            return false;
-        }
+        );
+
+        this.step2_fields.push(
+            {
+                "key": 'newPwd',
+                "type": 'input',
+                "templateOptions": {
+                    "type": 'password',
+                    "label": 'New password',
+                    "addonLeft": {
+                        "class": "fa fa-key"
+                    },
+                    "required": true,
+                    "minLength": 8
+                }
+            }
+        );
+        this.step2_fields.push(
+            {
+                "key": 'confirmPwd',
+                "type": 'input',
+                "templateOptions": {
+                    "type": 'password',
+                    "label": 'Confirm password',
+                    "addonLeft": {
+                        "class": "fa fa-key"
+                    },
+                    "required": true
+                },
+                "validators": {
+                    "fieldMatch": {
+                        "expression": (control) => control.value === this.model.newPwd,
+                        "message": "Password not matching"
+                    }
+                }
+            }
+        );
+
     }
 
-    private changePassword(form: any): boolean {
+    resetRequest(): boolean {
 
-        if (form.valid) {
-            if (form.value["newPwd"] != form.value["confirmPwd"]) {
-                this.notify.showError("New password does not match with confirmation");
+        if (!this.step1_form.valid) {
+            return false;
+        } 
+
+        var data = {"reset_email": this.model["reset_email"]};
+        return this.api.post('reset', data, {"base": "auth"}).subscribe(
+            response => {
+                this.reset_message = response.data;
+                this.model = {}
+                this.notify.extractErrors(response, this.notify.ERROR);
+                return true;
+
+            }, error => {
+                this.notify.extractErrors(error, this.notify.ERROR);
                 return false;
             }
+        );
+    }
 
-            var data = {}
-            data["new_password"] = form.value["newPwd"];
-            data["password_confirm"] = form.value["confirmPwd"];
+    private changePassword(): boolean {
 
-            return this.api.put('reset', this.token, data, {"base": "auth"}).subscribe(
-                response => {
-                    console.log(response);
-                    this.notify.showSuccess("Password successfully changed. Please login with your new password")
-
-                    this.notify.extractErrors(response, this.notify.ERROR);
-                    this.router.navigate(['app', 'login']);
-                    return true;
-
-                }, error => {
-                    this.notify.extractErrors(error, this.notify.ERROR);
-                    return false;
-                }
-            );
-        } else {
-            console.log(form);
+        if (!this.step2_form.valid) {
             return false;
-        }
+        } 
+
+        var data = {}
+        data["new_password"] = this.model["newPwd"];
+        data["password_confirm"] = this.model["confirmPwd"];
+
+        return this.api.put('reset', this.token, data, {"base": "auth"}).subscribe(
+            response => {
+                this.notify.showSuccess("Password successfully changed. Please login with your new password")
+
+                this.notify.extractErrors(response, this.notify.ERROR);
+                this.router.navigate(['app', 'login']);
+                return true;
+
+            }, error => {
+                this.notify.extractErrors(error, this.notify.ERROR);
+                return false;
+            }
+        );
     };
     
 }
