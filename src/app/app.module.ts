@@ -86,6 +86,14 @@ export function maxLengthValidationError(error, field) {
   return `Should have no more than ${field.templateOptions.maxLength} characters`;
 }
 
+export function minValidationError(error, field) {
+  return `Should be greater than ${field.templateOptions.min}`;
+}
+
+export function maxValidationError(error, field) {
+  return `Should be lower than ${field.templateOptions.max}`;
+}
+
 var declarations = [
   AppComponent,
   LoginComponent, ResetPasswordComponent,
@@ -131,6 +139,8 @@ var imports = [
         {name: 'required', message: 'This field is required'},
         {name: 'minlength', message: minLengthValidationError},
         {name: 'maxlength', message: maxLengthValidationError},
+        {name: 'min', message: minValidationError},
+        {name: 'max', message: maxValidationError},
         {name: 'email', message: 'Invalid email address'},
       ],
       validators: [
