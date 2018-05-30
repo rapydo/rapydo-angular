@@ -1,6 +1,8 @@
 
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormGroup } from '@angular/forms';
+import { FormlyFieldConfig } from '@ngx-formly/core';
 
 import { ApiService } from '../../services/api';
 import { AuthService } from '../../services/auth';
@@ -13,7 +15,10 @@ import { NotificationService} from '../../services/notification';
 })
 export class ChangePasswordComponent { 
 
-  private user: any
+	private form = new FormGroup({});
+	private fields: FormlyFieldConfig[] = []; 
+	private model:any = {}
+	private user: any
 
 	constructor(
 		private api: ApiService,
@@ -23,31 +28,86 @@ export class ChangePasswordComponent {
 
 	) {
 
-			//console.log(api.get());
-      this.user = auth.getUser();
+		this.user = auth.getUser();
+
+		if (this.user["2fa"] && this.user["2fa"] == "TOTP") {
+			this.fields.push(
+				{
+					"key": 'totp_code',
+					"type": 'input',
+					"templateOptions": {
+						"type": 'number',
+						"label": 'Verification code',
+						"required": true,
+						"min": 100000,
+						"max": 999999
+
+					}
+				}
+			);
+		} else {
+			this.fields.push(
+				{
+					"key": 'currentPwd',
+					"type": 'input',
+					"templateOptions": {
+						"type": 'password',
+						"label": 'Current password',
+						"required": true
+					}
+				}
+			);
+		}
+
+
+		this.fields.push(
+			{
+				"key": 'newPwd',
+				"type": 'input',
+				"templateOptions": {
+					"type": 'password',
+					"label": 'New password',
+					"required": true,
+					"minLength": 8
+				}
+			}
+		);
+		this.fields.push(
+			{
+				"key": 'confirmPwd',
+				"type": 'input',
+				"templateOptions": {
+					"type": 'password',
+					"label": 'Confirm password',
+					"required": true
+				},
+				"validators": {
+					"fieldMatch": {
+						"expression": (control) => control.value === this.model.newPwd,
+						"message": "Password not matching"
+					}
+				}
+			}
+		);
 
 	}
 
-	changePassword(form: any): boolean {
-		if (form.valid) {
-			if (form.value["newPwd"] != form.value["confirmPwd"]) {
-				this.notify.showError("New password does not match with confirmation");
-				return false;
-			}
+	submit() {
+		if (this.form.valid) {
 			var data = {}
-			data["new_password"] = form.value["newPwd"];
-			data["password_confirm"] = form.value["confirmPwd"];
+			data["new_password"] = this.model["newPwd"];
+			data["password_confirm"] = this.model["confirmPwd"];
 
-			if (form.value["currentPwd"])	
-				data["password"] = form.value["currentPwd"];
+			if (this.model["currentPwd"])	
+				data["password"] = this.model["currentPwd"];
 
-			if (form.value["totp_code"])	
-				data["password"] = form.value["totp_code"];
+			if (this.model["totp_code"])	
+				data["password"] = this.model["totp_code"];
 
 			return this.api.put('profile', "", data, {"base": "auth"}).subscribe(
 				response => {
-					form.value["newPwd"] = ""
-					form.value["confirmPwd"]= ""
+					this.model["newPwd"] = ""
+					this.model["confirmPwd"]= ""
 	    			this.notify.showSuccess("Password successfully changed. Please login with your new password")
 	    			this.auth.removeToken()
 
@@ -60,21 +120,6 @@ export class ChangePasswordComponent {
 	    			return false;
 				}
 			);
-
-		} else {
-
-			if (form.value["currentPwd"] == "") {
-				this.notify.showError("Please provide your current password");
-			} else if (form.value["newPwd"] == "") {
-				this.notify.showError("Please provide your new password");
-			} else if (form.value["confirmPwd"] == "") {
-				this.notify.showError("Please confirm your new password");
-			} else {
-				this.notify.showError("Invalid form...");
-				console.log(form);
-			}
-
-			return false;
 		}
 	}
 
