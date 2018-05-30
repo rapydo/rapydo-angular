@@ -8,7 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable()
 export class ApiService {
 
-	public static is_online: boolean; 
+	public static is_online: boolean = true; 
 
 	constructor(private http:HttpClient) { }
 
