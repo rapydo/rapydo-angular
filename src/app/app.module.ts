@@ -11,7 +11,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 // import { UpgradeAdapter } from '@angular/upgrade';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { MomentModule } from 'angular2-moment/moment.module';
+import { MomentModule } from 'ngx-moment';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { FormlyModule } from '@ngx-formly/core';
