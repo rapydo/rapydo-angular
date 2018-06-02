@@ -24,20 +24,20 @@
     "zone.js": "^0.8.4",
 
     "bootstrap": "^4.0.0",
-    "@ng-bootstrap/ng-bootstrap": "",
-    "angular-confirmation-popover": "",
+    "@ng-bootstrap/ng-bootstrap": "1.1.2",
+    "@ngx-formly/core": "2.0.0",
+    "@ngx-formly/bootstrap": "2.0.0",
 
-    "moment": "^2.21.0",
-    "angular2-moment": "",
-    "@swimlane/ngx-datatable": "",
+    "angular-confirmation-popover": "4.1.0",
 
-    "@ngx-formly/core": "",
-    "@ngx-formly/bootstrap": "",
+    "moment": "2.22.0",
+    "angular2-moment": "1.8.0",
+    "@swimlane/ngx-datatable": "11.2.0",
 
     "ngx-clipboard": "10.0.0",
 
-    "font-awesome": "",
-    "jquery": "^3.3.1",
+    "font-awesome": "4.7.0",
+    "jquery": "3.3.1",
     
     "noty": "^3.2.0-beta"
   },
