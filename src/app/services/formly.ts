@@ -88,7 +88,7 @@ export class FormlyService {
 					}
 
 					if ('autocomplete' in custom) {
-						stype = 'autocomplete'
+						stype = "autocomplete"
 					}
 					if ('model_key' in custom) {
 						s['model_key'] = custom['model_key']
@@ -118,7 +118,7 @@ export class FormlyService {
 					for (var j in s['enum']) {
 						var option = s['enum'][j];
 						for (var key in option) {
-							s['options'].push({"id": key, "value": option[key]});
+							s['options'].push({"label": key, "value": option[key]});
 						}
 					}
 				}
@@ -151,8 +151,8 @@ export class FormlyService {
 				field_type = "select";
 				template_type = "select";
 
-				field['templateOptions']['labelProp'] = "value";
-      			field['templateOptions']['valueProp'] = "id";
+/*				field['templateOptions']['labelProp'] = "value";
+      			field['templateOptions']['valueProp'] = "id";*/
       			field['templateOptions']['options'] = s['options']
       			field['templateOptions']['multiple'] = multiple;
 
