@@ -124,9 +124,15 @@ export class BasePaginationComponent implements OnInit {
 			}
 		);
 	}
-	protected post(endpoint, data, formModal) {
+	protected post(endpoint, data, formModal, base_schema) {
 
-		return this.api.post(endpoint, data).subscribe(
+		if (base_schema) {
+			var apiCall = this.api.get(endpoint)
+		} else {
+			var apiCall = this.api.post(endpoint, data)
+		}
+
+		return apiCall.subscribe(
 			response => {
 				let data = this.formly.json2Form(response.data, {}, this);
 
@@ -145,9 +151,15 @@ export class BasePaginationComponent implements OnInit {
 		);
 	}
 
-	protected put(row, endpoint, data, formModal) {
+	protected put(row, endpoint, data, formModal, base_schema) {
 
-		this.api.post(endpoint, data).subscribe(
+		if (base_schema) {
+			var apiCall = this.api.get(endpoint)
+		} else {
+			var apiCall = this.api.post(endpoint, data)
+		}
+
+		return apiCall.subscribe(
 			response => {
 				let data = this.formly.json2Form(response.data, row, undefined);
 				this.modalTitle = "Update " + this.resource_name;
