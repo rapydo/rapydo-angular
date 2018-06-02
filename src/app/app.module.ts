@@ -75,7 +75,17 @@ export class HybridUrlHandlingStrategy implements UrlHandlingStrategy {
 */
 
 export function emailValidator(control: FormControl): ValidationErrors {
-  return /^[a-zA-Z]+[a-zA-Z0-9._-]*@[a-zA-Z\.]+[a-zA-Z.]{2,5}$/.test(control.value) ? null : {'email': true};
+  /*
+    - first chr of name is a letter
+    - other chr allowed in name after the first: letters, number, . _ -
+    - required @
+    - first chr of domain is a letter or number (@163.com)
+    - other chr allowed in domain after the first: letters, number, _ -
+    - required a .
+    - domain block can be repeated (letter/number)+(letters/numbers/-_).
+    - required from 2 to 5 letters after the last . 
+  */
+  return /^[a-zA-Z]+[a-zA-Z0-9._-]*@[a-zA-Z0-9]+[a-zA-Z0-9_-]*\.([a-zA-Z0-9]+[a-zA-Z0-9_-]*\.)*[a-zA-Z]{2,5}$/.test(control.value) ? null : {'email': true};
 }
 
 export function minLengthValidationError(error, field) {
