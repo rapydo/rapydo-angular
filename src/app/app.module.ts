@@ -88,6 +88,14 @@ export function emailValidator(control: FormControl): ValidationErrors {
   return /^[a-zA-Z]+[a-zA-Z0-9._-]*@[a-zA-Z0-9]+[a-zA-Z0-9_-]*\.([a-zA-Z0-9]+[a-zA-Z0-9_-]*\.)*[a-zA-Z]{2,5}$/.test(control.value) ? null : {'email': true};
 }
 
+export function URLValidator(control: FormControl): ValidationErrors {
+
+  if (control.value == null)
+    return null;
+
+  return /^[a-z.]+$/.test(control.value) ? null : {'url': true};
+}
+
 export function minLengthValidationError(error, field) {
   return `Should have at least ${field.templateOptions.minLength} characters`;
 }
@@ -152,9 +160,11 @@ var imports = [
         {name: 'min', message: minValidationError},
         {name: 'max', message: maxValidationError},
         {name: 'email', message: 'Invalid email address'},
+        {name: 'url', message: 'Invalid web address'},
       ],
       validators: [
-        {name: 'email', validation: emailValidator}
+        {name: 'email', validation: emailValidator},
+        {name: 'url', validation: URLValidator}
       ]
     }),
     NgxDatatableModule,
