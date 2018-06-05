@@ -141,7 +141,8 @@ export class FormlyService {
 				field_type = "input";
 				template_type = "number";
 			} else if (stype == "date") {
-				field_type = "datepicker";
+				// field_type = "datepicker";
+				field_type = "input";
 				template_type = "date";
 			} else if (stype == "email") {
 				field_type = "input";

@@ -65,7 +65,6 @@ export class ChangePasswordComponent {
 			);
 		}
 
-
 		this.fields.push(
 			{
 				"key": 'newPwd',
