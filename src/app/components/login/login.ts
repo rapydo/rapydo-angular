@@ -125,15 +125,15 @@ export class LoginComponent implements OnInit {
                         //     noty.showError(self.userMessage)
                         //     noty.showAll(response.Response.errors, noty.ERROR);
                         } else {
-                            var originalUerMessage = self.userMessage
+                            let originalUerMessage = self.userMessage
                             // self.userMessage = response.Response.errors[0];
 
-                            // var temp_token = response.Response.data.token
-                            var actions = response.Response.data.actions
+                            // let temp_token = response.Response.data.token
+                            let actions = response.Response.data.actions
 
-                            for (var i=0; i<actions.length; i++) {
-                                var action = actions[i];
-                                var notyLevel = noty.ERROR;
+                            for (let i=0; i<actions.length; i++) {
+                                let action = actions[i];
+                                let notyLevel = noty.ERROR;
                                 if (action == 'FIRST LOGIN') {
                                     self.panelTitle = "Please change your temporary password"
                                     self.buttonText = "Change"
