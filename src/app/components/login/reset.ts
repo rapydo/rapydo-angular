@@ -118,7 +118,7 @@ export class ResetPasswordComponent implements OnInit {
             return false;
         } 
 
-        var data = {"reset_email": this.model["reset_email"]};
+        let data = {"reset_email": this.model["reset_email"]};
         return this.api.post('reset', data, {"base": "auth"}).subscribe(
             response => {
                 this.reset_message = response.data;
@@ -139,7 +139,7 @@ export class ResetPasswordComponent implements OnInit {
             return false;
         } 
 
-        var data = {}
+        let data = {}
         data["new_password"] = this.model["newPwd"];
         data["password_confirm"] = this.model["confirmPwd"];
 

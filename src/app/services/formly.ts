@@ -11,16 +11,16 @@ export class FormlyService {
 
 	public json2Form(schema, data, DataController) {
 
-		var fields = [];
-		var model = {}
+		let fields = [];
+		let model = {}
 		if (typeof schema == 'undefined') {
 			return {"fields":fields, "model": model};
 		}
 
 		// search for multi_sections
-		var add_sections = {}
-		for (var i=0; i<schema.length; i++) {
-			var s = schema[i];
+		let add_sections = {}
+		for (let i=0; i<schema.length; i++) {
+			let s = schema[i];
 			if (! ('custom' in s)) continue
 
 
@@ -30,11 +30,11 @@ export class FormlyService {
 				add_sections[s["name"]] = i
 
 			} else if ('section_key' in s['custom']) {
-				var section_key = s['custom']['section_key'];
-				var row_identifier = s['custom']['row'];
+				let section_key = s['custom']['section_key'];
+				let row_identifier = s['custom']['row'];
 
 				delete s['custom']['section_key'];
-				var index = add_sections[section_key]
+				let index = add_sections[section_key]
 
 				if (! (row_identifier in schema[index]["sections"]))
 					schema[index]["sections"][row_identifier] = []
@@ -45,18 +45,18 @@ export class FormlyService {
 			}
 		}
 
-		for (var i=0; i<schema.length; i++) {
+		for (let i=0; i<schema.length; i++) {
 
-			var s = schema[i];
-			// var k = s.key;
-			var stype = s['type'];
+			let s = schema[i];
+			// let k = s.key;
+			let stype = s['type'];
 
-			var field_type = "";
-			var template_type = "";
+			let field_type = "";
+			let template_type = "";
 
-			var field = {}
-			var multiple = ('multiple' in s && s['multiple'] == "true")
-			var islink = ('islink' in s && s['islink'] == "true")
+			let field = {}
+			let multiple = ('multiple' in s && s['multiple'] == "true")
+			let islink = ('islink' in s && s['islink'] == "true")
 			field['templateOptions'] = {}
 			field['validators'] = {}
 
@@ -65,7 +65,7 @@ export class FormlyService {
 				s['key'] = s['name']
 				if ('custom' in s) {
 
-					var custom = s['custom']
+					let custom = s['custom']
 
 					if ('label' in custom) {
 						s['label'] = custom['label']
@@ -102,7 +102,7 @@ export class FormlyService {
 				}
 
 				if ('format' in s) {
-					var format = s['format']
+					let format = s['format']
 					if (format == "date") stype = "date"
 					if (format == "email") stype = "email"
 				}
@@ -115,9 +115,9 @@ export class FormlyService {
 					stype = "select"
 					s['options'] = []
 
-					for (var j in s['enum']) {
-						var option = s['enum'][j];
-						for (var key in option) {
+					for (let j in s['enum']) {
+						let option = s['enum'][j];
+						for (let key in option) {
 							s['options'].push({"label": key, "value": option[key]});
 						}
 					}
@@ -203,20 +203,20 @@ export class FormlyService {
 
 				field['templateOptions']['fields'] = [];
 
-				var sections_config = s['sections'];
+				let sections_config = s['sections'];
 
 				// Each element in sections list will be a row
-				for (var section_index in sections_config) {
-					var section = sections_config[section_index];
-					var sub_form = this.json2Form(section, data, DataController);
+				for (let section_index in sections_config) {
+					let section = sections_config[section_index];
+					let sub_form = this.json2Form(section, data, DataController);
 
-					var row = {
+					let row = {
 						className: 'row',
 						fieldGroup: [
 						]
 					}
 					// Each element in the section will be a column
-					for (var tmp in sub_form.fields) {
+					for (let tmp in sub_form.fields) {
 						row.fieldGroup.push(sub_form.fields[tmp]);
 					}
 					field['templateOptions']['fields'].push(row);
@@ -249,12 +249,12 @@ export class FormlyService {
 
 			if (data) {
 
-				var model_key = s['key'];
+				let model_key = s['key'];
 				if (islink && "model_key" in s) {
 					model_key = s['model_key']
 				}
 
-				var default_data = data[model_key];
+				let default_data = data[model_key];
 
 				if (default_data == null || default_data == "") {
 					model[s['key']] = ""
@@ -301,7 +301,7 @@ export class FormlyService {
 
 	showForm() {
 
-		var template = "<div>test</div>";
+		let template = "<div>test</div>";
 	    this.modalRef = this.modalService.open(template, {size: 'lg'});
 	    this.modalRef.result.then((result) => {
 			/*console.log("Closed with: " + result)*/;

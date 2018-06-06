@@ -125,10 +125,11 @@ export class BasePaginationComponent implements OnInit {
 	}
 	protected post(endpoint, data, formModal, base_schema) {
 
+		let apiCall = null;
 		if (base_schema) {
-			var apiCall = this.api.get(endpoint)
+			apiCall = this.api.get(endpoint)
 		} else {
-			var apiCall = this.api.post(endpoint, data)
+			apiCall = this.api.post(endpoint, data)
 		}
 
 		return apiCall.subscribe(
@@ -152,10 +153,11 @@ export class BasePaginationComponent implements OnInit {
 
 	protected put(row, endpoint, data, formModal, base_schema) {
 
+		let apiCall = null;
 		if (base_schema) {
-			var apiCall = this.api.get(endpoint)
+			apiCall = this.api.get(endpoint)
 		} else {
-			var apiCall = this.api.post(endpoint, data)
+			apiCall = this.api.post(endpoint, data)
 		}
 
 		return apiCall.subscribe(
@@ -181,8 +183,8 @@ export class BasePaginationComponent implements OnInit {
 	protected send(data, endpoint) {
 		if (this.form.valid) {
 
-			var apiCall;
-			var type = "";
+			let apiCall;
+			let type = "";
 			if (this.model["_id"]) {
 				apiCall = this.api.put(endpoint, this.model["_id"], this.model);
 				type = "updated";

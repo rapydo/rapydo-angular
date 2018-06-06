@@ -28,7 +28,7 @@ export class AppComponent {
 			private titleService: Title,
 			private ref: ChangeDetectorRef) {
 
-		var t = process.env.projectTitle;
+		let t = process.env.projectTitle;
 		t = t.replace(/^'/, "");
 		t = t.replace(/'$/, "");
 		titleService.setTitle(t);

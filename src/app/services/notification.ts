@@ -17,13 +17,8 @@ export class NotificationService {
 	}
 	public showAll = function(messages, type) {
 		if (messages)
-		for (var i=0; i<messages.length; i++) {
-		    var message = messages[i];
-		    // var label = Object.keys(message).pop();
-		    // var text = message[label];
-
-		    // var m = label+": "+text;
-
+		for (let i=0; i<messages.length; i++) {
+		    let message = messages[i];
 		    if (type == this.CRITICAL) this.showCritical(message);
 		    else if (type == this.ERROR) this.showError(message);
 		    else if (type == this.WARNING) this.showWarning(message);

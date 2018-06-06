@@ -78,12 +78,12 @@ export class AuthService {
 	}
 	public isAuthenticated() {
 
-		var token = this.getToken();
+		let token = this.getToken();
 		if (!token) {
 			return of(false);
 		}
 
-       	var opt =  {"base": "auth", "rawResponse": true};
+       	let opt =  {"base": "auth", "rawResponse": true};
         return this.api.get('profile', "", [], opt).pipe(
 			map(response => {
 				return true;
@@ -103,7 +103,7 @@ export class AuthService {
 			return true;
 		}
 
-        var user = this.getUser();
+        let user = this.getUser();
         if (!(expectedRole in user.roles)) {
             console.log("You are not authorized - missing role: " + expectedRole);
             return false;

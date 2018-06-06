@@ -59,14 +59,14 @@ export class AdminUsersComponent extends BasePaginationComponent {
 	}
 
 	create() {
-		var data = {'get_schema': true, 'autocomplete': false} 
+		let data = {'get_schema': true, 'autocomplete': false} 
 
 		return this.post(this.endpoint, data, this.formModal, false);
 	}
 
 	update(row) {
 
-		var data = {'get_schema': true, 'autocomplete': false} 
+		let data = {'get_schema': true, 'autocomplete': false} 
 
 		return this.put(row, this.endpoint, data, this.formModal, false);
 	}

@@ -112,7 +112,7 @@ export function maxValidationError(error, field) {
   return `Should be lower than ${field.templateOptions.max}`;
 }
 
-var declarations = [
+let declarations = [
   AppComponent,
   LoginComponent, ResetPasswordComponent,
   ProfileComponent, ChangePasswordComponent, SessionsComponent,
@@ -126,7 +126,7 @@ var declarations = [
 
 declarations = declarations.concat(customDeclarations);
 
-var providers = [
+let providers = [
   AuthService, AuthGuard, ApiService, FormlyService, NotificationService,
   { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
   // { provide: UrlHandlingStrategy, useClass: HybridUrlHandlingStrategy}
@@ -134,13 +134,13 @@ var providers = [
 
 providers = providers.concat(customProviders);
 
-var entryComponents = [];
+let entryComponents = [];
 entryComponents = entryComponents.concat(customEntryComponents);
 
-var routes = appRoutes.concat(customRoutes);
+let routes = appRoutes.concat(customRoutes);
 routes = routes.concat({path: '**', redirectTo: '/404', pathMatch: 'full'});
 
-var imports = [
+let imports = [
     RouterModule.forRoot(
       routes,
       { enableTracing: false} // <-- debugging purposes only

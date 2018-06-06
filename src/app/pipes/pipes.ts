@@ -39,7 +39,7 @@ export class BytesPipe {
 
         if (bytes == -1 || isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
 
-        var units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
+        let units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
             number = Math.floor(Math.log(bytes) / Math.log(1024));
 
         if (typeof precision === 'undefined') {

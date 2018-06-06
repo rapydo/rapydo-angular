@@ -105,7 +105,7 @@ export class ChangePasswordComponent {
 
 	submit() {
 		if (this.form.valid) {
-			var data = {}
+			let data = {}
 			data["new_password"] = this.model["newPwd"];
 			data["password_confirm"] = this.model["confirmPwd"];
 

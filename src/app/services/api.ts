@@ -35,32 +35,32 @@ export class ApiService {
 		}
 	}
 	public get(endpoint: string, id="", data={}, options={}) {
-		var formData = this.opt(options, "formData", undefined);
-		var conf = this.opt(options, "conf", undefined);
-		var base = this.opt(options, "base", undefined);
-		var rawResponse = this.opt(options, "rawResponse", undefined);
+		let formData = this.opt(options, "formData", undefined);
+		let conf = this.opt(options, "conf", undefined);
+		let base = this.opt(options, "base", undefined);
+		let rawResponse = this.opt(options, "rawResponse", undefined);
 		return this.call("GET", endpoint, id, data, formData, conf, base, rawResponse);
 	}
 	public post(endpoint: string, data={}, options={}) {
-		var formData = this.opt(options, "formData", undefined);
-		var conf = this.opt(options, "conf", undefined);
-		var base = this.opt(options, "base", undefined);
-		var rawResponse = this.opt(options, "rawResponse", undefined);
+		let formData = this.opt(options, "formData", undefined);
+		let conf = this.opt(options, "conf", undefined);
+		let base = this.opt(options, "base", undefined);
+		let rawResponse = this.opt(options, "rawResponse", undefined);
 
 		return this.call("POST", endpoint, "", data, formData, conf, base, rawResponse)
 	}
 	public put(endpoint: string, id="", data={}, options={}) {
-		var formData = this.opt(options, "formData", undefined);
-		var conf = this.opt(options, "conf", undefined);
-		var base = this.opt(options, "base", undefined);
-		var rawResponse = this.opt(options, "rawResponse", undefined);
+		let formData = this.opt(options, "formData", undefined);
+		let conf = this.opt(options, "conf", undefined);
+		let base = this.opt(options, "base", undefined);
+		let rawResponse = this.opt(options, "rawResponse", undefined);
 		return this.call("PUT", endpoint, id, data, formData, conf, base, rawResponse)
 	}
 	public delete(endpoint: string, id="", options={}) {
-		var formData = this.opt(options, "formData", undefined);
-		var conf = this.opt(options, "conf", undefined);
-		var base = this.opt(options, "base", undefined);
-		var rawResponse = this.opt(options, "rawResponse", undefined);
+		let formData = this.opt(options, "formData", undefined);
+		let conf = this.opt(options, "conf", undefined);
+		let base = this.opt(options, "base", undefined);
+		let rawResponse = this.opt(options, "rawResponse", undefined);
 		return this.call("DELETE", endpoint, id, {}, formData, conf, base, rawResponse)
 	}
 
@@ -68,7 +68,7 @@ export class ApiService {
 		method:string, endpoint: string, id="", data={},
 		formData=false, conf={}, base='api', rawResponse=false) {
 
-		var ep = "";
+		let ep = "";
 		if (base == "auth") {
 			ep = process.env.authApiUrl + "/" + endpoint;
 		} else {
@@ -78,25 +78,25 @@ export class ApiService {
 			ep += "/" + id;
 		}
 
-    	var contentType = 'application/json';
+    	let contentType = 'application/json';
         if (formData) {
         	// How to convert in angular2/5 ?
             /*data = $httpParamSerializerJQLike(data)*/
             contentType = 'application/x-www-form-urlencoded';
         }
 
-		var options = {
+		let options = {
 			headers: new HttpHeaders({
 				'Content-Type': contentType,
 				'Accept': 'application/json'
 			})
 		};
 		options["timeout"] = 30000;
-        for (var k in conf) {
+        for (let k in conf) {
             options[k] = conf[k]
         }
 
-        var httpCall = undefined;
+        let httpCall = undefined;
 		if (method == "GET") {
 			options["params"] = data;
 			httpCall = this.http.get(ep, options);
@@ -149,10 +149,11 @@ export class ApiService {
 
     public parseElement(element) {
 
+    	let newelement = null;
         if (element.hasOwnProperty('attributes')) {
-            var newelement = element.attributes;
+            newelement = element.attributes;
         } else {
-            var newelement = element;
+            newelement = element;
         }
 
         if (element.hasOwnProperty('id')) {
@@ -160,14 +161,14 @@ export class ApiService {
         }
 
         if (element.hasOwnProperty('relationships')) {
-            for (var key in element.relationships) {
-                var subelement = element.relationships[key]
-                var k = '_'+key;
+            for (let key in element.relationships) {
+                let subelement = element.relationships[key]
+                let k = '_'+key;
                 if (subelement.length == 1) {
                     newelement[k] = [this.parseElement(subelement[0])];
                 } else {
                     newelement[k] = [];
-                    for (var i=0; i<subelement.length; i++) {
+                    for (let i=0; i<subelement.length; i++) {
                         newelement[k].push(this.parseElement(subelement[i]));
                     }
                 }
@@ -183,9 +184,9 @@ export class ApiService {
             return response;
         }
 
-        var newresponse = []
-        for (var i=0; i<response.length; i++) {
-            var element = this.parseElement(response[i]);
+        let newresponse = []
+        for (let i=0; i<response.length; i++) {
+            let element = this.parseElement(response[i]);
 
             newresponse.push(element);
         }
