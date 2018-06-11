@@ -33,22 +33,26 @@ export const appRoutes: Routes = [
   {
     path: 'app/profile',
     component: ProfileComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    runGuardsAndResolvers: 'always'
   },
   {
     path: 'app/profile/changepassword',
     component: ChangePasswordComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    runGuardsAndResolvers: 'always'
   },
   {
     path: 'app/profile/sessions',
     component: SessionsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    runGuardsAndResolvers: 'always'
   },
   {
     path: 'app/admin/users',
     component: AdminUsersComponent,
     canActivate: [AuthGuard],
+    runGuardsAndResolvers: 'always',
     data: {
       role: 'admin_root'
     }

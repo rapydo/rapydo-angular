@@ -143,7 +143,10 @@ routes = routes.concat({path: '**', redirectTo: '/404', pathMatch: 'full'});
 let imports = [
     RouterModule.forRoot(
       routes,
-      { enableTracing: false} // <-- debugging purposes only
+      {
+        enableTracing: false,
+        onSameUrlNavigation: 'reload'
+       } // <-- debugging purposes only
     ),
     BrowserModule,
     FormsModule, ReactiveFormsModule,
