@@ -118,7 +118,7 @@ export class FormlyService {
 					for (let j in s['enum']) {
 						let option = s['enum'][j];
 						for (let key in option) {
-							s['options'].push({"label": key, "value": option[key]});
+							s['options'].push({"value": key, "label": option[key]});
 						}
 					}
 				}
