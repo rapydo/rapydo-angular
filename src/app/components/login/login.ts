@@ -174,7 +174,7 @@ export class LoginComponent implements OnInit {
                         }
 */
                     } else {
-                        this.notify.extractErrors(error.error.Response, this.notify.CRITICAL);
+                        this.notify.extractErrors(error.error.Response, this.notify.ERROR);
                     }
 
                     this.loading = false;
