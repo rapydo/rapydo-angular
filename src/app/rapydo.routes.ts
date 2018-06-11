@@ -53,9 +53,7 @@ export const appRoutes: Routes = [
     component: AdminUsersComponent,
     canActivate: [AuthGuard],
     runGuardsAndResolvers: 'always',
-    data: {
-      role: 'admin_root'
-    }
+    data: { roles: ['admin_root', 'group_admin'] }
   }
 
 ];
