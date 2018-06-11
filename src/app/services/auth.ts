@@ -6,6 +6,8 @@ import { of } from 'rxjs/observable/of';
 import { ApiService } from './api';
 import 'rxjs/add/operator/map';
 
+import { NotificationService } from '/rapydo/src/app/services/notification';
+
 @Injectable()
 export class AuthService {
 
@@ -14,7 +16,7 @@ export class AuthService {
 	readonly LOGGED_IN = "logged-in";
 	readonly LOGGED_OUT = "logged-out";
 
-	constructor(private http: HttpClient, private api: ApiService) { }
+	constructor(private http: HttpClient, private api: ApiService, private notification: NotificationService) { }
 
 	public login(username: string, password: string) {
 		return this.http.post<any>(process.env.authApiUrl + '/login', {username: username, password: password}
@@ -97,19 +99,23 @@ export class AuthService {
 		);
 	}
 
-	public hasRole(expectedRole: string): boolean {
-		if (!expectedRole) {
+	public hasRole(expectedRoles: string[]): boolean {
+		if (!expectedRoles || expectedRoles.length == 0) {
 			console.log("no role required")
 			return true;
 		}
 
         let user = this.getUser();
-        if (!(expectedRole in user.roles)) {
-            console.log("You are not authorized - missing role: " + expectedRole);
-            return false;
-        }
-        console.log("ok " + expectedRole + " you are authorized")
-        return true
-	}
+
+        for (let i=0; i<expectedRoles.length; i++) {
+	        if (expectedRoles[i] in user.roles) {
+				// console.log("ok " + expectedRoles + ", you are authorized")
+		        return true
+		    }
+    	}
+        // console.log("You are not authorized - missing roles: " + expectedRoles);
+        this.notification.showError("Permission denied: you are not authorized to access this page")
+        return false;
+    }
 }
 
