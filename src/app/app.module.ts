@@ -42,7 +42,6 @@ import { ProfileComponent } from './components/profile/profile';
 import { ChangePasswordComponent } from './components/profile/changepassword';
 import { SessionsComponent } from './components/profile/sessions';
 
-import { HomeComponent } from '/app/frontend/app/custom.home';
 import { NavbarComponent } from './components/navbar/navbar';
 
 import { AdminUsersComponent } from './components/admin_users/admin_users';
@@ -116,7 +115,7 @@ let declarations = [
   AppComponent,
   LoginComponent, ResetPasswordComponent,
   ProfileComponent, ChangePasswordComponent, SessionsComponent,
-  HomeComponent, Error404Component, OfflineComponent, LoadingComponent,
+  Error404Component, OfflineComponent, LoadingComponent,
   BasePaginationComponent,
   NavbarComponent,
   AdminUsersComponent,
