@@ -36,6 +36,7 @@ import { BasePaginationComponent } from './components/base.pagination.component'
 
 import { LoadingComponent } from './components/loading/loading';
 
+import { FormlyHorizontalWrapper } from './components/forms/bootstrap.horizontal.wrapper'
 import { AutocompleteComponent } from './components/forms/autocomplete'
 
 import { ProfileComponent } from './components/profile/profile';
@@ -120,6 +121,7 @@ let declarations = [
   NavbarComponent,
   AdminUsersComponent,
   IteratePipe, BytesPipe,
+  FormlyHorizontalWrapper,
   AutocompleteComponent
 ];
 
@@ -167,6 +169,9 @@ let imports = [
       validators: [
         {name: 'email', validation: emailValidator},
         {name: 'url', validation: URLValidator}
+      ],
+      wrappers: [
+        {name: 'form-field-horizontal', component: FormlyHorizontalWrapper}
       ]
     }),
     NgxDatatableModule,
