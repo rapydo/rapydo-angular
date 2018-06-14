@@ -44,6 +44,8 @@
 					[page]="paging.page"
 					[pageSize]="paging.itemsPerPage"
 					[collectionSize]="paging.dataLength"
+					[maxSize]="5"
+					[rotate]="true"
 					size="sm"
 					(pageChange)="setPage($event)"
 				>
