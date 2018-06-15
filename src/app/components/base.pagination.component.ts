@@ -25,6 +25,8 @@ export class BasePaginationComponent implements OnInit {
 	protected data: Array<any> = [];
 	protected rows: Array<any> = [];
 	protected columns: Array<any> = []
+	// Only used by the filter function
+	protected unfiltered_data: Array<any>;
 
 	protected deleteConfirmation: any;
 
@@ -54,6 +56,25 @@ export class BasePaginationComponent implements OnInit {
 					</div>
 					</div>`
 				}
+	}
+
+	updateFilter(event) {
+
+		if (!this.unfiltered_data) {
+			this.unfiltered_data = this.data;
+		}
+		const data_filter = event.target.value.toLowerCase()
+
+		this.data = this.filter(data_filter);
+
+		this.updatePaging(this.data.length);
+
+		this.rows = this.changePage(1, this.data);
+	}
+
+	filter(data_filter) {
+		console.log("WARNING: filter function not implemented")
+		return this.data;
 	}
 
 	/** PAGINATION **/

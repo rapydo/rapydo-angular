@@ -75,4 +75,20 @@ export class AdminUsersComponent extends BasePaginationComponent {
 		this.send(data, this.endpoint);
 	}
 
+	filter(data_filter) {
+		return this.unfiltered_data.filter(function(d) {
+			if (d.email.toLowerCase().indexOf(data_filter) !== -1) {
+				return true;
+			}
+			if (d.name.toLowerCase().indexOf(data_filter) !== -1) {
+				return true;
+			}
+			if (d.surname.toLowerCase().indexOf(data_filter) !== -1) {
+				return true;
+			}
+
+			return false;
+		});
+	}
+
 }
