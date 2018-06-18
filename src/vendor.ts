@@ -14,7 +14,7 @@ import 'rxjs';
 // Other vendors for example jQuery, Lodash or Bootstrap
 // You can import js, ts, css, sass, ...
 import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+//import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 
 import '/rapydo/src/css/rapydo.css'
 
