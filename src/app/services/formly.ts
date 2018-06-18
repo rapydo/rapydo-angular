@@ -17,38 +17,9 @@ export class FormlyService {
 			return {"fields":fields, "model": model};
 		}
 
-		// search for multi_sections
-		let add_sections = {}
-		for (let i=0; i<schema.length; i++) {
-			let s = schema[i];
-			if (! ('custom' in s)) continue
-
-
-			if ('section' in s['custom']) {
-				schema[i]["type"] = "multi_section" // should be if multiple
-				schema[i]["sections"] = []
-				add_sections[s["name"]] = i
-
-			} else if ('section_key' in s['custom']) {
-				let section_key = s['custom']['section_key'];
-				let row_identifier = s['custom']['row'];
-
-				delete s['custom']['section_key'];
-				let index = add_sections[section_key]
-
-				if (! (row_identifier in schema[index]["sections"]))
-					schema[index]["sections"][row_identifier] = []
-				schema[index]["sections"][row_identifier].push(s);
-				// remove element from array
-				schema.splice(i, 1);
-				i--;
-			}
-		}
-
 		for (let i=0; i<schema.length; i++) {
 
 			let s = schema[i];
-			// let k = s.key;
 			let stype = s['type'];
 
 			let field_type = "";
@@ -160,6 +131,10 @@ export class FormlyService {
 			} else if (stype == "checkbox" || stype == "boolean") {
 				field_type = "checkbox";
 				template_type = "checkbox";
+
+				if (typeof model[s['key']] == 'undefined') {
+					console.log("You should default " + s['key']);
+				}
 			// } else if (stype == "radio") {
 			// 	field_type = "radio";
 			// 	template_type = "radio";
@@ -194,36 +169,6 @@ export class FormlyService {
 
 				/*console.log(DataController);*/
 				/*field['controller'] = DataController+" as ctrl";*/
-
-
-				
-			} else if (stype == 'multi_section') {
-				field_type = "repeatSection";
-				template_type = "repeatSection";
-
-				field['templateOptions']['fields'] = [];
-
-				let sections_config = s['sections'];
-
-				// Each element in sections list will be a row
-				for (let section_index in sections_config) {
-					let section = sections_config[section_index];
-					let sub_form = this.json2Form(section, data, DataController);
-
-					let row = {
-						className: 'row',
-						fieldGroup: [
-						]
-					}
-					// Each element in the section will be a column
-					for (let tmp in sub_form.fields) {
-						row.fieldGroup.push(sub_form.fields[tmp]);
-					}
-					field['templateOptions']['fields'].push(row);
-				}
-
-				field['templateOptions']['btnText'] = "Add";
-
 			}
 
 			field['key'] = s['key'];
