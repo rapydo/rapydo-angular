@@ -28,8 +28,8 @@ export class LoginComponent implements OnInit {
         private notify: NotificationService,
         private authService: AuthService) { 
 
-            this.allowRegistration = process.env.allowRegistration;
-            this.allowPasswordReset = process.env.allowPasswordReset;
+            this.allowRegistration = (process.env.allowRegistration == "true");
+            this.allowPasswordReset = (process.env.allowPasswordReset == "true");
     }
  
     ngOnInit() {
