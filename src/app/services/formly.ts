@@ -133,7 +133,7 @@ export class FormlyService {
 				template_type = "checkbox";
 
 				if (typeof model[s['key']] == 'undefined') {
-					console.log("You should default " + s['key']);
+					model[s['key']] = "False";
 				}
 			// } else if (stype == "radio") {
 			// 	field_type = "radio";
@@ -173,8 +173,18 @@ export class FormlyService {
 
 			field['key'] = s['key'];
 			field['type'] = field_type ; 
-			if ('default' in s)
-				field['defaultValue'] = s['default'];
+			if ('default' in s) {
+
+
+				if (field['type'] == 'checkbox') {
+					if (s['default']) {
+						console.log("Warning: default value not working for checkboxes?")
+						field['defaultValue'] = s['default'];
+					}
+				} else {
+					field['defaultValue'] = s['default'];
+				}
+			}
 
 			if ('size' in s)
 				field['className'] = 'col-'+s['size'];
