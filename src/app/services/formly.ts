@@ -253,9 +253,6 @@ export class FormlyService {
 			}
 		}
 
-		console.log(model);
-
-		// Return all information
 		return {"fields":fields, "model": model};
 	}
 
