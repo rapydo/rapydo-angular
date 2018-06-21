@@ -133,7 +133,7 @@ export class FormlyService {
 				template_type = "checkbox";
 
 				if (typeof model[s['key']] == 'undefined') {
-					model[s['key']] = "False";
+					model[s['key']] = false;
 				}
 			// } else if (stype == "radio") {
 			// 	field_type = "radio";
@@ -175,14 +175,14 @@ export class FormlyService {
 			field['type'] = field_type ; 
 			if ('default' in s) {
 
-
 				if (field['type'] == 'checkbox') {
 					if (s['default']) {
-						console.log("Warning: default value not working for checkboxes?")
-						field['defaultValue'] = s['default'];
+						field['defaultValue'] = true;
+						model[s['key']] = true;
 					}
 				} else {
 					field['defaultValue'] = s['default'];
+					model[s['key']] = s['default'];
 				}
 			}
 
@@ -209,46 +209,51 @@ export class FormlyService {
 					model_key = s['model_key']
 				}
 
-				let default_data = data[model_key];
+				if (model_key in data) {
 
-				if (default_data == null || default_data == "") {
-					model[s['key']] = ""
-				} else {
+					let default_data = data[model_key];
 
-					if (template_type == "number") {
-						default_data = parseInt(default_data);
-					} else if (template_type == "date") {
-						default_data = new Date(default_data);
-					} else if (template_type == "select") {
-						if (islink) {
-							// Array copy
-							// default_data = (default_data.slice())[0];
-							default_data = default_data[0];
+					if (default_data == null || default_data == "") {
+						model[s['key']] = ""
+					} else {
+
+						if (template_type == "number") {
+							default_data = parseInt(default_data);
+						} else if (template_type == "date") {
+							default_data = new Date(default_data);
+						} else if (template_type == "select") {
+							if (islink) {
+								// Array copy
+								// default_data = (default_data.slice())[0];
+								default_data = default_data[0];
+							}
+
+							if ("select_id" in s && s["select_id"] in default_data) {
+								default_data = default_data[s["select_id"]];
+								default_data = default_data.toString()
+							}
+
+							if (typeof default_data["key"] !== 'undefined' &&
+									typeof default_data["description"] !== 'undefined') {
+								default_data = default_data["key"];
+							}
+
+						} else if (template_type == "autocomplete") {
+							if (islink) {
+								// Array copy
+								default_data = (default_data.slice())[0];
+							}
+						} else if (template_type == "multiAutocomplete") {
+
 						}
 
-						if ("select_id" in s && s["select_id"] in default_data) {
-							default_data = default_data[s["select_id"]];
-							default_data = default_data.toString()
-						}
-
-						if (typeof default_data["key"] !== 'undefined' &&
-								typeof default_data["description"] !== 'undefined') {
-							default_data = default_data["key"];
-						}
-
-					} else if (template_type == "autocomplete") {
-						if (islink) {
-							// Array copy
-							default_data = (default_data.slice())[0];
-						}
-					} else if (template_type == "multiAutocomplete") {
-
+						model[s['key']] = default_data;
 					}
-
-					model[s['key']] = default_data;
 				}
 			}
 		}
+
+		console.log(model);
 
 		// Return all information
 		return {"fields":fields, "model": model};
