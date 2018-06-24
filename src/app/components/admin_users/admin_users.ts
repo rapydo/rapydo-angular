@@ -67,6 +67,9 @@ export class AdminUsersComponent extends BasePaginationComponent {
 	update(row) {
 
 		let data = {'get_schema': true, 'autocomplete': false} 
+		console.log(row);
+		row["roles[Archive]"] = true;
+		row["Archive"] = true;
 
 		return this.put(row, this.endpoint, data, this.formModal, false);
 	}

@@ -14,13 +14,12 @@
 
 		<li class='nav-item' *ngIf="user">
 			<a class='nav-link'>
-      		<i class='fa fa-sign-out fa-large' ngbTooltip='Logout' placement='left'
-                mwlConfirmationPopover
-                [popoverTitle]="logoutConfirmationTitle"
-                [popoverMessage]="logoutConfirmationMessage"
-                placement="bottom"
-                (confirm)="do_logout()"
-      		></i>
+      		<i class='fa fa-sign-out fa-large' ngbTooltip='Logout' 
+                ngConfirm
+                [title]="logoutConfirmationTitle"
+                [message]="logoutConfirmationMessage"
+                (onConfirm)="do_logout()"
+            ></i>
       		</a>
 		</li>
 
