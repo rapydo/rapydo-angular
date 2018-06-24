@@ -29,6 +29,7 @@
     "@ngx-formly/bootstrap": "2.0.0",
 
     "angular-confirmation-popover": "4.1.0",
+    "ng-confirmation-modal": "2.0.0",
 
     "moment": "2.22.0",
     "ngx-moment": "2.0.0",

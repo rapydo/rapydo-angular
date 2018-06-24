@@ -227,5 +227,4 @@ export class BasePaginationComponent implements OnInit {
 			);
 		}
 	}
-
 }
