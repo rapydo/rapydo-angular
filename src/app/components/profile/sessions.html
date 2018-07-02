@@ -55,10 +55,12 @@
         <td *ngIf="currentToken != values.value.token; else activeCurrent">
             <i 
                 class='fa fa-trash fa-large' style='color:red;'
-                ngConfirm
-                [title]="'Confirmation required'"
-                [message]="'Are you really sure you want to delete this session?'"
-                (onConfirm)="revokeToken(values.value.id)"
+                mwlConfirmationPopover
+                [popoverTitle]="'Confirmation required'"
+                [popoverMessage]="'Are you really sure you want to delete this session?'"
+                [appendToBody]="true"
+                placement="left"
+                (confirm)="revokeToken(values.value.id)"
             ></i>
         </td>
         <ng-template #activeCurrent>

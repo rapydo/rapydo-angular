@@ -99,10 +99,12 @@
 		<i class='fa fa-pencil fa-large' (click)='update(row)'></i>
 		<i 
 			class='fa fa-trash fa-large' style='color:red;'
-			ngConfirm
-			[title]="'Confirmation required'"
-			[message]="'Are you really sure you want to delete this user?'"
-			(onConfirm)="delete(row.id)"
+			mwlConfirmationPopover
+			[popoverTitle]="'Confirmation required'"
+			[popoverMessage]="'Are you really sure you want to delete this user?'"
+            [appendToBody]="true"
+	        placement="left"
+			(confirm)="delete(row.id)"
 		></i>
 	</ng-template>
 
