@@ -115,20 +115,12 @@ export class ChangePasswordComponent {
 			if (this.model["totp_code"])	
 				data["password"] = this.model["totp_code"];
 
-			return this.api.put('profile', "", data, {"base": "auth"}).subscribe(
-				response => {
+			this.auth.change_password(data).subscribe(
+				response =>  {
 					this.model["newPwd"] = ""
 					this.model["confirmPwd"]= ""
 	    			this.notify.showSuccess("Password successfully changed. Please login with your new password")
-	    			this.auth.removeToken()
-
-	    			this.router.navigate(['app', 'login']);
-
-	    			return true;
-
-				}, error => {
-	    			this.notify.extractErrors(error, this.notify.ERROR);
-	    			return false;
+					this.router.navigate(['app', 'login']);
 				}
 			);
 		}

@@ -43,6 +43,21 @@ export class AuthService {
 		);
 	}
 
+	public change_password(data) {
+		return this.http.put(process.env.authApiUrl + '/profile', data).map(
+			response => {
+    			this.removeToken()
+
+    			return true;
+
+			},
+			error => {
+    			/*this.notify.extractErrors(error, this.notify.ERROR);*/
+    			return false;
+			}
+		);
+	}
+
 	public loadUser() {
 
 		return this.http.get<any>(process.env.authApiUrl + '/profile').map(
