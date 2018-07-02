@@ -104,6 +104,7 @@ export class ChangePasswordComponent {
 	}
 
 	submit() {
+
         if (!this.form.valid) {
             return false;
         }
@@ -118,16 +119,38 @@ export class ChangePasswordComponent {
 		if (this.model["totp_code"])	
 			data["password"] = this.model["totp_code"];
 
+		let username = this.auth.getUser().email;
 		this.auth.change_password(data).subscribe(
 			response =>  {
 				this.model["newPwd"] = ""
 				this.model["confirmPwd"]= ""
-    			this.notify.showSuccess("Password successfully changed. Please login with your new password")
-				this.router.navigate(['app', 'login']);
-			},
-			error => {
+    			this.notify.showSuccess("Password successfully changed")
+
+				/*this.router.navigate(['app', 'login']);*/
+		        this.auth.login(username, data["new_password"]).subscribe(
+	                data => {
+						this.auth.loadUser().subscribe(
+	                        response => {
+	                            this.router.navigate(['']);
+	                            this.notify.extractErrors(response, this.notify.WARNING);
+	                        }, 
+	                        error => {
+	                            if (error.status == 0) {
+	                                this.router.navigate(["/offline"]);
+
+	                            } else {
+	                                this.notify.extractErrors(error, this.notify.ERROR);
+	                            }
+	                        }
+	                    );
+	                }, error => {
+	                	this.notify.extractErrors(error, this.notify.ERROR);
+	                }
+	            );
+			}, error => {
     			this.notify.extractErrors(error, this.notify.ERROR);
 			}
 		);
+
 	}
 }
