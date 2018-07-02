@@ -58,7 +58,6 @@
                 mwlConfirmationPopover
                 [popoverTitle]="'Confirmation required'"
                 [popoverMessage]="'Are you really sure you want to delete this session?'"
-                [appendToBody]="true"
                 placement="left"
                 (confirm)="revokeToken(values.value.id)"
             ></i>

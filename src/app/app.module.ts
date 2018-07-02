@@ -13,7 +13,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { MomentModule } from 'ngx-moment';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
-import { ConfirmationModalModule } from 'ng-confirmation-modal';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
@@ -181,19 +180,12 @@ let imports = [
     NgbModule.forRoot(),
     MomentModule,
     ConfirmationPopoverModule.forRoot(
-      {confirmButtonType: 'danger'} // set defaults here
-    ),
-    ConfirmationModalModule.forRoot({
-      //optional global config
-
-      //confirmBtnClass: 'btn btn-success',
-      //confirmBtnText: 'Confirm',
-      //cancelBtnClass: 'btn btn-danger',
-      //cancelBtnText: 'Cancel',
-      //modalSize: 'lg',
-      modalSize: 'md',
-      //modalClass: 'some-modal-class'
-    })
+      // set defaults here
+      {
+        confirmButtonType: 'danger',
+        appendToBody: true
+      }
+    )
     // UpgradeModule
 ];
 
