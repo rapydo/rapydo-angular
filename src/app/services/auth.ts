@@ -11,7 +11,8 @@ import { NotificationService } from '/rapydo/src/app/services/notification';
 @Injectable()
 export class AuthService {
 
-	@Output() userChanged: EventEmitter<string> = new EventEmitter<string>();
+	// @Output() userChanged: EventEmitter<string> = new EventEmitter<string>();
+	userChanged: EventEmitter<string> = new EventEmitter<string>();
 
 	readonly LOGGED_IN = "logged-in";
 	readonly LOGGED_OUT = "logged-out";
@@ -19,8 +20,9 @@ export class AuthService {
 	constructor(private http: HttpClient, private api: ApiService, private notification: NotificationService) { }
 
 	public login(username: string, password: string) {
-		return this.http.post<any>(process.env.authApiUrl + '/login', {username: username, password: password}
-			).map(response => {
+		let data = {username: username, password: password};
+		return this.http.post<any>(process.env.authApiUrl + '/login', data).map(
+			response => {
 				if (response && response.Response && response.Response.data && response.Response.data.token) {
 					this.setToken(JSON.stringify(response.Response.data.token))
 				}
@@ -38,6 +40,7 @@ export class AuthService {
 			},
 			err => {
 				this.removeToken();
+				return err;
 			}
 
 		);
@@ -48,12 +51,12 @@ export class AuthService {
 			response => {
     			this.removeToken()
 
-    			return true;
+    			return response;
 
 			},
 			error => {
-    			/*this.notify.extractErrors(error, this.notify.ERROR);*/
-    			return false;
+
+				return error;
 			}
 		);
 	}
@@ -69,8 +72,10 @@ export class AuthService {
 				return response;
 			}, error => {
 				console.log("Unable to load user")
+
+				return null;
 			}
-			);
+		);
 	}
 
 	public removeToken() {

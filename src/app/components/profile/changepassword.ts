@@ -104,26 +104,30 @@ export class ChangePasswordComponent {
 	}
 
 	submit() {
-		if (this.form.valid) {
-			let data = {}
-			data["new_password"] = this.model["newPwd"];
-			data["password_confirm"] = this.model["confirmPwd"];
+        if (!this.form.valid) {
+            return false;
+        }
 
-			if (this.model["currentPwd"])	
-				data["password"] = this.model["currentPwd"];
+		let data = {}
+		data["new_password"] = this.model["newPwd"];
+		data["password_confirm"] = this.model["confirmPwd"];
 
-			if (this.model["totp_code"])	
-				data["password"] = this.model["totp_code"];
+		if (this.model["currentPwd"])	
+			data["password"] = this.model["currentPwd"];
 
-			this.auth.change_password(data).subscribe(
-				response =>  {
-					this.model["newPwd"] = ""
-					this.model["confirmPwd"]= ""
-	    			this.notify.showSuccess("Password successfully changed. Please login with your new password")
-					this.router.navigate(['app', 'login']);
-				}
-			);
-		}
+		if (this.model["totp_code"])	
+			data["password"] = this.model["totp_code"];
+
+		this.auth.change_password(data).subscribe(
+			response =>  {
+				this.model["newPwd"] = ""
+				this.model["confirmPwd"]= ""
+    			this.notify.showSuccess("Password successfully changed. Please login with your new password")
+				this.router.navigate(['app', 'login']);
+			},
+			error => {
+    			this.notify.extractErrors(error, this.notify.ERROR);
+			}
+		);
 	}
-
 }
