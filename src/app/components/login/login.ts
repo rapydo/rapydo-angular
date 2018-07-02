@@ -28,9 +28,20 @@ export class LoginComponent implements OnInit {
         private notify: NotificationService,
         private authService: AuthService) { 
 
-            this.allowRegistration = (process.env.allowRegistration == "true");
-            this.allowPasswordReset = (process.env.allowPasswordReset == "true");
+            if (typeof(process.env.allowRegistration) == "boolean") {
+                this.allowRegistration = process.env.allowRegistration
+            } else {
+                this.allowRegistration = (process.env.allowRegistration == "true");
+            }
+
+            if (typeof(process.env.allowPasswordReset) == "boolean") {
+                this.allowPasswordReset = process.env.allowPasswordReset
+            } else {
+                this.allowPasswordReset = (process.env.allowPasswordReset == "true");
+            }
+
     }
+
  
     ngOnInit() {
         // reset login status
