@@ -54,6 +54,7 @@ import { FormlyService } from './services/formly';
 import { NotificationService } from './services/notification';
 import { LoginComponent } from './components/login/login';
 import { ResetPasswordComponent } from './components/login/reset';
+import { RegisterComponent } from './components/register/register';
 import { JwtInterceptor } from './jwt.interceptor';
 
 /*
@@ -114,7 +115,7 @@ export function maxValidationError(error, field) {
 
 let declarations = [
   AppComponent,
-  LoginComponent, ResetPasswordComponent,
+  LoginComponent, ResetPasswordComponent, RegisterComponent,
   ProfileComponent, ChangePasswordComponent, SessionsComponent,
   Error404Component, OfflineComponent, LoadingComponent,
   BasePaginationComponent,
