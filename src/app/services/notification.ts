@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ApiResponse } from './api';
 
 const Noty = require('noty');
 @Injectable()
@@ -11,11 +12,11 @@ export class NotificationService {
 
 	constructor() {}
 
-	public extractErrors = function(response, type) {
+	public extractErrors = function(response: ApiResponse, type: number) {
 		if (response && response.errors)
 			return this.showAll(response.errors, type);
 	}
-	public showAll = function(messages, type) {
+	public showAll = function(messages: string[], type: number) {
 		if (messages)
 		for (let i=0; i<messages.length; i++) {
 		    let message = messages[i];
@@ -27,7 +28,7 @@ export class NotificationService {
 		}
 	}
 
-	public showCritical = function(msg) {
+	public showCritical = function(msg: string) {
 
 	    new Noty({
 	        text        : msg,
@@ -43,7 +44,7 @@ export class NotificationService {
 	    }).show();
 	}
 
-	public showError = function(msg) {
+	public showError = function(msg: string) {
 
 	    new Noty({
 	        text        : msg,
@@ -57,7 +58,7 @@ export class NotificationService {
 	    }).show();
 	}
 
-	public showWarning = function(msg) {
+	public showWarning = function(msg: string) {
 
 	    new Noty({
 	        text        : msg,
@@ -71,7 +72,7 @@ export class NotificationService {
 	    }).show();
 	}
 
-	public showSuccess = function(msg) {
+	public showSuccess = function(msg: string) {
 
 	    new Noty({
 	        text        : msg,
@@ -84,7 +85,7 @@ export class NotificationService {
 	        theme       : 'relax'
 	    }).show();
 	}
-	public showInfo = function(msg) {
+	public showInfo = function(msg: string) {
 
 	    new Noty({
 	        text        : msg,

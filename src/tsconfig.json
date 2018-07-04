@@ -7,7 +7,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "lib": ["es2015", "dom"],
-    "noImplicitAny": false, /* required to work with @uirouter, remove it in a near future */
+    "noImplicitAny": false, /* remove it in a near future */
     "suppressImplicitAnyIndexErrors": true,
     "typeRoots": ["/modules/node_modules/@types"],
     "outDir": "/modules/dist",

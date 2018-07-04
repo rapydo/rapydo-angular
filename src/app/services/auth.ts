@@ -108,7 +108,7 @@ export class AuthService {
        	let opt =  {"base": "auth", "rawResponse": true};
         return this.api.get('profile', "", [], opt).pipe(
 			map(response => {
-				return true;
+				return of(true);
 			}),
 			catchError((error, caught) => {
 				if (this.api.is_online()) {

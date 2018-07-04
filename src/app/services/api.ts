@@ -5,6 +5,10 @@ import { _throw } from 'rxjs/observable/throw';
 import { of } from 'rxjs/observable/of';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+export interface ApiResponse {
+	errors: string[];
+}
+
 @Injectable()
 export class ApiService {
 
