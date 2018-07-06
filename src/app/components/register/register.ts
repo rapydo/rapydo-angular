@@ -3,10 +3,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
  
-import { ApiService } from '/rapydo/src/app/services/api';
+import { ApiService } from '../../services/api';
 import { AuthService } from '../../services/auth';
-import { NotificationService} from '/rapydo/src/app/services/notification';
- 
+import { NotificationService} from '../../services/notification';
+
+import { ProjectOptions } from '/app/frontend/app/custom.project.options';
+
 @Component({
     templateUrl: 'register.html'
 })
@@ -19,6 +21,8 @@ export class RegisterComponent implements OnInit {
     private registration_message: string;
     private invalid_token: boolean = false;
 
+    private disclaimer: string;
+
     private form = new FormGroup({});
     private fields: FormlyFieldConfig[] = []; 
     private model:any = {}
@@ -30,7 +34,8 @@ export class RegisterComponent implements OnInit {
         private router: Router,
         private notify: NotificationService,
         private api: ApiService,
-        private authService: AuthService) { 
+        private authService: AuthService,
+        private customization: ProjectOptions) { 
 
             if (typeof(process.env.allowRegistration) == "boolean") {
                 this.allowRegistration = process.env.allowRegistration
@@ -157,7 +162,19 @@ export class RegisterComponent implements OnInit {
                 }
             }
         );
-    
+
+        let custom = this.customization.get_option('registration');
+
+        if ('fields' in custom) {
+            for (let i=0; i<custom['fields'].length; i++) {
+                let f = custom['fields'][i];
+                this.fields.push(f);
+            }
+        }
+
+        if ('disclaimer' in custom) {
+            this.disclaimer = custom['disclaimer'];
+        } 
 
     }
  

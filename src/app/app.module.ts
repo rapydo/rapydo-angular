@@ -23,6 +23,8 @@ import { appRoutes } from './rapydo.routes';
 
 import { appRoutes as customRoutes } from '/app/frontend/app/custom.routes';
 
+import { ProjectOptions } from '/app/frontend/app/custom.project.options';
+
 import { declarations as customDeclarations } from '/app/frontend/app/custom.declarations';
 import { providers as customProviders } from '/app/frontend/app/custom.declarations';
 import { entryComponents as customEntryComponents } from '/app/frontend/app/custom.declarations';
@@ -56,6 +58,7 @@ import { LoginComponent } from './components/login/login';
 import { ResetPasswordComponent } from './components/login/reset';
 import { RegisterComponent } from './components/register/register';
 import { JwtInterceptor } from './jwt.interceptor';
+
 
 /*
 export class HybridUrlHandlingStrategy implements UrlHandlingStrategy {
@@ -130,6 +133,7 @@ declarations = declarations.concat(customDeclarations);
 
 let providers = [
   AuthService, AuthGuard, ApiService, FormlyService, NotificationService,
+  ProjectOptions,
   { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
   // { provide: UrlHandlingStrategy, useClass: HybridUrlHandlingStrategy}
 ];
