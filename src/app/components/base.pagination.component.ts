@@ -126,7 +126,6 @@ export class BasePaginationComponent implements OnInit {
 				this.notify.extractErrors(response, this.notify.WARNING);
 				this.loading = false;
 			}, error => {
-				console.log(error);
       			this.notify.extractErrors(error, this.notify.ERROR);
       			this.loading = false;
       		}
