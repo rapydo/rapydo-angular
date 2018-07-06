@@ -155,7 +155,8 @@ export class BasePaginationComponent implements OnInit {
 
 		return apiCall.subscribe(
 			response => {
-				let data = this.formly.json2Form(response.data, {}, this);
+				//let data = this.formly.json2Form(response.data, {}, this);
+				let data = this.formly.json2Form(response.data, {});
 
 				this.modalTitle = "Create a new " + this.resource_name;
 				this.fields = data.fields;
@@ -183,7 +184,7 @@ export class BasePaginationComponent implements OnInit {
 
 		return apiCall.subscribe(
 			response => {
-				let data = this.formly.json2Form(response.data, row, undefined);
+				let data = this.formly.json2Form(response.data, row);
 				this.modalTitle = "Update " + this.resource_name;
 				this.fields = data.fields;
 				this.model = data.model;

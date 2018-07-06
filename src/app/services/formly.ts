@@ -9,7 +9,8 @@ export class FormlyService {
 
 	constructor(private modalService: NgbModal) {}
 
-	public json2Form(schema, data, DataController) {
+	//public json2Form(schema, data, DataController) {
+	public json2Form(schema, data) {
 
 		let fields = [];
 		let model = {}
