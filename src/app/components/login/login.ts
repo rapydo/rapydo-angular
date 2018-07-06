@@ -21,6 +21,8 @@ export class LoginComponent implements OnInit {
 
     private loading = false;
     private returnUrl: string = "";
+
+    private account_not_active:boolean = false;
  
     constructor(
         private route: ActivatedRoute,
@@ -184,10 +186,28 @@ export class LoginComponent implements OnInit {
                         }
 */
                     } else {
+                        if (error.error.Response.errors[0] == "Sorry, this account is not active") {
+                            this.account_not_active = true;
+
+                        }
                         this.notify.extractErrors(error.error.Response, this.notify.ERROR);
                     }
 
                     this.loading = false;
                 });
+    }
+
+    ask_activation_link() {
+
+        this.authService.ask_activation_link(this.model.username).subscribe(
+            (response:any) => {
+                this.account_not_active = false;
+                this.notify.showSuccess(response.Response.data);
+                this.notify.extractErrors(response, this.notify.WARNING);
+            }, error => {
+                this.notify.extractErrors(error.error.Response, this.notify.ERROR);
+            }
+        );
+
     }
 }

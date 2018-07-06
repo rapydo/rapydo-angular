@@ -61,6 +61,18 @@ export class AuthService {
 		);
 	}
 
+	public ask_activation_link(username) {
+		let data = {"username": username}
+		return this.http.post(process.env.authApiUrl + '/profile/activate', data).map(
+			response => {
+    			return response;
+			},
+			error => {
+				return error;
+			}
+		);
+	}
+
 	public loadUser() {
 
 		return this.http.get<any>(process.env.authApiUrl + '/profile').map(
