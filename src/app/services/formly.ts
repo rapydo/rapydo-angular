@@ -21,6 +21,11 @@ export class FormlyService {
 		for (let i=0; i<schema.length; i++) {
 
 			let s = schema[i];
+
+			if (! ('type' in s)) {
+				console.log("WARNING: invalid schema, missing type")
+				return null;
+			}
 			let stype = s['type'];
 
 			let field_type = "";
@@ -119,7 +124,7 @@ export class FormlyService {
 			} else if (stype == "email") {
 				field_type = "input";
 				template_type = "email";
-				field['validators']['validation']  = ['email']
+				field["validators"] = { "validation": ["email"]}
 			} else if (stype == "select") {
 				field_type = "select";
 				template_type = "select";
@@ -136,9 +141,10 @@ export class FormlyService {
 				if (typeof model[s['key']] == 'undefined') {
 					model[s['key']] = false;
 				}
-			// } else if (stype == "radio") {
-			// 	field_type = "radio";
-			// 	template_type = "radio";
+			} else if (stype == "radio") {
+				field_type = "radio";
+				template_type = "radio";
+				field['templateOptions']['options'] = s['options']
 			} else if (stype == "autocomplete") {
 				// Custom defined type
 				field_type = "autocomplete";
