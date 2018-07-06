@@ -1,6 +1,6 @@
 
 import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot } from '@angular/router'
+import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'
 import { catchError, map } from 'rxjs/operators';
 import { _throw } from 'rxjs/observable/throw';
 import { of } from 'rxjs/observable/of';
@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate {
         public router: Router
      ) {}
 
-	canActivate(route: ActivatedRouteSnapshot): boolean {
+	canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 
         const expectedRoles = route.data.roles;
 
@@ -33,7 +33,7 @@ export class AuthGuard implements CanActivate {
                 if (response) return this.auth.hasRole(expectedRoles);
 
                 if (this.api.is_online()) {
-                    this.router.navigate(['app/login']);
+                    this.router.navigate(['app/login'], { queryParams: { returnUrl: state.url }});
                 } else {
                     this.router.navigate(['offline']);
                 }
