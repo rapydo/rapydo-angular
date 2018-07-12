@@ -87,6 +87,12 @@
 		<span ngbTooltip='{{value[0].fullname}}' *ngIf="value[0]">
 	        {{value[0].shortname}}
         </span>
+		<i
+			class='fa fa-star'
+			style='color:#FFD700;'
+			*ngIf='row._coordinator'
+			ngbTooltip="Coordinator of the group"
+		></i>
 
 	</ng-template>
 
