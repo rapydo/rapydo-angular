@@ -43,7 +43,6 @@ export class RegisterComponent implements OnInit {
                 this.allowRegistration = (process.env.allowRegistration == "true");
             }
 
-
             this.route.params.subscribe(
             params => {
                 if (typeof params["token"] !== 'undefined') {
