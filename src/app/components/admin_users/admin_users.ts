@@ -16,6 +16,7 @@ import { BasePaginationComponent } from '/rapydo/src/app/components/base.paginat
 })
 export class AdminUsersComponent extends BasePaginationComponent {
 
+	@ViewChild('dataActive') public dataActive: TemplateRef<any>;
 	@ViewChild('dataRoles') public dataRoles: TemplateRef<any>;
 	@ViewChild('dataGroup') public dataGroup: TemplateRef<any>;
 	@ViewChild('controlsCell') public controlsCell: TemplateRef<any>;
@@ -44,6 +45,7 @@ export class AdminUsersComponent extends BasePaginationComponent {
 	        {name: 'Email', prop: "email", flexGrow: 1.3},
 	        {name: 'Name', prop: "name", flexGrow: 1.0},
 	        {name: 'Surname', prop: "surname", flexGrow: 1.0},
+	        {name: 'Active', prop: "is_active", cellTemplate: this.dataActive, flexGrow: 0.3},
 	        {name: 'Group', prop: "_belongs_to", cellTemplate: this.dataGroup, flexGrow: 0.4},
 	        {name: 'Roles', prop: "_roles", cellTemplate: this.dataRoles, flexGrow: 1.0},
 			{name: 'controls', prop: 'controls', cellTemplate: this.controlsCell, headerTemplate: this.emptyHeader, flexGrow: 0.2},

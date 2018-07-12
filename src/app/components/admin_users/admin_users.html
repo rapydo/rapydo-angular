@@ -90,6 +90,13 @@
 
 	</ng-template>
 
+	<ng-template #dataActive let-row="row" let-value="value" let-i="index">
+
+		<i class='fa fa-check' *ngIf='value' style='color:green'></i>
+		<i class='fa fa-ban' *ngIf='!value' style='color:orange'></i>
+
+	</ng-template>
+
 
 	<ng-template #emptyHeader let-column="column">
 		&nbsp;
