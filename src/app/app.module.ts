@@ -39,7 +39,7 @@ import { BasePaginationComponent } from './components/base.pagination.component'
 import { LoadingComponent } from './components/loading/loading';
 
 import { FormlyHorizontalWrapper } from './components/forms/bootstrap.horizontal.wrapper'
-import { AutocompleteComponent } from './components/forms/autocomplete'
+import { TermsOfUseCheckbox } from './components/forms/terms_of_use_checkbox'
 
 import { ProfileComponent } from './components/profile/profile';
 import { ChangePasswordComponent } from './components/profile/changepassword';
@@ -126,7 +126,7 @@ let declarations = [
   AdminUsersComponent,
   IteratePipe, BytesPipe,
   FormlyHorizontalWrapper,
-  AutocompleteComponent
+  TermsOfUseCheckbox
 ];
 
 declarations = declarations.concat(customDeclarations);
@@ -160,7 +160,7 @@ let imports = [
     FormlyBootstrapModule,
     FormlyModule.forRoot({
       types: [
-        { name: 'autocomplete', component: AutocompleteComponent }
+        { name: 'terms_of_use', component: TermsOfUseCheckbox }
       ],
       validationMessages: [
         {name: 'required', message: 'This field is required'},
