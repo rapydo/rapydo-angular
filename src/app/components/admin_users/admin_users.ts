@@ -9,6 +9,8 @@ import { FormlyService } from '/rapydo/src/app/services/formly'
 
 import { BasePaginationComponent } from '/rapydo/src/app/components/base.pagination.component'
 
+import { ProjectOptions } from '/app/frontend/app/custom.project.options';
+
 @Component({
   selector: 'admin-users',
   providers: [ApiService, AuthService, NotificationService, FormlyService],
@@ -31,6 +33,7 @@ export class AdminUsersComponent extends BasePaginationComponent {
 		protected notify: NotificationService,
 		protected modalService: NgbModal,
 		protected formly: FormlyService,
+        private customization: ProjectOptions
 		) {
 
 		super("user", api, auth, notify, modalService, formly);
@@ -41,15 +44,28 @@ export class AdminUsersComponent extends BasePaginationComponent {
 
 	public ngOnInit(): void {
 
-		this.columns = [
-	        {name: 'Email', prop: "email", flexGrow: 1.3},
-	        {name: 'Name', prop: "name", flexGrow: 1.0},
-	        {name: 'Surname', prop: "surname", flexGrow: 1.0},
-	        {name: 'Active', prop: "is_active", cellTemplate: this.dataActive, flexGrow: 0.3},
-	        {name: 'Group', prop: "_belongs_to", cellTemplate: this.dataGroup, flexGrow: 0.4},
-	        {name: 'Roles', prop: "_roles", cellTemplate: this.dataRoles, flexGrow: 1.0},
-			{name: 'controls', prop: 'controls', cellTemplate: this.controlsCell, headerTemplate: this.emptyHeader, flexGrow: 0.2},
-		];
+		this.columns = [];
+        this.columns.push({name: '', prop: "is_active", cellTemplate: this.dataActive, flexGrow: 0.1});
+		this.columns.push({name: 'Email', prop: "email", flexGrow: 1.0});
+        this.columns.push({name: 'Name', prop: "name", flexGrow: 0.8});
+        this.columns.push({name: 'Surname', prop: "surname", flexGrow: 0.8});
+
+        let user_page = this.customization.get_option('user_page');
+        if (user_page !== null) {
+        	if (user_page["group"]) {
+		        this.columns.push({name: 'Group', prop: "_belongs_to", cellTemplate: this.dataGroup, flexGrow: 0.4});
+		    }
+
+		    if (user_page["custom"]) {
+
+		    	for (let i=0; i<user_page["custom"].length; i++) {
+		    		this.columns.push(user_page["custom"][i]);
+		    	}
+		    }
+        }
+
+        this.columns.push({name: 'Roles', prop: "_roles", cellTemplate: this.dataRoles, flexGrow: 0.9});
+		this.columns.push({name: 'controls', prop: 'controls', cellTemplate: this.controlsCell, headerTemplate: this.emptyHeader, flexGrow: 0.2});
 	}
 
 	list() {
