@@ -60,6 +60,13 @@ export class ApiService {
 		let rawResponse = this.opt(options, "rawResponse", undefined);
 		return this.call("PUT", endpoint, id, data, formData, conf, base, rawResponse)
 	}
+	public patch(endpoint: string, id="", data={}, options={}) {
+		let formData = this.opt(options, "formData", undefined);
+		let conf = this.opt(options, "conf", undefined);
+		let base = this.opt(options, "base", undefined);
+		let rawResponse = this.opt(options, "rawResponse", undefined);
+		return this.call("PATCH", endpoint, id, data, formData, conf, base, rawResponse)
+	}
 	public delete(endpoint: string, id="", options={}) {
 		let formData = this.opt(options, "formData", undefined);
 		let conf = this.opt(options, "conf", undefined);
@@ -108,6 +115,8 @@ export class ApiService {
 			httpCall = this.http.post(ep, data, options);
 		} else if (method == "PUT") {
 			httpCall = this.http.put(ep, data, options);
+		} else if (method == "PATCH") {
+			httpCall = this.http.patch(ep, data, options);
 		} else if (method == "DELETE") {
 			httpCall = this.http.delete(ep, options);
 		} else {

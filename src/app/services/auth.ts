@@ -24,7 +24,8 @@ export class AuthService {
 		return this.http.post<any>(process.env.authApiUrl + '/login', data).map(
 			response => {
 				if (response && response.Response && response.Response.data && response.Response.data.token) {
-					this.setToken(JSON.stringify(response.Response.data.token))
+					this.clean_localstorage();
+					this.setToken(JSON.stringify(response.Response.data.token));
 				}
 
 				return response;
@@ -78,6 +79,14 @@ export class AuthService {
 		return this.http.get<any>(process.env.authApiUrl + '/profile').map(
 			response => {
 				if (response && response.Response && response.Response.data) {
+
+					// Conversion roles list into roles dict to simplify checks
+					let roles_dict = {}
+					for (let i=0; i<response.Response.data.roles.length; i++) {
+						let r = response.Response.data.roles[i];
+						roles_dict[r] = r
+					}
+					response.Response.data.roles = roles_dict
 					this.setUser(JSON.stringify(response.Response.data));
 				}
 
@@ -91,6 +100,7 @@ export class AuthService {
 	}
 
 	public removeToken() {
+		this.clean_localstorage();
 		localStorage.removeItem('token');
 		localStorage.removeItem('currentUser');
 		this.userChanged.emit(this.LOGGED_OUT);
@@ -104,7 +114,16 @@ export class AuthService {
 		return JSON.parse(localStorage.getItem('currentUser'))
 	}
 
+	public clean_localstorage() {
+		// Cleaning up the localStorage from data from the previous session
+		Object.keys(localStorage).forEach(
+			key => {
+				localStorage.removeItem(key)
+			}
+		);
+	}
 	public setToken(token: string) {
+
 		localStorage.setItem('token', token);
 	}
 	public getToken() {
@@ -132,6 +151,7 @@ export class AuthService {
 	}
 
 	public hasRole(expectedRoles: string[]): boolean {
+
 		if (!expectedRoles || expectedRoles.length == 0) {
 			/*console.log("no role required")*/
 			return true;

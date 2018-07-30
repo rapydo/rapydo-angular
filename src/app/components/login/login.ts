@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
  
+import { ApiService } from '../../services/api';
 import { AuthService } from '../../services/auth';
 import { NotificationService} from '/rapydo/src/app/services/notification';
+import { ProjectOptions } from '/app/frontend/app/custom.project.options';
  
 @Component({
     templateUrl: 'login.html'
@@ -23,11 +26,18 @@ export class LoginComponent implements OnInit {
     private returnUrl: string = "";
 
     private account_not_active:boolean = false;
- 
+
+    @ViewChild('privacy_acceptance') public privacy_acceptance: TemplateRef<any>;
+    protected modalRef: NgbModalRef;
+    private terms_of_use: any;
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private notify: NotificationService,
+        private modalService: NgbModal,
+        private customization: ProjectOptions,
+        private api: ApiService,
         private authService: AuthService) { 
 
             if (typeof(process.env.allowRegistration) === "boolean") {
@@ -95,7 +105,32 @@ export class LoginComponent implements OnInit {
 
                     this.authService.loadUser().subscribe(
                         response => {
-                            this.router.navigate([this.returnUrl]);
+                            this.loading = false;
+                            let u = this.authService.getUser()
+                            if (u.hasOwnProperty('privacy_accepted') && !u.privacy_accepted) {
+                                this.terms_of_use = this.customization.get_option('privacy_acceptance');
+                                this.modalRef = this.modalService.open(this.privacy_acceptance, {size: 'lg'});
+                                this.modalRef.result.then((result) => {
+                                    this.api.put('profile', u.id, {'privacy_accepted': true}, {"base": "auth"}).subscribe(
+                                        data => {
+                                            this.router.navigate([this.returnUrl]);
+                                        },
+                                        error => {
+                                            this.notify.extractErrors(error, this.notify.ERROR);
+                                        }
+                                    );
+                                }, (reason) => {
+                                    this.authService.logout().subscribe(
+                                        response =>  {
+                                            this.notify.showError("We apologize but you are not allowed to login, since you don't accepted our Terms of Use");
+                                            this.router.navigate(['']);
+                                        }
+                                    );
+                                });
+                            } else {
+                                this.router.navigate([this.returnUrl]);
+                            }
+
                             this.notify.extractErrors(response, this.notify.WARNING);
                         }, 
                         error => {
