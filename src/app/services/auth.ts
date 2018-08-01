@@ -78,6 +78,14 @@ export class AuthService {
 		return this.http.get<any>(process.env.authApiUrl + '/profile').map(
 			response => {
 				if (response && response.Response && response.Response.data) {
+
+					// Conversion roles list into roles dict to simplify checks
+					let roles_dict = {}
+					for (let i=0; i<response.Response.data.roles.length; i++) {
+						let r = response.Response.data.roles[i];
+						roles_dict[r] = r
+					}
+					response.Response.data.roles = roles_dict
 					this.setUser(JSON.stringify(response.Response.data));
 				}
 
@@ -132,6 +140,7 @@ export class AuthService {
 	}
 
 	public hasRole(expectedRoles: string[]): boolean {
+
 		if (!expectedRoles || expectedRoles.length == 0) {
 			/*console.log("no role required")*/
 			return true;
