@@ -38,7 +38,7 @@ export class RegisterComponent implements OnInit {
         private customization: ProjectOptions) { 
 
             if (typeof(process.env.allowRegistration) === "boolean") {
-                this.allowRegistration = process.env.allowRegistration
+                this.allowRegistration = JSON.parse(process.env.allowRegistration)
             } else {
                 this.allowRegistration = (process.env.allowRegistration == "true");
             }
