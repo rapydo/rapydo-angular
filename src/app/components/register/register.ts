@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit {
         private authService: AuthService,
         private customization: ProjectOptions) { 
 
-            if (typeof(process.env.allowRegistration) == "boolean") {
+            if (typeof(process.env.allowRegistration) === "boolean") {
                 this.allowRegistration = process.env.allowRegistration
             } else {
                 this.allowRegistration = (process.env.allowRegistration == "true");

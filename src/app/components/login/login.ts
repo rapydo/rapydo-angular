@@ -30,13 +30,13 @@ export class LoginComponent implements OnInit {
         private notify: NotificationService,
         private authService: AuthService) { 
 
-            if (typeof(process.env.allowRegistration) == "boolean") {
+            if (typeof(process.env.allowRegistration) === "boolean") {
                 this.allowRegistration = process.env.allowRegistration
             } else {
                 this.allowRegistration = (process.env.allowRegistration == "true");
             }
 
-            if (typeof(process.env.allowPasswordReset) == "boolean") {
+            if (typeof(process.env.allowPasswordReset) === "boolean") {
                 this.allowPasswordReset = process.env.allowPasswordReset
             } else {
                 this.allowPasswordReset = (process.env.allowPasswordReset == "true");
