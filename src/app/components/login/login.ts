@@ -31,13 +31,13 @@ export class LoginComponent implements OnInit {
         private authService: AuthService) { 
 
             if (typeof(process.env.allowRegistration) === "boolean") {
-                this.allowRegistration = process.env.allowRegistration
+                this.allowRegistration = JSON.parse(process.env.allowRegistration)
             } else {
                 this.allowRegistration = (process.env.allowRegistration == "true");
             }
 
             if (typeof(process.env.allowPasswordReset) === "boolean") {
-                this.allowPasswordReset = process.env.allowPasswordReset
+                this.allowPasswordReset = JSON.parse(process.env.allowPasswordReset)
             } else {
                 this.allowPasswordReset = (process.env.allowPasswordReset == "true");
             }

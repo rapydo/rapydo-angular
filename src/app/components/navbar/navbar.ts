@@ -22,7 +22,7 @@ export class NavbarComponent {
 		private auth: AuthService) { 
 
             if (typeof(process.env.allowRegistration) === "boolean") {
-                this.allowRegistration = process.env.allowRegistration
+                this.allowRegistration = JSON.parse(process.env.allowRegistration)
             } else {
                 this.allowRegistration = (process.env.allowRegistration == "true");
             }
