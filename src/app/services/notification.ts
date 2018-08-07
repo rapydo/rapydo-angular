@@ -20,12 +20,29 @@ export class NotificationService {
 		if (messages)
 		for (let i=0; i<messages.length; i++) {
 		    let message = messages[i];
+
+		    if (typeof(message) == 'object') {
+		    	message = this.extractMessage(message);
+		    }
+
 		    if (type == this.CRITICAL) this.showCritical(message);
 		    else if (type == this.ERROR) this.showError(message);
 		    else if (type == this.WARNING) this.showWarning(message);
 		    else if (type == this.INFO) this.showInfo(message);
 		    else console.log("Unknown message type. NotificationService is unable to satisfy this request");
 		}
+	}
+
+	public extractMessage(message: object) {
+		if (typeof(message) == 'string') {
+			return message;
+		}
+
+		if (message['message']) {
+			return message['message'];
+		}
+
+		return message;
 	}
 
 	public showCritical = function(msg: string) {
