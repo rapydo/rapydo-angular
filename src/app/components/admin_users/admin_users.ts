@@ -21,6 +21,7 @@ export class AdminUsersComponent extends BasePaginationComponent {
 	@ViewChild('dataActive') public dataActive: TemplateRef<any>;
 	@ViewChild('dataRoles') public dataRoles: TemplateRef<any>;
 	@ViewChild('dataGroup') public dataGroup: TemplateRef<any>;
+	@ViewChild('dataName') public dataName: TemplateRef<any>;
 	@ViewChild('controlsCell') public controlsCell: TemplateRef<any>;
 	@ViewChild('emptyHeader') public emptyHeader: TemplateRef<any>;
 	@ViewChild('formModal') public formModal: TemplateRef<any>;
@@ -47,13 +48,14 @@ export class AdminUsersComponent extends BasePaginationComponent {
 		this.columns = [];
         this.columns.push({name: '', prop: "is_active", cellTemplate: this.dataActive, flexGrow: 0.1});
 		this.columns.push({name: 'Email', prop: "email", flexGrow: 1.0});
-        this.columns.push({name: 'Name', prop: "name", flexGrow: 0.8});
-        this.columns.push({name: 'Surname', prop: "surname", flexGrow: 0.8});
+        /*this.columns.push({name: 'Name', prop: "name", flexGrow: 0.8});*/
+        /*this.columns.push({name: 'Surname', prop: "surname", flexGrow: 0.8});*/
+        this.columns.push({name: 'Name', prop: "surname", flexGrow: 1.0, cellTemplate: this.dataName});
 
         let user_page = this.customization.get_option('user_page');
         if (user_page !== null) {
         	if (user_page["group"]) {
-		        this.columns.push({name: 'Group', prop: "_belongs_to", cellTemplate: this.dataGroup, flexGrow: 0.4});
+		        this.columns.push({name: 'Group', prop: "_belongs_to", cellTemplate: this.dataGroup, flexGrow: 0.3});
 		    }
 
 		    if (user_page["custom"]) {

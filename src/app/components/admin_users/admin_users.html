@@ -96,6 +96,12 @@
 
 	</ng-template>
 
+	<ng-template #dataName let-row="row" let-value="value" let-i="index">
+
+		{{row['name']}} {{row['surname']}}
+
+	</ng-template>
+
 	<ng-template #dataActive let-row="row" let-value="value" let-i="index">
 
 		<i class='fa fa-check' *ngIf='value' style='color:green'></i>
