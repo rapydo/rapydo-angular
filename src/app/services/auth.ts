@@ -24,7 +24,8 @@ export class AuthService {
 		return this.http.post<any>(process.env.authApiUrl + '/login', data).map(
 			response => {
 				if (response && response.Response && response.Response.data && response.Response.data.token) {
-					this.setToken(JSON.stringify(response.Response.data.token))
+					this.clean_localstorage();
+					this.setToken(JSON.stringify(response.Response.data.token));
 				}
 
 				return response;
@@ -99,6 +100,7 @@ export class AuthService {
 	}
 
 	public removeToken() {
+		this.clean_localstorage();
 		localStorage.removeItem('token');
 		localStorage.removeItem('currentUser');
 		this.userChanged.emit(this.LOGGED_OUT);
@@ -112,7 +114,16 @@ export class AuthService {
 		return JSON.parse(localStorage.getItem('currentUser'))
 	}
 
+	public clean_localstorage() {
+		// Cleaning up the localStorage from data from the previous session
+		Object.keys(localStorage).forEach(
+			key => {
+				localStorage.removeItem(key)
+			}
+		);
+	}
 	public setToken(token: string) {
+
 		localStorage.setItem('token', token);
 	}
 	public getToken() {
