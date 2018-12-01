@@ -43,12 +43,12 @@ export class BasePaginationComponent implements OnInit {
 
         this.deleteConfirmation = this.getDeleteConfirmation(resource_name);
     }
-    public ngOnInit(): void { console.log("ngOnInit: to be implemented")}
+    public ngOnInit(): void { console.log('ngOnInit: to be implemented')}
 
     /** DELETE MODAL WITH MESSAGE CONFIRMATION **/
     public getDeleteConfirmation(name) {
         return {
-            title: "Confirmation required",
+            title: 'Confirmation required',
             message:`<div class='card text-center'>
                     <div class='card-body'>
                     <h4 class='card-title'>Are you really sure you want to delete this ` + name +`?</h4>
@@ -73,25 +73,25 @@ export class BasePaginationComponent implements OnInit {
     }
 
     filter(data_filter) {
-        console.log("WARNING: filter function not implemented")
+        console.log('WARNING: filter function not implemented')
         return this.data;
     }
 
     /** PAGINATION **/
     protected initPaging(itemPerPage:number):any {
         this.paging = {
-            "page": 1,
-            "itemsPerPage": itemPerPage,
-            "numPages": 1,
-            "dataLength": 0
+            'page': 1,
+            'itemsPerPage': itemPerPage,
+            'numPages': 1,
+            'dataLength': 0
         }
 
         return this.paging;
     }
 
     protected updatePaging(dataLen:number): any {
-        this.paging["dataLength"] = dataLen;
-        this.paging["numPages"] = Math.ceil(dataLen / this.paging["itemsPerPage"]);
+        this.paging['dataLength'] = dataLen;
+        this.paging['numPages'] = Math.ceil(dataLen / this.paging['itemsPerPage']);
 
         return this.paging;
     }
@@ -108,11 +108,11 @@ export class BasePaginationComponent implements OnInit {
     }
 
     /** INTERACTION WITH APIs**/
-    protected list() { console.log("list: to be implemented") }
-    protected remove(uuid) { console.log("remove: to be implemented") }
-    protected create() { console.log("create: to be implemented") }
-    protected update(row) { console.log("update: to be implemented") }
-    protected submit(data) { console.log("submit: to be implemented") }
+    protected list() { console.log('list: to be implemented') }
+    protected remove(uuid) { console.log('remove: to be implemented') }
+    protected create() { console.log('create: to be implemented') }
+    protected update(row) { console.log('update: to be implemented') }
+    protected submit(data) { console.log('submit: to be implemented') }
 
     protected get(endpoint) {
 
@@ -136,7 +136,7 @@ export class BasePaginationComponent implements OnInit {
         return this.api.delete(endpoint, uuid).subscribe(
             response => {
 
-                this.notify.showSuccess("Confirmation: "+this.resource_name+" successfully deleted");
+                this.notify.showSuccess('Confirmation: '+this.resource_name+' successfully deleted');
                 this.list();
             }, error => {
                 this.notify.extractErrors(error, this.notify.ERROR);
@@ -156,17 +156,17 @@ export class BasePaginationComponent implements OnInit {
             response => {
                 let data = this.formly.json2Form(response.data, {});
 
-                this.modalTitle = "Create a new " + this.resource_name;
+                this.modalTitle = 'Create a new ' + this.resource_name;
                 this.fields = data.fields;
                 this.model = data.model;
                 this.modalRef = this.modalService.open(formModal, {size: 'lg'});
                 this.modalRef.result.then((result) => {
-                    // console.log("Closed with: " + result);
+                    // console.log('Closed with: ' + result);
                 }, (reason) => {
                     // console.log(`Dismissed ${this.getDismissReason(reason)}`);
                 });
             }, error => {
-                  console.log("error retrieving schema")
+                  console.log('error retrieving schema')
               }
         );
     }
@@ -183,19 +183,19 @@ export class BasePaginationComponent implements OnInit {
         return apiCall.subscribe(
             response => {
                 let data = this.formly.json2Form(response.data, row);
-                this.modalTitle = "Update " + this.resource_name;
+                this.modalTitle = 'Update ' + this.resource_name;
                 this.fields = data.fields;
                 this.model = data.model;
                 // Extra for update:
-                this.model["_id"] = row.id;
+                this.model['_id'] = row.id;
                 this.modalRef = this.modalService.open(formModal, {size: 'lg'});
                 this.modalRef.result.then((result) => {
-                    // console.log("Closed with: " + result);
+                    // console.log('Closed with: ' + result);
                 }, (reason) => {
                     // console.log(`Dismissed ${this.getDismissReason(reason)}`);
                 });
             }, error => {
-                  console.log("error retrieving schema")
+                  console.log('error retrieving schema')
               }
         );
     }
@@ -204,20 +204,20 @@ export class BasePaginationComponent implements OnInit {
         if (this.form.valid) {
 
             let apiCall;
-            let type = "";
-            if (this.model["_id"]) {
-                apiCall = this.api.put(endpoint, this.model["_id"], this.model);
-                type = "updated";
+            let type = '';
+            if (this.model['_id']) {
+                apiCall = this.api.put(endpoint, this.model['_id'], this.model);
+                type = 'updated';
             } else {
                 apiCall = this.api.post(endpoint, this.model);
-                type = "created";
+                type = 'created';
             }
 
             apiCall.subscribe(
                 response => {
 
-                    this.modalRef.close("");
-                    this.notify.showSuccess(this.resource_name + " successfully " + type);
+                    this.modalRef.close('');
+                    this.notify.showSuccess(this.resource_name + ' successfully ' + type);
 
                     this.list();
                 }, error => {

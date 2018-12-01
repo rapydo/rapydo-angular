@@ -13,7 +13,7 @@ import { NotificationService} from '../../services/notification';
 })
 export class SessionsComponent {
 
-    private confirmationTitle = "Confirmation required";
+    private confirmationTitle = 'Confirmation required';
     private confirmationMessage = `
         <div class='card text-center'>
         <div class='card-body'>
@@ -36,7 +36,7 @@ export class SessionsComponent {
     }
 
     loadTokens() {
-        this.api.get('tokens', "", [], {"base": "auth"}).subscribe(
+        this.api.get('tokens', '', [], {'base': 'auth'}).subscribe(
               response => {
                   this.tokens = response.data
               }
@@ -46,9 +46,9 @@ export class SessionsComponent {
 
     revokeToken(id) {
 
-        this.api.delete('tokens', id, {"base": "auth"}).subscribe(
+        this.api.delete('tokens', id, {'base': 'auth'}).subscribe(
             response => {
-                this.notify.showSuccess("Token successfully revoked");
+                this.notify.showSuccess('Token successfully revoked');
                 this.loadTokens();
             }, error => {
                 this.notify.extractErrors(error, this.notify.ERROR);
@@ -57,7 +57,7 @@ export class SessionsComponent {
     }
 
     cancelRequest() {
-        /*console.log("Request cancelled");*/
+        /*console.log('Request cancelled');*/
     }
 
 }

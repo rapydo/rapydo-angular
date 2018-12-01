@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
 
 /*        if (!this.api.is_online()) {
 
-            console.log("Api offline");
+            console.log('Api offline');
             this.router.navigate(['offline']);
             return false;
         }*/

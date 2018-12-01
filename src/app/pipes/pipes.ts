@@ -1,4 +1,3 @@
-
 import { Injectable, Pipe } from '@angular/core';
 
 @Pipe({
@@ -35,7 +34,7 @@ export class BytesPipe {
 
     transform(bytes, precision):string {
         if (bytes == 0)
-          return "0"
+          return '0'
 
         if (bytes == -1 || isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
 

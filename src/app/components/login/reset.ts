@@ -34,11 +34,11 @@ export class ResetPasswordComponent implements OnInit {
 
         this.route.params.subscribe(
             params => {
-                if (typeof params["token"] !== 'undefined') {
+                if (typeof params['token'] !== 'undefined') {
 
-                    this.api.put('reset', params["token"], {}, {"base": "auth"}).subscribe(
+                    this.api.put('reset', params['token'], {}, {'base': 'auth'}).subscribe(
                        response => {
-                            this.token = params["token"]
+                            this.token = params['token']
                             this.notify.extractErrors(response, this.notify.ERROR);
                             return true;
 
@@ -60,51 +60,51 @@ export class ResetPasswordComponent implements OnInit {
 
         this.step1_fields.push(
             {
-                "key": 'reset_email',
-                "type": 'input',
-                "templateOptions": {
-                    "type": 'email',
-                    "label": 'Your e-mail address',
-                    "addonLeft": {
-                        "class": "fa fa-envelope"
+                'key': 'reset_email',
+                'type': 'input',
+                'templateOptions': {
+                    'type': 'email',
+                    'label': 'Your e-mail address',
+                    'addonLeft': {
+                        'class': 'fa fa-envelope'
                     },
-                    "required": true
+                    'required': true
                 },
-                "validators": { "validation": ["email"]}
+                'validators': { 'validation': ['email']}
             }
         );
 
         this.step2_fields.push(
             {
-                "key": 'newPwd',
-                "type": 'input',
-                "templateOptions": {
-                    "type": 'password',
-                    "label": 'New password',
-                    "addonLeft": {
-                        "class": "fa fa-key"
+                'key': 'newPwd',
+                'type': 'input',
+                'templateOptions': {
+                    'type': 'password',
+                    'label': 'New password',
+                    'addonLeft': {
+                        'class': 'fa fa-key'
                     },
-                    "required": true,
-                    "minLength": 8
+                    'required': true,
+                    'minLength': 8
                 }
             }
         );
         this.step2_fields.push(
             {
-                "key": 'confirmPwd',
-                "type": 'input',
-                "templateOptions": {
-                    "type": 'password',
-                    "label": 'Confirm password',
-                    "addonLeft": {
-                        "class": "fa fa-key"
+                'key': 'confirmPwd',
+                'type': 'input',
+                'templateOptions': {
+                    'type': 'password',
+                    'label': 'Confirm password',
+                    'addonLeft': {
+                        'class': 'fa fa-key'
                     },
-                    "required": true
+                    'required': true
                 },
-                "validators": {
-                    "fieldMatch": {
-                        "expression": (control) => control.value === this.model.newPwd,
-                        "message": "Password not matching"
+                'validators': {
+                    'fieldMatch': {
+                        'expression': (control) => control.value === this.model.newPwd,
+                        'message': 'Password not matching'
                     }
                 }
             }
@@ -118,8 +118,8 @@ export class ResetPasswordComponent implements OnInit {
             return false;
         }
 
-        let data = {"reset_email": this.model["reset_email"]};
-        return this.api.post('reset', data, {"base": "auth"}).subscribe(
+        let data = {'reset_email': this.model['reset_email']};
+        return this.api.post('reset', data, {'base': 'auth'}).subscribe(
             response => {
                 this.reset_message = response.data;
                 this.model = {}
@@ -140,12 +140,12 @@ export class ResetPasswordComponent implements OnInit {
         }
 
         let data = {}
-        data["new_password"] = this.model["newPwd"];
-        data["password_confirm"] = this.model["confirmPwd"];
+        data['new_password'] = this.model['newPwd'];
+        data['password_confirm'] = this.model['confirmPwd'];
 
-        return this.api.put('reset', this.token, data, {"base": "auth"}).subscribe(
+        return this.api.put('reset', this.token, data, {'base': 'auth'}).subscribe(
             response => {
-                this.notify.showSuccess("Password successfully changed. Please login with your new password")
+                this.notify.showSuccess('Password successfully changed. Please login with your new password')
 
                 this.notify.extractErrors(response, this.notify.ERROR);
                 this.router.navigate(['app', 'login']);

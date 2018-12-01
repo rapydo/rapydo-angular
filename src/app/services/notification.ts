@@ -29,7 +29,7 @@ export class NotificationService {
             else if (type == this.ERROR) this.showError(message);
             else if (type == this.WARNING) this.showWarning(message);
             else if (type == this.INFO) this.showInfo(message);
-            else console.log("Unknown message type. NotificationService is unable to satisfy this request");
+            else console.log('Unknown message type. NotificationService is unable to satisfy this request');
         }
     }
 
@@ -49,7 +49,7 @@ export class NotificationService {
 
         new Noty({
             text        : msg,
-            type        : "error",
+            type        : 'error',
             dismissQueue: true,
             modal       : true,
             maxVisible  : 1,
@@ -65,7 +65,7 @@ export class NotificationService {
 
         new Noty({
             text        : msg,
-            type        : "error",
+            type        : 'error',
             dismissQueue: true,
             modal       : false,
             maxVisible  : 5,
@@ -79,7 +79,7 @@ export class NotificationService {
 
         new Noty({
             text        : msg,
-            type        : "warning",
+            type        : 'warning',
             dismissQueue: true,
             modal       : false,
             maxVisible  : 3,
@@ -93,7 +93,7 @@ export class NotificationService {
 
         new Noty({
             text        : msg,
-            type        : "success",
+            type        : 'success',
             dismissQueue: true,
             modal       : false,
             maxVisible  : 3,
@@ -106,7 +106,7 @@ export class NotificationService {
 
         new Noty({
             text        : msg,
-            type        : "information",
+            type        : 'information',
             dismissQueue: true,
             modal       : false,
             maxVisible  : 3,

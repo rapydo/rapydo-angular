@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
     private model:any = {}
 
     private loading = false;
-    private returnUrl: string = "";
+    private returnUrl: string = '';
 
     private account_not_active:boolean = false;
 
@@ -40,16 +40,16 @@ export class LoginComponent implements OnInit {
         private api: ApiService,
         private authService: AuthService) {
 
-            if (typeof(process.env.allowRegistration) === "boolean") {
+            if (typeof(process.env.allowRegistration) === 'boolean') {
                 this.allowRegistration = JSON.parse(process.env.allowRegistration)
             } else {
-                this.allowRegistration = (process.env.allowRegistration == "true");
+                this.allowRegistration = (process.env.allowRegistration == 'true');
             }
 
-            if (typeof(process.env.allowPasswordReset) === "boolean") {
+            if (typeof(process.env.allowPasswordReset) === 'boolean') {
                 this.allowPasswordReset = JSON.parse(process.env.allowPasswordReset)
             } else {
-                this.allowPasswordReset = (process.env.allowPasswordReset == "true");
+                this.allowPasswordReset = (process.env.allowPasswordReset == 'true');
             }
 
     }
@@ -60,31 +60,31 @@ export class LoginComponent implements OnInit {
 
         this.fields.push(
             {
-                "key": 'username',
-                "type": 'input',
-                "templateOptions": {
-                    "type": 'email',
-                    "label": 'Username',
-                    "addonLeft": {
-                        "class": "fa fa-envelope"
+                'key': 'username',
+                'type': 'input',
+                'templateOptions': {
+                    'type': 'email',
+                    'label': 'Username',
+                    'addonLeft': {
+                        'class': 'fa fa-envelope'
                     },
-                    "required": true
+                    'required': true
                 },
-                "validators": { "validation": ["email"]}
+                'validators': { 'validation': ['email']}
             }
         );
 
         this.fields.push(
             {
-                "key": 'password',
-                "type": 'input',
-                "templateOptions": {
-                    "type": 'password',
-                    "label": 'Password',
-                    "addonLeft": {
-                        "class": "fa fa-key"
+                'key': 'password',
+                'type': 'input',
+                'templateOptions': {
+                    'type': 'password',
+                    'label': 'Password',
+                    'addonLeft': {
+                        'class': 'fa fa-key'
                     },
-                    "required": true
+                    'required': true
                 }
             }
         );
@@ -110,7 +110,7 @@ export class LoginComponent implements OnInit {
                                 this.terms_of_use = this.customization.get_option('privacy_acceptance');
                                 this.modalRef = this.modalService.open(this.privacy_acceptance, {size: 'lg'});
                                 this.modalRef.result.then((result) => {
-                                    this.api.put('profile', u.id, {'privacy_accepted': true}, {"base": "auth"}).subscribe(
+                                    this.api.put('profile', u.id, {'privacy_accepted': true}, {'base': 'auth'}).subscribe(
                                         data => {
                                             this.router.navigate([this.returnUrl]);
                                         },
@@ -121,7 +121,7 @@ export class LoginComponent implements OnInit {
                                 }, (reason) => {
                                     this.authService.logout().subscribe(
                                         response =>  {
-                                            this.notify.showError("We apologize but you are not allowed to login, since you don't accepted our Terms of Use");
+                                            this.notify.showError('We apologize but you are not allowed to login, since you don\'t accepted our Terms of Use');
                                             this.router.navigate(['']);
                                         }
                                     );
@@ -134,7 +134,7 @@ export class LoginComponent implements OnInit {
                         },
                         error => {
                             if (error.status == 0) {
-                                this.router.navigate(["/offline"]);
+                                this.router.navigate(['/offline']);
 
                             } else {
                                 this.notify.extractErrors(error, this.notify.ERROR);
@@ -145,17 +145,17 @@ export class LoginComponent implements OnInit {
                 },
                 error => {
                     if (error.status == 0) {
-                        this.router.navigate(["/offline"]);
+                        this.router.navigate(['/offline']);
 
                     } else if (error.status == 409) {
                         this.notify.extractErrors(error, this.notify.ERROR);
 
                     } else if (error.status == 403) {
                         // TO BE REIMPLEMENTED
-                        console.log("2FA not yet implemented");
+                        console.log('2FA not yet implemented');
 /*
-                        // self.userMessage = "Unrecognized response from server"
-                        self.userMessage = ""
+                        // self.userMessage = 'Unrecognized response from server'
+                        self.userMessage = ''
 
                         if (typeof response.Response.data.actions === 'undefined') {
                             noty.showError(self.userMessage)
@@ -177,24 +177,24 @@ export class LoginComponent implements OnInit {
                                 let action = actions[i];
                                 let notyLevel = noty.ERROR;
                                 if (action == 'FIRST LOGIN') {
-                                    self.panelTitle = "Please change your temporary password"
-                                    self.buttonText = "Change"
+                                    self.panelTitle = 'Please change your temporary password'
+                                    self.buttonText = 'Change'
                                     self.askUsername = false;
                                     self.askPassword = false;
                                     self.askNewPassword = true;
                                     notyLevel = noty.WARNING;
 
                                 } else if (action == 'PASSWORD EXPIRED') {
-                                    self.panelTitle = "Your password is expired, please change it"
-                                    self.buttonText = "Change"
+                                    self.panelTitle = 'Your password is expired, please change it'
+                                    self.buttonText = 'Change'
                                     self.askUsername = false;
                                     self.askPassword = false;
                                     self.askNewPassword = true;
                                     notyLevel = noty.WARNING;
 
                                 } else if (action == 'TOTP') {
-                                    self.panelTitle = "Provide the verification code"
-                                    self.buttonText = "Authorize"
+                                    self.panelTitle = 'Provide the verification code'
+                                    self.buttonText = 'Authorize'
                                     self.askUsername = false;
                                     self.askPassword = false;
                                     self.askTOTP = true
@@ -215,7 +215,7 @@ export class LoginComponent implements OnInit {
                         }
 */
                     } else {
-                        if (error.error.Response.errors[0] == "Sorry, this account is not active") {
+                        if (error.error.Response.errors[0] == 'Sorry, this account is not active') {
                             this.account_not_active = true;
 
                         }

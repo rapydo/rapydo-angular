@@ -37,23 +37,23 @@ export class RegisterComponent implements OnInit {
         private authService: AuthService,
         private customization: ProjectOptions) {
 
-            if (typeof(process.env.allowRegistration) === "boolean") {
+            if (typeof(process.env.allowRegistration) === 'boolean') {
                 this.allowRegistration = JSON.parse(process.env.allowRegistration)
             } else {
-                this.allowRegistration = (process.env.allowRegistration == "true");
+                this.allowRegistration = (process.env.allowRegistration == 'true');
             }
 
             this.route.params.subscribe(
             params => {
-                if (typeof params["token"] !== 'undefined') {
+                if (typeof params['token'] !== 'undefined') {
 
-                    this.registration_title = "Validating activation token..."
-                    this.api.put('profile/activate', params["token"], {}, {"base": "auth"}).subscribe(
+                    this.registration_title = 'Validating activation token...'
+                    this.api.put('profile/activate', params['token'], {}, {'base': 'auth'}).subscribe(
                        response => {
                             this.invalid_token = false;
                             this.showRegistrationForm = false;
-                            this.registration_title = "Registraction activated"
-                            this.notify.showSuccess("User successfully activated.");
+                            this.registration_title = 'Registraction activated'
+                            this.notify.showSuccess('User successfully activated.');
                             this.router.navigate(['app', 'login']);
                             this.notify.extractErrors(response, this.notify.ERROR);
                             return true;
@@ -61,14 +61,14 @@ export class RegisterComponent implements OnInit {
                         }, error => {
                             this.invalid_token = true;
                             this.showRegistrationForm = false;
-                            this.registration_title = "Invalid activation token"
+                            this.registration_title = 'Invalid activation token'
                             this.notify.extractErrors(error, this.notify.ERROR);
                             return false;
                         }
                     );
                 } else {
                     this.showRegistrationForm = this.allowRegistration;
-                    this.registration_title = "Register a new account"
+                    this.registration_title = 'Register a new account'
                 }
             }
         );
@@ -81,82 +81,82 @@ export class RegisterComponent implements OnInit {
 
         this.fields.push(
             {
-                "key": 'name',
-                "type": 'input',
-                "templateOptions": {
-                    "type": 'text',
-                    "label": 'Name',
-                    "addonLeft": {
-                        "class": "fa fa-user"
+                'key': 'name',
+                'type': 'input',
+                'templateOptions': {
+                    'type': 'text',
+                    'label': 'Name',
+                    'addonLeft': {
+                        'class': 'fa fa-user'
                     },
-                    "required": true
+                    'required': true
                 }
             }
         );
 
         this.fields.push(
             {
-                "key": 'surname',
-                "type": 'input',
-                "templateOptions": {
-                    "type": 'text',
-                    "label": 'Surname',
-                    "addonLeft": {
-                        "class": "fa fa-user"
+                'key': 'surname',
+                'type': 'input',
+                'templateOptions': {
+                    'type': 'text',
+                    'label': 'Surname',
+                    'addonLeft': {
+                        'class': 'fa fa-user'
                     },
-                    "required": true
+                    'required': true
                 }
             }
         );
 
         this.fields.push(
             {
-                "key": 'email',
-                "type": 'input',
-                "templateOptions": {
-                    "type": 'email',
-                    "label": 'Username (email address)',
-                    "addonLeft": {
-                        "class": "fa fa-envelope"
+                'key': 'email',
+                'type': 'input',
+                'templateOptions': {
+                    'type': 'email',
+                    'label': 'Username (email address)',
+                    'addonLeft': {
+                        'class': 'fa fa-envelope'
                     },
-                    "required": true
+                    'required': true
                 },
-                "validators": { "validation": ["email"]}
+                'validators': { 'validation': ['email']}
             }
         );
 
         this.fields.push(
             {
-                "key": 'password',
-                "type": 'input',
-                "templateOptions": {
-                    "type": 'password',
-                    "label": 'Password',
-                    "addonLeft": {
-                        "class": "fa fa-key"
+                'key': 'password',
+                'type': 'input',
+                'templateOptions': {
+                    'type': 'password',
+                    'label': 'Password',
+                    'addonLeft': {
+                        'class': 'fa fa-key'
                     },
-                    "required": true,
-                    "minLength": 8
+                    'required': true,
+                    'minLength': 8
                 }
             }
         );
 
         this.fields.push(
             {
-                "key": 'password_confirmation',
-                "type": 'input',
-                "templateOptions": {
-                    "type": 'password',
-                    "label": 'Password confirmation',
-                    "addonLeft": {
-                        "class": "fa fa-key"
+                'key': 'password_confirmation',
+                'type': 'input',
+                'templateOptions': {
+                    'type': 'password',
+                    'label': 'Password confirmation',
+                    'addonLeft': {
+                        'class': 'fa fa-key'
                     },
-                    "required": true
+                    'required': true
                 },
-                "validators": {
-                    "fieldMatch": {
-                        "expression": (control) => control.value === this.model.password,
-                        "message": "Password not matching"
+                'validators': {
+                    'fieldMatch': {
+                        'expression': (control) => control.value === this.model.password,
+                        'message': 'Password not matching'
                     }
                 }
             }
@@ -182,13 +182,13 @@ export class RegisterComponent implements OnInit {
             return false;
         }
         this.loading = true;
-        this.api.post('profile', this.model,  {"base": "auth"}).subscribe(
+        this.api.post('profile', this.model,  {'base': 'auth'}).subscribe(
             data => {
                 this.showRegistrationForm = false;
-                this.registration_title = "Account registered"
-                this.registration_message = "User successfully registered. You will receive an email to confirm your registraton and activate your account";
+                this.registration_title = 'Account registered'
+                this.registration_message = 'User successfully registered. You will receive an email to confirm your registraton and activate your account';
 
-                this.notify.showSuccess("User successfully registered");
+                this.notify.showSuccess('User successfully registered');
                 this.loading = false;
             },
             error => {

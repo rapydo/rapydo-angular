@@ -31,8 +31,8 @@ export class AppComponent {
             private ref: ChangeDetectorRef) {
 
         let t = process.env.projectTitle;
-        t = t.replace(/^'/, "");
-        t = t.replace(/'$/, "");
+        t = t.replace(/^'/, '');
+        t = t.replace(/'$/, '');
         titleService.setTitle(t);
 
         auth.userChanged.subscribe(user => this.changeLogged(user));
@@ -52,16 +52,16 @@ export class AppComponent {
     changeLogged(user: any) {
 
         if (user == this.auth.LOGGED_OUT) {
-            /*console.log("Received <" + user  + "> event");*/
+            /*console.log('Received <' + user  + '> event');*/
             this.user = undefined;
             this.ref.detectChanges();
 
         } else if (user == this.auth.LOGGED_IN) {
-            /*console.log("Received <" + user  + "> event");*/
+            /*console.log('Received <' + user  + '> event');*/
             this.user = this.auth.getUser();
 
         } else {
-            console.log("Received unknown user event: <" + user  + ">");
+            console.log('Received unknown user event: <' + user  + '>');
         }
 
     }

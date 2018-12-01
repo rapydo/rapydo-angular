@@ -67,9 +67,9 @@ export class HybridUrlHandlingStrategy implements UrlHandlingStrategy {
     url = url.toString();
 
     if (url == '/') return true;
-    if (url.toString().startsWith("/new")) return true;
+    if (url.toString().startsWith('/new')) return true;
 
-    if (url.toString().startsWith("/app")) return false;
+    if (url.toString().startsWith('/app')) return false;
 
     return true;
   }
@@ -212,8 +212,8 @@ export const upgradeAdapter = new UpgradeAdapter(AppModule);
 
 upgradeAdapter.upgradeNg1Provider('$rootScope');
 
-import * as angular from "angular";
-angular.module('web').factory("AuthService2", downgradeInjectable(AuthService) as any)
-angular.module('web').factory("ApiService2", downgradeInjectable(ApiService) as any)
-angular.module('web').factory("FormlyService2", downgradeInjectable(FormlyService) as any)
-angular.module('web').factory("noty", downgradeInjectable(NotificationService) as any)*/
+import * as angular from 'angular';
+angular.module('web').factory('AuthService2', downgradeInjectable(AuthService) as any)
+angular.module('web').factory('ApiService2', downgradeInjectable(ApiService) as any)
+angular.module('web').factory('FormlyService2', downgradeInjectable(FormlyService) as any)
+angular.module('web').factory('noty', downgradeInjectable(NotificationService) as any)*/
