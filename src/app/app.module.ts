@@ -62,7 +62,7 @@ import { JwtInterceptor } from './jwt.interceptor';
 
 /*
 export class HybridUrlHandlingStrategy implements UrlHandlingStrategy {
-  
+
   shouldProcessUrl(url) {
     url = url.toString();
 
@@ -85,9 +85,9 @@ export function emailValidator(control: FormControl): ValidationErrors {
     - required @
     - first chr of domain is a letter or number (@163.com)
     - other chr allowed in domain after the first: letters, number, _ -
-    - required a .
+    - required a dot
     - domain block can be repeated (letter/number)+(letters/numbers/-_).
-    - required from 2 to 5 letters after the last . 
+    - required from 2 to 5 letters after the last dot
   */
   return /^[a-zA-Z]+[a-zA-Z0-9._-]*@[a-zA-Z0-9]+[a-zA-Z0-9_-]*\.([a-zA-Z0-9]+[a-zA-Z0-9_-]*\.)*[a-zA-Z]{2,5}$/.test(control.value) ? null : {'email': true};
 }

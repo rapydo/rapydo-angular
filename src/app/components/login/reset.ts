@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup } from '@angular/forms';
-import { FormlyFieldConfig } from '@ngx-formly/core'; 
+import { FormlyFieldConfig } from '@ngx-formly/core';
 
 import { NotificationService} from '../../services/notification';
 import { ApiService } from '../../services/api';
 import { AuthService } from '../../services/auth';
- 
+
 @Component({
     templateUrl: 'reset.html'
 })
- 
+
 export class ResetPasswordComponent implements OnInit {
 
     private token: string;
@@ -19,12 +19,12 @@ export class ResetPasswordComponent implements OnInit {
 
     private step1_form = new FormGroup({});
     private step2_form = new FormGroup({});
-    private step1_fields: FormlyFieldConfig[] = []; 
-    private step2_fields: FormlyFieldConfig[] = []; 
+    private step1_fields: FormlyFieldConfig[] = [];
+    private step2_fields: FormlyFieldConfig[] = [];
     private model:any = {}
 
     private loading = false;
- 
+
     constructor(
         private router: Router,
         private route: ActivatedRoute,
@@ -53,7 +53,7 @@ export class ResetPasswordComponent implements OnInit {
             }
         );
     }
- 
+
     ngOnInit() {
         // reset login status
         this.authService.logout();
@@ -116,7 +116,7 @@ export class ResetPasswordComponent implements OnInit {
 
         if (!this.step1_form.valid) {
             return false;
-        } 
+        }
 
         let data = {"reset_email": this.model["reset_email"]};
         return this.api.post('reset', data, {"base": "auth"}).subscribe(
@@ -137,7 +137,7 @@ export class ResetPasswordComponent implements OnInit {
 
         if (!this.step2_form.valid) {
             return false;
-        } 
+        }
 
         let data = {}
         data["new_password"] = this.model["newPwd"];
@@ -157,5 +157,5 @@ export class ResetPasswordComponent implements OnInit {
             }
         );
     };
-    
+
 }

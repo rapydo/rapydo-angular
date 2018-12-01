@@ -11,7 +11,7 @@ import { NotificationService} from '../../services/notification';
   providers: [ApiService, AuthService, NotificationService],
   templateUrl: './sessions.html'
 })
-export class SessionsComponent { 
+export class SessionsComponent {
 
     private confirmationTitle = "Confirmation required";
     private confirmationMessage = `

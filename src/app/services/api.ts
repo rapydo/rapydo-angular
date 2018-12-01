@@ -12,7 +12,7 @@ export interface ApiResponse {
 @Injectable()
 export class ApiService {
 
-    public static is_online: boolean = true; 
+    public static is_online: boolean = true;
 
     constructor(private http:HttpClient) { }
 
@@ -128,7 +128,6 @@ export class ApiService {
             map(response => {
 
                 this.set_online();
-                //$log.debug("API call successful");
                 if (rawResponse) return response;
 
                 return response["Response"];
@@ -137,7 +136,7 @@ export class ApiService {
 
                 if (error.status == null && error.error == null) {
                     // 204 empty responses
-                /* 
+                /*
                     response = {}
                     response.Meta = {}
                     response.Meta.status = 204

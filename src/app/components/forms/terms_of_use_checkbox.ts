@@ -7,9 +7,9 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'formly-field-terms_of_use_checkbox',
-  // Copied from 
+  // Copied from
   // https://github.com/formly-js/ngx-formly/blob/master/src/bootstrap/src/lib/types/checkbox.ts
-  // changed to add link to acceptation 
+  // changed to add link to acceptation
   template: `
     <div class="custom-control custom-checkbox">
       <input class="custom-control-input" type="checkbox"

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
- 
+
 import { ApiService } from '../../services/api';
 import { AuthService } from '../../services/auth';
 import { NotificationService} from '../../services/notification';
@@ -12,7 +12,7 @@ import { ProjectOptions } from '/app/frontend/app/custom.project.options';
 @Component({
     templateUrl: 'register.html'
 })
- 
+
 export class RegisterComponent implements OnInit {
 
     private allowRegistration: boolean = false;
@@ -24,18 +24,18 @@ export class RegisterComponent implements OnInit {
     private disclaimer: string;
 
     private form = new FormGroup({});
-    private fields: FormlyFieldConfig[] = []; 
+    private fields: FormlyFieldConfig[] = [];
     private model:any = {}
 
     private loading = false;
- 
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private notify: NotificationService,
         private api: ApiService,
         private authService: AuthService,
-        private customization: ProjectOptions) { 
+        private customization: ProjectOptions) {
 
             if (typeof(process.env.allowRegistration) === "boolean") {
                 this.allowRegistration = JSON.parse(process.env.allowRegistration)
@@ -54,7 +54,7 @@ export class RegisterComponent implements OnInit {
                             this.showRegistrationForm = false;
                             this.registration_title = "Registraction activated"
                             this.notify.showSuccess("User successfully activated.");
-                            this.router.navigate(['app', 'login']); 
+                            this.router.navigate(['app', 'login']);
                             this.notify.extractErrors(response, this.notify.ERROR);
                             return true;
 
@@ -73,7 +73,7 @@ export class RegisterComponent implements OnInit {
             }
         );
     }
- 
+
     ngOnInit() {
         // retrieve custom fields from apis
 
@@ -173,10 +173,10 @@ export class RegisterComponent implements OnInit {
 
         if ('disclaimer' in custom) {
             this.disclaimer = custom['disclaimer'];
-        } 
+        }
 
     }
- 
+
     register() {
         if (!this.form.valid) {
             return false;

@@ -13,10 +13,10 @@ import { NotificationService} from '../../services/notification';
   providers: [ApiService, AuthService, NotificationService],
   templateUrl: './changepassword.html'
 })
-export class ChangePasswordComponent { 
+export class ChangePasswordComponent {
 
     private form = new FormGroup({});
-    private fields: FormlyFieldConfig[] = []; 
+    private fields: FormlyFieldConfig[] = [];
     private model:any = {}
     private user: any
 
@@ -135,7 +135,7 @@ export class ChangePasswordComponent {
                             response => {
                                 this.router.navigate(['']);
                                 this.notify.extractErrors(response, this.notify.WARNING);
-                            }, 
+                            },
                             error => {
                                 if (error.status == 0) {
                                     this.router.navigate(["/offline"]);

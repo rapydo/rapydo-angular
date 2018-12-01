@@ -145,7 +145,7 @@ export class AuthService {
                 if (this.api.is_online()) {
                     this.removeToken();
                 }
-                return of(false); 
+                return of(false);
             })
         );
     }

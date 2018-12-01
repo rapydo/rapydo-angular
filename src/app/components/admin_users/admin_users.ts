@@ -79,14 +79,14 @@ export class AdminUsersComponent extends BasePaginationComponent {
     }
 
     create() {
-        let data = {'get_schema': true, 'autocomplete': false} 
+        let data = {'get_schema': true, 'autocomplete': false}
 
         return this.post(this.endpoint, data, this.formModal, false);
     }
 
     update(row) {
 
-        let data = {'get_schema': true, 'autocomplete': false} 
+        let data = {'get_schema': true, 'autocomplete': false}
         if (row._roles) {
             for (let i=0; i<row._roles.length; i++) {
                 let n = row._roles[i].name;
@@ -98,7 +98,7 @@ export class AdminUsersComponent extends BasePaginationComponent {
     }
 
     submit(data) {
-        // If created by admins, credentials  
+        // If created by admins, credentials
         // must accept privacy at the login
         if (!this.model["_id"]) {
             this.model["privacy_accepted"] = false;

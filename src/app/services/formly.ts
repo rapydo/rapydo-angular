@@ -9,7 +9,6 @@ export class FormlyService {
 
     constructor(private modalService: NgbModal) {}
 
-    //public json2Form(schema, data, DataController) {
     public json2Form(schema, data) {
 
         let fields = [];
@@ -181,7 +180,7 @@ export class FormlyService {
             }
 
             field['key'] = s['key'];
-            field['type'] = field_type ; 
+            field['type'] = field_type;
             if ('default' in s) {
 
                 if (field['type'] == 'checkbox') {
@@ -200,7 +199,7 @@ export class FormlyService {
 
             field['templateOptions']['label'] = s['label'];
             field['templateOptions']['placeholder'] = s['description'];
-            field['templateOptions']['type'] = template_type; 
+            field['templateOptions']['type'] = template_type;
             field['templateOptions']['required'] = (s['required'] == "true");
 /*
             if (template_type == 'radio') {

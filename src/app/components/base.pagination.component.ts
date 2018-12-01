@@ -17,7 +17,7 @@ export class BasePaginationComponent implements OnInit {
 
     protected modalRef: NgbModalRef;
     protected form = new FormGroup({});
-    protected fields: FormlyConfig[]; 
+    protected fields: FormlyConfig[];
     protected model:any = {}
     protected modalTitle: string;
 
@@ -154,7 +154,6 @@ export class BasePaginationComponent implements OnInit {
 
         return apiCall.subscribe(
             response => {
-                //let data = this.formly.json2Form(response.data, {}, this);
                 let data = this.formly.json2Form(response.data, {});
 
                 this.modalTitle = "Create a new " + this.resource_name;

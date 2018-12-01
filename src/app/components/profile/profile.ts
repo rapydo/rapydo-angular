@@ -11,14 +11,13 @@ import { AuthService } from '../../services/auth';
   providers: [ApiService, AuthService],
   templateUrl: './profile.html'
 })
-export class ProfileComponent { 
+export class ProfileComponent {
 
   private user: any
 
     constructor(api: ApiService, auth: AuthService) {
 
-            //console.log(api.get());
-      this.user = auth.getUser();
+		this.user = auth.getUser();
 
     }
 }
