@@ -9,14 +9,14 @@ import { ApiService } from './services/api';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-	
-	constructor(
+
+    constructor(
         public auth: AuthService,
         public api: ApiService,
         public router: Router
      ) {}
 
-	canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 
         const expectedRoles = route.data.roles;
 
@@ -27,7 +27,7 @@ export class AuthGuard implements CanActivate {
             return false;
         }*/
 
-		return this.auth.isAuthenticated().pipe(
+        return this.auth.isAuthenticated().pipe(
             map(response => {
                 // User is authenticated, verify roles
                 if (response) return this.auth.hasRole(expectedRoles);

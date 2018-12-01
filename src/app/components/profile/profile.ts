@@ -15,10 +15,10 @@ export class ProfileComponent {
 
   private user: any
 
-	constructor(api: ApiService, auth: AuthService) {
+    constructor(api: ApiService, auth: AuthService) {
 
-			//console.log(api.get());
+            //console.log(api.get());
       this.user = auth.getUser();
 
-	}
+    }
 }

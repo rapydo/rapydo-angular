@@ -7,10 +7,10 @@ import { Location } from '@angular/common';
 })
 export class Error404Component {
 
-	constructor(private _location: Location) { }
+    constructor(private _location: Location) { }
 
-	goBack() {
-		this._location.back();
-	}
+    goBack() {
+        this._location.back();
+    }
 
 }

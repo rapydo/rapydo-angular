@@ -12,9 +12,9 @@ export class InjectionTestComponent implements OnInit {
   private rootScope: any
   private user: any
 
-	constructor(private injector: Injector) {
+    constructor(private injector: Injector) {
 
-	}
+    }
 
   ngOnInit() {
 

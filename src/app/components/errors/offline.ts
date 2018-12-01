@@ -7,6 +7,6 @@ import { Location } from '@angular/common';
 })
 export class OfflineComponent {
 
-	constructor() { }
+    constructor() { }
 
 }

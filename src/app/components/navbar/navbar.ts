@@ -10,30 +10,30 @@ import { AuthService } from '../../services/auth';
 })
 export class NavbarComponent {
 
-	@Input() user: any;
+    @Input() user: any;
 
-	private allowRegistration: boolean = false;
-	private logoutConfirmationTitle:string = "Logout request";
-	private logoutConfirmationMessage:string = "Do you really want to close this session?";	
-
-	constructor(
-		private router: Router,
-		private api: ApiService,
-		private auth: AuthService) { 
+    private allowRegistration: boolean = false;
+    private logoutConfirmationTitle:string = "Logout request";
+    private logoutConfirmationMessage:string = "Do you really want to close this session?";
+    
+    constructor(
+        private router: Router,
+        private api: ApiService,
+        private auth: AuthService) { 
 
             if (typeof(process.env.allowRegistration) === "boolean") {
                 this.allowRegistration = JSON.parse(process.env.allowRegistration)
             } else {
                 this.allowRegistration = (process.env.allowRegistration == "true");
             }
-	}
+    }
 
-	do_logout() {
-		this.auth.logout().subscribe(
-			response =>  {
-				this.router.navigate(['']);
-			}
-		);
-	}
+    do_logout() {
+        this.auth.logout().subscribe(
+            response =>  {
+                this.router.navigate(['']);
+            }
+        );
+    }
 
 }

@@ -47,11 +47,11 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 export class TermsOfUseCheckbox extends FormlyFieldCheckbox implements OnInit {
 
-	constructor(private modalService: NgbModal) {
-		super();
-	}
+    constructor(private modalService: NgbModal) {
+        super();
+    }
 
-	public ngOnInit(): void { }
+    public ngOnInit(): void { }
 
   open(content) {
     this.modalService.open(content, {size: 'lg', backdrop: 'static', keyboard: false}).result.then((result) => {
