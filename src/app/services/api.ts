@@ -80,7 +80,7 @@ export class ApiService {
         formData=false, conf={}, base='api', rawResponse=false) {
 
         let ep = "";
-        if (base == "auth") {
+        if (base === "auth") {
             ep = process.env.authApiUrl + "/" + endpoint;
         } else {
             ep = process.env.apiUrl + "/" + endpoint;
@@ -108,16 +108,16 @@ export class ApiService {
         }
 
         let httpCall = undefined;
-        if (method == "GET") {
+        if (method === "GET") {
             options["params"] = data;
             httpCall = this.http.get(ep, options);
-        } else if (method == "POST") {
+        } else if (method === "POST") {
             httpCall = this.http.post(ep, data, options);
-        } else if (method == "PUT") {
+        } else if (method === "PUT") {
             httpCall = this.http.put(ep, data, options);
-        } else if (method == "PATCH") {
+        } else if (method === "PATCH") {
             httpCall = this.http.patch(ep, data, options);
-        } else if (method == "DELETE") {
+        } else if (method === "DELETE") {
             httpCall = this.http.delete(ep, options);
         } else {
             console.log("API ERROR, unknown method: " + method);
@@ -134,7 +134,7 @@ export class ApiService {
             }),
             catchError(error => {
 
-                if (error.status == null && error.error == null) {
+                if (error.status === null && error.error === null) {
                     // 204 empty responses
                 /*
                     response = {}
@@ -176,7 +176,7 @@ export class ApiService {
             for (let key in element.relationships) {
                 let subelement = element.relationships[key]
                 let k = '_'+key;
-                if (subelement.length == 1) {
+                if (subelement.length === 1) {
                     newelement[k] = [this.parseElement(subelement[0])];
                 } else {
                     newelement[k] = [];

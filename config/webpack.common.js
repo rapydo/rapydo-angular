@@ -6,10 +6,10 @@ var helpers = require('./helpers');
 
 var backendURI = ""
 
-if (process.env.APP_MODE == "production") {
+if (process.env.APP_MODE === "production") {
   backendURI += "https://";
   backendURI += process.env.BACKEND_HOST;
-} else if (process.env.APP_MODE == "debug" || process.env.APP_MODE == "development") {
+} else if (process.env.APP_MODE === "debug" || process.env.APP_MODE === "development") {
   backendURI += "http://";
   backendURI += process.env.BACKEND_HOST;
   backendURI += ":";

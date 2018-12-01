@@ -30,7 +30,7 @@ export class ChangePasswordComponent {
 
         this.user = auth.getUser();
 
-        if (this.user['2fa'] && this.user['2fa'] == 'TOTP') {
+        if (this.user['2fa'] && this.user['2fa'] === 'TOTP') {
             this.fields.push(
                 {
                     'key': 'totp_code',
@@ -137,7 +137,7 @@ export class ChangePasswordComponent {
                                 this.notify.extractErrors(response, this.notify.WARNING);
                             },
                             error => {
-                                if (error.status == 0) {
+                                if (error.status === 0) {
                                     this.router.navigate(['/offline']);
 
                                 } else {

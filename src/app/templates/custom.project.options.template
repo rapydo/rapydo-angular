@@ -7,7 +7,7 @@ export class ProjectOptions {
 
 	public get_option(opt) {
 
-/*		if (opt == 'registration') {
+/*		if (opt === 'registration') {
 			return this.registration_options()
 		}
 */

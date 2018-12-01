@@ -152,7 +152,7 @@ export class AuthService {
 
     public hasRole(expectedRoles: string[]): boolean {
 
-        if (!expectedRoles || expectedRoles.length == 0) {
+        if (!expectedRoles || expectedRoles.length === 0) {
             /*console.log("no role required")*/
             return true;
         }

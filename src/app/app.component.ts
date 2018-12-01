@@ -51,12 +51,12 @@ export class AppComponent {
 
     changeLogged(user: any) {
 
-        if (user == this.auth.LOGGED_OUT) {
+        if (user === this.auth.LOGGED_OUT) {
             /*console.log('Received <' + user  + '> event');*/
             this.user = undefined;
             this.ref.detectChanges();
 
-        } else if (user == this.auth.LOGGED_IN) {
+        } else if (user === this.auth.LOGGED_IN) {
             /*console.log('Received <' + user  + '> event');*/
             this.user = this.auth.getUser();
 

@@ -66,7 +66,7 @@ export class HybridUrlHandlingStrategy implements UrlHandlingStrategy {
   shouldProcessUrl(url) {
     url = url.toString();
 
-    if (url == '/') return true;
+    if (url === '/') return true;
     if (url.toString().startsWith('/new')) return true;
 
     if (url.toString().startsWith('/app')) return false;
@@ -94,7 +94,7 @@ export function emailValidator(control: FormControl): ValidationErrors {
 
 export function URLValidator(control: FormControl): ValidationErrors {
 
-  if (control.value == null)
+  if (control.value === null)
     return null;
 
   return /^[a-z.]+$/.test(control.value) ? null : {'url': true};

@@ -133,7 +133,7 @@ export class LoginComponent implements OnInit {
                             this.notify.extractErrors(response, this.notify.WARNING);
                         },
                         error => {
-                            if (error.status == 0) {
+                            if (error.status === 0) {
                                 this.router.navigate(['/offline']);
 
                             } else {
@@ -144,13 +144,13 @@ export class LoginComponent implements OnInit {
                     );
                 },
                 error => {
-                    if (error.status == 0) {
+                    if (error.status === 0) {
                         this.router.navigate(['/offline']);
 
-                    } else if (error.status == 409) {
+                    } else if (error.status === 409) {
                         this.notify.extractErrors(error, this.notify.ERROR);
 
-                    } else if (error.status == 403) {
+                    } else if (error.status === 403) {
                         // TO BE REIMPLEMENTED
                         console.log('2FA not yet implemented');
 /*
@@ -176,7 +176,7 @@ export class LoginComponent implements OnInit {
                             for (let i=0; i<actions.length; i++) {
                                 let action = actions[i];
                                 let notyLevel = noty.ERROR;
-                                if (action == 'FIRST LOGIN') {
+                                if (action === 'FIRST LOGIN') {
                                     self.panelTitle = 'Please change your temporary password'
                                     self.buttonText = 'Change'
                                     self.askUsername = false;
@@ -184,7 +184,7 @@ export class LoginComponent implements OnInit {
                                     self.askNewPassword = true;
                                     notyLevel = noty.WARNING;
 
-                                } else if (action == 'PASSWORD EXPIRED') {
+                                } else if (action === 'PASSWORD EXPIRED') {
                                     self.panelTitle = 'Your password is expired, please change it'
                                     self.buttonText = 'Change'
                                     self.askUsername = false;
@@ -192,7 +192,7 @@ export class LoginComponent implements OnInit {
                                     self.askNewPassword = true;
                                     notyLevel = noty.WARNING;
 
-                                } else if (action == 'TOTP') {
+                                } else if (action === 'TOTP') {
                                     self.panelTitle = 'Provide the verification code'
                                     self.buttonText = 'Authorize'
                                     self.askUsername = false;
@@ -215,7 +215,7 @@ export class LoginComponent implements OnInit {
                         }
 */
                     } else {
-                        if (error.error.Response.errors[0] == 'Sorry, this account is not active') {
+                        if (error.error.Response.errors[0] === 'Sorry, this account is not active') {
                             this.account_not_active = true;
 
                         }
