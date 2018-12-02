@@ -7,7 +7,7 @@ import { Injectable, Pipe } from '@angular/core';
 export class IteratePipe {
 
 
-    transform(value, skipFields:string[]):any {
+    transform(value, skipFields: string[]): any {
         let keys = [];
 
         if (!skipFields) {
@@ -32,7 +32,7 @@ export class IteratePipe {
 @Injectable()
 export class BytesPipe {
 
-    transform(bytes, precision):string {
+    transform(bytes, precision): string {
         if (bytes === 0)
           return '0'
 

@@ -14,7 +14,7 @@ export class FormlyService {
         let fields = [];
         let model = {}
         if (typeof schema === 'undefined') {
-            return {'fields':fields, 'model': model};
+            return {'fields': fields, 'model': model};
         }
 
         for (let i=0; i<schema.length; i++) {
@@ -261,7 +261,7 @@ export class FormlyService {
             }
         }
 
-        return {'fields':fields, 'model': model};
+        return {'fields': fields, 'model': model};
     }
 
     showForm() {

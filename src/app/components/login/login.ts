@@ -20,12 +20,12 @@ export class LoginComponent implements OnInit {
 
     private form = new FormGroup({});
     private fields: FormlyFieldConfig[] = [];
-    private model:any = {}
+    private model: any = {}
 
-    private loading = false;
+    private loading: boolean = false;
     private returnUrl: string = '';
 
-    private account_not_active:boolean = false;
+    private account_not_active: boolean = false;
 
     @ViewChild('privacy_acceptance') public privacy_acceptance: TemplateRef<any>;
     protected modalRef: NgbModalRef;
@@ -229,7 +229,7 @@ export class LoginComponent implements OnInit {
     ask_activation_link() {
 
         this.authService.ask_activation_link(this.model.username).subscribe(
-            (response:any) => {
+            (response: any) => {
                 this.account_not_active = false;
                 this.notify.showSuccess(response.Response.data);
                 this.notify.extractErrors(response, this.notify.WARNING);

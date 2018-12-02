@@ -25,9 +25,9 @@ export class RegisterComponent implements OnInit {
 
     private form = new FormGroup({});
     private fields: FormlyFieldConfig[] = [];
-    private model:any = {}
+    private model: any = {}
 
-    private loading = false;
+    private loading: boolean = false;
 
     constructor(
         private route: ActivatedRoute,

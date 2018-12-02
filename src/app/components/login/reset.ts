@@ -21,9 +21,9 @@ export class ResetPasswordComponent implements OnInit {
     private step2_form = new FormGroup({});
     private step1_fields: FormlyFieldConfig[] = [];
     private step2_fields: FormlyFieldConfig[] = [];
-    private model:any = {}
+    private model: any = {}
 
-    private loading = false;
+    private loading: boolean = false;
 
     constructor(
         private router: Router,

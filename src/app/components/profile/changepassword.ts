@@ -17,7 +17,7 @@ export class ChangePasswordComponent {
 
     private form = new FormGroup({});
     private fields: FormlyFieldConfig[] = [];
-    private model:any = {}
+    private model: any = {}
     private user: any
 
     constructor(

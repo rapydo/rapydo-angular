@@ -18,10 +18,10 @@ export class BasePaginationComponent implements OnInit {
     protected modalRef: NgbModalRef;
     protected form = new FormGroup({});
     protected fields: FormlyConfig[];
-    protected model:any = {}
+    protected model: any = {}
     protected modalTitle: string;
 
-    protected loading:boolean = false;
+    protected loading: boolean = false;
     protected data: Array<any> = [];
     protected rows: Array<any> = [];
     protected columns: Array<any> = []
@@ -33,7 +33,7 @@ export class BasePaginationComponent implements OnInit {
     public paging: any;
 
     constructor(
-        protected resource_name:string,
+        protected resource_name: string,
         protected api: ApiService,
         protected auth: AuthService,
         protected notify: NotificationService,
@@ -78,7 +78,7 @@ export class BasePaginationComponent implements OnInit {
     }
 
     /** PAGINATION **/
-    protected initPaging(itemPerPage:number):any {
+    protected initPaging(itemPerPage: number): any {
         this.paging = {
             'page': 1,
             'itemsPerPage': itemPerPage,
@@ -89,21 +89,21 @@ export class BasePaginationComponent implements OnInit {
         return this.paging;
     }
 
-    protected updatePaging(dataLen:number): any {
+    protected updatePaging(dataLen: number): any {
         this.paging['dataLength'] = dataLen;
         this.paging['numPages'] = Math.ceil(dataLen / this.paging['itemsPerPage']);
 
         return this.paging;
     }
 
-    protected changePage(page:number, data:Array<any>): Array<any> {
+    protected changePage(page: number, data: Array<any>): Array<any> {
         this.paging.page = page;
         let start = (this.paging.page - 1) * this.paging.itemsPerPage;
         let end = this.paging.itemsPerPage > -1 ? (start + this.paging.itemsPerPage): data.length;
         return data.slice(start, end);
     }
 
-    protected setPage(page:any) {
+    protected setPage(page: any) {
         this.rows = this.changePage(page, this.data);
     }
 

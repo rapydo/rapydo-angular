@@ -14,7 +14,7 @@ export class ApiService {
 
     public static is_online: boolean = true;
 
-    constructor(private http:HttpClient) { }
+    constructor(private http: HttpClient) { }
 
     public is_online(): boolean {
         return ApiService.is_online;
@@ -76,7 +76,7 @@ export class ApiService {
     }
 
     private call(
-        method:string, endpoint: string, id="", data={},
+        method: string, endpoint: string, id="", data={},
         formData=false, conf={}, base='api', rawResponse=false) {
 
         let ep = "";
