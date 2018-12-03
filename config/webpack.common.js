@@ -15,7 +15,7 @@ if (process.env.APP_MODE === "production") {
   backendURI += ":";
   backendURI += process.env.BACKEND_PORT;
 } else {
-  process.stdout.write("Unknown APP MODE: " + process.env.APP_MODE);
+  process.stdout.write("Unknown APP MODE: " + process.env.APP_MODE + "\n");
 }
 
 var projectTitle = process.env.PROJECT_TITLE;
