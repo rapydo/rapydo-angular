@@ -8,13 +8,13 @@
 
 		<li class='nav-item' *ngIf="user">
 	      	<a class='nav-link' routerLink='/app/profile' routerLinkActive="active">
-      		<i  class="fa fa-user fa-large" ngbTooltip="Profile of {{user.email}}" placement='left'></i>
+      		<i  class="fas fa-user fa-large" ngbTooltip="Profile of {{user.email}}" placement='left'></i>
 	      	</a>
 		</li>
 
 		<li class='nav-item' *ngIf="user">
 			<a class='nav-link'>
-      		<i class='fa fa-sign-out fa-large' ngbTooltip='Logout' 
+      		<i class='fas fa-sign-out-alt fa-large' ngbTooltip='Logout' 
                 mwlConfirmationPopover
                 [popoverTitle]="logoutConfirmationTitle"
                 [popoverMessage]="logoutConfirmationMessage"

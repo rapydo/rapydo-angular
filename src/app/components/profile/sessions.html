@@ -69,6 +69,7 @@
         <td>
             <i class='fa fa-clipboard fa-large'
                 ngxClipboard [cbContent]="values.value.token"
+                (cbOnSuccess)="copied($event)"
                 ngbTooltip="Copy token to clipboard"
             ></i>
         </td>

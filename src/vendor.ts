@@ -3,7 +3,6 @@ import '@angular/platform-browser';
 import '@angular/platform-browser-dynamic';
 import '@angular/core';
 import '@angular/common';
-import '@angular/http';
 import '@angular/router';
 import '@angular/upgrade';
 import '@angular/upgrade/static';
@@ -22,4 +21,8 @@ import '/rapydo/src/css/rapydo.css'
 import 'noty/lib/noty.css'
 import 'noty/lib/themes/relax.css'
 import 'noty/lib/themes/metroui.css'
-import 'font-awesome/css/font-awesome.min.css'
+// import 'font-awesome/css/font-awesome.min.css'
+import '@fortawesome/fontawesome-free/css/fontawesome.min.css'
+import '@fortawesome/fontawesome-free/css/brands.min.css'
+import '@fortawesome/fontawesome-free/css/solid.min.css'
+import 'material-icons/iconfont/material-icons.css'

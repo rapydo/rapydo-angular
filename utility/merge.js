@@ -1,7 +1,7 @@
 
 
 const merge = require('package-merge');
-const fs = require('fs')
+const fs = require('fs');
 
 var commons = fs.readFileSync('/rapydo/package.json');
 

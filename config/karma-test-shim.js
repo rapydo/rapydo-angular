@@ -11,6 +11,7 @@ require('zone.js/dist/jasmine-patch');
 require('zone.js/dist/async-test');
 require('zone.js/dist/fake-async-test');
 
+// ../src should be simply /rapydo ?
 var appContext = require.context('../src', true, /\.spec\.ts/);
 
 appContext.keys().forEach(appContext);

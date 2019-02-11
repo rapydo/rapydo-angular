@@ -45,7 +45,8 @@
 				let-curPage="curPage"
 				let-offset="offset">
 				<div class='col-3'>
-					<button class="btn btn-success" (click)="create()">
+					<button class="btn btn-success" (click)="create()"
+					[disabled]="updating">
 						Add new {{resource_name}}
 					</button>
 					{{paging.dataLength}} total
@@ -115,7 +116,7 @@
 	</ng-template>
 
 	<ng-template #controlsCell let-row="row" let-value="value" let-i="index">
-		<i class='fa fa-pencil fa-large' (click)='update(row)'></i>
+		<i class='fa fa-edit fa-large' #icon_element (click)='update(row, icon_element)'></i>
 		<i 
 			class='fa fa-trash fa-large' style='color:red;'
 			mwlConfirmationPopover
@@ -137,7 +138,7 @@
 	  <div class="modal-body">
 	  	<form [formGroup]="form" (ngSubmit)="submit()">
 	  		<formly-form [form]="form" [fields]="fields" [model]="model">
-		    <button type="submit" class="btn btn-default">
+		    <button type="submit" class="btn btn-default" [disabled]="updating">
 			    <h4>Submit</h4>
 		    </button>
 	  		</formly-form>

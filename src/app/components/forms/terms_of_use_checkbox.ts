@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { catchError, map } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
-import { Observable } from 'rxjs/Observable';
+import { of, Observable } from 'rxjs';
 import { FormlyFieldCheckbox } from '@ngx-formly/bootstrap';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
@@ -47,11 +46,11 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 export class TermsOfUseCheckbox extends FormlyFieldCheckbox implements OnInit {
 
-	constructor(private modalService: NgbModal) {
-		super();
-	}
+  constructor(private modalService: NgbModal) {
+    super();
+  }
 
-	public ngOnInit(): void { }
+  public ngOnInit(): void { }
 
   open(content) {
     this.modalService.open(content, {size: 'lg', backdrop: 'static', keyboard: false}).result.then((result) => {

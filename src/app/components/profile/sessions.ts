@@ -13,51 +13,57 @@ import { NotificationService} from '../../services/notification';
 })
 export class SessionsComponent { 
 
-	private confirmationTitle = "Confirmation required";
-	private confirmationMessage = `
-		<div class='card text-center'>
-		<div class='card-body'>
-		<h4 class='card-title'>Are you really sure you want to invalidate this token?</h4>
-		<p class='card-text'>This token will no longer available. This operation cannot be undone.</p>
-		</div>
-		</div>
-		`;
+  private confirmationTitle = "Confirmation required";
+  private confirmationMessage = `
+    <div class='card text-center'>
+    <div class='card-body'>
+    <h4 class='card-title'>Are you really sure you want to invalidate this token?</h4>
+    <p class='card-text'>This token will no longer available. This operation cannot be undone.</p>
+    </div>
+    </div>
+    `;
 
     private tokens: any
     private currentToken: string;
 
-	constructor(private api: ApiService, private auth: AuthService, private notify: NotificationService) {
+  constructor(private api: ApiService, private auth: AuthService, private notify: NotificationService) {
 
       // this.user = auth.getUser();
-      	this.loadTokens();
-      	this.currentToken = this.auth.getToken();
+        this.loadTokens();
+        this.currentToken = this.auth.getToken();
 
 
-	}
+  }
 
-	loadTokens() {
-		this.api.get('tokens', "", [], {"base": "auth"}).subscribe(
-      		response => {
-      			this.tokens = response.data
-      		}
+  loadTokens() {
+    this.api.get('tokens', "", [], {"base": "auth"}).subscribe(
+          response => {
+            this.tokens = response.data
+          }
        );
 
-	}
+  }
 
-	revokeToken(id) {
+  revokeToken(id) {
 
-		this.api.delete('tokens', id, {"base": "auth"}).subscribe(
-			response => {
-				this.notify.showSuccess("Token successfully revoked");
-				this.loadTokens();
-			}, error => {
-				this.notify.extractErrors(error, this.notify.ERROR);
-			}
-		);
-	}
+    this.api.delete('tokens', id, {"base": "auth"}).subscribe(
+      response => {
+        this.notify.showSuccess("Token successfully revoked");
+        this.loadTokens();
+      }, error => {
+        this.notify.extractErrors(error, this.notify.ERROR);
+      }
+    );
+  }
 
-	cancelRequest() {
-		/*console.log("Request cancelled");*/
-	}
+  cancelRequest() {
+    /*console.log("Request cancelled");*/
+  }
+
+  copied(event) {
+    if (event['isSuccess']) {
+      this.notify.showSuccess("Token successfully copied");
+    }
+  }
 
 }

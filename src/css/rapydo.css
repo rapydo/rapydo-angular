@@ -114,7 +114,12 @@ html, body {
     to { -webkit-transform: rotate(360deg); }
 }
 
-
+.fa-red {
+  color:red;
+}
+.fa-green {
+  color:green;
+}
 .fa-xlarge {
   font-size: 2em !important;
 }

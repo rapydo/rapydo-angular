@@ -4,7 +4,10 @@ var commonConfig = require('./webpack.common.js');
 var helpers = require('./helpers');
 
 module.exports = webpackMerge(commonConfig, {
-  devtool: 'cheap-module-eval-source-map',
+
+  devtool: 'eval-source-map',
+
+  mode: 'development',
 
   output: {
     path: helpers.root('dist'),
@@ -20,6 +23,10 @@ module.exports = webpackMerge(commonConfig, {
 
   devServer: {
     historyApiFallback: true,
+
+    // https://github.com/webpack/webpack-dev-server/issues/1604
+    disableHostCheck: true,
+
     stats: 'minimal',
     host: '0.0.0.0'
   }
