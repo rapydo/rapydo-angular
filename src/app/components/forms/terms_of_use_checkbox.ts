@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { catchError, map } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
-import { Observable } from 'rxjs/Observable';
+import { of, Observable } from 'rxjs';
 import { FormlyFieldCheckbox } from '@ngx-formly/bootstrap';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 

@@ -1,8 +1,8 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+// import { Observable } from 'rxjs/Observable';
 import { catchError, map } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 import { ApiService } from './api';
 import 'rxjs/add/operator/map';
 
@@ -21,7 +21,7 @@ export class AuthService {
 
 	public login(username: string, password: string) {
 		let data = {username: username, password: password};
-		return this.http.post<any>(process.env.authApiUrl + '/login', data).map(
+		return this.http.post<any>(process.env.authApiUrl + '/login', data).pipe(map(
 			response => {
 				if (response && response.Response && response.Response.data && response.Response.data.token) {
 					this.clean_localstorage();
@@ -29,11 +29,11 @@ export class AuthService {
 				}
 
 				return response;
-			});
+			}));
 	}
 
 	public logout() {
-		return this.http.get<any>(process.env.authApiUrl + '/logout').map(
+		return this.http.get<any>(process.env.authApiUrl + '/logout').pipe(map(
 			response => {
 				this.removeToken();
 
@@ -44,11 +44,11 @@ export class AuthService {
 				return err;
 			}
 
-		);
+		));
 	}
 
 	public change_password(data) {
-		return this.http.put(process.env.authApiUrl + '/profile', data).map(
+		return this.http.put(process.env.authApiUrl + '/profile', data).pipe(map(
 			response => {
     			this.removeToken()
 
@@ -59,24 +59,24 @@ export class AuthService {
 
 				return error;
 			}
-		);
+		));
 	}
 
 	public ask_activation_link(username) {
 		let data = {"username": username}
-		return this.http.post(process.env.authApiUrl + '/profile/activate', data).map(
+		return this.http.post(process.env.authApiUrl + '/profile/activate', data).pipe(map(
 			response => {
     			return response;
 			},
 			error => {
 				return error;
 			}
-		);
+		));
 	}
 
 	public loadUser() {
 
-		return this.http.get<any>(process.env.authApiUrl + '/profile').map(
+		return this.http.get<any>(process.env.authApiUrl + '/profile').pipe(map(
 			response => {
 				if (response && response.Response && response.Response.data) {
 
@@ -96,7 +96,7 @@ export class AuthService {
 
 				return null;
 			}
-		);
+		));
 	}
 
 	public removeToken() {

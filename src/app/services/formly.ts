@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NgbModal, NgbModalRef, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 
 @Injectable()
 export class FormlyService {
