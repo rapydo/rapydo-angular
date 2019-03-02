@@ -26,23 +26,16 @@ var allowPasswordReset = process.env.ALLOW_PASSWORD_RESET == "true";
 
 module.exports = {
   entry: {
-  'polyfills': './src/polyfills.ts',
-  'vendor': './src/vendor.ts',
-  'main': './src/main.ts',
-  'custom': '/app/frontend/custom.ts'
-},
-/*
-  devServer: {
-    publicPath: '/app/frontend'
+    'polyfills': './src/polyfills.ts',
+    'vendor': './src/vendor.ts',
+    'main': './src/main.ts',
+    'custom': '/app/frontend/custom.ts'
   },
-*/
-
-/*
-  output: {
-    publicPath: '/app/'
+  optimization: {
+      splitChunks: {
+          chunks: "all"
+      }
   },
-*/
-
   resolve: {
     extensions: ['.ts', '.js'],
     modules: ["/modules/node_modules"]
@@ -74,7 +67,7 @@ module.exports = {
       {
         test: /\.css$/,
         exclude: [helpers.root('src', 'app'), '/app/frontend/app/'],
-        loader: ExtractTextPlugin.extract({ fallbackLoader: 'style-loader', loader: 'css-loader?sourceMap' })
+        loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader?sourceMap' })
       },
       {
         test: /\.css$/,
@@ -93,13 +86,10 @@ module.exports = {
       {} // a map of your routes
     ),
 
-    new webpack.optimize.CommonsChunkPlugin(
-      {name: ['main', 'custom', 'vendor', 'polyfills']}
-    ),
-
     new HtmlWebpackPlugin({
       template: 'src/index.html'
     }),
+
     new webpack.DefinePlugin({
       'process.env': {
         'apiUrl': JSON.stringify(backendURI + '/api'),
@@ -124,6 +114,8 @@ module.exports = {
         { from: '/rapydo/src/css', to: 'static/commons/css/'}
       ]
     )
+
   ]
+
 };
 

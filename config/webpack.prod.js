@@ -9,6 +9,8 @@ const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 module.exports = webpackMerge(commonConfig, {
   devtool: 'source-map',
 
+  mode: 'production',
+
   output: {
     // path: helpers.root('dist'),
     path: '/modules/dist',
@@ -18,12 +20,13 @@ module.exports = webpackMerge(commonConfig, {
   },
 
   plugins: [
-    new webpack.NoEmitOnErrorsPlugin(),
+    /*
     new webpack.optimize.UglifyJsPlugin({ // https://github.com/angular/angular/issues/10618
       mangle: {
         keep_fnames: true
       }
     }),
+    */
     new ExtractTextPlugin('[name].[hash].css'),
     new webpack.DefinePlugin({
       'process.env': {
