@@ -28,8 +28,8 @@ module.exports = {
   entry: {
     'polyfills': './src/polyfills.ts',
     'vendor': './src/vendor.ts',
-    'main': './src/main.ts',
-    'custom': '/app/frontend/custom.ts'
+    'custom': '/app/frontend/custom.ts',
+    'main': './src/main.ts'
   },
   optimization: {
       splitChunks: {
