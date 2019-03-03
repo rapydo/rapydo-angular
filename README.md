@@ -14,6 +14,6 @@ Also include:
   * ngx-datatable 11.2.0
   * moment 2.22.0
   * font-awesome 4.7.0
-  * angular-confirmation-popover
-  * ngx-clipboard
-  * noty": 3.2.0-beta
+  * angular-confirmation-popover 4.1.0
+  * ngx-clipboard 10.0.0
+  * noty 3.2.0-beta
