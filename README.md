@@ -2,7 +2,11 @@
 
 This web app is integrated with the RAPyDo stack and the RAPyDo REST APIs by implemenenting authentication and user management.
 
-Based on angular 5.2.11 with rxjs 5.5.5, bootstrap 4.1.1 with @ng-bootstrap 1.1.2 and webpack 2.2.1 with typescript 2.4.2
+Based on:
+
+  * Angular 5.2.11  with rxjs 5.5.5
+  * bootstrap 4.1.1 with @ng-bootstrap 1.1.2
+  * webpack 2.2.1 with typescript 2.4.2
 
 Also include:
 
