@@ -1,10 +1,19 @@
+# RAPyDo Angular App
 
-# AngularJS-on-Flask
+This web app is integrated with the RAPyDo stack and the RAPyDo REST APIs by implemenenting authentication and user management.
 
-[![Join the chat at https://gitter.im/pdonorio/restangulask](https://badges.gitter.im/pdonorio/restangulask.svg)](https://gitter.im/pdonorio/restangulask?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+Based on:
 
-[![Discuss and share the screen](http://www.tendrilmedia.com/wabiDemo/assets/f1424091903407/70b747e8043b295544ce09365a064af7.svg)](https://meet.jit.si/RestApiAndAngulaJs)
+  * Angular 5.2.11  with rxjs 5.5.5
+  * bootstrap 4.1.1 with @ng-bootstrap 1.1.2
+  * webpack 2.2.1 with typescript 2.4.2
 
-FRONTEND with Flask and Angular interface
+Also include:
 
----
+  * @ngx-formly 3.1.0
+  * ngx-datatable 11.2.0
+  * moment 2.22.0
+  * font-awesome 4.7.0
+  * angular-confirmation-popover 4.1.0
+  * ngx-clipboard 10.0.0
+  * noty 3.2.0-beta
