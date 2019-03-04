@@ -31,10 +31,35 @@ module.exports = {
     'custom': '/app/frontend/custom.ts',
     'main': './src/main.ts'
   },
+
+  // all vendors in a single package
+  /*
   optimization: {
       splitChunks: {
           chunks: "all"
       }
+  },
+  */
+  optimization: {
+    runtimeChunk: 'single',
+    splitChunks: {
+      chunks: 'all',
+      maxInitialRequests: Infinity,
+      minSize: 0,
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name(module) {
+            // get the name. E.g. node_modules/packageName/not/this/part.js
+            // or node_modules/packageName
+            const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+
+            // npm package names are URL-safe, but some servers don't like @ symbols
+            return `npm.${packageName.replace('@', '')}`;
+          },
+        },
+      },
+    },
   },
   resolve: {
     extensions: ['.ts', '.js'],
@@ -78,6 +103,8 @@ module.exports = {
   },
 
   plugins: [
+    // so that file hashes don't change unexpectedly
+    new webpack.HashedModuleIdsPlugin(),
     // Workaround for angular/angular#11580
     new webpack.ContextReplacementPlugin(
       // The (\\|\/) piece accounts for path separators in *nix and Windows
@@ -87,7 +114,10 @@ module.exports = {
     ),
 
     new HtmlWebpackPlugin({
-      template: 'src/index.html'
+      template: 'src/index.html',
+      inject: true,
+      sourceMap: true,
+      chunksSortMode: 'dependency'
     }),
 
     new webpack.DefinePlugin({

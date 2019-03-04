@@ -1,6 +1,5 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-// import { Observable } from 'rxjs/Observable';
 import { catchError, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { ApiService } from './api';
