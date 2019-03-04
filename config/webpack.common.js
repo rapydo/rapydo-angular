@@ -26,23 +26,41 @@ var allowPasswordReset = process.env.ALLOW_PASSWORD_RESET == "true";
 
 module.exports = {
   entry: {
-  'polyfills': './src/polyfills.ts',
-  'vendor': './src/vendor.ts',
-  'main': './src/main.ts',
-  'custom': '/app/frontend/custom.ts'
-},
-/*
-  devServer: {
-    publicPath: '/app/frontend'
+    'polyfills': './src/polyfills.ts',
+    'vendor': './src/vendor.ts',
+    'custom': '/app/frontend/custom.ts',
+    'main': './src/main.ts'
   },
-*/
 
-/*
-  output: {
-    publicPath: '/app/'
+  // all vendors in a single package
+  /*
+  optimization: {
+      splitChunks: {
+          chunks: "all"
+      }
   },
-*/
+  */
+  optimization: {
+    runtimeChunk: 'single',
+    splitChunks: {
+      chunks: 'all',
+      maxInitialRequests: Infinity,
+      minSize: 0,
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name(module) {
+            // get the name. E.g. node_modules/packageName/not/this/part.js
+            // or node_modules/packageName
+            const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
 
+            // npm package names are URL-safe, but some servers don't like @ symbols
+            return `npm.${packageName.replace('@', '')}`;
+          },
+        },
+      },
+    },
+  },
   resolve: {
     extensions: ['.ts', '.js'],
     modules: ["/modules/node_modules"]
@@ -74,7 +92,7 @@ module.exports = {
       {
         test: /\.css$/,
         exclude: [helpers.root('src', 'app'), '/app/frontend/app/'],
-        loader: ExtractTextPlugin.extract({ fallbackLoader: 'style-loader', loader: 'css-loader?sourceMap' })
+        loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader?sourceMap' })
       },
       {
         test: /\.css$/,
@@ -85,6 +103,8 @@ module.exports = {
   },
 
   plugins: [
+    // so that file hashes don't change unexpectedly
+    new webpack.HashedModuleIdsPlugin(),
     // Workaround for angular/angular#11580
     new webpack.ContextReplacementPlugin(
       // The (\\|\/) piece accounts for path separators in *nix and Windows
@@ -93,13 +113,13 @@ module.exports = {
       {} // a map of your routes
     ),
 
-    new webpack.optimize.CommonsChunkPlugin(
-      {name: ['main', 'custom', 'vendor', 'polyfills']}
-    ),
-
     new HtmlWebpackPlugin({
-      template: 'src/index.html'
+      template: 'src/index.html',
+      inject: true,
+      sourceMap: true,
+      chunksSortMode: 'dependency'
     }),
+
     new webpack.DefinePlugin({
       'process.env': {
         'apiUrl': JSON.stringify(backendURI + '/api'),
@@ -124,6 +144,8 @@ module.exports = {
         { from: '/rapydo/src/css', to: 'static/commons/css/'}
       ]
     )
+
   ]
+
 };
 

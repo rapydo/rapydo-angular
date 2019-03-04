@@ -1,8 +1,7 @@
 
 import { Injectable } from '@angular/core';
 import { catchError, map } from 'rxjs/operators';
-import { _throw } from 'rxjs/observable/throw';
-import { of } from 'rxjs/observable/of';
+import { of, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 export interface ApiResponse {
@@ -153,8 +152,8 @@ export class ApiService {
             		this.set_online();
             	}
 
-            	if (rawResponse) return _throw(error);
-            	return _throw(error.error["Response"])
+            	if (rawResponse) return throwError(error);
+            	return throwError(error.error["Response"])
 	        })
         );
 	}
