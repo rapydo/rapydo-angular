@@ -113,6 +113,11 @@ module.exports = {
       {} // a map of your routes
     ),
 
+    new webpack.ProvidePlugin({
+        $: "jquery",
+        jQuery: "jquery"
+    }),
+
     new HtmlWebpackPlugin({
       template: 'src/index.html',
       inject: true,
