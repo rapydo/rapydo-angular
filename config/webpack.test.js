@@ -49,5 +49,5 @@ module.exports = {
       {} // a map of your routes
     )
   ]
-}
+};
 
