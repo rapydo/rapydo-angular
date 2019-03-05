@@ -40,7 +40,13 @@
     "angular-confirmation-popover": "4.2.0",
     "ngx-clipboard": "11.1.9",
 
+    "ng2-file-upload": "1.3.0",
+    "file-saver": "2.0.1",
+    "@types/file-saver": "2.0.0",
+
     "font-awesome": "4.7.0",
+    "material-icons": "0.3.0",
+
     "jquery": "3.3.1"
     
   },
