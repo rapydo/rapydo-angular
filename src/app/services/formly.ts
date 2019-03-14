@@ -145,6 +145,9 @@ export class FormlyService {
 				field_type = "radio";
 				template_type = "radio";
 				field['templateOptions']['options'] = s['options']
+			} else if (stype == "file") {
+				field_type = "file";
+				template_type = "file";
 			} else if (stype == "autocomplete") {
 				// Custom defined type
 				field_type = "autocomplete";
