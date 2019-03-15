@@ -8,18 +8,18 @@ var backendURI = "";
 
 if (process.env.APP_MODE === 'production') {
   backendURI += "https://";
-  backendURI += process.env.BACKEND_HOST;
 } else if (process.env.APP_MODE === 'debug' || process.env.APP_MODE === 'development') {
   backendURI += "http://";
-  backendURI += process.env.BACKEND_HOST;
-  backendURI += ":";
-  backendURI += process.env.BACKEND_PORT;
 } else {
   console.log("Unknown APP MODE: " + process.env.APP_MODE);
+  backendURI += "http://";
 }
 
-var projectTitle = process.env.PROJECT_TITLE;
+backendURI += process.env.BACKEND_HOST;
+backendURI += ":";
+backendURI += process.env.BACKEND_PORT;
 
+var projectTitle = process.env.PROJECT_TITLE;
 
 var allowRegistration = process.env.ALLOW_REGISTRATION === 'true';
 var allowPasswordReset = process.env.ALLOW_PASSWORD_RESET === 'true';
