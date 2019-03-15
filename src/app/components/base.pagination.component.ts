@@ -15,6 +15,10 @@ import { FormlyService } from '/rapydo/src/app/services/formly'
 })
 export class BasePaginationComponent implements OnInit {
 
+	protected server_side_filter = false;
+	protected server_side_sort = false;
+	protected server_side_pagination = false;
+
 	protected modalRef: NgbModalRef;
 	protected form = new FormGroup({});
 	protected fields: FormlyConfig[]; 
@@ -26,6 +30,7 @@ export class BasePaginationComponent implements OnInit {
 	protected rows: Array<any> = [];
 	protected columns: Array<any> = []
 	// Only used by the filter function
+	protected data_filter: any;
 	protected unfiltered_data: Array<any>;
 
 	protected deleteConfirmation: any;
@@ -58,18 +63,40 @@ export class BasePaginationComponent implements OnInit {
 				}
 	}
 
+
+	protected server_side_update() {
+		console.log("WARNING: server side update function not implemented")
+	}
+
+	updateSort(event) {
+
+		console.log("WARNING: update sort function not implemented")
+		console.log(event);
+		if (this.server_side_filter) {
+			this.server_side_update()
+		} else {
+
+		}
+	}
+
 	updateFilter(event) {
 
-		if (!this.unfiltered_data) {
-			this.unfiltered_data = this.data;
+		this.data_filter = event.target.value.toLowerCase()
+
+		if (this.server_side_filter) {
+			this.server_side_update()
+		} else {
+
+			if (!this.unfiltered_data) {
+				this.unfiltered_data = this.data;
+			}
+
+			this.data = this.filter(this.data_filter);
+
+			this.updatePaging(this.data.length);
+
+			this.rows = this.changePage(1, this.data);
 		}
-		const data_filter = event.target.value.toLowerCase()
-
-		this.data = this.filter(data_filter);
-
-		this.updatePaging(this.data.length);
-
-		this.rows = this.changePage(1, this.data);
 	}
 
 	filter(data_filter) {
@@ -104,7 +131,11 @@ export class BasePaginationComponent implements OnInit {
 	}
 
 	protected setPage(page:any) {
-		this.rows = this.changePage(page, this.data);
+		if (this.server_side_sort) {
+			this.server_side_update()
+		} else {
+			this.rows = this.changePage(page, this.data);
+		}
 	}
 
 	/** INTERACTION WITH APIs**/
