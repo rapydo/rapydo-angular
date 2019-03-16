@@ -26,6 +26,7 @@ export class BasePaginationComponent implements OnInit {
 	protected modalTitle: string;
 
 	protected loading:boolean = false;
+	protected updating:boolean = false;
 	protected data: Array<any> = [];
 	protected rows: Array<any> = [];
 	protected columns: Array<any> = []
@@ -156,9 +157,11 @@ export class BasePaginationComponent implements OnInit {
 
 				this.notify.extractErrors(response, this.notify.WARNING);
 				this.loading = false;
+				this.updating = false;
 			}, error => {
       			this.notify.extractErrors(error, this.notify.ERROR);
       			this.loading = false;
+      			this.updating = false;
       		}
   		);
 	}
@@ -185,7 +188,6 @@ export class BasePaginationComponent implements OnInit {
 
 		return apiCall.subscribe(
 			response => {
-				//let data = this.formly.json2Form(response.data, {}, this);
 				let data = this.formly.json2Form(response.data, {});
 
 				this.modalTitle = "Create a new " + this.resource_name;
@@ -253,9 +255,12 @@ export class BasePaginationComponent implements OnInit {
 
 					this.list();
 				}, error => {
+					this.updating = false;
 					this.notify.extractErrors(error, this.notify.ERROR);
 				}
 			);
+		} else {
+			this.updating = false;
 		}
 	}
 }

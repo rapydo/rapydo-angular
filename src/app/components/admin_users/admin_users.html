@@ -45,7 +45,8 @@
 				let-curPage="curPage"
 				let-offset="offset">
 				<div class='col-3'>
-					<button class="btn btn-success" (click)="create()">
+					<button class="btn btn-success" (click)="create()"
+					[disabled]="updating">
 						Add new {{resource_name}}
 					</button>
 					{{paging.dataLength}} total
@@ -137,7 +138,7 @@
 	  <div class="modal-body">
 	  	<form [formGroup]="form" (ngSubmit)="submit()">
 	  		<formly-form [form]="form" [fields]="fields" [model]="model">
-		    <button type="submit" class="btn btn-default">
+		    <button type="submit" class="btn btn-default" [disabled]="updating">
 			    <h4>Submit</h4>
 		    </button>
 	  		</formly-form>
