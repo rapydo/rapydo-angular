@@ -2,7 +2,41 @@
 <loading *ngIf="loading"></loading>
 
 <div *ngIf="!loading && !api.is_online()">
-API ERROR
+	<br><br><br>
+	<div class='row'>
+	<div class='col-6 offset-3'>
+
+	<div class='panel panel-danger'>
+
+	<div class='panel-heading text-center'>
+	    <h3 class='panel-title'> Server not reachable due to maintenance operations</h3>
+	</div>
+
+	<div class='panel-body text-center'>
+
+	    <h5>
+
+	    This server is temporary not reachable due to maintenance operations. We apologize for any inconvenience this may cause.
+
+	    <br><br>
+	     
+	    <a routerLink='/app/profile'>
+	        <i class='fas fa-sync-alt'></i>
+	        <br>
+	        Reload 
+	    </a>
+
+	    </h5>
+	</div>
+
+	<div class='panel-footer'>
+	</div>
+
+	</div>
+
+	</div>
+	</div>
+
 </div>
 
 <navbar [user]="user" *ngIf="!loading && api.is_online()"></navbar>
@@ -11,16 +45,3 @@ API ERROR
 <router-outlet *ngIf="!loading && api.is_online()"> 
 
 </router-outlet>
-
-<!-- 
-<footer class='footer'>
-    <div class='container'>
-        <span class='text-muted'>
-            <small><i>
-                Angular v{{ versions.angular }}
-            </i></small>
-        </span>
-    </div>
-</footer>
--->
-    
