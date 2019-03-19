@@ -177,6 +177,7 @@ export class BasePaginationComponent implements OnInit {
 			}
 		);
 	}
+
 	protected post(endpoint, data, formModal, base_schema) {
 
 		let apiCall = null;
