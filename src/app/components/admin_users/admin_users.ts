@@ -84,7 +84,23 @@ export class AdminUsersComponent extends BasePaginationComponent {
 		return this.post(this.endpoint, data, this.formModal, false);
 	}
 
-	update(row) {
+	update(row, element) {
+
+		// workaroud to avoid the following error: 
+		// ExpressionChangedAfterItHasBeenCheckedError
+		// https://github.com/swimlane/ngx-datatable/issues/721
+		// https://github.com/ng-bootstrap/ng-bootstrap/issues/1252
+		// element is expected to be:
+		//		the <i class='icon'>
+		// element.parentElement is expected to be:
+		//		<div class='datatable-body-cell' 
+		// element.parentElement.parentElement is expected to be:
+		//		 <datatable-body-cell
+		if (element && 
+			  element.parentElement && 
+			    element.parentElement.parentElement) {
+			element.parentElement.parentElement.blur();
+		}
 
 		let data = {'get_schema': true, 'autocomplete': false} 
 		if (row._roles) {
