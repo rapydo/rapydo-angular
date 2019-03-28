@@ -5,20 +5,20 @@ const Noty = require('noty');
 @Injectable()
 export class NotificationService {
 
-	readonly CRITICAL = 1;
-	readonly ERROR = 2;
-	readonly WARNING = 3;
-	readonly INFO = 4;
+  readonly CRITICAL = 1;
+  readonly ERROR = 2;
+  readonly WARNING = 3;
+  readonly INFO = 4;
 
-	constructor() {}
+  constructor() {}
 
-	public extractErrors = function(response: ApiResponse, type: number) {
-		if (response && response.errors)
-			return this.showAll(response.errors, type);
-	}
-	public showAll = function(messages: string[], type: number) {
-		if (messages)
-		for (let i=0; i<messages.length; i++) {
+  public extractErrors = function(response: ApiResponse, type: number) {
+    if (response && response.errors)
+      return this.showAll(response.errors, type);
+  }
+  public showAll = function(messages: string[], type: number) {
+    if (messages)
+    for (let i=0; i<messages.length; i++) {
         let message = messages[i];
 
         if (typeof(message) == 'object') {
@@ -30,22 +30,22 @@ export class NotificationService {
         else if (type == this.WARNING) this.showWarning(message);
         else if (type == this.INFO) this.showInfo(message);
         else console.log("Unknown message type. NotificationService is unable to satisfy this request");
-		}
-	}
+    }
+  }
 
-	public extractMessage(message: object) {
-		if (typeof(message) == 'string') {
-			return message;
-		}
+  public extractMessage(message: object) {
+    if (typeof(message) == 'string') {
+      return message;
+    }
 
-		if (message['message']) {
-			return message['message'];
-		}
+    if (message['message']) {
+      return message['message'];
+    }
 
-		return message;
-	}
+    return message;
+  }
 
-	public showCritical = function(msg: string) {
+  public showCritical = function(msg: string) {
 
       new Noty({
           text        : msg,
@@ -59,9 +59,9 @@ export class NotificationService {
           layout      : 'bottomRight',
           theme       : 'metroui'
       }).show();
-	}
+  }
 
-	public showError = function(msg: string) {
+  public showError = function(msg: string) {
 
       new Noty({
           text        : msg,
@@ -73,9 +73,9 @@ export class NotificationService {
           layout      : 'bottomRight',
           theme       : 'relax'
       }).show();
-	}
+  }
 
-	public showWarning = function(msg: string) {
+  public showWarning = function(msg: string) {
 
       new Noty({
           text        : msg,
@@ -87,9 +87,9 @@ export class NotificationService {
           layout      : 'bottomRight',
           theme       : 'relax'
       }).show();
-	}
+  }
 
-	public showSuccess = function(msg: string) {
+  public showSuccess = function(msg: string) {
 
       new Noty({
           text        : msg,
@@ -101,8 +101,8 @@ export class NotificationService {
           layout      : 'bottomRight',
           theme       : 'relax'
       }).show();
-	}
-	public showInfo = function(msg: string) {
+  }
+  public showInfo = function(msg: string) {
 
       new Noty({
           text        : msg,
@@ -114,6 +114,6 @@ export class NotificationService {
           layout      : 'bottomRight',
           theme       : 'relax'
       }).show();
-	}
+  }
 
 }
