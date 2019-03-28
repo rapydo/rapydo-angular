@@ -88,9 +88,9 @@ export class ApiService {
 			ep += "/" + id;
 		}
 
-    	let contentType = 'application/json';
+      let contentType = 'application/json';
         if (formData) {
-        	// How to convert in angular2/5 ?
+          // How to convert in angular2/5 ?
             /*data = $httpParamSerializerJQLike(data)*/
             contentType = 'application/x-www-form-urlencoded';
         }
@@ -124,9 +124,9 @@ export class ApiService {
 		}
 
         return httpCall.pipe(
-        	map(response => {
+          map(response => {
 
-        		this.set_online();
+            this.set_online();
                 //$log.debug("API call successful");
                 if (rawResponse) return response;
 
@@ -134,34 +134,34 @@ export class ApiService {
             }),
             catchError(error => {
 
-            	if (error.status == null && error.error == null) {
-            		// 204 empty responses
+              if (error.status == null && error.error == null) {
+                // 204 empty responses
 				/* 
 					response = {}
-                	response.Meta = {}
-                	response.Meta.status = 204
-                	response.Response = {}
-                	response.Response.data = ""
-            	*/
-            		return of("");
-            	}
+                  response.Meta = {}
+                  response.Meta.status = 204
+                  response.Response = {}
+                  response.Response.data = ""
+              */
+                return of("");
+              }
                 /*console.log("Warning: API failed to call")*/
-            	if (error.status <= 0) {
-            		this.set_offline();
-            	} else {
-            		this.set_online();
-            	}
+              if (error.status <= 0) {
+                this.set_offline();
+              } else {
+                this.set_online();
+              }
 
-            	if (rawResponse) return throwError(error);
-            	return throwError(error.error["Response"])
-	        })
+              if (rawResponse) return throwError(error);
+              return throwError(error.error["Response"])
+          })
         );
 	}
 
 
     public parseElement(element) {
 
-    	let newelement = null;
+      let newelement = null;
         if (element.hasOwnProperty('attributes')) {
             newelement = element.attributes;
         } else {

@@ -38,9 +38,9 @@ export class ChangePasswordComponent {
 					"templateOptions": {
 						"type": 'number',
 						"label": 'Verification code',
-	                    "addonLeft": {
-	                        "class": "fa fa-shield"
-	                    },
+                      "addonLeft": {
+                          "class": "fa fa-shield"
+                      },
 						"required": true,
 						"min": 100000,
 						"max": 999999
@@ -56,9 +56,9 @@ export class ChangePasswordComponent {
 					"templateOptions": {
 						"type": 'password',
 						"label": 'Current password',
-	                    "addonLeft": {
-	                        "class": "fa fa-key"
-	                    },
+                      "addonLeft": {
+                          "class": "fa fa-key"
+                      },
 						"required": true
 					}
 				}
@@ -124,31 +124,31 @@ export class ChangePasswordComponent {
 			response =>  {
 				this.model["newPwd"] = ""
 				this.model["confirmPwd"]= ""
-    			this.notify.showSuccess("Password successfully changed")
+          this.notify.showSuccess("Password successfully changed")
 
 				/*this.router.navigate(['app', 'login']);*/
-		        this.auth.login(username, data["new_password"]).subscribe(
-	                data => {
+            this.auth.login(username, data["new_password"]).subscribe(
+                  data => {
 						this.auth.loadUser().subscribe(
-	                        response => {
-	                            this.router.navigate(['']);
-	                            this.notify.extractErrors(response, this.notify.WARNING);
-	                        }, 
-	                        error => {
-	                            if (error.status == 0) {
-	                                this.router.navigate(["/offline"]);
+                          response => {
+                              this.router.navigate(['']);
+                              this.notify.extractErrors(response, this.notify.WARNING);
+                          }, 
+                          error => {
+                              if (error.status == 0) {
+                                  this.router.navigate(["/offline"]);
 
-	                            } else {
-	                                this.notify.extractErrors(error, this.notify.ERROR);
-	                            }
-	                        }
-	                    );
-	                }, error => {
-	                	this.notify.extractErrors(error, this.notify.ERROR);
-	                }
-	            );
+                              } else {
+                                  this.notify.extractErrors(error, this.notify.ERROR);
+                              }
+                          }
+                      );
+                  }, error => {
+                    this.notify.extractErrors(error, this.notify.ERROR);
+                  }
+              );
 			}, error => {
-    			this.notify.extractErrors(error, this.notify.ERROR);
+          this.notify.extractErrors(error, this.notify.ERROR);
 			}
 		);
 

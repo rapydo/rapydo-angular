@@ -130,9 +130,9 @@ export class FormlyService {
 				template_type = "select";
 
 /*				field['templateOptions']['labelProp'] = "value";
-      			field['templateOptions']['valueProp'] = "id";*/
-      			field['templateOptions']['options'] = s['options']
-      			field['templateOptions']['multiple'] = multiple;
+            field['templateOptions']['valueProp'] = "id";*/
+            field['templateOptions']['options'] = s['options']
+            field['templateOptions']['multiple'] = multiple;
 
 			} else if (stype == "checkbox" || stype == "boolean") {
 				field_type = "checkbox";
@@ -205,9 +205,9 @@ export class FormlyService {
 			field['templateOptions']['required'] = (s['required'] == "true");
 
 			// if (template_type == 'radio') {
-			// 	field['templateOptions']['labelProp'] = "value";
-			// 	field['templateOptions']['valueProp'] = "name";
-			// 	field['templateOptions']['options'] = s['options']
+			//   field['templateOptions']['labelProp'] = "value";
+			//   field['templateOptions']['valueProp'] = "name";
+			//   field['templateOptions']['options'] = s['options']
 			// }
 
 			fields.push(field);
@@ -269,12 +269,12 @@ export class FormlyService {
 	showForm() {
 
 		let template = "<div>test</div>";
-	    this.modalRef = this.modalService.open(template, {size: 'lg'});
-	    this.modalRef.result.then((result) => {
+      this.modalRef = this.modalService.open(template, {size: 'lg'});
+      this.modalRef.result.then((result) => {
 			/*console.log("Closed with: " + result)*/;
-	    }, (reason) => {
+      }, (reason) => {
 			/*console.log(`Dismissed ${this.getDismissReason(reason)}`)*/;
-	    });
+      });
 		/*console.log("evviva");*/
 	}
 

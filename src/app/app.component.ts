@@ -38,10 +38,10 @@ export class AppComponent {
 		this.loading = true;
 		this.auth.isAuthenticated().subscribe(
             is_auth => {
-            	if (is_auth) {
-	                this.user = auth.getUser();
-	            }
-            	this.loading = false;
+              if (is_auth) {
+                  this.user = auth.getUser();
+              }
+              this.loading = false;
             }
         );
 	}

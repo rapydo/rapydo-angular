@@ -163,7 +163,7 @@ export class BasePaginationComponent implements OnInit {
 			'get_total': true
 		}
 		return this.api.get(this.counter_endpoint, "", data).subscribe(
-      		response => {
+          response => {
 				let result = this.api.parseResponse(response.data);
 
 				this.notify.extractErrors(response, this.notify.WARNING);
@@ -178,10 +178,10 @@ export class BasePaginationComponent implements OnInit {
 				return t;
 
 			}, error => {
-      			this.notify.extractErrors(error, this.notify.ERROR);
-      			return 0;
-      		}
-  		);
+            this.notify.extractErrors(error, this.notify.ERROR);
+            return 0;
+          }
+      );
 	}
 	protected remove(uuid) { console.log("remove: to be implemented") }
 	protected create() { console.log("create: to be implemented") }
@@ -201,10 +201,10 @@ export class BasePaginationComponent implements OnInit {
 
 		this.loading = true;
 		return this.api.get(endpoint, "", data).subscribe(
-      		response => {
+          response => {
 				this.data = this.api.parseResponse(response.data);
 				if (!this.server_side_pagination) {
-      				this.updatePaging(this.data.length);
+              this.updatePaging(this.data.length);
 				}
 				this.changePage(this.paging.page, this.data);
 
@@ -218,27 +218,27 @@ export class BasePaginationComponent implements OnInit {
 					return this.rows
 				}
 			}, error => {
-      			this.notify.extractErrors(error, this.notify.ERROR);
-      			this.loading = false;
-      			this.updating = false;
-      			return this.data;
-      		}
-  		);
+            this.notify.extractErrors(error, this.notify.ERROR);
+            this.loading = false;
+            this.updating = false;
+            return this.data;
+          }
+      );
 	}
 	protected head(endpoint) {
 
 		this.loading = true;
 		return this.api.head(endpoint).subscribe(
-      		response => {
+          response => {
 				this.data = this.api.parseResponse(response.data);
 				return 451;
 			}, error => {
-      			this.notify.extractErrors(error, this.notify.ERROR);
-      			this.loading = false;
-      			this.updating = false;
-      			return 0;
-      		}
-  		);
+            this.notify.extractErrors(error, this.notify.ERROR);
+            this.loading = false;
+            this.updating = false;
+            return 0;
+          }
+      );
 	}
 
 	protected delete(endpoint, uuid) {
@@ -269,15 +269,15 @@ export class BasePaginationComponent implements OnInit {
 				this.modalTitle = "Create a new " + this.resource_name;
 				this.fields = data.fields;
 				this.model = data.model;
-			    this.modalRef = this.modalService.open(formModal, {size: 'lg'});
-			    this.modalRef.result.then((result) => {
+          this.modalRef = this.modalService.open(formModal, {size: 'lg'});
+          this.modalRef.result.then((result) => {
 					// console.log("Closed with: " + result);
-			    }, (reason) => {
+          }, (reason) => {
 					// console.log(`Dismissed ${this.getDismissReason(reason)}`);
-			    });
+          });
 			}, error => {
-      			console.log("error retrieving schema")
-      		}
+            console.log("error retrieving schema")
+          }
 		);
 	}
 
@@ -298,15 +298,15 @@ export class BasePaginationComponent implements OnInit {
 				this.model = data.model;
 				// Extra for update:
 				this.model["_id"] = row.id;
-			    this.modalRef = this.modalService.open(formModal, {size: 'lg'});
-			    this.modalRef.result.then((result) => {
+          this.modalRef = this.modalService.open(formModal, {size: 'lg'});
+          this.modalRef.result.then((result) => {
 					// console.log("Closed with: " + result);
-			    }, (reason) => {
+          }, (reason) => {
 					// console.log(`Dismissed ${this.getDismissReason(reason)}`);
-			    });
+          });
 			}, error => {
-      			console.log("error retrieving schema")
-      		}
+            console.log("error retrieving schema")
+          }
 		);
 	}
 

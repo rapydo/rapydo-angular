@@ -49,9 +49,9 @@ export class AuthService {
 	public change_password(data) {
 		return this.http.put(process.env.authApiUrl + '/profile', data).pipe(map(
 			response => {
-    			this.removeToken()
+          this.removeToken()
 
-    			return response;
+          return response;
 
 			},
 			error => {
@@ -65,7 +65,7 @@ export class AuthService {
 		let data = {"username": username}
 		return this.http.post(process.env.authApiUrl + '/profile/activate', data).pipe(map(
 			response => {
-    			return response;
+          return response;
 			},
 			error => {
 				return error;
@@ -135,7 +135,7 @@ export class AuthService {
 			return of(false);
 		}
 
-       	let opt =  {"base": "auth", "rawResponse": true};
+         let opt =  {"base": "auth", "rawResponse": true};
         return this.api.get('profile', "", [], opt).pipe(
 			map(response => {
 				return of(true);
@@ -159,11 +159,11 @@ export class AuthService {
         let user = this.getUser();
 
         for (let i=0; i<expectedRoles.length; i++) {
-	        if (expectedRoles[i] in user.roles) {
+          if (expectedRoles[i] in user.roles) {
 				// console.log("ok " + expectedRoles + ", you are authorized")
-		        return true
-		    }
-    	}
+            return true
+        }
+      }
         // console.log("You are not authorized - missing roles: " + expectedRoles);
         this.notification.showError("Permission denied: you are not authorized to access this page")
         return false;

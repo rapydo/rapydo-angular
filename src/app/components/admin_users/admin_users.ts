@@ -54,16 +54,16 @@ export class AdminUsersComponent extends BasePaginationComponent {
 
         let user_page = this.customization.get_option('user_page');
         if (user_page !== null) {
-        	if (user_page["group"]) {
-		        this.columns.push({name: 'Group', prop: "_belongs_to", cellTemplate: this.dataGroup, flexGrow: 0.3});
-		    }
+          if (user_page["group"]) {
+            this.columns.push({name: 'Group', prop: "_belongs_to", cellTemplate: this.dataGroup, flexGrow: 0.3});
+        }
 
-		    if (user_page["custom"]) {
+        if (user_page["custom"]) {
 
-		    	for (let i=0; i<user_page["custom"].length; i++) {
-		    		this.columns.push(user_page["custom"][i]);
-		    	}
-		    }
+          for (let i=0; i<user_page["custom"].length; i++) {
+            this.columns.push(user_page["custom"][i]);
+          }
+        }
         }
 
         this.columns.push({name: 'Roles', prop: "_roles", cellTemplate: this.dataRoles, flexGrow: 0.9});
@@ -95,10 +95,10 @@ export class AdminUsersComponent extends BasePaginationComponent {
 		// element.parentElement is expected to be:
 		//		<div class='datatable-body-cell' 
 		// element.parentElement.parentElement is expected to be:
-		//		 <datatable-body-cell
+		//     <datatable-body-cell
 		if (element && 
-			  element.parentElement && 
-			    element.parentElement.parentElement) {
+        element.parentElement && 
+          element.parentElement.parentElement) {
 			element.parentElement.parentElement.blur();
 		}
 
