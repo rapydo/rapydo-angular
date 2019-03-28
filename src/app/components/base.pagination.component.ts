@@ -225,21 +225,6 @@ export class BasePaginationComponent implements OnInit {
           }
       );
   }
-  protected head(endpoint) {
-
-    this.loading = true;
-    return this.api.head(endpoint).subscribe(
-          response => {
-        this.data = this.api.parseResponse(response.data);
-        return 451;
-      }, error => {
-            this.notify.extractErrors(error, this.notify.ERROR);
-            this.loading = false;
-            this.updating = false;
-            return 0;
-          }
-      );
-  }
 
   protected delete(endpoint, uuid) {
     return this.api.delete(endpoint, uuid).subscribe(
