@@ -32,7 +32,7 @@ export class AppComponent {
 		t = t.replace(/^'/, "");
 		t = t.replace(/'$/, "");
 		titleService.setTitle(t);
-		
+
 		auth.userChanged.subscribe(user => this.changeLogged(user));
 
 		this.loading = true;

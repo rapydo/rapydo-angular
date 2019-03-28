@@ -28,7 +28,7 @@ export class ApiService {
 
 		ApiService.is_online = false;
 		return ApiService.is_online;
-		
+
 	}
 	private opt(dict, value, defaultValue) {
 		if (value in dict) {

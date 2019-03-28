@@ -8,7 +8,7 @@ import { ApiService } from './services/api';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-	
+
 	constructor(
         public auth: AuthService,
         public api: ApiService,

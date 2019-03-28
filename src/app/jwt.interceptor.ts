@@ -6,7 +6,7 @@ import { AuthService } from './services/auth';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-	
+
 	constructor(private auth: AuthService) { }
 
 	intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

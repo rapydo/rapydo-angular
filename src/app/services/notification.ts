@@ -115,5 +115,5 @@ export class NotificationService {
           theme       : 'relax'
       }).show();
 	}
-	
+
 }
