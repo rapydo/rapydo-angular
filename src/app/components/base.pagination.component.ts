@@ -19,6 +19,9 @@ export class BasePaginationComponent implements OnInit {
 	protected server_side_sort = false;
 	protected server_side_pagination = false;
 
+	protected endpoint: string;
+	protected counter_endpoint: string;
+
 	protected modalRef: NgbModalRef;
 	protected form = new FormGroup({});
 	protected fields: FormlyConfig[]; 
@@ -96,7 +99,7 @@ export class BasePaginationComponent implements OnInit {
 
 			this.updatePaging(this.data.length);
 
-			this.rows = this.changePage(1, this.data);
+			this.changePage(1, this.data);
 		}
 	}
 
@@ -114,6 +117,11 @@ export class BasePaginationComponent implements OnInit {
 			"dataLength": 0
 		}
 
+
+		if (this.server_side_pagination) {
+			this.set_total_items();
+		}
+
 		return this.paging;
 	}
 
@@ -126,42 +134,109 @@ export class BasePaginationComponent implements OnInit {
 
 	protected changePage(page:number, data:Array<any>): Array<any> {
 		this.paging.page = page;
-		let start = (this.paging.page - 1) * this.paging.itemsPerPage;
-		let end = this.paging.itemsPerPage > -1 ? (start + this.paging.itemsPerPage): data.length;
-		return data.slice(start, end);
+		if (this.server_side_pagination) {
+			this.rows = this.data;
+		} else {
+			let start = (this.paging.page - 1) * this.paging.itemsPerPage;
+			let end = this.paging.itemsPerPage > -1 ? (start + this.paging.itemsPerPage): data.length;
+			this.rows = data.slice(start, end);
+		}	
+		return this.rows;
 	}
 
 	protected setPage(page:any) {
+		this.paging.page = page;
+
 		if (this.server_side_sort) {
-			this.server_side_update()
+			this.server_side_update();
+		} else if (this.server_side_pagination) {
+			this.list();
 		} else {
-			this.rows = this.changePage(page, this.data);
+			this.changePage(page, this.data);
 		}
 	}
 
 	/** INTERACTION WITH APIs**/
 	protected list() { console.log("list: to be implemented") }
+	protected set_total_items(): number { 
+		let data = {
+			'get_total': true
+		}
+		return this.api.get(this.counter_endpoint, "", data).subscribe(
+      		response => {
+				let result = this.api.parseResponse(response.data);
+
+				this.notify.extractErrors(response, this.notify.WARNING);
+
+				let t = 0
+				if ("total" in result) {
+					t = result["total"];
+				}
+
+				this.paging["dataLength"] = t;
+				this.paging["numPages"] = Math.ceil(t / this.paging["itemsPerPage"]);
+				return t;
+
+			}, error => {
+      			this.notify.extractErrors(error, this.notify.ERROR);
+      			return 0;
+      		}
+  		);
+	}
 	protected remove(uuid) { console.log("remove: to be implemented") }
 	protected create() { console.log("create: to be implemented") }
 	protected update(row, element=null) { console.log("update: to be implemented") }
 	protected submit(data) { console.log("submit: to be implemented") }
 
-	protected get(endpoint) {
+	protected get(endpoint, data=null) {
+
+		if (this.server_side_pagination && data == null) {
+			data = {
+				"currentpage": this.paging.page,
+				"perpage": this.paging.itemsPerPage
+			}
+		} else if (data == null) {
+			data = {}
+		}
 
 		this.loading = true;
-		return this.api.get(endpoint).subscribe(
+		return this.api.get(endpoint, "", data).subscribe(
       		response => {
 				this.data = this.api.parseResponse(response.data);
-      			this.updatePaging(this.data.length);
-				this.rows = this.changePage(1, this.data);
+				if (!this.server_side_pagination) {
+      				this.updatePaging(this.data.length);
+				}
+				this.changePage(this.paging.page, this.data);
 
 				this.notify.extractErrors(response, this.notify.WARNING);
 				this.loading = false;
 				this.updating = false;
+
+				if (this.server_side_pagination) {
+					return this.data
+				} else {
+					return this.rows
+				}
 			}, error => {
       			this.notify.extractErrors(error, this.notify.ERROR);
       			this.loading = false;
       			this.updating = false;
+      			return this.data;
+      		}
+  		);
+	}
+	protected head(endpoint) {
+
+		this.loading = true;
+		return this.api.head(endpoint).subscribe(
+      		response => {
+				this.data = this.api.parseResponse(response.data);
+				return 451;
+			}, error => {
+      			this.notify.extractErrors(error, this.notify.ERROR);
+      			this.loading = false;
+      			this.updating = false;
+      			return 0;
       		}
   		);
 	}
