@@ -85,7 +85,9 @@ export class BasePaginationComponent implements OnInit {
 
   updateFilter(event) {
 
-    this.data_filter = event.target.value.toLowerCase()
+    if (event != null) {
+      this.data_filter = event.target.value.toLowerCase()
+    }
 
     if (this.server_side_filter) {
       this.server_side_update()
