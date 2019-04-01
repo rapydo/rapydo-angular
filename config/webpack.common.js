@@ -102,6 +102,11 @@ module.exports = {
     ]
   },
 
+  node: {
+    // prevent webpack from injecting eval / new Function through global polyfill
+    global: false
+  },
+
   plugins: [
     // so that file hashes don't change unexpectedly
     new webpack.HashedModuleIdsPlugin(),
