@@ -26,10 +26,10 @@ var allowPasswordReset = process.env.ALLOW_PASSWORD_RESET === 'true';
 
 module.exports = {
   entry: {
-    'polyfills': './src/polyfills.ts',
-    'vendor': './src/vendor.ts',
+    'polyfills': '/rapydo/src/polyfills.ts',
+    'vendor': '/rapydo/src/vendor.ts',
     'custom': '/app/frontend/custom.ts',
-    'main': './src/main.ts'
+    'main': '/rapydo/src/main.ts'
   },
 
   // all vendors in a single package
