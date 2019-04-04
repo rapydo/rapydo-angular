@@ -124,7 +124,7 @@ module.exports = {
     }),
 
     new HtmlWebpackPlugin({
-      template: 'src/index.html',
+      template: '/rapydo/src/index.html',
       inject: true,
       sourceMap: true,
       chunksSortMode: 'dependency'
