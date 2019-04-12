@@ -34,7 +34,7 @@ export class AdminUsersComponent extends BasePaginationComponent {
     protected notify: NotificationService,
     protected modalService: NgbModal,
     protected formly: FormlyService,
-        private customization: ProjectOptions
+    private customization: ProjectOptions
     ) {
 
     super("user", api, auth, notify, modalService, formly);
