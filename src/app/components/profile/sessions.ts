@@ -60,4 +60,10 @@ export class SessionsComponent {
     /*console.log("Request cancelled");*/
   }
 
+  copied(event) {
+    if (event['isSuccess']) {
+      this.notify.showSuccess("Token successfully copied");
+    }
+  }
+
 }
