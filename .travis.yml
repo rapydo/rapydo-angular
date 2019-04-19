@@ -1,0 +1,16 @@
+language: python
+sudo: required
+dist: xenial
+python:
+- 3.7.1
+services:
+- docker
+env:
+- PROJECT=sql
+
+script:
+  - scripts/tests.sh
+  - cd rapydo_tests
+  - docker-compose up -d frontend
+  - sleep 10
+  - docker-compose up --exit-code-from cypress

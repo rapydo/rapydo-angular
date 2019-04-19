@@ -54,7 +54,7 @@ export class NotificationService {
           modal       : true,
           maxVisible  : 1,
           timeout     : false,
-          force		: true,
+          force       : true,
           killer      : true,
           layout      : 'bottomRight',
           theme       : 'metroui'

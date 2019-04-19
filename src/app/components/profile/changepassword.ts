@@ -113,10 +113,10 @@ export class ChangePasswordComponent {
     data["new_password"] = this.model["newPwd"];
     data["password_confirm"] = this.model["confirmPwd"];
 
-    if (this.model["currentPwd"])	
+    if (this.model["currentPwd"])
       data["password"] = this.model["currentPwd"];
 
-    if (this.model["totp_code"])	
+    if (this.model["totp_code"])
       data["password"] = this.model["totp_code"];
 
     let username = this.auth.getUser().email;
@@ -124,31 +124,34 @@ export class ChangePasswordComponent {
       response =>  {
         this.model["newPwd"] = ""
         this.model["confirmPwd"]= ""
-          this.notify.showSuccess("Password successfully changed")
+        this.notify.showSuccess("Password successfully changed")
 
-        /*this.router.navigate(['app', 'login']);*/
-            this.auth.login(username, data["new_password"]).subscribe(
-                  data => {
-                    this.auth.loadUser().subscribe(
-                      response => {
-                          this.router.navigate(['']);
-                          this.notify.extractErrors(response, this.notify.WARNING);
-                      }, 
-                      error => {
-                          if (error.status == 0) {
-                              this.router.navigate(["/offline"]);
-
-                          } else {
-                              this.notify.extractErrors(error, this.notify.ERROR);
-                          }
-                      }
-                    );
-                  }, error => {
-                    this.notify.extractErrors(error, this.notify.ERROR);
-                  }
-              );
+        this.auth.login(username, data["new_password"]).subscribe(
+          data => {
+            this.auth.loadUser().subscribe(
+              response => {
+                this.router.navigate(['']);
+                this.notify.extractErrors(response, this.notify.WARNING);
+              }, 
+              error => {
+                if (error.status == 0) {
+                  this.router.navigate(["/offline"]);
+                } else {
+                  this.notify.extractErrors(error, this.notify.ERROR);
+                }
+              }
+            );
+          }, error => {
+            this.notify.extractErrors(error, this.notify.ERROR);
+          }
+        );
       }, error => {
+
+        if (error.status == 401) {
+           this.notify.showError("Unauthorized request, current password is wrong?");
+        } else {
           this.notify.extractErrors(error, this.notify.ERROR);
+        }
       }
     );
 

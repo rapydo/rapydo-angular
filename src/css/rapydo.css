@@ -3,6 +3,48 @@ html, body {
     width: 100%;
 }
 
+.initial_loading {
+  background-color:#cceeff;
+  padding: 0;
+  margin: 0;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.loader {
+  height: 4px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: #ddd;
+}
+.loader:before{
+  display: block;
+  position: absolute;
+  content: "";
+  left: -200px;
+  width: 200px;
+  height: 4px;
+  background-color: #2980b9;
+  animation: loading 2s linear infinite;
+}
+
+@keyframes loading {
+    from {left: -200px; width: 30%;}
+    50% {width: 30%;}
+    70% {width: 70%;}
+    80% { left: 50%;}
+    95% {left: 120%;}
+    to {left: 100%;}
+}
+
 /* Bootstrap v4 */
 .card-block {
   padding:20px;
@@ -26,28 +68,6 @@ html, body {
 .horizontal-center {
 	width:1000px;
 	text-align: center;
-}
-
-.flex-container {
-    padding: 0;
-    margin: 0;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-}
-
-.flex-hcentered {
-    align-items: center;
-    justify-content: center;
-}
-
-.flex-vcentered {
-    height: 100%;
-}
-.flex-element {
-    width: auto;
 }
 
 .table-borderless td, .table-borderless th {

@@ -37,7 +37,8 @@ export class AdminUsersComponent extends BasePaginationComponent {
     private customization: ProjectOptions
     ) {
 
-    super("user", api, auth, notify, modalService, formly);
+    super(api, auth, notify, modalService, formly);
+    this.init("user");
 
     this.list();
     this.initPaging(20);
@@ -91,9 +92,9 @@ export class AdminUsersComponent extends BasePaginationComponent {
     // https://github.com/swimlane/ngx-datatable/issues/721
     // https://github.com/ng-bootstrap/ng-bootstrap/issues/1252
     // element is expected to be:
-    //		the <i class='icon'>
+    //    the <i class='icon'>
     // element.parentElement is expected to be:
-    //		<div class='datatable-body-cell' 
+    //    <div class='datatable-body-cell' 
     // element.parentElement.parentElement is expected to be:
     //     <datatable-body-cell
     if (element && 

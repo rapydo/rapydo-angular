@@ -13,9 +13,9 @@ import { AuthService } from '../../services/auth';
  
 export class ResetPasswordComponent implements OnInit {
 
-    private token: string;
-    private invalid_token: string;
-    private reset_message: string;
+    public token: string;
+    public invalid_token: string;
+    public reset_message: string;
 
     private step1_form = new FormGroup({});
     private step2_form = new FormGroup({});

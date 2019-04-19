@@ -15,6 +15,8 @@ import { FormlyService } from '/rapydo/src/app/services/formly'
 })
 export class BasePaginationComponent implements OnInit {
 
+  protected resource_name:string;
+
   protected server_side_filter = false;
   protected server_side_sort = false;
   protected server_side_pagination = false;
@@ -40,9 +42,9 @@ export class BasePaginationComponent implements OnInit {
   protected deleteConfirmation: any;
 
   public paging: any;
+  public is_update: boolean = false;
 
   constructor(
-    protected resource_name:string,
     protected api: ApiService,
     protected auth: AuthService,
     protected notify: NotificationService,
@@ -50,8 +52,13 @@ export class BasePaginationComponent implements OnInit {
     protected formly: FormlyService,
     ) {
 
-    this.deleteConfirmation = this.getDeleteConfirmation(resource_name);
   }
+  public init(res:string) {
+
+    this.resource_name = res;
+    this.deleteConfirmation = this.getDeleteConfirmation(this.resource_name);
+  }
+
   public ngOnInit(): void { console.log("ngOnInit: to be implemented")}
 
   /** DELETE MODAL WITH MESSAGE CONFIRMATION **/
@@ -98,12 +105,15 @@ export class BasePaginationComponent implements OnInit {
       }
 
       this.data = this.filter(this.data_filter);
+      this.post_filter();
 
       this.updatePaging(this.data.length);
 
       this.changePage(1, this.data);
     }
   }
+
+  post_filter() {}
 
   filter(data_filter) {
     console.log("WARNING: filter function not implemented")
@@ -142,7 +152,7 @@ export class BasePaginationComponent implements OnInit {
       let start = (this.paging.page - 1) * this.paging.itemsPerPage;
       let end = this.paging.itemsPerPage > -1 ? (start + this.paging.itemsPerPage): data.length;
       this.rows = data.slice(start, end);
-    }	
+    }
     return this.rows;
   }
 
@@ -256,7 +266,7 @@ export class BasePaginationComponent implements OnInit {
         this.modalTitle = "Create a new " + this.resource_name;
         this.fields = data.fields;
         this.model = data.model;
-        this.modalRef = this.modalService.open(formModal, {size: 'lg'});
+        this.modalRef = this.modalService.open(formModal, {"size": 'lg', "backdrop": 'static'});
         this.modalRef.result.then((result) => {
           // console.log("Closed with: " + result);
         }, (reason) => {
@@ -285,12 +295,16 @@ export class BasePaginationComponent implements OnInit {
         this.model = data.model;
         // Extra for update:
         this.model["_id"] = row.id;
-          this.modalRef = this.modalService.open(formModal, {size: 'lg'});
-          this.modalRef.result.then((result) => {
-          // console.log("Closed with: " + result);
-          }, (reason) => {
-          // console.log(`Dismissed ${this.getDismissReason(reason)}`);
-          });
+        this.is_update = true;
+        this.modalRef = this.modalService.open(formModal, {"size": 'lg', "backdrop": 'static'});
+        this.is_update = true;
+        this.modalRef.result.then((result) => {
+          this.is_update = false;
+        // console.log("Closed with: " + result);
+        }, (reason) => {
+          this.is_update = false;
+        // console.log(`Dismissed ${this.getDismissReason(reason)}`);
+        });
       }, error => {
             console.log("error retrieving schema")
           }
@@ -326,4 +340,11 @@ export class BasePaginationComponent implements OnInit {
       this.updating = false;
     }
   }
+
+  public onDatatableActivate(event: any) {
+    if (event.type === 'click') {
+        event.cellElement.blur();
+    }
+  }
+
 }

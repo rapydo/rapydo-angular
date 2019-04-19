@@ -1,28 +1,51 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 var CopyWebpackPublic = require('copy-webpack-plugin');
 var helpers = require('./helpers');
 
 var backendURI = "";
 
-if (process.env.APP_MODE === 'production') {
-  backendURI += "https://";
-} else if (process.env.APP_MODE === 'debug' || process.env.APP_MODE === 'development') {
-  backendURI += "http://";
+if (process.env.BACKEND_URI !== undefined && process.env.BACKEND_URI !== null && process.env.BACKEND_URI !== '') {
+  backendURI = process.env.BACKEND_URI;
 } else {
-  console.log("Unknown APP MODE: " + process.env.APP_MODE);
-  backendURI += "http://";
-}
 
-backendURI += process.env.BACKEND_HOST;
-backendURI += ":";
-backendURI += process.env.BACKEND_PORT;
+  if (process.env.APP_MODE === 'production') {
+    backendURI += "https://";
+  } else if (process.env.APP_MODE === 'debug' || process.env.APP_MODE === 'development') {
+    backendURI += "http://";
+  } else {
+    console.log("Unknown APP MODE: " + process.env.APP_MODE);
+    backendURI += "http://";
+  }
+
+  backendURI += process.env.BACKEND_HOST;
+  backendURI += ":";
+  backendURI += process.env.BACKEND_PORT;
+
+  backendURI += process.env.BACKEND_PREFIX;
+
+}
 
 var projectTitle = process.env.PROJECT_TITLE;
 
 var allowRegistration = process.env.ALLOW_REGISTRATION === 'true';
 var allowPasswordReset = process.env.ALLOW_PASSWORD_RESET === 'true';
+
+var processEnv = {
+  'apiUrl': JSON.stringify(backendURI + '/api'),
+  'authApiUrl': JSON.stringify(backendURI + '/auth'),
+  'projectTitle': JSON.stringify(projectTitle),
+  'allowRegistration': JSON.stringify(allowRegistration),
+  'allowPasswordReset': JSON.stringify(allowPasswordReset),
+}
+
+let INJECT_KEY = 'INJECT_'
+for (let key in process.env) {
+  if (key.startsWith(INJECT_KEY)) {
+    processEnv[key.substr(INJECT_KEY.length)] = JSON.stringify(process.env[key])
+  }
+}
 
 module.exports = {
   entry: {
@@ -73,15 +96,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.ts$/,
-        loaders: [
-          {
-            loader: 'awesome-typescript-loader',
-            options: { configFileName: helpers.root('src', 'tsconfig.json') }
-          } , 'angular2-template-loader'
-        ]
-      },
-      {
         test: /\.html$/,
         loader: 'html-loader'
       },
@@ -90,15 +104,34 @@ module.exports = {
         loader: 'file-loader?name=assets/[name].[hash].[ext]'
       },
       {
-        test: /\.css$/,
-        exclude: [helpers.root('src', 'app'), '/app/frontend/app/'],
-        loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader?sourceMap' })
+        test: /\.js$/,
+        include: [helpers.root('src', 'app'), '/app/frontend/'],
+        loader: 'script-loader'
       },
       {
         test: /\.css$/,
-        include: [helpers.root('src', 'app'), '/app/frontend/app/'],
-        loader: 'raw-loader'
-      }
+        //exclude: [helpers.root('src', 'app'), '/app/frontend/app/'],
+        //include: ['/rapydo/src/css/', '/app/frontend/css/'],
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              // only enable hot in development
+              hmr: process.env.NODE_ENV !== 'production',
+              // if hmr does not work, this is a forceful method.
+              reloadAll: true,
+            },
+          },
+          'css-loader',
+        ],
+      }/*,
+      {
+        test: /\.css$/,
+        // include: [helpers.root('src', 'app'), '/app/frontend/app/'],
+        // exclude: ['/rapydo/src/css/', '/app/frontend/css/'],
+        //include: ['/rapydo/src/app', '/app/frontend/app/', '/modules/node_modules'],
+        use: ['style-loader','css-loader']
+      }*/
     ]
   },
 
@@ -131,26 +164,13 @@ module.exports = {
     }),
 
     new webpack.DefinePlugin({
-      'process.env': {
-        'apiUrl': JSON.stringify(backendURI + '/api'),
-        'authApiUrl': JSON.stringify(backendURI + '/auth'),
-        /*'templateDir': JSON.stringify('/static/commons/templates/'),*/
-        /*'blueprintTemplateDir': JSON.stringify('/static/custom/templates/'),*/
-        'projectTitle': JSON.stringify(projectTitle),
-        'allowRegistration': JSON.stringify(allowRegistration),
-        'allowPasswordReset': JSON.stringify(allowPasswordReset),
-        /*'loggedLandingPage': JSON.stringify('logged.search')*/
-      }
+      'process.env': processEnv
     }),
 
     new CopyWebpackPublic(
       [
-        /*{ from: '/app/frontend/templates', to: 'static/custom/templates/'},*/
         { from: '/app/frontend/css', to: 'static/custom/css/'},
-        /*{ from: '/app/frontend/js', to: 'static/custom/js/'},*/
         { from: '/app/frontend/assets', to: 'static/assets/'},
-
-        /*{ from: '/rapydo/src/templates', to: 'static/commons/templates/'},*/
         { from: '/rapydo/src/css', to: 'static/commons/css/'}
       ]
     )

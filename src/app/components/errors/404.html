@@ -1,26 +1,30 @@
+<div class='container-fluid'>
+<div class="row justify-content-md-center">
+<div class='card'>
+<div class='card-body'>
 
-<div class='container'>
-<div class="row text-center">
-
-
+<div class='row'>
 <div class='col-12'>
 
-	<h2>404</h2>
-	<h3>Page not found</h3>
+		<h3 class='text-center'>404 - Page not found</h3>
 
-	For some reason the page you requested could not be found on our server
+		For some reason the page you requested could not be found on our server
 
-	<br><br><br>
-
+		<br><br><br>
+</div>
 </div>
 
-<div class='col-2 offset-3'>
-	<a (click)="goBack()">go back</a>
+<div class='row'>
+	<div class='col-3 offset-2'>
+		<a class='btn' (click)="goBack()"><i class='fas fa-backward'></i> go back</a>
+	</div>
+
+	<div class='col-3 offset-1'>
+		<a class='btn' routerLink=''><i class='fas fa-home'></i> go home</a>
+	</div>
 </div>
 
-<div class='col-2 offset-2'>
-	<a routerLink=''>go home</a>
 </div>
-
+</div>
 </div>
 </div>
