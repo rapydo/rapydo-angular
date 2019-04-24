@@ -16,8 +16,11 @@ if (process.env.APP_MODE === 'production') {
 }
 
 backendURI += process.env.BACKEND_HOST;
-backendURI += ":";
-backendURI += process.env.BACKEND_PORT;
+
+if (process.env.BACKEND_PORT != '') {
+  backendURI += ":";
+  backendURI += process.env.BACKEND_PORT;
+}
 backendURI += process.env.BACKEND_PREFIX;
 
 var projectTitle = process.env.PROJECT_TITLE;
