@@ -14,7 +14,7 @@ module.exports = webpackMerge(commonConfig, {
   output: {
     // path: helpers.root('dist'),
     path: '/modules/dist',
-    publicPath: '/',
+    publicPath: process.env.HOST_PREFIX,
     filename: '[name].[hash].js',
     chunkFilename: '[id].[hash].chunk.js'
   },
