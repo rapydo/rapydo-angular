@@ -6,22 +6,26 @@ var helpers = require('./helpers');
 
 var backendURI = "";
 
-if (process.env.APP_MODE === 'production') {
-  backendURI += "https://";
-} else if (process.env.APP_MODE === 'debug' || process.env.APP_MODE === 'development') {
-  backendURI += "http://";
+if (process.env.BACKEND_URI !== '') {
+  backendURI = process.env.BACKEND_URI;
 } else {
-  console.log("Unknown APP MODE: " + process.env.APP_MODE);
-  backendURI += "http://";
-}
 
-backendURI += process.env.BACKEND_HOST;
+  if (process.env.APP_MODE === 'production') {
+    backendURI += "https://";
+  } else if (process.env.APP_MODE === 'debug' || process.env.APP_MODE === 'development') {
+    backendURI += "http://";
+  } else {
+    console.log("Unknown APP MODE: " + process.env.APP_MODE);
+    backendURI += "http://";
+  }
 
-if (process.env.BACKEND_PORT != '') {
+  backendURI += process.env.BACKEND_HOST;
   backendURI += ":";
   backendURI += process.env.BACKEND_PORT;
+
+  backendURI += process.env.BACKEND_PREFIX;
+
 }
-backendURI += process.env.BACKEND_PREFIX;
 
 var projectTitle = process.env.PROJECT_TITLE;
 
