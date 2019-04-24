@@ -18,6 +18,7 @@ if (process.env.APP_MODE === 'production') {
 backendURI += process.env.BACKEND_HOST;
 backendURI += ":";
 backendURI += process.env.BACKEND_PORT;
+backendURI += process.env.BACKEND_PREFIX;
 
 var projectTitle = process.env.PROJECT_TITLE;
 
@@ -145,13 +146,9 @@ module.exports = {
 
     new CopyWebpackPublic(
       [
-        /*{ from: '/app/frontend/templates', to: 'static/custom/templates/'},*/
-        { from: '/app/frontend/css', to: 'static/custom/css/'},
-        /*{ from: '/app/frontend/js', to: 'static/custom/js/'},*/
-        { from: '/app/frontend/assets', to: 'static/assets/'},
-
-        /*{ from: '/rapydo/src/templates', to: 'static/commons/templates/'},*/
-        { from: '/rapydo/src/css', to: 'static/commons/css/'}
+        { from: '/app/frontend/css', to: process.env.FRONTEND_PREFIX+'static/custom/css/'},
+        { from: '/app/frontend/assets', to: process.env.FRONTEND_PREFIX+'static/assets/'},
+        { from: '/rapydo/src/css', to: process.env.FRONTEND_PREFIX+'static/commons/css/'}
       ]
     )
 
