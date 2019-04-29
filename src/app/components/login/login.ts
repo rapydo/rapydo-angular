@@ -224,10 +224,14 @@ export class LoginComponent implements OnInit {
                             }
                         }
 */
-                    } else {
-                        if (error.error.Response.errors[0] == "Sorry, this account is not active") {
-                            this.account_not_active = true;
+                    } else if (error.status == 404) {
+                        this.notify.showError("Unable to login due to a server error. If this error persists please contact system administrators");
 
+                    } else {
+                        if (error.error && error.error.Response) {
+                            if (error.error.Response.errors[0] == "Sorry, this account is not active") {
+                                this.account_not_active = true;
+                            }
                         }
                         this.notify.extractErrors(error.error.Response, this.notify.ERROR);
                     }
