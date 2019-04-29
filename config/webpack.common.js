@@ -6,7 +6,7 @@ var helpers = require('./helpers');
 
 var backendURI = "";
 
-if (process.env.BACKEND_URI !== '') {
+if (process.env.BACKEND_URI !== undefined && process.env.BACKEND_URI !== null && process.env.BACKEND_URI !== '') {
   backendURI = process.env.BACKEND_URI;
 } else {
 
