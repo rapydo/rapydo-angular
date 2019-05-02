@@ -10,4 +10,5 @@ env:
 
 script:
   - scripts/tests.sh
+  - cd rapydo_tests
   - docker-compose up --exit-code-from cypress
