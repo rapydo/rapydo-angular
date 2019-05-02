@@ -3,7 +3,7 @@ set -e
 
 WORK_DIR=`pwd`
 
-export CURRENT_VERSION=$(grep '"version"' package.json | sed 's/"version": //' | tr -d '",')
+export CURRENT_VERSION=$(grep '"version"' package.json | sed 's/"version": //' | tr -d '", ')
 
 echo "Current project: $PROJECT"
 echo "Current version: $CURRENT_VERSION"
