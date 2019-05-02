@@ -1,0 +1,17 @@
+language: python
+sudo: required
+dist: xenial
+python:
+- 3.7.1
+services:
+- docker
+env:
+- PROJECT=basic
+services:
+- docker
+jobs:
+  include:
+  - stage: frontend-test
+    script: scripts/tests.sh
+    env:
+    - PROJECT=sql
