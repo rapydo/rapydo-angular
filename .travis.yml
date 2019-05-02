@@ -7,11 +7,7 @@ services:
 - docker
 env:
 - PROJECT=basic
-services:
-- docker
-jobs:
-  include:
-  - stage: frontend-test
-    script: scripts/tests.sh
-    env:
-    - PROJECT=sql
+
+script:
+  - scripts/tests.sh
+  - docker-compose up --exit-code-from

@@ -50,13 +50,10 @@ else
 fi
 
 # Let's init and start the stack for the configured PROJECT
-rapydo --development --project ${PROJECT} init --no-build
+rapydo --mode cypress --development --project ${PROJECT} init --no-build
 
-rapydo --development --project ${PROJECT} pull
+rapydo --mode cypress --development --project ${PROJECT} pull
 
-rapydo --development --project ${PROJECT} init
+rapydo --mode cypress --development --project ${PROJECT} init
 
-rapydo --development --project ${PROJECT} start
-docker ps -a
-
-rapydo --development --project template clean
+rapydo --mode cypress --development --project ${PROJECT} dump
