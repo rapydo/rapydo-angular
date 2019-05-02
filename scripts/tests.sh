@@ -5,8 +5,11 @@ WORK_DIR=`pwd`
 
 export CURRENT_VERSION=$(grep '"version"' package.json | sed 's/"version": //' | tr -d '",')
 
-pip3 install git+https://github.com/rapydo/utils.git@$CURRENT_VERSION
-pip3 install git+https://github.com/rapydo/do.git@$CURRENT_VERSION
+echo "Current project: $PROJECT"
+echo "Current version: $CURRENT_VERSION"
+
+pip3 install git+https://github.com/rapydo/utils.git@${CURRENT_VERSION}
+pip3 install git+https://github.com/rapydo/do.git@${CURRENT_VERSION}
 
 #https://docs.travis-ci.com/user/environment-variables/#Default-Environment-Variables
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
@@ -14,8 +17,7 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
 else
 	echo "Current branch: $TRAVIS_BRANCH"
 fi
-echo "Current project: $PROJECT"
-echo "Current version: $CURRENT_VERSION"
+
 
 CORE_DIR="${WORK_DIR}/rapydo_tests"
 COVERAGE_FILE="/tmp/.coverage"
