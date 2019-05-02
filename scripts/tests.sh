@@ -57,3 +57,7 @@ rapydo --mode cypress --development --project ${PROJECT} pull
 rapydo --mode cypress --development --project ${PROJECT} init
 
 rapydo --mode cypress --development --project ${PROJECT} dump
+
+rapydo --mode debug --development --project ${PROJECT} start
+rapydo --mode debug --development --project ${PROJECT} shell --command 'restapi init'
+rapydo --mode debug --development --project ${PROJECT} remove
