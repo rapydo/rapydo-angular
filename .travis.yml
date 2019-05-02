@@ -12,5 +12,8 @@ script:
   - scripts/tests.sh
   - cd rapydo_tests
   - docker-compose up -d frontend
+  - docker-compose up -d backend
+  - rapydo --mode cypress --development --project ${PROJECT} shell backend --command 'restapi init'
+  - rapydo --mode cypress --development --project ${PROJECT} shell backend --command 'restapi launch' &
   - sleep 10
   - docker-compose up --exit-code-from cypress
