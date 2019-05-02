@@ -6,7 +6,7 @@ python:
 services:
 - docker
 env:
-- PROJECT=basic
+- PROJECT=sql
 
 script:
   - scripts/tests.sh
