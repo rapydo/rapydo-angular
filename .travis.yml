@@ -13,5 +13,4 @@ script:
   - cd rapydo_tests
   - docker-compose up -d frontend
   - sleep 10
-  - aws --endpoint-url $S3_HOST s3 sync data/${PROJECT}/frontend/tests/ s3://frontend-${TRAVIS_BUILD_ID}
   - docker-compose up --exit-code-from cypress
