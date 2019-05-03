@@ -3,6 +3,20 @@ html, body {
     width: 100%;
 }
 
+.initial_loading {
+  background-color:#cceeff;
+  padding: 0;
+  margin: 0;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Bootstrap v4 */
 .card-block {
   padding:20px;
@@ -26,28 +40,6 @@ html, body {
 .horizontal-center {
 	width:1000px;
 	text-align: center;
-}
-
-.flex-container {
-    padding: 0;
-    margin: 0;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-}
-
-.flex-hcentered {
-    align-items: center;
-    justify-content: center;
-}
-
-.flex-vcentered {
-    height: 100%;
-}
-.flex-element {
-    width: auto;
 }
 
 .table-borderless td, .table-borderless th {
