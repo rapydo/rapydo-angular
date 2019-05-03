@@ -16,4 +16,5 @@ script:
   - rapydo --mode cypress --development --project ${PROJECT} shell backend --command 'restapi init'
   - rapydo --mode cypress --development --project ${PROJECT} shell backend --command 'restapi launch' &
   - sleep 10
+  - aws --endpoint-url $S3_HOST s3 sync data/${PROJECT}/frontend/tests/ s3://frontend-${TRAVIS_BUILD_ID}
   - docker-compose up --exit-code-from cypress

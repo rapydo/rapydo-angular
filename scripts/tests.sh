@@ -8,8 +8,12 @@ export CURRENT_VERSION=$(grep '"version"' package.json | sed 's/"version": //' |
 echo "Current project: $PROJECT"
 echo "Current version: $CURRENT_VERSION"
 
-pip3 install git+https://github.com/rapydo/utils.git@${CURRENT_VERSION}
-pip3 install git+https://github.com/rapydo/do.git@${CURRENT_VERSION}
+pip3 install --upgrade git+https://github.com/rapydo/utils.git@${CURRENT_VERSION}
+pip3 install --upgrade git+https://github.com/rapydo/do.git@${CURRENT_VERSION}
+
+pip3 install --upgrade awscli==1.15.70
+aws configure set aws_access_key_id $S3_USER
+aws configure set aws_secret_access_key $S3_PWD
 
 #https://docs.travis-ci.com/user/environment-variables/#Default-Environment-Variables
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
@@ -61,3 +65,5 @@ rapydo --mode cypress --development --project ${PROJECT} dump
 rapydo --mode debug --development --project ${PROJECT} start
 rapydo --mode debug --development --project ${PROJECT} shell --command 'restapi init'
 rapydo --mode debug --development --project ${PROJECT} remove
+
+aws --endpoint-url $S3_HOST s3api create-bucket --bucket frontend-${TRAVIS_BUILD_ID}
