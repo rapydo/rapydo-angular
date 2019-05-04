@@ -256,12 +256,7 @@ export class BasePaginationComponent implements OnInit {
         this.modalTitle = "Create a new " + this.resource_name;
         this.fields = data.fields;
         this.model = data.model;
-        let options = {
-          backdrop: 'static',
-          keyboard: false,
-          size: 'lg'
-        };
-        this.modalRef = this.modalService.open(formModal, options);
+        this.modalRef = this.modalService.open(formModal, {size: 'lg', ignoreBackdropClick: 'Enable'});
         this.modalRef.result.then((result) => {
           // console.log("Closed with: " + result);
         }, (reason) => {
@@ -290,17 +285,12 @@ export class BasePaginationComponent implements OnInit {
         this.model = data.model;
         // Extra for update:
         this.model["_id"] = row.id;
-        let options = {
-          backdrop: 'static',
-          keyboard: false,
-          size: 'lg'
-        };
-        this.modalRef = this.modalService.open(formModal, options);
-        this.modalRef.result.then((result) => {
+          this.modalRef = this.modalService.open(formModal, {size: 'lg', ignoreBackdropClick: 'Enable'});
+          this.modalRef.result.then((result) => {
           // console.log("Closed with: " + result);
-        }, (reason) => {
+          }, (reason) => {
           // console.log(`Dismissed ${this.getDismissReason(reason)}`);
-        });
+          });
       }, error => {
             console.log("error retrieving schema")
           }
