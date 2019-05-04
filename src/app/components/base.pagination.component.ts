@@ -260,7 +260,7 @@ export class BasePaginationComponent implements OnInit {
           backdrop: 'static',
           keyboard: false,
           size: 'lg'
-        }
+        };
         this.modalRef = this.modalService.open(formModal, options);
         this.modalRef.result.then((result) => {
           // console.log("Closed with: " + result);
@@ -294,7 +294,7 @@ export class BasePaginationComponent implements OnInit {
           backdrop: 'static',
           keyboard: false,
           size: 'lg'
-        }
+        };
         this.modalRef = this.modalService.open(formModal, options});
         this.modalRef.result.then((result) => {
           // console.log("Closed with: " + result);
