@@ -295,7 +295,7 @@ export class BasePaginationComponent implements OnInit {
           keyboard: false,
           size: 'lg'
         };
-        this.modalRef = this.modalService.open(formModal, options});
+        this.modalRef = this.modalService.open(formModal, options);
         this.modalRef.result.then((result) => {
           // console.log("Closed with: " + result);
         }, (reason) => {
