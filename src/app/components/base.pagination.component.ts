@@ -256,7 +256,7 @@ export class BasePaginationComponent implements OnInit {
         this.modalTitle = "Create a new " + this.resource_name;
         this.fields = data.fields;
         this.model = data.model;
-        this.modalRef = this.modalService.open(formModal, {"size": 'lg', "ignoreBackdropClick": 'Enable'});
+        this.modalRef = this.modalService.open(formModal, {"size": 'lg', "backdrop": 'static'});
         this.modalRef.result.then((result) => {
           // console.log("Closed with: " + result);
         }, (reason) => {
@@ -285,7 +285,7 @@ export class BasePaginationComponent implements OnInit {
         this.model = data.model;
         // Extra for update:
         this.model["_id"] = row.id;
-          this.modalRef = this.modalService.open(formModal, {"size": 'lg', "ignoreBackdropClick": 'Enable'});
+          this.modalRef = this.modalService.open(formModal, {"size": 'lg', "backdrop": 'static'});
           this.modalRef.result.then((result) => {
           // console.log("Closed with: " + result);
           }, (reason) => {
