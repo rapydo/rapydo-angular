@@ -129,10 +129,20 @@ export class FormlyService {
         field_type = "select";
         template_type = "select";
 
-/*				field['templateOptions']['labelProp'] = "value";
-            field['templateOptions']['valueProp'] = "id";*/
-            field['templateOptions']['options'] = s['options']
-            field['templateOptions']['multiple'] = multiple;
+/*
+				field['templateOptions']['labelProp'] = "value";
+        field['templateOptions']['valueProp'] = "id";
+*/
+
+        field['templateOptions']['options'] = s['options']
+        if (!field['templateOptions']['required']) {
+          if (Array.isArray(field['templateOptions']['options'])) {
+            field['templateOptions']['options'].unshift(
+              {value: "", label: ""}
+            );
+          }
+        }
+        field['templateOptions']['multiple'] = multiple;
 
       } else if (stype == "checkbox" || stype == "boolean") {
         field_type = "checkbox";
@@ -200,7 +210,14 @@ export class FormlyService {
         field['className'] = 'col-'+s['size'];
 
       field['templateOptions']['label'] = s['label'];
-      field['templateOptions']['placeholder'] = s['description'];
+
+      if (stype == "select") {
+
+        field['templateOptions']['description'] = s['description'];
+
+      } else {
+        field['templateOptions']['placeholder'] = s['description'];
+      }
       field['templateOptions']['type'] = template_type; 
       field['templateOptions']['required'] = (s['required'] == "true");
 
