@@ -41,6 +41,7 @@ import { LoadingComponent } from './components/loading/loading';
 import { FormlyHorizontalWrapper } from './components/forms/bootstrap.horizontal.wrapper'
 import { FileValueAccessor } from './components/forms/file-value-accessor';
 import { FormlyFieldFile } from './components/forms/file-type.component';
+import { FormlyDescriptiveRadio } from './components/forms/radio-type.component';
 import { TermsOfUseCheckbox } from './components/forms/terms_of_use_checkbox'
 
 import { ProfileComponent } from './components/profile/profile';
@@ -167,6 +168,7 @@ let declarations = [
   FormlyHorizontalWrapper,
   FileValueAccessor,
   FormlyFieldFile,
+  FormlyDescriptiveRadio,
   TermsOfUseCheckbox
 ];
 
@@ -202,6 +204,7 @@ let imports = [
     FormlyModule.forRoot({
       types: [
         { name: 'file', component: FormlyFieldFile, wrappers: ['form-field'] }, 
+        { name: 'radio', component: FormlyDescriptiveRadio }, 
         { name: 'terms_of_use', component: TermsOfUseCheckbox }
       ],
       validationMessages: [
