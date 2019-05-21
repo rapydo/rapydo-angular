@@ -103,6 +103,11 @@ module.exports = {
         loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader?sourceMap' })
       },
       {
+        test: /\.js$/,
+        include: [helpers.root('src', 'app'), '/app/frontend/app/'],
+        loader: 'script-loader'
+      },
+      {
         test: /\.css$/,
         include: [helpers.root('src', 'app'), '/app/frontend/app/'],
         loader: 'raw-loader'
