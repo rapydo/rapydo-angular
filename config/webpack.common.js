@@ -104,7 +104,7 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        include: [helpers.root('src', 'app'), '/app/frontend/app/'],
+        include: [helpers.root('src', 'app'), '/app/frontend/'],
         loader: 'script-loader'
       },
       {
