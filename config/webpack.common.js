@@ -32,6 +32,21 @@ var projectTitle = process.env.PROJECT_TITLE;
 var allowRegistration = process.env.ALLOW_REGISTRATION === 'true';
 var allowPasswordReset = process.env.ALLOW_PASSWORD_RESET === 'true';
 
+var processEnv = {
+  'apiUrl': JSON.stringify(backendURI + '/api'),
+  'authApiUrl': JSON.stringify(backendURI + '/auth'),
+  'projectTitle': JSON.stringify(projectTitle),
+  'allowRegistration': JSON.stringify(allowRegistration),
+  'allowPasswordReset': JSON.stringify(allowPasswordReset),
+}
+
+let INJECT_KEY = 'INJECT_'
+for (let key in process.env) {
+  if (key.startsWith(INJECT_KEY)) {
+    processEnv[key.substr(INJECT_KEY.length)] = JSON.stringify(process.env[key])
+  }
+}
+
 module.exports = {
   entry: {
     'polyfills': '/rapydo/src/polyfills.ts',
@@ -144,13 +159,7 @@ module.exports = {
     }),
 
     new webpack.DefinePlugin({
-      'process.env': {
-        'apiUrl': JSON.stringify(backendURI + '/api'),
-        'authApiUrl': JSON.stringify(backendURI + '/auth'),
-        'projectTitle': JSON.stringify(projectTitle),
-        'allowRegistration': JSON.stringify(allowRegistration),
-        'allowPasswordReset': JSON.stringify(allowPasswordReset),
-      }
+      'process.env': processEnv
     }),
 
     new CopyWebpackPublic(
