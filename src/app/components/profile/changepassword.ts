@@ -113,10 +113,10 @@ export class ChangePasswordComponent {
     data["new_password"] = this.model["newPwd"];
     data["password_confirm"] = this.model["confirmPwd"];
 
-    if (this.model["currentPwd"])	
+    if (this.model["currentPwd"])
       data["password"] = this.model["currentPwd"];
 
-    if (this.model["totp_code"])	
+    if (this.model["totp_code"])
       data["password"] = this.model["totp_code"];
 
     let username = this.auth.getUser().email;

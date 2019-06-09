@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { catchError, map } from 'rxjs/operators';
-/*import { VERSION as NG_VERSION } from '@angular/core';*/
 import { ChangeDetectorRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from './services/auth';
@@ -17,10 +16,6 @@ export class AppComponent {
 
   private loading: boolean = false;
   private user: any;
-
-/*	versions = {
-    angular: NG_VERSION.full
-  }*/
 
   constructor(
       private auth: AuthService,

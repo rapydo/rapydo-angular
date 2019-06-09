@@ -130,7 +130,7 @@ export class FormlyService {
         template_type = "select";
 
 /*
-				field['templateOptions']['labelProp'] = "value";
+        field['templateOptions']['labelProp'] = "value";
         field['templateOptions']['valueProp'] = "id";
 */
 

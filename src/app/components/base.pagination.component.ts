@@ -142,7 +142,7 @@ export class BasePaginationComponent implements OnInit {
       let start = (this.paging.page - 1) * this.paging.itemsPerPage;
       let end = this.paging.itemsPerPage > -1 ? (start + this.paging.itemsPerPage): data.length;
       this.rows = data.slice(start, end);
-    }	
+    }
     return this.rows;
   }
 

@@ -14,20 +14,20 @@ import { FieldType } from '@ngx-formly/core';
         [ngClass]="{ 'form-check': to.formCheck !== 'custom', 'form-check-inline': to.formCheck === 'inline', 'custom-control custom-radio': to.formCheck === 'custom' }"
       >
         <label class='custom-control custom-radio'>
-	        <input type="radio" class='custom-control-input'
-	          [id]="id + '_' + i"
-	          [name]="id"
-	          [class.is-invalid]="showError"
-	          [attr.value]="option.value"
-	          [value]="option.value"
-	          [formControl]="formControl"
-	          [formlyAttributes]="field">
-        	<span class='custom-control-label'>
-	          {{ option.label }}
-	        </span>
-	        <small *ngIf="option.description" class="radio-description form-text text-muted">
-		        {{ option.description }}
-	        </small>
+          <input type="radio" class='custom-control-input'
+            [id]="id + '_' + i"
+            [name]="id"
+            [class.is-invalid]="showError"
+            [attr.value]="option.value"
+            [value]="option.value"
+            [formControl]="formControl"
+            [formlyAttributes]="field">
+          <span class='custom-control-label'>
+            {{ option.label }}
+          </span>
+          <small *ngIf="option.description" class="radio-description form-text text-muted">
+            {{ option.description }}
+          </small>
         </label>
 
       </div>
