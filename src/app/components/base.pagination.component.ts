@@ -15,6 +15,8 @@ import { FormlyService } from '/rapydo/src/app/services/formly'
 })
 export class BasePaginationComponent implements OnInit {
 
+  protected resource_name:string;
+
   protected server_side_filter = false;
   protected server_side_sort = false;
   protected server_side_pagination = false;
