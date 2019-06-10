@@ -44,7 +44,6 @@ export class BasePaginationComponent implements OnInit {
   public paging: any;
 
   constructor(
-    protected resource_name:string,
     protected api: ApiService,
     protected auth: AuthService,
     protected notify: NotificationService,
@@ -52,7 +51,7 @@ export class BasePaginationComponent implements OnInit {
     protected formly: FormlyService,
     ) {
 
-    this.deleteConfirmation = this.getDeleteConfirmation(resource_name);
+    this.deleteConfirmation = this.getDeleteConfirmation(this.resource_name);
   }
   public ngOnInit(): void { console.log("ngOnInit: to be implemented")}
 
