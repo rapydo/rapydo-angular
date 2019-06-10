@@ -23,12 +23,14 @@ module.exports = webpackMerge(commonConfig, {
   },
 
   module: {
+    /*
     rules: [
       {
         test: /\.ts$/,
         loaders: ['@ngtools/webpack']
       }
     ]
+    */
   },
 
   plugins: [
