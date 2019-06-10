@@ -2,6 +2,8 @@ const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionPlugin = require('compression-webpack-plugin')
+const TerserJSPlugin = require('terser-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 // const AotPlugin = require('@ngtools/webpack').AngularCompilerPlugin;
 
 const commonConfig = require('./webpack.common.js');
@@ -40,6 +42,13 @@ module.exports = webpackMerge(commonConfig, {
       }
     */
     ]
+  },
+
+  optimization: {
+    minimizer: [
+      new TerserJSPlugin({}),
+      new OptimizeCSSAssetsPlugin({})
+    ],
   },
 
   plugins: [
