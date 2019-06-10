@@ -1,6 +1,6 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 var CopyWebpackPublic = require('copy-webpack-plugin');
 var helpers = require('./helpers');
 
@@ -104,14 +104,25 @@ module.exports = {
         loader: 'file-loader?name=assets/[name].[hash].[ext]'
       },
       {
-        test: /\.css$/,
-        exclude: [helpers.root('src', 'app'), '/app/frontend/app/'],
-        loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader?sourceMap' })
-      },
-      {
         test: /\.js$/,
         include: [helpers.root('src', 'app'), '/app/frontend/'],
         loader: 'script-loader'
+      },
+      {
+        test: /\.css$/,
+        exclude: [helpers.root('src', 'app'), '/app/frontend/app/'],
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              // only enable hot in development
+              hmr: process.env.NODE_ENV !== 'production',
+              // if hmr does not work, this is a forceful method.
+              reloadAll: true,
+            },
+          },
+          'css-loader',
+        ],
       },
       {
         test: /\.css$/,

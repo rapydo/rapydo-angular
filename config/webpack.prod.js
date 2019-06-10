@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionPlugin = require('compression-webpack-plugin')
 // const AotPlugin = require('@ngtools/webpack').AngularCompilerPlugin;
 
@@ -57,7 +57,12 @@ module.exports = webpackMerge(commonConfig, {
     }),
     */
     new CompressionPlugin(),
-    new ExtractTextPlugin('[name].[hash].css'),
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+    }),
     new webpack.DefinePlugin({
       'process.env': {
         'ENV': JSON.stringify(ENV)
