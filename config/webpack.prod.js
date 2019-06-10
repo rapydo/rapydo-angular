@@ -19,7 +19,7 @@ module.exports = webpackMerge(commonConfig, {
     path: '/modules/dist',
     publicPath: process.env.FRONTEND_PREFIX,
     filename: '[name].[hash].js',
-    chunkFilename: '[id].[hash].chunk.js'
+    chunkFilename: '[id].[hash].js'
   },
 
   module: {
@@ -61,7 +61,7 @@ module.exports = webpackMerge(commonConfig, {
       // Options similar to the same options in webpackOptions.output
       // both options are optional
       filename: '[name].css',
-      chunkFilename: '[id].css',
+      chunkFilename: '[id].[hash].css',
     }),
     new webpack.DefinePlugin({
       'process.env': {
