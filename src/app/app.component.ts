@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
     this.auth.isAuthenticated().subscribe(
       is_auth => {
         if (is_auth) {
-          this.user = auth.getUser();
+          this.user = this.auth.getUser();
         }
         this.loading = false;
       }
