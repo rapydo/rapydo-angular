@@ -51,8 +51,13 @@ export class BasePaginationComponent implements OnInit {
     protected formly: FormlyService,
     ) {
 
+  }
+  public init(res:string) {
+
+    this.resource_name = res;
     this.deleteConfirmation = this.getDeleteConfirmation(this.resource_name);
   }
+
   public ngOnInit(): void { console.log("ngOnInit: to be implemented")}
 
   /** DELETE MODAL WITH MESSAGE CONFIRMATION **/

@@ -37,8 +37,8 @@ export class AdminUsersComponent extends BasePaginationComponent {
     private customization: ProjectOptions
     ) {
 
-    this.resource_name = "user";
     super(api, auth, notify, modalService, formly);
+    this.init("user");
 
     this.list();
     this.initPaging(20);
