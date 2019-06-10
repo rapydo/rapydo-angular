@@ -12,7 +12,7 @@ import { NavbarComponent } from './components/navbar/navbar';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   private loading: boolean = false;
   private user: any;
@@ -23,24 +23,27 @@ export class AppComponent {
       private titleService: Title,
       private ref: ChangeDetectorRef) {
 
+    this.loading = true;
+
+  }
+
+  public ngOnInit(): void {
     let t = process.env.projectTitle;
     t = t.replace(/^'/, "");
     t = t.replace(/'$/, "");
-    titleService.setTitle(t);
-
-    auth.userChanged.subscribe(user => this.changeLogged(user));
-
-    this.loading = true;
+    this.titleService.setTitle(t);
+    this.auth.userChanged.subscribe(
+      user => this.changeLogged(user)
+     );
     this.auth.isAuthenticated().subscribe(
-            is_auth => {
-              if (is_auth) {
-                  this.user = auth.getUser();
-              }
-              this.loading = false;
-            }
-        );
+      is_auth => {
+        if (is_auth) {
+          this.user = auth.getUser();
+        }
+        this.loading = false;
+      }
+    );
   }
-
 
   changeLogged(user: any) {
 
