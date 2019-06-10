@@ -2,6 +2,8 @@ const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin')
+const AotPlugin = require('@ngtools/webpack').AotPlugin;
+
 const commonConfig = require('./webpack.common.js');
 const helpers = require('./helpers');
 
@@ -20,7 +22,20 @@ module.exports = webpackMerge(commonConfig, {
     chunkFilename: '[id].[hash].chunk.js'
   },
 
+  module: {
+    rules: [
+      {
+        test: /\.ts$/,
+        loaders: ['@ngtools/webpack']
+      }
+    ]
+  },
+
   plugins: [
+    new AotPlugin({
+        tsConfigPath: helpers.root('src', 'tsconfig.json'),
+        entryModule: '/rapydo/src/app/app.module#AppModule'
+    }),
     /*
     new webpack.optimize.UglifyJsPlugin({ // https://github.com/angular/angular/issues/10618
       mangle: {
