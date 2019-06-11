@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionPlugin = require('compression-webpack-plugin')
 const TerserJSPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-// const AotPlugin = require('@ngtools/webpack').AngularCompilerPlugin;
+const AotPlugin = require('@ngtools/webpack').AngularCompilerPlugin;
 
 const commonConfig = require('./webpack.common.js');
 const helpers = require('./helpers');
@@ -26,7 +26,7 @@ module.exports = webpackMerge(commonConfig, {
 
   module: {
     rules: [
-      {
+/*      {
         test: /\.ts$/,
         loaders: [
           {
@@ -34,13 +34,13 @@ module.exports = webpackMerge(commonConfig, {
             options: { configFileName: helpers.root('src', 'tsconfig.json') }
           } , 'angular2-template-loader'
         ]
-      }
-    /*
+      }*/
+    
       {
         test: /\.ts$/,
         loaders: ['@ngtools/webpack']
       }
-    */
+    
     ]
   },
 
@@ -52,12 +52,12 @@ module.exports = webpackMerge(commonConfig, {
   },
 
   plugins: [
-    /*
+    
     new AotPlugin({
         tsConfigPath: helpers.root('src', 'tsconfig.json'),
         entryModule: '/rapydo/src/app/app.module#AppModule'
     }),
-    */
+    
     /*
     new webpack.optimize.UglifyJsPlugin({ // https://github.com/angular/angular/issues/10618
       mangle: {
