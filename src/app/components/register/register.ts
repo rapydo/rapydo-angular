@@ -15,11 +15,11 @@ import { ProjectOptions } from '/app/frontend/app/custom.project.options';
  
 export class RegisterComponent implements OnInit {
 
-    private allowRegistration: boolean = false;
-    private registration_title: string;
-    private showRegistrationForm: boolean = false;
-    private registration_message: string;
-    private invalid_token: boolean = false;
+    public allowRegistration: boolean = false;
+    public registration_title: string;
+    public showRegistrationForm: boolean = false;
+    public registration_message: string;
+    public invalid_token: boolean = false;
 
     private disclaimer: string;
 

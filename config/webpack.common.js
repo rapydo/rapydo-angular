@@ -111,7 +111,7 @@ module.exports = {
       {
         test: /\.css$/,
         //exclude: [helpers.root('src', 'app'), '/app/frontend/app/'],
-        include: ['/rapydo/src/css', '/app/frontend/css/'],
+        include: ['/rapydo/src/css', '/app/frontend/css/', '/modules/node_modules'],
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
@@ -128,7 +128,7 @@ module.exports = {
       {
         test: /\.css$/,
         // include: [helpers.root('src', 'app'), '/app/frontend/app/'],
-        exclude: ['/rapydo/src/css', '/app/frontend/css/'],
+        exclude: ['/rapydo/src/css', '/app/frontend/css/', '/modules/node_modules'],
         loader: 'raw-loader'
       }
     ]
