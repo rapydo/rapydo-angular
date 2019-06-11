@@ -111,7 +111,7 @@ module.exports = {
       {
         test: /\.css$/,
         //exclude: [helpers.root('src', 'app'), '/app/frontend/app/'],
-        include: ['/rapydo/src/css', '/app/frontend/css/', '/modules/node_modules'],
+        //include: ['/rapydo/src/css/', '/app/frontend/css/'],
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
@@ -124,13 +124,14 @@ module.exports = {
           },
           'css-loader',
         ],
-      },
+      }/*,
       {
         test: /\.css$/,
         // include: [helpers.root('src', 'app'), '/app/frontend/app/'],
-        exclude: ['/rapydo/src/css', '/app/frontend/css/', '/modules/node_modules'],
-        loader: 'raw-loader'
-      }
+        // exclude: ['/rapydo/src/css/', '/app/frontend/css/'],
+        //include: ['/rapydo/src/app', '/app/frontend/app/', '/modules/node_modules'],
+        use: ['style-loader','css-loader']
+      }*/
     ]
   },
 
