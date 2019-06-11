@@ -15,17 +15,18 @@ import { ProjectOptions } from '/app/frontend/app/custom.project.options';
  
 export class LoginComponent implements OnInit {
 
-    private allowPasswordReset: boolean = false;
-    private allowRegistration: boolean = false;
-
-    private form = new FormGroup({});
-    private fields: FormlyFieldConfig[] = []; 
-    private model:any = {}
-
-    private loading = false;
     private returnUrl: string = "";
 
-    private account_not_active:boolean = false;
+    public allowPasswordReset: boolean = false;
+    public allowRegistration: boolean = false;
+
+    public form = new FormGroup({});
+    public fields: FormlyFieldConfig[] = []; 
+    public model:any = {}
+
+    public loading = false;
+
+    public account_not_active:boolean = false;
 
     @ViewChild('privacy_acceptance') public privacy_acceptance: TemplateRef<any>;
     protected modalRef: NgbModalRef;
