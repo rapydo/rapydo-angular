@@ -42,6 +42,7 @@ export class BasePaginationComponent implements OnInit {
   protected deleteConfirmation: any;
 
   public paging: any;
+  public is_update: boolean = false;
 
   constructor(
     protected api: ApiService,
@@ -291,12 +292,16 @@ export class BasePaginationComponent implements OnInit {
         this.model = data.model;
         // Extra for update:
         this.model["_id"] = row.id;
-          this.modalRef = this.modalService.open(formModal, {"size": 'lg', "backdrop": 'static'});
-          this.modalRef.result.then((result) => {
-          // console.log("Closed with: " + result);
-          }, (reason) => {
-          // console.log(`Dismissed ${this.getDismissReason(reason)}`);
-          });
+        this.is_update = true;
+        this.modalRef = this.modalService.open(formModal, {"size": 'lg', "backdrop": 'static'});
+        this.is_update = true;
+        this.modalRef.result.then((result) => {
+          this.is_update = false;
+        // console.log("Closed with: " + result);
+        }, (reason) => {
+          this.is_update = false;
+        // console.log(`Dismissed ${this.getDismissReason(reason)}`);
+        });
       }, error => {
             console.log("error retrieving schema")
           }
