@@ -337,4 +337,11 @@ export class BasePaginationComponent implements OnInit {
       this.updating = false;
     }
   }
+
+  public onDatatableActivate(event: any) {
+    if (event.type === 'click') {
+        event.cellElement.blur();
+    }
+  }
+
 }
