@@ -105,12 +105,15 @@ export class BasePaginationComponent implements OnInit {
       }
 
       this.data = this.filter(this.data_filter);
+      this.post_filter();
 
       this.updatePaging(this.data.length);
 
       this.changePage(1, this.data);
     }
   }
+
+  post_filter() {}
 
   filter(data_filter) {
     console.log("WARNING: filter function not implemented")
