@@ -21,7 +21,7 @@ import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 
 import { IteratePipe, BytesPipe } from './pipes/pipes'
 
-import { Error404Component } from './components/errors/404';
+//import { Error404Component } from './components/errors/404';
 import { OfflineComponent } from './components/errors/offline';
 import { LoadingComponent } from './components/loading/loading';
 
@@ -132,9 +132,11 @@ export function maxValidationError(error, field) {
 
 
 const routes: Routes = [
+/*
   {
     path: '404', component: Error404Component
   },
+*/
   {
     path: 'offline', component: OfflineComponent
   },
@@ -177,12 +179,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     runGuardsAndResolvers: 'always',
     data: { roles: ['admin_root', 'local_admin'] }
-  },
+  }/*,
   {
   	path: '**',
   	redirectTo: '/404',
   	pathMatch: 'full'
-  }
+  }*/
 
 ];
 
@@ -241,7 +243,8 @@ const routes: Routes = [
   ],
   declarations: [
 	IteratePipe, BytesPipe,
-	Error404Component, OfflineComponent, LoadingComponent,
+	// Error404Component,
+  OfflineComponent, LoadingComponent,
 	LoginComponent, ResetPasswordComponent, RegisterComponent,
 	ProfileComponent, ChangePasswordComponent, SessionsComponent,
 	BasePaginationComponent,
@@ -270,7 +273,8 @@ const routes: Routes = [
 
 	IteratePipe, BytesPipe,
 
-	Error404Component, OfflineComponent, LoadingComponent,
+	// Error404Component,
+  OfflineComponent, LoadingComponent,
 	LoginComponent, ResetPasswordComponent, RegisterComponent,
 	ProfileComponent, ChangePasswordComponent, SessionsComponent,
 	BasePaginationComponent,
