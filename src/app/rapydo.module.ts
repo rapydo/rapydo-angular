@@ -177,12 +177,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     runGuardsAndResolvers: 'always',
     data: { roles: ['admin_root', 'local_admin'] }
-  }/*,
+  },
   {
   	path: '**',
   	redirectTo: '/404',
   	pathMatch: 'full'
-  }*/
+  }
 
 ];
 
