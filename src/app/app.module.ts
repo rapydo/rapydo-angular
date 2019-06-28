@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { RapydoModule } from './rapydo.module'
-import { PageNotFoundModule } from './404.module.ts'
+import { PageNotFoundModule } from './404.module'
 import { CustomModule } from '/app/frontend/app/custom.module';
 
 import { AppComponent } from './app.component';
