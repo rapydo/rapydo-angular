@@ -20,13 +20,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
   	CommonModule,
-    RouterModule.forChild(
-      routes,
-      {
-        enableTracing: false,
-        onSameUrlNavigation: 'reload'
-       } // <-- debugging purposes only
-    )
+    RouterModule.forChild(routes)
   ],
   declarations: [
   	Error404Component
