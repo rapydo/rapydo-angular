@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { RouterModule, Routes } from '@angular/router';
 
+import { Error404Component } from './components/errors/404';
+
 const routes: Routes = [
   {
     path: '404', component: Error404Component
