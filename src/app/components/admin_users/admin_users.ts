@@ -18,13 +18,13 @@ import { ProjectOptions } from '/app/frontend/app/custom.project.options';
 })
 export class AdminUsersComponent extends BasePaginationComponent {
 
-  @ViewChild('dataActive') public dataActive: TemplateRef<any>;
-  @ViewChild('dataRoles') public dataRoles: TemplateRef<any>;
-  @ViewChild('dataGroup') public dataGroup: TemplateRef<any>;
-  @ViewChild('dataName') public dataName: TemplateRef<any>;
-  @ViewChild('controlsCell') public controlsCell: TemplateRef<any>;
-  @ViewChild('emptyHeader') public emptyHeader: TemplateRef<any>;
-  @ViewChild('formModal') public formModal: TemplateRef<any>;
+  @ViewChild('dataActive', { static: false }) public dataActive: TemplateRef<any>;
+  @ViewChild('dataRoles', { static: false }) public dataRoles: TemplateRef<any>;
+  @ViewChild('dataGroup', { static: false }) public dataGroup: TemplateRef<any>;
+  @ViewChild('dataName', { static: false }) public dataName: TemplateRef<any>;
+  @ViewChild('controlsCell', { static: false }) public controlsCell: TemplateRef<any>;
+  @ViewChild('emptyHeader', { static: false }) public emptyHeader: TemplateRef<any>;
+  @ViewChild('formModal', { static: false }) public formModal: TemplateRef<any>;
 
   protected endpoint = 'admin/users'
 
