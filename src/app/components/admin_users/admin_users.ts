@@ -44,30 +44,30 @@ export class AdminUsersComponent extends BasePaginationComponent {
     this.initPaging(20);
   }
 
-  public ngOnInit(): void {
+  public ngAfterViewInit(): void {
 
     this.columns = [];
-        this.columns.push({name: '', prop: "is_active", cellTemplate: this.dataActive, flexGrow: 0.1});
+    this.columns.push({name: '', prop: "is_active", cellTemplate: this.dataActive, flexGrow: 0.1});
     this.columns.push({name: 'Email', prop: "email", flexGrow: 1.0});
-        /*this.columns.push({name: 'Name', prop: "name", flexGrow: 0.8});*/
-        /*this.columns.push({name: 'Surname', prop: "surname", flexGrow: 0.8});*/
-        this.columns.push({name: 'Name', prop: "surname", flexGrow: 1.0, cellTemplate: this.dataName});
+    /*this.columns.push({name: 'Name', prop: "name", flexGrow: 0.8});*/
+    /*this.columns.push({name: 'Surname', prop: "surname", flexGrow: 0.8});*/
+    this.columns.push({name: 'Name', prop: "surname", flexGrow: 1.0, cellTemplate: this.dataName});
 
-        let user_page = this.customization.get_option('user_page');
-        if (user_page !== null) {
-          if (user_page["group"]) {
-            this.columns.push({name: 'Group', prop: "_belongs_to", cellTemplate: this.dataGroup, flexGrow: 0.3});
-        }
+    let user_page = this.customization.get_option('user_page');
+    if (user_page !== null) {
+      if (user_page["group"]) {
+        this.columns.push({name: 'Group', prop: "_belongs_to", cellTemplate: this.dataGroup, flexGrow: 0.3});
+    }
 
-        if (user_page["custom"]) {
+    if (user_page["custom"]) {
 
-          for (let i=0; i<user_page["custom"].length; i++) {
-            this.columns.push(user_page["custom"][i]);
-          }
-        }
-        }
+      for (let i=0; i<user_page["custom"].length; i++) {
+        this.columns.push(user_page["custom"][i]);
+      }
+    }
+    }
 
-        this.columns.push({name: 'Roles', prop: "_roles", cellTemplate: this.dataRoles, flexGrow: 0.9});
+    this.columns.push({name: 'Roles', prop: "_roles", cellTemplate: this.dataRoles, flexGrow: 0.9});
     this.columns.push({name: 'controls', prop: 'controls', cellTemplate: this.controlsCell, headerTemplate: this.emptyHeader, flexGrow: 0.2});
   }
 

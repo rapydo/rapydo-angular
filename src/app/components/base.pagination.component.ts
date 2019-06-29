@@ -59,7 +59,7 @@ export class BasePaginationComponent implements OnInit {
     this.deleteConfirmation = this.getDeleteConfirmation(this.resource_name);
   }
 
-  public ngOnInit(): void { console.log("ngOnInit: to be implemented")}
+  public ngOnInit(): void { }
 
   /** DELETE MODAL WITH MESSAGE CONFIRMATION **/
   public getDeleteConfirmation(name) {
