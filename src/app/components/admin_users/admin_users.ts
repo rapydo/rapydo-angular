@@ -1,5 +1,5 @@
 
-import { Component, ViewChild, TemplateRef } from '@angular/core';
+import { Component, ViewChild, TemplateRef, ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ApiService } from '/rapydo/src/app/services/api';
@@ -18,13 +18,13 @@ import { ProjectOptions } from '/app/frontend/app/custom.project.options';
 })
 export class AdminUsersComponent extends BasePaginationComponent {
 
-  @ViewChild('dataActive') public dataActive: TemplateRef<any>;
-  @ViewChild('dataRoles') public dataRoles: TemplateRef<any>;
-  @ViewChild('dataGroup') public dataGroup: TemplateRef<any>;
-  @ViewChild('dataName') public dataName: TemplateRef<any>;
-  @ViewChild('controlsCell') public controlsCell: TemplateRef<any>;
-  @ViewChild('emptyHeader') public emptyHeader: TemplateRef<any>;
-  @ViewChild('formModal') public formModal: TemplateRef<any>;
+  @ViewChild('dataActive', { static: false }) public dataActive: TemplateRef<any>;
+  @ViewChild('dataRoles', { static: false }) public dataRoles: TemplateRef<any>;
+  @ViewChild('dataGroup', { static: false }) public dataGroup: TemplateRef<any>;
+  @ViewChild('dataName', { static: false }) public dataName: TemplateRef<any>;
+  @ViewChild('controlsCell', { static: false }) public controlsCell: TemplateRef<any>;
+  @ViewChild('emptyHeader', { static: false }) public emptyHeader: TemplateRef<any>;
+  @ViewChild('formModal', { static: false }) public formModal: TemplateRef<any>;
 
   protected endpoint = 'admin/users'
 
@@ -34,40 +34,41 @@ export class AdminUsersComponent extends BasePaginationComponent {
     protected notify: NotificationService,
     protected modalService: NgbModal,
     protected formly: FormlyService,
+    protected changeDetectorRef: ChangeDetectorRef,
     private customization: ProjectOptions
     ) {
 
-    super(api, auth, notify, modalService, formly);
+    super(api, auth, notify, modalService, formly, changeDetectorRef);
     this.init("user");
 
     this.list();
     this.initPaging(20);
   }
 
-  public ngOnInit(): void {
+  public ngAfterViewInit(): void {
 
     this.columns = [];
-        this.columns.push({name: '', prop: "is_active", cellTemplate: this.dataActive, flexGrow: 0.1});
+    this.columns.push({name: '', prop: "is_active", cellTemplate: this.dataActive, flexGrow: 0.1});
     this.columns.push({name: 'Email', prop: "email", flexGrow: 1.0});
-        /*this.columns.push({name: 'Name', prop: "name", flexGrow: 0.8});*/
-        /*this.columns.push({name: 'Surname', prop: "surname", flexGrow: 0.8});*/
-        this.columns.push({name: 'Name', prop: "surname", flexGrow: 1.0, cellTemplate: this.dataName});
+    /*this.columns.push({name: 'Name', prop: "name", flexGrow: 0.8});*/
+    /*this.columns.push({name: 'Surname', prop: "surname", flexGrow: 0.8});*/
+    this.columns.push({name: 'Name', prop: "surname", flexGrow: 1.0, cellTemplate: this.dataName});
 
-        let user_page = this.customization.get_option('user_page');
-        if (user_page !== null) {
-          if (user_page["group"]) {
-            this.columns.push({name: 'Group', prop: "_belongs_to", cellTemplate: this.dataGroup, flexGrow: 0.3});
-        }
+    let user_page = this.customization.get_option('user_page');
+    if (user_page !== null) {
+      if (user_page["group"]) {
+        this.columns.push({name: 'Group', prop: "_belongs_to", cellTemplate: this.dataGroup, flexGrow: 0.3});
+    }
 
-        if (user_page["custom"]) {
+    if (user_page["custom"]) {
 
-          for (let i=0; i<user_page["custom"].length; i++) {
-            this.columns.push(user_page["custom"][i]);
-          }
-        }
-        }
+      for (let i=0; i<user_page["custom"].length; i++) {
+        this.columns.push(user_page["custom"][i]);
+      }
+    }
+    }
 
-        this.columns.push({name: 'Roles', prop: "_roles", cellTemplate: this.dataRoles, flexGrow: 0.9});
+    this.columns.push({name: 'Roles', prop: "_roles", cellTemplate: this.dataRoles, flexGrow: 0.9});
     this.columns.push({name: 'controls', prop: 'controls', cellTemplate: this.controlsCell, headerTemplate: this.emptyHeader, flexGrow: 0.2});
   }
 

@@ -13,7 +13,7 @@ import { AuthService } from '../../services/auth';
 })
 export class ProfileComponent { 
 
-  private user: any
+  public user: any
 
   constructor(api: ApiService, auth: AuthService) {
 

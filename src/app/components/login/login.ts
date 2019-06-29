@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
 
     public account_not_active:boolean = false;
 
-    @ViewChild('privacy_acceptance') public privacy_acceptance: TemplateRef<any>;
+    @ViewChild('privacy_acceptance', { static: false }) public privacy_acceptance: TemplateRef<any>;
     protected modalRef: NgbModalRef;
     private terms_of_use: any;
 
@@ -93,6 +93,12 @@ export class LoginComponent implements OnInit {
 
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+
+        // check for secondary route and remove it, can make router navigate fail
+        const offset = this.returnUrl.lastIndexOf('(');
+        if (offset >= 0) { 
+            this.returnUrl = this.returnUrl.slice(0, offset);
+        }
     }
  
     login() {

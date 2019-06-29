@@ -12,7 +12,7 @@
 <div class="table-responsive">
 	<table class='table'>
 
-        <tr>
+        <tr style='border-top: 0px'>
             <th>Name</th>
             <td>{{user.name}} {{user.surname}}</td>
         </tr>
@@ -24,7 +24,9 @@
         <tr>
             <th>Roles</th>
             <td>
-                <span *ngFor="let role of user.roles | iterate">
+                <span
+                    *ngFor="let role of user.roles | iterate"
+                    class='badge badge-info' style='margin-right:3px;'>
                     {{role.value}}
                 </span>
             </td>
@@ -32,12 +34,55 @@
 
 		<tr *ngFor="let value of user | iterate: 'uuid'">
 
-    		<th *ngIf="['name', 'surname', 'email', 'password', 'roles'].indexOf(value.key) < 0">
-                {{value.key}}
+    		<th *ngIf="['name', 'surname', 'email', 'password', 'roles'].indexOf(value.key) < 0" [ngSwitch]="value.key">
+
+                <span *ngSwitchCase="'group'">
+                    Group
+                </span>
+
+                <span *ngSwitchCase="'isAdmin'">
+                    Administrator
+                </span>
+
+                <span *ngSwitchCase="'isLocalAdmin'">
+                    Local Administrator
+                </span>
+
+                <span *ngSwitchCase="'privacy_accepted'">
+                    Privacy Accepted
+                </span>
+
+                <span *ngSwitchCase="'status'">
+                    Account status
+                </span>
+
+                <span *ngSwitchDefault>{{value.key}}</span>
+
             </th>
 
-    		<td *ngIf="['name', 'surname', 'email', 'password', 'roles'].indexOf(value.key) < 0">
-                {{value.value}}
+    		<td *ngIf="['name', 'surname', 'email', 'password', 'roles'].indexOf(value.key) < 0" [ngSwitch]="value.key">
+
+                <span 
+                    *ngSwitchCase="'group'"
+                    [innerHTML]="value.value['fullname']">
+                </span>
+
+                <span 
+                    *ngSwitchCase="'isAdmin'"
+                    [innerHTML]="value.value | boolean_flag">
+                </span>
+
+                <span 
+                    *ngSwitchCase="'isLocalAdmin'"
+                    [innerHTML]="value.value | boolean_flag">
+                </span>
+
+                <span 
+                    *ngSwitchCase="'privacy_accepted'"
+                    [innerHTML]="value.value | boolean_flag">
+                </span>
+
+                <span *ngSwitchDefault>{{value.value}}</span>
             </td>
 
 		</tr>

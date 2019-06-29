@@ -33,20 +33,56 @@ export class IteratePipe {
 @Injectable()
 export class BytesPipe {
 
-    transform(bytes, precision):string {
-        if (bytes == 0)
-          return "0"
+  transform(bytes, precision):string {
+    if (bytes == 0)
+      return "0"
 
-        if (bytes == -1 || isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
+    if (bytes == -1 || isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
 
-        let units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
-            number = Math.floor(Math.log(bytes) / Math.log(1024));
+    let units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
+      number = Math.floor(Math.log(bytes) / Math.log(1024));
 
-        if (typeof precision === 'undefined') {
-            if (number <= 1) precision = 0;
-            else precision = 1;
-        }
-        return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +  ' ' + units[number];
-      }
+    if (typeof precision === 'undefined') {
+      if (number <= 1) precision = 0;
+      else precision = 1;
+    }
+    return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +  ' ' + units[number];
+  }
+}
 
+
+@Pipe({
+  name: 'boolean_flag'
+})
+@Injectable()
+export class BooleanFlagPipe {
+
+  transform(str):string {
+
+    if (str == true)
+      return "<i class='fas fa-check fa-large fa-green'></i>";
+
+    if (str == false)
+      return "<i class='fas fa-times fa-large fa-red'></i>";
+
+    return str;
+  }
+}
+
+@Pipe({
+  name: 'yes_or_no'
+})
+@Injectable()
+export class YesNoPipe {
+
+  transform(str):string {
+
+    if (str == true)
+      return "YES";
+
+    if (str == false)
+      return "NO";
+
+    return str;
+  }
 }

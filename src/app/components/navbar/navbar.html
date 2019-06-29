@@ -13,7 +13,7 @@
 		</li>
 
 		<li class='nav-item' *ngIf="user">
-			<a class='nav-link'>
+			<a class='nav-link' href [routerLink]="">
       		<i class='fas fa-sign-out-alt fa-large' ngbTooltip='Logout' 
                 mwlConfirmationPopover
                 [popoverTitle]="logoutConfirmationTitle"

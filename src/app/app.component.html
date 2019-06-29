@@ -40,7 +40,25 @@
 
 <navbar [user]="user" *ngIf="!loading && api.is_online()"></navbar>
 
-<br>
 <router-outlet *ngIf="!loading && api.is_online()"> 
 
 </router-outlet>
+
+<cookie-law #cookieLaw>
+	<span *ngIf='cookieLawText; else defaultText'
+		  [innerHTML]='cookieLawText'></span>
+	<ng-template #defaultText>
+		We uses cookies to ensure you get the best experience on our website. If you continue to use this site you accept to receive cookies, otherwise you can leave this page. 
+	</ng-template>
+
+	&nbsp;
+
+	<button class='btn btn-secondary btn-sm' (click)="dismissCookieLaw()">
+		<ng-container *ngIf='cookieLawButton; else defaultButton'>
+			{{cookieLawButton}}
+		</ng-container>
+		<ng-template #defaultButton>
+			Ok, got it
+		</ng-template>
+	</button >
+</cookie-law>

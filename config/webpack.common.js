@@ -1,8 +1,10 @@
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-var CopyWebpackPublic = require('copy-webpack-plugin');
-var helpers = require('./helpers');
+const autoprefixer = require('autoprefixer');
+const cssnano = require('cssnano');
+const CopyWebpackPublic = require('copy-webpack-plugin');
+const helpers = require('./helpers');
 
 var backendURI = "";
 
@@ -28,6 +30,7 @@ if (process.env.BACKEND_URI !== undefined && process.env.BACKEND_URI !== null &&
 }
 
 var projectTitle = process.env.PROJECT_TITLE;
+var projectDescription = process.env.PROJECT_DESCRIPTION;
 
 var allowRegistration = process.env.ALLOW_REGISTRATION === 'true';
 var allowPasswordReset = process.env.ALLOW_PASSWORD_RESET === 'true';
@@ -36,6 +39,7 @@ var processEnv = {
   'apiUrl': JSON.stringify(backendURI + '/api'),
   'authApiUrl': JSON.stringify(backendURI + '/auth'),
   'projectTitle': JSON.stringify(projectTitle),
+  'projectDescription': JSON.stringify(projectDescription),
   'allowRegistration': JSON.stringify(allowRegistration),
   'allowPasswordReset': JSON.stringify(allowPasswordReset),
 }
@@ -86,7 +90,11 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.js'],
-    modules: ["/modules/node_modules"]
+    modules: ["/modules/node_modules"],
+    alias: {
+      '@rapydo': '/rapydo/src/app',
+      '@app': '/app/frontend/app'
+    }
   },
 
   resolveLoader: {
@@ -110,8 +118,8 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        //exclude: [helpers.root('src', 'app'), '/app/frontend/app/'],
-        //include: ['/rapydo/src/css/', '/app/frontend/css/'],
+        include: ['/rapydo/src/css/', '/app/frontend/css/', '/modules/node_modules'],
+        exclude: ['/modules/node_modules/@swimlane/ngx-datatable'],
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
@@ -122,16 +130,48 @@ module.exports = {
               reloadAll: true,
             },
           },
-          'css-loader',
+          {
+            loader: 'css-loader'
+          },
+          {
+              loader: 'postcss-loader',
+              options: {
+                  ident: 'postcss',
+                  plugins: function(loader){
+                      return [
+                          autoprefixer({remove: false, flexbox: true}),
+                          cssnano({zindex: false})
+                      ];
+                  }
+              }
+          }
         ],
-      }/*,
+      },
+      // Great guide here: https://www.freecodecamp.org/news/how-to-configure-webpack-4-with-angular-7-a-complete-guide-9a23c879f471/
       {
         test: /\.css$/,
         // include: [helpers.root('src', 'app'), '/app/frontend/app/'],
         // exclude: ['/rapydo/src/css/', '/app/frontend/css/'],
         //include: ['/rapydo/src/app', '/app/frontend/app/', '/modules/node_modules'],
-        use: ['style-loader','css-loader']
-      }*/
+        include: ['/rapydo/src/app', '/app/frontend/app/', '/modules/node_modules/@swimlane/ngx-datatable'],
+        use: [
+          {
+            loader: 'to-string-loader'
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              ident: 'postcss',
+              plugins: function(loader){
+                return [
+                  autoprefixer({remove: false, flexbox: true}),
+                  cssnano({zindex: false})
+                ];
+              }
+            }
+          }
+         ]
+      }
     ]
   },
 
@@ -146,7 +186,7 @@ module.exports = {
     // Workaround for angular/angular#11580
     new webpack.ContextReplacementPlugin(
       // The (\\|\/) piece accounts for path separators in *nix and Windows
-      /angular(\\|\/)core(\\|\/)@angular/,
+      /\@angular(\\|\/)core(\\|\/)fesm5/,
       helpers.root('/rapydo/src'), // location of your src
       {} // a map of your routes
     ),

@@ -9,7 +9,6 @@ export class FormlyService {
 
   constructor(private modalService: NgbModal) {}
 
-  //public json2Form(schema, data, DataController) {
   public json2Form(schema, data) {
 
     let fields = [];
@@ -82,6 +81,7 @@ export class FormlyService {
           let format = s['format']
           if (format == "date") stype = "date"
           if (format == "email") stype = "email"
+          if (format == "password") stype = "password"
         }
 
         if (s['required']) {
@@ -118,13 +118,16 @@ export class FormlyService {
         field_type = "input";
         template_type = "number";
       } else if (stype == "date") {
-        // field_type = "datepicker";
-        field_type = "input";
-        template_type = "date";
+        field_type = "datepicker";
+        // field_type = "input";
+        // template_type = "date";
       } else if (stype == "email") {
         field_type = "input";
         template_type = "email";
         field["validators"] = { "validation": ["email"]}
+      } else if (stype == "password") {
+        field_type = "input";
+        template_type = "password";
       } else if (stype == "select") {
         field_type = "select";
         template_type = "select";
@@ -186,9 +189,6 @@ export class FormlyService {
         } else {
           field['templateOptions']['select_label'] = "name"
         }
-
-        /*console.log(DataController);*/
-        /*field['controller'] = DataController+" as ctrl";*/
       }
 
       field['key'] = s['key'];
@@ -246,8 +246,10 @@ export class FormlyService {
 
             if (template_type == "number") {
               default_data = parseInt(default_data);
+            } else if (field_type == "datepicker") { 
+              default_data = this.formatNgbDatepicker(default_data);
             } else if (template_type == "date") {
-              default_data = new Date(default_data);
+              default_data = this.formatDate(default_data);
             } else if (template_type == "select") {
               if (islink) {
                 // Array copy
@@ -283,7 +285,71 @@ export class FormlyService {
     return {"fields":fields, "model": model};
   }
 
-  showForm() {
+  public getField(model, type, key, name, required, descr, options=undefined) {
+
+    const field = {
+      "description": descr,
+      "key": key,
+      "label": name,
+      "required": (required)? "true":"false",
+      "type": type
+    }
+
+    if (type == 'checkbox' || type == 'boolean') {
+      if (key in model) {
+
+        const v = model[key];
+
+        if (v == "0" || v == "false" || v == "False" || v == "off") {
+          field["default"] = false;
+        } else if (v == "1" || v == "true" || v == "True" || v == "on") {
+          field["default"] = true;
+        } else {
+          field["default"] = v;
+        }
+        delete model[key];
+      }
+    } else if (type == "select") {
+      field["default"] = model[key];
+    }
+
+    if (options) {
+      field['options'] = options;
+    }
+
+    return this.json2Form([field], model);
+  }
+
+  public formatNgbDatepicker(date_string) {
+    if (date_string === null)
+      return date_string
+
+    if (date_string == "")
+      return date_string
+
+    // this works because we provided NgbDateAdapter = NgbDateNativeAdapter
+    // otherwise by default ngbDatepicker uses { year: 'yyyy', month: 'mm', day: 'dd'}
+    return new Date(date_string);
+  }
+  public formatDate(date_string) {
+    if (date_string === null)
+      return date_string
+
+    if (date_string == "")
+      return date_string
+
+      const d = new Date(date_string);
+      let month = '' + (d.getMonth() + 1);
+      let day = '' + d.getDate();
+      const year = d.getFullYear();
+
+      if (month.length < 2) month = '0' + month;
+      if (day.length < 2) day = '0' + day;
+
+      return [year, month, day].join('-');
+  }
+
+  public showForm() {
 
     let template = "<div>test</div>";
       this.modalRef = this.modalService.open(template, {size: 'lg'});

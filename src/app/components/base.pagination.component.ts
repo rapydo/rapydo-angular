@@ -1,19 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup } from '@angular/forms';
 import { FormlyConfig } from '@ngx-formly/core';
+import { DatatableComponent } from '@swimlane/ngx-datatable';
 
-import { ApiService } from '/rapydo/src/app/services/api';
-import { AuthService } from '/rapydo/src/app/services/auth';
-import { NotificationService} from '/rapydo/src/app/services/notification';
-import { FormlyService } from '/rapydo/src/app/services/formly'
+// can be used to do this:
+//this.myservice = AppModule.injector.get(MyService);
+//import { AppModule } from '@rapydo/app.module';
+
+import { ApiService } from '@rapydo/services/api';
+import { AuthService } from '@rapydo/services/auth';
+import { NotificationService} from '@rapydo/services/notification';
+import { FormlyService } from '@rapydo/services/formly'
 
 @Component({
   selector: 'base-component',
   providers: [ApiService, AuthService, NotificationService, FormlyService],
   templateUrl: './base.pagination.component.html'
 })
-export class BasePaginationComponent implements OnInit {
+export class BasePaginationComponent implements OnInit, AfterViewChecked {
 
   protected resource_name:string;
 
@@ -30,7 +35,7 @@ export class BasePaginationComponent implements OnInit {
   protected model:any = {}
   protected modalTitle: string;
 
-  protected loading:boolean = false;
+  public loading:boolean = false;
   protected updating:boolean = false;
   protected data: Array<any> = [];
   protected rows: Array<any> = [];
@@ -44,12 +49,17 @@ export class BasePaginationComponent implements OnInit {
   public paging: any;
   public is_update: boolean = false;
 
+  @ViewChild('tableWrapper', {static: false}) tableWrapper;
+  @ViewChild(DatatableComponent, {static: false}) table: DatatableComponent;
+  private currentComponentWidth;
+
   constructor(
     protected api: ApiService,
     protected auth: AuthService,
     protected notify: NotificationService,
     protected modalService: NgbModal,
     protected formly: FormlyService,
+    protected changeDetectorRef: ChangeDetectorRef,
     ) {
 
   }
@@ -59,7 +69,17 @@ export class BasePaginationComponent implements OnInit {
     this.deleteConfirmation = this.getDeleteConfirmation(this.resource_name);
   }
 
-  public ngOnInit(): void { console.log("ngOnInit: to be implemented")}
+  public ngOnInit(): void { }
+
+  // https://github.com/swimlane/ngx-datatable/issues/193
+  public ngAfterViewChecked() {
+    // Check if the table size has changed,
+    if (this.table && this.table.recalculate && (this.tableWrapper.nativeElement.clientWidth !== this.currentComponentWidth)) {
+      this.currentComponentWidth = this.tableWrapper.nativeElement.clientWidth;
+      this.table.recalculate();
+      this.changeDetectorRef.detectChanges();
+    }
+  }
 
   /** DELETE MODAL WITH MESSAGE CONFIRMATION **/
   public getDeleteConfirmation(name) {
@@ -175,7 +195,7 @@ export class BasePaginationComponent implements OnInit {
       'get_total': true
     }
     return this.api.get(this.counter_endpoint, "", data).subscribe(
-          response => {
+      response => {
         let result = this.api.parseResponse(response.data);
 
         this.notify.extractErrors(response, this.notify.WARNING);
@@ -190,9 +210,9 @@ export class BasePaginationComponent implements OnInit {
         return t;
 
       }, error => {
-            this.notify.extractErrors(error, this.notify.ERROR);
-            return 0;
-          }
+          this.notify.extractErrors(error, this.notify.ERROR);
+          return 0;
+        }
       );
   }
   protected remove(uuid) { console.log("remove: to be implemented") }
@@ -242,7 +262,7 @@ export class BasePaginationComponent implements OnInit {
     return this.api.delete(endpoint, uuid).subscribe(
       response => {
 
-        this.notify.showSuccess("Confirmation: "+this.resource_name+" successfully deleted");
+        this.notify.showSuccess("Confirmation: " + this.resource_name + " successfully deleted");
         this.list();
       }, error => {
         this.notify.extractErrors(error, this.notify.ERROR);
@@ -328,7 +348,7 @@ export class BasePaginationComponent implements OnInit {
         response => {
 
           this.modalRef.close("");
-          this.notify.showSuccess(this.resource_name + " successfully " + type);
+          this.notify.showSuccess("Confirmation: " + this.resource_name + " successfully " + type);
 
           this.list();
         }, error => {

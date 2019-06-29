@@ -1,17 +1,22 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule }  from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateAdapter, NgbDateNativeAdapter, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import { RouterModule, Routes } from '@angular/router';
 
 import { MomentModule } from 'ngx-moment';
+import * as moment from 'moment';
+
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { ClipboardModule } from 'ngx-clipboard';
+import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 
 import { FormsModule, FormControl } from '@angular/forms';
 import { ReactiveFormsModule, ValidationErrors } from '@angular/forms';
@@ -19,41 +24,46 @@ import { ReactiveFormsModule, ValidationErrors } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 
-import { IteratePipe, BytesPipe } from './pipes/pipes'
+import { CookieLawModule } from 'angular2-cookie-law';
 
-//import { Error404Component } from './components/errors/404';
-import { OfflineComponent } from './components/errors/offline';
-import { LoadingComponent } from './components/loading/loading';
+import { IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe } from '@rapydo/pipes/pipes';
+import { SecurePipe } from '@rapydo/pipes/secure';
 
-import { BasePaginationComponent } from './components/base.pagination.component';
-import { ProfileComponent } from './components/profile/profile';
-import { ChangePasswordComponent } from './components/profile/changepassword';
-import { SessionsComponent } from './components/profile/sessions';
+//import { Error404Component } from '@rapydo/components/errors/404';
+import { OfflineComponent } from '@rapydo/components/errors/offline';
+import { LoadingComponent } from '@rapydo/components/loading/loading';
 
-import { NavbarComponent } from './components/navbar/navbar';
+import { BasePaginationComponent } from '@rapydo/components/base.pagination.component';
+import { ProfileComponent } from '@rapydo/components/profile/profile';
+import { ChangePasswordComponent } from '@rapydo/components/profile/changepassword';
+import { SessionsComponent } from '@rapydo/components/profile/sessions';
 
-import { AdminUsersComponent } from './components/admin_users/admin_users';
-import { LoginComponent } from './components/login/login';
-import { ResetPasswordComponent } from './components/login/reset';
-import { RegisterComponent } from './components/register/register';
+import { NavbarComponent } from '@rapydo/components/navbar/navbar';
 
-import { AuthGuard } from './app.auth.guard';
-import { AuthService } from './services/auth';
-import { ApiService } from './services/api';
-import { FormlyService } from './services/formly';
-import { NotificationService } from './services/notification';
+import { AdminUsersComponent } from '@rapydo/components/admin_users/admin_users';
+import { LoginComponent } from '@rapydo/components/login/login';
+import { ResetPasswordComponent } from '@rapydo/components/login/reset';
+import { RegisterComponent } from '@rapydo/components/register/register';
 
-import { JwtInterceptor } from './jwt.interceptor';
+import { AuthGuard } from '@rapydo/app.auth.guard';
+import { AuthService } from '@rapydo/services/auth';
+import { ApiService } from '@rapydo/services/api';
+import { FormlyService } from '@rapydo/services/formly';
+import { NotificationService } from '@rapydo/services/notification';
 
-import { FormlyHorizontalWrapper } from './components/forms/bootstrap.horizontal.wrapper'
-import { FileValueAccessor } from './components/forms/file-value-accessor';
-import { FormlyFieldFile } from './components/forms/file-type.component';
-import { FormlyDescriptiveRadio } from './components/forms/radio-type.component';
-import { TermsOfUseCheckbox } from './components/forms/terms_of_use_checkbox'
+import { JwtInterceptor } from '@rapydo/jwt.interceptor';
 
-import { CustomNavbarComponent } from '/app/frontend/app/custom.navbar';
-import { CustomBrandComponent } from '/app/frontend/app/custom.navbar';
-import { ProjectOptions } from '/app/frontend/app/custom.project.options';
+import { FormlyHorizontalWrapper } from '@rapydo/components/forms/bootstrap.horizontal.wrapper'
+import { FileValueAccessor } from '@rapydo/components/forms/file-value-accessor';
+import { FormlyFieldFile } from '@rapydo/components/forms/file-type.component';
+import { FormlyDescriptiveRadio } from '@rapydo/components/forms/radio-type.component';
+import { TermsOfUseCheckbox } from '@rapydo/components/forms/terms_of_use_checkbox'
+import { DatePickerComponent } from '@rapydo/components/forms/datepicker.component';
+import { DatePickerValueAccessor } from '@rapydo/components/forms/datepicker.directive';
+
+import { CustomNavbarComponent } from '@app/custom.navbar';
+import { CustomBrandComponent } from '@app/custom.navbar';
+import { ProjectOptions } from '@app/custom.project.options';
 
 export function emailValidator(control: FormControl): ValidationErrors {
   /*
@@ -130,6 +140,31 @@ export function maxValidationError(error, field) {
   return `Should be lower than ${field.templateOptions.max}`;
 }
 
+export class MomentDateFormatter extends NgbDateParserFormatter {
+
+  constructor(private DT_FORMAT: string) {
+    super();
+  }
+
+  parse(value: string): NgbDateStruct {
+    if (value) {
+      value = value.trim();
+      let mdt = moment(value, this.DT_FORMAT)
+      return {
+        year: mdt.year(),
+        month: 1 + mdt.month(),
+        day: mdt.day()
+      };
+    }
+    return null;
+  }
+  format(date: NgbDateStruct): string {
+    if (!date) return '';
+    let mdt = moment([date.year, date.month - 1, date.day]);
+    if (!mdt.isValid()) return '';
+    return mdt.format(this.DT_FORMAT);
+  }
+}
 
 const routes: Routes = [
 /*
@@ -201,6 +236,7 @@ const routes: Routes = [
     ),
 
     BrowserModule,
+    BrowserAnimationsModule, // required by CookieLaw
 
     // import HttpClientModule after BrowserModule
     HttpClientModule,
@@ -215,13 +251,18 @@ const routes: Routes = [
       }
     ),
     ClipboardModule,
+    CookieLawModule,
     FormsModule, ReactiveFormsModule,
     FormlyBootstrapModule,
     FormlyModule.forRoot({
+      wrappers: [
+        {name: 'form-field-horizontal', component: FormlyHorizontalWrapper}
+      ],
       types: [
-        { name: 'file', component: FormlyFieldFile, wrappers: ['form-field'] }, 
-        { name: 'radio', component: FormlyDescriptiveRadio }, 
-        { name: 'terms_of_use', component: TermsOfUseCheckbox }
+        {name: 'file', component: FormlyFieldFile, wrappers: ['form-field']}, 
+        {name: 'radio', component: FormlyDescriptiveRadio}, 
+        {name: 'terms_of_use', component: TermsOfUseCheckbox},
+        {name: 'datepicker', component: DatePickerComponent, wrappers: ['form-field']}
       ],
       validationMessages: [
         {name: 'required', message: 'This field is required'},
@@ -231,18 +272,17 @@ const routes: Routes = [
         {name: 'max', message: maxValidationError},
         {name: 'email', message: 'Invalid email address'},
         {name: 'url', message: 'Invalid web address'},
+        {name: 'ngbDate', message: 'Invalid date, expected format: dd/mm/yyyy'},
       ],
       validators: [
         {name: 'email', validation: emailValidator},
         {name: 'url', validation: URLValidator}
-      ],
-      wrappers: [
-        {name: 'form-field-horizontal', component: FormlyHorizontalWrapper}
       ]
     }),
   ],
   declarations: [
-	IteratePipe, BytesPipe,
+	IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe,
+  SecurePipe,
 	// Error404Component,
   OfflineComponent, LoadingComponent,
 	LoginComponent, ResetPasswordComponent, RegisterComponent,
@@ -255,9 +295,12 @@ const routes: Routes = [
 	FormlyFieldFile,
 	FormlyDescriptiveRadio,
 	TermsOfUseCheckbox,
+  DatePickerComponent, DatePickerValueAccessor,
 
 	CustomNavbarComponent,
-	CustomBrandComponent
+	CustomBrandComponent,
+
+  FileSelectDirective, FileDropDirective
   ],
 
   exports: [
@@ -267,50 +310,57 @@ const routes: Routes = [
   	HttpClientModule,
   	NgbModule,
     MomentModule,
-	NgxDatatableModule,
+	  NgxDatatableModule,
     ConfirmationPopoverModule, 
     ClipboardModule,
+    CookieLawModule,
 
-	IteratePipe, BytesPipe,
+	  IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe,
+    SecurePipe,
 
-	// Error404Component,
-  OfflineComponent, LoadingComponent,
-	LoginComponent, ResetPasswordComponent, RegisterComponent,
-	ProfileComponent, ChangePasswordComponent, SessionsComponent,
-	BasePaginationComponent,
-	NavbarComponent,
-	AdminUsersComponent,
+	  // Error404Component,
+    OfflineComponent, LoadingComponent,
+	  LoginComponent, ResetPasswordComponent, RegisterComponent,
+	  ProfileComponent, ChangePasswordComponent, SessionsComponent,
+	  BasePaginationComponent,
+	  NavbarComponent,
+	  AdminUsersComponent,
 
-	FormlyHorizontalWrapper,
-	FileValueAccessor,
-	FormlyFieldFile,
-	FormlyDescriptiveRadio,
-	TermsOfUseCheckbox,
-	FormsModule, ReactiveFormsModule,
+	  FormlyHorizontalWrapper,
+	  FileValueAccessor,
+	  FormlyFieldFile,
+	  FormlyDescriptiveRadio,
+	  TermsOfUseCheckbox,
+    DatePickerComponent, DatePickerValueAccessor,
+
+	  FormsModule, ReactiveFormsModule,
     FormlyBootstrapModule,
-    FormlyModule
+    FormlyModule,
+    FileSelectDirective, FileDropDirective
   ],
   providers: [
-	AuthService, AuthGuard,
-	ApiService,
-	FormlyService,
-	NotificationService,
-	ProjectOptions,
-	{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+	  AuthService, AuthGuard,
+  	ApiService,
+  	FormlyService,
+  	NotificationService,
+  	ProjectOptions,
+  	{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    { provide: NgbDateParserFormatter, useValue: new MomentDateFormatter('DD/MM/YYYY') }
   ],
 })
 export class RapydoModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: RapydoModule,
-	  providers: [
-		  AuthService, AuthGuard,
-		  ApiService,
-		  FormlyService,
-		  NotificationService,
-		  ProjectOptions,
-		  { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-	  ],
+  	  providers: [
+  		  AuthService, AuthGuard,
+  		  ApiService,
+  		  FormlyService,
+  		  NotificationService,
+  		  ProjectOptions,
+  		  { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+  	  ],
     };
   }
 } 
