@@ -39,14 +39,7 @@ module.exports = webpackMerge(commonConfig, {
     */
       {
         test: /\.ts$/,
-        loaders: [
-        {
-          loader: '@ngtools/webpack',
-          options {
-            tsConfigPath: helpers.root('src', 'tsconfig.json'),
-          }
-        }
-        ]
+        loaders: ['@ngtools/webpack']
       }
     ]
   },
