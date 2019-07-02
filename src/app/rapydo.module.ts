@@ -303,14 +303,14 @@ export class RapydoModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: RapydoModule,
-	  providers: [
-		  AuthService, AuthGuard,
-		  ApiService,
-		  FormlyService,
-		  NotificationService,
-		  ProjectOptions,
-		  { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-	  ],
+  	  providers: [
+  		  AuthService, AuthGuard,
+  		  ApiService,
+  		  FormlyService,
+  		  NotificationService,
+  		  ProjectOptions,
+  		  { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+  	  ],
     };
   }
 } 
