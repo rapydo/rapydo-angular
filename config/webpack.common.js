@@ -111,7 +111,7 @@ module.exports = {
       {
         test: /\.css$/,
         //exclude: [helpers.root('src', 'app'), '/app/frontend/app/'],
-        //include: ['/rapydo/src/css/', '/app/frontend/css/'],
+        include: ['/rapydo/src/css/', '/app/frontend/css/', '/modules/node_modules'],
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
@@ -124,14 +124,24 @@ module.exports = {
           },
           'css-loader',
         ],
-      }/*,
+      },
+      // Great guide here: https://www.freecodecamp.org/news/how-to-configure-webpack-4-with-angular-7-a-complete-guide-9a23c879f471/
       {
         test: /\.css$/,
         // include: [helpers.root('src', 'app'), '/app/frontend/app/'],
         // exclude: ['/rapydo/src/css/', '/app/frontend/css/'],
         //include: ['/rapydo/src/app', '/app/frontend/app/', '/modules/node_modules'],
-        use: ['style-loader','css-loader']
-      }*/
+        include: ['/rapydo/src/app', '/app/frontend/app/'],
+        use: [
+          'to-string-loader',
+          {
+            loader: 'css-loader', 
+            options: { 
+                sourceMap: true 
+            }
+          }
+         ]
+      }
     ]
   },
 

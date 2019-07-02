@@ -68,10 +68,10 @@
     "copy-webpack-plugin": "5.0.3", 
 
     "css-loader": "3.0.0",
+    "to-string-loader": "1.1.5",
     "file-loader": "4.0.0",
     "html-loader": "0.5.5",
     "raw-loader": "3.0.0",
-    "style-loader": "0.23.1",
     "script-loader": "0.7.2",
     "null-loader": "3.0.0",
 
