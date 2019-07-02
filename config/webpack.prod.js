@@ -4,8 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionPlugin = require('compression-webpack-plugin')
 const TerserJSPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-//const AotPlugin = require('@ngtools/webpack').AngularCompilerPlugin;
-import { AngularCompilerPlugin } from '@ngtools/webpack'
+const AngularCompilerPlugin = require('@ngtools/webpack').AngularCompilerPlugin;
 
 const commonConfig = require('./webpack.common.js');
 const helpers = require('./helpers');
