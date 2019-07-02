@@ -39,7 +39,14 @@ module.exports = webpackMerge(commonConfig, {
     */
       {
         test: /\.ts$/,
-        loaders: ['@ngtools/webpack']
+        loaders: [
+        {
+          loader: '@ngtools/webpack',
+          options {
+            tsConfigPath: helpers.root('src', 'tsconfig.json'),
+          }
+        }
+        ]
       }
     ]
   },
@@ -55,7 +62,8 @@ module.exports = webpackMerge(commonConfig, {
     
     new AotPlugin({
         tsConfigPath: helpers.root('src', 'tsconfig.json'),
-        entryModule: '/rapydo/src/app/app.module#AppModule'
+        entryModule: '/rapydo/src/app/app.module#AppModule',
+        sourceMap: true
     }),
     
     /*
