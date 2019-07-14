@@ -126,6 +126,9 @@ export class FormlyService {
         field_type = "input";
         template_type = "email";
         field["validators"] = { "validation": ["email"]}
+      } else if (stype == "password") {
+        field_type = "input";
+        template_type = "password";
       } else if (stype == "select") {
         field_type = "select";
         template_type = "select";
