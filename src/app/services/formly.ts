@@ -82,6 +82,7 @@ export class FormlyService {
           let format = s['format']
           if (format == "date") stype = "date"
           if (format == "email") stype = "email"
+          if (format == "password") stype = "password"
         }
 
         if (s['required']) {
