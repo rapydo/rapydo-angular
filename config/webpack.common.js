@@ -112,8 +112,8 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        //exclude: [helpers.root('src', 'app'), '/app/frontend/app/'],
         include: ['/rapydo/src/css/', '/app/frontend/css/', '/modules/node_modules'],
+        exclude: ['/modules/node_modules/@swimlane/ngx-datatable'],
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
@@ -147,7 +147,7 @@ module.exports = {
         // include: [helpers.root('src', 'app'), '/app/frontend/app/'],
         // exclude: ['/rapydo/src/css/', '/app/frontend/css/'],
         //include: ['/rapydo/src/app', '/app/frontend/app/', '/modules/node_modules'],
-        include: ['/rapydo/src/app', '/app/frontend/app/'],
+        include: ['/rapydo/src/app', '/app/frontend/app/', '/modules/node_modules/@swimlane/ngx-datatable'],
         use: [
           {
             loader: 'to-string-loader'
