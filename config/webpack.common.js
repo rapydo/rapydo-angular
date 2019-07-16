@@ -1,6 +1,8 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const autoprefixer = require('autoprefixer');
+const cssnano = require('cssnano');
 var CopyWebpackPublic = require('copy-webpack-plugin');
 var helpers = require('./helpers');
 
@@ -122,7 +124,21 @@ module.exports = {
               reloadAll: true,
             },
           },
-          'css-loader',
+          {
+            loader: 'css-loader'
+          },
+          {
+              loader: 'postcss-loader',
+              options: {
+                  ident: 'postcss',
+                  plugins: function(loader){
+                      return [
+                          autoprefixer({remove: false, flexbox: true}),
+                          cssnano({zindex: false})
+                      ];
+                  }
+              }
+          }
         ],
       },
       // Great guide here: https://www.freecodecamp.org/news/how-to-configure-webpack-4-with-angular-7-a-complete-guide-9a23c879f471/
@@ -133,11 +149,19 @@ module.exports = {
         //include: ['/rapydo/src/app', '/app/frontend/app/', '/modules/node_modules'],
         include: ['/rapydo/src/app', '/app/frontend/app/'],
         use: [
-          'to-string-loader',
           {
-            loader: 'css-loader', 
-            options: { 
-                sourceMap: true 
+            loader: 'to-string-loader'
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              ident: 'postcss',
+              plugins: function(loader){
+                return [
+                  autoprefixer({remove: false, flexbox: true}),
+                  cssnano({zindex: false})
+                ];
+              }
             }
           }
          ]
