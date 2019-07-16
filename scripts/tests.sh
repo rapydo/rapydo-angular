@@ -46,11 +46,9 @@ else
 fi
 
 # Let's init and start the stack for the configured PROJECT
-rapydo --mode cypress --development --project ${PROJECT} init --no-build
+rapydo --mode cypress --development --project ${PROJECT} init
 
 rapydo --mode cypress --development --project ${PROJECT} pull
-
-rapydo --mode cypress --development --project ${PROJECT} init
 
 rapydo --mode cypress --development --project ${PROJECT} dump
 
