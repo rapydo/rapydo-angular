@@ -13,12 +13,12 @@ import { NavbarComponent } from './components/navbar/navbar';
 })
 export class AppComponent implements OnInit {
 
-  private loading: boolean = false;
+  public loading: boolean = false;
   private user: any;
 
   constructor(
+      public api: ApiService,
       private auth: AuthService,
-      private api: ApiService,
       private titleService: Title,
       private ref: ChangeDetectorRef) {
 

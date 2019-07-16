@@ -15,9 +15,9 @@ import { NotificationService} from '../../services/notification';
 })
 export class ChangePasswordComponent { 
 
-  private form = new FormGroup({});
-  private fields: FormlyFieldConfig[] = []; 
-  private model:any = {}
+  public form = new FormGroup({});
+  public fields: FormlyFieldConfig[] = []; 
+  public model:any = {}
   private user: any
 
   constructor(

@@ -23,8 +23,8 @@ export class SessionsComponent {
     </div>
     `;
 
-    private tokens: any
-    private currentToken: string;
+  public tokens: any
+  private currentToken: string;
 
   constructor(private api: ApiService, private auth: AuthService, private notify: NotificationService) {
 

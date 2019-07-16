@@ -30,7 +30,7 @@ export class BasePaginationComponent implements OnInit {
   protected model:any = {}
   protected modalTitle: string;
 
-  protected loading:boolean = false;
+  public loading:boolean = false;
   protected updating:boolean = false;
   protected data: Array<any> = [];
   protected rows: Array<any> = [];
