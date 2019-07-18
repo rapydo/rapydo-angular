@@ -1,6 +1,7 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule }  from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -18,6 +19,8 @@ import { ReactiveFormsModule, ValidationErrors } from '@angular/forms';
 
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
+
+import { CookieLawModule } from 'angular2-cookie-law';
 
 import { IteratePipe, BytesPipe } from './pipes/pipes'
 
@@ -201,6 +204,7 @@ const routes: Routes = [
     ),
 
     BrowserModule,
+    BrowserAnimationsModule, // required by CookieLaw
 
     // import HttpClientModule after BrowserModule
     HttpClientModule,
@@ -215,6 +219,7 @@ const routes: Routes = [
       }
     ),
     ClipboardModule,
+    CookieLawModule,
     FormsModule, ReactiveFormsModule,
     FormlyBootstrapModule,
     FormlyModule.forRoot({
@@ -270,6 +275,7 @@ const routes: Routes = [
 	  NgxDatatableModule,
     ConfirmationPopoverModule, 
     ClipboardModule,
+    CookieLawModule,
 
 	  IteratePipe, BytesPipe,
 
