@@ -1,10 +1,10 @@
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
-var CopyWebpackPublic = require('copy-webpack-plugin');
-var helpers = require('./helpers');
+const CopyWebpackPublic = require('copy-webpack-plugin');
+const helpers = require('./helpers');
 
 var backendURI = "";
 
@@ -30,6 +30,7 @@ if (process.env.BACKEND_URI !== undefined && process.env.BACKEND_URI !== null &&
 }
 
 var projectTitle = process.env.PROJECT_TITLE;
+var projectDescription = process.env.PROJECT_DESCRIPTION;
 
 var allowRegistration = process.env.ALLOW_REGISTRATION === 'true';
 var allowPasswordReset = process.env.ALLOW_PASSWORD_RESET === 'true';
@@ -38,6 +39,7 @@ var processEnv = {
   'apiUrl': JSON.stringify(backendURI + '/api'),
   'authApiUrl': JSON.stringify(backendURI + '/auth'),
   'projectTitle': JSON.stringify(projectTitle),
+  'projectDescription': JSON.stringify(projectDescription),
   'allowRegistration': JSON.stringify(allowRegistration),
   'allowPasswordReset': JSON.stringify(allowPasswordReset),
 }
