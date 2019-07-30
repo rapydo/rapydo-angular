@@ -1,24 +1,37 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "incremental": true,
-    "declaration": true,
     "module": "commonjs",
     "moduleResolution": "node",
+    "incremental": true,
+    "declaration": true,
     "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "importHelpers": true,
     "removeComments": true,
-    "lib": ["es6", "dom"],
+    "noEmitOnError": true,
+    "lib": ["es2015", "dom"],
     "noImplicitAny": false, /* remove it in a near future */
     "suppressImplicitAnyIndexErrors": true,
     "typeRoots": ["/modules/node_modules/@types"],
     "outDir": "/modules/dist",
-    "baseUrl": "/modules/node_modules/"
+    "baseUrl": "/modules/node_modules/",
+    "mapRoot": "/modules/mapRoot",
+
+  },
+  "angularCompilerOptions": {
+   "genDir": "aot",
+   "skipMetadataEmit" : true
   },
   "include": [
-    "/app/frontend/**/*",
-    "/rapydo/src/**/*"
+    "/rapydo/src/main.ts",
+    "/rapydo/src/polyfills.ts",
+    "/rapydo/src/vendor.ts",
+    "/app/frontend/custom.ts"
+
+    // "/app/frontend/**/*",
+    // "/rapydo/src/**/*"
   ]
 }
 
