@@ -34,12 +34,46 @@
 
 		<tr *ngFor="let value of user | iterate: 'uuid'">
 
-    		<th *ngIf="['name', 'surname', 'email', 'password', 'roles'].indexOf(value.key) < 0">
-                {{value.key}}
+    		<th *ngIf="['name', 'surname', 'email', 'password', 'roles'].indexOf(value.key) < 0" [ngSwitch]="value.key">
+
+                <span *ngSwitchCase="'isAdmin'">
+                    Administrator
+                </span>
+
+                <span *ngSwitchCase="'isLocalAdmin'">
+                    Local Administrator
+                </span>
+
+                <span *ngSwitchCase="'privacy_accepted'">
+                    Privacy Accepted
+                </span>
+
+                <span *ngSwitchCase="'status'">
+                    Account status
+                </span>
+
+                <span *ngSwitchDefault>{{value.key}}</span>
+
             </th>
 
-    		<td *ngIf="['name', 'surname', 'email', 'password', 'roles'].indexOf(value.key) < 0">
-                {{value.value}}
+    		<td *ngIf="['name', 'surname', 'email', 'password', 'roles'].indexOf(value.key) < 0" [ngSwitch]="value.key">
+
+                <span 
+                    *ngSwitchCase="'isAdmin'"
+                    [innerHTML]="value.value | boolean_flag">
+                </span>
+
+                <span 
+                    *ngSwitchCase="'isLocalAdmin'"
+                    [innerHTML]="value.value | boolean_flag">
+                </span>
+
+                <span 
+                    *ngSwitchCase="'privacy_accepted'"
+                    [innerHTML]="value.value | boolean_flag">
+                </span>
+
+                <span *ngSwitchDefault>{{value.value}}</span>
             </td>
 
 		</tr>
