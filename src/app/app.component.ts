@@ -21,6 +21,7 @@ export class AppComponent implements OnInit {
   public cookieLawText:string;
   public cookieLawButton:string;
 
+
   constructor(
       public api: ApiService,
       private auth: AuthService,

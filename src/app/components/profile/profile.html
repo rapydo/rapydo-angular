@@ -24,7 +24,9 @@
         <tr>
             <th>Roles</th>
             <td>
-                <span *ngFor="let role of user.roles | iterate">
+                <span
+                    *ngFor="let role of user.roles | iterate"
+                    class='badge badge-info' style='margin-right:3px;'>
                     {{role.value}}
                 </span>
             </td>
