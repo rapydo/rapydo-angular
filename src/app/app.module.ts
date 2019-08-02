@@ -8,7 +8,8 @@ import { AppComponent } from './app.component';
 
 @NgModule({
   imports: [ 
-    RapydoModule,
+  	RapydoModule.forRoot(),
+    // RapydoModule,
     CustomModule,
     PageNotFoundModule
   ],
