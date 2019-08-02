@@ -27,13 +27,13 @@
   },
   */
   "include": [
-    "/rapydo/src/main.ts",
-    "/rapydo/src/polyfills.ts",
-    "/rapydo/src/vendor.ts",
-    "/app/frontend/custom.ts"
+    // "/rapydo/src/main.ts",
+    // "/rapydo/src/polyfills.ts",
+    // "/rapydo/src/vendor.ts",
+    // "/app/frontend/custom.ts"
 
-    // "/app/frontend/**/*",
-    // "/rapydo/src/**/*"
+    "/app/frontend/**/*",
+    "/rapydo/src/**/*"
   ]
 }
 
