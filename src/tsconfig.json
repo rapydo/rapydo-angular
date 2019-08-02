@@ -17,6 +17,10 @@
     "typeRoots": ["/modules/node_modules/@types"],
     "outDir": "/modules/dist",
     "baseUrl": "/modules/node_modules/",
+    "paths": {
+      "@rapydo/*": ["/rapydo/src/app/*"],
+      "@app/*": ["/app/frontend/app/*"]
+    },
     /*"mapRoot": "/modules/mapRoot",*/
 
   },

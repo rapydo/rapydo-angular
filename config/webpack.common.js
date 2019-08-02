@@ -90,7 +90,11 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.js'],
-    modules: ["/modules/node_modules"]
+    modules: ["/modules/node_modules"],
+    alias: {
+      '@rapydo': '/rapydo/src/app',
+      '@app': '/app/frontend/app'
+    }
   },
 
   resolveLoader: {

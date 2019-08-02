@@ -22,41 +22,41 @@ import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 
 import { CookieLawModule } from 'angular2-cookie-law';
 
-import { IteratePipe, BytesPipe, BooleanFlagPipe } from './pipes/pipes'
+import { IteratePipe, BytesPipe, BooleanFlagPipe } from '@rapydo/pipes/pipes'
 
-//import { Error404Component } from './components/errors/404';
-import { OfflineComponent } from './components/errors/offline';
-import { LoadingComponent } from './components/loading/loading';
+//import { Error404Component } from '@rapydo/components/errors/404';
+import { OfflineComponent } from '@rapydo/components/errors/offline';
+import { LoadingComponent } from '@rapydo/components/loading/loading';
 
-import { BasePaginationComponent } from './components/base.pagination.component';
-import { ProfileComponent } from './components/profile/profile';
-import { ChangePasswordComponent } from './components/profile/changepassword';
-import { SessionsComponent } from './components/profile/sessions';
+import { BasePaginationComponent } from '@rapydo/components/base.pagination.component';
+import { ProfileComponent } from '@rapydo/components/profile/profile';
+import { ChangePasswordComponent } from '@rapydo/components/profile/changepassword';
+import { SessionsComponent } from '@rapydo/components/profile/sessions';
 
-import { NavbarComponent } from './components/navbar/navbar';
+import { NavbarComponent } from '@rapydo/components/navbar/navbar';
 
-import { AdminUsersComponent } from './components/admin_users/admin_users';
-import { LoginComponent } from './components/login/login';
-import { ResetPasswordComponent } from './components/login/reset';
-import { RegisterComponent } from './components/register/register';
+import { AdminUsersComponent } from '@rapydo/components/admin_users/admin_users';
+import { LoginComponent } from '@rapydo/components/login/login';
+import { ResetPasswordComponent } from '@rapydo/components/login/reset';
+import { RegisterComponent } from '@rapydo/components/register/register';
 
-import { AuthGuard } from './app.auth.guard';
-import { AuthService } from './services/auth';
-import { ApiService } from './services/api';
-import { FormlyService } from './services/formly';
-import { NotificationService } from './services/notification';
+import { AuthGuard } from '@rapydo/app.auth.guard';
+import { AuthService } from '@rapydo/services/auth';
+import { ApiService } from '@rapydo/services/api';
+import { FormlyService } from '@rapydo/services/formly';
+import { NotificationService } from '@rapydo/services/notification';
 
-import { JwtInterceptor } from './jwt.interceptor';
+import { JwtInterceptor } from '@rapydo/jwt.interceptor';
 
-import { FormlyHorizontalWrapper } from './components/forms/bootstrap.horizontal.wrapper'
-import { FileValueAccessor } from './components/forms/file-value-accessor';
-import { FormlyFieldFile } from './components/forms/file-type.component';
-import { FormlyDescriptiveRadio } from './components/forms/radio-type.component';
-import { TermsOfUseCheckbox } from './components/forms/terms_of_use_checkbox'
+import { FormlyHorizontalWrapper } from '@rapydo/components/forms/bootstrap.horizontal.wrapper'
+import { FileValueAccessor } from '@rapydo/components/forms/file-value-accessor';
+import { FormlyFieldFile } from '@rapydo/components/forms/file-type.component';
+import { FormlyDescriptiveRadio } from '@rapydo/components/forms/radio-type.component';
+import { TermsOfUseCheckbox } from '@rapydo/components/forms/terms_of_use_checkbox'
 
-import { CustomNavbarComponent } from '/app/frontend/app/custom.navbar';
-import { CustomBrandComponent } from '/app/frontend/app/custom.navbar';
-import { ProjectOptions } from '/app/frontend/app/custom.project.options';
+import { CustomNavbarComponent } from '@app/custom.navbar';
+import { CustomBrandComponent } from '@app/custom.navbar';
+import { ProjectOptions } from '@app/custom.project.options';
 
 export function emailValidator(control: FormControl): ValidationErrors {
   /*
