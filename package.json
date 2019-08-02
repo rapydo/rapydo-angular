@@ -6,8 +6,8 @@
   "scripts": {
     "start": "cd /rapydo && webpack-dev-server --inline --progress --colors --port 80",
     "test": "karma start",
-    "build": "rimraf dist && webpack --config /rapydo/config/webpack.prod.js --progress --profile --bail",
-    "build-aot": "rimraf dist && webpack --config /rapydo/config/webpack.prod.aot.js --progress --profile --bail"
+    "build": "rimraf dist/* && copyfiles --flat /rapydo/courtesy/index.html dist && webpack --config /rapydo/config/webpack.prod.js --progress --profile --bail",
+    "build-aot": "rimraf dist/* && copyfiles --flat /rapydo/courtesy/index.html dist && webpack --config /rapydo/config/webpack.prod.aot.js --progress --profile --bail"
   },
   "license": "MIT",
   "dependencies": {
@@ -87,7 +87,8 @@
     "angular2-template-loader": "0.6.2",
     "awesome-typescript-loader": "5.2.1",
 
-    "rimraf": "2.6.3"
+    "rimraf": "2.6.3",
+    "copyfiles": "2.1.1"
 
   },
   "notUsedDependeciesForTests": {
