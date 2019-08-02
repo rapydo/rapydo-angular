@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node",
     "incremental": true,
@@ -11,7 +11,7 @@
     /*"importHelpers": true,*/
     "removeComments": true,
     /*"noEmitOnError": true,*/
-    "lib": ["es6", "dom"],
+    "lib": ["es2015", "dom"],
     "noImplicitAny": false, /* remove it in a near future */
     "suppressImplicitAnyIndexErrors": true,
     "typeRoots": ["/modules/node_modules/@types"],
