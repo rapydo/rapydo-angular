@@ -9,7 +9,6 @@ export class FormlyService {
 
   constructor(private modalService: NgbModal) {}
 
-  //public json2Form(schema, data, DataController) {
   public json2Form(schema, data) {
 
     let fields = [];
@@ -190,9 +189,6 @@ export class FormlyService {
         } else {
           field['templateOptions']['select_label'] = "name"
         }
-
-        /*console.log(DataController);*/
-        /*field['controller'] = DataController+" as ctrl";*/
       }
 
       field['key'] = s['key'];
@@ -287,7 +283,61 @@ export class FormlyService {
     return {"fields":fields, "model": model};
   }
 
-  showForm() {
+  public getField(model, type, key, name, required, descr, options=undefined) {
+
+    let field = {
+      "type": type ,
+      "key": key,
+      "label": name,
+      "required": (required)? "true":"false",
+      "description": descr
+    }
+
+    if (type == 'checkbox' || type == 'boolean') {
+      if (key in model) {
+
+        let v = model[key];
+
+        if (v == "0" || v == "false" || v == "False" || v == "off") {
+          field["default"] = false;
+        } else if (v == "1" || v == "true" || v == "True" || v == "on") {
+          field["default"] = true;
+        } else {
+          field["default"] = v;
+        }
+        delete model[key];
+      }
+    } else if (type == "select") {
+      field["default"] = model[key];
+    }
+
+    if (options) {
+      field['options'] = options;
+    }
+
+    let data = this.json2Form([field], model);
+    return data
+  }
+
+  public formatDate(date_string) {
+    if (date_string === null)
+      return date_string
+
+    if (date_string == "")
+      return date_string
+
+      let d = new Date(date_string),
+          month = '' + (d.getMonth() + 1),
+          day = '' + d.getDate(),
+          year = d.getFullYear();
+
+      if (month.length < 2) month = '0' + month;
+      if (day.length < 2) day = '0' + day;
+
+      return [year, month, day].join('-');
+  }
+
+  public showForm() {
 
     let template = "<div>test</div>";
       this.modalRef = this.modalService.open(template, {size: 'lg'});

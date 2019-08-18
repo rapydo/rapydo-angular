@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
     this.titleService.setTitle(t);
     this.auth.userChanged.subscribe(
       user => this.changeLogged(user)
-     );
+    );
     this.auth.isAuthenticated().subscribe(
       is_auth => {
         if (is_auth) {
