@@ -247,7 +247,7 @@ export class FormlyService {
             if (template_type == "number") {
               default_data = parseInt(default_data);
             } else if (template_type == "date") {
-              default_data = new Date(default_data);
+              default_data = this.formatDate(default_data);
             } else if (template_type == "select") {
               if (islink) {
                 // Array copy
@@ -285,18 +285,18 @@ export class FormlyService {
 
   public getField(model, type, key, name, required, descr, options=undefined) {
 
-    let field = {
-      "type": type ,
+    const field = {
+      "description": descr,
       "key": key,
       "label": name,
       "required": (required)? "true":"false",
-      "description": descr
+      "type": type
     }
 
     if (type == 'checkbox' || type == 'boolean') {
       if (key in model) {
 
-        let v = model[key];
+        const v = model[key];
 
         if (v == "0" || v == "false" || v == "False" || v == "off") {
           field["default"] = false;
@@ -315,8 +315,7 @@ export class FormlyService {
       field['options'] = options;
     }
 
-    let data = this.json2Form([field], model);
-    return data
+    return this.json2Form([field], model);
   }
 
   public formatDate(date_string) {
@@ -326,10 +325,10 @@ export class FormlyService {
     if (date_string == "")
       return date_string
 
-      let d = new Date(date_string),
-          month = '' + (d.getMonth() + 1),
-          day = '' + d.getDate(),
-          year = d.getFullYear();
+      const d = new Date(date_string);
+      let month = '' + (d.getMonth() + 1);
+      let day = '' + d.getDate();
+      const year = d.getFullYear();
 
       if (month.length < 2) month = '0' + month;
       if (day.length < 2) day = '0' + day;
