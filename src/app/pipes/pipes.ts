@@ -68,3 +68,21 @@ export class BooleanFlagPipe {
     return str;
   }
 }
+
+@Pipe({
+  name: 'yes_or_no'
+})
+@Injectable()
+export class YesNoPipe {
+
+  transform(str):string {
+
+    if (str == true)
+      return "YES";
+
+    if (str == false)
+      return "NO";
+
+    return str;
+  }
+}

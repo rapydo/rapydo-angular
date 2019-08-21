@@ -22,7 +22,7 @@ import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 
 import { CookieLawModule } from 'angular2-cookie-law';
 
-import { IteratePipe, BytesPipe, BooleanFlagPipe } from '@rapydo/pipes/pipes'
+import { IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe } from '@rapydo/pipes/pipes'
 
 //import { Error404Component } from '@rapydo/components/errors/404';
 import { OfflineComponent } from '@rapydo/components/errors/offline';
@@ -247,7 +247,7 @@ const routes: Routes = [
     }),
   ],
   declarations: [
-	IteratePipe, BytesPipe, BooleanFlagPipe,
+	IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe,
 	// Error404Component,
   OfflineComponent, LoadingComponent,
 	LoginComponent, ResetPasswordComponent, RegisterComponent,
@@ -277,7 +277,7 @@ const routes: Routes = [
     ClipboardModule,
     CookieLawModule,
 
-	  IteratePipe, BytesPipe, BooleanFlagPipe,
+	  IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe,
 
 	  // Error404Component,
     OfflineComponent, LoadingComponent,
