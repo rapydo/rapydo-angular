@@ -36,6 +36,10 @@
 
     		<th *ngIf="['name', 'surname', 'email', 'password', 'roles'].indexOf(value.key) < 0" [ngSwitch]="value.key">
 
+                <span *ngSwitchCase="'group'">
+                    Group
+                </span>
+
                 <span *ngSwitchCase="'isAdmin'">
                     Administrator
                 </span>
@@ -57,6 +61,11 @@
             </th>
 
     		<td *ngIf="['name', 'surname', 'email', 'password', 'roles'].indexOf(value.key) < 0" [ngSwitch]="value.key">
+
+                <span 
+                    *ngSwitchCase="'group'"
+                    [innerHTML]="value.value['fullname']">
+                </span>
 
                 <span 
                     *ngSwitchCase="'isAdmin'"
