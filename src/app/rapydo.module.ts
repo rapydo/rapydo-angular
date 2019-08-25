@@ -13,6 +13,7 @@ import { MomentModule } from 'ngx-moment';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { ClipboardModule } from 'ngx-clipboard';
+import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 
 import { FormsModule, FormControl } from '@angular/forms';
 import { ReactiveFormsModule, ValidationErrors } from '@angular/forms';
@@ -22,7 +23,8 @@ import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 
 import { CookieLawModule } from 'angular2-cookie-law';
 
-import { IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe } from '@rapydo/pipes/pipes'
+import { IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe } from '@rapydo/pipes/pipes';
+import { SecurePipe } from '@rapydo/pipes/secure';
 
 //import { Error404Component } from '@rapydo/components/errors/404';
 import { OfflineComponent } from '@rapydo/components/errors/offline';
@@ -248,6 +250,7 @@ const routes: Routes = [
   ],
   declarations: [
 	IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe,
+  SecurePipe,
 	// Error404Component,
   OfflineComponent, LoadingComponent,
 	LoginComponent, ResetPasswordComponent, RegisterComponent,
@@ -262,7 +265,9 @@ const routes: Routes = [
 	TermsOfUseCheckbox,
 
 	CustomNavbarComponent,
-	CustomBrandComponent
+	CustomBrandComponent,
+
+  FileSelectDirective, FileDropDirective
   ],
 
   exports: [
@@ -278,6 +283,7 @@ const routes: Routes = [
     CookieLawModule,
 
 	  IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe,
+    SecurePipe,
 
 	  // Error404Component,
     OfflineComponent, LoadingComponent,
@@ -294,7 +300,8 @@ const routes: Routes = [
 	  TermsOfUseCheckbox,
 	  FormsModule, ReactiveFormsModule,
     FormlyBootstrapModule,
-    FormlyModule
+    FormlyModule,
+    FileSelectDirective, FileDropDirective
   ],
   providers: [
 	  AuthService, AuthGuard,
