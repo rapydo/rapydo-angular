@@ -242,7 +242,7 @@ export class BasePaginationComponent implements OnInit {
     return this.api.delete(endpoint, uuid).subscribe(
       response => {
 
-        this.notify.showSuccess("Confirmation: "+this.resource_name+" successfully deleted");
+        this.notify.showSuccess("Confirmation: " + this.resource_name + " successfully deleted");
         this.list();
       }, error => {
         this.notify.extractErrors(error, this.notify.ERROR);
@@ -328,7 +328,7 @@ export class BasePaginationComponent implements OnInit {
         response => {
 
           this.modalRef.close("");
-          this.notify.showSuccess(this.resource_name + " successfully " + type);
+          this.notify.showSuccess("Confirmation: " + this.resource_name + " successfully " + type);
 
           this.list();
         }, error => {
