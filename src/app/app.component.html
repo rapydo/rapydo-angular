@@ -40,7 +40,6 @@
 
 <navbar [user]="user" *ngIf="!loading && api.is_online()"></navbar>
 
-<br>
 <router-outlet *ngIf="!loading && api.is_online()"> 
 
 </router-outlet>

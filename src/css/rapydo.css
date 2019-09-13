@@ -3,6 +3,9 @@ html, body {
     width: 100%;
 }
 
+.container-fluid {
+  padding-top: 1rem;
+}
 .initial_loading {
   background-color:#cceeff;
   padding: 0;
