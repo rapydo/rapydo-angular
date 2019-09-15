@@ -118,9 +118,9 @@ export class FormlyService {
         field_type = "input";
         template_type = "number";
       } else if (stype == "date") {
-        // field_type = "datepicker";
-        field_type = "input";
-        template_type = "date";
+        field_type = "datepicker";
+        // field_type = "input";
+        // template_type = "date";
       } else if (stype == "email") {
         field_type = "input";
         template_type = "email";
@@ -246,6 +246,8 @@ export class FormlyService {
 
             if (template_type == "number") {
               default_data = parseInt(default_data);
+            } else if (field_type == "datepicker") { 
+              default_data = this.formatNgbDatepicker(default_data);
             } else if (template_type == "date") {
               default_data = this.formatDate(default_data);
             } else if (template_type == "select") {
@@ -318,6 +320,17 @@ export class FormlyService {
     return this.json2Form([field], model);
   }
 
+  public formatNgbDatepicker(date_string) {
+    if (date_string === null)
+      return date_string
+
+    if (date_string == "")
+      return date_string
+
+    // this works because we provided NgbDateAdapter = NgbDateNativeAdapter
+    // otherwise by default ngbDatepicker uses { year: 'yyyy', month: 'mm', day: 'dd'}
+    return new Date(date_string);
+  }
   public formatDate(date_string) {
     if (date_string === null)
       return date_string

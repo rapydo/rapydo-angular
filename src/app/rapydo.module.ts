@@ -5,11 +5,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateAdapter, NgbDateNativeAdapter, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import { RouterModule, Routes } from '@angular/router';
 
 import { MomentModule } from 'ngx-moment';
+import * as moment from 'moment';
+
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { ClipboardModule } from 'ngx-clipboard';
@@ -55,6 +58,8 @@ import { FileValueAccessor } from '@rapydo/components/forms/file-value-accessor'
 import { FormlyFieldFile } from '@rapydo/components/forms/file-type.component';
 import { FormlyDescriptiveRadio } from '@rapydo/components/forms/radio-type.component';
 import { TermsOfUseCheckbox } from '@rapydo/components/forms/terms_of_use_checkbox'
+import { DatePickerComponent } from '@rapydo/components/forms/datepicker.component';
+import { DatePickerValueAccessor } from '@rapydo/components/forms/datepicker.directive';
 
 import { CustomNavbarComponent } from '@app/custom.navbar';
 import { CustomBrandComponent } from '@app/custom.navbar';
@@ -135,6 +140,31 @@ export function maxValidationError(error, field) {
   return `Should be lower than ${field.templateOptions.max}`;
 }
 
+export class MomentDateFormatter extends NgbDateParserFormatter {
+
+  constructor(private DT_FORMAT: string) {
+    super();
+  }
+
+  parse(value: string): NgbDateStruct {
+    if (value) {
+      value = value.trim();
+      let mdt = moment(value, this.DT_FORMAT)
+      return {
+        year: mdt.year(),
+        month: 1 + mdt.month(),
+        day: mdt.day()
+      };
+    }
+    return null;
+  }
+  format(date: NgbDateStruct): string {
+    if (!date) return '';
+    let mdt = moment([date.year, date.month - 1, date.day]);
+    if (!mdt.isValid()) return '';
+    return mdt.format(this.DT_FORMAT);
+  }
+}
 
 const routes: Routes = [
 /*
@@ -225,10 +255,14 @@ const routes: Routes = [
     FormsModule, ReactiveFormsModule,
     FormlyBootstrapModule,
     FormlyModule.forRoot({
+      wrappers: [
+        {name: 'form-field-horizontal', component: FormlyHorizontalWrapper}
+      ],
       types: [
-        { name: 'file', component: FormlyFieldFile, wrappers: ['form-field'] }, 
-        { name: 'radio', component: FormlyDescriptiveRadio }, 
-        { name: 'terms_of_use', component: TermsOfUseCheckbox }
+        {name: 'file', component: FormlyFieldFile, wrappers: ['form-field']}, 
+        {name: 'radio', component: FormlyDescriptiveRadio}, 
+        {name: 'terms_of_use', component: TermsOfUseCheckbox},
+        {name: 'datepicker', component: DatePickerComponent, wrappers: ['form-field']}
       ],
       validationMessages: [
         {name: 'required', message: 'This field is required'},
@@ -238,13 +272,11 @@ const routes: Routes = [
         {name: 'max', message: maxValidationError},
         {name: 'email', message: 'Invalid email address'},
         {name: 'url', message: 'Invalid web address'},
+        {name: 'ngbDate', message: 'Invalid date, expected format: dd/mm/yyyy'},
       ],
       validators: [
         {name: 'email', validation: emailValidator},
         {name: 'url', validation: URLValidator}
-      ],
-      wrappers: [
-        {name: 'form-field-horizontal', component: FormlyHorizontalWrapper}
       ]
     }),
   ],
@@ -263,6 +295,7 @@ const routes: Routes = [
 	FormlyFieldFile,
 	FormlyDescriptiveRadio,
 	TermsOfUseCheckbox,
+  DatePickerComponent, DatePickerValueAccessor,
 
 	CustomNavbarComponent,
 	CustomBrandComponent,
@@ -298,6 +331,8 @@ const routes: Routes = [
 	  FormlyFieldFile,
 	  FormlyDescriptiveRadio,
 	  TermsOfUseCheckbox,
+    DatePickerComponent, DatePickerValueAccessor,
+
 	  FormsModule, ReactiveFormsModule,
     FormlyBootstrapModule,
     FormlyModule,
@@ -310,6 +345,8 @@ const routes: Routes = [
   	NotificationService,
   	ProjectOptions,
   	{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+    { provide: NgbDateParserFormatter, useValue: new MomentDateFormatter('DD/MM/YYYY') }
   ],
 })
 export class RapydoModule {
