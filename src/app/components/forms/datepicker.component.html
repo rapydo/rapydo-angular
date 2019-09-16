@@ -6,6 +6,8 @@
 		[formControl]="formControl"
 		[formlyAttributes]="field"
 		ngbDatepicker
+		[minDate]="to.min || {year: 1900, month: 1, day: 1}"
+		[maxDate]="to.max || {year: 2050, month: 12, day: 31}"
 		#d="ngbDatepicker"
 		(click)="d.toggle()"
 	>
