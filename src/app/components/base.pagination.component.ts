@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup } from '@angular/forms';
 import { FormlyConfig } from '@ngx-formly/core';
@@ -18,7 +18,7 @@ import { FormlyService } from '@rapydo/services/formly'
   providers: [ApiService, AuthService, NotificationService, FormlyService],
   templateUrl: './base.pagination.component.html'
 })
-export class BasePaginationComponent implements OnInit {
+export class BasePaginationComponent implements OnInit, AfterViewChecked {
 
   protected resource_name:string;
 
