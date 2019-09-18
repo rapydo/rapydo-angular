@@ -1,5 +1,5 @@
 
-import { Component, ViewChild, TemplateRef } from '@angular/core';
+import { Component, ViewChild, TemplateRef, ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ApiService } from '/rapydo/src/app/services/api';
@@ -34,10 +34,11 @@ export class AdminUsersComponent extends BasePaginationComponent {
     protected notify: NotificationService,
     protected modalService: NgbModal,
     protected formly: FormlyService,
+    protected changeDetectorRef: ChangeDetectorRef,
     private customization: ProjectOptions
     ) {
 
-    super(api, auth, notify, modalService, formly);
+    super(api, auth, notify, modalService, formly, changeDetectorRef);
     this.init("user");
 
     this.list();

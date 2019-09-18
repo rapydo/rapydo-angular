@@ -1,12 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup } from '@angular/forms';
 import { FormlyConfig } from '@ngx-formly/core';
+import { DatatableComponent } from '@swimlane/ngx-datatable';
 
-import { ApiService } from '/rapydo/src/app/services/api';
-import { AuthService } from '/rapydo/src/app/services/auth';
-import { NotificationService} from '/rapydo/src/app/services/notification';
-import { FormlyService } from '/rapydo/src/app/services/formly'
+// can be used to do this:
+//this.myservice = AppModule.injector.get(MyService);
+//import { AppModule } from '@rapydo/app.module';
+
+import { ApiService } from '@rapydo/services/api';
+import { AuthService } from '@rapydo/services/auth';
+import { NotificationService} from '@rapydo/services/notification';
+import { FormlyService } from '@rapydo/services/formly'
 
 @Component({
   selector: 'base-component',
@@ -44,12 +49,17 @@ export class BasePaginationComponent implements OnInit {
   public paging: any;
   public is_update: boolean = false;
 
+  @ViewChild('tableWrapper', {static: false}) tableWrapper;
+  @ViewChild(DatatableComponent, {static: false}) table: DatatableComponent;
+  private currentComponentWidth;
+
   constructor(
     protected api: ApiService,
     protected auth: AuthService,
     protected notify: NotificationService,
     protected modalService: NgbModal,
     protected formly: FormlyService,
+    protected changeDetectorRef: ChangeDetectorRef,
     ) {
 
   }
@@ -60,6 +70,16 @@ export class BasePaginationComponent implements OnInit {
   }
 
   public ngOnInit(): void { }
+
+  // https://github.com/swimlane/ngx-datatable/issues/193
+  public ngAfterViewChecked() {
+    // Check if the table size has changed,
+    if (this.table && this.table.recalculate && (this.tableWrapper.nativeElement.clientWidth !== this.currentComponentWidth)) {
+      this.currentComponentWidth = this.tableWrapper.nativeElement.clientWidth;
+      this.table.recalculate();
+      this.changeDetectorRef.detectChanges();
+    }
+  }
 
   /** DELETE MODAL WITH MESSAGE CONFIRMATION **/
   public getDeleteConfirmation(name) {
