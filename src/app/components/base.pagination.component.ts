@@ -195,7 +195,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
       'get_total': true
     }
     return this.api.get(this.counter_endpoint, "", data).subscribe(
-          response => {
+      response => {
         let result = this.api.parseResponse(response.data);
 
         this.notify.extractErrors(response, this.notify.WARNING);
@@ -210,9 +210,9 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
         return t;
 
       }, error => {
-            this.notify.extractErrors(error, this.notify.ERROR);
-            return 0;
-          }
+          this.notify.extractErrors(error, this.notify.ERROR);
+          return 0;
+        }
       );
   }
   protected remove(uuid) { console.log("remove: to be implemented") }
