@@ -3,11 +3,13 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
  
-import { ApiService } from '../../services/api';
-import { AuthService } from '../../services/auth';
-import { NotificationService} from '../../services/notification';
+import { environment } from '@rapydo/../environments/environment';
 
-import { ProjectOptions } from '/app/frontend/app/custom.project.options';
+import { ApiService } from '@rapydo/services/api';
+import { AuthService } from '@rapydo/services/auth';
+import { NotificationService} from '@rapydo/services/notification';
+
+import { ProjectOptions } from '@app/custom.project.options';
 
 @Component({
     templateUrl: 'register.html'
@@ -20,14 +22,13 @@ export class RegisterComponent implements OnInit {
     public showRegistrationForm: boolean = false;
     public registration_message: string;
     public invalid_token: boolean = false;
+    public disclaimer: string;
 
-    private disclaimer: string;
+    public form = new FormGroup({});
+    public fields: FormlyFieldConfig[] = []; 
+    public model:any = {}
 
-    private form = new FormGroup({});
-    private fields: FormlyFieldConfig[] = []; 
-    private model:any = {}
-
-    private loading = false;
+    public loading = false;
  
     constructor(
         private route: ActivatedRoute,
@@ -37,10 +38,10 @@ export class RegisterComponent implements OnInit {
         private authService: AuthService,
         private customization: ProjectOptions) { 
 
-            if (typeof(process.env.allowRegistration) === "boolean") {
-                this.allowRegistration = JSON.parse(process.env.allowRegistration)
+            if (typeof(environment.allowRegistration) === "boolean") {
+                this.allowRegistration = JSON.parse(environment.allowRegistration)
             } else {
-                this.allowRegistration = (process.env.allowRegistration == "true");
+                this.allowRegistration = (environment.allowRegistration == "true");
             }
 
             this.route.params.subscribe(

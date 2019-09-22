@@ -1,12 +1,12 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule, ModuleWithProviders, Injectable } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BrowserModule }  from '@angular/platform-browser';
+// import { BrowserModule }  from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateAdapter, NgbDateNativeAdapter, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css'
+//import 'bootstrap/dist/css/bootstrap.min.css'
 
 import { RouterModule, Routes } from '@angular/router';
 
@@ -16,7 +16,9 @@ import * as moment from 'moment';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { ClipboardModule } from 'ngx-clipboard';
-import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
+// import { FileUploadModule  } from 'ng2-file-upload';
+// import { FileUploadModule  } from '@myog-io/ngx-chunk-file-upload';
+import { UploadxModule } from 'ngx-uploadx';
 
 import { FormsModule, FormControl } from '@angular/forms';
 import { ReactiveFormsModule, ValidationErrors } from '@angular/forms';
@@ -25,6 +27,8 @@ import { FormlyModule } from '@ngx-formly/core';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 
 import { CookieLawModule } from 'angular2-cookie-law';
+
+import { ToastrModule } from 'ngx-toastr';
 
 import { IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe } from '@rapydo/pipes/pipes';
 import { SecurePipe } from '@rapydo/pipes/secure';
@@ -50,6 +54,7 @@ import { AuthService } from '@rapydo/services/auth';
 import { ApiService } from '@rapydo/services/api';
 import { FormlyService } from '@rapydo/services/formly';
 import { NotificationService } from '@rapydo/services/notification';
+import { WebSocketsService } from '@rapydo/services/websockets';
 
 import { JwtInterceptor } from '@rapydo/jwt.interceptor';
 
@@ -63,6 +68,7 @@ import { DatePickerValueAccessor } from '@rapydo/components/forms/datepicker.dir
 
 import { CustomNavbarComponent } from '@app/custom.navbar';
 import { CustomBrandComponent } from '@app/custom.navbar';
+import { CustomProfileComponent } from '@app/custom.profile';
 import { ProjectOptions } from '@app/custom.project.options';
 
 export function emailValidator(control: FormControl): ValidationErrors {
@@ -140,6 +146,14 @@ export function maxValidationError(error, field) {
   return `Should be lower than ${field.templateOptions.max}`;
 }
 
+// Warning: Can't resolve all parameters for MomentDateFormatter in rapydo.module.ts
+// This will become an error in Angular v6.x
+// Something due to @Injectable decorator and abstract class
+// Several similar issues reported, for example:
+// https://github.com/angular/angular/issues/24414
+// Class defined here:
+// https://github.com/ng-bootstrap/ng-bootstrap/blob/master/src/datepicker/ngb-date-parser-formatter.ts
+@Injectable()
 export class MomentDateFormatter extends NgbDateParserFormatter {
 
   constructor(private DT_FORMAT: string) {
@@ -235,8 +249,8 @@ const routes: Routes = [
        } // <-- debugging purposes only
     ),
 
-    BrowserModule,
-    BrowserAnimationsModule, // required by CookieLaw
+    // BrowserModule,
+    BrowserAnimationsModule, // required by CookieLaw and Toastr
 
     // import HttpClientModule after BrowserModule
     HttpClientModule,
@@ -251,7 +265,20 @@ const routes: Routes = [
       }
     ),
     ClipboardModule,
+    // FileUploadModule,
+    UploadxModule,
     CookieLawModule,
+    ToastrModule.forRoot({
+      maxOpened: 5,
+      preventDuplicates: true,
+      countDuplicates: true,
+      resetTimeoutOnDuplicate: true,
+      closeButton: true,
+      enableHtml: true,
+      progressBar: true,
+      progressAnimation: 'increasing',
+      positionClass: 'toast-bottom-right'
+    }),
     FormsModule, ReactiveFormsModule,
     FormlyBootstrapModule,
     FormlyModule.forRoot({
@@ -299,14 +326,14 @@ const routes: Routes = [
 
 	CustomNavbarComponent,
 	CustomBrandComponent,
-
-  FileSelectDirective, FileDropDirective
+  CustomProfileComponent
   ],
 
   exports: [
   	CommonModule,
   	RouterModule,
-  	BrowserModule,
+  	// BrowserModule,
+    BrowserAnimationsModule,
   	HttpClientModule,
   	NgbModule,
     MomentModule,
@@ -314,6 +341,7 @@ const routes: Routes = [
     ConfirmationPopoverModule, 
     ClipboardModule,
     CookieLawModule,
+    ToastrModule,
 
 	  IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe,
     SecurePipe,
@@ -336,13 +364,15 @@ const routes: Routes = [
 	  FormsModule, ReactiveFormsModule,
     FormlyBootstrapModule,
     FormlyModule,
-    FileSelectDirective, FileDropDirective
+    // FileUploadModule
+    UploadxModule
   ],
   providers: [
 	  AuthService, AuthGuard,
   	ApiService,
   	FormlyService,
   	NotificationService,
+    WebSocketsService,
   	ProjectOptions,
   	{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
@@ -358,6 +388,7 @@ export class RapydoModule {
   		  ApiService,
   		  FormlyService,
   		  NotificationService,
+        WebSocketsService,
   		  ProjectOptions,
   		  { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
   	  ],

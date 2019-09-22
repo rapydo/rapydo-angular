@@ -13,6 +13,12 @@ import { AuthService } from '@rapydo/services/auth';
 import { NotificationService} from '@rapydo/services/notification';
 import { FormlyService } from '@rapydo/services/formly'
 
+// == @swimlane/ngx-datatable/src/types/column-mode.type
+enum ColumnMode {
+    standard = 'standard',
+    flex = 'flex',
+    force = 'force'
+  }
 @Component({
   selector: 'base-component',
   providers: [ApiService, AuthService, NotificationService, FormlyService],
@@ -20,7 +26,9 @@ import { FormlyService } from '@rapydo/services/formly'
 })
 export class BasePaginationComponent implements OnInit, AfterViewChecked {
 
-  protected resource_name:string;
+  public ColumnMode = ColumnMode;
+
+  public resource_name:string;
 
   protected server_side_filter = false;
   protected server_side_sort = false;
@@ -30,21 +38,23 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
   protected counter_endpoint: string;
 
   protected modalRef: NgbModalRef;
-  protected form = new FormGroup({});
-  protected fields: FormlyConfig[]; 
-  protected model:any = {}
-  protected modalTitle: string;
+  public form = new FormGroup({});
+  public fields: FormlyConfig[]; 
+  public model:any = {}
+  public modalTitle: string;
 
   public loading:boolean = false;
-  protected updating:boolean = false;
-  protected data: Array<any> = [];
-  protected rows: Array<any> = [];
-  protected columns: Array<any> = []
+  public updating:boolean = false;
+  public data: Array<any> = [];
+  // rows is no longer required?
+  public rows: Array<any> = [];
+
+  public columns: Array<any> = []
   // Only used by the filter function
   protected data_filter: any;
-  protected unfiltered_data: Array<any>;
+  public unfiltered_data: Array<any>;
 
-  protected deleteConfirmation: any;
+  public deleteConfirmation: any;
 
   public paging: any;
   public is_update: boolean = false;
@@ -53,6 +63,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
   @ViewChild(DatatableComponent, {static: false}) table: DatatableComponent;
   private currentComponentWidth;
 
+  // Could we use @Optional() decorator for any of that parameters?
   constructor(
     protected api: ApiService,
     protected auth: AuthService,
@@ -143,7 +154,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
   /** PAGINATION **/
   protected initPaging(itemPerPage:number):any {
     this.paging = {
-      "page": 1,
+      "page": 0,
       "itemsPerPage": itemPerPage,
       "numPages": 1,
       "dataLength": 0
@@ -165,6 +176,11 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
   }
 
   protected changePage(page:number, data:Array<any>): Array<any> {
+
+    if (page > 1) {
+      console.log("Deprecated paging change");
+    }
+
     this.paging.page = page;
     if (this.server_side_pagination) {
       this.rows = this.data;
@@ -175,8 +191,27 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
     }
     return this.rows;
   }
+/*
+  To used this:
+    <ngx-datatable
+        [...]
+        [externalPaging]="true"
+        [count]="paging.dataLength"
+        [limit]="paging.itemsPerPage"
+        [offset]="paging.page"
+        (page)="serverSidePagination($event)"
+        [...]
+*/
+  public serverSidePagination(event:any) {
 
-  protected setPage(page:any) {
+    this.paging.page = event.offset;
+    this.list();
+
+  }
+
+  public setPage(page:any) {
+
+    console.log("Deprecated paging set");
     this.paging.page = page;
 
     if (this.server_side_sort) {
@@ -218,13 +253,17 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
   protected remove(uuid) { console.log("remove: to be implemented") }
   protected create() { console.log("create: to be implemented") }
   protected update(row, element=null) { console.log("update: to be implemented") }
-  protected submit(data) { console.log("submit: to be implemented") }
+  protected submit() { console.log("submit: to be implemented") }
+
+  protected form_customizer(form, type) {
+    return form;
+  }
 
   protected get(endpoint, data=null) {
 
     if (this.server_side_pagination && data == null) {
       data = {
-        "currentpage": this.paging.page,
+        "currentpage": this.paging.page + 1,
         "perpage": this.paging.itemsPerPage
       }
     } else if (data == null) {
@@ -233,12 +272,13 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
 
     this.loading = true;
     return this.api.get(endpoint, "", data).subscribe(
-          response => {
+      response => {
         this.data = this.api.parseResponse(response.data);
+        this.unfiltered_data = this.data;
         if (!this.server_side_pagination) {
-              this.updatePaging(this.data.length);
+          this.updatePaging(this.data.length);
+          this.changePage(this.paging.page, this.data);
         }
-        this.changePage(this.paging.page, this.data);
 
         this.notify.extractErrors(response, this.notify.WARNING);
         this.loading = false;
@@ -282,6 +322,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
     return apiCall.subscribe(
       response => {
         let data = this.formly.json2Form(response.data, {});
+        data = this.form_customizer(data, "post")
 
         this.modalTitle = "Create a new " + this.resource_name;
         this.fields = data.fields;
@@ -310,6 +351,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
     return apiCall.subscribe(
       response => {
         let data = this.formly.json2Form(response.data, row);
+        data = this.form_customizer(data, "put")
         this.modalTitle = "Update " + this.resource_name;
         this.fields = data.fields;
         this.model = data.model;
@@ -331,16 +373,19 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
     );
   }
 
-  protected send(data, endpoint) {
+  protected send(endpoint, data=null) {
     if (this.form.valid) {
 
       let apiCall;
       let type = "";
-      if (this.model["_id"]) {
-        apiCall = this.api.put(endpoint, this.model["_id"], this.model);
+
+      let model = data || this.model;
+      
+      if (model["_id"]) {
+        apiCall = this.api.put(endpoint, model["_id"], model);
         type = "updated";
       } else {
-        apiCall = this.api.post(endpoint, this.model);
+        apiCall = this.api.post(endpoint, model);
         type = "created";
       }
 

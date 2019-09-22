@@ -17,13 +17,13 @@ export class ResetPasswordComponent implements OnInit {
     public invalid_token: string;
     public reset_message: string;
 
-    private step1_form = new FormGroup({});
-    private step2_form = new FormGroup({});
-    private step1_fields: FormlyFieldConfig[] = []; 
-    private step2_fields: FormlyFieldConfig[] = []; 
-    private model:any = {}
+    public step1_form = new FormGroup({});
+    public step2_form = new FormGroup({});
+    public step1_fields: FormlyFieldConfig[] = []; 
+    public step2_fields: FormlyFieldConfig[] = []; 
+    public model:any = {}
 
-    private loading = false;
+    public loading = false;
  
     constructor(
         private router: Router,
@@ -133,7 +133,7 @@ export class ResetPasswordComponent implements OnInit {
         );
     }
 
-    private changePassword(): boolean {
+    public changePassword(): boolean {
 
         if (!this.step2_form.valid) {
             return false;

@@ -3,25 +3,36 @@
 <div class='col-12 col-md-8 col-lg-6'>
 
 <div class='card'>
-<div class='card-header'>
-    <h4>Login</h4>
-</div>
 
+  <div class='card-header' *ngIf='!warningCard'>
+    <h4>{{panelTitle}}</h4>
+  </div>
+  <div class='card-header bg-warning' *ngIf='warningCard'>
+    <h4>{{panelTitle}}</h4>
+  </div>
+    
 <div class='card-block'>
     <form [formGroup]="form" (ngSubmit)="login()">
         <formly-form [form]="form" [fields]="fields" [model]="model">
 
-            <button [disabled]="loading" class="btn btn-primary">Login</button>
+            <button [disabled]="loading" class="btn btn-primary" *ngIf='!warningCard'>
+              {{buttonText}}
+            </button>
+            <button [disabled]="loading" class="btn btn-warning" *ngIf='warningCard'>
+              {{buttonText}}
+            </button>
             <i *ngIf="loading" class='fa fa-spinner fa-spin'></i>
 
         </formly-form>
     </form>
 
     <div class='text-left' *ngIf='allowRegistration'>
+      <br>
       You don't have an account yet? <a href="#" routerLink='/public/register'>Register here</a>.
     </div>
 
     <div class='text-left' *ngIf='allowPasswordReset'>
+      <br>
       Forgot your password? <a href="#" routerLink='/public/reset'>Click here</a>.
     </div>
 

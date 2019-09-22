@@ -24,7 +24,7 @@ export class SessionsComponent {
     `;
 
   public tokens: any
-  private currentToken: string;
+  public currentToken: string;
 
   constructor(private api: ApiService, private auth: AuthService, private notify: NotificationService) {
 

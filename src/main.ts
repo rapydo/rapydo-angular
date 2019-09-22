@@ -1,6 +1,7 @@
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { enableProdMode } from '@angular/core';
 import { AppModule } from './app/app.module';
+import { environment } from '@rapydo/../environments/environment';
 
 // required libs for angular
 import 'zone.js/dist/zone';
@@ -8,7 +9,7 @@ import 'zone.js/dist/long-stack-trace-zone';
 import 'reflect-metadata/Reflect';
 
 let opts: any = {};
-if (process.env.ENV === 'production') {
+if (environment.production) {
   enableProdMode();
   opts.preserveWhitespaces = false;
 }

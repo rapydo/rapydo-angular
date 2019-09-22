@@ -8,12 +8,9 @@ import { Injectable, Pipe } from '@angular/core';
 export class IteratePipe {
 
 
-  transform(value, skipFields:string[]):any {
+  transform(value, skipFields:string[]=[]):any {
     let keys = [];
 
-    if (!skipFields) {
-      skipFields = [];
-    }
     for (let key in value) {
 
       if (skipFields.indexOf(key) > -1) {
@@ -33,11 +30,11 @@ export class IteratePipe {
 @Injectable()
 export class BytesPipe {
 
-  transform(bytes, precision):string {
+  transform(bytes:number=0, precision:number=undefined):string {
     if (bytes == 0)
       return "0"
 
-    if (bytes == -1 || isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
+    if (bytes == -1 || isNaN(bytes) || !isFinite(bytes)) return '-';
 
     let units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
       number = Math.floor(Math.log(bytes) / Math.log(1024));

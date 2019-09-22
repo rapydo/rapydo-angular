@@ -1,11 +1,11 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { ApiService } from './api';
-import 'rxjs/add/operator/map';
 
-import { NotificationService } from '/rapydo/src/app/services/notification';
+import { environment } from '@rapydo/../environments/environment';
+import { NotificationService } from '@rapydo/services/notification';
 
 @Injectable()
 export class AuthService {
@@ -18,8 +18,14 @@ export class AuthService {
 
   constructor(private http: HttpClient, private api: ApiService, private notification: NotificationService) { }
 
-  public login(username: string, password: string) {
-    let data = {username: username, password: password};
+  public login(username: string, password: string, new_password:string=undefined, password_confirm:string=undefined) {
+
+    let data = {
+      username: username,
+      password: password,
+      new_password: new_password,
+      password_confirm: password_confirm,
+    };
     return this.http.post<any>(process.env.authApiUrl + '/login', data).pipe(map(
       response => {
         if (response && response.Response && response.Response.data && response.Response.data.token) {
@@ -32,7 +38,7 @@ export class AuthService {
   }
 
   public logout() {
-    return this.http.get<any>(process.env.authApiUrl + '/logout').pipe(map(
+    return this.http.get<any>(environment.authApiUrl + '/logout').pipe(map(
       response => {
         this.removeToken();
 
@@ -47,7 +53,7 @@ export class AuthService {
   }
 
   public change_password(data) {
-    return this.http.put(process.env.authApiUrl + '/profile', data).pipe(map(
+    return this.http.put(environment.authApiUrl + '/profile', data).pipe(map(
       response => {
           this.removeToken()
 
@@ -55,15 +61,14 @@ export class AuthService {
 
       },
       error => {
-
-        return error;
+        return throwError(error);
       }
     ));
   }
 
   public ask_activation_link(username) {
     let data = {"username": username}
-    return this.http.post(process.env.authApiUrl + '/profile/activate', data).pipe(map(
+    return this.http.post(environment.authApiUrl + '/profile/activate', data).pipe(map(
       response => {
           return response;
       },
@@ -75,7 +80,7 @@ export class AuthService {
 
   public loadUser() {
 
-    return this.http.get<any>(process.env.authApiUrl + '/profile').pipe(map(
+    return this.http.get<any>(environment.authApiUrl + '/profile').pipe(map(
       response => {
         if (response && response.Response && response.Response.data) {
 
@@ -136,8 +141,8 @@ export class AuthService {
       return of(false);
     }
 
-         let opt =  {"base": "auth", "rawResponse": true};
-        return this.api.get('profile', "", [], opt).pipe(
+   let opt =  {"base": "auth", "rawResponse": true};
+    return this.api.get('profile', "", [], opt).pipe(
       map(response => {
         return of(true);
       }),

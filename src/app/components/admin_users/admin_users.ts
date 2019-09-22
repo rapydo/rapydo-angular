@@ -2,14 +2,14 @@
 import { Component, ViewChild, TemplateRef, ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { ApiService } from '/rapydo/src/app/services/api';
-import { AuthService } from '/rapydo/src/app/services/auth';
-import { NotificationService} from '/rapydo/src/app/services/notification';
-import { FormlyService } from '/rapydo/src/app/services/formly'
+import { ApiService } from '@rapydo/services/api';
+import { AuthService } from '@rapydo/services/auth';
+import { NotificationService} from '@rapydo/services/notification';
+import { FormlyService } from '@rapydo/services/formly'
 
-import { BasePaginationComponent } from '/rapydo/src/app/components/base.pagination.component'
+import { BasePaginationComponent } from '@rapydo/components/base.pagination.component'
 
-import { ProjectOptions } from '/app/frontend/app/custom.project.options';
+import { ProjectOptions } from '@app/custom.project.options';
 
 @Component({
   selector: 'admin-users',
@@ -22,6 +22,7 @@ export class AdminUsersComponent extends BasePaginationComponent {
   @ViewChild('dataRoles', { static: false }) public dataRoles: TemplateRef<any>;
   @ViewChild('dataGroup', { static: false }) public dataGroup: TemplateRef<any>;
   @ViewChild('dataName', { static: false }) public dataName: TemplateRef<any>;
+  @ViewChild('dataDate', { static: false }) public dataDate: TemplateRef<any>;
   @ViewChild('controlsCell', { static: false }) public controlsCell: TemplateRef<any>;
   @ViewChild('emptyHeader', { static: false }) public emptyHeader: TemplateRef<any>;
   @ViewChild('formModal', { static: false }) public formModal: TemplateRef<any>;
@@ -69,6 +70,9 @@ export class AdminUsersComponent extends BasePaginationComponent {
     }
 
     this.columns.push({name: 'Roles', prop: "_roles", cellTemplate: this.dataRoles, flexGrow: 0.9});
+    this.columns.push({name: 'First Login', prop: "first_login", flexGrow: 0.5, cellTemplate: this.dataDate});
+    this.columns.push({name: 'Last Login', prop: "last_login", flexGrow: 0.5, cellTemplate: this.dataDate});
+    this.columns.push({name: 'Password Change', prop: "last_password_change", flexGrow: 0.5, cellTemplate: this.dataDate});
     this.columns.push({name: 'controls', prop: 'controls', cellTemplate: this.controlsCell, headerTemplate: this.emptyHeader, flexGrow: 0.2});
   }
 
@@ -78,6 +82,17 @@ export class AdminUsersComponent extends BasePaginationComponent {
 
   remove(uuid) {
     return this.delete(this.endpoint, uuid);
+  }
+
+  protected form_customizer(form, type) {
+    if (type == 'put') {
+      for (let k in form.fields) {
+        if (form.fields[k].key == "email") {
+          form.fields[k].templateOptions["readonly"] = true;
+        }
+      }
+    }
+    return form;
   }
 
   create() {
@@ -115,13 +130,13 @@ export class AdminUsersComponent extends BasePaginationComponent {
     return this.put(row, this.endpoint, data, this.formModal, false);
   }
 
-  submit(data) {
+  submit() {
     // If created by admins, credentials  
     // must accept privacy at the login
     if (!this.model["_id"]) {
       this.model["privacy_accepted"] = false;
     }
-    this.send(data, this.endpoint);
+    this.send(this.endpoint);
   }
 
   filter(data_filter) {
