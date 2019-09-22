@@ -1,3 +1,4 @@
+node_modules/
 
 # coming from another repo
 angulask/models/api.py

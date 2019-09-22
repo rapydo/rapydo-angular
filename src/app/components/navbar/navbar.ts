@@ -1,8 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { ApiService } from '../../services/api';
-import { AuthService } from '../../services/auth';
+import { environment } from '@rapydo/../environments/environment';
+
+import { ApiService } from '@rapydo/services/api';
+import { AuthService } from '@rapydo/services/auth';
 
 @Component({
   selector: 'navbar',
@@ -21,10 +23,10 @@ export class NavbarComponent {
     private api: ApiService,
     private auth: AuthService) { 
 
-            if (typeof(process.env.allowRegistration) === "boolean") {
-                this.allowRegistration = JSON.parse(process.env.allowRegistration)
+            if (typeof(environment.allowRegistration) === "boolean") {
+                this.allowRegistration = JSON.parse(environment.allowRegistration)
             } else {
-                this.allowRegistration = (process.env.allowRegistration == "true");
+                this.allowRegistration = (environment.allowRegistration == "true");
             }
   }
 

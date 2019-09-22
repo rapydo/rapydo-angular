@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ApiResponse } from './api';
 
-const Noty = require('noty');
+//const Noty = require('noty');
+import Noty from 'noty';
+
 @Injectable()
 export class NotificationService {
 
@@ -50,9 +52,7 @@ export class NotificationService {
       new Noty({
           text        : msg,
           type        : "error",
-          dismissQueue: true,
           modal       : true,
-          maxVisible  : 1,
           timeout     : false,
           force       : true,
           killer      : true,
@@ -66,9 +66,7 @@ export class NotificationService {
       new Noty({
           text        : msg,
           type        : "error",
-          dismissQueue: true,
           modal       : false,
-          maxVisible  : 5,
           timeout     : 10000,
           layout      : 'bottomRight',
           theme       : 'relax'
@@ -80,9 +78,7 @@ export class NotificationService {
       new Noty({
           text        : msg,
           type        : "warning",
-          dismissQueue: true,
           modal       : false,
-          maxVisible  : 3,
           timeout     : 5000,
           layout      : 'bottomRight',
           theme       : 'relax'
@@ -94,9 +90,7 @@ export class NotificationService {
       new Noty({
           text        : msg,
           type        : "success",
-          dismissQueue: true,
           modal       : false,
-          maxVisible  : 3,
           timeout     : 5000,
           layout      : 'bottomRight',
           theme       : 'relax'
@@ -107,9 +101,7 @@ export class NotificationService {
       new Noty({
           text        : msg,
           type        : "information",
-          dismissQueue: true,
           modal       : false,
-          maxVisible  : 3,
           timeout     : 5000,
           layout      : 'bottomRight',
           theme       : 'relax'

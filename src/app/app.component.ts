@@ -2,10 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { catchError, map } from 'rxjs/operators';
 import { ChangeDetectorRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { AuthService } from './services/auth';
-import { ApiService} from './services/api';
-import { NavbarComponent } from './components/navbar/navbar';
-import { ProjectOptions } from '/app/frontend/app/custom.project.options';
+
+import { environment } from '@rapydo/../environments/environment';
+
+import { AuthService } from '@rapydo/services/auth';
+import { ApiService} from '@rapydo/services/api';
+import { NavbarComponent } from '@rapydo/components/navbar/navbar';
+import { ProjectOptions } from '@app/custom.project.options';
 
 @Component({
   selector: 'rapydo',
@@ -38,7 +41,7 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    let t = process.env.projectTitle;
+    let t = environment.projectTitle;
     t = t.replace(/^'/, "");
     t = t.replace(/'$/, "");
     this.titleService.setTitle(t);

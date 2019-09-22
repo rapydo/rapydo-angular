@@ -1,8 +1,9 @@
-
 import { Injectable } from '@angular/core';
 import { catchError, map } from 'rxjs/operators';
 import { of, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+import { environment } from '@rapydo/../environments/environment';
 
 export interface ApiResponse {
   errors: string[];
@@ -80,9 +81,9 @@ export class ApiService {
 
     let ep = "";
     if (base == "auth") {
-      ep = process.env.authApiUrl + "/" + endpoint;
+      ep = environment.authApiUrl + "/" + endpoint;
     } else {
-      ep = process.env.apiUrl + "/" + endpoint;
+      ep = environment.apiUrl + "/" + endpoint;
     }
     if (id != "") {
       ep += "/" + id;

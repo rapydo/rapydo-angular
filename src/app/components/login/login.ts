@@ -4,10 +4,12 @@ import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
  
-import { ApiService } from '../../services/api';
-import { AuthService } from '../../services/auth';
-import { NotificationService} from '/rapydo/src/app/services/notification';
-import { ProjectOptions } from '/app/frontend/app/custom.project.options';
+import { environment } from '@rapydo/../environments/environment';
+
+import { ApiService } from '@rapydo/services/api';
+import { AuthService } from '@rapydo/services/auth';
+import { NotificationService} from '@rapydo/services/notification';
+import { ProjectOptions } from '@app/custom.project.options';
  
 @Component({
     templateUrl: 'login.html'
@@ -41,16 +43,16 @@ export class LoginComponent implements OnInit {
         private api: ApiService,
         private authService: AuthService) { 
 
-            if (typeof(process.env.allowRegistration) === "boolean") {
-                this.allowRegistration = JSON.parse(process.env.allowRegistration)
+            if (typeof(environment.allowRegistration) === "boolean") {
+                this.allowRegistration = JSON.parse(environment.allowRegistration)
             } else {
-                this.allowRegistration = (process.env.allowRegistration == "true");
+                this.allowRegistration = (environment.allowRegistration == "true");
             }
 
-            if (typeof(process.env.allowPasswordReset) === "boolean") {
-                this.allowPasswordReset = JSON.parse(process.env.allowPasswordReset)
+            if (typeof(environment.allowPasswordReset) === "boolean") {
+                this.allowPasswordReset = JSON.parse(environment.allowPasswordReset)
             } else {
-                this.allowPasswordReset = (process.env.allowPasswordReset == "true");
+                this.allowPasswordReset = (environment.allowPasswordReset == "true");
             }
 
     }

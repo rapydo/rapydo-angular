@@ -1,0 +1,36 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "/modules/node_modules/",
+    "outDir": "/modules/dist",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    // Required to import Noty.js
+    "allowSyntheticDefaultImports": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2015",
+    "types": [
+      "node"
+    ],
+    "typeRoots": [
+      "/modules/node_modules/@types"
+    ],
+    "paths": {
+      "@rapydo/*": ["/rapydo/src/app/*"],
+      "@app/*": ["/app/frontend/app/*"],
+      "*": ["/rapydo/node_modules/*"]
+    },
+    "lib": [
+      "es2018",
+      "dom"
+    ]
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true
+  }
+}
