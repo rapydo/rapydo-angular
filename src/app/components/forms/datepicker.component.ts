@@ -5,4 +5,12 @@ import { FieldType } from '@ngx-formly/core';
   selector: 'formly-field-datepicker',
   templateUrl: './datepicker.component.html'
 })
-export class DatePickerComponent extends FieldType {}
+export class DatePickerComponent extends FieldType {
+
+	public clear() {
+
+		this.field.parent.formControl.get(this.field.key).setValue(null);
+
+	}
+
+}
