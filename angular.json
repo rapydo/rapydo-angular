@@ -7,7 +7,7 @@
       "projectType": "application",
       "schematics": {},
       "root": "",
-      "sourceRoot": "rapydo",
+      "sourceRoot": "./",
       "prefix": "app",
       "architect": {
         "build": {
@@ -20,8 +20,8 @@
             "tsConfig": "tsconfig.app.json",
             "aot": false,
             "assets": [
-              "rapydo/favicon.ico",
-              "rapydo/assets"
+              "./rapydo/assets",
+              "./custom/assets"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -32,7 +32,8 @@
               "node_modules/@fortawesome/fontawesome-free/css/brands.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/solid.min.css",
               "node_modules/material-icons/iconfont/material-icons.css",
-              "rapydo/css/rapydo.css"
+              "./rapydo/css/rapydo.css",
+              "./custom/css/style.css"
             ],
             "scripts": [
             ]
@@ -94,11 +95,20 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": [
-              "rapydo/favicon.ico",
-              "rapydo/assets"
+              "./rapydo/assets",
+              "./custom/assets"
             ],
             "styles": [
-              "rapydo/css/rapydo.css"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/noty/lib/noty.css",
+              "node_modules/noty/lib/themes/relax.css",
+              "node_modules/noty/lib/themes/metroui.css",
+              "node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/brands.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/solid.min.css",
+              "node_modules/material-icons/iconfont/material-icons.css",
+              "./rapydo/css/rapydo.css",
+              "./custom/css/style.css"
             ],
             "scripts": []
           }
