@@ -1,8 +1,8 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "/modules/node_modules/",
-    "outDir": "/modules/dist",
+    "baseUrl": "/app/node_modules/",
+    "outDir": "/app/dist",
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
@@ -17,12 +17,12 @@
       "node"
     ],
     "typeRoots": [
-      "/modules/node_modules/@types"
+      "/app/node_modules/@types"
     ],
     "paths": {
-      "@rapydo/*": ["/rapydo/src/app/*"],
-      "@app/*": ["/app/frontend/app/*"],
-      "*": ["/rapydo/node_modules/*"]
+      "@rapydo/*": ["/app/rapydo/app/*"],
+      "@app/*": ["/app/custom/app/*"],
+      "*": ["/app/node_modules/*"]
     },
     "lib": [
       "es2018",

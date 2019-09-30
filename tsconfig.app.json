@@ -1,18 +1,18 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "/modules/app",
+    "outDir": "./out-tsc/app",
     "types": []
   },
   "files": [
-    "src/main.ts",
-    "src/polyfills.ts"
+    "rapydo/main.ts",
+    "rapydo/polyfills.ts"
   ],
   "include": [
-    "src/**/*.ts"
+    "rapydo/**/*.ts"
   ],
   "exclude": [
-    "src/test.ts",
-    "src/**/*.spec.ts"
+    "rapydo/test.ts",
+    "rapydo/**/*.spec.ts"
   ]
 }

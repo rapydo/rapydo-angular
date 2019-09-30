@@ -7,21 +7,21 @@
       "projectType": "application",
       "schematics": {},
       "root": "",
-      "sourceRoot": "src",
+      "sourceRoot": "rapydo",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "/modules/dist",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "index": "rapydo/index.html",
+            "main": "rapydo/main.ts",
+            "polyfills": "rapydo/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": false,
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "rapydo/favicon.ico",
+              "rapydo/assets"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -32,7 +32,7 @@
               "node_modules/@fortawesome/fontawesome-free/css/brands.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/solid.min.css",
               "node_modules/material-icons/iconfont/material-icons.css",
-              "src/css/rapydo.css"
+              "rapydo/css/rapydo.css"
             ],
             "scripts": [
             ]
@@ -41,8 +41,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace": "rapydo/environments/environment.ts",
+                  "with": "rapydo/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -89,16 +89,16 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
+            "main": "rapydo/test.ts",
+            "polyfills": "rapydo/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "rapydo/favicon.ico",
+              "rapydo/assets"
             ],
             "styles": [
-              "src/css/rapydo.css"
+              "rapydo/css/rapydo.css"
             ],
             "scripts": []
           }
