@@ -16,7 +16,7 @@ import * as moment from 'moment';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { ClipboardModule } from 'ngx-clipboard';
-import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
+import { FileUploadModule  } from 'ng2-file-upload';
 
 import { FormsModule, FormControl } from '@angular/forms';
 import { ReactiveFormsModule, ValidationErrors } from '@angular/forms';
@@ -251,6 +251,7 @@ const routes: Routes = [
       }
     ),
     ClipboardModule,
+    FileUploadModule,
     CookieLawModule,
     FormsModule, ReactiveFormsModule,
     FormlyBootstrapModule,
@@ -298,9 +299,7 @@ const routes: Routes = [
   DatePickerComponent, DatePickerValueAccessor,
 
 	CustomNavbarComponent,
-	CustomBrandComponent,
-
-  FileSelectDirective, FileDropDirective
+	CustomBrandComponent
   ],
 
   exports: [
@@ -336,7 +335,7 @@ const routes: Routes = [
 	  FormsModule, ReactiveFormsModule,
     FormlyBootstrapModule,
     FormlyModule,
-    FileSelectDirective, FileDropDirective
+    FileUploadModule
   ],
   providers: [
 	  AuthService, AuthGuard,

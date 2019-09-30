@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
 
   @ViewChild('cookieLaw', { static: false }) private cookieLawEl: any;
   public loading: boolean = false;
-  private user: any;
+  public user: any;
 
   public cookieLawText:string;
   public cookieLawButton:string;

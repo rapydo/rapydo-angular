@@ -115,13 +115,13 @@ export class AdminUsersComponent extends BasePaginationComponent {
     return this.put(row, this.endpoint, data, this.formModal, false);
   }
 
-  submit(data) {
+  submit() {
     // If created by admins, credentials  
     // must accept privacy at the login
     if (!this.model["_id"]) {
       this.model["privacy_accepted"] = false;
     }
-    this.send(data, this.endpoint);
+    this.send(this.endpoint);
   }
 
   filter(data_filter) {

@@ -218,7 +218,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
   protected remove(uuid) { console.log("remove: to be implemented") }
   protected create() { console.log("create: to be implemented") }
   protected update(row, element=null) { console.log("update: to be implemented") }
-  protected submit(data) { console.log("submit: to be implemented") }
+  protected submit() { console.log("submit: to be implemented") }
 
   protected get(endpoint, data=null) {
 
@@ -331,7 +331,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
     );
   }
 
-  protected send(data, endpoint) {
+  protected send(endpoint) {
     if (this.form.valid) {
 
       let apiCall;
