@@ -22,14 +22,13 @@ export class RegisterComponent implements OnInit {
     public showRegistrationForm: boolean = false;
     public registration_message: string;
     public invalid_token: boolean = false;
+    public disclaimer: string;
 
-    private disclaimer: string;
+    public form = new FormGroup({});
+    public fields: FormlyFieldConfig[] = []; 
+    public model:any = {}
 
-    private form = new FormGroup({});
-    private fields: FormlyFieldConfig[] = []; 
-    private model:any = {}
-
-    private loading = false;
+    public loading = false;
  
     constructor(
         private route: ActivatedRoute,

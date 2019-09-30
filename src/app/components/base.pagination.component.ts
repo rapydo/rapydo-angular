@@ -20,7 +20,7 @@ import { FormlyService } from '@rapydo/services/formly'
 })
 export class BasePaginationComponent implements OnInit, AfterViewChecked {
 
-  protected resource_name:string;
+  public resource_name:string;
 
   protected server_side_filter = false;
   protected server_side_sort = false;
@@ -30,21 +30,21 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
   protected counter_endpoint: string;
 
   protected modalRef: NgbModalRef;
-  protected form = new FormGroup({});
-  protected fields: FormlyConfig[]; 
-  protected model:any = {}
-  protected modalTitle: string;
+  public form = new FormGroup({});
+  public fields: FormlyConfig[]; 
+  public model:any = {}
+  public modalTitle: string;
 
   public loading:boolean = false;
-  protected updating:boolean = false;
-  protected data: Array<any> = [];
-  protected rows: Array<any> = [];
-  protected columns: Array<any> = []
+  public updating:boolean = false;
+  public data: Array<any> = [];
+  public rows: Array<any> = [];
+  public columns: Array<any> = []
   // Only used by the filter function
   protected data_filter: any;
   protected unfiltered_data: Array<any>;
 
-  protected deleteConfirmation: any;
+  public deleteConfirmation: any;
 
   public paging: any;
   public is_update: boolean = false;
@@ -176,7 +176,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
     return this.rows;
   }
 
-  protected setPage(page:any) {
+  public setPage(page:any) {
     this.paging.page = page;
 
     if (this.server_side_sort) {

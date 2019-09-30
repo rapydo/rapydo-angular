@@ -31,8 +31,8 @@ export class LoginComponent implements OnInit {
     public account_not_active:boolean = false;
 
     @ViewChild('privacy_acceptance', { static: false }) public privacy_acceptance: TemplateRef<any>;
-    protected modalRef: NgbModalRef;
-    private terms_of_use: any;
+    public modalRef: NgbModalRef;
+    public terms_of_use: any;
 
     constructor(
         private route: ActivatedRoute,

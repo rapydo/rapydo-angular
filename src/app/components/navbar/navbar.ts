@@ -15,8 +15,8 @@ export class NavbarComponent {
   @Input() user: any;
 
   public allowRegistration: boolean = false;
-  private logoutConfirmationTitle:string = "Logout request";
-  private logoutConfirmationMessage:string = "Do you really want to close this session?";
+  public logoutConfirmationTitle:string = "Logout request";
+  public logoutConfirmationMessage:string = "Do you really want to close this session?";
 
   constructor(
     private router: Router,
