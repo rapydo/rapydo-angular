@@ -95,7 +95,7 @@ export class ChangePasswordComponent {
         "validators": {
           "fieldMatch": {
             "expression": (control) => control.value === this.model.newPwd,
-            "message": "Password not matching"
+            "message": "The password does not match"
           }
         }
       }

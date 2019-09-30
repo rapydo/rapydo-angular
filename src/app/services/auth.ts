@@ -18,8 +18,14 @@ export class AuthService {
 
   constructor(private http: HttpClient, private api: ApiService, private notification: NotificationService) { }
 
-  public login(username: string, password: string) {
-    let data = {username: username, password: password};
+  public login(username: string, password: string, new_password:string=undefined, password_confirm:string=undefined) {
+
+    let data = {
+      username: username,
+      password: password,
+      new_password: new_password,
+      password_confirm: password_confirm,
+    };
     return this.http.post<any>(process.env.authApiUrl + '/login', data).pipe(map(
       response => {
         if (response && response.Response && response.Response.data && response.Response.data.token) {
