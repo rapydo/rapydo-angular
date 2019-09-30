@@ -1,7 +1,7 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { ApiService } from './api';
 import 'rxjs/add/operator/map';
 
@@ -55,8 +55,7 @@ export class AuthService {
 
       },
       error => {
-
-        return error;
+        return throwError(error);
       }
     ));
   }
@@ -136,8 +135,8 @@ export class AuthService {
       return of(false);
     }
 
-         let opt =  {"base": "auth", "rawResponse": true};
-        return this.api.get('profile', "", [], opt).pipe(
+   let opt =  {"base": "auth", "rawResponse": true};
+    return this.api.get('profile', "", [], opt).pipe(
       map(response => {
         return of(true);
       }),
