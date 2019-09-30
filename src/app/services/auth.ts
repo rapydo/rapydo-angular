@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { ApiService } from './api';
 
 import { environment } from '@rapydo/../environments/environment';
-import { NotificationService } from '/rapydo/src/app/services/notification';
+import { NotificationService } from '@rapydo/services/notification';
 
 @Injectable()
 export class AuthService {

@@ -2,14 +2,14 @@
 import { Component, ViewChild, TemplateRef, ChangeDetectorRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { ApiService } from '/rapydo/src/app/services/api';
-import { AuthService } from '/rapydo/src/app/services/auth';
-import { NotificationService} from '/rapydo/src/app/services/notification';
-import { FormlyService } from '/rapydo/src/app/services/formly'
+import { ApiService } from '@rapydo/services/api';
+import { AuthService } from '@rapydo/services/auth';
+import { NotificationService} from '@rapydo/services/notification';
+import { FormlyService } from '@rapydo/services/formly'
 
-import { BasePaginationComponent } from '/rapydo/src/app/components/base.pagination.component'
+import { BasePaginationComponent } from '@rapydo/components/base.pagination.component'
 
-import { ProjectOptions } from '/app/frontend/app/custom.project.options';
+import { ProjectOptions } from '@app/custom.project.options';
 
 @Component({
   selector: 'admin-users',
