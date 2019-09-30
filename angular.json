@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "/modules/dist",
+            "outputPath": "/app/dist",
             "index": "rapydo/index.html",
             "main": "rapydo/main.ts",
             "polyfills": "rapydo/polyfills.ts",
