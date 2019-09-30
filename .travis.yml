@@ -12,5 +12,5 @@ script:
   - scripts/tests.sh
   - cd rapydo_tests
   - docker-compose up -d frontend
-  - sleep 25
+  - sleep 300
   - docker-compose up --exit-code-from cypress
