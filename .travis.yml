@@ -12,7 +12,7 @@ script:
   - scripts/tests.sh
   - cd rapydo_tests
   - docker-compose up -d frontend
-  - sleep 60
+  - sleep 120
   # - docker-compose up --exit-code-from cypress
   - docker-compose logs --tail 20
   - docker-compose logs --tail 1 frontend 2>&1 | grep "Compiled successfully."
