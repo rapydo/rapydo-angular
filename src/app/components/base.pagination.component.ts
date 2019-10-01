@@ -53,6 +53,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
   @ViewChild(DatatableComponent, {static: false}) table: DatatableComponent;
   private currentComponentWidth;
 
+  // Could we use @Optional() decorator for any of that parameters?
   constructor(
     protected api: ApiService,
     protected auth: AuthService,
