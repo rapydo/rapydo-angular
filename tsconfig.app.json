@@ -6,7 +6,7 @@
   },
   "files": [
     "rapydo/main.ts",
-    "rapydo/polyfills.ts"
+    "polyfills.ts"
   ],
   "include": [
     "rapydo/**/*.ts"

@@ -9,7 +9,7 @@
   },
   "files": [
     "rapydo/test.ts",
-    "rapydo/polyfills.ts"
+    "polyfills.ts"
   ],
   "include": [
     "rapydo/**/*.spec.ts",

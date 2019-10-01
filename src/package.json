@@ -14,6 +14,7 @@
   },
   "license": "MIT",
   "dependencies": {
+
     "@angular/common": "8.2.7",
     "@angular/compiler": "8.2.7",
     "@angular/core": "8.2.7",
@@ -22,10 +23,12 @@
     "@angular/platform-browser-dynamic": "8.2.7",
     "@angular/router": "8.2.7",
     "@angular/animations": "8.2.7",
+
     "rxjs": "6.5.2",
     "rxjs-compat": "6.5.2",
     "tslib": "1.10.0",
     "zone.js": "0.9.1",
+
     "bootstrap": "4.3.1",
     "@ng-bootstrap/ng-bootstrap": "4.2.1",
     "ngx-clipboard": "12.1.2",
@@ -42,17 +45,21 @@
     "@fortawesome/fontawesome-free": "5.9.0",
     "material-icons": "0.3.1",
     "jquery": "3.4.1",
-    "noty": "3.2.0-beta"
+    "noty": "3.2.0-beta",
+
+    "core-js": "3.2.1",
+    "classlist.js": "1.1.20150312"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.803.5",
     "@angular/cli": "8.3.5",
     "@angular/compiler-cli": "8.2.7",
     "@angular/language-service": "~8.2.7",
+
     "@types/node": "12.0.10",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",
-    "codelyzer": "^5.0.0",
+
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.1.0",
@@ -61,9 +68,12 @@
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
     "protractor": "~5.4.0",
+
+    "codelyzer": "^5.0.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
     "typescript": "~3.5.3",
+
     "rimraf": "2.6.3",
     "copyfiles": "2.1.1",
     "raw-loader": "3.1.0"
