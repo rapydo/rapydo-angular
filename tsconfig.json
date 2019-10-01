@@ -1,29 +1,60 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+
+    // From default Angular CLI
     "baseUrl": "/app/node_modules/",
     "outDir": "/app/dist",
-    "sourceMap": true,
-    "declaration": false,
-    "downlevelIteration": true,
-    "experimentalDecorators": true,
-    // Required to import Noty.js
-    "allowSyntheticDefaultImports": true,
+    "target": "es2015",
     "module": "esnext",
     "moduleResolution": "node",
+
+    // From default Angular CLI
+    "sourceMap": true,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "es2015",
+
+    // Addendum
+    // Enable incremental compilation by reading/writing information from prior compilations to a file on disk.
+    "incremental": true,
+
+    // Generates corresponding .d.ts file.
+    // Angular CLI set to false by default
+    "declaration": true,
+
+    // Emit design-type metadata for decorated declarations in source
+    "emitDecoratorMetadata": true,
+
+    // Remove all comments except copy-right header comments beginning with /*!
+    "removeComments": true,
+
+    // Raise error on expressions and declarations with an implied any type.
+    // enable in a near future
+    // "noImplicitAny": true,
+
+    // Suppress --noImplicitAny errors for indexing objects lacking index signatures.
+    // enable in a near future
+    // "suppressImplicitAnyIndexErrors": false,
+
+    // Required to import Noty.js
+    "allowSyntheticDefaultImports": true,
+
+    // From default Angular CLI
     "types": [
       "node"
     ],
+
     "typeRoots": [
       "/app/node_modules/@types"
     ],
+
     "paths": {
       "@rapydo/*": ["/app/rapydo/app/*"],
       "@app/*": ["/app/custom/app/*"],
       "*": ["/app/node_modules/*"]
     },
+
     "lib": [
       "es2018",
       "dom"
