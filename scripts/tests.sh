@@ -18,9 +18,7 @@ else
 	echo "Current branch: $TRAVIS_BRANCH"
 fi
 
-
 CORE_DIR="${WORK_DIR}/rapydo_tests"
-COVERAGE_FILE="/tmp/.coverage"
 
 echo "WORK_DIR = ${WORK_DIR}"
 echo "CORE_DIR = ${CORE_DIR}"
