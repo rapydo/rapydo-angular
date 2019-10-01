@@ -87,14 +87,6 @@ import "core-js/proposals/reflect-metadata";
 /** Zone JS is required by default for Angular itself. */
 import 'zone.js/dist/zone';
 
-if (process.env.ENV === 'production') {
-  // Production
-} else {
-  // Development and test
-  Error['stackTraceLimit'] = Infinity;
-  require('zone.js/dist/long-stack-trace-zone');
-}
-
 /** APPLICATION IMPORTS */
 
 import './typedarray';
