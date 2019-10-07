@@ -5,8 +5,8 @@
   "description": "Frontend for RAPyDo framework",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host 0.0.0.0 --port 80",
-    "start-cypress": "ng serve --host 0.0.0.0 --port 80 --disable-host-check",
+    "start": "ng serve --host 0.0.0.0 --port 8080",
+    "start-cypress": "ng serve --host 0.0.0.0 --port 8080 --disable-host-check",
     "build": "rimraf dist/* && copyfiles --flat /app/courtesy/index.html /app/dist && ng build --deleteOutputPath=false --optimization=true",
     "build-aot": "rimraf dist/* && copyfiles --flat /app/courtesy/index.html /app/dist && ng build --aot --deleteOutputPath=false --buildOptimizer=true --vendorChunk=true",
     "test": "ng test",
