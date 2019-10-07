@@ -53,3 +53,5 @@ rapydo --mode cypress --development --project ${PROJECT} dump
 rapydo --mode debug --development --project ${PROJECT} start
 rapydo --mode debug --development --project ${PROJECT} shell backend --command 'restapi init'
 rapydo --mode debug --development --project ${PROJECT} remove
+
+chmod -R 777 data/${PROJECT}/frontend
