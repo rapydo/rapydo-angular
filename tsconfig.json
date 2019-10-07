@@ -50,8 +50,8 @@
     ],
 
     "paths": {
-      "@rapydo/*": ["/app/rapydo/app/*"],
-      "@app/*": ["/app/custom/app/*"],
+      "@rapydo/*": ["/app/app/rapydo/app/*"],
+      "@app/*": ["/app/app/custom/app/*"],
       "*": ["/app/node_modules/*"]
     },
 

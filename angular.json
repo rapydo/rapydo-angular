@@ -14,14 +14,14 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "/app/dist",
-            "index": "rapydo/index.html",
-            "main": "rapydo/main.ts",
+            "index": "app/rapydo/index.html",
+            "main": "app/rapydo/main.ts",
             "polyfills": "polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": false,
             "assets": [
-              "./rapydo/assets",
-              "./custom/assets"
+              "./app/rapydo/assets",
+              "./app/custom/assets"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -32,8 +32,8 @@
               "node_modules/@fortawesome/fontawesome-free/css/brands.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/solid.min.css",
               "node_modules/material-icons/iconfont/material-icons.css",
-              "./rapydo/css/rapydo.css",
-              "./custom/css/style.css"
+              "./app/rapydo/css/rapydo.css",
+              "./app/custom/css/style.css"
             ],
             "scripts": [
             ]
@@ -42,8 +42,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "rapydo/environments/environment.ts",
-                  "with": "rapydo/environments/environment.prod.ts"
+                  "replace": "app/rapydo/environments/environment.ts",
+                  "with": "app/rapydo/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,

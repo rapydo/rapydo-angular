@@ -5,7 +5,7 @@
     "types": []
   },
   "files": [
-    "rapydo/main.ts",
+    "app/rapydo/main.ts",
     "polyfills.ts"
   ],
   "include": [
