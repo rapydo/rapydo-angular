@@ -8,7 +8,7 @@
     ]
   },
   "files": [
-    "rapydo/test.ts",
+    "app/rapydo/test.ts",
     "polyfills.ts"
   ],
   "include": [

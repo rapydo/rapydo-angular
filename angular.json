@@ -90,13 +90,13 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "rapydo/test.ts",
+            "main": "/app/app/rapydo/test.ts",
             "polyfills": "polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": [
-              "./rapydo/assets",
-              "./custom/assets"
+              "./app/rapydo/assets",
+              "./app/custom/assets"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -107,8 +107,8 @@
               "node_modules/@fortawesome/fontawesome-free/css/brands.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/solid.min.css",
               "node_modules/material-icons/iconfont/material-icons.css",
-              "./rapydo/css/rapydo.css",
-              "./custom/css/style.css"
+              "./app/rapydo/css/rapydo.css",
+              "./app/custom/css/style.css"
             ],
             "scripts": []
           }
