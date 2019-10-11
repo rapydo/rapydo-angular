@@ -47,8 +47,8 @@ const envConfigFile = `
 export const environment = { 
     apiUrl: '${apiUrl}',
     authApiUrl: '${authApiUrl}',
-    projectTitle: ${projectTitle},
-    projectDescription: ${projectDescription},
+    projectTitle: '${projectTitle}',
+    projectDescription: '${projectDescription}',
     allowRegistration: '${allowRegistration}',
     allowPasswordReset: '${allowPasswordReset}'
 };
