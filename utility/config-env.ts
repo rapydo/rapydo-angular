@@ -34,6 +34,20 @@ let projectDescription = process.env.PROJECT_DESCRIPTION;
 let allowRegistration = process.env.ALLOW_REGISTRATION === 'true';
 let allowPasswordReset = process.env.ALLOW_PASSWORD_RESET === 'true';
 
+// Trimming ' character from title and description
+if (projectTitle.charAt(0) === "'") {
+  projectTitle = projectTitle.substr(1);
+}
+if (projectDescription.charAt(0) === "'") {
+  projectDescription = projectDescription.substr(1);
+}
+if (projectTitle.slice(projectTitle.length -1) === "'") {
+  projectTitle = projectTitle.slice(0, -1);
+}
+if (projectDescription.slice(projectDescription.length -1) === "'") {
+    projectDescription = projectDescription.slice(0, -1);
+}
+
 // apiUrl = JSON.stringify(apiUrl);
 // authApiUrl = JSON.stringify(authApiUrl);
 // projectTitle = JSON.stringify(projectTitle);
