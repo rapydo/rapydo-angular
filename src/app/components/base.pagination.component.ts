@@ -332,16 +332,19 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
     );
   }
 
-  protected send(endpoint) {
+  protected send(endpoint, data=null) {
     if (this.form.valid) {
 
       let apiCall;
       let type = "";
-      if (this.model["_id"]) {
-        apiCall = this.api.put(endpoint, this.model["_id"], this.model);
+
+      let model = data || this.model;
+      
+      if (model["_id"]) {
+        apiCall = this.api.put(endpoint, model["_id"], model);
         type = "updated";
       } else {
-        apiCall = this.api.post(endpoint, this.model);
+        apiCall = this.api.post(endpoint, model);
         type = "created";
       }
 
