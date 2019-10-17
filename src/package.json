@@ -7,8 +7,8 @@
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --port 8080",
     "start-cypress": "ng serve --host 0.0.0.0 --port 8080 --disable-host-check",
-    "build": "rimraf dist/* && copyfiles --flat /app/courtesy/index.html /app/dist && ng build --deleteOutputPath=false --optimization=true",
-    "build-aot": "rimraf dist/* && copyfiles --flat /app/courtesy/index.html /app/dist && ng build --aot --deleteOutputPath=false --buildOptimizer=true --vendorChunk=true",
+    "build": "rimraf dist/* && copyfiles --flat /app/courtesy/index.html /app/dist && ng build --deleteOutputPath=false --optimization=true --prod",
+    "build-aot": "rimraf dist/* && copyfiles --flat /app/courtesy/index.html /app/dist && ng build --aot --deleteOutputPath=false --buildOptimizer=true --vendorChunk=true  --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
