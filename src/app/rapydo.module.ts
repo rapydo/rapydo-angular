@@ -140,6 +140,13 @@ export function maxValidationError(error, field) {
   return `Should be lower than ${field.templateOptions.max}`;
 }
 
+// Warning: Can't resolve all parameters for MomentDateFormatter in rapydo.module.ts
+// This will become an error in Angular v6.x
+// Something due to @Injectable decorator and abstract class
+// Several similar issues reported, for example:
+// https://github.com/angular/angular/issues/24414
+// Class defined here:
+// https://github.com/ng-bootstrap/ng-bootstrap/blob/master/src/datepicker/ngb-date-parser-formatter.ts
 export class MomentDateFormatter extends NgbDateParserFormatter {
 
   constructor(private DT_FORMAT: string) {

@@ -23,7 +23,7 @@ export class ResetPasswordComponent implements OnInit {
     public step2_fields: FormlyFieldConfig[] = []; 
     public model:any = {}
 
-    private loading = false;
+    public loading = false;
  
     constructor(
         private router: Router,
