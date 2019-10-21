@@ -1,7 +1,7 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { ApiService } from './api';
 
 import { environment } from '@rapydo/../environments/environment';
@@ -18,8 +18,14 @@ export class AuthService {
 
   constructor(private http: HttpClient, private api: ApiService, private notification: NotificationService) { }
 
-  public login(username: string, password: string) {
-    let data = {username: username, password: password};
+  public login(username: string, password: string, new_password:string=undefined, password_confirm:string=undefined) {
+    let data = {
+      username: username,
+      password: password,
+      new_password: new_password,
+      password_confirm: password_confirm,
+    };
+
     return this.http.post<any>(environment.authApiUrl + '/login', data).pipe(map(
       response => {
         if (response && response.Response && response.Response.data && response.Response.data.token) {
@@ -55,8 +61,7 @@ export class AuthService {
 
       },
       error => {
-
-        return error;
+        return throwError(error);
       }
     ));
   }
@@ -136,8 +141,8 @@ export class AuthService {
       return of(false);
     }
 
-         let opt =  {"base": "auth", "rawResponse": true};
-        return this.api.get('profile', "", [], opt).pipe(
+   let opt =  {"base": "auth", "rawResponse": true};
+    return this.api.get('profile', "", [], opt).pipe(
       map(response => {
         return of(true);
       }),
