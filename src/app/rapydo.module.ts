@@ -16,7 +16,9 @@ import * as moment from 'moment';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { ClipboardModule } from 'ngx-clipboard';
-import { FileUploadModule  } from 'ng2-file-upload';
+// import { FileUploadModule  } from 'ng2-file-upload';
+// import { FileUploadModule  } from '@myog-io/ngx-chunk-file-upload';
+import { UploadxModule } from 'ngx-uploadx';
 
 import { FormsModule, FormControl } from '@angular/forms';
 import { ReactiveFormsModule, ValidationErrors } from '@angular/forms';
@@ -258,7 +260,8 @@ const routes: Routes = [
       }
     ),
     ClipboardModule,
-    FileUploadModule,
+    // FileUploadModule,
+    UploadxModule,
     CookieLawModule,
     FormsModule, ReactiveFormsModule,
     FormlyBootstrapModule,
@@ -342,7 +345,8 @@ const routes: Routes = [
 	  FormsModule, ReactiveFormsModule,
     FormlyBootstrapModule,
     FormlyModule,
-    FileUploadModule
+    // FileUploadModule
+    UploadxModule
   ],
   providers: [
 	  AuthService, AuthGuard,
