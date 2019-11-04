@@ -65,6 +65,7 @@ import { DatePickerValueAccessor } from '@rapydo/components/forms/datepicker.dir
 
 import { CustomNavbarComponent } from '@app/custom.navbar';
 import { CustomBrandComponent } from '@app/custom.navbar';
+import { CustomProfileComponent } from '@app/custom.profile';
 import { ProjectOptions } from '@app/custom.project.options';
 
 export function emailValidator(control: FormControl): ValidationErrors {
@@ -309,7 +310,8 @@ const routes: Routes = [
   DatePickerComponent, DatePickerValueAccessor,
 
 	CustomNavbarComponent,
-	CustomBrandComponent
+	CustomBrandComponent,
+  CustomProfileComponent
   ],
 
   exports: [

@@ -32,60 +32,39 @@
             </td>
         </tr>
 
-		<tr *ngFor="let value of user | iterate: ['uuid']">
+		<ng-container *ngFor="let row of user | iterate: ['uuid']">
+            <ng-container *ngIf="['name', 'surname', 'email', 'password', 'roles'].indexOf(row.key) < 0" [ngSwitch]="row.key">
 
-    		<th *ngIf="['name', 'surname', 'email', 'password', 'roles'].indexOf(value.key) < 0" [ngSwitch]="value.key">
+                <tr *ngSwitchCase="'group'">
+                    <th>Group</th>
+                    <td>{{row.value['fullname']}}</td>
+                </tr>
 
-                <span *ngSwitchCase="'group'">
-                    Group
-                </span>
+                <tr *ngSwitchCase="'isAdmin'">
+                    <th>Administrator</th>
+                    <td [innerHTML]="row.value | boolean_flag"></td>
+                </tr>
 
-                <span *ngSwitchCase="'isAdmin'">
-                    Administrator
-                </span>
+                <tr *ngSwitchCase="'isLocalAdmin'">
+                    <th>Local Administrator</th>
+                    <td [innerHTML]="row.value | boolean_flag"></td>
+                </tr>
 
-                <span *ngSwitchCase="'isLocalAdmin'">
-                    Local Administrator
-                </span>
+                <tr *ngSwitchCase="'privacy_accepted'">
+                    <th>Privacy Accepted</th>
+                    <td [innerHTML]="row.value | boolean_flag"></td>
+                </tr>
 
-                <span *ngSwitchCase="'privacy_accepted'">
-                    Privacy Accepted
-                </span>
+                <tr *ngSwitchCase="'status'">
+                    <th>Account status</th>
+                    <td>{{row.value}}</td>
+                </tr>
 
-                <span *ngSwitchCase="'status'">
-                    Account status
-                </span>
+                <tr *ngSwitchDefault my-profile-row [row]="row">
+                </tr>
 
-                <span *ngSwitchDefault>{{value.key}}</span>
-
-            </th>
-
-    		<td *ngIf="['name', 'surname', 'email', 'password', 'roles'].indexOf(value.key) < 0" [ngSwitch]="value.key">
-
-                <span 
-                    *ngSwitchCase="'group'"
-                    [innerHTML]="value.value['fullname']">
-                </span>
-
-                <span 
-                    *ngSwitchCase="'isAdmin'"
-                    [innerHTML]="value.value | boolean_flag">
-                </span>
-
-                <span 
-                    *ngSwitchCase="'isLocalAdmin'"
-                    [innerHTML]="value.value | boolean_flag">
-                </span>
-
-                <span 
-                    *ngSwitchCase="'privacy_accepted'"
-                    [innerHTML]="value.value | boolean_flag">
-                </span>
-
-                <span *ngSwitchDefault>{{value.value}}</span>
-            </td>
-
-		</tr>
+        </ng-container>
+        </ng-container>
 
         <tr>
         <th>Password</th>
