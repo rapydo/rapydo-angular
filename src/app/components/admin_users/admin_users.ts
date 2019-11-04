@@ -80,6 +80,17 @@ export class AdminUsersComponent extends BasePaginationComponent {
     return this.delete(this.endpoint, uuid);
   }
 
+  protected form_customizer(form, type) {
+    if (type == 'put') {
+      for (let k in form.fields) {
+        if (form.fields[k].key == "email") {
+          form.fields[k].templateOptions["readonly"] = true;
+        }
+      }
+    }
+    return form;
+  }
+
   create() {
     let data = {'get_schema': true, 'autocomplete': false} 
 

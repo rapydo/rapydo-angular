@@ -221,6 +221,10 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
   protected update(row, element=null) { console.log("update: to be implemented") }
   protected submit() { console.log("submit: to be implemented") }
 
+  protected form_customizer(form, type) {
+    return form;
+  }
+
   protected get(endpoint, data=null) {
 
     if (this.server_side_pagination && data == null) {
@@ -283,6 +287,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
     return apiCall.subscribe(
       response => {
         let data = this.formly.json2Form(response.data, {});
+        data = this.form_customizer(data, "post")
 
         this.modalTitle = "Create a new " + this.resource_name;
         this.fields = data.fields;
@@ -311,6 +316,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
     return apiCall.subscribe(
       response => {
         let data = this.formly.json2Form(response.data, row);
+        data = this.form_customizer(data, "put")
         this.modalTitle = "Update " + this.resource_name;
         this.fields = data.fields;
         this.model = data.model;
