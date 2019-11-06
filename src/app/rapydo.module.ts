@@ -1,4 +1,4 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule, ModuleWithProviders, Injectable } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule }  from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -150,6 +150,7 @@ export function maxValidationError(error, field) {
 // https://github.com/angular/angular/issues/24414
 // Class defined here:
 // https://github.com/ng-bootstrap/ng-bootstrap/blob/master/src/datepicker/ngb-date-parser-formatter.ts
+@Injectable()
 export class MomentDateFormatter extends NgbDateParserFormatter {
 
   constructor(private DT_FORMAT: string) {
