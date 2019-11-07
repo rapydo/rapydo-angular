@@ -15,9 +15,9 @@ export class NotificationService {
   readonly WARNING = 3;
   readonly INFO = 4;
 
-  private enable_toastr:boolean = environment.enableToastr == "true";
+  private enable_toastr:boolean = environment.enableToastr.toLowerCase() == 'true';
 
-  constructor(private toastr: ToastrService) {console.log(environment.enableToastr);}
+  constructor(private toastr: ToastrService) {}
 
   public extractErrors = function(response: ApiResponse, type: number) {
     if (response && response.errors)
