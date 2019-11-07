@@ -1,6 +1,6 @@
 import { NgModule, ModuleWithProviders, Injectable } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BrowserModule }  from '@angular/platform-browser';
+// import { BrowserModule }  from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -27,6 +27,8 @@ import { FormlyModule } from '@ngx-formly/core';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 
 import { CookieLawModule } from 'angular2-cookie-law';
+
+import { ToastrModule } from 'ngx-toastr';
 
 import { IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe } from '@rapydo/pipes/pipes';
 import { SecurePipe } from '@rapydo/pipes/secure';
@@ -246,8 +248,8 @@ const routes: Routes = [
        } // <-- debugging purposes only
     ),
 
-    BrowserModule,
-    BrowserAnimationsModule, // required by CookieLaw
+    // BrowserModule,
+    BrowserAnimationsModule, // required by CookieLaw and Toastr
 
     // import HttpClientModule after BrowserModule
     HttpClientModule,
@@ -265,6 +267,17 @@ const routes: Routes = [
     // FileUploadModule,
     UploadxModule,
     CookieLawModule,
+    ToastrModule.forRoot({
+      maxOpened: 5,
+      preventDuplicates: true,
+      countDuplicates: true,
+      resetTimeoutOnDuplicate: true,
+      closeButton: true,
+      enableHtml: true,
+      progressBar: true,
+      progressAnimation: 'increasing',
+      positionClass: 'toast-bottom-right'
+    }),
     FormsModule, ReactiveFormsModule,
     FormlyBootstrapModule,
     FormlyModule.forRoot({
@@ -318,7 +331,8 @@ const routes: Routes = [
   exports: [
   	CommonModule,
   	RouterModule,
-  	BrowserModule,
+  	// BrowserModule,
+    BrowserAnimationsModule,
   	HttpClientModule,
   	NgbModule,
     MomentModule,
@@ -326,6 +340,7 @@ const routes: Routes = [
     ConfirmationPopoverModule, 
     ClipboardModule,
     CookieLawModule,
+    ToastrModule,
 
 	  IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe,
     SecurePipe,

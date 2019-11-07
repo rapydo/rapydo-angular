@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { ApiResponse } from './api';
+
+import { environment } from '@rapydo/../environments/environment';
 
 //const Noty = require('noty');
 import Noty from 'noty';
@@ -12,7 +15,9 @@ export class NotificationService {
   readonly WARNING = 3;
   readonly INFO = 4;
 
-  constructor() {}
+  private enable_toastr:boolean = environment.enableToastr == "true";
+
+  constructor(private toastr: ToastrService) {console.log(environment.enableToastr);}
 
   public extractErrors = function(response: ApiResponse, type: number) {
     if (response && response.errors)
@@ -47,8 +52,16 @@ export class NotificationService {
     return message;
   }
 
-  public showCritical = function(msg: string) {
+  public showCritical = function(msg: string, title: string = '') {
 
+    if (this.enable_toastr) {
+      this.toastr.error(
+        msg, title,
+        {
+          timeOut: 0
+        }
+      );
+    } else {
       new Noty({
           text        : msg,
           type        : "error",
@@ -59,10 +72,19 @@ export class NotificationService {
           layout      : 'bottomRight',
           theme       : 'metroui'
       }).show();
+    }
   }
 
-  public showError = function(msg: string) {
+  public showError = function(msg: string, title: string = '') {
 
+    if (this.enable_toastr) {
+      this.toastr.error(
+        msg, title,
+        {
+          timeOut: 15000
+        }
+      );
+    } else {
       new Noty({
           text        : msg,
           type        : "error",
@@ -71,10 +93,19 @@ export class NotificationService {
           layout      : 'bottomRight',
           theme       : 'relax'
       }).show();
+    }
   }
 
-  public showWarning = function(msg: string) {
+  public showWarning = function(msg: string, title: string = '') {
 
+    if (this.enable_toastr) {
+      this.toastr.warning(
+        msg, title,
+        {
+          timeOut: 10000
+        }
+      );
+    } else {
       new Noty({
           text        : msg,
           type        : "warning",
@@ -83,10 +114,18 @@ export class NotificationService {
           layout      : 'bottomRight',
           theme       : 'relax'
       }).show();
+    }
   }
 
-  public showSuccess = function(msg: string) {
-
+  public showSuccess = function(msg: string, title: string = '') {
+    if (this.enable_toastr) {
+      this.toastr.success(
+        msg, title,
+        {
+          timeOut: 10000
+        }
+      );
+    } else {
       new Noty({
           text        : msg,
           type        : "success",
@@ -95,9 +134,18 @@ export class NotificationService {
           layout      : 'bottomRight',
           theme       : 'relax'
       }).show();
+    }
   }
-  public showInfo = function(msg: string) {
+  public showInfo = function(msg: string, title: string = '') {
 
+    if (this.enable_toastr) {
+      this.toastr.info(
+        msg, title,
+        {
+          timeOut: 10000
+        }
+      );
+    } else {
       new Noty({
           text        : msg,
           type        : "information",
@@ -106,6 +154,7 @@ export class NotificationService {
           layout      : 'bottomRight',
           theme       : 'relax'
       }).show();
+    }
   }
 
 }

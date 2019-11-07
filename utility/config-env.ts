@@ -31,8 +31,9 @@ let authApiUrl = backendURI + '/auth';
 let projectTitle = process.env.PROJECT_TITLE;
 let projectDescription = process.env.PROJECT_DESCRIPTION;
 
-let allowRegistration = process.env.ALLOW_REGISTRATION === 'true';
-let allowPasswordReset = process.env.ALLOW_PASSWORD_RESET === 'true';
+let allowRegistration = process.env.ALLOW_REGISTRATION.toLowerCase() === 'true';
+let allowPasswordReset = process.env.ALLOW_PASSWORD_RESET.toLowerCase() === 'true';
+let enableToastr = process.env.ENABLE_TOASTR.toLowerCase() === 'true';
 
 // Trimming ' character from title and description
 if (projectTitle.charAt(0) === "'") {
@@ -64,7 +65,8 @@ export const environment = {
     projectTitle: '${projectTitle}',
     projectDescription: '${projectDescription}',
     allowRegistration: '${allowRegistration}',
-    allowPasswordReset: '${allowPasswordReset}'
+    allowPasswordReset: '${allowPasswordReset}',
+    enableToastr: '${enableToastr}'
 };
 `
 fs.writeFile(targetPath, envConfigFile, function (err) {

@@ -7,5 +7,6 @@ export const environment = {
 	'projectTitle': base.projectTitle,
 	'projectDescription': base.projectDescription,
 	'allowRegistration': base.allowRegistration,
-	'allowPasswordReset': base.allowPasswordReset
+	'allowPasswordReset': base.allowPasswordReset,
+	'enableToastr': base.enableToastr
 }
