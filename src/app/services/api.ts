@@ -89,12 +89,10 @@ export class ApiService {
       ep += "/" + id;
     }
 
-      let contentType = 'application/json';
-        if (formData) {
-          // How to convert in angular2/5 ?
-            /*data = $httpParamSerializerJQLike(data)*/
-            contentType = 'application/x-www-form-urlencoded';
-        }
+    let contentType = 'application/json';
+    if (formData) {
+      contentType = 'application/x-www-form-urlencoded';
+    }
 
     let options = {
       headers: new HttpHeaders({
@@ -103,11 +101,11 @@ export class ApiService {
       })
     };
     options["timeout"] = 30000;
-        for (let k in conf) {
-            options[k] = conf[k]
-        }
+    for (let k in conf) {
+        options[k] = conf[k]
+    }
 
-        let httpCall = undefined;
+    let httpCall = undefined;
     if (method == "GET") {
       options["params"] = data;
       httpCall = this.http.get(ep, options);
@@ -124,87 +122,85 @@ export class ApiService {
       return false;
     }
 
-        return httpCall.pipe(
-          map(response => {
+    return httpCall.pipe(
+      map(response => {
 
-            this.set_online();
-                //$log.debug("API call successful");
-                if (rawResponse) return response;
+        this.set_online();
+          //$log.debug("API call successful");
+          if (rawResponse) return response;
 
-                return response["Response"];
-            }),
-            catchError(error => {
+          return response["Response"];
+      }),
+      catchError(error => {
 
-              if (error.status == null && error.error == null) {
-                // 204 empty responses
-        /* 
-          response = {}
-                  response.Meta = {}
-                  response.Meta.status = 204
-                  response.Response = {}
-                  response.Response.data = ""
-              */
-                return of("");
-              }
-                /*console.log("Warning: API failed to call")*/
-              if (error.status <= 0) {
-                this.set_offline();
-              } else {
-                this.set_online();
-              }
+        if (error.status == null && error.error == null) {
+          // 204 empty responses
+          /* 
+            response = {}
+            response.Meta = {}
+            response.Meta.status = 204
+            response.Response = {}
+            response.Response.data = ""
+          */
+          return of("");
+        }
+        /*console.log("Warning: API failed to call")*/
+        if (error.status <= 0) {
+          this.set_offline();
+        } else {
+          this.set_online();
+        }
 
-              if (rawResponse) return throwError(error);
-              return throwError(error.error["Response"])
-          })
-        );
+        if (rawResponse) return throwError(error);
+        return throwError(error.error["Response"])
+      })
+    );
   }
 
+  public parseElement(element) {
 
-    public parseElement(element) {
+    let newelement = null;
+    if (element.hasOwnProperty('attributes')) {
+      newelement = element.attributes;
+    } else {
+      newelement = element;
+    }
 
-      let newelement = null;
-        if (element.hasOwnProperty('attributes')) {
-            newelement = element.attributes;
+    if (element.hasOwnProperty('id')) {
+      newelement.id = element.id;
+    }
+
+    if (element.hasOwnProperty('relationships')) {
+      for (let key in element.relationships) {
+        let subelement = element.relationships[key]
+        let k = '_'+key;
+        if (subelement.length == 1) {
+          newelement[k] = [this.parseElement(subelement[0])];
         } else {
-            newelement = element;
+          newelement[k] = [];
+          for (let i=0; i<subelement.length; i++) {
+            newelement[k].push(this.parseElement(subelement[i]));
+          }
         }
-
-        if (element.hasOwnProperty('id')) {
-            newelement.id = element.id;
-        }
-
-        if (element.hasOwnProperty('relationships')) {
-            for (let key in element.relationships) {
-                let subelement = element.relationships[key]
-                let k = '_'+key;
-                if (subelement.length == 1) {
-                    newelement[k] = [this.parseElement(subelement[0])];
-                } else {
-                    newelement[k] = [];
-                    for (let i=0; i<subelement.length; i++) {
-                        newelement[k].push(this.parseElement(subelement[i]));
-                    }
-                }
-            }
-        }
-
-        return newelement;
+      }
     }
 
-    public parseResponse(response) {
+    return newelement;
+  }
 
-        if (!response || !response.length) {
-            return response;
-        }
+  public parseResponse(response) {
 
-        let newresponse = []
-        for (let i=0; i<response.length; i++) {
-            let element = this.parseElement(response[i]);
-
-            newresponse.push(element);
-        }
-        return newresponse;
+    if (!response || !response.length) {
+      return response;
     }
 
+    let newresponse = []
+    for (let i=0; i<response.length; i++) {
+      let element = this.parseElement(response[i]);
+
+      newresponse.push(element);
+    }
+    return newresponse;
+  }
 
 }

@@ -1,7 +1,8 @@
 
-<loading *ngIf="loading"></loading>
+<!-- <loading *ngIf="loading"></loading> -->
 
-<div *ngIf="!loading && !api.is_online()">
+<!-- <div *ngIf="!loading && !api.is_online()"> -->
+<div *ngIf="!api.is_online()">
 	<br><br><br>
 	<div class='row'>
 	<div class='col-6 offset-3'>
@@ -38,11 +39,10 @@
 
 </div>
 
-<navbar [user]="user" *ngIf="!loading && api.is_online()"></navbar>
+<!-- <navbar [user]="user" *ngIf="!loading && api.is_online()"></navbar> -->
+<navbar *ngIf="api.is_online()"></navbar>
 
-<router-outlet *ngIf="!loading && api.is_online()"> 
-
-</router-outlet>
+<router-outlet></router-outlet>
 
 <cookie-law #cookieLaw>
 	<span *ngIf='cookieLawText; else defaultText'
