@@ -8,11 +8,11 @@
     ]
   },
   "files": [
-    "app/rapydo/test.ts",
+    "app/rapydo/tests.ts",
     "polyfills.ts"
   ],
   "include": [
-    "rapydo/**/*.spec.ts",
-    "rapydo/**/*.d.ts"
+    "app/rapydo/**/*.spec.ts",
+    "app/rapydo/**/*.d.ts"
   ]
 }

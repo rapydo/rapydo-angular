@@ -12,7 +12,7 @@
     "rapydo/**/*.ts"
   ],
   "exclude": [
-    "rapydo/test.ts",
+    "rapydo/tests.ts",
     "rapydo/**/*.spec.ts",
     "rapydo/**/*.d.ts"
   ]

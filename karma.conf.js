@@ -21,12 +21,24 @@ module.exports = function (config) {
       fixWebpackSourcePaths: true
     },
     reporters: ['progress', 'kjhtml'],
+    hostname: '0.0.0.0',
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
+    // For manual execution
     autoWatch: true,
-    browsers: ['Chrome'],
     singleRun: false,
+    // For CI execution
+    // autoWatch: false,
+    // singleRun: true,
+    customLaunchers: {
+      ChromeHeadlessCI: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox']
+      }
+    },
+    browsers: ['ChromeHeadlessCI'],
+    browserNoActivityTimeout: 60000,
     restartOnFileChange: true
   });
 };
