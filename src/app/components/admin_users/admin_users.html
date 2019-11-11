@@ -104,6 +104,15 @@
 
 	</ng-template>
 
+	<ng-template #dataDate let-row="row" let-value="value" let-i="index">
+
+		<span *ngIf='value' ngbTooltip="{{value | amFromUtc | date : 'dd MMM yyyy HH:mm:ss'}}">
+			{{value | amFromUtc | date : 'dd MMM yyyy'}}
+		</span>
+		<span *ngIf='!value'>N/A</span>
+
+	</ng-template>
+
 	<ng-template #dataActive let-row="row" let-value="value" let-i="index">
 
 		<i class='fa fa-check' *ngIf='value' style='color:green'></i>

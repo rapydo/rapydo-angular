@@ -22,6 +22,7 @@ export class AdminUsersComponent extends BasePaginationComponent {
   @ViewChild('dataRoles', { static: false }) public dataRoles: TemplateRef<any>;
   @ViewChild('dataGroup', { static: false }) public dataGroup: TemplateRef<any>;
   @ViewChild('dataName', { static: false }) public dataName: TemplateRef<any>;
+  @ViewChild('dataDate', { static: false }) public dataDate: TemplateRef<any>;
   @ViewChild('controlsCell', { static: false }) public controlsCell: TemplateRef<any>;
   @ViewChild('emptyHeader', { static: false }) public emptyHeader: TemplateRef<any>;
   @ViewChild('formModal', { static: false }) public formModal: TemplateRef<any>;
@@ -69,6 +70,9 @@ export class AdminUsersComponent extends BasePaginationComponent {
     }
 
     this.columns.push({name: 'Roles', prop: "_roles", cellTemplate: this.dataRoles, flexGrow: 0.9});
+    this.columns.push({name: 'First Login', prop: "first_login", flexGrow: 0.5, cellTemplate: this.dataDate});
+    this.columns.push({name: 'Last Login', prop: "last_login", flexGrow: 0.5, cellTemplate: this.dataDate});
+    this.columns.push({name: 'Password Change', prop: "last_password_change", flexGrow: 0.5, cellTemplate: this.dataDate});
     this.columns.push({name: 'controls', prop: 'controls', cellTemplate: this.controlsCell, headerTemplate: this.emptyHeader, flexGrow: 0.2});
   }
 
