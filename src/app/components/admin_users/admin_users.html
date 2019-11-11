@@ -115,8 +115,8 @@
 
 	<ng-template #dataActive let-row="row" let-value="value" let-i="index">
 
-		<i class='fa fa-check' *ngIf='value' style='color:green'></i>
-		<i class='fa fa-ban' *ngIf='!value' style='color:orange'></i>
+		<i class='fa fa-check' *ngIf='value' style='color:green' ngbTooltip="This user is active"></i>
+		<i class='fa fa-ban' *ngIf='!value' style='color:orange' ngbTooltip="This user is inactive"></i>
 
 	</ng-template>
 
