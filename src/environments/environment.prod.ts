@@ -8,5 +8,6 @@ export const environment = {
 	'projectDescription': base.projectDescription,
 	'allowRegistration': base.allowRegistration,
 	'allowPasswordReset': base.allowPasswordReset,
+	'websocketsUrl': base.websocketsUrl,
 	'enableToastr': base.enableToastr
 }

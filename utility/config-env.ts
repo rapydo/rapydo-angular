@@ -25,6 +25,11 @@ if (process.env.BACKEND_URI !== undefined && process.env.BACKEND_URI !== null &&
 
 }
 
+let websocketsURI = "";
+websocketsURI += process.env.PUSHPIN_HOST;
+websocketsURI += ":";
+websocketsURI += process.env.PUSHPIN_PORT;
+
 let apiUrl = backendURI + '/api';
 let authApiUrl = backendURI + '/auth';
 
@@ -66,6 +71,7 @@ export const environment = {
     projectDescription: '${projectDescription}',
     allowRegistration: '${allowRegistration}',
     allowPasswordReset: '${allowPasswordReset}',
+    websocketsUrl: '${websocketsURI}',
     enableToastr: '${enableToastr}'
 };
 `
