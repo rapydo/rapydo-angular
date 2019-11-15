@@ -13,12 +13,20 @@ import { AuthService } from '@rapydo/services/auth';
 import { NotificationService} from '@rapydo/services/notification';
 import { FormlyService } from '@rapydo/services/formly'
 
+// == @swimlane/ngx-datatable/src/types/column-mode.type
+enum ColumnMode {
+    standard = 'standard',
+    flex = 'flex',
+    force = 'force'
+  }
 @Component({
   selector: 'base-component',
   providers: [ApiService, AuthService, NotificationService, FormlyService],
   templateUrl: './base.pagination.component.html'
 })
 export class BasePaginationComponent implements OnInit, AfterViewChecked {
+
+  public ColumnMode = ColumnMode;
 
   public resource_name:string;
 
@@ -166,6 +174,11 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
   }
 
   protected changePage(page:number, data:Array<any>): Array<any> {
+
+    if (page > 1) {
+      console.log("Deprecated paging change");
+    }
+
     this.paging.page = page;
     if (this.server_side_pagination) {
       this.rows = this.data;
@@ -178,6 +191,8 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
   }
 
   public setPage(page:any) {
+
+    console.log("Deprecated paging set");
     this.paging.page = page;
 
     if (this.server_side_sort) {
@@ -238,10 +253,10 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
 
     this.loading = true;
     return this.api.get(endpoint, "", data).subscribe(
-          response => {
+      response => {
         this.data = this.api.parseResponse(response.data);
         if (!this.server_side_pagination) {
-              this.updatePaging(this.data.length);
+          this.updatePaging(this.data.length);
         }
         this.changePage(this.paging.page, this.data);
 
