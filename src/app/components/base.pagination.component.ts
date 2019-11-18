@@ -152,7 +152,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
   /** PAGINATION **/
   protected initPaging(itemPerPage:number):any {
     this.paging = {
-      "page": 1,
+      "page": 0,
       "itemsPerPage": itemPerPage,
       "numPages": 1,
       "dataLength": 0
@@ -188,6 +188,23 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
       this.rows = data.slice(start, end);
     }
     return this.rows;
+  }
+/*
+  To used this:
+    <ngx-datatable
+        [...]
+        [externalPaging]="true"
+        [count]="paging.dataLength"
+        [limit]="paging.itemsPerPage"
+        [offset]="paging.page"
+        (page)="serverSidePagination($event)"
+        [...]
+*/
+  public serverSidePagination(event:any) {
+
+    this.paging.page = event.offset;
+    this.list();
+
   }
 
   public setPage(page:any) {
@@ -244,7 +261,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
 
     if (this.server_side_pagination && data == null) {
       data = {
-        "currentpage": this.paging.page,
+        "currentpage": this.paging.page + 1,
         "perpage": this.paging.itemsPerPage
       }
     } else if (data == null) {
