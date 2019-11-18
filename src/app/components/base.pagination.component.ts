@@ -274,8 +274,8 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
         this.data = this.api.parseResponse(response.data);
         if (!this.server_side_pagination) {
           this.updatePaging(this.data.length);
+          this.changePage(this.paging.page, this.data);
         }
-        this.changePage(this.paging.page, this.data);
 
         this.notify.extractErrors(response, this.notify.WARNING);
         this.loading = false;
