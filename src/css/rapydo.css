@@ -1,3 +1,4 @@
+
 html, body {
     height: 100%;
     width: 100%;
@@ -6,8 +7,12 @@ html, body {
 .container-fluid {
   padding-top: 1rem;
 }
+
+.navbar .sticky-top {
+  /* margin-bottom: 0px */
+}
 .initial_loading {
-  background-color:#cceeff;
+  background-color: #cceeff;
   padding: 0;
   margin: 0;
   display: -webkit-box;
@@ -19,8 +24,6 @@ html, body {
   align-items: center;
   justify-content: center;
 }
-
-
 .loader {
   height: 4px;
   width: 100%;
