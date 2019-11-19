@@ -125,7 +125,6 @@ export class ApiService {
     return httpCall.pipe(
       map(response => {
 
-        console.log(response);
         this.set_online();
         //$log.debug("API call successful");
         if (rawResponse) return response;
