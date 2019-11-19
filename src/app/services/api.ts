@@ -125,14 +125,14 @@ export class ApiService {
     return httpCall.pipe(
       map(response => {
 
+        console.log(response);
         this.set_online();
-          //$log.debug("API call successful");
-          if (rawResponse) return response;
+        //$log.debug("API call successful");
+        if (rawResponse) return response;
 
-          return response["Response"];
+        return response["Response"];
       }),
       catchError(error => {
-
         if (error.status == null && error.error == null) {
           // 204 empty responses
           /* 
@@ -144,7 +144,12 @@ export class ApiService {
           */
           return of("");
         }
-        /*console.log("Warning: API failed to call")*/
+        // Note that Chrome also returns status 0 in case of CORS issues.
+        // A wrong endpoint will raise a 404 error from OPTIONS pre-flight request,
+        // this will bring to a CORS error on the request == a error status 0
+        // => missing endpoint == 404 on pre-flight == 0 on request == OFFLINE :\
+        // Same error status 0 is obtained when APIs are not reachable
+        // => server offline == endpoint is missing :\
         if (error.status <= 0) {
           this.set_offline();
         } else {

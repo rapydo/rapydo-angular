@@ -46,7 +46,9 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
   public loading:boolean = false;
   public updating:boolean = false;
   public data: Array<any> = [];
+  // rows is no longer required?
   public rows: Array<any> = [];
+
   public columns: Array<any> = []
   // Only used by the filter function
   protected data_filter: any;
