@@ -274,6 +274,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
     return this.api.get(endpoint, "", data).subscribe(
       response => {
         this.data = this.api.parseResponse(response.data);
+        this.unfiltered_data = this.data;
         if (!this.server_side_pagination) {
           this.updatePaging(this.data.length);
           this.changePage(this.paging.page, this.data);
