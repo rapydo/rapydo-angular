@@ -13,6 +13,8 @@
   ],
   "include": [
     "app/rapydo/**/*.spec.ts",
-    "app/rapydo/**/*.d.ts"
+    "app/rapydo/**/*.d.ts",
+    "app/custom/**/*.spec.ts",
+    "app/custom/**/*.d.ts",
   ]
 }
