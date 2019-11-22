@@ -8,7 +8,6 @@ export CURRENT_VERSION=$(grep '"version"' src/package.json | sed 's/"version": /
 echo "Current project: $PROJECT"
 echo "Current version: $CURRENT_VERSION"
 
-pip3 install --upgrade git+https://github.com/rapydo/utils.git@${CURRENT_VERSION}
 pip3 install --upgrade git+https://github.com/rapydo/do.git@${CURRENT_VERSION}
 
 #https://docs.travis-ci.com/user/environment-variables/#Default-Environment-Variables
@@ -29,6 +28,12 @@ fi
 cd $CORE_DIR
 mkdir -p data
 
+echo "project: ${PROJECT}" > .projectrc
+echo "project_configuration:" >> .projectrc
+echo "  variables:" >> .projectrc
+echo "    env:" >> .projectrc
+echo "      APP_MODE: test" >> .projectrc
+
 # Pull requests
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
     echo "checkout $TRAVIS_PULL_REQUEST_BRANCH"
@@ -43,15 +48,26 @@ else
     git checkout $TRAVIS_BRANCH
 fi
 
+rapydo init
+
+rapydo pull
+
+rapydo dump
+
+rapydo start
+rapydo shell backend --command 'restapi init'
+#rapydo --mode debug remove
+
+# CYPRESS:
 # Let's init and start the stack for the configured PROJECT
-rapydo --mode cypress --development --project ${PROJECT} init
+# rapydo --mode cypress init
 
-rapydo --mode cypress --development --project ${PROJECT} pull
+# rapydo --mode cypress pull
 
-rapydo --mode cypress --development --project ${PROJECT} dump
+# rapydo --mode cypress dump
 
-rapydo --mode debug --development --project ${PROJECT} start
-rapydo --mode debug --development --project ${PROJECT} shell backend --command 'restapi init'
-rapydo --mode debug --development --project ${PROJECT} remove
+# rapydo --mode debug start
+# rapydo --mode debug shell backend --command 'restapi init'
+# rapydo --mode debug remove
 
-chmod -R -f 777 data/${PROJECT}/frontend || true
+# chmod -R -f 777 data/${PROJECT}/frontend || true

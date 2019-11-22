@@ -10,7 +10,7 @@ if (process.env.BACKEND_URI !== undefined && process.env.BACKEND_URI !== null &&
 
   if (process.env.APP_MODE === 'production') {
     backendURI += "https://";
-  } else if (process.env.APP_MODE === 'debug' || process.env.APP_MODE === 'cypress' || process.env.APP_MODE === 'development') {
+  } else if (process.env.APP_MODE === 'debug' || process.env.APP_MODE === 'test' || process.env.APP_MODE === 'development' || process.env.APP_MODE === 'cypress') {
     backendURI += "http://";
   } else {
     console.log("Unknown APP MODE: " + process.env.APP_MODE);
