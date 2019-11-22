@@ -52,7 +52,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
   public columns: Array<any> = []
   // Only used by the filter function
   protected data_filter: any;
-  protected unfiltered_data: Array<any>;
+  public unfiltered_data: Array<any>;
 
   public deleteConfirmation: any;
 
