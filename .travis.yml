@@ -19,3 +19,6 @@ script:
   # - docker-compose logs --tail 20
   # - docker-compose logs --tail 1 frontend 2>&1 | grep "Compiled successfully."
   - docker-compose down
+
+after_success:
+  - ./node_modules/.bin/codecov
