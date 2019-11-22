@@ -33,6 +33,8 @@ echo "project_configuration:" >> .projectrc
 echo "  variables:" >> .projectrc
 echo "    env:" >> .projectrc
 echo "      APP_MODE: test" >> .projectrc
+# Defined in travis settings
+echo "      COVERALLS_REPO_TOKEN: ${COVERALLS_REPO_TOKEN}" >> .projectrc
 
 # Pull requests
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
