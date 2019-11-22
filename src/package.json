@@ -9,7 +9,7 @@
     "start-cypress": "ng serve --host 0.0.0.0 --port 8080 --aot --disable-host-check",
     "build": "rimraf dist/* && copyfiles --flat /app/courtesy/index.html /app/dist && ng build --deleteOutputPath=false --optimization=true --prod --extractCss=false && gzipper --verbose /app/dist",
     "test": "ng test --codeCoverage",
-    "single-test": "ng test --codeCoverage  --single-run",
+    "single-test": "ng test --codeCoverage --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
