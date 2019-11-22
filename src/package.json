@@ -9,6 +9,7 @@
     "start-cypress": "ng serve --host 0.0.0.0 --port 8080 --aot --disable-host-check",
     "build": "rimraf dist/* && copyfiles --flat /app/courtesy/index.html /app/dist && ng build --deleteOutputPath=false --optimization=true --prod --extractCss=false && gzipper --verbose /app/dist",
     "test": "ng test --codeCoverage",
+    "single-test": "ng test --codeCoverage  --single-run",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
@@ -68,6 +69,7 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
+    "karma-coveralls": "2.1.0",
     "protractor": "~5.4.0",
 
     "codelyzer": "^5.0.0",
