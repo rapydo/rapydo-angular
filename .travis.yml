@@ -21,4 +21,4 @@ script:
   - docker-compose down
 
 after_success:
-  - ./node_modules/codecov/bin/codecov
+  - /app/node_modules/codecov/bin/codecov
