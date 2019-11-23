@@ -21,6 +21,9 @@ module.exports = function (config) {
       reports: ['html', 'lcovonly', 'text-summary'],
       fixWebpackSourcePaths: true
     },
+    preprocessors: {
+      'app/(custom|rapydo)/app/**/*.ts': ['coverage']
+    },
     reporters: ['progress', 'kjhtml', 'coverage-istanbul', 'coveralls'],
     hostname: '0.0.0.0',
     port: 9876,
