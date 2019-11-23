@@ -19,10 +19,12 @@ module.exports = function (config) {
     coverageIstanbulReporter: {
       dir: require('path').join('/coverage'),
       reports: ['html', 'lcovonly', 'text-summary'],
-      fixWebpackSourcePaths: true
-    },
-    preprocessors: {
-      'app/(custom|rapydo)/app/**/*.ts': ['coverage-istanbul']
+      // Combines coverage information from multiple browsers into one report rather than outputting a report for each browser.
+      combineBrowserReports: true,
+      // if using webpack and pre-loaders, work around webpack breaking the source path
+      fixWebpackSourcePaths: true,
+      // Omit files with no statements, no functions and no branches from the report
+      skipFilesWithNoCoverage: true
     },
     reporters: ['progress', 'kjhtml', 'coverage-istanbul', 'coveralls'],
     hostname: '0.0.0.0',
