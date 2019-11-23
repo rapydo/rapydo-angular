@@ -22,7 +22,7 @@ module.exports = function (config) {
       fixWebpackSourcePaths: true
     },
     preprocessors: {
-      'app/(custom|rapydo)/app/**/*.ts': ['coverage']
+      'app/(custom|rapydo)/app/**/*.ts': ['coverage-istanbul']
     },
     reporters: ['progress', 'kjhtml', 'coverage-istanbul', 'coveralls'],
     hostname: '0.0.0.0',
