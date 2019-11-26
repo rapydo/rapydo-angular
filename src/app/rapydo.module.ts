@@ -1,6 +1,8 @@
 import { NgModule, ModuleWithProviders, Injectable } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import { BrowserModule }  from '@angular/platform-browser';
+import { RouterModule, Routes } from '@angular/router';
+import { FormsModule, FormControl } from '@angular/forms';
+import { ReactiveFormsModule, ValidationErrors } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -8,20 +10,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateAdapter, NgbDateNativeAdapter, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 //import 'bootstrap/dist/css/bootstrap.min.css'
 
-import { RouterModule, Routes } from '@angular/router';
-
 import { MomentModule } from 'ngx-moment';
 import * as moment from 'moment';
 
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { ClipboardModule } from 'ngx-clipboard';
-// import { FileUploadModule  } from 'ng2-file-upload';
-// import { FileUploadModule  } from '@myog-io/ngx-chunk-file-upload';
 import { UploadxModule } from 'ngx-uploadx';
-
-import { FormsModule, FormControl } from '@angular/forms';
-import { ReactiveFormsModule, ValidationErrors } from '@angular/forms';
 
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
@@ -33,7 +28,6 @@ import { ToastrModule } from 'ngx-toastr';
 import { IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe } from '@rapydo/pipes/pipes';
 import { SecurePipe } from '@rapydo/pipes/secure';
 
-//import { Error404Component } from '@rapydo/components/errors/404';
 import { OfflineComponent } from '@rapydo/components/errors/offline';
 import { LoadingComponent } from '@rapydo/components/loading/loading';
 
@@ -181,11 +175,6 @@ export class MomentDateFormatter extends NgbDateParserFormatter {
 }
 
 const routes: Routes = [
-/*
-  {
-    path: '404', component: Error404Component
-  },
-*/
   {
     path: 'offline', component: OfflineComponent
   },
@@ -228,13 +217,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     runGuardsAndResolvers: 'always',
     data: { roles: ['admin_root', 'local_admin'] }
-  }/*,
-  {
-  	path: '**',
-  	redirectTo: '/404',
-  	pathMatch: 'full'
-  }*/
-
+  }
 ];
 
 @NgModule({
@@ -310,7 +293,6 @@ const routes: Routes = [
   declarations: [
 	IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe,
   SecurePipe,
-	// Error404Component,
   OfflineComponent, LoadingComponent,
 	LoginComponent, ResetPasswordComponent, RegisterComponent,
 	ProfileComponent, ChangePasswordComponent, SessionsComponent,
@@ -346,7 +328,6 @@ const routes: Routes = [
 	  IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe,
     SecurePipe,
 
-	  // Error404Component,
     OfflineComponent, LoadingComponent,
 	  LoginComponent, ResetPasswordComponent, RegisterComponent,
 	  ProfileComponent, ChangePasswordComponent, SessionsComponent,
