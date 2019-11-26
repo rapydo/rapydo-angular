@@ -2,9 +2,9 @@
 <nav class="navbar navbar-expand navbar-light sticky-top">
 
 	<custombrand></custombrand>
-	<customlinks [user]='user'></customlinks>
+	<customlinks [user]='user' *ngIf='!loading'></customlinks>
 
-	<ul class="nav navbar-nav ml-auto navbar-right">
+	<ul class="nav navbar-nav ml-auto navbar-right" *ngIf='!loading'>
 
 		<li class='nav-item' *ngIf="user">
 	      	<a class='nav-link' routerLink='/app/profile' routerLinkActive="active">

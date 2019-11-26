@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 // import { ChangeDetectorRef } from '@angular/core';
 import { catchError, map } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 import { environment } from '@rapydo/../environments/environment';
 
@@ -32,7 +33,8 @@ export class AppComponent implements OnInit {
       private titleService: Title,
       // private ref: ChangeDetectorRef,
       private customization: ProjectOptions,
-      private notify: NotificationService
+      private notify: NotificationService,
+      private deviceService: DeviceDetectorService
       ) {
 
     //this.loading = true;
@@ -40,6 +42,41 @@ export class AppComponent implements OnInit {
     this.cookieLawText = this.customization.get_option('cookie_law_text');
     this.cookieLawButton = this.customization.get_option('cookie_law_button');
 
+    let deviceInfo = deviceService.getDeviceInfo();
+
+    let browser = deviceInfo.browser;
+    let version =deviceInfo.browser_version;
+    let os = deviceInfo.os;
+    let os_version = deviceInfo.os_version;
+    console.log(browser + " (" + version + ")");
+    console.log(os + " (" + os_version + ")");
+
+    if (deviceService.isMobile()) {
+      console.log("Running on mobile");  // returns if the device is a mobile device (android / iPhone / windows-phone etc)
+    }
+    if (deviceService.isTablet()) {
+      console.log("Running on tablet");  // returns if the device us a tablet (iPad etc)
+    }
+    if (deviceService.isDesktop()) {
+      console.log("Running on desktop"); // returns if the app is running on a Desktop browser.
+    }
+
+    let compatibilityCheck = this.checkCompatibility(browser, version, os, os_version);
+
+    console.log("Compatibility = " + compatibilityCheck);
+
+    if (!compatibilityCheck) {
+      this.notify.showError("You are using "+browser+" "+version+" on "+os+". We apologize, but your browser is not fully compatible with this website and some or all functionalities may not work.");
+    }
+
+  }
+  private checkCompatibility(browser, version, os, os_version) {
+    if (browser == 'IE') {
+      if (parseFloat(version) <= 10) {
+        return false;
+      }
+    }
+    return true;
   }
 
   public ngOnInit(): void {
@@ -47,17 +84,6 @@ export class AppComponent implements OnInit {
     t = t.replace(/^'/, "");
     t = t.replace(/'$/, "");
     this.titleService.setTitle(t);
-
-    /*
-    this.auth.isAuthenticated().subscribe(
-      is_auth => {
-        if (is_auth) {
-          this.user = this.auth.getUser();
-        }
-        this.loading = false;
-      }
-    );
-    */
   }
 
   public dismissCookieLaw(): void {

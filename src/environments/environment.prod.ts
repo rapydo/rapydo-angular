@@ -9,5 +9,11 @@ export const environment = {
 	'allowRegistration': base.allowRegistration,
 	'allowPasswordReset': base.allowPasswordReset,
 	'websocketsUrl': base.websocketsUrl,
-	'enableToastr': base.enableToastr
+	'SENTRY_URL': base.SENTRY_URL,
+	'GA_TRACKING_CODE': base.GA_TRACKING_CODE,
+	'ALL': {}
+}
+
+for (let key in base) {
+	environment["ALL"][key] = base[key];
 }

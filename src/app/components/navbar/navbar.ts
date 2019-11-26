@@ -1,5 +1,6 @@
-import { Component, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ChangeDetectorRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 import { environment } from '@rapydo/../environments/environment';
 
@@ -10,14 +11,16 @@ import { AuthService } from '@rapydo/services/auth';
   selector: 'navbar',
   templateUrl: './navbar.html',
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
 
-  // @Input() user: any;
   public user: any;
+  public loading: boolean = true;
 
   public allowRegistration: boolean = false;
   public logoutConfirmationTitle:string = "Logout request";
   public logoutConfirmationMessage:string = "Do you really want to close this session?";
+
+  private userChangedSubscription: Subscription;
 
   constructor(
     private router: Router,
@@ -30,13 +33,33 @@ export class NavbarComponent {
     } else {
       this.allowRegistration = (environment.allowRegistration == "true");
     }
+  }
 
-    this.user = this.auth.getUser();
+  ngOnInit() {
+/*    
     this.auth.userChanged.subscribe(
       user => this.changeLogged(user)
     );
-  }
+*/
+    this.loading = true;
+    this.auth.isAuthenticated().subscribe(
+      is_auth => {
+        if (is_auth) {
+          this.user = this.auth.getUser();
+        } else {
+          this.user = null;
+        }
+        this.loading = false;
+      }
+    );
 
+    this.userChangedSubscription = this.auth.userChanged.subscribe(
+      user => this.changeLogged(user)
+    );
+  }
+  ngOnDestroy() {
+    this.userChangedSubscription.unsubscribe();
+  }
   changeLogged(user: any) {
 
     if (user == this.auth.LOGGED_OUT) {

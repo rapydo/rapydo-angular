@@ -38,7 +38,8 @@ let projectDescription = process.env.PROJECT_DESCRIPTION;
 
 let allowRegistration = process.env.ALLOW_REGISTRATION.toLowerCase() === 'true';
 let allowPasswordReset = process.env.ALLOW_PASSWORD_RESET.toLowerCase() === 'true';
-let enableToastr = process.env.ENABLE_TOASTR.toLowerCase() === 'true';
+let SENTRY_URL = process.env.SENTRY_URL;
+let GA_TRACKING_CODE = process.env.GA_TRACKING_CODE;
 
 // Trimming ' character from title and description
 if (projectTitle.charAt(0) === "'") {
@@ -54,16 +55,10 @@ if (projectDescription.slice(projectDescription.length -1) === "'") {
     projectDescription = projectDescription.slice(0, -1);
 }
 
-// apiUrl = JSON.stringify(apiUrl);
-// authApiUrl = JSON.stringify(authApiUrl);
-// projectTitle = JSON.stringify(projectTitle);
-// projectDescription = JSON.stringify(projectDescription);
-// allowRegistration = JSON.stringify(allowRegistration);
-// allowPasswordReset = JSON.stringify(allowPasswordReset);
-
 const targetPath = `/tmp/environment.variables.ts`;
+const INJECT_KEY = 'INJECT_';
 
-const envConfigFile = `
+let envConfigFile = `
 export const environment = { 
     apiUrl: '${apiUrl}',
     authApiUrl: '${authApiUrl}',
@@ -71,8 +66,18 @@ export const environment = {
     projectDescription: '${projectDescription}',
     allowRegistration: '${allowRegistration}',
     allowPasswordReset: '${allowPasswordReset}',
-    websocketsUrl: '${websocketsURI}',
-    enableToastr: '${enableToastr}'
+    websocketsUrl: '${websocketsURI}',`;
+for (let key in process.env) {
+  if (key.startsWith(INJECT_KEY)) {
+    let k = key.substr(INJECT_KEY.length);
+    let v = process.env[key];
+    envConfigFile += `
+    ${k}: '${v}',`;
+  }
+}
+envConfigFile += `  
+    SENTRY_URL: '${SENTRY_URL}',
+    GA_TRACKING_CODE: '${GA_TRACKING_CODE}'
 };
 `
 fs.writeFile(targetPath, envConfigFile, function (err) {

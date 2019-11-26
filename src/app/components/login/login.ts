@@ -219,8 +219,7 @@ export class LoginComponent implements OnInit {
                     this.router.navigate(["/offline"]);
 
                 } else if (error.status == 409) {
-                    console.log("409 !? ");
-                    console.log(error);
+
                     this.notify.extractErrors(error.error.Response, this.notify.ERROR);
 
                 } else if (error.status == 403) {

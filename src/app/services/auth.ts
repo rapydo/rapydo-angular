@@ -1,7 +1,9 @@
-import { Injectable, Output, EventEmitter } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+// import { Output, EventEmitter } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import { of, throwError } from 'rxjs';
+import { Subject } from 'rxjs'
 import { ApiService } from './api';
 
 import { environment } from '@rapydo/../environments/environment';
@@ -11,7 +13,10 @@ import { NotificationService } from '@rapydo/services/notification';
 export class AuthService {
 
   // @Output() userChanged: EventEmitter<string> = new EventEmitter<string>();
-  userChanged: EventEmitter<string> = new EventEmitter<string>();
+  // userChanged: EventEmitter<string> = new EventEmitter<string>();
+
+  userChanged = new Subject<any>();
+
 
   readonly LOGGED_IN = "logged-in";
   readonly LOGGED_OUT = "logged-out";
@@ -108,15 +113,17 @@ export class AuthService {
     this.clean_localstorage();
     localStorage.removeItem('token');
     localStorage.removeItem('currentUser');
-    this.userChanged.emit(this.LOGGED_OUT);
+    // this.userChanged.emit(this.LOGGED_OUT);
+    this.userChanged.next(this.LOGGED_OUT);
   }
 
   public setUser(user: any) {
     localStorage.setItem('currentUser', user);
-    this.userChanged.emit(this.LOGGED_IN);
+    // this.userChanged.emit(this.LOGGED_IN);
+    this.userChanged.next(this.LOGGED_IN);
   }
   public getUser() {
-    return JSON.parse(localStorage.getItem('currentUser'))
+    return JSON.parse(localStorage.getItem('currentUser'));
   }
 
   public clean_localstorage() {
@@ -141,7 +148,7 @@ export class AuthService {
       return of(false);
     }
 
-   let opt =  {"base": "auth", "rawResponse": true};
+    let opt =  {"base": "auth", "rawResponse": true};
     return this.api.get('profile', "", [], opt).pipe(
       map(response => {
         return of(true);
