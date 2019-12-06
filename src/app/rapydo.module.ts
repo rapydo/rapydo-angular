@@ -368,17 +368,11 @@ let module_providers = [
 
 // Optional modules
 
-if (environment.GA_TRACKING_CODE) {
+if (environment.GA_TRACKING_CODE != "" && environment.production) {
   module_imports.push(
     NgxGoogleAnalyticsModule.forRoot(environment.GA_TRACKING_CODE),
     NgxGoogleAnalyticsRouterModule
   )
-}
-
-if (environment.SENTRY_URL != "" && environment.production) {
-  Sentry.init({
-    dsn: environment.SENTRY_URL
-  });
 }
 
 @Injectable()
@@ -392,6 +386,13 @@ export class SentryErrorHandler implements ErrorHandler {
   }
 }
 
+if (environment.SENTRY_URL != "" && environment.production) {
+  Sentry.init({
+    dsn: environment.SENTRY_URL
+  });
+
+  module_providers.push({ provide: ErrorHandler, useClass: SentryErrorHandler })
+}
 
 
 @NgModule({
