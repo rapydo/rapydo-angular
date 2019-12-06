@@ -368,7 +368,7 @@ let module_providers:any = [
 
 // Optional modules
 
-if (environment.GA_TRACKING_CODE != "" && environment.production) {
+if (environment.production && typeof environment.GA_TRACKING_CODE !== 'undefined' && environment.GA_TRACKING_CODE != "") {
   module_imports.push(
     NgxGoogleAnalyticsModule.forRoot(environment.GA_TRACKING_CODE),
     NgxGoogleAnalyticsRouterModule
@@ -379,14 +379,14 @@ if (environment.GA_TRACKING_CODE != "" && environment.production) {
 export class SentryErrorHandler implements ErrorHandler {
   constructor() {}
   handleError(error) {
-    if (environment.SENTRY_URL != "" && environment.production) {
+    if (environment.production && typeof environment.SENTRY_URL !== 'undefined' &&  environment.SENTRY_URL != "") {
       Sentry.captureException(error.originalError || error);
     }
     throw error;
   }
 }
 
-if (environment.SENTRY_URL != "" && environment.production) {
+if (environment.production && typeof environment.SENTRY_URL !== 'undefined' &&  environment.SENTRY_URL != "") {
   Sentry.init({
     dsn: environment.SENTRY_URL
   });
