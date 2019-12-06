@@ -38,7 +38,7 @@
     // "suppressImplicitAnyIndexErrors": false,
 
     // Required to import Noty.js
-    "allowSyntheticDefaultImports": true,
+    // "allowSyntheticDefaultImports": true,
 
     // From default Angular CLI
     "types": [

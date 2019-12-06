@@ -2,11 +2,6 @@ import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ApiResponse } from './api';
 
-import { environment } from '@rapydo/../environments/environment';
-
-//const Noty = require('noty');
-import Noty from 'noty';
-
 @Injectable()
 export class NotificationService {
 
@@ -14,8 +9,6 @@ export class NotificationService {
   readonly ERROR = 2;
   readonly WARNING = 3;
   readonly INFO = 4;
-
-  private enable_toastr:boolean = environment.enableToastr.toLowerCase() == 'true';
 
   constructor(private toastr: ToastrService) {}
 
@@ -54,107 +47,50 @@ export class NotificationService {
 
   public showCritical = function(msg: string, title: string = '') {
 
-    if (this.enable_toastr) {
-      this.toastr.error(
-        msg, title,
-        {
-          timeOut: 0
-        }
-      );
-    } else {
-      new Noty({
-          text        : msg,
-          type        : "error",
-          modal       : true,
-          timeout     : false,
-          force       : true,
-          killer      : true,
-          layout      : 'bottomRight',
-          theme       : 'metroui'
-      }).show();
-    }
+    this.toastr.error(
+      msg, title,
+      {
+        timeOut: 0
+      }
+    );
   }
 
   public showError = function(msg: string, title: string = '') {
 
-    if (this.enable_toastr) {
-      this.toastr.error(
-        msg, title,
-        {
-          timeOut: 15000
-        }
-      );
-    } else {
-      new Noty({
-          text        : msg,
-          type        : "error",
-          modal       : false,
-          timeout     : 10000,
-          layout      : 'bottomRight',
-          theme       : 'relax'
-      }).show();
-    }
+    this.toastr.error(
+      msg, title,
+      {
+        timeOut: 15000
+      }
+    );
   }
 
   public showWarning = function(msg: string, title: string = '') {
 
-    if (this.enable_toastr) {
-      this.toastr.warning(
-        msg, title,
-        {
-          timeOut: 10000
-        }
-      );
-    } else {
-      new Noty({
-          text        : msg,
-          type        : "warning",
-          modal       : false,
-          timeout     : 5000,
-          layout      : 'bottomRight',
-          theme       : 'relax'
-      }).show();
-    }
+    this.toastr.warning(
+      msg, title,
+      {
+        timeOut: 10000
+      }
+    );
   }
 
   public showSuccess = function(msg: string, title: string = '') {
-    if (this.enable_toastr) {
-      this.toastr.success(
-        msg, title,
-        {
-          timeOut: 10000
-        }
-      );
-    } else {
-      new Noty({
-          text        : msg,
-          type        : "success",
-          modal       : false,
-          timeout     : 5000,
-          layout      : 'bottomRight',
-          theme       : 'relax'
-      }).show();
-    }
+    this.toastr.success(
+      msg, title,
+      {
+        timeOut: 10000
+      }
+    );
   }
   public showInfo = function(msg: string, title: string = '') {
 
-    if (this.enable_toastr) {
       this.toastr.info(
         msg, title,
         {
           timeOut: 10000
         }
       );
-    } else {
-      new Noty({
-          text        : msg,
-          type        : "information",
-          modal       : false,
-          timeout     : 5000,
-          layout      : 'bottomRight',
-          theme       : 'relax'
-      }).show();
-    }
   }
 
 }
