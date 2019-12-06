@@ -253,8 +253,6 @@ let module_imports = [
     }
   ),
   ClipboardModule,
-  // FileUploadModule,
-  UploadxModule,
   CookieLawModule,
   ToastrModule.forRoot({
     maxOpened: 5,
@@ -267,6 +265,7 @@ let module_imports = [
     progressAnimation: 'increasing',
     positionClass: 'toast-bottom-right'
   }),
+
   FormsModule, ReactiveFormsModule,
   FormlyBootstrapModule,
   FormlyModule.forRoot({
@@ -293,7 +292,8 @@ let module_imports = [
       {name: 'email', validation: emailValidator},
       {name: 'url', validation: URLValidator}
     ]
-  })
+  }),
+  UploadxModule
 ];
 
 let module_declarations = [
@@ -351,7 +351,6 @@ let module_exports = [
   FormsModule, ReactiveFormsModule,
   FormlyBootstrapModule,
   FormlyModule,
-  // FileUploadModule
   UploadxModule
 ];
 
