@@ -25,9 +25,6 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/noty/lib/noty.css",
-              "node_modules/noty/lib/themes/relax.css",
-              "node_modules/noty/lib/themes/metroui.css",
               "node_modules/ngx-toastr/toastr.css",
               "node_modules/@swimlane/ngx-datatable/src/themes/bootstrap.scss",
               "node_modules/@swimlane/ngx-datatable/assets/icons.css",
@@ -103,9 +100,6 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/noty/lib/noty.css",
-              "node_modules/noty/lib/themes/relax.css",
-              "node_modules/noty/lib/themes/metroui.css",
               "node_modules/ngx-toastr/toastr.css",
               "node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/brands.min.css",
