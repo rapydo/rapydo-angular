@@ -38,7 +38,8 @@ let projectDescription = process.env.PROJECT_DESCRIPTION;
 
 let allowRegistration = process.env.ALLOW_REGISTRATION.toLowerCase() === 'true';
 let allowPasswordReset = process.env.ALLOW_PASSWORD_RESET.toLowerCase() === 'true';
-// let enableToastr = process.env.ENABLE_TOASTR.toLowerCase() === 'true';
+let SENTRY_URL = process.env.SENTRY_URL;
+let GA_TRACKING_CODE = process.env.GA_TRACKING_CODE;
 
 // Trimming ' character from title and description
 if (projectTitle.charAt(0) === "'") {
@@ -71,7 +72,9 @@ export const environment = {
     projectDescription: '${projectDescription}',
     allowRegistration: '${allowRegistration}',
     allowPasswordReset: '${allowPasswordReset}',
-    websocketsUrl: '${websocketsURI}'
+    websocketsUrl: '${websocketsURI}',
+    SENTRY_URL: '${SENTRY_URL}',
+    GA_TRACKING_CODE: '${GA_TRACKING_CODE}'
 };
 `
 fs.writeFile(targetPath, envConfigFile, function (err) {

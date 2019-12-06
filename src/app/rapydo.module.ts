@@ -1,4 +1,4 @@
-import { NgModule, ModuleWithProviders, Injectable } from '@angular/core';
+import { NgModule, ModuleWithProviders, Injectable, ErrorHandler } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, FormControl } from '@angular/forms';
@@ -60,10 +60,16 @@ import { TermsOfUseCheckbox } from '@rapydo/components/forms/terms_of_use_checkb
 import { DatePickerComponent } from '@rapydo/components/forms/datepicker.component';
 import { DatePickerValueAccessor } from '@rapydo/components/forms/datepicker.directive';
 
+import * as Sentry from "@sentry/browser";
+import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
+
 import { CustomNavbarComponent } from '@app/custom.navbar';
 import { CustomBrandComponent } from '@app/custom.navbar';
 import { CustomProfileComponent } from '@app/custom.profile';
 import { ProjectOptions } from '@app/custom.project.options';
+
+import { environment } from '@rapydo/../environments/environment';
+
 
 export function emailValidator(control: FormControl): ValidationErrors {
   /*
@@ -220,159 +226,186 @@ const routes: Routes = [
   }
 ];
 
-@NgModule({
-  imports: [
-	CommonModule,
+let module_imports = [
+  CommonModule,
 
-    RouterModule.forRoot(
-      routes,
-      {
-        enableTracing: false,
-        onSameUrlNavigation: 'reload'
-       } // <-- debugging purposes only
-    ),
+  RouterModule.forRoot(
+    routes,
+    {
+      enableTracing: false,
+      onSameUrlNavigation: 'reload'
+     } // <-- debugging purposes only
+  ),
 
-    // BrowserModule,
-    BrowserAnimationsModule, // required by CookieLaw and Toastr
+  // BrowserModule,
+  BrowserAnimationsModule, // required by CookieLaw and Toastr
 
-    // import HttpClientModule after BrowserModule
-    HttpClientModule,
-    NgbModule.forRoot(),
-    MomentModule,
-    NgxDatatableModule,
-    ConfirmationPopoverModule.forRoot(
-      // set defaults here
-      {
-        confirmButtonType: 'danger',
-        appendToBody: true
-      }
-    ),
-    ClipboardModule,
-    // FileUploadModule,
-    UploadxModule,
-    CookieLawModule,
-    ToastrModule.forRoot({
-      maxOpened: 5,
-      preventDuplicates: true,
-      countDuplicates: true,
-      resetTimeoutOnDuplicate: true,
-      closeButton: true,
-      enableHtml: true,
-      progressBar: true,
-      progressAnimation: 'increasing',
-      positionClass: 'toast-bottom-right'
-    }),
-    FormsModule, ReactiveFormsModule,
-    FormlyBootstrapModule,
-    FormlyModule.forRoot({
-      wrappers: [
-        {name: 'form-field-horizontal', component: FormlyHorizontalWrapper}
-      ],
-      types: [
-        {name: 'file', component: FormlyFieldFile, wrappers: ['form-field']}, 
-        {name: 'radio', component: FormlyDescriptiveRadio}, 
-        {name: 'terms_of_use', component: TermsOfUseCheckbox},
-        {name: 'datepicker', component: DatePickerComponent, wrappers: ['form-field']}
-      ],
-      validationMessages: [
-        {name: 'required', message: 'This field is required'},
-        {name: 'minlength', message: minLengthValidationError},
-        {name: 'maxlength', message: maxLengthValidationError},
-        {name: 'min', message: minValidationError},
-        {name: 'max', message: maxValidationError},
-        {name: 'email', message: 'Invalid email address'},
-        {name: 'url', message: 'Invalid web address'},
-        {name: 'ngbDate', message: 'Invalid date, expected format: dd/mm/yyyy'},
-      ],
-      validators: [
-        {name: 'email', validation: emailValidator},
-        {name: 'url', validation: URLValidator}
-      ]
-    }),
-  ],
-  declarations: [
-	IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe,
+  // import HttpClientModule after BrowserModule
+  HttpClientModule,
+  NgbModule.forRoot(),
+  MomentModule,
+  NgxDatatableModule,
+  ConfirmationPopoverModule.forRoot(
+    // set defaults here
+    {
+      confirmButtonType: 'danger',
+      appendToBody: true
+    }
+  ),
+  ClipboardModule,
+  // FileUploadModule,
+  UploadxModule,
+  CookieLawModule,
+  ToastrModule.forRoot({
+    maxOpened: 5,
+    preventDuplicates: true,
+    countDuplicates: true,
+    resetTimeoutOnDuplicate: true,
+    closeButton: true,
+    enableHtml: true,
+    progressBar: true,
+    progressAnimation: 'increasing',
+    positionClass: 'toast-bottom-right'
+  }),
+  FormsModule, ReactiveFormsModule,
+  FormlyBootstrapModule,
+  FormlyModule.forRoot({
+    wrappers: [
+      {name: 'form-field-horizontal', component: FormlyHorizontalWrapper}
+    ],
+    types: [
+      {name: 'file', component: FormlyFieldFile, wrappers: ['form-field']}, 
+      {name: 'radio', component: FormlyDescriptiveRadio}, 
+      {name: 'terms_of_use', component: TermsOfUseCheckbox},
+      {name: 'datepicker', component: DatePickerComponent, wrappers: ['form-field']}
+    ],
+    validationMessages: [
+      {name: 'required', message: 'This field is required'},
+      {name: 'minlength', message: minLengthValidationError},
+      {name: 'maxlength', message: maxLengthValidationError},
+      {name: 'min', message: minValidationError},
+      {name: 'max', message: maxValidationError},
+      {name: 'email', message: 'Invalid email address'},
+      {name: 'url', message: 'Invalid web address'},
+      {name: 'ngbDate', message: 'Invalid date, expected format: dd/mm/yyyy'},
+    ],
+    validators: [
+      {name: 'email', validation: emailValidator},
+      {name: 'url', validation: URLValidator}
+    ]
+  })
+];
+
+let module_declarations = [
+  IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe,
   SecurePipe,
   OfflineComponent, LoadingComponent,
-	LoginComponent, ResetPasswordComponent, RegisterComponent,
-	ProfileComponent, ChangePasswordComponent, SessionsComponent,
-	BasePaginationComponent,
-	NavbarComponent,
-	AdminUsersComponent,
-	FormlyHorizontalWrapper,
-	FileValueAccessor,
-	FormlyFieldFile,
-	FormlyDescriptiveRadio,
-	TermsOfUseCheckbox,
+  LoginComponent, ResetPasswordComponent, RegisterComponent,
+  ProfileComponent, ChangePasswordComponent, SessionsComponent,
+  BasePaginationComponent,
+  NavbarComponent,
+  AdminUsersComponent,
+  FormlyHorizontalWrapper,
+  FileValueAccessor,
+  FormlyFieldFile,
+  FormlyDescriptiveRadio,
+  TermsOfUseCheckbox,
   DatePickerComponent, DatePickerValueAccessor,
 
-	CustomNavbarComponent,
-	CustomBrandComponent,
+  CustomNavbarComponent,
+  CustomBrandComponent,
   CustomProfileComponent
-  ],
+];
 
-  exports: [
-  	CommonModule,
-  	RouterModule,
-  	// BrowserModule,
-    BrowserAnimationsModule,
-  	HttpClientModule,
-  	NgbModule,
-    MomentModule,
-	  NgxDatatableModule,
-    ConfirmationPopoverModule, 
-    ClipboardModule,
-    CookieLawModule,
-    ToastrModule,
+let module_exports = [
+  CommonModule,
+  RouterModule,
+  // BrowserModule,
+  BrowserAnimationsModule,
+  HttpClientModule,
+  NgbModule,
+  MomentModule,
+  NgxDatatableModule,
+  ConfirmationPopoverModule, 
+  ClipboardModule,
+  CookieLawModule,
+  ToastrModule,
 
-	  IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe,
-    SecurePipe,
+  IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe,
+  SecurePipe,
 
-    OfflineComponent, LoadingComponent,
-	  LoginComponent, ResetPasswordComponent, RegisterComponent,
-	  ProfileComponent, ChangePasswordComponent, SessionsComponent,
-	  BasePaginationComponent,
-	  NavbarComponent,
-	  AdminUsersComponent,
+  OfflineComponent, LoadingComponent,
+  LoginComponent, ResetPasswordComponent, RegisterComponent,
+  ProfileComponent, ChangePasswordComponent, SessionsComponent,
+  BasePaginationComponent,
+  NavbarComponent,
+  AdminUsersComponent,
 
-	  FormlyHorizontalWrapper,
-	  FileValueAccessor,
-	  FormlyFieldFile,
-	  FormlyDescriptiveRadio,
-	  TermsOfUseCheckbox,
-    DatePickerComponent, DatePickerValueAccessor,
+  FormlyHorizontalWrapper,
+  FileValueAccessor,
+  FormlyFieldFile,
+  FormlyDescriptiveRadio,
+  TermsOfUseCheckbox,
+  DatePickerComponent, DatePickerValueAccessor,
 
-	  FormsModule, ReactiveFormsModule,
-    FormlyBootstrapModule,
-    FormlyModule,
-    // FileUploadModule
-    UploadxModule
-  ],
-  providers: [
-	  AuthService, AuthGuard,
-  	ApiService,
-  	FormlyService,
-  	NotificationService,
-    WebSocketsService,
-  	ProjectOptions,
-  	{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-    { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
-    { provide: NgbDateParserFormatter, useValue: new MomentDateFormatter('DD/MM/YYYY') }
-  ],
+  FormsModule, ReactiveFormsModule,
+  FormlyBootstrapModule,
+  FormlyModule,
+  // FileUploadModule
+  UploadxModule
+];
+
+let module_providers = [
+  AuthService, AuthGuard,
+  ApiService,
+  FormlyService,
+  NotificationService,
+  WebSocketsService,
+  ProjectOptions,
+  { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+  { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+  { provide: NgbDateParserFormatter, useValue: new MomentDateFormatter('DD/MM/YYYY') }
+];
+
+// Optional modules
+
+if (environment.GA_TRACKING_CODE) {
+  module_imports.push(
+    NgxGoogleAnalyticsModule.forRoot(environment.GA_TRACKING_CODE),
+    NgxGoogleAnalyticsRouterModule
+  )
+}
+
+if (environment.SENTRY_URL != "" && environment.production) {
+  Sentry.init({
+    dsn: environment.SENTRY_URL
+  });
+}
+
+@Injectable()
+export class SentryErrorHandler implements ErrorHandler {
+  constructor() {}
+  handleError(error) {
+    if (environment.SENTRY_URL != "" && environment.production) {
+      Sentry.captureException(error.originalError || error);
+    }
+    throw error;
+  }
+}
+
+
+
+@NgModule({
+  imports: module_imports,
+  declarations: module_declarations,
+  exports: module_exports,
+  providers: module_providers,
 })
 export class RapydoModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: RapydoModule,
-  	  providers: [
-  		  AuthService, AuthGuard,
-  		  ApiService,
-  		  FormlyService,
-  		  NotificationService,
-        WebSocketsService,
-  		  ProjectOptions,
-  		  { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-  	  ],
+  	  providers: module_providers,
     };
   }
 } 

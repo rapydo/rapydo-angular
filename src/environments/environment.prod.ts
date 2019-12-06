@@ -8,5 +8,7 @@ export const environment = {
 	'projectDescription': base.projectDescription,
 	'allowRegistration': base.allowRegistration,
 	'allowPasswordReset': base.allowPasswordReset,
-	'websocketsUrl': base.websocketsUrl
+	'websocketsUrl': base.websocketsUrl,
+	'SENTRY_URL': base.SENTRY_URL,
+	'GA_TRACKING_CODE': base.GA_TRACKING_CODE
 }
