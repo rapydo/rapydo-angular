@@ -354,7 +354,7 @@ let module_exports = [
   UploadxModule
 ];
 
-let module_providers = [
+let module_providers:any = [
   AuthService, AuthGuard,
   ApiService,
   FormlyService,
