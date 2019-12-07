@@ -226,7 +226,7 @@ const routes: Routes = [
   }
 ];
 
-let module_imports = [
+let module_imports:any = [
   CommonModule,
 
   RouterModule.forRoot(
@@ -293,7 +293,9 @@ let module_imports = [
       {name: 'url', validation: URLValidator}
     ]
   }),
-  UploadxModule
+  UploadxModule,
+  NgxGoogleAnalyticsModule.forRoot(environment.GA_TRACKING_CODE),
+  NgxGoogleAnalyticsRouterModule
 ];
 
 let module_declarations = [
@@ -365,15 +367,6 @@ let module_providers:any = [
   { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
   { provide: NgbDateParserFormatter, useValue: new MomentDateFormatter('DD/MM/YYYY') }
 ];
-
-// Optional modules
-
-if (environment.production && typeof environment.GA_TRACKING_CODE !== 'undefined' && environment.GA_TRACKING_CODE != "") {
-  module_imports.push(
-    NgxGoogleAnalyticsModule.forRoot(environment.GA_TRACKING_CODE),
-    NgxGoogleAnalyticsRouterModule
-  )
-}
 
 @Injectable()
 export class SentryErrorHandler implements ErrorHandler {
