@@ -5,7 +5,7 @@ This web app is integrated with the RAPyDo stack and the RAPyDo REST APIs by imp
 Based on:
 
 *   Angular 8.2.14 with rxjs 6.5.3
-*   bootstrap 4.3.1 with @ng-bootstrap 4.2.1
+*   bootstrap 4.4.1 with @ng-bootstrap 5.1.4
 *   Angular CLI 8.3.20 with typescript 3.5.3
 
 Also include:
