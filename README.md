@@ -6,7 +6,7 @@ Based on:
 
 *   Angular 8.2.14 with rxjs 6.5.3
 *   bootstrap 4.3.1 with @ng-bootstrap 4.2.1
-*   Angular CLI 8.3.20 with typescript 3.7.3
+*   Angular CLI 8.3.20 with typescript 3.5.3
 
 Also include:
 
