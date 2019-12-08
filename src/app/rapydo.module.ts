@@ -242,7 +242,7 @@ let module_imports:any = [
 
   // import HttpClientModule after BrowserModule
   HttpClientModule,
-  NgbModule.forRoot(),
+  NgbModule,
   MomentModule,
   NgxDatatableModule,
   ConfirmationPopoverModule.forRoot(
