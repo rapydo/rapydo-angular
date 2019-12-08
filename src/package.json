@@ -77,9 +77,10 @@
     "codelyzer": "5.2.0",
     "ts-node": "8.5.4",
     "tslint": "5.20.1",
-    "rimraf": "2.6.3",
+    "raw-loader": "3.1.0",
+
+    "rimraf": "3.0.0",
     "copyfiles": "2.1.1",
-    "gzipper": "3.2.1",
-    "raw-loader": "3.1.0"
+    "gzipper": "3.4.1"
   }
 }
