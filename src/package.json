@@ -54,7 +54,7 @@
     "classlist.js": "1.1.20150312"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.803.5",
+    "@angular-devkit/build-angular": "0.803.20",
     "@angular/compiler-cli": "8.2.14",
     "@angular/language-service": "8.2.14",
 
