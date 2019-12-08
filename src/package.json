@@ -35,7 +35,7 @@
     "ngx-clipboard": "12.3.0",
     "@ngx-formly/core": "5.1.9",
     "@ngx-formly/bootstrap": "5.1.9",
-    "@swimlane/ngx-datatable": "15.0.2",
+    "@swimlane/ngx-datatable": "16.0.2",
     "moment": "2.24.0",
     "ngx-moment": "3.5.0",
     "angular-confirmation-popover": "4.2.1",
