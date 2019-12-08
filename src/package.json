@@ -48,7 +48,7 @@
     "jquery": "3.4.1",
     "ngx-toastr": "11.2.1",
     "ngx-google-analytics": "8.0.0",
-    "@sentry/browser": "4.6.6",
+    "@sentry/browser": "5.10.1",
 
     "core-js": "3.4.7",
     "classlist.js": "1.1.20150312"
