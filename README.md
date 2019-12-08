@@ -15,9 +15,9 @@ Also include:
 *   ngx-uploadx 3.3.2
 *   file-saver 2.0.2
 *   ngx-toastr 11.2.0
-*   moment 2.24.0
-*   font-awesome 5.9.0
+*   moment 2.24.0 with ngx-moment 3.5.0
+*   font-awesome 5.11.2
 *   material-icons 0.3.1
 *   angular-confirmation-popover 4.2.1
-*   ngx-clipboard 12.1.2
+*   ngx-clipboard 12.3.0
 *   angular2-cookie-law 7.0.1
