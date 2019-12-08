@@ -10,7 +10,7 @@ Based on:
 
 Also include:
 
-*   @ngx-formly 5.1.9
+*   @ngx-formly 5.5.6
 *   ngx-datatable 16.0.2
 *   ngx-uploadx 3.3.2
 *   file-saver 2.0.2
