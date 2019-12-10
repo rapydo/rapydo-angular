@@ -47,17 +47,6 @@ export class AppComponent implements OnInit {
     t = t.replace(/^'/, "");
     t = t.replace(/'$/, "");
     this.titleService.setTitle(t);
-
-    /*
-    this.auth.isAuthenticated().subscribe(
-      is_auth => {
-        if (is_auth) {
-          this.user = this.auth.getUser();
-        }
-        this.loading = false;
-      }
-    );
-    */
   }
 
   public dismissCookieLaw(): void {
