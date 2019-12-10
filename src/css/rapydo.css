@@ -67,7 +67,8 @@ html, body {
 .ngx-datatable.bootstrap .datatable-footer {
   background-color: rgb(132, 132, 132);
   color: rgb(255, 255, 255);
-  font-weight: bold;  
+  font-weight: bold;
+  overflow: initial;  /* it overrides an overflow: auto introduced in latest versions */;
 }
 .vertical-center {
   min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
