@@ -28,7 +28,6 @@
     "rxjs": "6.5.3",
     "rxjs-compat": "6.5.3",
     "tslib": "1.10.0",
-    "buffer": "4.9.2",
 
     "bootstrap": "4.4.1",
     "@ng-bootstrap/ng-bootstrap": "5.1.4",
