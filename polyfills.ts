@@ -94,7 +94,8 @@ import 'zone.js/dist/zone';
 
 /** APPLICATION IMPORTS */
 
-import './typedarray';
+// import 'angular-polyfills/dist/typedarray.js';
+import 'angular-polyfills/dist/all.js';
 
 if (typeof (window as any).global === 'undefined') {
   (window as any).global = window;
