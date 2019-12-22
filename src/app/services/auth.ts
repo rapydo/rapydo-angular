@@ -155,7 +155,6 @@ export class AuthService {
       }),
       catchError((error, caught) => {
         if (this.api.is_online()) {
-          console.log("remove token");
           this.removeToken();
         }
         return of(false); 
