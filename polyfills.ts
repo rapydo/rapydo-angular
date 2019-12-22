@@ -34,6 +34,11 @@ import 'core-js/es/weak-map';
 import 'core-js/es/set';
 
 import 'core-js/es/reflect';
+
+/** Fix missed typed array (Uint8Array) support in IE10 **/
+import 'core-js/es/typed-array';
+import 'core-js/es/array-buffer';
+
 /**
  * If the application will be indexed by Google Search, the following is required.
  * Googlebot uses a renderer based on Chrome 41.
