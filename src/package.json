@@ -49,7 +49,6 @@
     "@sentry/browser": "5.10.1",
 
     "core-js": "3.4.7",
-    "classlist.js": "1.1.20150312",
     "zone.js": "0.10.2",
     "regenerator-runtime": "0.13.3",
     "angular-polyfills": "1.0.1"

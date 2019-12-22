@@ -49,7 +49,8 @@ import 'core-js/es/array-buffer';
 // import 'core-js/es/array';
 
 /** IE10 and IE11 requires the following for NgClass support on SVG elements */
-import 'classlist.js';  // Run `npm install --save classlist.js`.
+// import 'classlist.js';  // Run `npm install --save classlist.js`.
+import 'angular-polyfills/dist/classlist.js';
 
 /**
  * Web Animations `@angular/platform-browser/animations`
@@ -92,15 +93,25 @@ import "core-js/proposals/reflect-metadata";
 /** Zone JS is required by default for Angular itself. */
 import 'zone.js/dist/zone';
 
+
+// required by libs like exceljs or maybe babel
+import "regenerator-runtime/runtime";
+
 /** APPLICATION IMPORTS */
 
-// import 'angular-polyfills/dist/typedarray.js';
-import 'angular-polyfills/dist/all.js';
+// import 'angular-polyfills/dist/all.js';
+import 'angular-polyfills/dist/typedarray.js';
+import 'angular-polyfills/dist/blob.js';
+import 'angular-polyfills/dist/formdata.js';
+import 'angular-polyfills/dist/intl.js';
+import 'angular-polyfills/dist/shim.js';
+// This fails to import with error (on version 1.0.1):
+// TypeError: Cannot set property 'true' of undefined
+// import 'angular-polyfills/dist/webanimations.js';
+
 
 if (typeof (window as any).global === 'undefined') {
   (window as any).global = window;
   //(window as any)['global'] = window;
 }
 
-// required by libs like exceljs or maybe babel
-import "regenerator-runtime/runtime";
