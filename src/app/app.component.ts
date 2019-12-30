@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
     let os = deviceInfo.os;
     let os_version = deviceInfo.os_version;
     console.log(browser + " (" + version + ")");
-    console.log(os + "(" + os_version + ")");
+    console.log(os + " (" + os_version + ")");
 
     if (deviceService.isMobile()) {
       console.log("Running on mobile");  // returns if the device is a mobile device (android / iPhone / windows-phone etc)
@@ -63,9 +63,13 @@ export class AppComponent implements OnInit {
 
     let compatibilityCheck = this.checkCompatibility(browser, version, os, os_version);
 
+    console.log("Compatibility = " + compatibilityCheck);
+
+  /*
     if (!compatibilityCheck) {
       this.notify.showError("You are using "+browser+" "+version+" on "+os+". We apologize, but your browser is not fully compatible with this website and some or all functionalities may not work.");
     }
+  */
 
   }
   private checkCompatibility(browser, version, os, os_version) {
