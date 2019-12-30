@@ -25,6 +25,8 @@ import { CookieLawModule } from 'angular2-cookie-law';
 
 import { ToastrModule } from 'ngx-toastr';
 
+import { DeviceDetectorModule } from 'ngx-device-detector';
+
 import { IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe } from '@rapydo/pipes/pipes';
 import { SecurePipe } from '@rapydo/pipes/secure';
 
@@ -295,7 +297,8 @@ let module_imports:any = [
   }),
   UploadxModule,
   NgxGoogleAnalyticsModule.forRoot(environment.GA_TRACKING_CODE),
-  NgxGoogleAnalyticsRouterModule
+  NgxGoogleAnalyticsRouterModule,
+  DeviceDetectorModule.forRoot()
 ];
 
 let module_declarations = [
