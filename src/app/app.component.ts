@@ -48,7 +48,7 @@ export class AppComponent implements OnInit {
     let version =deviceInfo.browser_version;
     let os = deviceInfo.os;
     let os_version = deviceInfo.os_version;
-    console.log(browser + " " + version);
+    console.log(browser + " (" + version + ")");
     console.log(os + "(" + os_version + ")");
 
     if (deviceService.isMobile()) {
@@ -69,8 +69,10 @@ export class AppComponent implements OnInit {
 
   }
   private checkCompatibility(browser, version, os, os_version) {
-    if (browser == 'XYZ') {
-      return false;
+    if (browser == 'IE') {
+      if (version <= '10') {
+        return false;
+      }
     }
     return true;
   }
