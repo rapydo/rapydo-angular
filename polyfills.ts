@@ -17,36 +17,36 @@
  * BROWSER POLYFILLS
  */
 
+import 'ie-shim'; // Internet Explorer 9 support
+
+import "core-js/stable";
 /** IE9, IE10 and IE11 requires all of the following polyfills. **/
-import 'core-js/es/symbol';
-import 'core-js/es/object';
+/*
+import 'core-js/es/array';
+import 'core-js/es/array-buffer';
+import 'core-js/es/data-view';
+import 'core-js/es/date';
 import 'core-js/es/function';
+import 'core-js/es/global-this';
+import 'core-js/es/map';
+import 'core-js/es/math';
+import 'core-js/es/number';
+import 'core-js/es/object';
 import 'core-js/es/parse-int';
 import 'core-js/es/parse-float';
-import 'core-js/es/number';
-import 'core-js/es/math';
-import 'core-js/es/string';
-import 'core-js/es/date';
-import 'core-js/es/array';
-import 'core-js/es/regexp';
-import 'core-js/es/map';
-import 'core-js/es/weak-map';
-import 'core-js/es/set';
-
+import 'core-js/es/promise';
 import 'core-js/es/reflect';
-
-/** Fix missed typed array (Uint8Array) support in IE10 **/
+import 'core-js/es/regexp';
+import 'core-js/es/set';
+import 'core-js/es/string';
+import 'core-js/es/symbol';
 import 'core-js/es/typed-array';
-import 'core-js/es/array-buffer';
+import 'core-js/es/weak-map';
+import 'core-js/es/weak-set';
 
-/**
- * If the application will be indexed by Google Search, the following is required.
- * Googlebot uses a renderer based on Chrome 41.
- * https://developers.google.com/search/docs/guides/rendering
- **/
-
-// Already included in the previous section (IE9, IE10 and IE11)
-// import 'core-js/es/array';
+// JSON object is missed only in very old engines like IE7
+// import 'core-js/es/json';
+*/
 
 /** IE10 and IE11 requires the following for NgClass support on SVG elements */
 // import 'classlist.js';  // Run `npm install --save classlist.js`.
@@ -92,9 +92,10 @@ import "core-js/proposals/reflect-metadata";
 
 /** Zone JS is required by default for Angular itself. */
 import 'zone.js/dist/zone';
-
+import 'zone.js/dist/long-stack-trace-zone';
 
 // required by libs like exceljs or maybe babel
+// This tries to evaluate strings as JavaScript and it is blocked by Content Security Policy directives...
 import "regenerator-runtime/runtime";
 
 /** APPLICATION IMPORTS */

@@ -7,7 +7,9 @@
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --port 8080 --poll 1000 --aot",
     "start-cypress": "ng serve --host 0.0.0.0 --port 8080 --aot --disable-host-check",
-    "build": "rimraf dist/* && copyfiles --flat /app/courtesy/index.html /app/dist && ng build --deleteOutputPath=false --optimization=true --prod --extractCss=false && gzipper --verbose /app/dist",
+    "courtesy": "rimraf dist/* && copyfiles --flat /app/courtesy/index.html /app/dist",
+    "build": "ng build --prod --optimization=true --extractCss=false",
+    "gzip": "gzipper --verbose /app/dist",
     "test": "ng test --codeCoverage",
     "single-test": "ng test --codeCoverage --watch=false",
     "lint": "ng lint",
@@ -52,7 +54,8 @@
     "core-js": "3.4.7",
     "zone.js": "0.10.2",
     "regenerator-runtime": "0.13.3",
-    "angular-polyfills": "1.0.1"
+    "angular-polyfills": "1.0.1",
+    "ie-shim": "0.1.0"
   },
   "devDependencies": {
     "@angular/cli": "8.3.20",
