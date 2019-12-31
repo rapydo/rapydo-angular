@@ -65,16 +65,14 @@ export class AppComponent implements OnInit {
 
     console.log("Compatibility = " + compatibilityCheck);
 
-  /*
     if (!compatibilityCheck) {
       this.notify.showError("You are using "+browser+" "+version+" on "+os+". We apologize, but your browser is not fully compatible with this website and some or all functionalities may not work.");
     }
-  */
 
   }
   private checkCompatibility(browser, version, os, os_version) {
     if (browser == 'IE') {
-      if (version <= '10') {
+      if (parseFloat(version) <= 10) {
         return false;
       }
     }
