@@ -3,10 +3,10 @@
 const merge = require('package-merge');
 const fs = require('fs');
 
-var commons_package = fs.readFileSync('/app/app/rapydo/package.json');
+let commons_package = fs.readFileSync('/app/app/rapydo/package.json');
 if (fs.existsSync('/app/app/custom/package.json')) {
 
-	var custom = fs.readFileSync('/app/app/custom/package.json');
+	let custom = fs.readFileSync('/app/app/custom/package.json');
 
 	console.log("\nMerging package files...");
 
@@ -22,11 +22,11 @@ if (fs.existsSync('/app/app/custom/package.json')) {
 if (fs.existsSync('/app/app/custom/angular.json')) {
 
 	const merge = require('deepmerge')
-	var commons_angular = require('/app/app/rapydo/angular.json');
-	var custom = require('/app/app/custom/angular.json');
-	var jsonContent = JSON.stringify(merge(commons_angular, custom));
+	let commons_angular = require('/app/app/rapydo/angular.json');
+	let custom = require('/app/app/custom/angular.json');
+	let jsonContent = JSON.stringify(merge(commons_angular, custom));
 	/*
-	var custom = fs.readFileSync('/app/app/custom/angular.json');
+	let custom = fs.readFileSync('/app/app/custom/angular.json');
 
 	console.log("\nMerging angular files...");
 
@@ -50,7 +50,7 @@ if (fs.existsSync('/app/app/custom/angular.json')) {
 
 } else {
 	console.log("\nCopying angular file...");
-	var commons_angular = fs.readFileSync('/app/app/rapydo/angular.json');
+	let commons_angular = fs.readFileSync('/app/app/rapydo/angular.json');
 	fs.writeFileSync("/app/angular.json", commons_angular);
 	console.log("/app/app/rapydo/angular.json -> [/app/angular.json]\n");
 }
