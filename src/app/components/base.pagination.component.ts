@@ -22,7 +22,7 @@ enum ColumnMode {
 @Component({
   selector: 'base-component',
   providers: [ApiService, AuthService, NotificationService, FormlyService],
-  templateUrl: './base.pagination.component.html'
+  templateUrl: 'base.pagination.component.html'
 })
 export class BasePaginationComponent implements OnInit, AfterViewChecked {
 
@@ -116,8 +116,6 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
     console.log(event);
     if (this.server_side_filter) {
       this.server_side_update()
-    } else {
-
     }
   }
 
@@ -398,7 +396,10 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
           this.list();
         }, error => {
           this.updating = false;
-          this.notify.extractErrors(error, this.notify.ERROR);
+          if (error.Response)
+            this.notify.extractErrors(error.Response, this.notify.ERROR);
+          else
+            this.notify.extractErrors(error, this.notify.ERROR);
         }
       );
     } else {

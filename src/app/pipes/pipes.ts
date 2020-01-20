@@ -34,7 +34,7 @@ export class BytesPipe {
     if (bytes == 0)
       return "0"
 
-    if (bytes == -1 || isNaN(bytes) || !isFinite(bytes)) return '-';
+    if (bytes == -1 || Number.isNaN(bytes) || !isFinite(bytes)) return '-';
 
     let units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
       number = Math.floor(Math.log(bytes) / Math.log(1024));

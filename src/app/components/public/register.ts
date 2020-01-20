@@ -165,16 +165,18 @@ export class RegisterComponent implements OnInit {
 
         let custom = this.customization.get_option('registration');
 
-        if ('fields' in custom) {
-            for (let i=0; i<custom['fields'].length; i++) {
-                let f = custom['fields'][i];
-                this.fields.push(f);
+        if (custom) {
+            if ('fields' in custom) {
+                for (let i=0; i<custom['fields'].length; i++) {
+                    let f = custom['fields'][i];
+                    this.fields.push(f);
+                }
             }
-        }
 
-        if ('disclaimer' in custom) {
-            this.disclaimer = custom['disclaimer'];
-        } 
+            if ('disclaimer' in custom) {
+                this.disclaimer = custom['disclaimer'];
+            } 
+        }
 
     }
  

@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-WORK_DIR=`pwd`
+WORK_DIR=$(pwd)
 
 export CURRENT_VERSION=$(grep '"version"' src/package.json | sed 's/"version": //' | tr -d '", ')
 
@@ -57,7 +57,7 @@ rapydo pull
 rapydo dump
 
 rapydo start
-rapydo shell backend --command 'restapi init'
+# rapydo shell backend --command 'restapi init'
 #rapydo --mode debug remove
 
 # CYPRESS:

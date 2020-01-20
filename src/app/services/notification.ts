@@ -34,9 +34,14 @@ export class NotificationService {
   }
 
   public extractMessage(message: object) {
+    /*
+    # Condition 'typeof(message) == 'string'' is always false
+    # because the parameter 'message' is annotated as object type
+
     if (typeof(message) == 'string') {
       return message;
     }
+    */
 
     if (message['message']) {
       return message['message'];

@@ -1,7 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AppModule } from '@rapydo/app.module';
-import { LoginComponent } from './login';
+import { LoginComponent } from '@rapydo/components/login/login';
+import { LoginModule } from '@rapydo/components/login/login.module';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -9,7 +10,7 @@ describe('LoginComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule]
+      imports: [AppModule, LoginModule]
     })
     .compileComponents();
   }));
@@ -21,7 +22,7 @@ describe('LoginComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeDefined();
   });
 
   it('form invalid when empty', () => {

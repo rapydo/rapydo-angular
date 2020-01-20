@@ -14,7 +14,7 @@ import { ProjectOptions } from '@app/custom.project.options';
 @Component({
   selector: 'admin-users',
   providers: [ApiService, AuthService, NotificationService, FormlyService],
-  templateUrl: './admin_users.html'
+  templateUrl: 'admin_users.html'
 })
 export class AdminUsersComponent extends BasePaginationComponent {
 

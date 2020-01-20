@@ -4,17 +4,17 @@ This web app is integrated with the RAPyDo stack and the RAPyDo REST APIs by imp
 
 Based on:
 
-*   Angular 8.2.14 with rxjs 6.5.3
-*   bootstrap 4.4.1 with @ng-bootstrap 5.1.4
-*   Angular CLI 8.3.20 with typescript 3.5.3
+*   Angular 8.2.14 with rxjs 6.5.4
+*   bootstrap 4.4.1 with @ng-bootstrap 5.2.1
+*   Angular CLI 8.3.23 with typescript 3.5.3
 
 Also include:
 
-*   @ngx-formly 5.5.6
-*   ngx-datatable 16.0.2
-*   ngx-uploadx 3.3.2
+*   @ngx-formly 5.5.9
+*   ngx-datatable 16.0.3
+*   ngx-uploadx 3.3.3
 *   file-saver 2.0.2
-*   ngx-toastr 11.2.0
+*   ngx-toastr 11.3.2
 *   moment 2.24.0 with ngx-moment 3.5.0
 *   font-awesome 5.12.0
 *   material-icons 0.3.1

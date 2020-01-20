@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -9,7 +9,7 @@ import { AuthService } from '@rapydo/services/auth';
 
 @Component({
   selector: 'navbar',
-  templateUrl: './navbar.html',
+  templateUrl: 'navbar.html',
 })
 export class NavbarComponent implements OnInit {
 

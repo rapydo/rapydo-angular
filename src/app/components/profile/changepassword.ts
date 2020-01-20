@@ -11,7 +11,7 @@ import { NotificationService} from '../../services/notification';
 @Component({
   selector: 'changepassword',
   providers: [ApiService, AuthService, NotificationService],
-  templateUrl: './changepassword.html'
+  templateUrl: 'changepassword.html'
 })
 export class ChangePasswordComponent { 
 
@@ -30,7 +30,7 @@ export class ChangePasswordComponent {
 
     this.user = auth.getUser();
 
-    if (this.user["2fa"] && this.user["2fa"] == "TOTP") {
+    if (this.user && this.user["2fa"] && this.user["2fa"] == "TOTP") {
       this.fields.push(
         {
           "key": 'totp_code',

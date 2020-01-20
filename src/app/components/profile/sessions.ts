@@ -1,6 +1,4 @@
-
 import { Component } from '@angular/core';
-import { catchError, map } from 'rxjs/operators';
 
 import { ApiService } from '../../services/api';
 import { AuthService } from '../../services/auth';
@@ -9,7 +7,7 @@ import { NotificationService} from '../../services/notification';
 @Component({
   selector: 'sessions',
   providers: [ApiService, AuthService, NotificationService],
-  templateUrl: './sessions.html'
+  templateUrl: 'sessions.html'
 })
 export class SessionsComponent { 
 
