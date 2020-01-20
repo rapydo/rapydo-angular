@@ -115,9 +115,3 @@ if (typeof (window as any).global === 'undefined') {
   (window as any).global = window;
   //(window as any)['global'] = window;
 }
-
-// workaround to introduce compatibility with typescript 3.7+
-// https://github.com/angular/angular-cli/issues/16071
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-}
