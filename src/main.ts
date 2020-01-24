@@ -12,6 +12,10 @@ let opts: any = {};
 if (environment.production) {
   enableProdMode();
   opts.preserveWhitespaces = false;
+  // Disable console.log in production
+  if (window) {
+    window.console.log = function(){};
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
