@@ -32,10 +32,10 @@
     "tslib": "1.10.0",
 
     "bootstrap": "4.4.1",
-    "@ng-bootstrap/ng-bootstrap": "5.1.5",
+    "@ng-bootstrap/ng-bootstrap": "5.2.0",
     "ngx-clipboard": "12.3.0",
-    "@ngx-formly/core": "5.5.9",
-    "@ngx-formly/bootstrap": "5.5.9",
+    "@ngx-formly/core": "5.5.10",
+    "@ngx-formly/bootstrap": "5.5.10",
     "@swimlane/ngx-datatable": "16.0.3",
     "moment": "2.24.0",
     "ngx-moment": "3.5.0",
