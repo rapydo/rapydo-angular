@@ -9,7 +9,6 @@ import { AppComponent } from '@rapydo/app.component';
 @NgModule({
   imports: [ 
   	RapydoModule.forRoot(),
-    // RapydoModule,
     CustomModule,
     PageNotFoundModule
   ],

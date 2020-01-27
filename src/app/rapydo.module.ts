@@ -4,16 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { SharedModule } from '@rapydo/shared.module';
-
 import { CookieLawModule } from 'angular2-cookie-law';
-
 import { ToastrModule } from 'ngx-toastr';
-
 import { DeviceDetectorModule } from 'ngx-device-detector';
+import * as Sentry from "@sentry/browser";
+import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
 
+import { SharedModule } from '@rapydo/shared.module';
 import { OfflineComponent } from '@rapydo/components/errors/offline';
-
 import { NavbarComponent } from '@rapydo/components/navbar/navbar';
 
 import { AuthGuard } from '@rapydo/app.auth.guard';
@@ -24,9 +22,6 @@ import { NotificationService } from '@rapydo/services/notification';
 import { WebSocketsService } from '@rapydo/services/websockets';
 
 import { JwtInterceptor } from '@rapydo/jwt.interceptor';
-
-import * as Sentry from "@sentry/browser";
-import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
 
 import { CustomNavbarComponent } from '@app/custom.navbar';
 import { CustomBrandComponent } from '@app/custom.navbar';
