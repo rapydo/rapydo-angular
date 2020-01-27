@@ -1,10 +1,10 @@
 import { NgModule, Injector } from '@angular/core';
 
-import { RapydoModule } from './rapydo.module'
-import { PageNotFoundModule } from './404.module'
+import { RapydoModule } from '@rapydo/rapydo.module'
+import { PageNotFoundModule } from '@rapydo/components/errors/404.module'
 import { CustomModule } from '@app/custom.module';
 
-import { AppComponent } from './app.component';
+import { AppComponent } from '@rapydo/app.component';
 
 @NgModule({
   imports: [ 
