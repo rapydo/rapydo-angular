@@ -57,7 +57,7 @@ rapydo pull
 rapydo dump
 
 rapydo start
-rapydo shell backend --command 'restapi init'
+# rapydo shell backend --command 'restapi init'
 #rapydo --mode debug remove
 
 # CYPRESS:
