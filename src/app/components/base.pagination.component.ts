@@ -116,8 +116,6 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
     console.log(event);
     if (this.server_side_filter) {
       this.server_side_update()
-    } else {
-
     }
   }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NgbModal, NgbModalRef, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 
 @Injectable()

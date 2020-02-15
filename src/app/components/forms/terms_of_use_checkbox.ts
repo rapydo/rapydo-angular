@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError, map } from 'rxjs/operators';
-import { of, Observable } from 'rxjs';
 import { FormlyFieldCheckbox } from '@ngx-formly/bootstrap';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'formly-field-terms_of_use_checkbox',

@@ -1,6 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-// import { ChangeDetectorRef } from '@angular/core';
-import { catchError, map } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
@@ -31,7 +29,6 @@ export class AppComponent implements OnInit {
       public api: ApiService,
       private auth: AuthService,
       private titleService: Title,
-      // private ref: ChangeDetectorRef,
       private customization: ProjectOptions,
       private notify: NotificationService,
       private deviceService: DeviceDetectorService

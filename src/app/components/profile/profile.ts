@@ -1,7 +1,6 @@
 
 import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { FormlyFieldConfig } from '@ngx-formly/core';
 
 import { ApiService } from '../../services/api';
 import { AuthService } from '../../services/auth';
