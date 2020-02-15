@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-WORK_DIR=`pwd`
+WORK_DIR=$(pwd)
 
 export CURRENT_VERSION=$(grep '"version"' src/package.json | sed 's/"version": //' | tr -d '", ')
 
