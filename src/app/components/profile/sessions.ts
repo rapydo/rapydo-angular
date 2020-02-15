@@ -1,6 +1,4 @@
-
 import { Component } from '@angular/core';
-import { catchError, map } from 'rxjs/operators';
 
 import { ApiService } from '../../services/api';
 import { AuthService } from '../../services/auth';

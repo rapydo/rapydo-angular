@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { of } from 'rxjs';
 
 @Injectable()
 export class FormlyService {
@@ -163,6 +162,7 @@ export class FormlyService {
         template_type = "file";
       } else if (stype == "autocomplete") {
         // Custom defined type
+        /*
         field_type = "autocomplete";
         template_type = "autocomplete";
 
@@ -173,6 +173,7 @@ export class FormlyService {
           template_type = "multiAutocomplete"
 
         }
+        */
         console.log(field_type + " not implemented!");
         // Not implemented!!!
         field_type = "input";

@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { SharedModule } from '@rapydo/shared.module';
-import { AuthGuard } from '@rapydo/app.auth.guard';
 
 import { LoginComponent } from '@rapydo/components/login/login';
 

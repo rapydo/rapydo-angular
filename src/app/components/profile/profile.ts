@@ -1,6 +1,5 @@
 
 import { Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 
 import { ApiService } from '../../services/api';
 import { AuthService } from '../../services/auth';
@@ -16,7 +15,6 @@ export class ProfileComponent {
 
   constructor(api: ApiService, auth: AuthService) {
 
-      //console.log(api.get());
       this.user = auth.getUser();
 
   }
