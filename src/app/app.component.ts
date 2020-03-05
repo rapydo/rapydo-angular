@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
     let os_version = deviceInfo.os_version;
     let compatibilityCheck = this.checkCompatibility(browser, version, os, os_version);
 
-    console.log(browser + " (" + version + ") on ")+  os + " (" + os_version + ")");
+    console.log(browser + " (" + version + ") on " + os + " (" + os_version + ")");
 
     if (deviceService.isMobile()) {
       console.log("Running on mobile with compatibility = " + compatibilityCheck);
