@@ -13,8 +13,16 @@ export class NotificationService {
   constructor(private toastr: ToastrService) {}
 
   public extractErrors = function(response: ApiResponse, type: number) {
-    if (response && response.errors)
+    if (!response) {
+      return false;
+    }
+    if (response.Response)
+      return this.showAll(response.Response.errors, type);
+
+    if (response.errors)
       return this.showAll(response.errors, type);
+
+    return false;
   }
   public showAll = function(messages: string[], type: number) {
     if (messages)
