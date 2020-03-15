@@ -10,8 +10,8 @@
     "courtesy": "rimraf dist/* && copyfiles --flat /app/courtesy/index.html /app/dist",
     "build": "ng build --prod --optimization=true --extractCss=false",
     "gzip": "gzipper --verbose /app/dist",
-    "test": "ng test --codeCoverage",
-    "single-test": "ng test --codeCoverage --watch=false",
+    "test": "ng test --codeCoverage--code-coverage --reporters=coverage-istanbul",
+    "single-test": "ng test --code-coverage --reporters=coverage-istanbul --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
@@ -76,7 +76,6 @@
     "karma-coverage-istanbul-reporter": "2.1.1",
     "karma-jasmine": "3.0.1",
     "karma-jasmine-html-reporter": "1.5.1",
-    "karma-coveralls": "2.1.0",
     "protractor": "5.4.2",
 
     "codelyzer": "5.2.1",
