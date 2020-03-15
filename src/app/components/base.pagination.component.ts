@@ -396,7 +396,10 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
           this.list();
         }, error => {
           this.updating = false;
-          this.notify.extractErrors(error, this.notify.ERROR);
+          if (error.Response)
+            this.notify.extractErrors(error.Response, this.notify.ERROR);
+          else
+            this.notify.extractErrors(error, this.notify.ERROR);
         }
       );
     } else {
