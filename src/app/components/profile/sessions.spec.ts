@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AppModule } from '@rapydo/app.module';
-import { SessionsComponent } from '@rapydo/components/profile/profile';
+import { SessionsComponent } from '@rapydo/components/profile/sessions';
 import { ProfileModule } from '@rapydo/components/profile/profile.module';
 
 describe('SessionsComponent', () => {
