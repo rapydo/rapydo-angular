@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AppModule } from '@rapydo/app.module';
-import { Error404Component } from '@rapydo/components/errors/reset';
+import { Error404Component } from '@rapydo/components/errors/404';
 import { PageNotFoundModule } from '@rapydo/components/errors/404.module';
 
 describe('Error404Component', () => {
