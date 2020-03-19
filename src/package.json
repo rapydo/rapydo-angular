@@ -10,8 +10,8 @@
     "courtesy": "rimraf dist/* && copyfiles --flat /app/courtesy/index.html /app/dist",
     "build": "ng build --prod --optimization=true --extractCss=false",
     "gzip": "gzipper --verbose /app/dist",
-    "test": "ng test --code-coverage --reporters=coverage-istanbul",
-    "single-test": "ng test --code-coverage --reporters=coverage-istanbul --watch=false",
+    "test": "ng test --code-coverage --reporters=brief,coverage-istanbul",
+    "single-test": "ng test --code-coverage --reporters=brief,coverage-istanbul --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
