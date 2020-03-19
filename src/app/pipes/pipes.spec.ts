@@ -33,9 +33,9 @@ describe('Pipes', () => {
     expect(boolean_pipe.transform(false)).toBe("<i class='fas fa-times fa-large fa-red'></i>");
     expect(boolean_pipe.transform("XYZ")).toBe("XYZ");
 
-    expect(boolean_pipe.transform(true)).toBe("YES");
-    expect(boolean_pipe.transform(false)).toBe("NO");
-    expect(boolean_pipe.transform("XYZ")).toBe("XYZ");
+    expect(yesno_pipe.transform(true)).toBe("YES");
+    expect(yesno_pipe.transform(false)).toBe("NO");
+    expect(yesno_pipe.transform("XYZ")).toBe("XYZ");
   });
 
 
