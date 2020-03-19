@@ -54,7 +54,7 @@ module.exports = function (config) {
       // integration environment.
       renderOnRunCompleteOnly: true // default is false
     },
-    reporters: ['brief', 'progress', 'kjhtml', 'coverage-istanbul'],
+    reporters: ['progress', 'kjhtml', 'coverage-istanbul'],
     hostname: '0.0.0.0',
     port: 9876,
     colors: true,
