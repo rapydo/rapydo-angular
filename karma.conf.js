@@ -25,7 +25,7 @@ module.exports = function (config) {
       // Omit files with no statements, no functions and no branches from the report
       skipFilesWithNoCoverage: true
     },
-    reporters: ['verbose', 'progress', 'kjhtml', 'coverage-istanbul'],
+    reporters: ['progress', 'kjhtml', 'coverage-istanbul'],
     hostname: '0.0.0.0',
     port: 9876,
     colors: true,
