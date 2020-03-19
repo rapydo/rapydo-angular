@@ -172,11 +172,11 @@ export class RegisterComponent implements OnInit {
                     this.fields.push(f);
                 }
             }
-        }
 
-        if ('disclaimer' in custom) {
-            this.disclaimer = custom['disclaimer'];
-        } 
+            if ('disclaimer' in custom) {
+                this.disclaimer = custom['disclaimer'];
+            } 
+        }
 
     }
  
