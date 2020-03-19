@@ -12,6 +12,7 @@ script:
   - scripts/tests.sh
   - cd rapydo_tests
   # - docker-compose up --exit-code-from cypress
+  - docker-compose exec -d backend restapi start
   - docker-compose up --exit-code-from frontend
 
   # - docker-compose up -d frontend
