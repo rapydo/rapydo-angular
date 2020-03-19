@@ -20,7 +20,6 @@ describe('Pipes', () => {
   it('providing no value returns fallback', () => {
     expect(bytes_pipe.transform(0)).toBe("0");
     expect(bytes_pipe.transform(-1)).toBe("-");
-    expect(bytes_pipe.transform("XYZ")).toBe("-");
     expect(bytes_pipe.transform(10)).toBe("10 bytes");
     expect(bytes_pipe.transform(10240)).toBe("10 kB");
     expect(bytes_pipe.transform(10485760)).toBe("10 MB");
