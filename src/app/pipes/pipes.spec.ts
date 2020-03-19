@@ -18,7 +18,7 @@ describe('Pipes', () => {
   });
 
   it('providing no value returns fallback', () => {
-    expect(bytes_pipe.transform(0).toBe("0"));
+    expect(bytes_pipe.transform(0)).toBe("0");
   });
 
 
