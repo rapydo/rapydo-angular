@@ -30,7 +30,7 @@ describe('Pipes', () => {
     // expect(bytes_pipe.transform({'a': 1, 'b': 2})).toBe([{'key': 'a', value: 1}, {'key': 'b', value: 2}]);
 
     expect(boolean_pipe.transform(true)).toBe("<i class='fas fa-check fa-large fa-green'></i>");
-    expect(boolean_pipe.transform(false)).toBe("<i class='fas fa-times fa-large fa-red'></i");
+    expect(boolean_pipe.transform(false)).toBe("<i class='fas fa-times fa-large fa-red'></i>");
     expect(boolean_pipe.transform("XYZ")).toBe("XYZ");
 
     expect(boolean_pipe.transform(true)).toBe("YES");
