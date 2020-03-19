@@ -9,7 +9,7 @@ import { AuthService } from '@rapydo/services/auth';
 
 @Component({
   selector: 'navbar',
-  templateUrl: './navbar.html',
+  templateUrl: 'navbar.html',
 })
 export class NavbarComponent implements OnInit {
 

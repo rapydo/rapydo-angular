@@ -22,7 +22,7 @@ enum ColumnMode {
 @Component({
   selector: 'base-component',
   providers: [ApiService, AuthService, NotificationService, FormlyService],
-  templateUrl: './base.pagination.component.html'
+  templateUrl: 'base.pagination.component.html'
 })
 export class BasePaginationComponent implements OnInit, AfterViewChecked {
 

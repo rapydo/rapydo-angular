@@ -13,7 +13,7 @@ import { ProjectOptions } from '@app/custom.project.options';
 @Component({
   selector: 'rapydo',
   providers: [AuthService, ApiService, NavbarComponent],
-  templateUrl: './app.component.html'
+  templateUrl: 'app.component.html'
 })
 export class AppComponent implements OnInit {
 
