@@ -8,22 +8,13 @@ import { ApiService } from './services/api';
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-    constructor(
-        public auth: AuthService,
-        public api: ApiService,
-        public router: Router
-     ) {}
+  constructor(public auth: AuthService, public api: ApiService, public router: Router) {
+
+  }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 
         const expectedRoles = route.data.roles;
-
-/*        if (!this.api.is_online()) {
-
-            console.log("Api offline");
-            this.router.navigate(['offline']);
-            return false;
-        }*/
 
         return this.auth.isAuthenticated().pipe(
             map(response => {

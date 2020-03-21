@@ -1,22 +1,12 @@
-
-import { Component, ViewChild, TemplateRef, ChangeDetectorRef } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
-import { ApiService } from '@rapydo/services/api';
-import { AuthService } from '@rapydo/services/auth';
-import { NotificationService} from '@rapydo/services/notification';
-import { FormlyService } from '@rapydo/services/formly'
+import { Component, ViewChild, TemplateRef, Input, Injector } from '@angular/core';
 
 import { BasePaginationComponent } from '@rapydo/components/base.pagination.component'
-
-import { ProjectOptions } from '@app/custom.project.options';
+import { User } from '@rapydo/services/auth'
 
 @Component({
-  selector: 'admin-users',
-  providers: [ApiService, AuthService, NotificationService, FormlyService],
   templateUrl: 'admin_users.html'
 })
-export class AdminUsersComponent extends BasePaginationComponent {
+export class AdminUsersComponent extends BasePaginationComponent<User> {
 
   @ViewChild('dataActive', { static: false }) public dataActive: TemplateRef<any>;
   @ViewChild('dataRoles', { static: false }) public dataRoles: TemplateRef<any>;
@@ -27,23 +17,20 @@ export class AdminUsersComponent extends BasePaginationComponent {
   @ViewChild('emptyHeader', { static: false }) public emptyHeader: TemplateRef<any>;
   @ViewChild('formModal', { static: false }) public formModal: TemplateRef<any>;
 
-  protected endpoint = 'admin/users'
+  protected endpoint = 'admin/users';
 
-  constructor(
-    protected api: ApiService,
-    protected auth: AuthService,
-    protected notify: NotificationService,
-    protected modalService: NgbModal,
-    protected formly: FormlyService,
-    protected changeDetectorRef: ChangeDetectorRef,
-    private customization: ProjectOptions
-    ) {
+  constructor(protected injector: Injector) {
 
-    super(api, auth, notify, modalService, formly, changeDetectorRef);
+    super(injector);
     this.init("user");
+
+    if (this.auth.getUser()?.isLocalAdmin && !this.auth.getUser()?.isAdmin) {
+      this.endpoint = 'localadmin/users';
+    }
 
     this.list();
     this.initPaging(20);
+
   }
 
   public ngAfterViewInit(): void {
@@ -58,21 +45,21 @@ export class AdminUsersComponent extends BasePaginationComponent {
     let user_page = this.customization.get_option('user_page');
     if (user_page !== null) {
       if (user_page["group"]) {
-        this.columns.push({name: 'Group', prop: "_belongs_to", cellTemplate: this.dataGroup, flexGrow: 0.3});
-    }
+        this.columns.push({name: 'Group', prop: "group", cellTemplate: this.dataGroup, flexGrow: 0.3});
+      }
 
-    if (user_page["custom"]) {
+      if (user_page["custom"]) {
 
-      for (let i=0; i<user_page["custom"].length; i++) {
-        this.columns.push(user_page["custom"][i]);
+        for (let i=0; i<user_page["custom"].length; i++) {
+          this.columns.push(user_page["custom"][i]);
+        }
       }
     }
-    }
 
-    this.columns.push({name: 'Roles', prop: "_roles", cellTemplate: this.dataRoles, flexGrow: 0.9});
-    this.columns.push({name: 'First Login', prop: "first_login", flexGrow: 0.5, cellTemplate: this.dataDate});
-    this.columns.push({name: 'Last Login', prop: "last_login", flexGrow: 0.5, cellTemplate: this.dataDate});
-    this.columns.push({name: 'Password Change', prop: "last_password_change", flexGrow: 0.5, cellTemplate: this.dataDate});
+    this.columns.push({name: 'Roles', prop: "roles", cellTemplate: this.dataRoles, flexGrow: 0.9});
+    this.columns.push({name: 'First<br>Login', prop: "first_login", flexGrow: 0.5, cellTemplate: this.dataDate});
+    this.columns.push({name: 'Last<br>Login', prop: "last_login", flexGrow: 0.5, cellTemplate: this.dataDate});
+    this.columns.push({name: 'Password<br>Change', prop: "last_password_change", flexGrow: 0.5, cellTemplate: this.dataDate});
     this.columns.push({name: 'controls', prop: 'controls', cellTemplate: this.controlsCell, headerTemplate: this.emptyHeader, flexGrow: 0.2});
   }
 
@@ -96,46 +83,40 @@ export class AdminUsersComponent extends BasePaginationComponent {
   }
 
   create() {
-    let data = {'get_schema': true, 'autocomplete': false} 
 
-    return this.post(this.endpoint, data, this.formModal, false);
+    return this.post(
+      this.endpoint,
+      {'get_schema': true},
+      this.formModal,
+      false
+    );
+
   }
 
-  update(row, element) {
+  update(row) {
 
-    // workaroud to avoid the following error: 
-    // ExpressionChangedAfterItHasBeenCheckedError
-    // https://github.com/swimlane/ngx-datatable/issues/721
-    // https://github.com/ng-bootstrap/ng-bootstrap/issues/1252
-    // element is expected to be:
-    //    the <i class='icon'>
-    // element.parentElement is expected to be:
-    //    <div class='datatable-body-cell' 
-    // element.parentElement.parentElement is expected to be:
-    //     <datatable-body-cell
-    if (element && 
-        element.parentElement && 
-          element.parentElement.parentElement) {
-      element.parentElement.parentElement.blur();
-    }
-
-    let data = {'get_schema': true, 'autocomplete': false} 
-    if (row._roles) {
-      for (let i=0; i<row._roles.length; i++) {
-        let n = row._roles[i].name;
+    if (row.roles) {
+      for (let i=0; i<row.roles.length; i++) {
+        let n = row.roles[i].name;
         row["roles_" + n] = true;
       }
     }
+    return this.put(
+      row,
+      this.endpoint,
+      {'get_schema': true},
+      this.formModal,
+      false
+    );
 
-    return this.put(row, this.endpoint, data, this.formModal, false);
   }
 
   submit() {
     // If created by admins, credentials  
     // must accept privacy at the login
-    if (!this.model["_id"]) {
+/*    if (!this.model["_id"]) {
       this.model["privacy_accepted"] = false;
-    }
+    }*/
     this.send(this.endpoint);
   }
 

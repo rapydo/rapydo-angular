@@ -25,14 +25,20 @@
             <th>Roles</th>
             <td>
                 <span
-                    *ngFor="let role of user.roles | iterate"
+                    *ngFor="let role of user.roles | keyvalue"
                     class='badge badge-info' style='margin-right:3px;'>
-                    {{role.value}}
+                    <span *ngIf='role.value != "automatic"'>
+                        {{role.value}}
+                    </span>
+                    <span *ngIf='role.value == "automatic"'>
+                        {{role.key}}
+                    </span>
                 </span>
             </td>
         </tr>
-
-		<ng-container *ngFor="let row of user | iterate: ['uuid']">
+        
+        <!-- here | keyvalue does not work -->
+		<ng-container *ngFor="let row of user | iterate">
             <ng-container *ngIf="['name', 'surname', 'email', 'password', 'roles'].indexOf(row.key) < 0" [ngSwitch]="row.key">
 
                 <tr *ngSwitchCase="'group'">

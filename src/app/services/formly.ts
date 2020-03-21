@@ -1,14 +1,42 @@
 import { Injectable } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
+
+// key is optional only for back-compatibility
+// remove the ? once dropped all swagger compatibility rules
+export interface Schema {
+  type: string,
+  key?: string,
+  label?: string,
+  description?: string,
+  default?: any,
+  size?: string,
+  format?: string,
+  required?: string,
+  options?: any[],
+
+  min?: number;
+  max?: number;
+
+  select_id?: string,
+  select_label?: string,
+  model_key?: string,
+  // TO BE DEPRECATED
+  // any[] is only for swagger compatibility
+  enum?: any[] | Record<string, string>,
+
+  // only for swagger compatibility
+  name?: string,
+  custom?: any,
+  multiple?: string,
+  islink?: string,
+}
 @Injectable()
 export class FormlyService {
 
-  private modalRef: NgbModalRef;
+  constructor() {}
 
-  constructor(private modalService: NgbModal) {}
-
-  public json2Form(schema, data) {
+  public json2Form(schema:Schema[], data: Record<string, any>) {
 
     let fields = [];
     let model = {}
@@ -16,34 +44,28 @@ export class FormlyService {
       return {"fields":fields, "model": model};
     }
 
-    for (let i=0; i<schema.length; i++) {
+    for (let s of schema) {
 
-      let s = schema[i];
-
-      if (! ('type' in s)) {
-        console.log("WARNING: invalid schema, missing type")
-        return null;
-      }
-      let stype = s['type'];
+      let stype: string = s.type;
 
       let field_type = "";
       let template_type = "";
 
       let field = {}
-      let multiple = ('multiple' in s && s['multiple'] == "true")
-      let islink = ('islink' in s && s['islink'] == "true")
+      let multiple = ('multiple' in s && s.multiple == "true")
+      let islink = ('islink' in s && s.islink == "true")
       field['templateOptions'] = {}
       field['validators'] = {}
 
       // Swagger compatibility
       if (! ('key' in s)) {
-        s['key'] = s['name']
+        s.key = s.name;
         if ('custom' in s) {
 
-          let custom = s['custom']
+          let custom = s.custom
 
           if ('label' in custom) {
-            s['label'] = custom['label']
+            s.label = custom['label']
           }
 
           if ('htmltype' in custom) {
@@ -59,47 +81,57 @@ export class FormlyService {
           }
 
           if ('size' in custom) {
-            s['size'] = custom['size']
+            s.size = custom['size']
           }
 
           if ('autocomplete' in custom) {
             stype = "autocomplete"
           }
           if ('model_key' in custom) {
-            s['model_key'] = custom['model_key']
+            s.model_key = custom['model_key']
           }
           if ('select_id' in custom) {
-            s['select_id'] = custom['select_id']
+            s.select_id = custom['select_id']
           }
           if ('select_label' in custom) {
-            s['select_label'] = custom['select_label']
+            s.select_label = custom['select_label']
           }
         }
-
+        if (s.required) {
+          s.required = "true"
+        }
         if ('format' in s) {
-          let format = s['format']
-          if (format == "date") stype = "date"
-          if (format == "email") stype = "email"
-          if (format == "password") stype = "password"
+          if (s.format == "date") stype = "date"
+          if (s.format == "email") stype = "email"
+          if (s.format == "password") stype = "password"
         }
 
-        if (s['required']) {
-          s['required'] = "true"
-        }
-
-        if (s['enum']) {
-          stype = "select"
-          s['options'] = []
-
-          for (let j in s['enum']) {
-            let option = s['enum'][j];
-            for (let key in option) {
-              s['options'].push({"value": key, "label": option[key]});
-            }
-          }
-        }
       }
       // End of swagger compatibility
+
+
+      if (s.enum) {
+        stype = "select"
+        s.options = []
+
+        // TO BE DEPRECATED
+        // this is from swagger models
+        // [ {k1: v1}, {k1: v1} ]
+        if (s.enum instanceof Array) {
+          for (let j in s.enum) {
+            let option = s.enum[j];
+            for (let key in option) {
+              s.options.push({"value": key, "label": option[key]});
+            }
+          }
+        // this is from webargs models:
+        // { k1: v1, k2: v2}
+        } else {
+            for (let key in s.enum) {
+              s.options.push({"value": key, "label": s.enum[key]});
+            }
+        }
+      }
 
       if (stype == "text" || stype == "string") {
         field_type = "input";
@@ -109,6 +141,13 @@ export class FormlyService {
           field['templateOptions']["inputOptions"]["type"] = field_type;
           field['type'] = "multiInput"
         }
+
+        if (s.min) {
+          field['templateOptions']["minLength"] = s.min;
+        }
+        if (s.max) {
+          field['templateOptions']["maxLength"] = s.max;
+        }
       } else if (stype == "longtext" || stype == "textarea") {
         field_type = "textarea";
         template_type = "text";
@@ -116,6 +155,14 @@ export class FormlyService {
       } else if (stype == "int" || stype == "number") {
         field_type = "input";
         template_type = "number";
+
+        if (s.min) {
+          field['templateOptions']["min"] = s.min;
+        }
+        if (s.max) {
+          field['templateOptions']["max"] = s.max;
+        }
+
       } else if (stype == "date") {
         field_type = "datepicker";
         // field_type = "input";
@@ -127,6 +174,14 @@ export class FormlyService {
       } else if (stype == "password") {
         field_type = "input";
         template_type = "password";
+
+        if (s.min) {
+          field['templateOptions']["minLength"] = s.min;
+        }
+        if (s.max) {
+          field['templateOptions']["maxLength"] = s.max;
+        }
+
       } else if (stype == "select") {
         field_type = "select";
         template_type = "select";
@@ -136,7 +191,7 @@ export class FormlyService {
         field['templateOptions']['valueProp'] = "id";
 */
 
-        field['templateOptions']['options'] = s['options']
+        field['templateOptions']['options'] = s.options;
         if (!field['templateOptions']['required']) {
           if (Array.isArray(field['templateOptions']['options'])) {
             field['templateOptions']['options'].unshift(
@@ -150,91 +205,61 @@ export class FormlyService {
         field_type = "checkbox";
         template_type = "checkbox";
 
-        if (typeof model[s['key']] == 'undefined') {
-          model[s['key']] = false;
+        if (typeof model[s.key] == 'undefined') {
+          model[s.key] = false;
         }
       } else if (stype == "radio") {
         field_type = "radio";
         template_type = "radio";
-        field['templateOptions']['options'] = s['options']
+        field['templateOptions']['options'] = s.options;
       } else if (stype == "file") {
         field_type = "file";
         template_type = "file";
-      } else if (stype == "autocomplete") {
-        // Custom defined type
-        /*
-        field_type = "autocomplete";
-        template_type = "autocomplete";
-
-        if (multiple) {
-          field['templateOptions']["inputOptions"] = {}
-          field['templateOptions']["inputOptions"]["type"] = field_type;
-          field_type = "multiAutocomplete"
-          template_type = "multiAutocomplete"
-
-        }
-        */
-        console.log(field_type + " not implemented!");
-        // Not implemented!!!
-        field_type = "input";
-        template_type = "text";
-
-        if ("select_id" in s) {
-          field['templateOptions']['select_id'] = s.select_id;
-        } else {
-          field['templateOptions']['select_id'] = "value"
-        }
-
-        if ("select_label" in s) {
-          field['templateOptions']['select_label'] = s.select_label;
-        } else {
-          field['templateOptions']['select_label'] = "name"
-        }
       }
 
-      field['key'] = s['key'];
+      field['key'] = s.key;
       field['type'] = field_type ; 
       if ('default' in s) {
 
         if (field['type'] == 'checkbox') {
-          if (s['default']) {
+          if (s.default) {
             field['defaultValue'] = true;
-            model[s['key']] = true;
+            model[s.key] = true;
           }
         } else {
-          field['defaultValue'] = s['default'];
-          model[s['key']] = s['default'];
+          field['defaultValue'] = s.default;
+          model[s.key] = s.default;
         }
       }
 
       if ('size' in s)
-        field['className'] = 'col-'+s['size'];
+        field['className'] = 'col-'+s.size;
 
-      field['templateOptions']['label'] = s['label'];
+      field['templateOptions']['label'] = s.label;
 
       if (stype == "select") {
 
-        field['templateOptions']['description'] = s['description'];
+        field['templateOptions']['description'] = s.description;
 
       } else {
-        field['templateOptions']['placeholder'] = s['description'];
+        field['templateOptions']['placeholder'] = s.description;
       }
       field['templateOptions']['type'] = template_type; 
-      field['templateOptions']['required'] = (s['required'] == "true");
+      field['templateOptions']['required'] = (s.required == "true");
 
       // if (template_type == 'radio') {
       //   field['templateOptions']['labelProp'] = "value";
       //   field['templateOptions']['valueProp'] = "name";
-      //   field['templateOptions']['options'] = s['options']
+      //   field['templateOptions']['options'] = s.options;
       // }
 
       fields.push(field);
 
       if (data) {
 
-        let model_key = s['key'];
+        let model_key = s.key;
         if (islink && "model_key" in s) {
-          model_key = s['model_key']
+          model_key = s.model_key;
         }
 
         if (model_key in data) {
@@ -242,7 +267,7 @@ export class FormlyService {
           let default_data = data[model_key];
 
           if (default_data == null || default_data == "") {
-            model[s['key']] = ""
+            model[s.key] = ""
           } else {
 
             if (template_type == "number") {
@@ -253,31 +278,35 @@ export class FormlyService {
               default_data = this.formatDate(default_data);
             } else if (template_type == "select") {
               if (islink) {
-                // Array copy
-                // default_data = (default_data.slice())[0];
                 default_data = default_data[0];
               }
 
-              if ("select_id" in s && s["select_id"] in default_data) {
-                default_data = default_data[s["select_id"]];
+              if ("select_id" in s && s.select_id in default_data) {
+                default_data = default_data[s.select_id];
                 default_data = default_data.toString()
               }
 
-              if (typeof default_data["key"] !== 'undefined' &&
-                  typeof default_data["description"] !== 'undefined') {
-                default_data = default_data["key"];
+              // This is to replace islink
+              if (Array.isArray(default_data)) {
+                if (default_data.length == 1) {
+                  default_data = default_data[0];
+                } else {
+                  console.warn("Cannot determine default data from ", default_data);
+                }
               }
 
-            } else if (template_type == "autocomplete") {
-              if (islink) {
-                // Array copy
-                default_data = (default_data.slice())[0];
+              // This s to replace select_id and select_label
+              if (typeof default_data["key"] !== 'undefined') {
+                default_data = default_data["key"].toString();
+              } else if (typeof default_data["uuid"] !== 'undefined') {
+                default_data = default_data["uuid"].toString();
+              } else if (typeof default_data["id"] !== 'undefined') {
+                default_data = default_data["id"].toString();
               }
-            } else if (template_type == "multiAutocomplete") {
-              console.log("NOT IMPLEMENTED!!");
+
             }
 
-            model[s['key']] = default_data;
+            model[s.key] = default_data;
           }
         }
       }
@@ -321,47 +350,40 @@ export class FormlyService {
     return this.json2Form([field], model);
   }
 
-  public formatNgbDatepicker(date_string) {
+  public formatNgbDatepicker(date_string:string): Date {
     if (date_string === null)
-      return date_string
+      return null;
 
     if (date_string == "")
-      return date_string
+      return null;
 
     // this works because we provided NgbDateAdapter = NgbDateNativeAdapter
     // otherwise by default ngbDatepicker uses { year: 'yyyy', month: 'mm', day: 'dd'}
     return new Date(date_string);
   }
-  public formatDate(date_string) {
+  public formatDate(date_string: string): string {
     if (date_string === null)
       return date_string
 
     if (date_string == "")
       return date_string
 
-      const d = new Date(date_string);
-      let month = '' + (d.getMonth() + 1);
-      let day = '' + d.getDate();
-      const year = d.getFullYear();
+    const d = new Date(date_string);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
 
-      if (month.length < 2) month = '0' + month;
-      if (day.length < 2) day = '0' + day;
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
 
-      return [year, month, day].join('-');
+    return [year, month, day].join('-');
   }
-
-  public showForm() {
-
-    let template = "<div>test</div>";
-      this.modalRef = this.modalService.open(template, {size: 'lg'});
-      this.modalRef.result.then((result) => {
-      /*console.log("Closed with: " + result)*/;
-      }, (reason) => {
-      /*console.log(`Dismissed ${this.getDismissReason(reason)}`)*/;
-      });
-    /*console.log("evviva");*/
+  public getNgbDateStruct(d: Date): NgbDateStruct {
+    return {
+      year: d.getFullYear(),
+      month: d.getMonth() + 1,
+      day: d.getDate()
+    }
   }
-
-
 
 }

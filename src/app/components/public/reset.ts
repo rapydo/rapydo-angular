@@ -6,6 +6,8 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { NotificationService} from '../../services/notification';
 import { ApiService } from '../../services/api';
 import { AuthService } from '../../services/auth';
+
+import { environment } from '@rapydo/../environments/environment';
  
 @Component({
     templateUrl: 'reset.html'
@@ -39,13 +41,16 @@ export class ResetPasswordComponent implements OnInit {
                     this.api.put('reset', params["token"], {}, {"base": "auth"}).subscribe(
                        response => {
                             this.token = params["token"]
-                            this.notify.extractErrors(response, this.notify.ERROR);
                             return true;
 
                         }, error => {
-                            this.token = undefined
-                            this.invalid_token = error.errors[0];
-                            this.notify.extractErrors(error, this.notify.ERROR);
+                            this.token = null;
+                            if (environment.WRAP_RESPONSE == '1') {
+                                this.invalid_token = error.Response.errors;
+                            } else {
+                                this.invalid_token = error;
+                            }
+                            this.notify.showError(this.invalid_token);
                             return false;
                         }
                     );
@@ -121,13 +126,20 @@ export class ResetPasswordComponent implements OnInit {
         let data = {"reset_email": this.model["reset_email"]};
         return this.api.post('reset', data, {"base": "auth"}).subscribe(
             response => {
-                this.reset_message = response.data;
+                if (environment.WRAP_RESPONSE == '1') {
+                    this.reset_message = response.data;
+                } else {
+                    this.reset_message = response;
+                }
                 this.model = {}
-                this.notify.extractErrors(response, this.notify.ERROR);
                 return true;
 
             }, error => {
-                this.notify.extractErrors(error, this.notify.ERROR);
+                if (environment.WRAP_RESPONSE == '1') {
+                    this.notify.showError(error.Response.errors);
+                } else {
+                    this.notify.showError(error);
+                }
                 return false;
             }
         );
@@ -147,12 +159,15 @@ export class ResetPasswordComponent implements OnInit {
             response => {
                 this.notify.showSuccess("Password successfully changed. Please login with your new password")
 
-                this.notify.extractErrors(response, this.notify.ERROR);
                 this.router.navigate(['app', 'login']);
                 return true;
 
             }, error => {
-                this.notify.extractErrors(error, this.notify.ERROR);
+                if (environment.WRAP_RESPONSE == '1') {
+                    this.notify.showError(error.Response.errors);
+                } else {
+                    this.notify.showError(error);
+                }
                 return false;
             }
         );

@@ -13,15 +13,13 @@ describe('RegisterComponent', () => {
       imports: [AppModule, PublicModule]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(RegisterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
+  }));
 
-  it('should create', () => {
+  it('component initialization', () => {
     expect(component).toBeDefined();
   });
 

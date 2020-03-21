@@ -1,19 +1,17 @@
-
 import { Component } from '@angular/core';
 
 import { ApiService } from '../../services/api';
-import { AuthService } from '../../services/auth';
+import { AuthService, User } from '../../services/auth';
+
 
 @Component({
-  selector: 'profile',
-  providers: [ApiService, AuthService],
   templateUrl: 'profile.html'
 })
 export class ProfileComponent { 
 
-  public user: any
+  public user: User;
 
-  constructor(api: ApiService, auth: AuthService) {
+  constructor(private api: ApiService, private auth: AuthService) {
 
       this.user = auth.getUser();
 

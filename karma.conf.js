@@ -10,10 +10,17 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
+      require('karma-spec-reporter'),
       require('@angular-devkit/build-angular/plugins/karma')
     ],
     client: {
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
+      clearContext: false, // leave Jasmine Spec Runner output visible in browser
+      jasmine: {
+        // stop execution of the suite after the first spec failure
+        failFast: true,
+        // do not  randomize spec execution order
+        random: false,
+      }
     },
     coverageIstanbulReporter: {
       dir: require('path').join('/coverage'),
@@ -25,7 +32,7 @@ module.exports = function (config) {
       // Omit files with no statements, no functions and no branches from the report
       skipFilesWithNoCoverage: true
     },
-    reporters: ['progress', 'kjhtml', 'coverage-istanbul'],
+    reporters: ['spec', 'kjhtml', 'coverage-istanbul'],
     hostname: '0.0.0.0',
     port: 9876,
     colors: true,

@@ -1,7 +1,4 @@
 
-<!-- <loading *ngIf="loading"></loading> -->
-
-<!-- <div *ngIf="!loading && !api.is_online()"> -->
 <div *ngIf="!api.is_online()">
 	<br><br><br>
 	<div class='row'>
@@ -11,7 +8,7 @@
 
 	<div class='card-header bg-warning text-center'>
 	    <h6>
-    	Server not reachable due to maintenance operations
+    	Server temporarily reachable
 	    </h6>
 	</div>
 
@@ -19,7 +16,8 @@
 
 	    <p>
 
-	    This server is temporary not reachable due to maintenance operations. We apologize for any inconvenience this may cause.
+	    This server is temporarily not reachable.<br>
+	    We apologize for any inconvenience this may cause.
 
 	    <br><br>
 	     
@@ -39,10 +37,13 @@
 
 </div>
 
-<!-- <navbar [user]="user" *ngIf="!loading && api.is_online()"></navbar> -->
 <navbar *ngIf="api.is_online()"></navbar>
 
-<router-outlet></router-outlet>
+<router-outlet *ngIf="api.is_online()"></router-outlet>
+
+<footer class="footer mt-auto" *ngIf='enableFooter'>
+	<customfooter></customfooter>
+</footer>
 
 <cookie-law #cookieLaw>
 	<span *ngIf='cookieLawText; else defaultText'

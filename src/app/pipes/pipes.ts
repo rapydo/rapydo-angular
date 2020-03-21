@@ -9,6 +9,9 @@ export class IteratePipe {
 
 
   transform(value, skipFields:string[]=[]):any {
+
+    // deprecated since 0.7.3
+    console.warn("Deprecated use of iterate pipeline, replace with new built in keyvalue")
     let keys = [];
 
     for (let key in value) {

@@ -12,18 +12,15 @@ import { ProjectOptions } from '@app/custom.project.options';
 
 @Component({
   selector: 'rapydo',
-  providers: [AuthService, ApiService, NavbarComponent],
   templateUrl: 'app.component.html'
 })
 export class AppComponent implements OnInit {
 
   @ViewChild('cookieLaw', { static: false }) private cookieLawEl: any;
-  // public loading: boolean = false;
-  // public user: any;
 
   public cookieLawText:string;
   public cookieLawButton:string;
-
+  public enableFooter:boolean = false;
 
   constructor(
       public api: ApiService,
@@ -34,8 +31,7 @@ export class AppComponent implements OnInit {
       private deviceService: DeviceDetectorService
       ) {
 
-    //this.loading = true;
-
+    this.enableFooter = (environment.enableFooter == "true");
     this.cookieLawText = this.customization.get_option('cookie_law_text');
     this.cookieLawButton = this.customization.get_option('cookie_law_button');
 
@@ -47,24 +43,26 @@ export class AppComponent implements OnInit {
     let os_version = deviceInfo.os_version;
     let compatibilityCheck = this.checkCompatibility(browser, version, os, os_version);
 
-    console.log(browser + " (" + version + ") on " + os + " (" + os_version + ")");
+    let device = ""
 
     if (deviceService.isMobile()) {
-      console.log("Running on mobile with compatibility = " + compatibilityCheck);
+      device = "mobile";
     }
     if (deviceService.isTablet()) {
-      console.log("Running on tablet with compatibility = " + compatibilityCheck);
+      device = "tablet";
     }
     if (deviceService.isDesktop()) {
-      console.log("Running on desktop with compatibility = " + compatibilityCheck);
+      device = "desktop";
     }
 
+    console.info(browser + " (" + version + ") on " + os + " " + device + " (" + os_version + ")");
+
     if (!compatibilityCheck) {
-      this.notify.showError("You are using "+browser+" "+version+" on "+os+". We apologize, but your browser is not fully compatible with this website and some or all functionalities may not work.");
+      this.notify.showError("You are using " + browser + " " + version + " on " + os + ". We apologize, but your browser is not fully compatible with this website and some or all functionalities may not work.");
     }
 
   }
-  private checkCompatibility(browser, version, os, os_version) {
+  private checkCompatibility(browser:string, version:string, os:string, os_version:string): boolean {
     if (browser == 'IE') {
       if (parseFloat(version) <= 10) {
         return false;

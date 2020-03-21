@@ -13,15 +13,13 @@ describe('ChangePasswordComponent', () => {
       imports: [AppModule, ProfileModule]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ChangePasswordComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
+  }));
 
-  it('should create', () => {
+  it('component initialization', () => {
     expect(component).toBeDefined();
   });
 

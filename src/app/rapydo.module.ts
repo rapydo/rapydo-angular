@@ -8,7 +8,7 @@ import { CookieLawModule } from 'angular2-cookie-law';
 import { ToastrModule } from 'ngx-toastr';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import * as Sentry from "@sentry/browser";
-import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
+// import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
 
 import { SharedModule } from '@rapydo/shared.module';
 import { OfflineComponent } from '@rapydo/components/errors/offline';
@@ -25,6 +25,7 @@ import { JwtInterceptor } from '@rapydo/jwt.interceptor';
 
 import { CustomNavbarComponent } from '@app/custom.navbar';
 import { CustomBrandComponent } from '@app/custom.navbar';
+import { CustomFooterComponent } from '@app/custom.footer';
 import { ProjectOptions } from '@app/custom.project.options';
 
 import { environment } from '@rapydo/../environments/environment';
@@ -81,8 +82,8 @@ let module_imports:any = [
     positionClass: 'toast-bottom-right'
   }),
 
-  NgxGoogleAnalyticsModule.forRoot(environment.GA_TRACKING_CODE),
-  NgxGoogleAnalyticsRouterModule,
+  // NgxGoogleAnalyticsModule.forRoot(environment.GA_TRACKING_CODE),
+  // NgxGoogleAnalyticsRouterModule,
   DeviceDetectorModule.forRoot()
 ];
 
@@ -92,6 +93,7 @@ let module_declarations = [
 
   CustomNavbarComponent,
   CustomBrandComponent,
+  CustomFooterComponent,
 ];
 
 let module_exports = [
@@ -104,7 +106,8 @@ let module_exports = [
   ToastrModule,
 
   OfflineComponent,
-  NavbarComponent
+  NavbarComponent,
+  CustomFooterComponent
 ];
 
 let module_providers:any = [
@@ -144,7 +147,7 @@ if (environment.production && typeof environment.SENTRY_URL !== 'undefined' &&  
   providers: module_providers,
 })
 export class RapydoModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<RapydoModule> {
     return {
       ngModule: RapydoModule,
   	  providers: module_providers,

@@ -13,15 +13,13 @@ describe('ProfileComponent', () => {
       imports: [AppModule, ProfileModule]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ProfileComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
+  }));
 
-  it('should create', () => {
+  it('component initialization', () => {
     expect(component).toBeDefined();
   });
 

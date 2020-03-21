@@ -168,28 +168,32 @@ export class LoginComponent implements OnInit {
         this.loading = true;
         this.authService.login(this.model.username, this.model.password, this.model.new_password, this.model.password_confirm).subscribe(
             data => {
-
                 this.authService.loadUser().subscribe(
                     response => {
                         this.loading = false;
                         let u = this.authService.getUser()
-                        if (u.hasOwnProperty('privacy_accepted') && !u.privacy_accepted) {
+                        if (!u.privacy_accepted) {
                             this.terms_of_use = this.customization.get_option('privacy_acceptance');
                             if (this.terms_of_use !== null) {
                                 this.modalRef = this.modalService.open(this.privacy_acceptance, {size: 'lg'});
                                 this.modalRef.result.then((result) => {
                                     this.api.put('profile', u.id, {'privacy_accepted': true}, {"base": "auth"}).subscribe(
                                         data => {
+                                            this.authService.loadUser();
                                             this.router.navigate([this.returnUrl]);
                                         },
                                         error => {
-                                            this.notify.extractErrors(error, this.notify.ERROR);
+                                            if (environment.WRAP_RESPONSE == '1') {
+                                                this.notify.showError(error.error.Response.errors);
+                                            } else {
+                                                this.notify.showError(error.error);
+                                            }
                                         }
                                     );
                                 }, (reason) => {
                                     this.authService.logout().subscribe(
                                         response =>  {
-                                            this.notify.showError("We apologize but you are not allowed to login, since you don't accepted our Terms of Use");
+                                            this.notify.showError("We apologize but you are not allowed to login, as you have not accepted our Terms of Use");
                                             this.router.navigate(['']);
                                         }
                                     );
@@ -200,15 +204,17 @@ export class LoginComponent implements OnInit {
                         } else {
                             this.router.navigate([this.returnUrl]);
                         }
-
-                        this.notify.extractErrors(response, this.notify.WARNING);
                     }, 
                     error => {
                         if (error.status == 0) {
                             this.router.navigate(["/offline"]);
 
                         } else {
-                            this.notify.extractErrors(error, this.notify.ERROR);
+                            if (environment.WRAP_RESPONSE == '1') {
+                                this.notify.showError(error.error.Response.errors);
+                            } else {
+                                this.notify.showError(error.error);
+                            }
                         }
                         this.loading = false;
                     }
@@ -217,22 +223,33 @@ export class LoginComponent implements OnInit {
             error => {
                 if (error.status == 0) {
                     this.router.navigate(["/offline"]);
+                    this.notify.showError("Error: no response received from backend");
 
                 } else if (error.status == 409) {
 
-                    this.notify.extractErrors(error.error.Response, this.notify.ERROR);
+                    if (environment.WRAP_RESPONSE == '1') {
+                        this.notify.showError(error.error.Response.errors);
+                    } else {
+                        this.notify.showError(error.error);
+                    }
 
                 } else if (error.status == 403) {
 
+                    let body = null;
+                    if (environment.WRAP_RESPONSE == '1') {
+                        body = error.error.Response.errors;
+                    } else {
+                        body = error.error;
+                    }
                     let userMessage = "Unrecognized response from server"
 
-                    let actions = error.error.Response.data.actions
+                    let actions = body.actions
                     if (typeof actions === 'undefined') {
                         this.notify.showError(userMessage)
-                        this.notify.showAll(error.error.Response.errors, this.notify.ERROR);
+                        this.notify.showError(body.errors);
                     } else if (! (actions instanceof Array)) {
                         this.notify.showError(userMessage)
-                        this.notify.showAll(error.error.Response.errors, this.notify.ERROR);
+                        this.notify.showError(body.errors);
                     } else {
 
                         for (let i=0; i<actions.length; i++) {
@@ -259,7 +276,7 @@ export class LoginComponent implements OnInit {
                                 notyLevel = this.notify.WARNING;
 
                             } else if (action == 'TOTP') {
-                                console.log("2FA not yet implemented");
+                                console.warn("2FA not yet implemented");
                                 this.panelTitle = "Provide the verification code"
                                 this.buttonText = "Authorize"
                                 this.warningCard = true;
@@ -270,17 +287,17 @@ export class LoginComponent implements OnInit {
                                 notyLevel = this.notify.WARNING;
                                 
                             } else {
-                                console.log("Unrecognized action: " + action);
+                                console.error("Unrecognized action: " + action);
                                 this.notify.showError(userMessage)
                             }
-                            this.notify.showAll(error.error.Response.errors, notyLevel);
+                            this.notify.showAll(body.errors, notyLevel);
 
                         }
 
-                        if (error.error.Response.data.qr_code) {
+                        if (body.qr_code) {
 
-                            console.log("2FA not yet implemented");
-                            // self.qr_code = error.error.Response.data.qr_code;
+                            console.warn("2FA not yet implemented");
+                            // self.qr_code = body.qr_code;
 
                         }
                     }
@@ -288,13 +305,18 @@ export class LoginComponent implements OnInit {
                 } else if (error.status == 404) {
                     this.notify.showError("Unable to login due to a server error. If this error persists please contact system administrators");
 
-                } else {
-                    if (error.error && error.error.Response) {
-                        if (error.error.Response.errors[0] == "Sorry, this account is not active") {
+                } else if (error.error) {
+                    if (environment.WRAP_RESPONSE == '1') {
+                        if (error.error.Response.errors == "Sorry, this account is not active") {
                             this.account_not_active = true;
                         }
+                        this.notify.showError(error.error.Response.errors);
+                    } else {
+                        if (error.error == "Sorry, this account is not active") {
+                            this.account_not_active = true;
+                        }
+                        this.notify.showError(error.error);
                     }
-                    this.notify.extractErrors(error.error.Response, this.notify.ERROR);
                 }
 
                 this.loading = false;
@@ -307,10 +329,16 @@ export class LoginComponent implements OnInit {
         this.authService.ask_activation_link(this.model.username).subscribe(
             (response:any) => {
                 this.account_not_active = false;
-                this.notify.showSuccess(response.Response.data);
-                this.notify.extractErrors(response, this.notify.WARNING);
+                if (environment.WRAP_RESPONSE == '1') {
+                    this.notify.showSuccess(response.Response.data);
+                } else {
+                    this.notify.showSuccess(response);
+                }
             }, error => {
-                this.notify.extractErrors(error.error.Response, this.notify.ERROR);
+                if (environment.WRAP_RESPONSE == '1') {
+                    error = error.error.Response.errors;
+                }
+                this.notify.showError(error);
             }
         );
 

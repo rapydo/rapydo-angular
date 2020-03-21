@@ -1,10 +1,13 @@
+const { Console } = require('console');
+const print = new Console(process.stdout, process.stderr);
+
 var fs = require('fs');
 
 require('dotenv').config({path: '/tmp/.env'});
 
 let backendURI = "";
 
-if (process.env.BACKEND_URI !== undefined && process.env.BACKEND_URI !== null && process.env.BACKEND_URI !== '') {
+if (typeof process.env.BACKEND_URI !== 'undefined' && process.env.BACKEND_URI !== null && process.env.BACKEND_URI !== '') {
   backendURI = process.env.BACKEND_URI;
 } else {
 
@@ -13,7 +16,7 @@ if (process.env.BACKEND_URI !== undefined && process.env.BACKEND_URI !== null &&
   } else if (process.env.APP_MODE === 'debug' || process.env.APP_MODE === 'test' || process.env.APP_MODE === 'development' || process.env.APP_MODE === 'cypress') {
     backendURI += "http://";
   } else {
-    console.log("Unknown APP MODE: " + process.env.APP_MODE);
+    print.error("Unknown APP MODE: " + process.env.APP_MODE);
     backendURI += "http://";
   }
 
@@ -33,13 +36,17 @@ websocketsURI += process.env.PUSHPIN_PORT;
 let apiUrl = backendURI + '/api';
 let authApiUrl = backendURI + '/auth';
 
+let projectVersion = process.env.VERSION;
+let rapydoVersion = process.env.RAPYDO_VERSION;
 let projectTitle = process.env.PROJECT_TITLE;
 let projectDescription = process.env.PROJECT_DESCRIPTION;
 
+let enableFooter = process.env.ENABLE_FOOTER.toLowerCase() === 'true';
 let allowRegistration = process.env.ALLOW_REGISTRATION.toLowerCase() === 'true';
 let allowPasswordReset = process.env.ALLOW_PASSWORD_RESET.toLowerCase() === 'true';
 let SENTRY_URL = process.env.SENTRY_URL;
 let GA_TRACKING_CODE = process.env.GA_TRACKING_CODE;
+let WRAP_RESPONSE = process.env.WRAP_RESPONSE;
 
 // Trimming ' character from title and description
 if (projectTitle.charAt(0) === "'") {
@@ -62,8 +69,11 @@ let envConfigFile = `
 export const environment = { 
     apiUrl: '${apiUrl}',
     authApiUrl: '${authApiUrl}',
+    projectVersion: '${projectVersion}',
+    rapydoVersion: '${rapydoVersion}',
     projectTitle: '${projectTitle}',
     projectDescription: '${projectDescription}',
+    enableFooter: '${enableFooter}',
     allowRegistration: '${allowRegistration}',
     allowPasswordReset: '${allowPasswordReset}',
     websocketsUrl: '${websocketsURI}',`;
@@ -76,13 +86,14 @@ for (let key in process.env) {
   }
 }
 envConfigFile += `  
+    WRAP_RESPONSE: '${WRAP_RESPONSE}',
     SENTRY_URL: '${SENTRY_URL}',
     GA_TRACKING_CODE: '${GA_TRACKING_CODE}'
 };
-`
+`;
 fs.writeFile(targetPath, envConfigFile, function (err) {
     if (err) { 
-      console.log(err);
+      print.error(err);
     }
   }
 );

@@ -49,7 +49,7 @@ import 'core-js/es/weak-set';
 */
 
 /** IE10 and IE11 requires the following for NgClass support on SVG elements */
-// import 'classlist.js';  // Run `npm install --save classlist.js`.
+// import 'classlist.js';
 import 'angular-polyfills/dist/classlist.js';
 
 /**
@@ -57,7 +57,7 @@ import 'angular-polyfills/dist/classlist.js';
  * Only required if AnimationBuilder is used within the application and using IE/Edge or Safari.
  * Standard animation support in Angular DOES NOT require any polyfills (as of Angular 6.0).
  **/
-// import 'web-animations-js';  // Run `npm install --save web-animations-js`.
+// import 'web-animations-js';
 
 /**
  * By default, zone.js will patch all possible macroTask and DomEvents
@@ -94,10 +94,6 @@ import "core-js/proposals/reflect-metadata";
 import 'zone.js/dist/zone';
 import 'zone.js/dist/long-stack-trace-zone';
 
-// required by libs like exceljs or maybe babel
-// This tries to evaluate strings as JavaScript and it is blocked by Content Security Policy directives...
-import "regenerator-runtime/runtime";
-
 /** APPLICATION IMPORTS */
 
 // import 'angular-polyfills/dist/all.js';
@@ -115,3 +111,7 @@ if (typeof (window as any).global === 'undefined') {
   (window as any).global = window;
   //(window as any)['global'] = window;
 }
+
+// Angular 9 introduced a global $localize() function that needs to be loaded.
+// Please add import '@angular/localize'; to your polyfills.ts file.
+import '@angular/localize/init';

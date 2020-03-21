@@ -1,4 +1,4 @@
-import { NgModule, ModuleWithProviders, Injectable } from '@angular/core';
+import { NgModule, ModuleWithProviders, Injectable, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormControl } from '@angular/forms';
 import { ReactiveFormsModule, ValidationErrors } from '@angular/forms';
@@ -26,9 +26,12 @@ import { TermsOfUseCheckbox } from '@rapydo/components/forms/terms_of_use_checkb
 import { DatePickerComponent } from '@rapydo/components/forms/datepicker.component';
 import { DatePickerValueAccessor } from '@rapydo/components/forms/datepicker.directive';
 
+import { NgxSpinnerModule } from "ngx-spinner";
+
 import { IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe } from '@rapydo/pipes/pipes';
 import { SecurePipe } from '@rapydo/pipes/secure';
 import { BasePaginationComponent } from '@rapydo/components/base.pagination.component';
+// loading component is deprecated since 0.7.3
 import { LoadingComponent } from '@rapydo/components/loading/loading';
 
 export function emailValidator(control: FormControl): ValidationErrors {
@@ -107,37 +110,31 @@ export function maxValidationError(error, field) {
 }
 
 
-// Warning: Can't resolve all parameters for MomentDateFormatter in rapydo.module.ts
-// This will become an error in Angular v6.x
-// Something due to @Injectable decorator and abstract class
-// Several similar issues reported, for example:
-// https://github.com/angular/angular/issues/24414
-// Class defined here:
-// https://github.com/ng-bootstrap/ng-bootstrap/blob/master/src/datepicker/ngb-date-parser-formatter.ts
+// ngbDatepicker uses { year: 'yyyy', month: 'mm', day: 'dd'} as date format by default
+// this adpter allow ngbDatepicker to accept js native Dates
 @Injectable()
 export class MomentDateFormatter extends NgbDateParserFormatter {
 
-  constructor(private DT_FORMAT: string) {
-    super();
-  }
-
+  // Convert a string formatted as 'DD/MM/YYYY' into {year: 'yyyy', month: 'mm', day:}
   parse(value: string): NgbDateStruct {
     if (value) {
       value = value.trim();
-      let mdt = moment(value, this.DT_FORMAT)
+      let mdt = moment(value, 'DD/MM/YYYY')
       return {
         year: mdt.year(),
         month: 1 + mdt.month(),
-        day: mdt.day()
+        day: mdt.date()
       };
     }
     return null;
   }
+
+  // Convert {year: 'yyyy', month: 'mm', day:} 'dd' into DD/MM/YYYY
   format(date: NgbDateStruct): string {
     if (!date) return '';
     let mdt = moment([date.year, date.month - 1, date.day]);
     if (!mdt.isValid()) return '';
-    return mdt.format(this.DT_FORMAT);
+    return mdt.format('DD/MM/YYYY');
   }
 }
 
@@ -158,6 +155,7 @@ let module_imports:any = [
   ),
   UploadxModule,
   ClipboardModule,
+  NgxSpinnerModule,
   FormlyBootstrapModule,
   FormlyModule.forRoot({
     wrappers: [
@@ -218,6 +216,7 @@ let module_exports = [
   FormlyModule,
   UploadxModule,
   ClipboardModule,
+  NgxSpinnerModule,
 
   IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe,
   SecurePipe,
@@ -228,7 +227,7 @@ let module_exports = [
 
 let module_providers:any = [
   { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
-  { provide: NgbDateParserFormatter, useValue: new MomentDateFormatter('DD/MM/YYYY') }
+  { provide: NgbDateParserFormatter, useValue: new MomentDateFormatter() }
 ];
 
 @NgModule({
@@ -236,9 +235,10 @@ let module_providers:any = [
   declarations: module_declarations,
   exports: module_exports,
   providers: module_providers,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class SharedModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<SharedModule> {
     return {
       ngModule: SharedModule,
   	  providers: module_providers,

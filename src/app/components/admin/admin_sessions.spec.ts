@@ -1,12 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AppModule } from '@rapydo/app.module';
-import { AdminUsersComponent } from '@rapydo/components/admin/admin_users';
+import { AdminSessionsComponent } from '@rapydo/components/admin/admin_sessions';
 import { AdminModule } from '@rapydo/components/admin/admin.module';
 
-describe('AdminUsersComponent', () => {
-  let component: AdminUsersComponent;
-  let fixture: ComponentFixture<AdminUsersComponent>;
+describe('AdminSessionsComponent', () => {
+  let component: AdminSessionsComponent;
+  let fixture: ComponentFixture<AdminSessionsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -14,7 +14,7 @@ describe('AdminUsersComponent', () => {
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AdminUsersComponent);
+    fixture = TestBed.createComponent(AdminSessionsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

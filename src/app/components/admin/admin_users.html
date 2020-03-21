@@ -5,16 +5,14 @@
 
 <div class='card'>
 <div class='card-header'>
-	<h4 class='panel-title'>
+	<h4>
 		<i class='fa fa-users'></i> Users list
 	</h4>
 </div>
 
 <div class='card-block'>
 
-<loading *ngIf="loading"></loading>
-
-<div class="table-responsive" *ngIf="!loading">
+<div class="table-responsive">
 
 	<div class='container-fluid'>
 	<div class='row'>
@@ -35,6 +33,7 @@
 	</div>
 	</div>
 	<div class="table-wrapper" #tableWrapper>
+	<ngx-spinner [fullScreen] = "false"></ngx-spinner>
 	<ngx-datatable
         class="bootstrap"
         [rows]="data"
@@ -52,9 +51,13 @@
 
 		<span
 			class='badge badge-info' style='margin-right:3px;'
-			ngbTooltip="{{role['value']['description']}}"
-			*ngFor="let role of value | iterate">
-			{{role['value']['description']}}
+			*ngFor="let role of value | keyvalue">
+			<span *ngIf='role.value.description != "automatic"'>
+				{{role.value.description}}
+			</span>
+			<span *ngIf='role.value.description == "automatic"'>
+				{{role.value.name}}
+			</span>
 		</span>	
 
 	</ng-template>
@@ -101,14 +104,16 @@
 	</ng-template>
 
 	<ng-template #controlsCell let-row="row" let-value="value" let-i="index">
-		<i class='fa fa-edit fa-large' #icon_element (click)='update(row, icon_element)'></i>
+		<i class='fa fa-edit fa-large'
+		   ngbTooltip="Edit this user"
+		   (click)='update(row)'></i>
 		<i 
 			class='fa fa-trash fa-large' style='color:red;'
 			mwlConfirmationPopover
 			[popoverTitle]="'Confirmation required'"
 			[popoverMessage]="'Are you really sure you want to delete this user?'"
 	        placement="left"
-			(confirm)="remove(row.id)"
+			(confirm)="remove(row.uuid)"
 		></i>
 	</ng-template>
 
@@ -131,7 +136,6 @@
 	  </div>
 
 	</ng-template>
-
 
 </div>
 </div>

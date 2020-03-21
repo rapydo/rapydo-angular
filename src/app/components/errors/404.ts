@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'error404',
   templateUrl: `404.html`
 })
 export class Error404Component {

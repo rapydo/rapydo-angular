@@ -5,10 +5,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { environment } from '@rapydo/../environments/environment';
 
-export interface ApiResponse {
-  errors: string[];
-}
-
 @Injectable()
 export class ApiService {
 
@@ -19,18 +15,19 @@ export class ApiService {
   public is_online(): boolean {
     return ApiService.is_online;
   }
-  public set_online() {
+  public set_online(): boolean {
 
     ApiService.is_online = true;
     return ApiService.is_online;
 
   }
-  public set_offline() {
+  public set_offline(): boolean{
 
     ApiService.is_online = false;
     return ApiService.is_online;
 
   }
+
   private opt(dict, value, defaultValue) {
     if (value in dict) {
       return dict[value];
@@ -38,6 +35,7 @@ export class ApiService {
       return defaultValue;
     }
   }
+
   public get(endpoint: string, id="", data={}, options={}) {
     let formData = this.opt(options, "formData", undefined);
     let conf = this.opt(options, "conf", undefined);
@@ -45,6 +43,7 @@ export class ApiService {
     let rawResponse = this.opt(options, "rawResponse", undefined);
     return this.call("GET", endpoint, id, data, formData, conf, base, rawResponse);
   }
+
   public post(endpoint: string, data={}, options={}) {
     let formData = this.opt(options, "formData", undefined);
     let conf = this.opt(options, "conf", undefined);
@@ -53,6 +52,7 @@ export class ApiService {
 
     return this.call("POST", endpoint, "", data, formData, conf, base, rawResponse)
   }
+
   public put(endpoint: string, id="", data={}, options={}) {
     let formData = this.opt(options, "formData", undefined);
     let conf = this.opt(options, "conf", undefined);
@@ -60,6 +60,7 @@ export class ApiService {
     let rawResponse = this.opt(options, "rawResponse", undefined);
     return this.call("PUT", endpoint, id, data, formData, conf, base, rawResponse)
   }
+
   public patch(endpoint: string, id="", data={}, options={}) {
     let formData = this.opt(options, "formData", undefined);
     let conf = this.opt(options, "conf", undefined);
@@ -67,6 +68,7 @@ export class ApiService {
     let rawResponse = this.opt(options, "rawResponse", undefined);
     return this.call("PATCH", endpoint, id, data, formData, conf, base, rawResponse)
   }
+
   public delete(endpoint: string, id="", options={}) {
     let formData = this.opt(options, "formData", undefined);
     let conf = this.opt(options, "conf", undefined);
@@ -75,7 +77,7 @@ export class ApiService {
     return this.call("DELETE", endpoint, id, {}, formData, conf, base, rawResponse)
   }
 
-  private call(
+  protected call(
     method:string, endpoint: string, id="", data={},
     formData=false, conf={}, base='api', rawResponse=false) {
 
@@ -89,23 +91,25 @@ export class ApiService {
       ep += "/" + id;
     }
 
-    let contentType = 'application/json';
+    let contentType;
     if (formData) {
       contentType = 'application/x-www-form-urlencoded';
+    } else {
+      contentType = 'application/json';
     }
 
     let options = {
+      timeout: 30000,
       headers: new HttpHeaders({
         'Content-Type': contentType,
         'Accept': 'application/json'
       })
     };
-    options["timeout"] = 30000;
     for (let k in conf) {
         options[k] = conf[k]
     }
 
-    let httpCall = undefined;
+    let httpCall;
     if (method == "GET") {
       options["params"] = data;
       httpCall = this.http.get(ep, options);
@@ -118,7 +122,7 @@ export class ApiService {
     } else if (method == "DELETE") {
       httpCall = this.http.delete(ep, options);
     } else {
-      console.log("API ERROR, unknown method: " + method);
+      console.error("Unknown API method: " + method);
       return false;
     }
 
@@ -126,21 +130,15 @@ export class ApiService {
       map(response => {
 
         this.set_online();
-        //$log.debug("API call successful");
+        // once remove wrapped responses rawResponse will be deprecated
         if (rawResponse) return response;
 
-        return response["Response"];
+        if (response["Response"]) return response["Response"];
+        return response
       }),
       catchError(error => {
         if (error.status == null && error.error == null) {
           // 204 empty responses
-          /* 
-            response = {}
-            response.Meta = {}
-            response.Meta.status = 204
-            response.Response = {}
-            response.Response.data = ""
-          */
           return of("");
         }
         // Note that Chrome also returns status 0 in case of CORS issues.
@@ -155,56 +153,30 @@ export class ApiService {
           this.set_online();
         }
 
-        if (rawResponse) return throwError(error);
-        return throwError(error.error)
+        if (rawResponse) return throwError(error);        
+        // This is a HttpErrorResponse
+        if (error.error) {
+          if (error.error instanceof ProgressEvent) {
+            if (error.message.startsWith("Http failure response for ")) {
+              // strip off the URL
+              return throwError("Http request failed: unknown error");
+            }
+            return throwError(error.message);
+          }
+          
+          return throwError(error.error);
+        }
+        // This is a 'normal' error
+        return throwError(error);
       })
     );
   }
 
-  public parseElement(element) {
-
-    let newelement = null;
-    if (element.hasOwnProperty('attributes')) {
-      newelement = element.attributes;
-    } else {
-      newelement = element;
-    }
-
-    if (element.hasOwnProperty('id')) {
-      newelement.id = element.id;
-    }
-
-    if (element.hasOwnProperty('relationships')) {
-      for (let key in element.relationships) {
-        let subelement = element.relationships[key]
-        let k = '_'+key;
-        if (subelement.length == 1) {
-          newelement[k] = [this.parseElement(subelement[0])];
-        } else {
-          newelement[k] = [];
-          for (let i=0; i<subelement.length; i++) {
-            newelement[k].push(this.parseElement(subelement[i]));
-          }
-        }
-      }
-    }
-
-    return newelement;
-  }
-
   public parseResponse(response) {
 
-    if (!response || !response.length) {
-      return response;
-    }
-
-    let newresponse = []
-    for (let i=0; i<response.length; i++) {
-      let element = this.parseElement(response[i]);
-
-      newresponse.push(element);
-    }
-    return newresponse;
+    // deprecated since 0.7.3
+    console.warn("Obsolete use of parseResponse");
+    return response;
   }
 
 }

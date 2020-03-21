@@ -1,20 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AppModule } from '@rapydo/app.module';
-import { Error404Component } from '@rapydo/components/errors/404';
-import { PageNotFoundModule } from '@rapydo/components/errors/404.module';
+import { AppComponent } from '@rapydo/app.component';
 
-describe('Error404Component', () => {
-  let component: Error404Component;
-  let fixture: ComponentFixture<Error404Component>;
+describe('AppComponent', () => {
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule, PageNotFoundModule]
+      imports: [AppModule]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(Error404Component);
+    fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

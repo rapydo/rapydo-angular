@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { environment } from '@rapydo/../environments/environment';
 
 import { ApiService } from '@rapydo/services/api';
-import { AuthService } from '@rapydo/services/auth';
+import { AuthService, User } from '@rapydo/services/auth';
 
 @Component({
   selector: 'navbar',
@@ -13,7 +13,7 @@ import { AuthService } from '@rapydo/services/auth';
 })
 export class NavbarComponent implements OnInit {
 
-  public user: any;
+  public user: User;
   public loading: boolean = true;
 
   public allowRegistration: boolean = false;
@@ -63,16 +63,14 @@ export class NavbarComponent implements OnInit {
   changeLogged(user: any) {
 
     if (user == this.auth.LOGGED_OUT) {
-      /*console.log("Received <" + user  + "> event");*/
-      this.user = undefined;
+      this.user = null;
       this.ref.detectChanges();
 
     } else if (user == this.auth.LOGGED_IN) {
-      /*console.log("Received <" + user  + "> event");*/
       this.user = this.auth.getUser();
 
     } else {
-      console.log("Received unknown user event: <" + user  + ">");
+      console.warn("Received unknown user event: <" + user  + ">");
     }
 
   }
