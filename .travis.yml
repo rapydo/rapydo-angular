@@ -13,6 +13,8 @@ script:
   - cd rapydo_tests
   # - docker-compose up --exit-code-from cypress
   - docker-compose exec -d backend restapi start
+  - sleep 10
+  - docker-compose logs --tail 100 backend
   - docker-compose up --exit-code-from frontend
 
   # - docker-compose up -d frontend
