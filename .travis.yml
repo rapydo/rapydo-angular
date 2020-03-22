@@ -7,7 +7,7 @@ services:
 - docker
 env:
 - PROJECT=sql
-- PROJECT=wrapped_response
+- PROJECT=wrappedresponse
 
 script:
   - scripts/tests.sh
