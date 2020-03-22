@@ -200,7 +200,6 @@ export class LoginComponent implements OnInit {
                             this.router.navigate([this.returnUrl]);
                         }
 
-                        this.notify.extractErrors(response, this.notify.WARNING);
                     }, 
                     error => {
                         if (error.status == 0) {
@@ -288,13 +287,19 @@ export class LoginComponent implements OnInit {
                 } else if (error.status == 404) {
                     this.notify.showError("Unable to login due to a server error. If this error persists please contact system administrators");
 
-                } else {
-                    if (error.error && error.error.Response) {
+                } else if (error.error) {
+                    // WRAPPED_RESPONSE
+                    if (error.error.Response) {
                         if (error.error.Response.errors[0] == "Sorry, this account is not active") {
                             this.account_not_active = true;
                         }
+                        this.notify.extractErrors(error.error.Response, this.notify.ERROR);
+                    } else {
+                        if (error.error == "Sorry, this account is not active") {
+                            this.account_not_active = true;
+                        }
+                        this.notify.extractErrors(error.error, this.notify.ERROR);
                     }
-                    this.notify.extractErrors(error.error.Response, this.notify.ERROR);
                 }
 
                 this.loading = false;
@@ -308,7 +313,6 @@ export class LoginComponent implements OnInit {
             (response:any) => {
                 this.account_not_active = false;
                 this.notify.showSuccess(response.Response.data);
-                this.notify.extractErrors(response, this.notify.WARNING);
             }, error => {
                 this.notify.extractErrors(error.error.Response, this.notify.ERROR);
             }
