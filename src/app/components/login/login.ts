@@ -168,7 +168,6 @@ export class LoginComponent implements OnInit {
         this.loading = true;
         this.authService.login(this.model.username, this.model.password, this.model.new_password, this.model.password_confirm).subscribe(
             data => {
-
                 this.authService.loadUser().subscribe(
                     response => {
                         this.loading = false;
@@ -215,6 +214,7 @@ export class LoginComponent implements OnInit {
                 );
             },
             error => {
+                console.log(error);
                 if (error.status == 0) {
                     this.router.navigate(["/offline"]);
 

@@ -33,13 +33,18 @@ export class AuthService {
 
     return this.http.post<any>(environment.authApiUrl + '/login', data).pipe(map(
       response => {
-        if (response && response.Response && response.Response.data && response.Response.data.token) {
-          this.clean_localstorage();
-          this.setToken(JSON.stringify(response.Response.data.token));
+        if (!response) return response;
+
+        // WRAPPED_RESPONSE
+        if (response.Response && response.Response.data && response.Response.data.token) {
+          response = response.Response.data.token;
         }
 
+        this.clean_localstorage();
+        this.setToken(JSON.stringify(response));
         return response;
-      }));
+      }
+    ));
   }
 
   public logout() {
@@ -87,18 +92,22 @@ export class AuthService {
 
     return this.http.get<any>(environment.authApiUrl + '/profile').pipe(map(
       response => {
-        if (response && response.Response && response.Response.data) {
+        if (!response) return response
+
+        // WRAPPED_RESPONSE
+        if (response.Response && response.Response.data) {
+          response = response.Response.data;
+        }
 
           // Conversion roles list into roles dict to simplify checks
 /*          let roles_dict = {}
-          for (let i=0; i<response.Response.data.roles.length; i++) {
-            let r = response.Response.data.roles[i];
+          for (let i=0; i<response.roles.length; i++) {
+            let r = response.roles[i];
             roles_dict[r] = r
           }
-          response.Response.data.roles = roles_dict
+          response.roles = roles_dict
 */
-          this.setUser(JSON.stringify(response.Response.data));
-        }
+        this.setUser(JSON.stringify(response));
 
         return response;
       }, error => {

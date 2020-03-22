@@ -26,20 +26,19 @@ export class SessionsComponent {
 
   constructor(private api: ApiService, private auth: AuthService, private notify: NotificationService) {
 
-      // this.user = auth.getUser();
-        this.loadTokens();
-        this.currentToken = this.auth.getToken();
-
+    this.loadTokens();
+    this.currentToken = this.auth.getToken();
 
   }
 
   loadTokens() {
     this.api.get('tokens', "", [], {"base": "auth"}).subscribe(
-          response => {
-            this.tokens = response.data
-          }
-       );
-
+      response => {
+        // WRAPPED_RESPONSE
+        if (response.data) response = response.data;
+        this.tokens = response
+      }
+   );
   }
 
   revokeToken(id) {

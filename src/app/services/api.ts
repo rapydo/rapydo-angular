@@ -126,21 +126,15 @@ export class ApiService {
       map(response => {
 
         this.set_online();
-        //$log.debug("API call successful");
         if (rawResponse) return response;
 
-        return response["Response"];
+        if (response["Response"]) return response["Response"];
+        return response
       }),
       catchError(error => {
+        console.log(error);
         if (error.status == null && error.error == null) {
           // 204 empty responses
-          /* 
-            response = {}
-            response.Meta = {}
-            response.Meta.status = 204
-            response.Response = {}
-            response.Response.data = ""
-          */
           return of("");
         }
         // Note that Chrome also returns status 0 in case of CORS issues.
@@ -156,7 +150,8 @@ export class ApiService {
         }
 
         if (rawResponse) return throwError(error);
-        return throwError(error.error)
+        if (error.error) return throwError(error.error)
+        return throwError(error)
       })
     );
   }
