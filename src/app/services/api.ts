@@ -132,7 +132,6 @@ export class ApiService {
         return response
       }),
       catchError(error => {
-        console.log(error);
         if (error.status == null && error.error == null) {
           // 204 empty responses
           return of("");

@@ -131,7 +131,6 @@ export class ChangePasswordComponent {
             this.auth.loadUser().subscribe(
               response => {
                 this.router.navigate(['']);
-                this.notify.extractErrors(response, this.notify.WARNING);
               }, 
               error => {
                 if (error.status == 0) {

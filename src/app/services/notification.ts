@@ -15,6 +15,8 @@ export class NotificationService {
   public extractErrors = function(response: ApiResponse, type: number) {
     if (response && response.errors)
       return this.showAll(response.errors, type);
+    else if (response)
+      return this.showAll([response], type);
   }
   public showAll = function(messages: string[], type: number) {
     if (messages)

@@ -229,9 +229,9 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
     }
     return this.api.get(this.counter_endpoint, "", data).subscribe(
       response => {
-        let result = this.api.parseResponse(response.data);
-
-        this.notify.extractErrors(response, this.notify.WARNING);
+        // WRAPPED_RESPONSE
+        if (response.data) response = response.data;
+        let result = this.api.parseResponse(response);
 
         let t = 0
         if ("total" in result) {
@@ -271,14 +271,15 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
     this.loading = true;
     return this.api.get(endpoint, "", data).subscribe(
       response => {
-        this.data = this.api.parseResponse(response.data);
+        // WRAPPED_RESPONSE
+        if (response.data) response = response.data;
+        this.data = this.api.parseResponse(response);
         this.unfiltered_data = this.data;
         if (!this.server_side_pagination) {
           this.updatePaging(this.data.length);
           this.changePage(this.paging.page, this.data);
         }
 
-        this.notify.extractErrors(response, this.notify.WARNING);
         this.loading = false;
         this.updating = false;
 
@@ -319,7 +320,9 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
 
     return apiCall.subscribe(
       response => {
-        let data = this.formly.json2Form(response.data, {});
+        // WRAPPED_RESPONSE
+        if (response.data) response = response.data;
+        let data = this.formly.json2Form(response, {});
         data = this.form_customizer(data, "post")
 
         this.modalTitle = "Create a new " + this.resource_name;
@@ -348,7 +351,9 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
 
     return apiCall.subscribe(
       response => {
-        let data = this.formly.json2Form(response.data, row);
+        // WRAPPED_RESPONSE
+        if (response.data) response = response.data;
+        let data = this.formly.json2Form(response, row);
         data = this.form_customizer(data, "put")
         this.modalTitle = "Update " + this.resource_name;
         this.fields = data.fields;
