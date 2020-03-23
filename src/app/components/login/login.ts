@@ -218,7 +218,11 @@ export class LoginComponent implements OnInit {
 
                 } else if (error.status == 409) {
 
-                    this.notify.extractErrors(error.error.Response, this.notify.ERROR);
+                    // WRAPPED_RESPONSE
+                    if (error.error.Response) {
+                        error = error.error.Response;
+                    }
+                    this.notify.extractErrors(error, this.notify.ERROR);
 
                 } else if (error.status == 403) {
 
@@ -320,7 +324,11 @@ export class LoginComponent implements OnInit {
                 this.account_not_active = false;
                 this.notify.showSuccess(response.Response.data);
             }, error => {
-                this.notify.extractErrors(error.error.Response, this.notify.ERROR);
+                // WRAPPED_RESPONSE
+                if (error.error.Response) {
+                    error = error.error.Response;
+                }
+                this.notify.extractErrors(error, this.notify.ERROR);
             }
         );
 

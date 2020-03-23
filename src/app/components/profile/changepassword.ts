@@ -149,7 +149,12 @@ export class ChangePasswordComponent {
         if (error.status == 401) {
            this.notify.showError("Your request cannot be authorized, is current password wrong?");
         } else {
-          this.notify.extractErrors(error.error.Response, this.notify.ERROR);
+          console.log(error);
+          // WRAPPED_RESPONSE
+          if (error.error.Response) {
+            error = error.error.Response;
+          }
+          this.notify.extractErrors(error, this.notify.ERROR);
         }
       }
     );
