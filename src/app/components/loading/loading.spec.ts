@@ -18,7 +18,7 @@ describe('LoadingComponent', () => {
     fixture.detectChanges();
   }));
 
-  it('should create', () => {
+  it('component initialization', () => {
     expect(component).toBeDefined();
   });
 
