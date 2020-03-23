@@ -7,8 +7,7 @@ describe('OfflineComponent', () => {
   let component: OfflineComponent;
   let fixture: ComponentFixture<OfflineComponent>;
 
-  // beforeEach(async(() => {
-  beforeEach(() => {
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [AppModule]
     })

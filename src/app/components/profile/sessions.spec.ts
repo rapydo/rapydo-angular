@@ -8,8 +8,7 @@ describe('SessionsComponent', () => {
   let component: SessionsComponent;
   let fixture: ComponentFixture<SessionsComponent>;
 
-  // beforeEach(async(() => {
-  beforeEach(() => {
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [AppModule, ProfileModule]
     })

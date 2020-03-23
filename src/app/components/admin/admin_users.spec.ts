@@ -8,8 +8,7 @@ describe('AdminUsersComponent', () => {
   let component: AdminUsersComponent;
   let fixture: ComponentFixture<AdminUsersComponent>;
 
-  // beforeEach(async(() => {
-  beforeEach(() => {
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [AppModule, AdminModule]
     })

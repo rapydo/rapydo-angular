@@ -8,8 +8,7 @@ describe('Error404Component', () => {
   let component: Error404Component;
   let fixture: ComponentFixture<Error404Component>;
 
-  // beforeEach(async(() => {
-  beforeEach(() => {
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [AppModule, PageNotFoundModule]
     })
