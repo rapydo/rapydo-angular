@@ -17,7 +17,7 @@ describe('ChangePasswordComponent', () => {
     fixture = TestBed.createComponent(ChangePasswordComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
+  }));
 
   it('should create', () => {
     expect(component).toBeDefined();

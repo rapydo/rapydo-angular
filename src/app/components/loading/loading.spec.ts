@@ -16,7 +16,7 @@ describe('LoadingComponent', () => {
     fixture = TestBed.createComponent(LoadingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
+  }));
 
   it('should create', () => {
     expect(component).toBeDefined();
