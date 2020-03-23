@@ -8,14 +8,13 @@ describe('SessionsComponent', () => {
   let component: SessionsComponent;
   let fixture: ComponentFixture<SessionsComponent>;
 
-  beforeEach(async(() => {
+  // beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppModule, ProfileModule]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SessionsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

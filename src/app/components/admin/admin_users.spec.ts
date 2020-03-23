@@ -8,14 +8,13 @@ describe('AdminUsersComponent', () => {
   let component: AdminUsersComponent;
   let fixture: ComponentFixture<AdminUsersComponent>;
 
-  beforeEach(async(() => {
+  // beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppModule, AdminModule]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(AdminUsersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

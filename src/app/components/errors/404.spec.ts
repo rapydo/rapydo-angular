@@ -8,24 +8,21 @@ describe('Error404Component', () => {
   let component: Error404Component;
   let fixture: ComponentFixture<Error404Component>;
 
-  beforeEach(async(() => {
+  // beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppModule, PageNotFoundModule]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(Error404Component);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-/*
   it('should create', () => {
     expect(component).toBeDefined();
   });
-*/
 
 });
 
