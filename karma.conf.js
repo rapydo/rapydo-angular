@@ -10,6 +10,7 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
+      require('karma-spec-reporter'),
       require('@angular-devkit/build-angular/plugins/karma')
     ],
     client: {
@@ -25,7 +26,7 @@ module.exports = function (config) {
       // Omit files with no statements, no functions and no branches from the report
       skipFilesWithNoCoverage: true
     },
-    reporters: ['progress', 'kjhtml', 'coverage-istanbul'],
+    reporters: ['spec', 'kjhtml', 'coverage-istanbul'],
     hostname: '0.0.0.0',
     port: 9876,
     colors: true,
