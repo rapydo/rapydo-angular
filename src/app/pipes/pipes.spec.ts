@@ -17,7 +17,7 @@ describe('Pipes', () => {
     yesno_pipe = new YesNoPipe();
   });
 
-  it('providing no value returns fallback', () => {
+  it('BytesPipe', () => {
     expect(bytes_pipe.transform(0)).toBe("0");
     expect(bytes_pipe.transform(-1)).toBe("-");
     expect(bytes_pipe.transform(10)).toBe("10 bytes");
@@ -28,11 +28,15 @@ describe('Pipes', () => {
     // expect(bytes_pipe.transform(1,125899906842624e+16‬)).toBe("10 PB");
 
     // expect(bytes_pipe.transform({'a': 1, 'b': 2})).toBe([{'key': 'a', value: 1}, {'key': 'b', value: 2}]);
+  });
 
+  it('BooleanFlagPipe', () => {
     expect(boolean_pipe.transform(true)).toBe("<i class='fas fa-check fa-large fa-green'></i>");
     expect(boolean_pipe.transform(false)).toBe("<i class='fas fa-times fa-large fa-red'></i>");
     expect(boolean_pipe.transform("XYZ")).toBe("XYZ");
+  });
 
+  it('YesNoPipe', () => {
     expect(yesno_pipe.transform(true)).toBe("YES");
     expect(yesno_pipe.transform(false)).toBe("NO");
     expect(yesno_pipe.transform("XYZ")).toBe("XYZ");

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { ApiService } from '../../services/api';
 import { AuthService } from '../../services/auth';
@@ -9,7 +9,7 @@ import { NotificationService} from '../../services/notification';
   providers: [ApiService, AuthService, NotificationService],
   templateUrl: 'sessions.html'
 })
-export class SessionsComponent { 
+export class SessionsComponent implements OnInit { 
 
   private confirmationTitle = "Confirmation required";
   private confirmationMessage = `
@@ -24,7 +24,13 @@ export class SessionsComponent {
   public tokens: any
   public currentToken: string;
 
-  constructor(private api: ApiService, private auth: AuthService, private notify: NotificationService) {
+  constructor(
+    private api: ApiService,
+    private auth: AuthService,
+    private notify: NotificationService
+  ) { }
+
+  public ngOnInit(): void {
 
     this.loadTokens();
     this.currentToken = this.auth.getToken();
@@ -34,9 +40,11 @@ export class SessionsComponent {
   loadTokens() {
     this.api.get('tokens', "", [], {"base": "auth"}).subscribe(
       response => {
-        // WRAPPED_RESPONSE
-        if (response.data) response = response.data;
-        this.tokens = response
+        if (response) {
+          // WRAPPED_RESPONSE
+          if (response.data) response = response.data;
+          this.tokens = response
+        }
       }
    );
   }
