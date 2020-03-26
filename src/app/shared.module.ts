@@ -117,14 +117,10 @@ export function maxValidationError(error, field) {
 @Injectable()
 export class MomentDateFormatter extends NgbDateParserFormatter {
 
-  constructor(private DT_FORMAT: string) {
-    super();
-  }
-
   parse(value: string): NgbDateStruct {
     if (value) {
       value = value.trim();
-      let mdt = moment(value, this.DT_FORMAT)
+      let mdt = moment(value, 'DD/MM/YYYY')
       return {
         year: mdt.year(),
         month: 1 + mdt.month(),
@@ -137,7 +133,7 @@ export class MomentDateFormatter extends NgbDateParserFormatter {
     if (!date) return '';
     let mdt = moment([date.year, date.month - 1, date.day]);
     if (!mdt.isValid()) return '';
-    return mdt.format(this.DT_FORMAT);
+    return mdt.format('DD/MM/YYYY');
   }
 }
 
@@ -228,7 +224,7 @@ let module_exports = [
 
 let module_providers:any = [
   { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
-  { provide: NgbDateParserFormatter, useValue: new MomentDateFormatter('DD/MM/YYYY') }
+  { provide: NgbDateParserFormatter, useValue: new MomentDateFormatter() }
 ];
 
 @NgModule({
