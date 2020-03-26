@@ -47,20 +47,22 @@ export class AppComponent implements OnInit {
     let os_version = deviceInfo.os_version;
     let compatibilityCheck = this.checkCompatibility(browser, version, os, os_version);
 
-    console.log(browser + " (" + version + ") on " + os + " (" + os_version + ")");
+    let device = ""
 
     if (deviceService.isMobile()) {
-      console.log("Running on mobile with compatibility = " + compatibilityCheck);
+      device = "mobile";
     }
     if (deviceService.isTablet()) {
-      console.log("Running on tablet with compatibility = " + compatibilityCheck);
+      device = "tablet";
     }
     if (deviceService.isDesktop()) {
-      console.log("Running on desktop with compatibility = " + compatibilityCheck);
+      device = "desktop";
     }
 
+    console.log(browser + " (" + version + ") on " + os + " " + device + " (" + os_version + ")");
+
     if (!compatibilityCheck) {
-      this.notify.showError("You are using "+browser+" "+version+" on "+os+". We apologize, but your browser is not fully compatible with this website and some or all functionalities may not work.");
+      this.notify.showError("You are using " + browser + " " + version + " on " + os + ". We apologize, but your browser is not fully compatible with this website and some or all functionalities may not work.");
     }
 
   }
