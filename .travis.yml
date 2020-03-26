@@ -12,18 +12,14 @@ env:
 script:
   - scripts/tests.sh
   - cd rapydo_tests
-  # - docker-compose up --exit-code-from cypress
   - docker-compose exec -d backend restapi start
   - sleep 20
   - docker-compose up --exit-code-from frontend
 
-  # - docker-compose up -d frontend
-  # - sleep 120
-  # - docker-compose logs --tail 20
-  # - docker-compose logs --tail 1 frontend 2>&1 | grep "Compiled successfully."
   - docker-compose down
   - cp data/${PROJECT}/karma/lcov.info . 
   - bash <(curl -s https://codecov.io/bash) -R submodules/frontend
 
   - rapydo --production -s frontend start
   - rapydo -s frontend logs --follow
+  - docker-compose logs --tail 1 frontend 2>&1 | grep "Compiled successfully."

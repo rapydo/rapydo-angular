@@ -57,19 +57,3 @@ rapydo pull
 rapydo dump
 
 rapydo start
-# rapydo shell backend --command 'restapi init'
-#rapydo --mode debug remove
-
-# CYPRESS:
-# Let's init and start the stack for the configured PROJECT
-# rapydo --mode cypress init
-
-# rapydo --mode cypress pull
-
-# rapydo --mode cypress dump
-
-# rapydo --mode debug start
-# rapydo --mode debug shell backend --command 'restapi init'
-# rapydo --mode debug remove
-
-# chmod -R -f 777 data/${PROJECT}/frontend || true
