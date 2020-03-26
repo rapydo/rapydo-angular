@@ -10,7 +10,7 @@ env:
 - PROJECT=wrappedresponse
 
 script:
-  - scripts/tests.sh
+  - scripts/init_tests.sh
   - cd rapydo_tests
   - docker-compose exec -d backend restapi start
   - sleep 20
