@@ -115,3 +115,7 @@ if (typeof (window as any).global === 'undefined') {
   (window as any).global = window;
   //(window as any)['global'] = window;
 }
+
+// Angular 9 introduced a global $localize() function that needs to be loaded.
+// Please add import '@angular/localize'; to your polyfills.ts file.
+import '@angular/localize';
