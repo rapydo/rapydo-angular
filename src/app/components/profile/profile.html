@@ -31,6 +31,8 @@
                 </span>
             </td>
         </tr>
+        
+        <ngx-spinner></ngx-spinner>
 
 		<ng-container *ngFor="let row of user | iterate: ['uuid']">
             <ng-container *ngIf="['name', 'surname', 'email', 'password', 'roles'].indexOf(row.key) < 0" [ngSwitch]="row.key">
@@ -42,7 +44,7 @@
 
                 <tr *ngSwitchCase="'isAdmin'">
                     <th>Administrator</th>
-                    <td [innerHTML]="row.value | boolean_flag"></td>
+                    <td [innerHTML]="row.value | boolean_flag" (click)='show()'></td>
                 </tr>
 
                 <tr *ngSwitchCase="'isLocalAdmin'">

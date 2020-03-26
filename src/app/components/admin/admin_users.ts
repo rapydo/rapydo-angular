@@ -1,19 +1,9 @@
-
-import { Component, ViewChild, TemplateRef, ChangeDetectorRef } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
-import { ApiService } from '@rapydo/services/api';
-import { AuthService } from '@rapydo/services/auth';
-import { NotificationService} from '@rapydo/services/notification';
-import { FormlyService } from '@rapydo/services/formly'
+import { Component, ViewChild, TemplateRef, Injector } from '@angular/core';
 
 import { BasePaginationComponent } from '@rapydo/components/base.pagination.component'
 
-import { ProjectOptions } from '@app/custom.project.options';
-
 @Component({
   selector: 'admin-users',
-  providers: [ApiService, AuthService, NotificationService, FormlyService],
   templateUrl: 'admin_users.html'
 })
 export class AdminUsersComponent extends BasePaginationComponent {
@@ -29,17 +19,9 @@ export class AdminUsersComponent extends BasePaginationComponent {
 
   protected endpoint = 'admin/users'
 
-  constructor(
-    protected api: ApiService,
-    protected auth: AuthService,
-    protected notify: NotificationService,
-    protected modalService: NgbModal,
-    protected formly: FormlyService,
-    protected changeDetectorRef: ChangeDetectorRef,
-    private customization: ProjectOptions
-    ) {
+  constructor(protected injector: Injector) {
 
-    super(api, auth, notify, modalService, formly, changeDetectorRef);
+    super(injector);
     this.init("user");
 
     this.list();
@@ -59,14 +41,14 @@ export class AdminUsersComponent extends BasePaginationComponent {
     if (user_page !== null) {
       if (user_page["group"]) {
         this.columns.push({name: 'Group', prop: "_belongs_to", cellTemplate: this.dataGroup, flexGrow: 0.3});
-    }
-
-    if (user_page["custom"]) {
-
-      for (let i=0; i<user_page["custom"].length; i++) {
-        this.columns.push(user_page["custom"][i]);
       }
-    }
+
+      if (user_page["custom"]) {
+
+        for (let i=0; i<user_page["custom"].length; i++) {
+          this.columns.push(user_page["custom"][i]);
+        }
+      }
     }
 
     this.columns.push({name: 'Roles', prop: "_roles", cellTemplate: this.dataRoles, flexGrow: 0.9});

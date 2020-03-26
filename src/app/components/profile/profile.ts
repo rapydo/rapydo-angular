@@ -1,4 +1,3 @@
-
 import { Component } from '@angular/core';
 
 import { ApiService } from '../../services/api';
@@ -13,7 +12,7 @@ export class ProfileComponent {
 
   public user: any
 
-  constructor(api: ApiService, auth: AuthService) {
+  constructor(private api: ApiService, private auth: AuthService) {
 
       this.user = auth.getUser();
 

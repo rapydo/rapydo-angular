@@ -1,8 +1,9 @@
-import { Component, OnInit, AfterViewChecked, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, ViewChild, ChangeDetectorRef, Injector } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup } from '@angular/forms';
 import { FormlyConfig } from '@ngx-formly/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { NgxSpinnerService } from "ngx-spinner";
 
 // can be used to do this:
 //this.myservice = AppModule.injector.get(MyService);
@@ -12,6 +13,7 @@ import { ApiService } from '@rapydo/services/api';
 import { AuthService } from '@rapydo/services/auth';
 import { NotificationService} from '@rapydo/services/notification';
 import { FormlyService } from '@rapydo/services/formly'
+import { ProjectOptions } from '@app/custom.project.options';
 
 // == @swimlane/ngx-datatable/src/types/column-mode.type
 enum ColumnMode {
@@ -25,6 +27,15 @@ enum ColumnMode {
   templateUrl: 'base.pagination.component.html'
 })
 export class BasePaginationComponent implements OnInit, AfterViewChecked {
+
+  protected api: ApiService;
+  protected auth: AuthService;
+  protected notify: NotificationService;
+  protected modalService: NgbModal;
+  protected formly: FormlyService;
+  protected changeDetectorRef: ChangeDetectorRef;
+  protected spinner: NgxSpinnerService;
+  protected customization: ProjectOptions;
 
   public ColumnMode = ColumnMode;
 
@@ -63,15 +74,16 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
   @ViewChild(DatatableComponent, {static: false}) table: DatatableComponent;
   private currentComponentWidth;
 
-  // Could we use @Optional() decorator for any of that parameters?
-  constructor(
-    protected api: ApiService,
-    protected auth: AuthService,
-    protected notify: NotificationService,
-    protected modalService: NgbModal,
-    protected formly: FormlyService,
-    protected changeDetectorRef: ChangeDetectorRef,
-    ) {
+  constructor(protected injector: Injector) {
+
+    this.api = injector.get(ApiService);
+    this.auth = injector.get(AuthService);
+    this.notify = injector.get(NotificationService);
+    this.modalService = injector.get(NgbModal);
+    this.formly = injector.get(FormlyService);
+    this.changeDetectorRef = injector.get(ChangeDetectorRef);
+    this.spinner = injector.get(NgxSpinnerService);
+    this.customization = injector.get(ProjectOptions);
 
   }
   public init(res:string) {
@@ -269,6 +281,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
     }
 
     this.loading = true;
+    this.spinner.show()
     return this.api.get(endpoint, "", data).subscribe(
       response => {
         // WRAPPED_RESPONSE
@@ -281,6 +294,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
         }
 
         this.loading = false;
+        this.spinner.hide()
         this.updating = false;
 
         if (this.server_side_pagination) {
@@ -291,6 +305,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
       }, error => {
             this.notify.extractErrors(error, this.notify.ERROR);
             this.loading = false;
+            this.spinner.hide()
             this.updating = false;
             return this.data;
           }
