@@ -12,7 +12,6 @@
     "gzip": "gzipper --verbose /app/dist",
     "test": "ng test --code-coverage",
     "single-test": "ng test --code-coverage --watch=false",
-    "lint": "ng lint",
     "e2e": "ng e2e"
   },
   "license": "MIT",
@@ -80,9 +79,7 @@
     "jasmine-spec-reporter": "5.0.1",
     "protractor": "5.4.3",
 
-    "codelyzer": "5.2.1",
     "ts-node": "8.6.2",
-    "tslint": "5.20.1",
     "raw-loader": "4.0.0",
 
     "rimraf": "3.0.2",
