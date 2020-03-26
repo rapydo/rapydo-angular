@@ -1,4 +1,4 @@
-import { NgModule, ModuleWithProviders, Injectable } from '@angular/core';
+import { NgModule, ModuleWithProviders, Injectable, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, FormControl } from '@angular/forms';
 import { ReactiveFormsModule, ValidationErrors } from '@angular/forms';
@@ -25,6 +25,8 @@ import { FormlyDescriptiveRadio } from '@rapydo/components/forms/radio-type.comp
 import { TermsOfUseCheckbox } from '@rapydo/components/forms/terms_of_use_checkbox'
 import { DatePickerComponent } from '@rapydo/components/forms/datepicker.component';
 import { DatePickerValueAccessor } from '@rapydo/components/forms/datepicker.directive';
+
+import { NgxSpinnerModule } from "ngx-spinner";
 
 import { IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe } from '@rapydo/pipes/pipes';
 import { SecurePipe } from '@rapydo/pipes/secure';
@@ -154,6 +156,7 @@ let module_imports:any = [
   ),
   UploadxModule,
   ClipboardModule,
+  NgxSpinnerModule,
   FormlyBootstrapModule,
   FormlyModule.forRoot({
     wrappers: [
@@ -214,6 +217,7 @@ let module_exports = [
   FormlyModule,
   UploadxModule,
   ClipboardModule,
+  NgxSpinnerModule,
 
   IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe,
   SecurePipe,
@@ -232,6 +236,7 @@ let module_providers:any = [
   declarations: module_declarations,
   exports: module_exports,
   providers: module_providers,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders<SharedModule> {

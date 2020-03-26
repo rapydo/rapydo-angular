@@ -49,6 +49,7 @@
     "ngx-google-analytics": "8.0.0",
     "@sentry/browser": "5.15.0",
     "ngx-device-detector": "1.4.1",
+    "ngx-spinner": "9.0.1",
 
     "core-js": "3.6.4",
     "zone.js": "0.10.3",
