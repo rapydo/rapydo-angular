@@ -144,7 +144,7 @@ if (environment.production && typeof environment.SENTRY_URL !== 'undefined' &&  
   providers: module_providers,
 })
 export class RapydoModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<RapydoModule> {
     return {
       ngModule: RapydoModule,
   	  providers: module_providers,
