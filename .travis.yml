@@ -24,3 +24,6 @@ script:
   - docker-compose down
   - cp data/${PROJECT}/karma/lcov.info . 
   - bash <(curl -s https://codecov.io/bash) -R submodules/frontend
+
+  - rapydo --production -s frontend start
+  - rapydo -s frontend logs --follow
