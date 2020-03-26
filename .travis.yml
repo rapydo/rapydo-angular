@@ -23,4 +23,4 @@ script:
   - mv prod_projectrc .projectrc
   - rapydo --production -s frontend start
   - rapydo -s frontend logs --follow
-  - docker-compose logs --tail 1 frontend 2>&1 | grep "Compiled successfully."
+  - docker-compose logs --tail 1 frontend 2>&1 | grep "files have been compressed."
