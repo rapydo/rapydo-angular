@@ -33,7 +33,7 @@
     "tslib": "1.10.0",
 
     "bootstrap": "4.4.1",
-    "@ng-bootstrap/ng-bootstrap": "5.2.1",
+    "@ng-bootstrap/ng-bootstrap": "6.0.2",
     "ngx-clipboard": "12.3.0",
     "@ngx-formly/core": "5.5.10",
     "@ngx-formly/bootstrap": "5.5.10",
