@@ -39,7 +39,7 @@
     "moment": "2.24.0",
     "ngx-moment": "3.5.0",
     "angular-confirmation-popover": "4.2.2",
-    "ngx-uploadx": "3.3.3",
+    "ngx-uploadx": "3.3.4",
     "file-saver": "2.0.2",
     "@types/file-saver": "2.0.1",
     "angular2-cookie-law": "7.0.1",
