@@ -20,6 +20,7 @@ script:
   - cp data/${PROJECT}/karma/lcov.info . 
   - bash <(curl -s https://codecov.io/bash) -R submodules/frontend
 
+  - mv prod_projectrc .projectrc
   - rapydo --production -s frontend start
   - rapydo -s frontend logs --follow
   - docker-compose logs --tail 1 frontend 2>&1 | grep "Compiled successfully."

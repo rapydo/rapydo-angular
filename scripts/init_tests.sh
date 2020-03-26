@@ -33,8 +33,13 @@ echo "project_configuration:" >> .projectrc
 echo "  variables:" >> .projectrc
 echo "    env:" >> .projectrc
 echo "      APP_MODE: test" >> .projectrc
-echo "      AUTH_DEFAULT_USERNAME: test@test.te" >> .projectrc
-echo "      AUTH_DEFAULT_PASSWORD: test" >> .projectrc
+
+echo "project: ${PROJECT}" > prod_projectrc
+echo "project_configuration:" >> prod_projectrc
+echo "  variables:" >> prod_projectrc
+echo "    env:" >> prod_projectrc
+echo "      AUTH_DEFAULT_USERNAME: test@test.te" >> prod_projectrc
+echo "      AUTH_DEFAULT_PASSWORD: test" >> prod_projectrc
 # Defined in travis settings
 # echo "      COVERALLS_REPO_TOKEN: ${COVERALLS_REPO_TOKEN}" >> .projectrc
 
