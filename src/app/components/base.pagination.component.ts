@@ -265,11 +265,11 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
     return form;
   }
 
-  protected loading() {
+  protected set_loading() {
     this.loading = true;
     this.spinner.show()
   }
-  protected unloading() {
+  protected set_unloading() {
     this.loading = false;
     this.spinner.hide();
   }
@@ -285,7 +285,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
       data = {}
     }
 
-    this.loading()
+    this.set_loading()
     return this.api.get(endpoint, "", data).subscribe(
       response => {
         // WRAPPED_RESPONSE
@@ -297,7 +297,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
           this.changePage(this.paging.page, this.data);
         }
 
-        this.unloading();
+        this.set_();
         this.updating = false;
 
         if (this.server_side_pagination) {
@@ -307,7 +307,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
         }
       }, error => {
             this.notify.extractErrors(error, this.notify.ERROR);
-            this.unloading();
+            this.set_();
             this.updating = false;
             return this.data;
           }
