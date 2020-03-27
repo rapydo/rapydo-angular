@@ -18,12 +18,9 @@ import { ProjectOptions } from '@app/custom.project.options';
 export class AppComponent implements OnInit {
 
   @ViewChild('cookieLaw', { static: false }) private cookieLawEl: any;
-  // public loading: boolean = false;
-  // public user: any;
 
   public cookieLawText:string;
   public cookieLawButton:string;
-
 
   constructor(
       public api: ApiService,
@@ -33,8 +30,6 @@ export class AppComponent implements OnInit {
       private notify: NotificationService,
       private deviceService: DeviceDetectorService
       ) {
-
-    //this.loading = true;
 
     this.cookieLawText = this.customization.get_option('cookie_law_text');
     this.cookieLawButton = this.customization.get_option('cookie_law_button');

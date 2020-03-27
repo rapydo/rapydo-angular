@@ -31,6 +31,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe } from '@rapydo/pipes/pipes';
 import { SecurePipe } from '@rapydo/pipes/secure';
 import { BasePaginationComponent } from '@rapydo/components/base.pagination.component';
+// loading component is deprecated since 0.7.3
 import { LoadingComponent } from '@rapydo/components/loading/loading';
 
 export function emailValidator(control: FormControl): ValidationErrors {

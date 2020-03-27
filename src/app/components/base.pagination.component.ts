@@ -50,7 +50,6 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
   public model:any = {}
   public modalTitle: string;
 
-  // loading component is deprecated since 0.7.3
   public loading:boolean = false;
   public updating:boolean = false;
   public data: Array<any> = [];
@@ -266,6 +265,15 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
     return form;
   }
 
+  protected loading() {
+    this.loading = true;
+    this.spinner.show()
+  }
+  protected unloading() {
+    this.loading = false;
+    this.spinner.hide();
+  }
+
   protected get(endpoint, data=null) {
 
     if (this.server_side_pagination && data == null) {
@@ -277,9 +285,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
       data = {}
     }
 
-    // loading component is deprecated since 0.7.3
-    this.loading = true;
-    this.spinner.show()
+    this.loading()
     return this.api.get(endpoint, "", data).subscribe(
       response => {
         // WRAPPED_RESPONSE
@@ -291,9 +297,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
           this.changePage(this.paging.page, this.data);
         }
 
-        // loading component is deprecated since 0.7.3
-        this.loading = false;
-        this.spinner.hide()
+        this.unloading();
         this.updating = false;
 
         if (this.server_side_pagination) {
@@ -303,9 +307,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
         }
       }, error => {
             this.notify.extractErrors(error, this.notify.ERROR);
-            // loading component is deprecated since 0.7.3
-            this.loading = false;
-            this.spinner.hide()
+            this.unloading();
             this.updating = false;
             return this.data;
           }
