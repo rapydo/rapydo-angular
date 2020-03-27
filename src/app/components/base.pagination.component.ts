@@ -297,7 +297,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
           this.changePage(this.paging.page, this.data);
         }
 
-        this.set_();
+        this.set_unloading();
         this.updating = false;
 
         if (this.server_side_pagination) {
@@ -307,7 +307,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
         }
       }, error => {
             this.notify.extractErrors(error, this.notify.ERROR);
-            this.set_();
+            this.set_unloading();
             this.updating = false;
             return this.data;
           }
