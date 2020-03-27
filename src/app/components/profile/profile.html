@@ -44,7 +44,7 @@
 
                 <tr *ngSwitchCase="'isAdmin'">
                     <th>Administrator</th>
-                    <td [innerHTML]="row.value | boolean_flag" (click)='show()'></td>
+                    <td [innerHTML]="row.value | boolean_flag"></td>
                 </tr>
 
                 <tr *ngSwitchCase="'isLocalAdmin'">

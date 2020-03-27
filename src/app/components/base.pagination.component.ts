@@ -5,10 +5,6 @@ import { FormlyConfig } from '@ngx-formly/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { NgxSpinnerService } from "ngx-spinner";
 
-// can be used to do this:
-//this.myservice = AppModule.injector.get(MyService);
-//import { AppModule } from '@rapydo/app.module';
-
 import { ApiService } from '@rapydo/services/api';
 import { AuthService } from '@rapydo/services/auth';
 import { NotificationService} from '@rapydo/services/notification';
@@ -54,6 +50,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
   public model:any = {}
   public modalTitle: string;
 
+  // loading component is deprecated since 0.7.3
   public loading:boolean = false;
   public updating:boolean = false;
   public data: Array<any> = [];
@@ -280,6 +277,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
       data = {}
     }
 
+    // loading component is deprecated since 0.7.3
     this.loading = true;
     this.spinner.show()
     return this.api.get(endpoint, "", data).subscribe(
@@ -293,6 +291,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
           this.changePage(this.paging.page, this.data);
         }
 
+        // loading component is deprecated since 0.7.3
         this.loading = false;
         this.spinner.hide()
         this.updating = false;
@@ -304,6 +303,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
         }
       }, error => {
             this.notify.extractErrors(error, this.notify.ERROR);
+            // loading component is deprecated since 0.7.3
             this.loading = false;
             this.spinner.hide()
             this.updating = false;
