@@ -12,9 +12,7 @@
 
 <div class='card-block'>
 
-<ngx-spinner></ngx-spinner>
-
-<div class="table-responsive" *ngIf="!loading">
+<div class="table-responsive">
 
 	<div class='container-fluid'>
 	<div class='row'>
@@ -35,6 +33,7 @@
 	</div>
 	</div>
 	<div class="table-wrapper" #tableWrapper>
+	<ngx-spinner [fullScreen] = "false"></ngx-spinner>
 	<ngx-datatable
         class="bootstrap"
         [rows]="data"

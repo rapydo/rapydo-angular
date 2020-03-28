@@ -212,9 +212,9 @@ export class LoginComponent implements OnInit {
                 );
             },
             error => {
-                console.log(error);
                 if (error.status == 0) {
                     this.router.navigate(["/offline"]);
+                    this.notify.showError("Error: no response received from backend");
 
                 } else if (error.status == 409) {
 

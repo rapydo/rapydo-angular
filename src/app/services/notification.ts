@@ -13,13 +13,26 @@ export class NotificationService {
   constructor(private toastr: ToastrService) {}
 
   public extractErrors = function(response: ApiResponse, type: number) {
-    if (response && response.errors)
-      return this.showAll(response.errors, type);
-    else if (response)
+
+    // WRAPPED_RESPONSE
+    if (response && response.errors) {
+
+      // multiple errors
+      if (Array.isArray(response.errors)) return this.showAll(response.errors, type);
+      // single error
+      return this.showAll([response.errors], type);
+
+    } else if (response) {
+
+      // now it alwayes is a single error
       return this.showAll([response], type);
+
+    }
+
   }
   public showAll = function(messages: string[], type: number) {
     if (messages)
+    // remove loop when multiple errors will be disabled from backend
     for (let i=0; i<messages.length; i++) {
         let message = messages[i];
 
