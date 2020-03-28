@@ -4,6 +4,8 @@ import { ApiService } from '../../services/api';
 import { AuthService } from '../../services/auth';
 import { NotificationService} from '../../services/notification';
 
+import { environment } from '@rapydo/../environments/environment';
+
 @Component({
   selector: 'sessions',
   providers: [ApiService, AuthService, NotificationService],
@@ -41,8 +43,7 @@ export class SessionsComponent implements OnInit {
     this.api.get('tokens', "", [], {"base": "auth"}).subscribe(
       response => {
         if (response) {
-          // WRAPPED_RESPONSE
-          if (response.data) response = response.data;
+          if (environment.WRAP_RESPONSE) response = response.data;
           this.tokens = response
         }
       }
@@ -56,7 +57,11 @@ export class SessionsComponent implements OnInit {
         this.notify.showSuccess("Token successfully revoked");
         this.loadTokens();
       }, error => {
-        this.notify.extractErrors(error, this.notify.ERROR);
+        if (environment.WRAP_RESPONSE) {
+          this.notify.showError(error.error.Response.errors);
+        } else {
+          this.notify.showError(error.error);
+        }
       }
     );
   }

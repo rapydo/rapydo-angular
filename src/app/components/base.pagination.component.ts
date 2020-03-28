@@ -11,6 +11,8 @@ import { NotificationService} from '@rapydo/services/notification';
 import { FormlyService } from '@rapydo/services/formly'
 import { ProjectOptions } from '@app/custom.project.options';
 
+import { environment } from '@rapydo/../environments/environment';
+
 // == @swimlane/ngx-datatable/src/types/column-mode.type
 enum ColumnMode {
     standard = 'standard',
@@ -237,8 +239,8 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
     }
     return this.api.get(this.counter_endpoint, "", data).subscribe(
       response => {
-        // WRAPPED_RESPONSE
-        if (response.data) response = response.data;
+        
+        if (environment.WRAP_RESPONSE) response = response.data;
         let result = this.api.parseResponse(response);
 
         let t = 0
@@ -251,8 +253,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
         return t;
 
       }, error => {
-          // WRAPPED_RESPONSE
-          if (error.Response)
+          if (environment.WRAP_RESPONSE)
             this.notify.showError(error.Response.errors);
           else
             this.notify.showError(error);
@@ -292,8 +293,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
     this.set_loading()
     return this.api.get(endpoint, "", data).subscribe(
       response => {
-        // WRAPPED_RESPONSE
-        if (response.data) response = response.data;
+        if (environment.WRAP_RESPONSE) response = response.data;
         this.data = this.api.parseResponse(response);
         this.unfiltered_data = this.data;
         if (!this.server_side_pagination) {
@@ -310,16 +310,16 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
           return this.rows
         }
       }, error => {
-          // WRAPPED_RESPONSE
-          if (error.Response)
-            this.notify.showError(error.Response.errors);
-          else
-            this.notify.showError(error);
-            this.set_unloading();
-            this.updating = false;
-            return this.data;
-          }
-      );
+        if (environment.WRAP_RESPONSE)
+          this.notify.showError(error.Response.errors);
+        else
+          this.notify.showError(error);
+
+        this.set_unloading();
+        this.updating = false;
+        return this.data;
+      }
+    );
   }
 
   protected delete(endpoint, uuid) {
@@ -329,8 +329,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
         this.notify.showSuccess("Confirmation: " + this.resource_name + " successfully deleted");
         this.list();
       }, error => {
-        // WRAPPED_RESPONSE
-        if (error.Response)
+        if (environment.WRAP_RESPONSE)
           this.notify.showError(error.Response.errors);
         else
           this.notify.showError(error);
@@ -349,8 +348,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
 
     return apiCall.subscribe(
       response => {
-        // WRAPPED_RESPONSE
-        if (response.data) response = response.data;
+        if (environment.WRAP_RESPONSE) response = response.data;
         let data = this.formly.json2Form(response, {});
         data = this.form_customizer(data, "post")
 
@@ -380,8 +378,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
 
     return apiCall.subscribe(
       response => {
-        // WRAPPED_RESPONSE
-        if (response.data) response = response.data;
+        if (environment.WRAP_RESPONSE) response = response.data;
         let data = this.formly.json2Form(response, row);
         data = this.form_customizer(data, "put")
         this.modalTitle = "Update " + this.resource_name;
@@ -430,8 +427,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
           this.list();
         }, error => {
           this.updating = false;
-          // WRAPPED_RESPONSE
-          if (error.Response)
+          if (environment.WRAP_RESPONSE)
             this.notify.showError(error.Response.errors);
           else
             this.notify.showError(error);

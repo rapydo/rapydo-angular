@@ -35,8 +35,7 @@ export class AuthService {
       response => {
         if (!response) return response;
 
-        // WRAPPED_RESPONSE
-        if (response.Response && response.Response.data && response.Response.data.token) {
+        if (environment.WRAP_RESPONSE) {
           response = response.Response.data.token;
         }
 
@@ -94,8 +93,7 @@ export class AuthService {
       response => {
         if (!response) return response
 
-        // WRAPPED_RESPONSE
-        if (response.Response && response.Response.data) {
+        if (environment.WRAP_RESPONSE) {
           response = response.Response.data;
         }
 

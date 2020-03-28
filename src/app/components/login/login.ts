@@ -182,7 +182,11 @@ export class LoginComponent implements OnInit {
                                             this.router.navigate([this.returnUrl]);
                                         },
                                         error => {
-                                            this.notify.extractErrors(error, this.notify.ERROR);
+                                            if (environment.WRAP_RESPONSE) {
+                                                this.notify.showError(error.error.Response.errors);
+                                            } else {
+                                                this.notify.showError(error.error);
+                                            }
                                         }
                                     );
                                 }, (reason) => {
@@ -205,7 +209,11 @@ export class LoginComponent implements OnInit {
                             this.router.navigate(["/offline"]);
 
                         } else {
-                            this.notify.extractErrors(error, this.notify.ERROR);
+                            if (environment.WRAP_RESPONSE) {
+                                this.notify.showError(error.error.Response.errors);
+                            } else {
+                                this.notify.showError(error.error);
+                            }
                         }
                         this.loading = false;
                     }
@@ -218,17 +226,16 @@ export class LoginComponent implements OnInit {
 
                 } else if (error.status == 409) {
 
-                    // WRAPPED_RESPONSE
-                    if (error.error.Response) {
-                        error = error.error.Response;
+                    if (environment.WRAP_RESPONSE) {
+                        this.notify.showError(error.error.Response.errors);
+                    } else {
+                        this.notify.showError(error.error);
                     }
-                    this.notify.extractErrors(error, this.notify.ERROR);
 
                 } else if (error.status == 403) {
 
-                    // WRAPPED_RESPONSE
                     let body = null;
-                    if (error.error.Response) {
+                    if (environment.WRAP_RESPONSE) {
                         body = error.error.Response.errors;
                     } else {
                         body = error.error;
@@ -238,10 +245,10 @@ export class LoginComponent implements OnInit {
                     let actions = body.actions
                     if (typeof actions === 'undefined') {
                         this.notify.showError(userMessage)
-                        this.notify.showAll(body.errors, this.notify.ERROR);
+                        this.notify.showError(body.errors);
                     } else if (! (actions instanceof Array)) {
                         this.notify.showError(userMessage)
-                        this.notify.showAll(body.errors, this.notify.ERROR);
+                        this.notify.showError(body.errors);
                     } else {
 
                         for (let i=0; i<actions.length; i++) {
@@ -298,17 +305,16 @@ export class LoginComponent implements OnInit {
                     this.notify.showError("Unable to login due to a server error. If this error persists please contact system administrators");
 
                 } else if (error.error) {
-                    // WRAPPED_RESPONSE
-                    if (error.error.Response) {
+                    if (environment.WRAP_RESPONSE) {
                         if (error.error.Response.errors[0] == "Sorry, this account is not active") {
                             this.account_not_active = true;
                         }
-                        this.notify.extractErrors(error.error.Response, this.notify.ERROR);
+                        this.notify.showError(error.error.Response.errors[0]);
                     } else {
                         if (error.error == "Sorry, this account is not active") {
                             this.account_not_active = true;
                         }
-                        this.notify.extractErrors(error.error, this.notify.ERROR);
+                        this.notify.showError(error.error);
                     }
                 }
 
@@ -324,11 +330,10 @@ export class LoginComponent implements OnInit {
                 this.account_not_active = false;
                 this.notify.showSuccess(response.Response.data);
             }, error => {
-                // WRAPPED_RESPONSE
-                if (error.error.Response) {
-                    error = error.error.Response;
+                if (environment.WRAP_RESPONSE) {
+                    error = error.error.Response.errors;
                 }
-                this.notify.extractErrors(error, this.notify.ERROR);
+                this.notify.showError(error);
             }
         );
 

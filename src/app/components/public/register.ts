@@ -56,14 +56,17 @@ export class RegisterComponent implements OnInit {
                             this.registration_title = "Registraction activated"
                             this.notify.showSuccess("User successfully activated.");
                             this.router.navigate(['app', 'login']); 
-                            this.notify.extractErrors(response, this.notify.ERROR);
                             return true;
 
                         }, error => {
                             this.invalid_token = true;
                             this.showRegistrationForm = false;
                             this.registration_title = "Invalid activation token"
-                            this.notify.extractErrors(error, this.notify.ERROR);
+                            if (environment.WRAP_RESPONSE) {
+                                this.notify.showError(error.error.Response.errors);
+                            } else {
+                                this.notify.showError(error.error);
+                            }
                             return false;
                         }
                     );
@@ -195,7 +198,11 @@ export class RegisterComponent implements OnInit {
                 this.loading = false;
             },
             error => {
-                this.notify.extractErrors(error, this.notify.ERROR);
+                if (environment.WRAP_RESPONSE) {
+                    this.notify.showError(error.error.Response.errors);
+                } else {
+                    this.notify.showError(error.error);
+                }
                 this.loading = false;
             }
         );

@@ -24,7 +24,7 @@ export class NotificationService {
 
     } else if (response) {
 
-      // now it alwayes is a single error
+      // now it always is a single error
       return this.showAll([response], type);
 
     }
