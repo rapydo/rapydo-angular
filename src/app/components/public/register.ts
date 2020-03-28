@@ -65,7 +65,7 @@ export class RegisterComponent implements OnInit {
                             if (environment.WRAP_RESPONSE == '1') {
                                 this.notify.showError(error.error.Response.errors);
                             } else {
-                                this.notify.showError(error.error);
+                                this.notify.showError(error);
                             }
                             return false;
                         }
@@ -201,7 +201,7 @@ export class RegisterComponent implements OnInit {
                 if (environment.WRAP_RESPONSE == '1') {
                     this.notify.showError(error.error.Response.errors);
                 } else {
-                    this.notify.showError(error.error);
+                    this.notify.showError(error);
                 }
                 this.loading = false;
             }

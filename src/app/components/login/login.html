@@ -2,6 +2,20 @@
 <div class="row justify-content-md-center">
 <div class='col-12 col-md-8 col-lg-6'>
 
+
+<div class='card' *ngIf='account_not_active'>
+<div class='card-header'>
+    <h4>This account is not active</h4>
+</div>
+
+<div class='card-block'>
+    Didn't receive an activation link?
+    <a [routerLink]="" (click)='ask_activation_link()'>Click here to send again</a>
+</div>
+</div>
+
+<br><br>
+
 <div class='card'>
 
   <div class='card-header' *ngIf='!warningCard'>
@@ -39,19 +53,6 @@
 </div>
 </div>
 
-
-<br><br>
-
-<div class='card' *ngIf='account_not_active'>
-<div class='card-header'>
-    <h4>This account is not active</h4>
-</div>
-
-<div class='card-block'>
-    Didn't receive an activation link?
-    <a (click)='ask_activation_link()'>Click here to send again</a>
-</div>
-</div>
 
 
 </div>

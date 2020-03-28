@@ -328,7 +328,11 @@ export class LoginComponent implements OnInit {
         this.authService.ask_activation_link(this.model.username).subscribe(
             (response:any) => {
                 this.account_not_active = false;
-                this.notify.showSuccess(response.Response.data);
+                if (environment.WRAP_RESPONSE == '1') {
+                    this.notify.showSuccess(response.Response.data);
+                } else {
+                    this.notify.showSuccess(response);
+                }
             }, error => {
                 if (environment.WRAP_RESPONSE == '1') {
                     error = error.error.Response.errors;
