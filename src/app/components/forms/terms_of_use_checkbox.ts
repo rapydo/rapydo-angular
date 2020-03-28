@@ -52,9 +52,7 @@ export class TermsOfUseCheckbox extends FormlyFieldCheckbox implements OnInit {
 
   open(content) {
     this.modalService.open(content, {size: 'lg', backdrop: 'static', keyboard: false}).result.then((result) => {
-      /*console.log(`Closed with: ${result}`);*/
     }, (reason) => {
-      /*console.log(`Dismissed ${this.getDismissReason(reason)}`);*/
     });
   }
   private getDismissReason(reason: any): string {

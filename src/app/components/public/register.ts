@@ -199,7 +199,7 @@ export class RegisterComponent implements OnInit {
             },
             error => {
                 if (environment.WRAP_RESPONSE == '1') {
-                    this.notify.showError(error.error.Response.errors);
+                    this.notify.showError(error.Response.errors);
                 } else {
                     this.notify.showError(error);
                 }

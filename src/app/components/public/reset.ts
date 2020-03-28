@@ -40,19 +40,17 @@ export class ResetPasswordComponent implements OnInit {
 
                     this.api.put('reset', params["token"], {}, {"base": "auth"}).subscribe(
                        response => {
-                            console.log(response);
                             this.token = params["token"]
                             return true;
 
                         }, error => {
-                            console.log(error);
                             this.token = undefined
                             if (environment.WRAP_RESPONSE == '1') {
-                                this.invalid_token = error.errors[0];
+                                this.invalid_token = error.Response.errors;
                             } else {
                                 this.invalid_token = error;
                             }
-                            // this.notify.showError(this.invalid_token);
+                            this.notify.showError(this.invalid_token);
                             return false;
                         }
                     );
@@ -128,7 +126,6 @@ export class ResetPasswordComponent implements OnInit {
         let data = {"reset_email": this.model["reset_email"]};
         return this.api.post('reset', data, {"base": "auth"}).subscribe(
             response => {
-                console.log(response);
                 if (environment.WRAP_RESPONSE == '1') {
                     this.reset_message = response.data;
                 } else {
@@ -138,9 +135,8 @@ export class ResetPasswordComponent implements OnInit {
                 return true;
 
             }, error => {
-                console.log(error);
                 if (environment.WRAP_RESPONSE == '1') {
-                    this.notify.showError(error.error.Response.errors);
+                    this.notify.showError(error.Response.errors);
                 } else {
                     this.notify.showError(error);
                 }
@@ -168,7 +164,7 @@ export class ResetPasswordComponent implements OnInit {
 
             }, error => {
                 if (environment.WRAP_RESPONSE == '1') {
-                    this.notify.showError(error.error.Response.errors);
+                    this.notify.showError(error.Response.errors);
                 } else {
                     this.notify.showError(error);
                 }

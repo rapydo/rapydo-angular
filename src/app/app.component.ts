@@ -54,7 +54,7 @@ export class AppComponent implements OnInit {
       device = "desktop";
     }
 
-    console.log(browser + " (" + version + ") on " + os + " " + device + " (" + os_version + ")");
+    console.info(browser + " (" + version + ") on " + os + " " + device + " (" + os_version + ")");
 
     if (!compatibilityCheck) {
       this.notify.showError("You are using " + browser + " " + version + " on " + os + ". We apologize, but your browser is not fully compatible with this website and some or all functionalities may not work.");

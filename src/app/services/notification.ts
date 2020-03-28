@@ -46,7 +46,7 @@ export class NotificationService {
         else if (type == this.ERROR) this.showError(message);
         else if (type == this.WARNING) this.showWarning(message);
         else if (type == this.INFO) this.showInfo(message);
-        else console.log("Unknown message type. NotificationService is unable to satisfy this request");
+        else console.error("Unknown message type. NotificationService is unable to satisfy this request");
     }
   }
 

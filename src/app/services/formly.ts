@@ -21,7 +21,7 @@ export class FormlyService {
       let s = schema[i];
 
       if (! ('type' in s)) {
-        console.log("WARNING: invalid schema, missing type")
+        console.error("Invalid schema, missing type")
         return null;
       }
       let stype = s['type'];
@@ -174,7 +174,7 @@ export class FormlyService {
 
         }
         */
-        console.log(field_type + " not implemented!");
+        console.warn(field_type + " not implemented!");
         // Not implemented!!!
         field_type = "input";
         template_type = "text";
@@ -274,7 +274,7 @@ export class FormlyService {
                 default_data = (default_data.slice())[0];
               }
             } else if (template_type == "multiAutocomplete") {
-              console.log("NOT IMPLEMENTED!!");
+              console.warn("multiAutocomplete not implemented");
             }
 
             model[s['key']] = default_data;
@@ -355,13 +355,8 @@ export class FormlyService {
     let template = "<div>test</div>";
       this.modalRef = this.modalService.open(template, {size: 'lg'});
       this.modalRef.result.then((result) => {
-      /*console.log("Closed with: " + result)*/;
       }, (reason) => {
-      /*console.log(`Dismissed ${this.getDismissReason(reason)}`)*/;
       });
-    /*console.log("evviva");*/
   }
-
-
 
 }

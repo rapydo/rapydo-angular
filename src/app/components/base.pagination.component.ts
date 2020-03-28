@@ -117,13 +117,12 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
 
 
   protected server_side_update() {
-    console.log("WARNING: server side update function not implemented")
+    console.warn("Server side update function not implemented")
   }
 
   updateSort(event) {
 
-    console.log("WARNING: update sort function not implemented")
-    console.log(event);
+    console.warn("Update sort function not implemented")
     if (this.server_side_filter) {
       this.server_side_update()
     }
@@ -155,7 +154,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
   post_filter() {}
 
   filter(data_filter) {
-    console.log("WARNING: filter function not implemented")
+    console.warn("Filter function not implemented")
     return this.data;
   }
 
@@ -186,7 +185,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
   protected changePage(page:number, data:Array<any>): Array<any> {
 
     if (page > 1) {
-      console.log("Deprecated paging change");
+      console.warn("Deprecated paging change");
     }
 
     this.paging.page = page;
@@ -219,7 +218,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
 
   public setPage(page:any) {
 
-    console.log("Deprecated paging set");
+    console.warn("Deprecated paging set");
     this.paging.page = page;
 
     if (this.server_side_sort) {
@@ -232,7 +231,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
   }
 
   /** INTERACTION WITH APIs**/
-  protected list() { console.log("list: to be implemented") }
+  protected list() { console.warn("Listing not implemented") }
   protected set_total_items(): number { 
     let data = {
       'get_total': true
@@ -261,10 +260,10 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
         }
       );
   }
-  protected remove(uuid) { console.log("remove: to be implemented") }
-  protected create() { console.log("create: to be implemented") }
-  protected update(row, element=null) { console.log("update: to be implemented") }
-  protected submit() { console.log("submit: to be implemented") }
+  protected remove(uuid) { console.warn("Remove not implemented") }
+  protected create() { console.warn("Create not implemented") }
+  protected update(row, element=null) { console.warn("Update not implemented") }
+  protected submit() { console.warn("Submit not implemented") }
 
   protected form_customizer(form, type) {
     return form;
@@ -357,12 +356,14 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
         this.model = data.model;
         this.modalRef = this.modalService.open(formModal, {"size": 'lg', "backdrop": 'static'});
         this.modalRef.result.then((result) => {
-          // console.log("Closed with: " + result);
         }, (reason) => {
-          // console.log(`Dismissed ${this.getDismissReason(reason)}`);
         });
       }, error => {
-        this.notify.showError(error);
+        if (environment.WRAP_RESPONSE == '1') {
+          this.notify.showError(error.Response.errors);
+        } else {
+          this.notify.showError(error);
+        }
       }
     );
   }
@@ -391,13 +392,15 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
         this.is_update = true;
         this.modalRef.result.then((result) => {
           this.is_update = false;
-        // console.log("Closed with: " + result);
         }, (reason) => {
           this.is_update = false;
-        // console.log(`Dismissed ${this.getDismissReason(reason)}`);
         });
       }, error => {
-        this.notify.showError(error);
+        if (environment.WRAP_RESPONSE == '1') {
+          this.notify.showError(error.Response.errors);
+        } else {
+          this.notify.showError(error);
+        }
       }
     );
   }

@@ -31,12 +31,12 @@ export class WebSocketsService {
       },
        // Called if at any point WebSocket API signals some kind of error. 
       err => {
-        console.log("Subscribe error: ");
-        console.log(err)
+        console.error("Subscribe error: ");
+        console.error(err)
       },
         // Called when connection is closed (for whatever reason).
       () => {
-        console.log('complete');
+        console.info('complete');
       }
     );
 

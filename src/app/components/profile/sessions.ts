@@ -48,8 +48,11 @@ export class SessionsComponent implements OnInit {
         }
       },
       error => {
-        console.log(error);
-        this.notify.showError(error);
+        if (environment.WRAP_RESPONSE == '1') {
+          this.notify.showError(error.Response.errors);
+        } else {
+          this.notify.showError(error);
+        }
       }
    );
   }
@@ -61,18 +64,13 @@ export class SessionsComponent implements OnInit {
         this.notify.showSuccess("Token successfully revoked");
         this.loadTokens();
       }, error => {
-        console.log(error);
         if (environment.WRAP_RESPONSE == '1') {
-          this.notify.showError(error.error.Response.errors);
+          this.notify.showError(error.Response.errors);
         } else {
           this.notify.showError(error);
         }
       }
     );
-  }
-
-  cancelRequest() {
-    /*console.log("Request cancelled");*/
   }
 
   copied(event) {

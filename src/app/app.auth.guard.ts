@@ -18,13 +18,6 @@ export class AuthGuard implements CanActivate {
 
         const expectedRoles = route.data.roles;
 
-/*        if (!this.api.is_online()) {
-
-            console.log("Api offline");
-            this.router.navigate(['offline']);
-            return false;
-        }*/
-
         return this.auth.isAuthenticated().pipe(
             map(response => {
                 // User is authenticated, verify roles

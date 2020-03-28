@@ -13,7 +13,7 @@ if (process.env.BACKEND_URI !== undefined && process.env.BACKEND_URI !== null &&
   } else if (process.env.APP_MODE === 'debug' || process.env.APP_MODE === 'test' || process.env.APP_MODE === 'development' || process.env.APP_MODE === 'cypress') {
     backendURI += "http://";
   } else {
-    console.log("Unknown APP MODE: " + process.env.APP_MODE);
+    console.error("Unknown APP MODE: " + process.env.APP_MODE);
     backendURI += "http://";
   }
 
@@ -84,7 +84,7 @@ envConfigFile += `
 `
 fs.writeFile(targetPath, envConfigFile, function (err) {
     if (err) { 
-      console.log(err);
+      console.error(err);
     }
   }
 );

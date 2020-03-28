@@ -118,7 +118,7 @@ export class ApiService {
     } else if (method == "DELETE") {
       httpCall = this.http.delete(ep, options);
     } else {
-      console.log("API ERROR, unknown method: " + method);
+      console.error("Unknown API method: " + method);
       return false;
     }
 

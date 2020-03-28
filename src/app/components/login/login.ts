@@ -275,7 +275,7 @@ export class LoginComponent implements OnInit {
                                 notyLevel = this.notify.WARNING;
 
                             } else if (action == 'TOTP') {
-                                console.log("2FA not yet implemented");
+                                console.warn("2FA not yet implemented");
                                 this.panelTitle = "Provide the verification code"
                                 this.buttonText = "Authorize"
                                 this.warningCard = true;
@@ -286,7 +286,7 @@ export class LoginComponent implements OnInit {
                                 notyLevel = this.notify.WARNING;
                                 
                             } else {
-                                console.log("Unrecognized action: " + action);
+                                console.error("Unrecognized action: " + action);
                                 this.notify.showError(userMessage)
                             }
                             this.notify.showAll(body.errors, notyLevel);
@@ -295,7 +295,7 @@ export class LoginComponent implements OnInit {
 
                         if (body.qr_code) {
 
-                            console.log("2FA not yet implemented");
+                            console.warn("2FA not yet implemented");
                             // self.qr_code = body.qr_code;
 
                         }
@@ -306,10 +306,10 @@ export class LoginComponent implements OnInit {
 
                 } else if (error.error) {
                     if (environment.WRAP_RESPONSE == '1') {
-                        if (error.error.Response.errors[0] == "Sorry, this account is not active") {
+                        if (error.error.Response.errors == "Sorry, this account is not active") {
                             this.account_not_active = true;
                         }
-                        this.notify.showError(error.error.Response.errors[0]);
+                        this.notify.showError(error.error.Response.errors);
                     } else {
                         if (error.error == "Sorry, this account is not active") {
                             this.account_not_active = true;

@@ -109,7 +109,11 @@ export class AuthService {
 
         return response;
       }, error => {
-        console.log("Unable to load user")
+        if (environment.WRAP_RESPONSE == '1') {
+          this.notification.showError(error.Response.errors);
+        } else {
+          this.notification.showError(error);
+        }
 
         return null;
       }
@@ -172,21 +176,21 @@ export class AuthService {
   public hasRole(expectedRoles: string[]): boolean {
 
     if (!expectedRoles || expectedRoles.length == 0) {
-      /*console.log("no role required")*/
       return true;
     }
 
-        let user = this.getUser();
-
-        for (let i=0; i<expectedRoles.length; i++) {
-          if (expectedRoles[i] in user.roles) {
-        // console.log("ok " + expectedRoles + ", you are authorized")
-            return true
-        }
-      }
-        // console.log("You are not authorized - missing roles: " + expectedRoles);
-        this.notification.showError("Permission denied: you are not authorized to access this page")
-        return false;
+    let user = this.getUser();
+    if (user == null) {
+      return false;
     }
+
+    for (let i=0; i<expectedRoles.length; i++) {
+      if (expectedRoles[i] in user.roles) {
+        return true;
+      }
+    }
+    this.notification.showError("Permission denied: you are not authorized to access this page")
+    return false;
+  }
 }
 
