@@ -62,7 +62,7 @@ export class RegisterComponent implements OnInit {
                             this.invalid_token = true;
                             this.showRegistrationForm = false;
                             this.registration_title = "Invalid activation token"
-                            if (environment.WRAP_RESPONSE) {
+                            if (environment.WRAP_RESPONSE == '1') {
                                 this.notify.showError(error.error.Response.errors);
                             } else {
                                 this.notify.showError(error.error);
@@ -198,7 +198,7 @@ export class RegisterComponent implements OnInit {
                 this.loading = false;
             },
             error => {
-                if (environment.WRAP_RESPONSE) {
+                if (environment.WRAP_RESPONSE == '1') {
                     this.notify.showError(error.error.Response.errors);
                 } else {
                     this.notify.showError(error.error);

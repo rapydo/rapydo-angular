@@ -121,6 +121,10 @@ export class ChangePasswordComponent {
     if (this.model["totp_code"])
       data["password"] = this.model["totp_code"];
 
+    if (this.auth.getUser() == null) {
+        this.router.navigate(['']);
+        return false;
+    }
     let username = this.auth.getUser().email;
     this.auth.change_password(data).subscribe(
       response =>  {
@@ -138,7 +142,7 @@ export class ChangePasswordComponent {
                 if (error.status == 0) {
                   this.router.navigate(["/offline"]);
                 } else {
-                  if (environment.WRAP_RESPONSE) {
+                  if (environment.WRAP_RESPONSE == '1') {
                     this.notify.showError(error.error.Response.errors);
                   } else {
                     this.notify.showError(error.error);
@@ -147,7 +151,7 @@ export class ChangePasswordComponent {
               }
             );
           }, error => {
-            if (environment.WRAP_RESPONSE) {
+            if (environment.WRAP_RESPONSE == '1') {
               this.notify.showError(error.error.Response.errors);
             } else {
               this.notify.showError(error.error);
@@ -159,7 +163,7 @@ export class ChangePasswordComponent {
         if (error.status == 401) {
            this.notify.showError("Your request cannot be authorized, is current password wrong?");
         } else {
-          if (environment.WRAP_RESPONSE) {
+          if (environment.WRAP_RESPONSE == '1') {
             this.notify.showError(error.error.Response.errors);
           } else {
             this.notify.showError(error.error);

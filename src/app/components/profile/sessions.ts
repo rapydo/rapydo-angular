@@ -43,9 +43,13 @@ export class SessionsComponent implements OnInit {
     this.api.get('tokens', "", [], {"base": "auth"}).subscribe(
       response => {
         if (response) {
-          if (environment.WRAP_RESPONSE) response = response.data;
+          if (environment.WRAP_RESPONSE == '1') response = response.data;
           this.tokens = response
         }
+      },
+      error => {
+        console.log(error);
+        this.notify.showError(error);
       }
    );
   }
@@ -57,10 +61,11 @@ export class SessionsComponent implements OnInit {
         this.notify.showSuccess("Token successfully revoked");
         this.loadTokens();
       }, error => {
-        if (environment.WRAP_RESPONSE) {
+        console.log(error);
+        if (environment.WRAP_RESPONSE == '1') {
           this.notify.showError(error.error.Response.errors);
         } else {
-          this.notify.showError(error.error);
+          this.notify.showError(error);
         }
       }
     );

@@ -182,7 +182,7 @@ export class LoginComponent implements OnInit {
                                             this.router.navigate([this.returnUrl]);
                                         },
                                         error => {
-                                            if (environment.WRAP_RESPONSE) {
+                                            if (environment.WRAP_RESPONSE == '1') {
                                                 this.notify.showError(error.error.Response.errors);
                                             } else {
                                                 this.notify.showError(error.error);
@@ -209,7 +209,7 @@ export class LoginComponent implements OnInit {
                             this.router.navigate(["/offline"]);
 
                         } else {
-                            if (environment.WRAP_RESPONSE) {
+                            if (environment.WRAP_RESPONSE == '1') {
                                 this.notify.showError(error.error.Response.errors);
                             } else {
                                 this.notify.showError(error.error);
@@ -226,7 +226,7 @@ export class LoginComponent implements OnInit {
 
                 } else if (error.status == 409) {
 
-                    if (environment.WRAP_RESPONSE) {
+                    if (environment.WRAP_RESPONSE == '1') {
                         this.notify.showError(error.error.Response.errors);
                     } else {
                         this.notify.showError(error.error);
@@ -235,7 +235,7 @@ export class LoginComponent implements OnInit {
                 } else if (error.status == 403) {
 
                     let body = null;
-                    if (environment.WRAP_RESPONSE) {
+                    if (environment.WRAP_RESPONSE == '1') {
                         body = error.error.Response.errors;
                     } else {
                         body = error.error;
@@ -305,7 +305,7 @@ export class LoginComponent implements OnInit {
                     this.notify.showError("Unable to login due to a server error. If this error persists please contact system administrators");
 
                 } else if (error.error) {
-                    if (environment.WRAP_RESPONSE) {
+                    if (environment.WRAP_RESPONSE == '1') {
                         if (error.error.Response.errors[0] == "Sorry, this account is not active") {
                             this.account_not_active = true;
                         }
@@ -330,7 +330,7 @@ export class LoginComponent implements OnInit {
                 this.account_not_active = false;
                 this.notify.showSuccess(response.Response.data);
             }, error => {
-                if (environment.WRAP_RESPONSE) {
+                if (environment.WRAP_RESPONSE == '1') {
                     error = error.error.Response.errors;
                 }
                 this.notify.showError(error);
