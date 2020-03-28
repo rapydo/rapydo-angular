@@ -31,6 +31,8 @@ export class NotificationService {
 
   }
   public showAll = function(messages: string[], type: number) {
+    // deprecated since 0.7.3
+    console.warn("Deprecated use of showAll");
     if (messages)
     // remove loop when multiple errors will be disabled from backend
     for (let i=0; i<messages.length; i++) {

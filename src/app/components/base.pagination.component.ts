@@ -251,7 +251,11 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
         return t;
 
       }, error => {
-          this.notify.extractErrors(error, this.notify.ERROR);
+          // WRAPPED_RESPONSE
+          if (error.Response)
+            this.notify.showError(error.Response.errors);
+          else
+            this.notify.showError(error);
           return 0;
         }
       );
@@ -306,7 +310,11 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
           return this.rows
         }
       }, error => {
-            this.notify.extractErrors(error, this.notify.ERROR);
+          // WRAPPED_RESPONSE
+          if (error.Response)
+            this.notify.showError(error.Response.errors);
+          else
+            this.notify.showError(error);
             this.set_unloading();
             this.updating = false;
             return this.data;
@@ -321,7 +329,11 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
         this.notify.showSuccess("Confirmation: " + this.resource_name + " successfully deleted");
         this.list();
       }, error => {
-        this.notify.extractErrors(error, this.notify.ERROR);
+        // WRAPPED_RESPONSE
+        if (error.Response)
+          this.notify.showError(error.Response.errors);
+        else
+          this.notify.showError(error);
       }
     );
   }
@@ -418,10 +430,11 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
           this.list();
         }, error => {
           this.updating = false;
+          // WRAPPED_RESPONSE
           if (error.Response)
-            this.notify.extractErrors(error.Response, this.notify.ERROR);
+            this.notify.showError(error.Response.errors);
           else
-            this.notify.extractErrors(error, this.notify.ERROR);
+            this.notify.showError(error);
         }
       );
     } else {
