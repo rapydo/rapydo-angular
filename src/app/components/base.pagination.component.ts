@@ -253,9 +253,11 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
 
       }, error => {
           if (environment.WRAP_RESPONSE == '1')
-            this.notify.showError(error.Response.errors);
-          else
+            if (error.Response) this.notify.showError(error.Response.errors);
+            else this.notify.showError(error);
+          else {
             this.notify.showError(error);
+          }
           return 0;
         }
       );
@@ -309,10 +311,12 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
           return this.rows
         }
       }, error => {
-        if (environment.WRAP_RESPONSE == '1')
-          this.notify.showError(error.Response.errors);
-        else
+        if (environment.WRAP_RESPONSE == '1') {
+          if (error.Response) this.notify.showError(error.Response.errors);
+          else this.notify.showError(error);
+        } else {
           this.notify.showError(error);
+        }
 
         this.set_unloading();
         this.updating = false;
@@ -328,10 +332,12 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
         this.notify.showSuccess("Confirmation: " + this.resource_name + " successfully deleted");
         this.list();
       }, error => {
-        if (environment.WRAP_RESPONSE == '1')
-          this.notify.showError(error.Response.errors);
-        else
+        if (environment.WRAP_RESPONSE == '1') {
+          if (error.Response) this.notify.showError(error.Response.errors);
+          else this.notify.showError(error);
+        } else {
           this.notify.showError(error);
+        }
       }
     );
   }
@@ -360,7 +366,8 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
         });
       }, error => {
         if (environment.WRAP_RESPONSE == '1') {
-          this.notify.showError(error.Response.errors);
+          if (error.Response) this.notify.showError(error.Response.errors);
+          else this.notify.showError(error);
         } else {
           this.notify.showError(error);
         }
@@ -397,7 +404,8 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
         });
       }, error => {
         if (environment.WRAP_RESPONSE == '1') {
-          this.notify.showError(error.Response.errors);
+          if (error.Response) this.notify.showError(error.Response.errors);
+          else this.notify.showError(error);
         } else {
           this.notify.showError(error);
         }
@@ -430,10 +438,12 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
           this.list();
         }, error => {
           this.updating = false;
-          if (environment.WRAP_RESPONSE == '1')
-            this.notify.showError(error.Response.errors);
-          else
+          if (environment.WRAP_RESPONSE == '1') {
+            if (error.Response) this.notify.showError(error.Response.errors);
+            else this.notify.showError(error);
+          } else {
             this.notify.showError(error);
+          }
         }
       );
     } else {
