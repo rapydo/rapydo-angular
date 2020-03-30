@@ -13,9 +13,7 @@ describe('LoginComponent', () => {
       imports: [AppModule, LoginModule]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -13,9 +13,7 @@ describe('Error404Component', () => {
       imports: [AppModule, PageNotFoundModule]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(Error404Component);
     component = fixture.componentInstance;
     fixture.detectChanges();

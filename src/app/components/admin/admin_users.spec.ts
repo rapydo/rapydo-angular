@@ -13,9 +13,7 @@ describe('AdminUsersComponent', () => {
       imports: [AppModule, AdminModule]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(AdminUsersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

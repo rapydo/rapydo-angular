@@ -12,9 +12,7 @@ describe('LoadingComponent', () => {
       imports: [AppModule]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(LoadingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

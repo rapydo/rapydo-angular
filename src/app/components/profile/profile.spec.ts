@@ -13,9 +13,7 @@ describe('ProfileComponent', () => {
       imports: [AppModule, ProfileModule]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ProfileComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

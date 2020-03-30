@@ -12,9 +12,7 @@ describe('NavbarComponent', () => {
       imports: [AppModule]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(NavbarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

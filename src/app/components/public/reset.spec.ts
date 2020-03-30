@@ -13,9 +13,7 @@ describe('ResetPasswordComponent', () => {
       imports: [AppModule, PublicModule]
     })
     .compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ResetPasswordComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
