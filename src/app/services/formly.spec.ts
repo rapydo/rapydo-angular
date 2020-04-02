@@ -16,7 +16,7 @@ describe('FormlyService', () => {
 
   it('json2Form - empty input', () => {
     expect(service.json2Form(undefined, undefined)).toEqual({"fields":[], "model": {}});
-  };
+  });
 
 
 });
