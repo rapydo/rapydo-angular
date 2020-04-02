@@ -34,8 +34,7 @@ const routes: Routes = [
     MyComponent
   ],
 
-  providers: [
-  ],
+  providers: [],
 
   exports: [
     RouterModule

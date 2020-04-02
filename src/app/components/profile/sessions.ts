@@ -8,7 +8,6 @@ import { environment } from '@rapydo/../environments/environment';
 
 @Component({
   selector: 'sessions',
-  providers: [ApiService, AuthService, NotificationService],
   templateUrl: 'sessions.html'
 })
 export class SessionsComponent implements OnInit { 

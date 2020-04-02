@@ -12,7 +12,6 @@ import { environment } from '@rapydo/../environments/environment';
 
 @Component({
   selector: 'changepassword',
-  providers: [ApiService, AuthService, NotificationService],
   templateUrl: 'changepassword.html'
 })
 export class ChangePasswordComponent { 
