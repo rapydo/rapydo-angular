@@ -1,5 +1,5 @@
 import { TestBed, getTestBed } from '@angular/core/testing';
-import { ApiService } from '@rapydo/services/websockets';
+import { ApiService } from '@rapydo/services/api';
 
 describe('ApiService', () => {
   let injector: TestBed;
