@@ -1,4 +1,5 @@
 import { TestBed, getTestBed } from '@angular/core/testing';
+import { AppModule } from '@rapydo/app.module';
 import { NotificationService} from '@rapydo/services/notification';
 
 describe('NotificationService', () => {
@@ -8,6 +9,7 @@ describe('NotificationService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [NotificationService],
+      imports: [AppModule]
     });
 
     injector = getTestBed();
