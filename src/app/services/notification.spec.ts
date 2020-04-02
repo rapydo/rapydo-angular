@@ -16,38 +16,28 @@ describe('NotificationService', () => {
   });
 
   it('showCritical', () => {
-    service.showCritical('message').subscribe((res) => {
-    });
-    service.showCritical('message', 'title').subscribe((res) => {
-    });
+    service.showCritical('message');
+    service.showCritical('message', 'title');
   });
 
   it('showError', () => {
-    service.showError('message').subscribe((res) => {
-    });
-    service.showError('message', 'title').subscribe((res) => {
-    });
+    service.showError('message');
+    service.showError('message', 'title');
   });
 
   it('showWarning', () => {
-    service.showWarning('message').subscribe((res) => {
-    });
-    service.showWarning('message', 'title').subscribe((res) => {
-    });
+    service.showWarning('message');
+    service.showWarning('message', 'title');
   });
 
   it('showSuccess', () => {
-    service.showSuccess('message').subscribe((res) => {
-    });
-    service.showSuccess('message', 'title').subscribe((res) => {
-    });
+    service.showSuccess('message');
+    service.showSuccess('message', 'title');
   });
 
   it('showInfo', () => {
-    service.showInfo('message').subscribe((res) => {
-    });
-    service.showInfo('message', 'title').subscribe((res) => {
-    });
+    service.showInfo('message');
+    service.showInfo('message', 'title');
   });
 
 });

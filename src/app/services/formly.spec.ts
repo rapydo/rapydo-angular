@@ -7,7 +7,6 @@ describe('FormlyService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
       providers: [FormlyService],
     });
 
@@ -16,7 +15,7 @@ describe('FormlyService', () => {
   });
 
   it('json2Form - empty input', () => {
-    service.json2Form().subscribe((res) => {
+    service.json2Form(undefined, undefined).subscribe((res) => {
       expect(res).toEqual({"fields":[], "model": {}});
     })
   });
