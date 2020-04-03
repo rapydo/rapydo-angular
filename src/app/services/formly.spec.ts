@@ -4,8 +4,51 @@ import { FormlyService } from '@rapydo/services/formly';
 describe('FormlyService', () => {
   let injector: TestBed;
   let service: FormlyService;
-  let schema = getSchema();
-  let model = getModel();
+  const schema = [
+    {
+      "custom": { "label": "Text" },
+      "description": "Text",
+      "in": "formData",
+      "name": "text",
+      "required": true,
+      "type": "string"
+    },
+    {
+      "custom": { "label": "List" },
+      "description": "List",
+      "enum": [
+        {"k1": "val1"},
+        {"k2": "val2"},
+      ],
+      "in": "formData",
+      "name": "list",
+      "required": true,
+      "type": "string"
+    },
+    {
+      "custom": { "label": "Checkbox" },
+      "default": true,
+      "in": "formData",
+      "name": "checkbox",
+      "required": false,
+      "type": "boolean"
+    },
+    {
+      "custom": { "label": "Number" },
+      "default": 1,
+      "description": "number",
+      "in": "formData",
+      "name": "number",
+      "required": true,
+      "type": "number"
+    },
+  ];
+  const model = {
+    'text': 'xyz'
+    'list': 'k2',
+    'checkbox': true,
+    'number': '7',
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -75,78 +118,15 @@ describe('FormlyService', () => {
     expect(form['model']).toContain('mykey');
     expect(form['model']['mykey']).toEqual('myval');
 
-  }
+  });
+
   it('formatDate - null', () => {
-    expect(service.formatDate(null).toBeNull();
-    expect(service.formatDate("").toEqual("");
-    expect(service.formatDate("01 Jan 1970 00:00:00 GMT").toEqual("1970-01-01");
-    expect(service.formatDate("01/31/1970").toEqual("1970-01-31");
-    expect(service.formatDate("01/31/1970").toEqual("1970-01-31");
-    expect(service.formatDate("1/1/1970").toEqual("1970-01-01");
-  }
-
-  getSchema() {
-    return [
-      {
-        "custom": {
-            "label": "Text"
-        },
-        "description": "Text",
-        "in": "formData",
-        "name": "text",
-        "required": true,
-        "type": "string"
-      },
-      {
-        "custom": {
-          "label": "List"
-        },
-        "description": "List",
-        "enum": [
-          {
-            "k1": "val1"
-          },
-          {
-            "k2": "val2"
-          },
-        ],
-        "in": "formData",
-        "name": "list",
-        "required": true,
-        "type": "string"
-      },
-      {
-        "custom": {
-            "label": "Checkbox"
-        },
-        "default": true,
-        "in": "formData",
-        "name": "checkbox",
-        "required": false,
-        "type": "boolean"
-      },
-      {
-        "custom": {
-            "label": "Number"
-        },
-        "default": 1,
-        "description": "number",
-        "in": "formData",
-        "name": "number",
-        "required": true,
-        "type": "number"
-      },
-    ];
-  }
-
-  getModel() {
-    return {
-      'text': 'xyz'
-      'list': 'k2',
-      'checkbox': true,
-      'number': '7',
-    }
-  }
-
+    expect(service.formatDate(null)).toBeNull();
+    expect(service.formatDate("")).toEqual("");
+    expect(service.formatDate("01 Jan 1970 00:00:00 GMT")).toEqual("1970-01-01");
+    expect(service.formatDate("01/31/1970")).toEqual("1970-01-31");
+    expect(service.formatDate("01/31/1970")).toEqual("1970-01-31");
+    expect(service.formatDate("1/1/1970")).toEqual("1970-01-01");
+  });
 
 });
