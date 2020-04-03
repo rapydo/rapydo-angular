@@ -54,8 +54,6 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
   public loading:boolean = false;
   public updating:boolean = false;
   public data: Array<any> = [];
-  // rows is no longer required?
-  public rows: Array<any> = [];
 
   public columns: Array<any> = []
   // Only used by the filter function
@@ -145,8 +143,6 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
       this.post_filter();
 
       this.updatePaging(this.data.length);
-
-      this.changePage(1, this.data);
     }
   }
 
@@ -181,24 +177,8 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
     return this.paging;
   }
 
-  protected changePage(page:number, data:Array<any>): Array<any> {
-
-    if (page > 1) {
-      console.warn("Deprecated paging change");
-    }
-
-    this.paging.page = page;
-    if (this.server_side_pagination) {
-      this.rows = this.data;
-    } else {
-      let start = (this.paging.page - 1) * this.paging.itemsPerPage;
-      let end = this.paging.itemsPerPage > -1 ? (start + this.paging.itemsPerPage): data.length;
-      this.rows = data.slice(start, end);
-    }
-    return this.rows;
-  }
 /*
-  To used this:
+  To be used this way:
     <ngx-datatable
         [...]
         [externalPaging]="true"
@@ -213,20 +193,6 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
     this.paging.page = event.offset;
     this.list();
 
-  }
-
-  public setPage(page:any) {
-
-    console.warn("Deprecated paging set");
-    this.paging.page = page;
-
-    if (this.server_side_sort) {
-      this.server_side_update();
-    } else if (this.server_side_pagination) {
-      this.list();
-    } else {
-      this.changePage(page, this.data);
-    }
   }
 
   /** INTERACTION WITH APIs**/
@@ -298,17 +264,12 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
         this.unfiltered_data = this.data;
         if (!this.server_side_pagination) {
           this.updatePaging(this.data.length);
-          this.changePage(this.paging.page, this.data);
         }
 
         this.set_unloading();
         this.updating = false;
 
-        if (this.server_side_pagination) {
-          return this.data
-        } else {
-          return this.rows
-        }
+        return this.data
       }, error => {
         if (environment.WRAP_RESPONSE == '1') {
           if (error.Response) this.notify.showError(error.Response.errors);
