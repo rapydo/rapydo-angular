@@ -27,6 +27,45 @@ describe('FormlyService', () => {
     },
     {
       "custom": { "label": "Checkbox" },
+      "in": "formData",
+      "name": "checkbox",
+      "required": false,
+      "type": "boolean"
+    },
+    {
+      "custom": { "label": "Number" },
+      "description": "number",
+      "in": "formData",
+      "name": "number",
+      "required": true,
+      "type": "number"
+    },
+  ];
+  const schema_with_defaults = [
+    {
+      "custom": { "label": "Text" },
+      "description": "Text",
+      "in": "formData",
+      "name": "text",
+      "default": "default text",
+      "required": true,
+      "type": "string"
+    },
+    {
+      "custom": { "label": "List" },
+      "description": "List",
+      "enum": [
+        {"k1": "val1"},
+        {"k2": "val2"},
+      ],
+      "default": "k1",
+      "in": "formData",
+      "name": "list",
+      "required": true,
+      "type": "string"
+    },
+    {
+      "custom": { "label": "Checkbox" },
       "default": true,
       "in": "formData",
       "name": "checkbox",
@@ -35,8 +74,8 @@ describe('FormlyService', () => {
     },
     {
       "custom": { "label": "Number" },
-      "default": 1,
       "description": "number",
+      "default": 42,
       "in": "formData",
       "name": "number",
       "required": true,
@@ -90,6 +129,23 @@ describe('FormlyService', () => {
     expect(form["model"]["checkbox"]).not.toBeUndefined();
     expect(form["model"]["checkbox"]).toEqual(false);
     expect(form["model"]["number"]).toBeUndefined();
+  });
+
+  it('json2Form - empty model wth defaults', () => {
+    let form = service.json2Form(schema_with_defaults, {});
+    expect(form).not.toBeUndefined();
+    expect(form["fields"]).not.toBeUndefined();
+    expect(form["model"]).not.toBeUndefined();
+    expect(form["fields"]).not.toEqual([]);
+    expect(form["model"]).not.toEqual({});
+    expect(form["model"]["text"]).not.toBeUndefined();
+    expect(form["model"]["text"]).toEqual("default text");
+    expect(form["model"]["list"]).not.toBeUndefined();
+    expect(form["model"]["list"]).toEqual("k1");
+    expect(form["model"]["checkbox"]).not.toBeUndefined();
+    expect(form["model"]["checkbox"]).toEqual(true);
+    expect(form["model"]["number"]).not.toBeUndefined();
+    expect(form["model"]["number"]).toEqual(42);
   });
 
   it('json2Form - with model', () => {
