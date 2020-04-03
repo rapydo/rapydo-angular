@@ -85,8 +85,11 @@ describe('FormlyService', () => {
     expect(form["model"]).not.toBeUndefined();
     expect(form["fields"]).not.toEqual([]);
     expect(form["model"]).not.toEqual({});
-    expect(form["model"]["text"]).not.toBeUndefined();
-    expect(form["model"]["text"]).toEqual("");
+    expect(form["model"]["text"]).toBeUndefined();
+    expect(form["model"]["list"]).toBeUndefined();
+    expect(form["model"]["checkbox"]).not.toBeUndefined();
+    expect(form["model"]["checkbox"]).toEqual(false);
+    expect(form["model"]["number"]).toBeUndefined();
   });
 
   it('json2Form - with model', () => {
@@ -98,6 +101,12 @@ describe('FormlyService', () => {
     expect(form["model"]).not.toEqual({});
     expect(form["model"]["text"]).not.toBeUndefined();
     expect(form["model"]["text"]).toEqual("xyz");
+    expect(form["model"]["list"]).not.toBeUndefined();
+    expect(form["model"]["list"]).toEqual("k2");
+    expect(form["model"]["checkbox"]).not.toBeUndefined();
+    expect(form["model"]["checkbox"]).toEqual(true);
+    expect(form["model"]["number"]).not.toBeUndefined();
+    expect(form["model"]["number"]).toEqual(7);
   });
 
   it('getField', () => {
