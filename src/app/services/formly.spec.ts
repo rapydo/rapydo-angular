@@ -62,10 +62,10 @@ describe('FormlyService', () => {
   it('json2Form - empty schema', () => {
     let form = service.json2Form(undefined, {});
     expect(form).not.toBeUndefined();
-    expect(form).toContain("fields");
-    expect(form).toContain("model");
-    expect(form['fields']).toEqual([]);
-    expect(form['model']).toEqual({});
+    expect(form["fields"]).not.toBeUndefined();
+    expect(form["model"]).not.toBeUndefined();
+    expect(form["fields"]).toEqual([]);
+    expect(form["model"]).toEqual({});
   });
 
   it('json2Form - invalid schema', () => {
@@ -81,23 +81,23 @@ describe('FormlyService', () => {
   it('json2Form - empty model', () => {
     let form = service.json2Form(schema, {});
     expect(form).not.toBeUndefined();
-    expect(form).toContain("fields");
-    expect(form).toContain("model");
-    expect(form['fields']).not.toEqual([]);
-    expect(form['model']).not.toEqual({});
-    expect(form['model']).toContain('text');
-    expect(form['model']['text']).toEqual('');
+    expect(form["fields"]).not.toBeUndefined();
+    expect(form["model"]).not.toBeUndefined();
+    expect(form["fields"]).not.toEqual([]);
+    expect(form["model"]).not.toEqual({});
+    expect(form["model"]["text"]).not.toBeUndefined();
+    expect(form["model"]["text"]).toEqual("");
   });
 
   it('json2Form - with model', () => {
     let form = service.json2Form(schema, model);
     expect(form).not.toBeUndefined();
-    expect(form).toContain("fields");
-    expect(form).toContain("model");
-    expect(form['fields']).not.toEqual([]);
-    expect(form['model']).not.toEqual({});
-    expect(form['model']).toContain('text');
-    expect(form['model']['text']).toEqual('xyz');
+    expect(form["fields"]).not.toBeUndefined();
+    expect(form["model"]).not.toBeUndefined();
+    expect(form["fields"]).not.toEqual([]);
+    expect(form["model"]).not.toEqual({});
+    expect(form["model"]["text"]).not.toBeUndefined();
+    expect(form["model"]["text"]).toEqual("xyz");
   });
 
   it('getField', () => {
@@ -111,12 +111,12 @@ describe('FormlyService', () => {
       "My descr"
     );
     expect(form).not.toBeUndefined();
-    expect(form).toContain("fields");
-    expect(form).toContain("model");
-    expect(form['fields']).not.toEqual([]);
-    expect(form['model']).not.toEqual({});
-    expect(form['model']).toContain('mykey');
-    expect(form['model']['mykey']).toEqual('myval');
+    expect(form["fields"]).not.toBeUndefined();
+    expect(form["model"]).not.toBeUndefined();
+    expect(form["fields"]).not.toEqual([]);
+    expect(form["model"]).not.toEqual({});
+    expect(form["model"]["mykey"]).not.toBeUndefined();
+    expect(form["model"]["mykey"]).toEqual("myval");
 
   });
 
