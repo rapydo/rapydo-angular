@@ -44,7 +44,7 @@ describe('FormlyService', () => {
     },
   ];
   const model = {
-    'text': 'xyz'
+    'text': 'xyz',
     'list': 'k2',
     'checkbox': true,
     'number': '7',
