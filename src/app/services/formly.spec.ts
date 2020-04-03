@@ -57,6 +57,34 @@ describe('FormlyService', () => {
     expect(form['model']['text']).toEqual('xyz');
   });
 
+  it('getField', () => {
+
+    let form = service.getField(
+      {"mykey": "myval"},
+      "string",
+      "mykey",
+      "My Field",
+      true,
+      "My descr"
+    );
+    expect(form).not.toBeUndefined();
+    expect(form).toContain("fields");
+    expect(form).toContain("model");
+    expect(form['fields']).not.toEqual([]);
+    expect(form['model']).not.toEqual({});
+    expect(form['model']).toContain('mykey');
+    expect(form['model']['mykey']).toEqual('myval');
+
+  }
+  it('formatDate - null', () => {
+    expect(service.formatDate(null).toBeNull();
+    expect(service.formatDate("").toEqual("");
+    expect(service.formatDate("01 Jan 1970 00:00:00 GMT").toEqual("1970-01-01");
+    expect(service.formatDate("01/31/1970").toEqual("1970-01-31");
+    expect(service.formatDate("01/31/1970").toEqual("1970-01-31");
+    expect(service.formatDate("1/1/1970").toEqual("1970-01-01");
+  }
+
   getSchema() {
     return [
       {
