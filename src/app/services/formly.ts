@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable()
 export class FormlyService {
 
-  private modalRef: NgbModalRef;
-
-  constructor(private modalService: NgbModal) {}
+  constructor() {}
 
   public json2Form(schema, data) {
 
@@ -348,15 +345,6 @@ export class FormlyService {
       if (day.length < 2) day = '0' + day;
 
       return [year, month, day].join('-');
-  }
-
-  public showForm() {
-
-    let template = "<div>test</div>";
-      this.modalRef = this.modalService.open(template, {size: 'lg'});
-      this.modalRef.result.then((result) => {
-      }, (reason) => {
-      });
   }
 
 }
