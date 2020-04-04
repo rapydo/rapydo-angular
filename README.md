@@ -1,6 +1,6 @@
 # RAPyDo Angular App
 
-This web app is integrated with the RAPyDo stack and the RAPyDo REST APIs by implemenenting authentication and user management.
+This web app is integrated with the RAPyDo stack and the RAPyDo REST APIs by implementing authentication and user management.
 
 Based on:
 

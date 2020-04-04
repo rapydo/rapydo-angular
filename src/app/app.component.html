@@ -38,7 +38,7 @@
 
 <navbar *ngIf="api.is_online()"></navbar>
 
-<router-outlet></router-outlet>
+<router-outlet *ngIf="api.is_online()"></router-outlet>
 
 <cookie-law #cookieLaw>
 	<span *ngIf='cookieLawText; else defaultText'
