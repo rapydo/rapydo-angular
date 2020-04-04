@@ -89,18 +89,20 @@ export class ApiService {
       ep += "/" + id;
     }
 
-    let contentType = 'application/json';
+    let contentType;
     if (formData) {
       contentType = 'application/x-www-form-urlencoded';
+    } else {
+      contentType = 'application/json';
     }
 
     let options = {
+      timeout: 30000,
       headers: new HttpHeaders({
         'Content-Type': contentType,
         'Accept': 'application/json'
       })
     };
-    options["timeout"] = 30000;
     for (let k in conf) {
         options[k] = conf[k]
     }
@@ -126,6 +128,7 @@ export class ApiService {
       map(response => {
 
         this.set_online();
+        // once remove wrapped responses rawResponse will be deprecated
         if (rawResponse) return response;
 
         if (response["Response"]) return response["Response"];
@@ -148,9 +151,21 @@ export class ApiService {
           this.set_online();
         }
 
-        if (rawResponse) return throwError(error);
-        if (error.error) return throwError(error.error)
-        return throwError(error)
+        if (rawResponse) return throwError(error);        
+        // This is a HttpErrorResponse
+        if (error.error) {
+          if (error.error instanceof ProgressEvent) {
+            if (error.message.startsWith("Http failure response for ")) {
+              // strip off the URL
+              return throwError("Http request failed, unknown error");
+            }
+            return throwError(error.message);
+          }
+          
+          return throwError(error.error);
+        }
+        // This is a 'normal' error
+        return throwError(error);
       })
     );
   }
