@@ -205,11 +205,10 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
       response => {
         
         if (environment.WRAP_RESPONSE == '1') response = response.data;
-        let result = this.api.parseResponse(response);
 
         let t = 0
-        if ("total" in result) {
-          t = result["total"];
+        if ("total" in response) {
+          t = response["total"];
         }
 
         this.paging["dataLength"] = t;
