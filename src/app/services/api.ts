@@ -170,50 +170,11 @@ export class ApiService {
     );
   }
 
-  public parseElement(element) {
-
-    let newelement = null;
-    if (element.hasOwnProperty('attributes')) {
-      newelement = element.attributes;
-    } else {
-      newelement = element;
-    }
-
-    if (element.hasOwnProperty('id')) {
-      newelement.id = element.id;
-    }
-
-    if (element.hasOwnProperty('relationships')) {
-      for (let key in element.relationships) {
-        let subelement = element.relationships[key]
-        let k = '_'+key;
-        if (subelement.length == 1) {
-          newelement[k] = [this.parseElement(subelement[0])];
-        } else {
-          newelement[k] = [];
-          for (let i=0; i<subelement.length; i++) {
-            newelement[k].push(this.parseElement(subelement[i]));
-          }
-        }
-      }
-    }
-
-    return newelement;
-  }
-
   public parseResponse(response) {
 
-    if (!response || !response.length) {
-      return response;
-    }
-
-    let newresponse = []
-    for (let i=0; i<response.length; i++) {
-      let element = this.parseElement(response[i]);
-
-      newresponse.push(element);
-    }
-    return newresponse;
+    // deprecated since 0.7.3
+    console.warn("Obsolete use of parseResponse");
+    return response;
   }
 
 }
