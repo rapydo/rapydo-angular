@@ -172,7 +172,7 @@ export class LoginComponent implements OnInit {
                     response => {
                         this.loading = false;
                         let u = this.authService.getUser()
-                        if (u.hasOwnProperty('privacy_accepted') && !u.privacy_accepted) {
+                        if (!u.privacy_accepted) {
                             this.terms_of_use = this.customization.get_option('privacy_acceptance');
                             if (this.terms_of_use !== null) {
                                 this.modalRef = this.modalService.open(this.privacy_acceptance, {size: 'lg'});
