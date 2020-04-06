@@ -179,6 +179,7 @@ export class LoginComponent implements OnInit {
                                 this.modalRef.result.then((result) => {
                                     this.api.put('profile', u.id, {'privacy_accepted': true}, {"base": "auth"}).subscribe(
                                         data => {
+                                            this.authService.loadUser();
                                             this.router.navigate([this.returnUrl]);
                                         },
                                         error => {
@@ -192,7 +193,7 @@ export class LoginComponent implements OnInit {
                                 }, (reason) => {
                                     this.authService.logout().subscribe(
                                         response =>  {
-                                            this.notify.showError("We apologize but you are not allowed to login, since you don't accepted our Terms of Use");
+                                            this.notify.showError("We apologize but you are not allowed to login, as you have not accepted our Terms of Use");
                                             this.router.navigate(['']);
                                         }
                                     );

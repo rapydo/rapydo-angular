@@ -157,7 +157,7 @@ export class ApiService {
           if (error.error instanceof ProgressEvent) {
             if (error.message.startsWith("Http failure response for ")) {
               // strip off the URL
-              return throwError("Http request failed, unknown error");
+              return throwError("Http request failed: unknown error");
             }
             return throwError(error.message);
           }
