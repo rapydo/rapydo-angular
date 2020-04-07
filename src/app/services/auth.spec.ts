@@ -19,7 +19,6 @@ describe('AuthService', () => {
       providers: [
       	AuthService,
         {provide: ApiService, useValue: ApiServiceStub},
-        {provide: ApiService, useValue: ApiServiceStub},
       ],
       imports: [
         AppModule, HttpClientTestingModule
@@ -31,7 +30,7 @@ describe('AuthService', () => {
     httpMock = injector.get(HttpTestingController);
   });
 
-  it('not authenticated', async () => {
+  it('not authenticated', () => {
     service.isAuthenticated().subscribe(
       result => {
         expect(result).toBeFalsy();
@@ -39,7 +38,7 @@ describe('AuthService', () => {
     ); 
   });
 
-  it('logged in', async () => {
+  it('logged in', () => {
 
     let token;
     if (environment.WRAP_RESPONSE == '1') {
