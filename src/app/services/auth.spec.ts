@@ -50,7 +50,7 @@ describe('AuthService', () => {
 
     service.login("x", "y").subscribe(
       result => {
-        expect(result).toBe... (the user dict);
+        expect(result).toEqual('xyz');
         service.isAuthenticated().subscribe(
           result => expect(result).toBeTruthy();
         );
