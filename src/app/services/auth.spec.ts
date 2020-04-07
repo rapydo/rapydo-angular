@@ -38,6 +38,29 @@ describe('AuthService', () => {
     ); 
   });
 
+  it('failed login', () => {
+
+    service.login("x", "y").subscribe(
+      result => {
+        expect(result).toBeUndefined();
+      },
+      error => {
+        if (environment.WRAP_RESPONSE == '1') {
+          // skipped tests now
+        } else {
+          expect(error).toEqual('LOGIN FAILED');
+        }
+      }
+    );
+
+    const req = httpMock.expectOne(environment.authApiUrl + '/login');
+
+    expect(req.request.method).toEqual('POST');
+    ref.error(new ErrorEvent('LOGIN FAILED'));
+
+    httpMock.verify();
+  });
+
   it('logged in', () => {
 
     let token;
@@ -75,7 +98,6 @@ describe('AuthService', () => {
 
     expect(req.request.method).toEqual('POST');
     req.flush(token);             
-    //loginRequest.error(new ErrorEvent('LOGIN FAILED'));
 
     httpMock.verify();
   });
