@@ -1,4 +1,5 @@
 import { TestBed, getTestBed } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '@rapydo/services/auth';
 
 import { ApiService } from '@rapydo/services/api';
@@ -14,6 +15,9 @@ describe('AuthService', () => {
       	AuthService,
         {provide: ApiService, useValue: ApiServiceStub},
       ],
+      imports: [
+        HttpClientModule
+      ]
     });
 
     injector = getTestBed();
