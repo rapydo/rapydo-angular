@@ -1,5 +1,5 @@
 import { TestBed, getTestBed } from '@angular/core/testing';
-import { HttpClientModule } from '@angular/common/http';
+import { AppModule } from '@rapydo/app.module';
 import { AuthService } from '@rapydo/services/auth';
 
 import { ApiService } from '@rapydo/services/api';
@@ -16,7 +16,7 @@ describe('AuthService', () => {
         {provide: ApiService, useValue: ApiServiceStub},
       ],
       imports: [
-        HttpClientModule
+        AppModule
       ]
     });
 
