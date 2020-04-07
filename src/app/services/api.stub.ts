@@ -1,11 +1,12 @@
 import { Observable } from 'rxjs/Rx';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
 import { ApiService } from '@rapydo/services/api';
 
 import { environment } from '@rapydo/../environments/environment';
 
-
+@Injectable()
 export class ApiServiceStub extends ApiService {
     constructor() {
         super({} as HttpClient);
