@@ -1,6 +1,7 @@
 import { TestBed, getTestBed } from '@angular/core/testing';
 import { AuthService } from '@rapydo/services/auth';
 
+import { ApiService } from '@rapydo/services/api';
 import { ApiServiceStub } from '@rapydo/services/api.stub';
 
 describe('AuthService', () => {
