@@ -75,7 +75,7 @@ export class ApiService {
     return this.call("DELETE", endpoint, id, {}, formData, conf, base, rawResponse)
   }
 
-  private call(
+  protected call(
     method:string, endpoint: string, id="", data={},
     formData=false, conf={}, base='api', rawResponse=false) {
 
