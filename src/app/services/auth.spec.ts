@@ -52,7 +52,9 @@ describe('AuthService', () => {
       result => {
         expect(result).toEqual('xyz');
         service.isAuthenticated().subscribe(
-          result => expect(result).toBeTruthy();
+          result => {
+            expect(result).toBeTruthy();
+          }
         );
       }
     );
