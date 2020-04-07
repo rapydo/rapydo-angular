@@ -22,7 +22,7 @@ describe('AuthService', () => {
         {provide: ApiService, useValue: ApiServiceStub},
       ],
       imports: [
-        AppModule
+        AppModule, HttpClientTestingModule
       ]
     });
 
