@@ -24,8 +24,10 @@ describe('AuthService', () => {
     service = injector.get(AuthService);
   });
 
-  it('trivial test', () => {
-    expect(service.isAuthenticated()).toBeTruthy();
-  });
+  it('trivial test', async(() => {
+    service.isAuthenticated().subscribe(
+      result => expect(result).toBeFalsy(0)
+    ); 
+  }));
 
 });
