@@ -21,6 +21,7 @@ export class ApiServiceStub extends ApiService {
                 "data": response,
                 "errors": []
             });
+        }
         return Observable.of(response);
     }
 
