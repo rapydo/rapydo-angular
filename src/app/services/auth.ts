@@ -120,35 +120,11 @@ export class AuthService {
     ));
   }
 
-  public removeToken() {
-    this.clean_localstorage();
-    localStorage.removeItem('token');
-    localStorage.removeItem('currentUser');
-    // this.userChanged.emit(this.LOGGED_OUT);
-    this.userChanged.next(this.LOGGED_OUT);
-  }
-
-  public setUser(user: any) {
-    localStorage.setItem('currentUser', user);
-    // this.userChanged.emit(this.LOGGED_IN);
-    this.userChanged.next(this.LOGGED_IN);
-  }
   public getUser() {
     return JSON.parse(localStorage.getItem('currentUser'));
   }
 
-  public clean_localstorage() {
-    // Cleaning up the localStorage from data from the previous session
-    Object.keys(localStorage).forEach(
-      key => {
-        localStorage.removeItem(key)
-      }
-    );
-  }
-  public setToken(token: string) {
 
-    localStorage.setItem('token', token);
-  }
   public getToken() {
     return JSON.parse(localStorage.getItem('token'))
   }
@@ -192,5 +168,35 @@ export class AuthService {
     this.notification.showError("Permission denied: you are not authorized to access this page")
     return false;
   }
+
+  private setUser(user: any) {
+    localStorage.setItem('currentUser', user);
+    // this.userChanged.emit(this.LOGGED_IN);
+    this.userChanged.next(this.LOGGED_IN);
+  }
+
+  private setToken(token: string) {
+
+    localStorage.setItem('token', token);
+
+  }
+
+  private removeToken() {
+    this.clean_localstorage();
+    localStorage.removeItem('token');
+    localStorage.removeItem('currentUser');
+    // this.userChanged.emit(this.LOGGED_OUT);
+    this.userChanged.next(this.LOGGED_OUT);
+  }
+
+  private clean_localstorage() {
+    // Cleaning up the localStorage from data from the previous session
+    Object.keys(localStorage).forEach(
+      key => {
+        localStorage.removeItem(key)
+      }
+    );
+  }
+
 }
 
