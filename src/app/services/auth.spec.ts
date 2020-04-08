@@ -24,15 +24,15 @@ describe('AuthService', () => {
     httpMock = injector.get(HttpTestingController);
   });
 
-  it('not authenticated', () => {
+  it('not authenticated', async(() => {
     service.isAuthenticated().subscribe(
       result => {
         expect(result).toBeFalsy();
       }
     ); 
-  });
+  }));
 
-  it('failed login', () => {
+  it('failed login', async(() => {
 
     service.login("x", "y").subscribe(
       result => {
@@ -65,9 +65,9 @@ describe('AuthService', () => {
     req.flush('Invalid username or password', mock401Response);
 
     httpMock.verify();
-  });
+  }));
 
-  it('logged in', () => {
+  it('logged in', async(() => {
 
     let token;
     if (environment.WRAP_RESPONSE == '1') {
@@ -133,7 +133,7 @@ describe('AuthService', () => {
     user_req.flush(user);
 
     httpMock.verify();
-  });
+  }));
 
 
   afterEach(() => {
