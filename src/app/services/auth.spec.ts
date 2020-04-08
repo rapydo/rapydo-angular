@@ -56,7 +56,7 @@ describe('AuthService', () => {
     const req = httpMock.expectOne(environment.authApiUrl + '/login');
 
     expect(req.request.method).toEqual('POST');
-    ref.error(new ErrorEvent('LOGIN FAILED'));
+    req.error(new ErrorEvent('LOGIN FAILED'));
 
     httpMock.verify();
   });
