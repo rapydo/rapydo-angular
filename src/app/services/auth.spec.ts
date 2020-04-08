@@ -135,6 +135,55 @@ describe('AuthService', () => {
     httpMock.verify();
   });
 
+  it('logout - failuires', async () => {
+
+    service.logout().subscribe(
+      result => {
+      },
+      error => {
+        service.isAuthenticated().subscribe(
+          result => {
+            expect(result).toBeFalsy();
+          }
+        );
+      }
+    );
+
+    const req = httpMock.expectOne(environment.authApiUrl + '/logout');
+
+    const mock401Response = {
+      status: 401,
+      statusText: 'UNAUTHORIZED'
+    };
+    expect(req.request.method).toEqual('GET');
+    req.flush('', mock401Response);
+
+    httpMock.verify();
+  });
+
+
+  it('logout ok', async () => {
+
+    service.logout().subscribe(
+      result => {
+
+        service.isAuthenticated().subscribe(
+          result => {
+            expect(result).toBeFalsy();
+          }
+        );
+
+      },
+      error => { }
+    );
+
+    const req = httpMock.expectOne(environment.authApiUrl + '/logout');
+
+    expect(req.request.method).toEqual('GET');
+    req.flush('');
+
+    httpMock.verify();
+  });
 
   afterEach(() => {
     // make sure that there are no outstanding requests
