@@ -11,6 +11,11 @@ describe('AuthService', () => {
   let service: AuthService;
   let httpMock: HttpTestingController;
 
+  const mock401Response = {
+    status: 401,
+    statusText: 'UNAUTHORIZED'
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [ AuthService],
@@ -57,10 +62,6 @@ describe('AuthService', () => {
 
     const req = httpMock.expectOne(environment.authApiUrl + '/login');
 
-    const mock401Response = {
-      status: 401,
-      statusText: 'UNAUTHORIZED'
-    };
     expect(req.request.method).toEqual('POST');
     req.flush('Invalid username or password', mock401Response);
 
@@ -151,10 +152,6 @@ describe('AuthService', () => {
 
     const logout_req = httpMock.expectOne(environment.authApiUrl + '/logout');
 
-    const mock401Response = {
-      status: 401,
-      statusText: 'UNAUTHORIZED'
-    };
     expect(logout_req.request.method).toEqual('GET');
     logout_req.flush('', mock401Response);
 
