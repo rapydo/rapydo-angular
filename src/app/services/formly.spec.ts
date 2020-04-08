@@ -95,7 +95,7 @@ describe('FormlyService', () => {
     });
 
     injector = getTestBed();
-    service = injector.get(FormlyService);
+    service = injector.inject(FormlyService);
   });
 
   it('json2Form - empty schema', () => {

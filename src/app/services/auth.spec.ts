@@ -20,8 +20,8 @@ describe('AuthService', () => {
     });
 
     injector = getTestBed();
-    service = injector.get(AuthService);
-    httpMock = injector.get(HttpTestingController);
+    service = injector.inject(AuthService);
+    httpMock = injector.inject(HttpTestingController);
   });
 
   it('not authenticated', async () => {

@@ -11,7 +11,7 @@ describe('WebSocketsService', () => {
     });
 
     injector = getTestBed();
-    service = injector.get(WebSocketsService);
+    service = injector.inject(WebSocketsService);
   });
 
 });

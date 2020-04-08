@@ -13,7 +13,7 @@ describe('NotificationService', () => {
     });
 
     injector = getTestBed();
-    service = injector.get(NotificationService);
+    service = injector.inject(NotificationService);
   });
 
   it('showCritical', () => {
