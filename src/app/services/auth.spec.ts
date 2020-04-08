@@ -135,7 +135,7 @@ describe('AuthService', () => {
     httpMock.verify();
   });
 
-  it('logout - failuires', async () => {
+  it('logout - failuire', async () => {
 
     service.logout().subscribe(
       result => {
@@ -149,14 +149,18 @@ describe('AuthService', () => {
       }
     );
 
-    const req = httpMock.expectOne(environment.authApiUrl + '/logout');
+    const logout_req = httpMock.expectOne(environment.authApiUrl + '/logout');
 
     const mock401Response = {
       status: 401,
       statusText: 'UNAUTHORIZED'
     };
-    expect(req.request.method).toEqual('GET');
-    req.flush('', mock401Response);
+    expect(logout_req.request.method).toEqual('GET');
+    logout_req.flush('', mock401Response);
+
+    const profile_req = httpMock.expectOne(environment.authApiUrl + '/profile');
+    expect(profile_req.request.method).toEqual('GET');
+    profile_req.flush('', mock401Response);
 
     httpMock.verify();
   });
@@ -177,10 +181,14 @@ describe('AuthService', () => {
       error => { }
     );
 
-    const req = httpMock.expectOne(environment.authApiUrl + '/logout');
+    const logout_req = httpMock.expectOne(environment.authApiUrl + '/logout');
 
-    expect(req.request.method).toEqual('GET');
-    req.flush('');
+    expect(logout_req.request.method).toEqual('GET');
+    logout_req.flush('');
+
+    const profile_req = httpMock.expectOne(environment.authApiUrl + '/profile');
+    expect(profile_req.request.method).toEqual('GET');
+    profile_req.flush('', mock401Response);
 
     httpMock.verify();
   });

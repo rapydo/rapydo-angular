@@ -2,6 +2,8 @@ import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ApiService } from '@rapydo/services/api';
 
+import { environment } from '@rapydo/../environments/environment'
+
 describe('ApiService', () => {
   let injector: TestBed;
   let service: ApiService;
