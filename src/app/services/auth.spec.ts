@@ -48,15 +48,19 @@ describe('AuthService', () => {
         if (environment.WRAP_RESPONSE == '1') {
           // skipped tests now
         } else {
-          expect(error.message).toEqual('LOGIN FAILED');
+          expect(error).toEqual('Invalid username or password');
         }
       }
     );
 
     const req = httpMock.expectOne(environment.authApiUrl + '/login');
 
+    const mock401Response = {
+      status: 401,
+      statusText: 'UNAUTHORIZED'
+    };
     expect(req.request.method).toEqual('POST');
-    req.error(new ErrorEvent('LOGIN FAILED'));
+    req.flush('Invalid username or password', mock401Response);
 
     httpMock.verify();
   });
@@ -97,7 +101,7 @@ describe('AuthService', () => {
     const req = httpMock.expectOne(environment.authApiUrl + '/login');
 
     expect(req.request.method).toEqual('POST');
-    req.flush(token);             
+    req.flush(token);
 
     httpMock.verify();
   });
