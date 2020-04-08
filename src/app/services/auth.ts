@@ -53,9 +53,9 @@ export class AuthService {
 
         return response;
       },
-      err => {
+      error => {
         this.removeToken();
-        return err;
+        return error;
       }
 
     ));

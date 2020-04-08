@@ -4,8 +4,8 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { AppModule } from '@rapydo/app.module';
 import { AuthService } from '@rapydo/services/auth';
 
-import { ApiService } from '@rapydo/services/api';
-import { ApiServiceStub } from '@rapydo/services/api.stub';
+// import { ApiService } from '@rapydo/services/api';
+// import { ApiServiceStub } from '@rapydo/services/api.stub';
 
 import { environment } from '@rapydo/../environments/environment'
 
@@ -18,7 +18,7 @@ describe('AuthService', () => {
     TestBed.configureTestingModule({
       providers: [
       	AuthService,
-        {provide: ApiService, useValue: ApiServiceStub},
+        // {provide: ApiService, useValue: ApiServiceStub},
       ],
       imports: [
         AppModule, HttpClientTestingModule
@@ -47,6 +47,7 @@ describe('AuthService', () => {
       error => {
         if (environment.WRAP_RESPONSE == '1') {
           // skipped tests now
+          expect(error.error).not.toBeUndefined();
         } else {
           expect(error.error).toEqual('Invalid username or password');
         }
@@ -86,7 +87,7 @@ describe('AuthService', () => {
     service.login("x", "y").subscribe(
       result => {
         if (environment.WRAP_RESPONSE == '1') {
-          // skipped tests now
+          expect(result).not.toBeUndefined();
         } else {
           expect(result).toEqual('xyz');
         }
