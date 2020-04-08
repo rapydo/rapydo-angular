@@ -84,6 +84,30 @@ describe('AuthService', () => {
       token = "xyz";
     }
 
+    let user;
+    if (environment.WRAP_RESPONSE == '1') {
+      user = {
+        "Meta": {
+
+        },
+        "Response": {
+          "data": {
+            "id": "xyz",
+            "name": "xyz",
+            "surname": "xyz",
+            "email": "xyz",
+          }
+        }
+      }
+    } else {
+      user = {
+        "id": "xyz",
+        "name": "xyz",
+        "surname": "xyz",
+        "email": "xyz",
+      }
+    }
+
     service.login("x", "y").subscribe(
       result => {
         if (environment.WRAP_RESPONSE == '1') {
@@ -99,10 +123,15 @@ describe('AuthService', () => {
       }
     );
 
-    const req = httpMock.expectOne(environment.authApiUrl + '/login');
+    const login_req = httpMock.expectOne(environment.authApiUrl + '/login');
 
-    expect(req.request.method).toEqual('POST');
-    req.flush(token);
+    expect(login_req.request.method).toEqual('POST');
+    login_req.flush(token);
+
+    const user_req = httpMock.expectOne(environment.authApiUrl + '/profile');
+
+    expect(user_req.request.method).toEqual('GET');
+    user_req.flush(user);
 
     httpMock.verify();
   });
