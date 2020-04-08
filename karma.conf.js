@@ -14,7 +14,13 @@ module.exports = function (config) {
       require('@angular-devkit/build-angular/plugins/karma')
     ],
     client: {
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
+      clearContext: false, // leave Jasmine Spec Runner output visible in browser
+      jasmine: {
+        // stop execution of the suite after the first spec failure
+        failFast: true,
+        // do not  randomize spec execution order
+        random: false,
+      }
     },
     coverageIstanbulReporter: {
       dir: require('path').join('/coverage'),

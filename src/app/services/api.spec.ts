@@ -19,6 +19,7 @@ describe('ApiService', () => {
 
     injector = getTestBed();
     service = injector.get(ApiService);
+    httpMock = injector.get(HttpTestingController);
   });
 
 	it('GET - success', () => {
