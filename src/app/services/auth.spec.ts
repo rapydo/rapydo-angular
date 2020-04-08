@@ -48,7 +48,7 @@ describe('AuthService', () => {
         if (environment.WRAP_RESPONSE == '1') {
           // skipped tests now
         } else {
-          expect(error).toEqual('Invalid username or password');
+          expect(error.error).toEqual('Invalid username or password');
         }
       }
     );
