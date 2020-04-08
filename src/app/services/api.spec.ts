@@ -120,7 +120,7 @@ describe('ApiService', () => {
 
 	it('PUT - success', () => {
 
-	    service.put("xyz", {"key": "value"}).subscribe(
+	    service.put("xyz", "id", {"key": "value"}).subscribe(
 	      result => {
           	expect(result).not.toBeUndefined();
 	      }
@@ -135,7 +135,7 @@ describe('ApiService', () => {
 
 	it('PUT - fail', () => {
 
-	    service.put("xyz", {"key": "value"}).subscribe(
+	    service.put("xyz", "id", {"key": "value"}).subscribe(
     	  result => { },
 	      error => {
           	expect(error).not.toBeUndefined();
@@ -151,7 +151,7 @@ describe('ApiService', () => {
 
 	it('PATCH - success', () => {
 
-	    service.patch("xyz", {"key": "value"}).subscribe(
+	    service.patch("xyz", "id", {"key": "value"}).subscribe(
 	      result => {
           	expect(result).not.toBeUndefined();
 	      }
@@ -166,7 +166,7 @@ describe('ApiService', () => {
 
 	it('PATCH - fail', () => {
 
-	    service.patch("xyz", {"key": "value"}).subscribe(
+	    service.patch("xyz", "id", {"key": "value"}).subscribe(
     	  result => { },
 	      error => {
           	expect(error).not.toBeUndefined();
