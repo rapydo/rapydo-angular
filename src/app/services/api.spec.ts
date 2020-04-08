@@ -13,7 +13,7 @@ describe('ApiService', () => {
     TestBed.configureTestingModule({
       providers: [ApiService],
       imports: [
-        AppModule, HttpClientTestingModule
+        HttpClientTestingModule
       ]
     });
 

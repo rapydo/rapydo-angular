@@ -186,6 +186,10 @@ describe('AuthService', () => {
     expect(logout_req.request.method).toEqual('GET');
     logout_req.flush('');
 
+    const mock401Response = {
+      status: 401,
+      statusText: 'UNAUTHORIZED'
+    };
     const profile_req = httpMock.expectOne(environment.authApiUrl + '/profile');
     expect(profile_req.request.method).toEqual('GET');
     profile_req.flush('', mock401Response);
