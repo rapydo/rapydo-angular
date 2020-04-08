@@ -73,7 +73,7 @@ describe('ApiService', () => {
 
 	it('POST - fail', () => {
 
-	    service.get("xyz").subscribe(
+	    service.post("xyz", {"key": "value"}).subscribe(
     	  result => { },
 	      error => {
           	expect(error).not.toBeUndefined();
