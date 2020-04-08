@@ -1,6 +1,6 @@
+os: linux
+dist: bionic
 language: python
-sudo: required
-dist: xenial
 python:
 - 3.7.1
 services:
