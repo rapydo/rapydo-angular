@@ -8,10 +8,11 @@ import { environment } from '@rapydo/../environments/environment';
 
 @Injectable()
 export class ApiServiceStub extends ApiService {
+/*
     constructor() {
         super({} as HttpClient);
     }
- 
+ */
     protected call(
       method:string, endpoint: string, id="", data={},
       formData=false, conf={}, base='api', rawResponse=false) {
