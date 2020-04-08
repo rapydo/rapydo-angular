@@ -1,4 +1,4 @@
-import { Component, ViewChild, TemplateRef, Injector } from '@angular/core';
+import { Component, ViewChild, TemplateRef, Input, Injector } from '@angular/core';
 
 import { BasePaginationComponent } from '@rapydo/components/base.pagination.component'
 
@@ -16,6 +16,11 @@ export class AdminUsersComponent extends BasePaginationComponent {
   @ViewChild('controlsCell', { static: false }) public controlsCell: TemplateRef<any>;
   @ViewChild('emptyHeader', { static: false }) public emptyHeader: TemplateRef<any>;
   @ViewChild('formModal', { static: false }) public formModal: TemplateRef<any>;
+
+  // both very temporary, remove me!
+  @ViewChild('view_sessions', { static: false }) public view_sessions: TemplateRef<any>;
+  @Input() sessions:any;
+
 
   protected endpoint = 'admin/users'
 
@@ -52,9 +57,9 @@ export class AdminUsersComponent extends BasePaginationComponent {
     }
 
     this.columns.push({name: 'Roles', prop: "_roles", cellTemplate: this.dataRoles, flexGrow: 0.9});
-    this.columns.push({name: 'First Login', prop: "first_login", flexGrow: 0.5, cellTemplate: this.dataDate});
-    this.columns.push({name: 'Last Login', prop: "last_login", flexGrow: 0.5, cellTemplate: this.dataDate});
-    this.columns.push({name: 'Password Change', prop: "last_password_change", flexGrow: 0.5, cellTemplate: this.dataDate});
+    this.columns.push({name: 'First<br>Login', prop: "first_login", flexGrow: 0.5, cellTemplate: this.dataDate});
+    this.columns.push({name: 'Last<br>Login', prop: "last_login", flexGrow: 0.5, cellTemplate: this.dataDate});
+    this.columns.push({name: 'Password<br>Change', prop: "last_password_change", flexGrow: 0.5, cellTemplate: this.dataDate});
     this.columns.push({name: 'controls', prop: 'controls', cellTemplate: this.controlsCell, headerTemplate: this.emptyHeader, flexGrow: 0.2});
   }
 
@@ -135,6 +140,21 @@ export class AdminUsersComponent extends BasePaginationComponent {
 
       return false;
     });
+  }
+
+  public show_sessions(user) {
+    this.api.get("tokens", "", {'username': user.email}, {'base': 'auth'}).subscribe(
+      response => {
+        this.sessions = response;
+        let modalRef = this.modalService.open(this.view_sessions, {"size": 'lg', "backdrop": 'static'});
+        modalRef.result.then((result) => {
+        }, (reason) => {
+        });
+      },
+      error => {
+        this.notify.showError(error);
+      }
+    );
   }
 
 }

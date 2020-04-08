@@ -100,7 +100,10 @@
 	</ng-template>
 
 	<ng-template #controlsCell let-row="row" let-value="value" let-i="index">
-		<i class='fa fa-edit fa-large' #icon_element (click)='update(row, icon_element)'></i>
+		<i class='fa fa-edit fa-large'
+		   ngbTooltip="Edit this user"
+		   #icon_element
+		   (click)='update(row, icon_element)'></i>
 		<i 
 			class='fa fa-trash fa-large' style='color:red;'
 			mwlConfirmationPopover
@@ -109,6 +112,9 @@
 	        placement="left"
 			(confirm)="remove(row.id)"
 		></i>
+		<i class='fa fa-list fa-large'
+		   ngbTooltip="View list of sessions"
+		   (click)='show_sessions(row)'></i>
 	</ng-template>
 
 	<ng-template #formModal let-c="close" let-d="dismiss">
@@ -127,6 +133,21 @@
 			    <h4>Submit</h4>
 		    </button>
   		</form>
+	  </div>
+
+	</ng-template>
+
+
+	<ng-template #view_sessions let-c="close" let-d="dismiss">
+
+	  <div class="modal-header bg-default">
+	    <h4 class="modal-title">List of sessions</h4>
+	    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+	      <span aria-hidden="true">&times;</span>
+	    </button>
+	  </div>
+	  <div class="modal-body">
+	  	{{sessions | json}}
 	  </div>
 
 	</ng-template>
