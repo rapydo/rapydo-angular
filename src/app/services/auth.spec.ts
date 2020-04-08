@@ -4,9 +4,6 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { AppModule } from '@rapydo/app.module';
 import { AuthService } from '@rapydo/services/auth';
 
-// import { ApiService } from '@rapydo/services/api';
-// import { ApiServiceStub } from '@rapydo/services/api.stub';
-
 import { environment } from '@rapydo/../environments/environment'
 
 describe('AuthService', () => {
@@ -16,10 +13,7 @@ describe('AuthService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-      	AuthService,
-        // {provide: ApiService, useValue: ApiServiceStub},
-      ],
+      providers: [ AuthService],
       imports: [
         AppModule, HttpClientTestingModule
       ]
@@ -51,6 +45,13 @@ describe('AuthService', () => {
         } else {
           expect(error.error).toEqual('Invalid username or password');
         }
+
+        service.isAuthenticated().subscribe(
+          result => {
+            expect(result).toBeFalsy();
+          }
+        ); 
+
       }
     );
 
@@ -124,12 +125,10 @@ describe('AuthService', () => {
     );
 
     const login_req = httpMock.expectOne(environment.authApiUrl + '/login');
-
     expect(login_req.request.method).toEqual('POST');
     login_req.flush(token);
 
     const user_req = httpMock.expectOne(environment.authApiUrl + '/profile');
-
     expect(user_req.request.method).toEqual('GET');
     user_req.flush(user);
 
