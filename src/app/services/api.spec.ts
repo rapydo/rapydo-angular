@@ -126,7 +126,7 @@ describe('ApiService', () => {
 	      }
 	    );
 
-	    const req = httpMock.expectOne(environment.apiUrl + '/xyz');
+	    const req = httpMock.expectOne(environment.apiUrl + '/xyz/id');
 	    expect(req.request.method).toEqual('PUT');
 	    req.flush('');
 
@@ -142,7 +142,7 @@ describe('ApiService', () => {
 	      }
 	    );
 
-	    const req = httpMock.expectOne(environment.apiUrl + '/xyz');
+	    const req = httpMock.expectOne(environment.apiUrl + '/xyz/id');
 	    expect(req.request.method).toEqual('PUT');
 	    req.flush('FAILED', mock401Response);
 
@@ -157,7 +157,7 @@ describe('ApiService', () => {
 	      }
 	    );
 
-	    const req = httpMock.expectOne(environment.apiUrl + '/xyz');
+	    const req = httpMock.expectOne(environment.apiUrl + '/xyz/id');
 	    expect(req.request.method).toEqual('PATCH');
 	    req.flush('');
 
@@ -173,7 +173,7 @@ describe('ApiService', () => {
 	      }
 	    );
 
-	    const req = httpMock.expectOne(environment.apiUrl + '/xyz');
+	    const req = httpMock.expectOne(environment.apiUrl + '/xyz/id');
 	    expect(req.request.method).toEqual('PATCH');
 	    req.flush('FAILED', mock401Response);
 
