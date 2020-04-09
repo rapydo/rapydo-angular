@@ -62,5 +62,3 @@ rapydo init
 rapydo -s frontend pull
 
 rapydo dump
-
-# rapydo start

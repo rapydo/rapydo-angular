@@ -17,11 +17,6 @@ export class AdminUsersComponent extends BasePaginationComponent {
   @ViewChild('emptyHeader', { static: false }) public emptyHeader: TemplateRef<any>;
   @ViewChild('formModal', { static: false }) public formModal: TemplateRef<any>;
 
-  // both very temporary, remove me!
-  @ViewChild('view_sessions', { static: false }) public view_sessions: TemplateRef<any>;
-  @Input() sessions:any;
-
-
   protected endpoint = 'admin/users'
 
   constructor(protected injector: Injector) {
@@ -31,6 +26,7 @@ export class AdminUsersComponent extends BasePaginationComponent {
 
     this.list();
     this.initPaging(20);
+
   }
 
   public ngAfterViewInit(): void {
@@ -140,21 +136,6 @@ export class AdminUsersComponent extends BasePaginationComponent {
 
       return false;
     });
-  }
-
-  public show_sessions(user) {
-    this.api.get("tokens", "", {'username': user.email}, {'base': 'auth'}).subscribe(
-      response => {
-        this.sessions = response;
-        let modalRef = this.modalService.open(this.view_sessions, {"size": 'lg', "backdrop": 'static'});
-        modalRef.result.then((result) => {
-        }, (reason) => {
-        });
-      },
-      error => {
-        this.notify.showError(error);
-      }
-    );
   }
 
 }

@@ -112,9 +112,6 @@
 	        placement="left"
 			(confirm)="remove(row.id)"
 		></i>
-		<i class='fa fa-list fa-large'
-		   ngbTooltip="View list of sessions"
-		   (click)='show_sessions(row)'></i>
 	</ng-template>
 
 	<ng-template #formModal let-c="close" let-d="dismiss">
@@ -136,22 +133,6 @@
 	  </div>
 
 	</ng-template>
-
-
-	<ng-template #view_sessions let-c="close" let-d="dismiss">
-
-	  <div class="modal-header bg-default">
-	    <h4 class="modal-title">List of sessions</h4>
-	    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-	      <span aria-hidden="true">&times;</span>
-	    </button>
-	  </div>
-	  <div class="modal-body">
-	  	{{sessions | json}}
-	  </div>
-
-	</ng-template>
-
 
 </div>
 </div>

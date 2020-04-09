@@ -27,7 +27,7 @@
         <td>{{values.value.id}}</td>
         <td>{{values.value.IP}}</td>
 
-        <td>{{values.value.hostname}}</td>
+        <td>{{values.value.location}}</td>
         <td>
             <span 
                 ngbTooltip="{{1000*values.value.emitted | date : 'yyyy MMM dd HH:mm:ss'}}"
@@ -57,7 +57,7 @@
                 class='fa fa-trash fa-large' style='color:red;'
                 mwlConfirmationPopover
                 [popoverTitle]="'Confirmation required'"
-                [popoverMessage]="'Are you really sure you want to delete this session?'"
+                [popoverMessage]="'Are you really sure you want to close this session?'"
                 placement="left"
                 (confirm)="revokeToken(values.value.id)"
             ></i>

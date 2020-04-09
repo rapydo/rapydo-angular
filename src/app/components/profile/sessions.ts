@@ -56,7 +56,7 @@ export class SessionsComponent implements OnInit {
    );
   }
 
-  revokeToken(id) {
+  public revokeToken(id) {
 
     this.api.delete('tokens', id, {"base": "auth"}).subscribe(
       response => {
@@ -72,7 +72,7 @@ export class SessionsComponent implements OnInit {
     );
   }
 
-  copied(event) {
+  public copied(event) {
     if (event['isSuccess']) {
       this.notify.showSuccess("Token successfully copied");
     }
