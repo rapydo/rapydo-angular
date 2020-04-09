@@ -12,8 +12,8 @@ env:
 script:
   - scripts/init_tests.sh
   - cd rapydo_tests
-  - docker-compose exec -d backend restapi start
-  - sleep 20
+  # - docker-compose exec -d backend restapi start
+  # - sleep 20
   - docker-compose up --exit-code-from frontend
 
   - docker-compose down

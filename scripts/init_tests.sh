@@ -59,8 +59,8 @@ fi
 
 rapydo init
 
-rapydo pull
+rapydo -s frontend pull
 
 rapydo dump
 
-rapydo start
+# rapydo start
