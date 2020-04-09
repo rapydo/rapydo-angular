@@ -14,7 +14,8 @@ script:
   - cd rapydo_tests
   # - docker-compose exec -d backend restapi start
   # - sleep 20
-  - docker-compose up --exit-code-from frontend
+  # - docker-compose up --exit-code-from frontend
+  - docker-compose up --exit-code-from frontend frontend
 
   - docker-compose down
   - cp data/${PROJECT}/karma/lcov.info . 
