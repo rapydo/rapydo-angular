@@ -7,7 +7,7 @@ require('dotenv').config({path: '/tmp/.env'});
 
 let backendURI = "";
 
-if (typeof process.env.BACKEND_URI != 'undefined' && process.env.BACKEND_URI !== null && process.env.BACKEND_URI !== '') {
+if (typeof process.env.BACKEND_URI !== 'undefined' && process.env.BACKEND_URI !== null && process.env.BACKEND_URI !== '') {
   backendURI = process.env.BACKEND_URI;
 } else {
 
