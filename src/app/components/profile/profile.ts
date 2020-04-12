@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 
 import { ApiService } from '../../services/api';
-import { AuthService } from '../../services/auth';
+import { AuthService, User } from '../../services/auth';
+
 
 @Component({
   selector: 'profile',
@@ -9,7 +10,7 @@ import { AuthService } from '../../services/auth';
 })
 export class ProfileComponent { 
 
-  public user: any
+  public user: User
 
   constructor(private api: ApiService, private auth: AuthService) {
 

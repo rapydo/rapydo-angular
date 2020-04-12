@@ -1,12 +1,13 @@
 import { Component, ViewChild, TemplateRef, Input, Injector } from '@angular/core';
 
 import { BasePaginationComponent } from '@rapydo/components/base.pagination.component'
+import { User } from '@rapydo/services/auth'
 
 @Component({
   selector: 'admin-users',
   templateUrl: 'admin_users.html'
 })
-export class AdminUsersComponent extends BasePaginationComponent {
+export class AdminUsersComponent extends BasePaginationComponent<User> {
 
   @ViewChild('dataActive', { static: false }) public dataActive: TemplateRef<any>;
   @ViewChild('dataRoles', { static: false }) public dataRoles: TemplateRef<any>;

@@ -9,6 +9,34 @@ import { ApiService } from './api';
 import { environment } from '@rapydo/../environments/environment';
 import { NotificationService } from '@rapydo/services/notification';
 
+export interface User {
+  id: string,
+  email: string,
+  name: string,
+  surname: string,
+  isAdmin: boolean,
+  isGroupAdmin: boolean,
+  privacy_accepted: boolean,
+  roles: any,
+  group: Group
+}
+
+export interface Session {
+  token: string,
+  IP: string, 
+  location: string,
+  user_email: string,
+  user_name: string,
+  user_surname: string,
+
+}
+
+export interface Group {
+  shortname: string,
+  fullname: string,
+}
+  
+
 @Injectable()
 export class AuthService {
 
@@ -120,7 +148,7 @@ export class AuthService {
     ));
   }
 
-  public getUser() {
+  public getUser(): User {
     return JSON.parse(localStorage.getItem('currentUser'));
   }
 

@@ -1,12 +1,14 @@
 import { Component, ViewChild, TemplateRef, Input, Injector } from '@angular/core';
 
+import { Session } from '@rapydo/services/auth'
+
 import { BasePaginationComponent } from '@rapydo/components/base.pagination.component'
 
 @Component({
   selector: 'admin-sessions',
   templateUrl: 'admin_sessions.html'
 })
-export class AdminSessionsComponent extends BasePaginationComponent {
+export class AdminSessionsComponent extends BasePaginationComponent<Session> {
 
   @ViewChild('dataToken', { static: false }) public dataToken: TemplateRef<any>;
   @ViewChild('dataDate', { static: false }) public dataDate: TemplateRef<any>;

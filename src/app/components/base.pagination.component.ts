@@ -15,15 +15,26 @@ import { environment } from '@rapydo/../environments/environment';
 
 // == @swimlane/ngx-datatable/src/types/column-mode.type
 enum ColumnMode {
-    standard = 'standard',
-    flex = 'flex',
-    force = 'force'
-  }
+  standard = 'standard',
+  flex = 'flex',
+  force = 'force'
+}
+export interface Paging {
+  page: number,
+  itemsPerPage: number,
+  numPages: number,
+  dataLength: number
+}
+export interface Confirmation {
+  title: string,
+  message: string
+}
+
 @Component({
   selector: 'base-component',
   templateUrl: 'base.pagination.component.html'
 })
-export class BasePaginationComponent implements OnInit, AfterViewChecked {
+export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
   protected api: ApiService;
   protected auth: AuthService;
@@ -38,9 +49,9 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
 
   public resource_name:string;
 
-  protected server_side_filter = false;
-  protected server_side_sort = false;
-  protected server_side_pagination = false;
+  protected server_side_filter:boolean = false;
+  protected server_side_sort:boolean = false;
+  protected server_side_pagination:boolean= false;
 
   protected endpoint: string;
   protected counter_endpoint: string;
@@ -48,21 +59,21 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
   protected modalRef: NgbModalRef;
   public form = new FormGroup({});
   public fields: FormlyConfig[]; 
-  public model:any = {}
+  public model = {}
   public modalTitle: string;
 
   public loading:boolean = false;
   public updating:boolean = false;
-  public data: Array<any> = [];
+  public data: Array<T> = [];
 
   public columns: Array<any> = []
   // Only used by the filter function
-  protected data_filter: any;
-  public unfiltered_data: Array<any>;
+  protected data_filter: string;
+  public unfiltered_data: Array<T>;
 
-  public deleteConfirmation: any;
+  public deleteConfirmation: Confirmation;
 
-  public paging: any;
+  public paging: Paging;
   public is_update: boolean = false;
 
   @ViewChild('tableWrapper', {static: false}) tableWrapper;
@@ -81,7 +92,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
     this.customization = injector.get(ProjectOptions);
 
   }
-  public init(res:string) {
+  public init(res:string): void {
 
     this.resource_name = res;
     this.deleteConfirmation = this.getDeleteConfirmation(this.resource_name);
@@ -90,7 +101,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
   public ngOnInit(): void { }
 
   // https://github.com/swimlane/ngx-datatable/issues/193
-  public ngAfterViewChecked() {
+  public ngAfterViewChecked(): void  {
     // Check if the table size has changed,
     if (this.table && this.table.recalculate && (this.tableWrapper.nativeElement.clientWidth !== this.currentComponentWidth)) {
       this.currentComponentWidth = this.tableWrapper.nativeElement.clientWidth;
@@ -100,7 +111,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
   }
 
   /** DELETE MODAL WITH MESSAGE CONFIRMATION **/
-  public getDeleteConfirmation(name) {
+  public getDeleteConfirmation(name): Confirmation {
     return {
       title: "Confirmation required",
       message:`<div class='card text-center'>
@@ -113,11 +124,11 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
   }
 
 
-  protected server_side_update() {
+  protected server_side_update(): void {
     console.warn("Server side update function not implemented")
   }
 
-  updateSort(event) {
+  updateSort(event): void {
 
     console.warn("Update sort function not implemented")
     if (this.server_side_filter) {
@@ -125,7 +136,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  updateFilter(event) {
+  updateFilter(event): void {
 
     if (event != null) {
       this.data_filter = event.target.value.toLowerCase()
@@ -146,15 +157,15 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  post_filter() {}
+  post_filter(): void {}
 
-  filter(data_filter) {
+  filter(data_filter: string): Array<T> {
     console.warn("Filter function not implemented")
     return this.data;
   }
 
   /** PAGINATION **/
-  protected initPaging(itemPerPage:number):any {
+  protected initPaging(itemPerPage:number): Paging {
     this.paging = {
       "page": 0,
       "itemsPerPage": itemPerPage,
@@ -170,9 +181,9 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
     return this.paging;
   }
 
-  protected updatePaging(dataLen:number): any {
-    this.paging["dataLength"] = dataLen;
-    this.paging["numPages"] = Math.ceil(dataLen / this.paging["itemsPerPage"]);
+  protected updatePaging(dataLen:number): Paging {
+    this.paging.dataLength = dataLen;
+    this.paging.numPages = Math.ceil(dataLen / this.paging.itemsPerPage);
 
     return this.paging;
   }
@@ -188,7 +199,7 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
         (page)="serverSidePagination($event)"
         [...]
 */
-  public serverSidePagination(event:any) {
+  public serverSidePagination(event: any): void {
 
     this.paging.page = event.offset;
     this.list();
@@ -211,8 +222,8 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
           t = response["total"];
         }
 
-        this.paging["dataLength"] = t;
-        this.paging["numPages"] = Math.ceil(t / this.paging["itemsPerPage"]);
+        this.paging.dataLength = t;
+        this.paging.numPages = Math.ceil(t / this.paging.itemsPerPage);
         return t;
 
       }, error => {
@@ -235,13 +246,15 @@ export class BasePaginationComponent implements OnInit, AfterViewChecked {
     return form;
   }
 
-  protected set_loading() {
+  protected set_loading(): boolean {
     this.loading = true;
-    this.spinner.show()
+    this.spinner.show();
+    return this.loading;
   }
-  protected set_unloading() {
+  protected set_unloading(): boolean {
     this.loading = false;
     this.spinner.hide();
+    return this.loading;
   }
 
   protected get(endpoint, data=null) {
