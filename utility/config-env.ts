@@ -1,3 +1,6 @@
+const { Console } = require('console');
+const print = new Console(process.stdout, process.stderr);
+
 var fs = require('fs');
 
 require('dotenv').config({path: '/tmp/.env'});
@@ -13,7 +16,7 @@ if (process.env.BACKEND_URI !== undefined && process.env.BACKEND_URI !== null &&
   } else if (process.env.APP_MODE === 'debug' || process.env.APP_MODE === 'test' || process.env.APP_MODE === 'development' || process.env.APP_MODE === 'cypress') {
     backendURI += "http://";
   } else {
-    console.error("Unknown APP MODE: " + process.env.APP_MODE);
+    print.error("Unknown APP MODE: " + process.env.APP_MODE);
     backendURI += "http://";
   }
 
@@ -84,7 +87,7 @@ envConfigFile += `
 `
 fs.writeFile(targetPath, envConfigFile, function (err) {
     if (err) { 
-      console.error(err);
+      print.error(err);
     }
   }
 );

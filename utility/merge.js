@@ -1,9 +1,8 @@
 const { Console } = require('console');
+const print = new Console(process.stdout, process.stderr);
 
 const merge = require('package-merge');
 const fs = require('fs');
-
-const print = new Console(process.stdout, process.stderr);
 
 let commonsPackage = fs.readFileSync('/app/app/rapydo/package.json');
 if (fs.existsSync('/app/app/custom/package.json')) {
