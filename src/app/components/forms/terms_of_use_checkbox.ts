@@ -12,7 +12,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
       <input class="custom-control-input" type="checkbox"
         [id]="id"
         [class.is-invalid]="showError"
-        [indeterminate]="to.indeterminate && model[key] === undefined"
+        [indeterminate]="to.indeterminate && typeof model[key] == 'undefined'"
         [formControl]="formControl"
         [formlyAttributes]="field">
       <label class="custom-control-label" [for]="id">

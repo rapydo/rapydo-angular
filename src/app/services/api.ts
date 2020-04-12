@@ -107,7 +107,7 @@ export class ApiService {
         options[k] = conf[k]
     }
 
-    let httpCall = undefined;
+    let httpCall;
     if (method == "GET") {
       options["params"] = data;
       httpCall = this.http.get(ep, options);

@@ -63,7 +63,7 @@ export class NavbarComponent implements OnInit {
   changeLogged(user: any) {
 
     if (user == this.auth.LOGGED_OUT) {
-      this.user = undefined;
+      this.user = null;
       this.ref.detectChanges();
 
     } else if (user == this.auth.LOGGED_IN) {

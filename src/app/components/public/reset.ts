@@ -44,7 +44,7 @@ export class ResetPasswordComponent implements OnInit {
                             return true;
 
                         }, error => {
-                            this.token = undefined
+                            this.token = null;
                             if (environment.WRAP_RESPONSE == '1') {
                                 this.invalid_token = error.Response.errors;
                             } else {
