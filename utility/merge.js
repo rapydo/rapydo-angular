@@ -1,54 +1,58 @@
 const merge = require('package-merge');
 const fs = require('fs');
+const print = new console.Console(process.stdout, process.stderr);
 
-let commons_package = fs.readFileSync('/app/app/rapydo/package.json');
+let commonsPackage = fs.readFileSync('/app/app/rapydo/package.json');
 if (fs.existsSync('/app/app/custom/package.json')) {
 
     let custom = fs.readFileSync('/app/app/custom/package.json');
 
-    console.log("\nMerging package files...");
+    print.log("\nMerging package files...");
 
-    fs.writeFileSync("/app/package.json", merge(commons_package, custom));
+    fs.writeFileSync("/app/package.json", merge(commonsPackage, custom));
 
-    console.log("[/app/app/rapydo/package.json] + [/app/app/custom/package.json] -> [/app/package.json]\n");
+    print.log("[/app/app/rapydo/package.json] + [/app/app/custom/package.json] -> [/app/package.json]\n");
 } else {
-    console.log("\nCopying package file...");
-    fs.writeFileSync("/app/package.json", commons_package);
-    console.log("/app/app/rapydo/package.json -> [/app/package.json]\n");
+    print.log("\nCopying package file...");
+    fs.writeFileSync("/app/package.json", commonsPackage);
+    print.log("/app/app/rapydo/package.json -> [/app/package.json]\n");
 }
 
 if (fs.existsSync('/app/app/custom/angular.json')) {
 
-    const merge = require('deepmerge')
-    let commons_angular = require('/app/app/rapydo/angular.json');
+    const merge = require('deepmerge');
+    let commonsAngular = require('/app/app/rapydo/angular.json');
     let custom = require('/app/app/custom/angular.json');
-    let jsonContent = JSON.stringify(merge(commons_angular, custom));
+    let jsonContent = JSON.stringify(merge(commonsAngular, custom));
     /*
     let custom = fs.readFileSync('/app/app/custom/angular.json');
 
-    console.log("\nMerging angular files...");
+    print.log("\nMerging angular files...");
 
-    fs.writeFileSync("/app/angular.json", merge(commons_angular, custom));
+    fs.writeFileSync("/app/angular.json", merge(commonsAngular, custom));
 
-    console.log("[/app/app/rapydo/angular.json] + [/app/app/custom/angular.json] -> [/app/angular.json]\n");
+    print.log("[/app/app/rapydo/angular.json] + [/app/app/custom/angular.json] -> [/app/angular.json]\n");
     */
 
     /*
-    console.log("\nAngular.json merge is not supported, copying file...");
-    fs.writeFileSync("/app/angular.json", commons_angular);
+    print.log("\nAngular.json merge is not supported, copying file...");
+    fs.writeFileSync("/app/angular.json", commonsAngular);
     */
     fs.writeFile("/app/angular.json", jsonContent, 'utf8', function (err) {
         if (err) {
-            console.log("An error occured while writing JSON Object to File.");
-            return console.log(err);
+            print.log("An error occured while writing JSON Object to File.");
+            print.log(err);
+            return false;
         }
      
-        console.log("/app/app/rapydo/angular.json -> [/app/angular.json]\n");
+        print.log("/app/app/rapydo/angular.json -> [/app/angular.json]\n");
     });
 
 } else {
-    console.log("\nCopying angular file...");
-    let commons_angular = fs.readFileSync('/app/app/rapydo/angular.json');
-    fs.writeFileSync("/app/angular.json", commons_angular);
-    console.log("/app/app/rapydo/angular.json -> [/app/angular.json]\n");
+    print.log("\nCopying angular file...");
+    let commonsAngular = fs.readFileSync('/app/app/rapydo/angular.json');
+    fs.writeFileSync("/app/angular.json", commonsAngular);
+    print.log("/app/app/rapydo/angular.json -> [/app/angular.json]\n");
 }
+
+return true;
