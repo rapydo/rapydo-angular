@@ -15,6 +15,7 @@ export interface User {
   name: string,
   surname: string,
   isAdmin: boolean,
+  isLocalAdmin: boolean,
   isGroupAdmin: boolean,
   privacy_accepted: boolean,
   roles: any,

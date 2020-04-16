@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { ApiResponse } from './api';
+
+// deprecated since 0.7.3
+export interface ApiResponse {
+  errors: string[];
+}
 
 @Injectable()
 export class NotificationService {
@@ -12,6 +16,7 @@ export class NotificationService {
 
   constructor(private toastr: ToastrService) {}
 
+  // deprecated since 0.7.3
   public extractErrors = function(response: ApiResponse, type: number) {
 
     // WRAPPED_RESPONSE

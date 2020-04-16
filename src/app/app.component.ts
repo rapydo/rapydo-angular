@@ -60,7 +60,7 @@ export class AppComponent implements OnInit {
     }
 
   }
-  private checkCompatibility(browser, version, os, os_version) {
+  private checkCompatibility(browser:string, version:string, os:string, os_version:string): boolean {
     if (browser == 'IE') {
       if (parseFloat(version) <= 10) {
         return false;

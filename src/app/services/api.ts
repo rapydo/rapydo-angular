@@ -5,10 +5,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { environment } from '@rapydo/../environments/environment';
 
-export interface ApiResponse {
-  errors: string[];
-}
-
 @Injectable()
 export class ApiService {
 
@@ -19,18 +15,19 @@ export class ApiService {
   public is_online(): boolean {
     return ApiService.is_online;
   }
-  public set_online() {
+  public set_online(): boolean {
 
     ApiService.is_online = true;
     return ApiService.is_online;
 
   }
-  public set_offline() {
+  public set_offline(): boolean{
 
     ApiService.is_online = false;
     return ApiService.is_online;
 
   }
+
   private opt(dict, value, defaultValue) {
     if (value in dict) {
       return dict[value];
@@ -38,6 +35,7 @@ export class ApiService {
       return defaultValue;
     }
   }
+
   public get(endpoint: string, id="", data={}, options={}) {
     let formData = this.opt(options, "formData", undefined);
     let conf = this.opt(options, "conf", undefined);
@@ -45,6 +43,7 @@ export class ApiService {
     let rawResponse = this.opt(options, "rawResponse", undefined);
     return this.call("GET", endpoint, id, data, formData, conf, base, rawResponse);
   }
+
   public post(endpoint: string, data={}, options={}) {
     let formData = this.opt(options, "formData", undefined);
     let conf = this.opt(options, "conf", undefined);
@@ -53,6 +52,7 @@ export class ApiService {
 
     return this.call("POST", endpoint, "", data, formData, conf, base, rawResponse)
   }
+
   public put(endpoint: string, id="", data={}, options={}) {
     let formData = this.opt(options, "formData", undefined);
     let conf = this.opt(options, "conf", undefined);
@@ -60,6 +60,7 @@ export class ApiService {
     let rawResponse = this.opt(options, "rawResponse", undefined);
     return this.call("PUT", endpoint, id, data, formData, conf, base, rawResponse)
   }
+
   public patch(endpoint: string, id="", data={}, options={}) {
     let formData = this.opt(options, "formData", undefined);
     let conf = this.opt(options, "conf", undefined);
@@ -67,6 +68,7 @@ export class ApiService {
     let rawResponse = this.opt(options, "rawResponse", undefined);
     return this.call("PATCH", endpoint, id, data, formData, conf, base, rawResponse)
   }
+
   public delete(endpoint: string, id="", options={}) {
     let formData = this.opt(options, "formData", undefined);
     let conf = this.opt(options, "conf", undefined);
