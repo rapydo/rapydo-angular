@@ -37,7 +37,7 @@ export class AdminSessionsComponent extends BasePaginationComponent<Session> {
     this.columns.push({name: 'Emitted', prop: "emitted", flexGrow: 0.5, cellTemplate: this.dataDate});
     this.columns.push({name: 'Last access', prop: "last_access", flexGrow: 0.5, cellTemplate: this.dataDate});
     this.columns.push({name: 'Expiration', prop: "expiration", flexGrow: 0.5, cellTemplate: this.dataDate});
-    this.columns.push({name: 'Close', prop: "id", flexGrow: 0.2, cellTemplate: this.dataRevoke});
+    this.columns.push({name: 'Delete', prop: "id", flexGrow: 0.2, cellTemplate: this.dataRevoke});
     this.columns.push({name: 'Token', prop: "token", flexGrow: 0.2, cellTemplate: this.dataToken});
   }
 

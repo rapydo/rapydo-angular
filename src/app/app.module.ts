@@ -14,6 +14,7 @@ import { AppComponent } from '@rapydo/app.component';
   ],
   declarations: [ AppComponent ],
   bootstrap: [ AppComponent ],
+  exports: [ AppComponent ],
   providers: [ ],
 })
 export class AppModule {
