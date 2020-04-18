@@ -4,7 +4,7 @@ import { FormlyService, Schema } from '@rapydo/services/formly';
 describe('FormlyService', () => {
   let injector: TestBed;
   let service: FormlyService;
-  const schema: Schema = [
+  const schema: Schema[] = [
     {
       "custom": { "label": "Text" },
       "description": "Text",
@@ -37,7 +37,7 @@ describe('FormlyService', () => {
       "type": "number"
     },
   ];
-  const schema_with_defaults: Schema = [
+  const schema_with_defaults: Schema[] = [
     {
       "custom": { "label": "Text" },
       "description": "Text",
