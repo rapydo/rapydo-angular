@@ -1,10 +1,10 @@
 import { TestBed, getTestBed } from '@angular/core/testing';
-import { FormlyService } from '@rapydo/services/formly';
+import { FormlyService, Schema } from '@rapydo/services/formly';
 
 describe('FormlyService', () => {
   let injector: TestBed;
   let service: FormlyService;
-  const schema = [
+  const schema: Schema = [
     {
       "custom": { "label": "Text" },
       "description": "Text",
@@ -37,7 +37,7 @@ describe('FormlyService', () => {
       "type": "number"
     },
   ];
-  const schema_with_defaults = [
+  const schema_with_defaults: Schema = [
     {
       "custom": { "label": "Text" },
       "description": "Text",
@@ -68,7 +68,7 @@ describe('FormlyService', () => {
     {
       "custom": { "label": "Number" },
       "description": "number",
-      "default": 42,
+      "default": "42",
       "name": "number",
       "required": "true",
       "type": "number"
