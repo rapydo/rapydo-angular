@@ -5,13 +5,16 @@ import { Injectable } from '@angular/core';
 export interface Schema {
   type: string,
   key?: string,
-  label: string,
+  label?: string,
   description?: string,
   default?: string,
   size?: string,
   format?: string,
   required?: string,
   options?: any[],
+
+  min?: number;
+  max?: number;
 
   select_id?: string,
   select_label?: string,
@@ -129,6 +132,13 @@ export class FormlyService {
           field['templateOptions']["inputOptions"]["type"] = field_type;
           field['type'] = "multiInput"
         }
+
+        if (s.min) {
+          field['templateOptions']["minLength"] = s.min;
+        }
+        if (s.max) {
+          field['templateOptions']["maxLength"] = s.max;
+        }
       } else if (stype == "longtext" || stype == "textarea") {
         field_type = "textarea";
         template_type = "text";
@@ -136,6 +146,14 @@ export class FormlyService {
       } else if (stype == "int" || stype == "number") {
         field_type = "input";
         template_type = "number";
+
+        if (s.min) {
+          field['templateOptions']["min"] = s.min;
+        }
+        if (s.max) {
+          field['templateOptions']["max"] = s.max;
+        }
+
       } else if (stype == "date") {
         field_type = "datepicker";
         // field_type = "input";
