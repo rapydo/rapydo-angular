@@ -1,11 +1,35 @@
 import { Injectable } from '@angular/core';
 
+// key is optional only for back-compatibility
+// remove the ? once dropped all swagger compatibility rules
+export interface Schema {
+  type: string,
+  key?: string,
+  label: string,
+  description?: string,
+  default?: string,
+  size?: string,
+  format?: string,
+  required?: string,
+  options?: any[],
+
+  select_id?: string,
+  select_label?: string,
+  model_key?: string,
+  enum?: any[],
+
+  // only for swagger compatibility
+  name?: string,
+  custom?: any,
+  multiple?: string,
+  islink?: string,
+}
 @Injectable()
 export class FormlyService {
 
   constructor() {}
 
-  public json2Form(schema, data) {
+  public json2Form(schema:Schema[], data) {
 
     let fields = [];
     let model = {}
@@ -21,26 +45,26 @@ export class FormlyService {
         console.error("Invalid schema, missing type")
         return null;
       }
-      let stype = s['type'];
+      let stype: string = s.type;
 
       let field_type = "";
       let template_type = "";
 
       let field = {}
-      let multiple = ('multiple' in s && s['multiple'] == "true")
-      let islink = ('islink' in s && s['islink'] == "true")
+      let multiple = ('multiple' in s && s.multiple == "true")
+      let islink = ('islink' in s && s.islink == "true")
       field['templateOptions'] = {}
       field['validators'] = {}
 
       // Swagger compatibility
       if (! ('key' in s)) {
-        s['key'] = s['name']
+        s.key = s.name;
         if ('custom' in s) {
 
-          let custom = s['custom']
+          let custom = s.custom
 
           if ('label' in custom) {
-            s['label'] = custom['label']
+            s.label = custom['label']
           }
 
           if ('htmltype' in custom) {
@@ -56,47 +80,46 @@ export class FormlyService {
           }
 
           if ('size' in custom) {
-            s['size'] = custom['size']
+            s.size = custom['size']
           }
 
           if ('autocomplete' in custom) {
             stype = "autocomplete"
           }
           if ('model_key' in custom) {
-            s['model_key'] = custom['model_key']
+            s.model_key = custom['model_key']
           }
           if ('select_id' in custom) {
-            s['select_id'] = custom['select_id']
+            s.select_id = custom['select_id']
           }
           if ('select_label' in custom) {
-            s['select_label'] = custom['select_label']
+            s.select_label = custom['select_label']
           }
         }
-
+        if (s.required) {
+          s.required = "true"
+        }
         if ('format' in s) {
-          let format = s['format']
-          if (format == "date") stype = "date"
-          if (format == "email") stype = "email"
-          if (format == "password") stype = "password"
+          if (s.format == "date") stype = "date"
+          if (s.format == "email") stype = "email"
+          if (s.format == "password") stype = "password"
         }
 
-        if (s['required']) {
-          s['required'] = "true"
-        }
+      }
+      // End of swagger compatibility
 
-        if (s['enum']) {
-          stype = "select"
-          s['options'] = []
 
-          for (let j in s['enum']) {
-            let option = s['enum'][j];
-            for (let key in option) {
-              s['options'].push({"value": key, "label": option[key]});
-            }
+      if (s.enum) {
+        stype = "select"
+        s.options = []
+
+        for (let j in s.enum) {
+          let option = s.enum[j];
+          for (let key in option) {
+            s.options.push({"value": key, "label": option[key]});
           }
         }
       }
-      // End of swagger compatibility
 
       if (stype == "text" || stype == "string") {
         field_type = "input";
@@ -133,7 +156,7 @@ export class FormlyService {
         field['templateOptions']['valueProp'] = "id";
 */
 
-        field['templateOptions']['options'] = s['options']
+        field['templateOptions']['options'] = s.options;
         if (!field['templateOptions']['required']) {
           if (Array.isArray(field['templateOptions']['options'])) {
             field['templateOptions']['options'].unshift(
@@ -147,13 +170,13 @@ export class FormlyService {
         field_type = "checkbox";
         template_type = "checkbox";
 
-        if (typeof model[s['key']] == 'undefined') {
-          model[s['key']] = false;
+        if (typeof model[s.key] == 'undefined') {
+          model[s.key] = false;
         }
       } else if (stype == "radio") {
         field_type = "radio";
         template_type = "radio";
-        field['templateOptions']['options'] = s['options']
+        field['templateOptions']['options'] = s.options;
       } else if (stype == "file") {
         field_type = "file";
         template_type = "file";
@@ -189,49 +212,49 @@ export class FormlyService {
         }
       }
 
-      field['key'] = s['key'];
+      field['key'] = s.key;
       field['type'] = field_type ; 
       if ('default' in s) {
 
         if (field['type'] == 'checkbox') {
-          if (s['default']) {
+          if (s.default) {
             field['defaultValue'] = true;
-            model[s['key']] = true;
+            model[s.key] = true;
           }
         } else {
-          field['defaultValue'] = s['default'];
-          model[s['key']] = s['default'];
+          field['defaultValue'] = s.default;
+          model[s.key] = s.default;
         }
       }
 
       if ('size' in s)
-        field['className'] = 'col-'+s['size'];
+        field['className'] = 'col-'+s.size;
 
-      field['templateOptions']['label'] = s['label'];
+      field['templateOptions']['label'] = s.label;
 
       if (stype == "select") {
 
-        field['templateOptions']['description'] = s['description'];
+        field['templateOptions']['description'] = s.description;
 
       } else {
-        field['templateOptions']['placeholder'] = s['description'];
+        field['templateOptions']['placeholder'] = s.description;
       }
       field['templateOptions']['type'] = template_type; 
-      field['templateOptions']['required'] = (s['required'] == "true");
+      field['templateOptions']['required'] = (s.required == "true");
 
       // if (template_type == 'radio') {
       //   field['templateOptions']['labelProp'] = "value";
       //   field['templateOptions']['valueProp'] = "name";
-      //   field['templateOptions']['options'] = s['options']
+      //   field['templateOptions']['options'] = s.options;
       // }
 
       fields.push(field);
 
       if (data) {
 
-        let model_key = s['key'];
+        let model_key = s.key;
         if (islink && "model_key" in s) {
-          model_key = s['model_key']
+          model_key = s.model_key;
         }
 
         if (model_key in data) {
@@ -239,7 +262,7 @@ export class FormlyService {
           let default_data = data[model_key];
 
           if (default_data == null || default_data == "") {
-            model[s['key']] = ""
+            model[s.key] = ""
           } else {
 
             if (template_type == "number") {
@@ -255,8 +278,8 @@ export class FormlyService {
                 default_data = default_data[0];
               }
 
-              if ("select_id" in s && s["select_id"] in default_data) {
-                default_data = default_data[s["select_id"]];
+              if ("select_id" in s && s.select_id in default_data) {
+                default_data = default_data[s.select_id];
                 default_data = default_data.toString()
               }
 
@@ -274,7 +297,7 @@ export class FormlyService {
               console.warn("multiAutocomplete not implemented");
             }
 
-            model[s['key']] = default_data;
+            model[s.key] = default_data;
           }
         }
       }
