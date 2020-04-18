@@ -9,7 +9,7 @@ describe('FormlyService', () => {
       "custom": { "label": "Text" },
       "description": "Text",
       "name": "text",
-      "required": true,
+      "required": "true",
       "type": "string"
     },
     {
@@ -20,20 +20,20 @@ describe('FormlyService', () => {
         "k2": "val2",
       },
       "name": "list",
-      "required": true,
+      "required": "true",
       "type": "string"
     },
     {
       "custom": { "label": "Checkbox" },
       "name": "checkbox",
-      "required": false,
+      "required": "false",
       "type": "boolean"
     },
     {
       "custom": { "label": "Number" },
       "description": "number",
       "name": "number",
-      "required": true,
+      "required": "true",
       "type": "number"
     },
   ];
@@ -43,7 +43,7 @@ describe('FormlyService', () => {
       "description": "Text",
       "name": "text",
       "default": "default text",
-      "required": true,
+      "required": "true",
       "type": "string"
     },
     {
@@ -55,14 +55,14 @@ describe('FormlyService', () => {
       },
       "default": "k1",
       "name": "list",
-      "required": true,
+      "required": "true",
       "type": "string"
     },
     {
       "custom": { "label": "Checkbox" },
-      "default": true,
+      "default": "true",
       "name": "checkbox",
-      "required": false,
+      "required": "false",
       "type": "boolean"
     },
     {
@@ -70,7 +70,7 @@ describe('FormlyService', () => {
       "description": "number",
       "default": 42,
       "name": "number",
-      "required": true,
+      "required": "true",
       "type": "number"
     },
   ];
