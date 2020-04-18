@@ -365,7 +365,14 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         this.fields = data.fields;
         this.model = data.model;
         // Extra for update:
-        this.model["_id"] = row.id;
+        if (row.id) {
+          this.model["_id"] = row.id;
+        } else if (row.uuid) {
+          this.model["_id"] = row.uuid;
+        } else {
+          this.notify.showError("Malformed request: ID not found");
+          return false;
+        }
         this.is_update = true;
         this.modalRef = this.modalService.open(formModal, {"size": 'lg', "backdrop": 'static'});
         this.is_update = true;
