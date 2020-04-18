@@ -8,7 +8,6 @@ describe('FormlyService', () => {
     {
       "custom": { "label": "Text" },
       "description": "Text",
-      "in": "formData",
       "name": "text",
       "required": true,
       "type": "string"
@@ -16,18 +15,16 @@ describe('FormlyService', () => {
     {
       "custom": { "label": "List" },
       "description": "List",
-      "enum": [
-        {"k1": "val1"},
-        {"k2": "val2"},
-      ],
-      "in": "formData",
+      "enum": {
+        "k1": "val1",
+        "k2": "val2",
+      },
       "name": "list",
       "required": true,
       "type": "string"
     },
     {
       "custom": { "label": "Checkbox" },
-      "in": "formData",
       "name": "checkbox",
       "required": false,
       "type": "boolean"
@@ -35,7 +32,6 @@ describe('FormlyService', () => {
     {
       "custom": { "label": "Number" },
       "description": "number",
-      "in": "formData",
       "name": "number",
       "required": true,
       "type": "number"
@@ -45,7 +41,6 @@ describe('FormlyService', () => {
     {
       "custom": { "label": "Text" },
       "description": "Text",
-      "in": "formData",
       "name": "text",
       "default": "default text",
       "required": true,
@@ -54,12 +49,11 @@ describe('FormlyService', () => {
     {
       "custom": { "label": "List" },
       "description": "List",
-      "enum": [
-        {"k1": "val1"},
-        {"k2": "val2"},
-      ],
+      "enum": {
+        "k1": "val1",
+        "k2": "val2",
+      },
       "default": "k1",
-      "in": "formData",
       "name": "list",
       "required": true,
       "type": "string"
@@ -67,7 +61,6 @@ describe('FormlyService', () => {
     {
       "custom": { "label": "Checkbox" },
       "default": true,
-      "in": "formData",
       "name": "checkbox",
       "required": false,
       "type": "boolean"
@@ -76,7 +69,6 @@ describe('FormlyService', () => {
       "custom": { "label": "Number" },
       "description": "number",
       "default": 42,
-      "in": "formData",
       "name": "number",
       "required": true,
       "type": "number"
