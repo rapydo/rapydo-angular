@@ -51,9 +51,13 @@
 
 		<span
 			class='badge badge-info' style='margin-right:3px;'
-			ngbTooltip="{{role['value']['description']}}"
-			*ngFor="let role of value | iterate">
-			{{role['value']['description']}}
+			*ngFor="let role of value | keyvalue">
+			<span *ngIf='role.value.description != "automatic"'>
+				{{role.value.description}}
+			</span>
+			<span *ngIf='role.value.description == "automatic"'>
+				{{role.value.name}}
+			</span>
 		</span>	
 
 	</ng-template>
