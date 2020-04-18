@@ -42,14 +42,8 @@ export class FormlyService {
       return {"fields":fields, "model": model};
     }
 
-    for (let i=0; i<schema.length; i++) {
+    for (let s of schema) {
 
-      let s = schema[i];
-
-      if (! ('type' in s)) {
-        console.error("Invalid schema, missing type")
-        return null;
-      }
       let stype: string = s.type;
 
       let field_type = "";
