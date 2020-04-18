@@ -68,7 +68,7 @@ describe('FormlyService', () => {
     {
       "custom": { "label": "Number" },
       "description": "number",
-      "default": "42",
+      "default": 42,
       "name": "number",
       "required": "true",
       "type": "number"
@@ -113,7 +113,7 @@ describe('FormlyService', () => {
     expect(form["model"]["number"]).toBeUndefined();
   });
 
-  it('json2Form - empty model wth defaults', () => {
+  it('json2Form - empty model with defaults', () => {
     let form = service.json2Form(schema_with_defaults, {});
     expect(form).not.toBeUndefined();
     expect(form["fields"]).not.toBeUndefined();

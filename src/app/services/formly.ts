@@ -7,7 +7,7 @@ export interface Schema {
   key?: string,
   label?: string,
   description?: string,
-  default?: string,
+  default?: any,
   size?: string,
   format?: string,
   required?: string,
