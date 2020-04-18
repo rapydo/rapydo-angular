@@ -19,7 +19,9 @@ export interface Schema {
   select_id?: string,
   select_label?: string,
   model_key?: string,
-  enum?: any[],
+  // TO BE DEPRECATED
+  // any[] is only for swagger compatibility
+  enum?: any[] | Record<string, string>,
 
   // only for swagger compatibility
   name?: string,
@@ -32,7 +34,7 @@ export class FormlyService {
 
   constructor() {}
 
-  public json2Form(schema:Schema[], data) {
+  public json2Form(schema:Schema[], data: Record<string, any>) {
 
     let fields = [];
     let model = {}
@@ -116,11 +118,22 @@ export class FormlyService {
         stype = "select"
         s.options = []
 
-        for (let j in s.enum) {
-          let option = s.enum[j];
-          for (let key in option) {
-            s.options.push({"value": key, "label": option[key]});
+        // TO BE DEPRECATED
+        // this is from swagger models
+        // [ {k1: v1}, {k1: v1} ]
+        if (s.enum instanceof Array) {
+          for (let j in s.enum) {
+            let option = s.enum[j];
+            for (let key in option) {
+              s.options.push({"value": key, "label": option[key]});
+            }
           }
+        // this is from webargs models:
+        // { k1: v1, k2: v2}
+        } else {
+            for (let key in s.enum) {
+              s.options.push({"value": key, "label": s.enum[key]});
+            }
         }
       }
 
