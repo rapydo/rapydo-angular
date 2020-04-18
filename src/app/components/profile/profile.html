@@ -25,9 +25,14 @@
             <th>Roles</th>
             <td>
                 <span
-                    *ngFor="let role of user.roles | iterate"
+                    *ngFor="let role of user.roles | keyvalue"
                     class='badge badge-info' style='margin-right:3px;'>
-                    {{role.value}}
+                    <span *ngIf='role.value != "automatic"'>
+                        {{role.value}}
+                    </span>
+                    <span *ngIf='role.value == "automatic"'>
+                        {{role.key}}
+                    </span>
                 </span>
             </td>
         </tr>
