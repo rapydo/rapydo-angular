@@ -37,7 +37,8 @@
             </td>
         </tr>
         
-		<ng-container *ngFor="let row of user | keyvalue">
+        <!-- here | keyvalue does not work -->
+		<ng-container *ngFor="let row of user | iterate">
             <ng-container *ngIf="['name', 'surname', 'email', 'password', 'roles'].indexOf(row.key) < 0" [ngSwitch]="row.key">
 
                 <tr *ngSwitchCase="'group'">
