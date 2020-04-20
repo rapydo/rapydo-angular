@@ -56,10 +56,10 @@ export class AdminSessionsComponent extends BasePaginationComponent<Session> {
       if (d.user_surname.toLowerCase().indexOf(data_filter) !== -1) {
         return true;
       }
-      if (d.IP.toLowerCase().indexOf(data_filter) !== -1) {
+      if (d.IP != null && d.IP.toLowerCase().indexOf(data_filter) !== -1) {
         return true;
       }
-      if (d.location.toLowerCase().indexOf(data_filter) !== -1) {
+      if (d.location != null && d.location.toLowerCase().indexOf(data_filter) !== -1) {
         return true;
       }
       if (d.token.toLowerCase().indexOf(data_filter) !== -1) {

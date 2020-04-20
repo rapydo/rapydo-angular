@@ -257,7 +257,12 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     return this.loading;
   }
 
-  protected get(endpoint, data=null) {
+  protected get(endpoint, data=null, namespace='api') {
+
+    let opt;
+    if (namespace != 'api') {
+      opt = {"base": namespace}
+    }
 
     if (this.server_side_pagination && data == null) {
       data = {
@@ -269,7 +274,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     }
 
     this.set_loading()
-    return this.api.get(endpoint, "", data).subscribe(
+    return this.api.get(endpoint, "", data, opt).subscribe(
       response => {
         if (environment.WRAP_RESPONSE == '1') response = response.data;
         this.data = response;
@@ -297,8 +302,14 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     );
   }
 
-  protected delete(endpoint, uuid) {
-    return this.api.delete(endpoint, uuid).subscribe(
+  protected delete(endpoint, uuid, namespace='api') {
+
+    let opt;
+    if (namespace != 'api') {
+      opt = {"base": namespace}
+    }
+
+    return this.api.delete(endpoint, uuid, opt).subscribe(
       response => {
 
         this.notify.showSuccess("Confirmation: " + this.resource_name + " successfully deleted");
