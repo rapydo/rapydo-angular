@@ -29,7 +29,7 @@ describe('Core routing', () => {
   });
 
 	it('navigate to /public/reset', fakeAsync(() => {
-	  router.navigate(['']);
+	  router.navigate(['/public/reset']);
 	  tick();
 	  expect(location.path()).toBe('/public/reset');
 	}));
