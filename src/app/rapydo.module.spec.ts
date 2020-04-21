@@ -1,4 +1,4 @@
-import { TestBed, getTestBed, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, getTestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { RouterTestingModule } from "@angular/router/testing";
 import { Location } from "@angular/common";
 import { Router } from "@angular/router";
