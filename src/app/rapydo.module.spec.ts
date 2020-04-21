@@ -11,7 +11,7 @@ describe('Core routing', () => {
   let injector: TestBed;
   let router: Router;
   let location: Location;
-  let fixture: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
