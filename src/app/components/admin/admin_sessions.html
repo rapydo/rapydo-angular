@@ -43,12 +43,22 @@
 
 </div>
 
+    <ng-template #dataUser let-row="row" let-value="value" let-i="index">
+
+        <span 
+            ngbTooltip="{{ value.name }} {{ value.surname }}"
+            >
+            {{ value.email }}
+        </span>
+
+    </ng-template>
+
 	<ng-template #dataDate let-row="row" let-value="value" let-i="index">
 
         <span 
-            ngbTooltip="{{1000*value | date : 'yyyy MMM dd HH:mm:ss'}}"
+            ngbTooltip="{{value | date : 'yyyy MMM dd HH:mm:ss'}}"
             >
-            {{value | amFromUnix | amTimeAgo:false}}
+            {{value | amTimeAgo:false}}
         </span>
 
 	</ng-template>

@@ -11,6 +11,7 @@ import { BasePaginationComponent } from '@rapydo/components/base.pagination.comp
 export class AdminSessionsComponent extends BasePaginationComponent<Session> {
 
   @ViewChild('dataToken', { static: false }) public dataToken: TemplateRef<any>;
+  @ViewChild('dataUser', { static: false }) public dataUser: TemplateRef<any>;
   @ViewChild('dataDate', { static: false }) public dataDate: TemplateRef<any>;
   @ViewChild('dataRevoke', { static: false }) public dataRevoke: TemplateRef<any>;
 
@@ -31,7 +32,7 @@ export class AdminSessionsComponent extends BasePaginationComponent<Session> {
   public ngAfterViewInit(): void {
 
     this.columns = [];
-    this.columns.push({name: 'User', prop: "user_email", flexGrow: 0.8});
+    this.columns.push({name: 'User', prop: "user", flexGrow: 0.8, cellTemplate: this.dataUser});
     this.columns.push({name: 'IP', prop: "IP", flexGrow: 0.5});
     this.columns.push({name: 'Location', prop: "location", flexGrow: 0.5});
     this.columns.push({name: 'Emitted', prop: "emitted", flexGrow: 0.5, cellTemplate: this.dataDate});

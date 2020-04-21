@@ -59,6 +59,7 @@ describe('Core routing', () => {
 
   }));
 
+  /*
   it('navigate to /app/login', fakeAsync(() => {
     router.navigate(['/app/login']);
     tick();
@@ -94,5 +95,6 @@ describe('Core routing', () => {
 
     httpMock.verify();
   }));
+  */
 
 });
