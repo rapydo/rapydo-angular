@@ -8,6 +8,8 @@ import { AppModule } from '@rapydo/app.module';
 import { RapydoModule } from '@rapydo/rapydo.module';
 import { AppComponent } from '@rapydo/app.component';
 
+import { environment } from '@rapydo/../environments/environment';
+
 describe('Core routing', () => {
   let injector: TestBed;
   let router: Router;
