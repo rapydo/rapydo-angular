@@ -47,7 +47,7 @@ describe('Core routing', () => {
   it('navigate to in offline mode', fakeAsync(() => {
     router.navigate(['/app/login']);
     tick();
-    expect(location.path()).toBe('/offline');
+    expect(location.path()).toBe('/app/login');
 
     router.navigate(['/app/profile']);
     tick();
