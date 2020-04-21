@@ -46,9 +46,9 @@
     <ng-template #dataDate let-row="row" let-value="value" let-i="index">
 
         <span 
-            ngbTooltip="{{1000*value | date : 'yyyy MMM dd HH:mm:ss'}}"
+            ngbTooltip="{{1000 | date : 'yyyy MMM dd HH:mm:ss'}}"
             >
-            {{value | amFromUnix | amTimeAgo:false}}
+            {{value | amTimeAgo:false}}
         </span>
 
     </ng-template>
