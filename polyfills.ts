@@ -122,7 +122,7 @@ import '@angular/localize/init';
 
 // https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray
 if (!Array.isArray) {
-  Array.isArray = function(arg) {
+  Array.isArray = function(arg: any[]): boolean {
     return Object.prototype.toString.call(arg) === '[object Array]';
   };
 }
