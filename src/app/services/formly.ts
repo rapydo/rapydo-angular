@@ -172,6 +172,14 @@ export class FormlyService {
       } else if (stype == "password") {
         field_type = "input";
         template_type = "password";
+
+        if (s.min) {
+          field['templateOptions']["minLength"] = s.min;
+        }
+        if (s.max) {
+          field['templateOptions']["maxLength"] = s.max;
+        }
+
       } else if (stype == "select") {
         field_type = "select";
         template_type = "select";
@@ -205,36 +213,6 @@ export class FormlyService {
       } else if (stype == "file") {
         field_type = "file";
         template_type = "file";
-      } else if (stype == "autocomplete") {
-        // Custom defined type
-        /*
-        field_type = "autocomplete";
-        template_type = "autocomplete";
-
-        if (multiple) {
-          field['templateOptions']["inputOptions"] = {}
-          field['templateOptions']["inputOptions"]["type"] = field_type;
-          field_type = "multiAutocomplete"
-          template_type = "multiAutocomplete"
-
-        }
-        */
-        console.warn(field_type + " not implemented!");
-        // Not implemented!!!
-        field_type = "input";
-        template_type = "text";
-
-        if ("select_id" in s) {
-          field['templateOptions']['select_id'] = s.select_id;
-        } else {
-          field['templateOptions']['select_id'] = "value"
-        }
-
-        if ("select_label" in s) {
-          field['templateOptions']['select_label'] = s.select_label;
-        } else {
-          field['templateOptions']['select_label'] = "name"
-        }
       }
 
       field['key'] = s.key;
@@ -298,8 +276,6 @@ export class FormlyService {
               default_data = this.formatDate(default_data);
             } else if (template_type == "select") {
               if (islink) {
-                // Array copy
-                // default_data = (default_data.slice())[0];
                 default_data = default_data[0];
               }
 
@@ -308,18 +284,24 @@ export class FormlyService {
                 default_data = default_data.toString()
               }
 
-              if (typeof default_data["key"] !== 'undefined' &&
-                  typeof default_data["description"] !== 'undefined') {
-                default_data = default_data["key"];
+              // This is to replace islink
+              if (Array.isArray(default_data)) {
+                if (default_data.length == 1) {
+                  default_data = default_data[0];
+                } else {
+                  console.warn("Cannot determine default data from ", default_data);
+                }
               }
 
-            } else if (template_type == "autocomplete") {
-              if (islink) {
-                // Array copy
-                default_data = (default_data.slice())[0];
+              // This s to replace select_id and select_label
+              if (typeof default_data["key"] !== 'undefined') {
+                default_data = default_data["key"].toString();
+              } else if (typeof default_data["uuid"] !== 'undefined') {
+                default_data = default_data["uuid"].toString();
+              } else if (typeof default_data["id"] !== 'undefined') {
+                default_data = default_data["id"].toString();
               }
-            } else if (template_type == "multiAutocomplete") {
-              console.warn("multiAutocomplete not implemented");
+
             }
 
             model[s.key] = default_data;
