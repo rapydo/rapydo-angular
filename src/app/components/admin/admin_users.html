@@ -106,15 +106,14 @@
 	<ng-template #controlsCell let-row="row" let-value="value" let-i="index">
 		<i class='fa fa-edit fa-large'
 		   ngbTooltip="Edit this user"
-		   #icon_element
-		   (click)='update(row, icon_element)'></i>
+		   (click)='update(row)'></i>
 		<i 
 			class='fa fa-trash fa-large' style='color:red;'
 			mwlConfirmationPopover
 			[popoverTitle]="'Confirmation required'"
 			[popoverMessage]="'Are you really sure you want to delete this user?'"
 	        placement="left"
-			(confirm)="remove(row.id)"
+			(confirm)="remove(row.uuid)"
 		></i>
 	</ng-template>
 
