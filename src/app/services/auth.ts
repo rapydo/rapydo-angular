@@ -124,14 +124,6 @@ export class AuthService {
           response = response.Response.data;
         }
 
-          // Conversion roles list into roles dict to simplify checks
-/*          let roles_dict = {}
-          for (let i=0; i<response.roles.length; i++) {
-            let r = response.roles[i];
-            roles_dict[r] = r
-          }
-          response.roles = roles_dict
-*/
         this.setUser(JSON.stringify(response));
 
         return response;
