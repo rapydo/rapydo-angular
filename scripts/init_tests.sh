@@ -28,12 +28,6 @@ fi
 cd $CORE_DIR
 mkdir -p data
 
-echo "project: ${PROJECT}" > .projectrc
-echo "project_configuration:" >> .projectrc
-echo "  variables:" >> .projectrc
-echo "    env:" >> .projectrc
-echo "      APP_MODE: test" >> .projectrc
-
 echo "project: ${PROJECT}" > prod_projectrc
 echo "project_configuration:" >> prod_projectrc
 echo "  variables:" >> prod_projectrc
@@ -57,7 +51,7 @@ else
     git checkout $TRAVIS_BRANCH
 fi
 
-rapydo init
+APP_MODE=test rapydo init
 
 rapydo -s frontend pull
 
