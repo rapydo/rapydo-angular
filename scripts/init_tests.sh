@@ -28,15 +28,6 @@ fi
 cd $CORE_DIR
 mkdir -p data
 
-echo "project: ${PROJECT}" > prod_projectrc
-echo "project_configuration:" >> prod_projectrc
-echo "  variables:" >> prod_projectrc
-echo "    env:" >> prod_projectrc
-echo "      AUTH_DEFAULT_USERNAME: test@test.te" >> prod_projectrc
-echo "      AUTH_DEFAULT_PASSWORD: test" >> prod_projectrc
-# Defined in travis settings
-# echo "      COVERALLS_REPO_TOKEN: ${COVERALLS_REPO_TOKEN}" >> .projectrc
-
 # Pull requests
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
     echo "checkout $TRAVIS_PULL_REQUEST_BRANCH"
@@ -50,9 +41,3 @@ else
     echo "checkout $TRAVIS_BRANCH"
     git checkout $TRAVIS_BRANCH
 fi
-
-APP_MODE=test rapydo --project ${PROJECT} init
-
-rapydo -s frontend pull
-
-rapydo dump

@@ -12,18 +12,18 @@ env:
 script:
   - scripts/init_tests.sh
   - cd rapydo_tests
-  # - docker-compose exec -d backend restapi start
-  # - sleep 20
-  # - docker-compose up --exit-code-from frontend
+  - APP_MODE=test rapydo --project ${PROJECT} init
+  - rapydo -s frontend pull
+  - rapydo dump
   - docker-compose up --exit-code-from frontend frontend
 
   - docker-compose down
   - cp data/${PROJECT}/karma/lcov.info . 
   - bash <(curl -s https://codecov.io/bash) -R submodules/frontend
 
-  - mv prod_projectrc .projectrc
+  - rapydo --prod --project ${PROJECT} init
   # Cleanup before testing in production mode
   - rm -rf data/${PROJECT}/frontend/package-lock.json data/${PROJECT}/frontend/node_modules
-  - rapydo --production -s frontend start
+  - rapydo -s frontend start
   - rapydo -s frontend logs --follow
   - docker-compose logs --tail 1 frontend 2>&1 | grep "files have been compressed."
