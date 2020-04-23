@@ -22,22 +22,16 @@ CORE_DIR="${WORK_DIR}/rapydo_tests"
 echo "WORK_DIR = ${WORK_DIR}"
 echo "CORE_DIR = ${CORE_DIR}"
 
-if [ ! -d $CORE_DIR ]; then
-    git clone https://github.com/rapydo/tests.git $CORE_DIR
-fi
+BRANCH=`[  -z "$TRAVIS_PULL_REQUEST_BRANCH" ] && echo "$TRAVIS_BRANCH" || echo "$TRAVIS_PULL_REQUEST_BRANCH"`
+
+git clone -b ${BRANCH} --depth=1 https://github.com/rapydo/tests.git $CORE_DIR
+
 cd $CORE_DIR
-mkdir -p data
 
 # Pull requests
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
-    echo "checkout $TRAVIS_PULL_REQUEST_BRANCH"
-    git checkout $TRAVIS_PULL_REQUEST_BRANCH
 
     echo "pulling $TRAVIS_BRANCH"
     git pull origin $TRAVIS_BRANCH
-# Normal commits
-else
 
-    echo "checkout $TRAVIS_BRANCH"
-    git checkout $TRAVIS_BRANCH
 fi
