@@ -21,7 +21,7 @@ script:
   - cp data/${PROJECT}/karma/lcov.info . 
   - bash <(curl -s https://codecov.io/bash) -R submodules/frontend
 
-  - rapydo --prod --project ${PROJECT} init
+  - rapydo --prod --project ${PROJECT} init --force
   # Cleanup before testing in production mode
   - rm -rf data/${PROJECT}/frontend/package-lock.json data/${PROJECT}/frontend/node_modules
   - rapydo -s frontend start
