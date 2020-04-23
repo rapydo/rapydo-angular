@@ -51,7 +51,7 @@ else
     git checkout $TRAVIS_BRANCH
 fi
 
-APP_MODE=test rapydo init
+APP_MODE=test rapydo --project ${PROJECT} init
 
 rapydo -s frontend pull
 
