@@ -129,7 +129,7 @@ describe('AuthService', () => {
     expect(login_req.request.method).toEqual('POST');
     login_req.flush(token);
 
-    const user_req = httpMock.expectOne(environment.authApiUrl + '/profile');
+    const user_req = httpMock.expectOne(environment.authApiUrl + '/status');
     expect(user_req.request.method).toEqual('GET');
     user_req.flush(user);
 
@@ -155,7 +155,7 @@ describe('AuthService', () => {
     expect(logout_req.request.method).toEqual('GET');
     logout_req.flush('', mock401Response);
 
-    const profile_req = httpMock.expectOne(environment.authApiUrl + '/profile');
+    const profile_req = httpMock.expectOne(environment.authApiUrl + '/status');
     expect(profile_req.request.method).toEqual('GET');
     profile_req.flush('', mock401Response);
 
