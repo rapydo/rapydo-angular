@@ -153,10 +153,12 @@ export class AuthService {
     if (!token) {
       return of(false);
     }
+    console.log("isAuthenticated");
 
     let opt =  {"base": "auth", "rawResponse": true};
-    return this.api.get('profile', "", [], opt).pipe(
+    return this.api.get('status', "", [], opt).pipe(
       map(response => {
+        console.log("true");
         return of(true);
       }),
       catchError((error, caught) => {
