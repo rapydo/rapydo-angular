@@ -5,7 +5,6 @@ import { AuthService, User } from '../../services/auth';
 
 
 @Component({
-  selector: 'profile',
   templateUrl: 'profile.html'
 })
 export class ProfileComponent { 

@@ -3,7 +3,6 @@ import { Router } from '@angular/router'
 import { ApiService } from '@rapydo/services/api';
 
 @Component({
-  selector: 'offline',
   template: ``
 })
 export class OfflineComponent {

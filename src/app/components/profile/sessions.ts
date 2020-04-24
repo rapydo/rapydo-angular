@@ -7,7 +7,6 @@ import { BasePaginationComponent } from '@rapydo/components/base.pagination.comp
 import { environment } from '@rapydo/../environments/environment';
 
 @Component({
-  selector: 'sessions',
   templateUrl: 'sessions.html'
 })
 export class SessionsComponent extends BasePaginationComponent<Session> { 

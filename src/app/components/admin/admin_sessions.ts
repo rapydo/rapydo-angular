@@ -5,7 +5,6 @@ import { Session } from '@rapydo/services/auth'
 import { BasePaginationComponent } from '@rapydo/components/base.pagination.component'
 
 @Component({
-  selector: 'admin-sessions',
   templateUrl: 'admin_sessions.html'
 })
 export class AdminSessionsComponent extends BasePaginationComponent<Session> {

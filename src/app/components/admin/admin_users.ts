@@ -4,7 +4,6 @@ import { BasePaginationComponent } from '@rapydo/components/base.pagination.comp
 import { User } from '@rapydo/services/auth'
 
 @Component({
-  selector: 'admin-users',
   templateUrl: 'admin_users.html'
 })
 export class AdminUsersComponent extends BasePaginationComponent<User> {

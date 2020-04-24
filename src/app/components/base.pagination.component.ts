@@ -31,7 +31,6 @@ export interface Confirmation {
 }
 
 @Component({
-  selector: 'base-component',
   templateUrl: 'base.pagination.component.html'
 })
 export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
