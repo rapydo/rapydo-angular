@@ -8,7 +8,7 @@
     "start": "ng serve --host 0.0.0.0 --port 8080 --poll 1000 --aot",
     "start-cypress": "ng serve --host 0.0.0.0 --port 8080 --aot --disable-host-check",
     "courtesy": "rimraf dist/* && copyfiles --flat /app/courtesy/index.html /app/dist",
-    "build": "ng build --prod --optimization=true --extractCss=true",
+    "build": "ng build --prod --optimization=true --buildOptimizer=true --extractCss=false",
     "gzip": "gzipper --verbose /app/dist",
     "test": "ng test --code-coverage",
     "single-test": "ng test --code-coverage --watch=false",
