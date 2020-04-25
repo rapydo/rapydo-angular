@@ -94,10 +94,6 @@ import "core-js/proposals/reflect-metadata";
 import 'zone.js/dist/zone';
 import 'zone.js/dist/long-stack-trace-zone';
 
-// required by libs like exceljs or maybe babel
-// This tries to evaluate strings as JavaScript and it is blocked by Content Security Policy directives...
-import "regenerator-runtime/runtime";
-
 /** APPLICATION IMPORTS */
 
 // import 'angular-polyfills/dist/all.js';
