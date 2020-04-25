@@ -8,6 +8,9 @@ services:
 env:
 - PROJECT=sql
 - PROJECT=wrappedresponse
+cache:
+  directories:
+   - /home/travis/rapydo_tests/data/$PROJECT/frontend
 
 script:
   - scripts/init_tests.sh
