@@ -8,7 +8,7 @@ import { CookieLawModule } from 'angular2-cookie-law';
 import { ToastrModule } from 'ngx-toastr';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import * as Sentry from "@sentry/browser";
-import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
+// import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
 
 import { SharedModule } from '@rapydo/shared.module';
 import { OfflineComponent } from '@rapydo/components/errors/offline';
@@ -81,8 +81,8 @@ let module_imports:any = [
     positionClass: 'toast-bottom-right'
   }),
 
-  NgxGoogleAnalyticsModule.forRoot(environment.GA_TRACKING_CODE),
-  NgxGoogleAnalyticsRouterModule,
+  // NgxGoogleAnalyticsModule.forRoot(environment.GA_TRACKING_CODE),
+  // NgxGoogleAnalyticsRouterModule,
   DeviceDetectorModule.forRoot()
 ];
 
