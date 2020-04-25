@@ -14,7 +14,12 @@ cache:
 
 script:
   - scripts/init_tests.sh
+  - CURRENT_VERSION=$(grep '"version"' src/package.json | sed 's/"version": //' | tr -d '", ')
+  - BRANCH=$([  -z "$TRAVIS_PULL_REQUEST_BRANCH" ] && echo "$TRAVIS_BRANCH" || echo "$TRAVIS_PULL_REQUEST_BRANCH")
+  - pip3 install --upgrade git+https://github.com/rapydo/do.git@${CURRENT_VERSION}
+  - git clone -b ${BRANCH} --depth=1 https://github.com/rapydo/tests.git rapydo_tests
   - cd rapydo_tests
+  - [[ "$TRAVIS_PULL_REQUEST" != "false" ]] && git pull origin $TRAVIS_BRANCH
   - APP_MODE=test rapydo --project ${PROJECT} init
   - rapydo -s frontend pull
   - rapydo dump
@@ -29,4 +34,4 @@ script:
   - rm -rf data/${PROJECT}/frontend/package-lock.json data/${PROJECT}/frontend/node_modules
   - rapydo -s frontend start
   - rapydo -s frontend logs --follow
-  - docker-compose logs --tail 1 frontend 2>&1 | grep "files have been compressed."
+  - docker-compose logs --tail 2 frontend 2>&1 | grep "files have been compressed."
