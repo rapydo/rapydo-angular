@@ -34,3 +34,11 @@ script:
   - rapydo -s frontend start
   - rapydo -s frontend logs --follow
   - docker-compose logs --tail 2 frontend 2>&1 | grep "files have been compressed."
+
+notifications:
+  email: false
+  slack:
+    rooms:
+      secure: FPS8zIxMpBBE4RvU/aGIaXrBM41WosjGdVEaEOLtws5ofoK28is4QNkeI1WyQoXcij7noPfcGY+TSacgFr7/MQP2LzO0bo77WIQYab1vFjM5pFtgll8nBINXTy84ND6oOKOvD04wnrnUcD5X9TlITtI5/brgeb91Fm21jWnbsd8iYr0PfbqfvuE6HG7MDKzE5IbyIE1b3IltZyRwnH1nMhCTohCqiK3l8JwxY3DGV72kWGPF6uKXV6J087F1exRBCEfaJAIkCM14Sw6KFX5ATAfjXmRm3phR4Iv2NpOqdHAwOnWHqbXtNkONvN8/G/5xmGQ1BQJVpVxzCVw8fphToEPbyjqIJ6ZE+zKKl7TRAOCWcwX8DpROfBtLXi04g5X5DS7+ZFL1xnb0R6/DC8CsvPWe6096UfzTvpFQANeJ6pK5YKZECzU5/FKUMx/F6leLRWIqbkkkrXmhvjZ29GABx4zpWfAqU1sj5K7XG6OcihGnXXgdViDmqYyC7sxln+MMDM5xMZSRS/5eEusSMn49crmc5DidyJiZo7r2uS5fHXQ3dBVFYv240g7bc9QJHk6DbnCSz6zPfjUQbauhjJt9+akot0AX6yhwwwusslctCxRTdzvPzdy8BkQ7rHJbjCnVLlP30+uEUpwp8pRf8rq8kOSuF6o+YVYlzA8v+O649a8=
+    on_success: change # default: always
+    on_failure: always # default: always
