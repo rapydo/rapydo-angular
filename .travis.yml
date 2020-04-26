@@ -31,7 +31,7 @@ script:
   # - git clone -b ${BRANCH} --depth=1 https://github.com/rapydo/tests.git .
   - git init
   - git remote add origin https://github.com/rapydo/tests.git
-  - git fetch ${BRANCH} 
+  - git fetch origin ${BRANCH} 
   - git checkout -f ${BRANCH}
   # If PR, pull origin branch
   - if [[ "$TRAVIS_PULL_REQUEST" != "false" ]]; then git pull origin $TRAVIS_BRANCH; fi
