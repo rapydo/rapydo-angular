@@ -19,7 +19,7 @@ script:
   # Current BRANCH is TRAVIS_PULL_REQUEST_BRANCH or TRAVIS_BRANCH 
   - BRANCH=$([  -z "$TRAVIS_PULL_REQUEST_BRANCH" ] && echo "$TRAVIS_BRANCH" || echo "$TRAVIS_PULL_REQUEST_BRANCH")
   # Clone rapydo tests repository
-  - git clone -b ${BRANCH} --depth=1 https://github.com/rapydo/tests.git .
+  - git clone -b ${BRANCH} --depth=1 https://github.com/rapydo/tests.git rapydo_tests
   - cd rapydo_tests
   # If PR, pull origin branch
   - if [[ "$TRAVIS_PULL_REQUEST" != "false" ]]; then git pull origin $TRAVIS_BRANCH; fi
