@@ -45,8 +45,6 @@ script:
   - cp data/${PROJECT}/karma/lcov.info . 
   - bash <(curl -s https://codecov.io/bash) -R submodules/frontend
 
-  # Cleanup before testing in production mode
-  - rm -rf data/${PROJECT}/frontend
   # Run compilation test in production mode
   - rapydo --prod --project ${PROJECT} init --force
   - rapydo -s frontend start
