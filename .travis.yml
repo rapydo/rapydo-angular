@@ -19,14 +19,20 @@ script:
 
   # Current version is extracted from package.json
   - CURRENT_VERSION=$(grep '"version"' src/package.json | awk {'print $2'} | tr -d '", ')
+  # Install rapydo controller
+  - pip3 install --upgrade git+https://github.com/rapydo/do.git@${CURRENT_VERSION}
 
   # Current BRANCH is TRAVIS_PULL_REQUEST_BRANCH or TRAVIS_BRANCH 
   - BRANCH=$([  -z "$TRAVIS_PULL_REQUEST_BRANCH" ] && echo "$TRAVIS_BRANCH" || echo "$TRAVIS_PULL_REQUEST_BRANCH")
-  # Install rapydo controller
-  - pip3 install --upgrade git+https://github.com/rapydo/do.git@${CURRENT_VERSION}
-  # Clone rapydo tests repository
+  # The folder already exists because included in the cache
   - cd rapydo_tests
-  - git clone -b ${BRANCH} --depth=1 https://github.com/rapydo/tests.git .
+  # Clone rapydo tests repository
+  # Due to cachine clone no longer works (destination already exists and is non empty)
+  # - git clone -b ${BRANCH} --depth=1 https://github.com/rapydo/tests.git .
+  - git init
+  - git remote add origin https://github.com/rapydo/tests.git
+  - git fetch ${BRANCH} 
+  - git checkout -f ${BRANCH}
   # If PR, pull origin branch
   - if [[ "$TRAVIS_PULL_REQUEST" != "false" ]]; then git pull origin $TRAVIS_BRANCH; fi
 
