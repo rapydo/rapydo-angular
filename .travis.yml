@@ -10,7 +10,7 @@ env:
 - PROJECT=wrappedresponse
 cache:
   directories:
-   - /home/travis/build/rapydo/rapydo-angular/rapydo_tests/data/$PROJECT/frontend
+   - /home/travis/build/rapydo/rapydo-angular/rapydo_tests/data/$PROJECT/frontend/node_modules/
 
 
 script:
