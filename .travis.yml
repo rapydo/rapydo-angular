@@ -10,18 +10,16 @@ env:
 - PROJECT=wrappedresponse
 cache:
   directories:
-   - /home/travis/rapydo_tests/data/$PROJECT/frontend
+   - /home/travis/build/rapydo/rapydo-angular/rapydo_tests/data/$PROJECT/frontend
+
 
 script:
-  - ls /home/travis/rapydo_tests/data/$PROJECT/frontend
   - CURRENT_VERSION=$(grep '"version"' src/package.json | awk {'print $2'} | tr -d '", ')
   - BRANCH=$([  -z "$TRAVIS_PULL_REQUEST_BRANCH" ] && echo "$TRAVIS_BRANCH" || echo "$TRAVIS_PULL_REQUEST_BRANCH")
   - pip3 install --upgrade git+https://github.com/rapydo/do.git@${CURRENT_VERSION}
   - git clone -b ${BRANCH} --depth=1 https://github.com/rapydo/tests.git rapydo_tests
   - cd rapydo_tests
-  - pwd
   - if [[ "$TRAVIS_PULL_REQUEST" != "false" ]]; then git pull origin $TRAVIS_BRANCH; fi
-  - ls /home/travis/rapydo_tests/data/$PROJECT/frontend
 
   - APP_MODE=test rapydo --project ${PROJECT} init
   - rapydo -s frontend pull
@@ -37,7 +35,6 @@ script:
   - rapydo -s frontend start
   - rapydo -s frontend logs --follow
   - docker-compose logs --tail 2 frontend 2>&1 | grep "files have been compressed."
-  - ls /home/travis/rapydo_tests/data/$PROJECT/frontend
 
 notifications:
   email: false
