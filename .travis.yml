@@ -25,8 +25,8 @@ script:
   # Install rapydo controller
   - pip3 install --upgrade git+https://github.com/rapydo/do.git@${CURRENT_VERSION}
   # Clone rapydo tests repository
-  - git clone -b ${BRANCH} --depth=1 https://github.com/rapydo/tests.git rapydo_tests
   - cd rapydo_tests
+  - git clone -b ${BRANCH} --depth=1 https://github.com/rapydo/tests.git .
   # If PR, pull origin branch
   - if [[ "$TRAVIS_PULL_REQUEST" != "false" ]]; then git pull origin $TRAVIS_BRANCH; fi
 
