@@ -4,29 +4,29 @@ const print = new Console(process.stdout, process.stderr);
 const fs = require('fs');
 const merge = require('deepmerge');
 
-function merge_json(commons_path, custom_path, output_path) {
+function merge_json(commonsPath, customPath, outputPath) {
 
-    if (fs.existsSync(custom_path)) {
+    if (fs.existsSync(customPath)) {
 
-        let commons_content = require(commons_path);
-        let custom_content = require(custom_path);
+        let commons_content = require(commonsPath);
+        let custom_content = require(customPath);
         let merged_content = JSON.stringify(merge(commons_content, custom_content));
 
         print.log("\nMerging files...");
-        fs.writeFile(output_path, merged_content, 'utf8', function (err) {
+        fs.writeFile(outputPath, merged_content, 'utf8', function (err) {
             if (err) {
                 print.log("An error occured while writing JSON Object to File.");
                 print.log(err);
                 return false;
             }
          
-            print.log("["+commons_path+"] + ["+custom_path+"] -> ["+output_path+"]\n");
+            print.log("["+commonsPath+"] + ["+customPath+"] -> ["+outputPath+"]\n");
         });
     } else {
         print.log("\nCopying core file...");
-        let commons_content = fs.readFileSync(commons_path);
-        fs.writeFileSync(output_path, commons_content);
-        print.log("["+commons_path+"] -> ["+output_path+"]\n");
+        let commons_content = fs.readFileSync(commonsPath);
+        fs.writeFileSync(outputPath, commons_content);
+        print.log("["+commonsPath+"] -> ["+outputPath+"]\n");
     }
 
 }
