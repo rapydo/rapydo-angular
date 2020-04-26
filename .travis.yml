@@ -8,14 +8,8 @@ services:
 env:
 - PROJECT=sql
 - PROJECT=wrappedresponse
-cache:
-  directories:
-   - /home/travis/build/rapydo/rapydo-angular/rapydo_tests/data/$PROJECT/frontend/node_modules/
-
 
 script:
-  # Delete cache for PR and CRON jobs
-  - if [[ $TRAVIS_PULL_REQUEST == "false" ]] || [[ $TRAVIS_EVENT_TYPE != "cron" ]]; then rm -rf data/${PROJECT}/frontend; fi
 
   # Current version is extracted from package.json
   - CURRENT_VERSION=$(grep '"version"' src/package.json | awk {'print $2'} | tr -d '", ')
@@ -24,15 +18,9 @@ script:
 
   # Current BRANCH is TRAVIS_PULL_REQUEST_BRANCH or TRAVIS_BRANCH 
   - BRANCH=$([  -z "$TRAVIS_PULL_REQUEST_BRANCH" ] && echo "$TRAVIS_BRANCH" || echo "$TRAVIS_PULL_REQUEST_BRANCH")
-  # The folder already exists because included in the cache
-  - cd rapydo_tests
   # Clone rapydo tests repository
-  # Due to cachine clone no longer works (destination already exists and is non empty)
-  # - git clone -b ${BRANCH} --depth=1 https://github.com/rapydo/tests.git .
-  - git init
-  - git remote add origin https://github.com/rapydo/tests.git
-  - git fetch origin ${BRANCH} 
-  - git checkout -f ${BRANCH}
+  - git clone -b ${BRANCH} --depth=1 https://github.com/rapydo/tests.git .
+  - cd rapydo_tests
   # If PR, pull origin branch
   - if [[ "$TRAVIS_PULL_REQUEST" != "false" ]]; then git pull origin $TRAVIS_BRANCH; fi
 
