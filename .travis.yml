@@ -28,7 +28,7 @@ script:
   - APP_MODE=test rapydo --project ${PROJECT} init
   - rapydo -s frontend pull
   - rapydo dump
-  - docker-compose up --exit-code-from frontend frontend
+  - docker-compose up --exit-code-from frontend frontend || travis_terminate 1;
   - docker-compose down
   - cp data/${PROJECT}/karma/lcov.info . 
   - bash <(curl -s https://codecov.io/bash) -R submodules/frontend
