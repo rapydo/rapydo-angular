@@ -32,7 +32,7 @@ script:
     fi
 
   # Init in test mode and run tests in development mode
-  - APP_MODE=test rapydo init
+  - TESTING=1 rapydo init
   - if [[ $TRAVIS_PULL_REQUEST == "false" ]] || [[ $TRAVIS_EVENT_TYPE != "cron" ]]; then rapydo -s frontend pull; fi
   - rapydo dump
   - docker-compose up --exit-code-from frontend frontend || travis_terminate 1;
