@@ -6,8 +6,9 @@ python:
 services:
 - docker
 env:
-- PROJECT=sql
-- PROJECT=wrappedresponse
+- TEMPLATE=core
+# to be deprecated
+- TEMPLATE=wrapped
 
 script:
 
@@ -16,25 +17,31 @@ script:
   # Install rapydo controller
   - pip3 install --upgrade git+https://github.com/rapydo/do.git@${CURRENT_VERSION}
 
-  # Current BRANCH is TRAVIS_PULL_REQUEST_BRANCH or TRAVIS_BRANCH 
-  - BRANCH=$([  -z "$TRAVIS_PULL_REQUEST_BRANCH" ] && echo "$TRAVIS_BRANCH" || echo "$TRAVIS_PULL_REQUEST_BRANCH")
-  # Clone rapydo tests repository
-  - git clone -b ${BRANCH} --depth=1 https://github.com/rapydo/tests.git rapydo_tests
-  - cd rapydo_tests
-  # If PR, pull origin branch
-  - if [[ "$TRAVIS_PULL_REQUEST" != "false" ]]; then git pull origin $TRAVIS_BRANCH; fi
+  - mkdir $TEMPLATE
+  - cd $TEMPLATE
+
+  - > # this enable multiline commands
+
+    if [[ "$TEMPLATE" == "core" ]]; then
+      rapydo create prj --auth postgres --frontend angular --origin https://your_remote_git/your_project.git;
+    elif [[ "$TEMPLATE" == "wrapped" ]]; then
+      rapydo create prj --auth postgres --wrapped --frontend angular --origin https://your_remote_git/your_project.git;
+    else
+      echo "Unknown template: ${TEMPLATE}";
+      travis_terminate 1;
+    fi
 
   # Init in test mode and run tests in development mode
-  - APP_MODE=test rapydo --project ${PROJECT} init
-  - rapydo -s frontend pull
+  - APP_MODE=test rapydo init
+  - if [[ $TRAVIS_PULL_REQUEST == "false" ]] || [[ $TRAVIS_EVENT_TYPE != "cron" ]]; then rapydo -s frontend pull; fi
   - rapydo dump
   - docker-compose up --exit-code-from frontend frontend || travis_terminate 1;
   - docker-compose down
-  - cp data/${PROJECT}/karma/lcov.info . 
+  - cp data/${TEMPLATE}/karma/lcov.info . 
   - bash <(curl -s https://codecov.io/bash) -R submodules/frontend
 
   # Run compilation test in production mode
-  - rapydo --prod --project ${PROJECT} init --force
+  - rapydo --prod  init --force
   - rapydo -s frontend start
   - rapydo -s frontend logs --follow
   - docker-compose logs --tail 2 frontend 2>&1 | grep "files have been compressed."
