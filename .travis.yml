@@ -37,7 +37,7 @@ script:
   - rapydo dump
   - docker-compose up --exit-code-from frontend frontend || travis_terminate 1;
   - docker-compose down
-  - cp data/${TEMPLATE}/karma/lcov.info . 
+  - cp data/prj/karma/lcov.info . 
   - bash <(curl -s https://codecov.io/bash) -R submodules/frontend
 
   # Run compilation test in production mode
