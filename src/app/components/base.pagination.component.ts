@@ -359,11 +359,21 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
   protected put(row, endpoint, data, formModal, base_schema) {
 
+    let model_id;
+    if (row.id) {
+      model_id = row.id;
+    } else if (row.uuid) {
+      model_id = row.uuid;
+    } else {
+      this.notify.showError("Malformed request: ID not found");
+      return false;
+    }
+
     let apiCall = null;
     if (base_schema) {
       apiCall = this.api.get(endpoint)
     } else {
-      apiCall = this.api.post(endpoint, data)
+      apiCall = this.api.put(endpoint, model_id, data)
     }
 
     return apiCall.subscribe(
@@ -375,14 +385,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         this.fields = data.fields;
         this.model = data.model;
         // Extra for update:
-        if (row.id) {
-          this.model["_id"] = row.id;
-        } else if (row.uuid) {
-          this.model["_id"] = row.uuid;
-        } else {
-          this.notify.showError("Malformed request: ID not found");
-          return false;
-        }
+        this.model["_id"] = model_id;
         this.is_update = true;
         this.modalRef = this.modalService.open(formModal, {"size": 'lg', "backdrop": 'static'});
         this.is_update = true;
@@ -411,7 +414,9 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       let model = data || this.model;
       
       if (model["_id"]) {
-        apiCall = this.api.put(endpoint, model["_id"], model);
+        let model_id = model["_id"];
+        delete model["_id"];
+        apiCall = this.api.put(endpoint, model_id, model);
         type = "updated";
       } else {
         apiCall = this.api.post(endpoint, model);
