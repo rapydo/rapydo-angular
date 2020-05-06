@@ -30,9 +30,7 @@ export interface Confirmation {
   message: string
 }
 
-@Component({
-  templateUrl: 'base.pagination.component.html'
-})
+@Component()
 export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
   protected api: ApiService;
