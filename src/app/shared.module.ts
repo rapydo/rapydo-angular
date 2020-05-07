@@ -110,16 +110,12 @@ export function maxValidationError(error, field) {
 }
 
 
-// Warning: Can't resolve all parameters for MomentDateFormatter in rapydo.module.ts
-// This will become an error in Angular v6.x
-// Something due to @Injectable decorator and abstract class
-// Several similar issues reported, for example:
-// https://github.com/angular/angular/issues/24414
-// Class defined here:
-// https://github.com/ng-bootstrap/ng-bootstrap/blob/master/src/datepicker/ngb-date-parser-formatter.ts
+// ngbDatepicker uses { year: 'yyyy', month: 'mm', day: 'dd'} as date format by default
+// this adpter allow ngbDatepicker to accept js native Dates
 @Injectable()
 export class MomentDateFormatter extends NgbDateParserFormatter {
 
+  // Convert a string formatted as 'DD/MM/YYYY' into {year: 'yyyy', month: 'mm', day:}
   parse(value: string): NgbDateStruct {
     if (value) {
       value = value.trim();
@@ -127,11 +123,13 @@ export class MomentDateFormatter extends NgbDateParserFormatter {
       return {
         year: mdt.year(),
         month: 1 + mdt.month(),
-        day: mdt.day()
+        day: mdt.date()
       };
     }
     return null;
   }
+
+  // Convert {year: 'yyyy', month: 'mm', day:} 'dd' into DD/MM/YYYY
   format(date: NgbDateStruct): string {
     if (!date) return '';
     let mdt = moment([date.year, date.month - 1, date.day]);
