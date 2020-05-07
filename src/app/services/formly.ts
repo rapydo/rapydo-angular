@@ -368,6 +368,7 @@ export class FormlyService {
     if (date_string == "")
       return date_string
 
+      // TOFIX: use moment instead!!!
       const d = new Date(date_string);
       let month = '' + (d.getMonth() + 1);
       let day = '' + d.getDate();
