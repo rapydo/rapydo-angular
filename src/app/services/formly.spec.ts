@@ -172,67 +172,7 @@ describe('FormlyService', () => {
     expect(form["model"]["mykey"]).not.toBeUndefined();
     expect(form["model"]["mykey"]).toEqual("myval");
 
-    for (let d in ['off']) {
-      form = service.getField(
-        {"mykey": d},
-        "checkbox",
-        "mykey",
-        "My Field",
-        true,
-        "My descr"
-      );
-      // checkbox is defaulted to FALSE
-      expect(form["fields"]).not.toEqual([]);
-      expect(form["fields"][0].key).toEqual("mykey");
-      expect(form["fields"][0].type).toEqual("checkbox");
-      expect(form["fields"][0].templateOptions).not.toBeUndefined();
-      expect(form["fields"][0].templateOptions.label).toEqual("My Field");
-      expect(form["fields"][0].templateOptions.placeholder).toEqual("My descr");
-      expect(form["fields"][0].templateOptions.type).toEqual("checkbox");
-      expect(form["fields"][0].templateOptions.required).toBeTruthy();
-      expect(form["fields"][0].defaultValue).toBeUndefined();
-    }
-for (let d in ['0']) {
-      form = service.getField(
-        {"mykey": d},
-        "checkbox",
-        "mykey",
-        "My Field",
-        true,
-        "My descr"
-      );
-      // checkbox is defaulted to FALSE
-      expect(form["fields"]).not.toEqual([]);
-      expect(form["fields"][0].key).toEqual("mykey");
-      expect(form["fields"][0].type).toEqual("checkbox");
-      expect(form["fields"][0].templateOptions).not.toBeUndefined();
-      expect(form["fields"][0].templateOptions.label).toEqual("My Field");
-      expect(form["fields"][0].templateOptions.placeholder).toEqual("My descr");
-      expect(form["fields"][0].templateOptions.type).toEqual("checkbox");
-      expect(form["fields"][0].templateOptions.required).toBeTruthy();
-      expect(form["fields"][0].defaultValue).toBeUndefined();
-    }
-for (let d in ['false']) {
-      form = service.getField(
-        {"mykey": d},
-        "checkbox",
-        "mykey",
-        "My Field",
-        true,
-        "My descr"
-      );
-      // checkbox is defaulted to FALSE
-      expect(form["fields"]).not.toEqual([]);
-      expect(form["fields"][0].key).toEqual("mykey");
-      expect(form["fields"][0].type).toEqual("checkbox");
-      expect(form["fields"][0].templateOptions).not.toBeUndefined();
-      expect(form["fields"][0].templateOptions.label).toEqual("My Field");
-      expect(form["fields"][0].templateOptions.placeholder).toEqual("My descr");
-      expect(form["fields"][0].templateOptions.type).toEqual("checkbox");
-      expect(form["fields"][0].templateOptions.required).toBeTruthy();
-      expect(form["fields"][0].defaultValue).toBeUndefined();
-    }
-for (let d in ['False']) {
+    for (let d of ['0', 'false', 'False', 'off']) {
       form = service.getField(
         {"mykey": d},
         "checkbox",
@@ -253,7 +193,7 @@ for (let d in ['False']) {
       expect(form["fields"][0].defaultValue).toBeUndefined();
     }
 
-    for (let d in ['1', 'true', 'True', 'on']) {
+    for (let d of ['1', 'true', 'True', 'on']) {
       form = service.getField(
         {"mykey": d},
         "checkbox",
