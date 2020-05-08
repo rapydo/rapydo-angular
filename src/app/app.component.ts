@@ -20,6 +20,7 @@ export class AppComponent implements OnInit {
 
   public cookieLawText:string;
   public cookieLawButton:string;
+  public enableFooter:boolean = false;
 
   constructor(
       public api: ApiService,
@@ -30,6 +31,7 @@ export class AppComponent implements OnInit {
       private deviceService: DeviceDetectorService
       ) {
 
+    this.enableFooter = (environment.enableFooter == "true");
     this.cookieLawText = this.customization.get_option('cookie_law_text');
     this.cookieLawButton = this.customization.get_option('cookie_law_button');
 

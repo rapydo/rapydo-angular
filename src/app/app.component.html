@@ -41,6 +41,12 @@
 
 <router-outlet *ngIf="api.is_online()"></router-outlet>
 
+<footer class="footer mt-auto" *ngIf='enableFooter'>
+  <div class="container">
+	<customfooter></customfooter>
+  </div>
+</footer>
+
 <cookie-law #cookieLaw>
 	<span *ngIf='cookieLawText; else defaultText'
 		  [innerHTML]='cookieLawText'></span>

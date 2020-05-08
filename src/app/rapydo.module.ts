@@ -25,6 +25,7 @@ import { JwtInterceptor } from '@rapydo/jwt.interceptor';
 
 import { CustomNavbarComponent } from '@app/custom.navbar';
 import { CustomBrandComponent } from '@app/custom.navbar';
+import { CustomFooterComponent } from '@app/custom.footer';
 import { ProjectOptions } from '@app/custom.project.options';
 
 import { environment } from '@rapydo/../environments/environment';
@@ -92,6 +93,7 @@ let module_declarations = [
 
   CustomNavbarComponent,
   CustomBrandComponent,
+  CustomFooterComponent,
 ];
 
 let module_exports = [
@@ -104,7 +106,8 @@ let module_exports = [
   ToastrModule,
 
   OfflineComponent,
-  NavbarComponent
+  NavbarComponent,
+  CustomFooterComponent
 ];
 
 let module_providers:any = [

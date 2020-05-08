@@ -11,6 +11,14 @@ html, body {
 .navbar .sticky-top {
   /* margin-bottom: 0px */
 }
+
+.footer {
+    background-color: #f8f8f8 !important;
+    margin-top: 10px;
+    border-top: 1px solid rgba(0,0,0,.125);
+    line-height: 3em;
+}
+
 .initial_loading {
   background-color: #cceeff;
   padding: 0;

@@ -6,6 +6,7 @@ export const environment = {
 	'authApiUrl': base.authApiUrl,
 	'projectTitle': base.projectTitle,
 	'projectDescription': base.projectDescription,
+	'enableFooter': base.enableFooter,
 	'allowRegistration': base.allowRegistration,
 	'allowPasswordReset': base.allowPasswordReset,
 	'websocketsUrl': base.websocketsUrl,

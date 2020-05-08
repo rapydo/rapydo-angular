@@ -39,6 +39,7 @@ let authApiUrl = backendURI + '/auth';
 let projectTitle = process.env.PROJECT_TITLE;
 let projectDescription = process.env.PROJECT_DESCRIPTION;
 
+let enableFooter = process.env.ENABLE_FOOTER.toLowerCase() === 'true';
 let allowRegistration = process.env.ALLOW_REGISTRATION.toLowerCase() === 'true';
 let allowPasswordReset = process.env.ALLOW_PASSWORD_RESET.toLowerCase() === 'true';
 let SENTRY_URL = process.env.SENTRY_URL;
@@ -68,6 +69,7 @@ export const environment = {
     authApiUrl: '${authApiUrl}',
     projectTitle: '${projectTitle}',
     projectDescription: '${projectDescription}',
+    enableFooter: '${enableFooter}',
     allowRegistration: '${allowRegistration}',
     allowPasswordReset: '${allowPasswordReset}',
     websocketsUrl: '${websocketsURI}',`;
