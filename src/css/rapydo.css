@@ -145,7 +145,6 @@ body {
   top: -10px;
 }
 
-
 .glyphicon.spinning {
   animation: spin 2s infinite linear;
   -webkit-animation: spin2 2s infinite linear;
