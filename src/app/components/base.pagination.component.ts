@@ -56,9 +56,9 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   protected counter_endpoint: string;
 
   protected modalRef: NgbModalRef;
-  public form = new FormGroup({});
-  public fields: FormlyConfig[]; 
-  public model = {}
+  public form;
+  public fields; 
+  public model;
   public modalTitle: string;
 
   public loading:boolean = false;
@@ -340,6 +340,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         data = this.form_customizer(data, "post")
 
         this.modalTitle = "Create a new " + this.resource_name;
+        this.form = new FormGroup({});
         this.fields = data.fields;
         this.model = data.model;
         this.modalRef = this.modalService.open(formModal, {"size": 'lg', "backdrop": 'static'});
@@ -382,6 +383,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         let data = this.formly.json2Form(response, row);
         data = this.form_customizer(data, "put")
         this.modalTitle = "Update " + this.resource_name;
+        this.form = new FormGroup({});
         this.fields = data.fields;
         this.model = data.model;
         // Extra for update:
