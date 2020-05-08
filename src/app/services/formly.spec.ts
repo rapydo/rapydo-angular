@@ -174,7 +174,9 @@ describe('FormlyService', () => {
         true,
         "My descr"
       );
-      expect(form["model"]["mykey"]).toBeFalsy();
+      // checkbox is defaulted to FALSE
+      expect(form["fields"]).not.toEqual([]);
+      expect(form["fields"][0]["defaultValue"]).toBeFalsy();
     }
 
     for (let d in ['true']) {
@@ -186,7 +188,8 @@ describe('FormlyService', () => {
         true,
         "My descr"
       );
-      expect(form["model"]["mykey"]).toBeTruthy();
+      expect(form["fields"]).not.toEqual([]);
+      expect(form["fields"][0]["defaultValue"]).toBeTruthy();
     }
 
   });
