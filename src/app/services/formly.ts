@@ -331,7 +331,6 @@ export class FormlyService {
       if (key in model) {
 
         const v = model[key];
-        console.warn(v);
 
         if (v == "0" || v == "false" || v == "False" || v == "off") {
           field["default"] = false;
