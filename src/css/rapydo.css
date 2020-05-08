@@ -1,7 +1,7 @@
 html,
 body {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 .container-fluid {
@@ -55,7 +55,10 @@ body {
 }
 
 @keyframes loading {
-  from { left: -200px; width: 30%; }
+  from {
+    left: -200px;
+    width: 30%;
+  }
   50% { width: 30%; }
   70% { width: 70%; }
   80% { left: 50%; }
@@ -71,11 +74,6 @@ body {
 .datatable-header {
   font-weight: bold;
   font-size: 1.1em;
-  /*
-  border-bottom: 1px solid #BBB;
-  padding-bottom:30px;
-  margin-bottom:20px;
-  */
 }
 
 .ngx-datatable.bootstrap .datatable-footer {
@@ -93,11 +91,12 @@ body {
 }
 
 .horizontal-center {
-	width:1000px;
-	text-align: center;
+  width: 1000px;
+  text-align: center;
 }
 
-.table-borderless td, .table-borderless th {
+.table-borderless td,
+.table-borderless th {
   border: none !important;
 }
 
@@ -107,9 +106,10 @@ body {
   position: relative;
 }
 
-.error-messages, .message {
+.error-messages,
+.message {
   opacity: 1;
-  transition: .3s linear all;
+  transition: 0.3s linear all;
 }
 
 .message {
