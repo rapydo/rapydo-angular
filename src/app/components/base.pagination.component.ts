@@ -90,16 +90,6 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     this.spinner = injector.get(NgxSpinnerService);
     this.customization = injector.get(ProjectOptions);
 
-      let d = this.formly.getField(
-        {"mykey": 'on'},
-        "checkbox",
-        "mykey",
-        "My Field",
-        true,
-        "My descr"
-      );
-
-      console.log(d);
   }
   public init(res:string): void {
 
