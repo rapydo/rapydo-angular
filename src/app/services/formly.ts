@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+
 
 // key is optional only for back-compatibility
 // remove the ? once dropped all swagger compatibility rules
@@ -350,7 +352,7 @@ export class FormlyService {
     return this.json2Form([field], model);
   }
 
-  public formatNgbDatepicker(date_string) {
+  public formatNgbDatepicker(date_string:string): Date {
     if (date_string === null)
       return date_string
 
@@ -361,23 +363,29 @@ export class FormlyService {
     // otherwise by default ngbDatepicker uses { year: 'yyyy', month: 'mm', day: 'dd'}
     return new Date(date_string);
   }
-  public formatDate(date_string) {
+  public formatDate(date_string: string): string {
     if (date_string === null)
       return date_string
 
     if (date_string == "")
       return date_string
 
-      // TOFIX: use moment instead!!!
-      const d = new Date(date_string);
-      let month = '' + (d.getMonth() + 1);
-      let day = '' + d.getDate();
-      const year = d.getFullYear();
+    const d = new Date(date_string);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
 
-      if (month.length < 2) month = '0' + month;
-      if (day.length < 2) day = '0' + day;
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
 
-      return [year, month, day].join('-');
+    return [year, month, day].join('-');
+  }
+  public getNgbDateStruct(d: Date): NgbDateStruct {
+    return {
+      year: d.getFullYear(),
+      month: d.getMonth() + 1,
+      day: d.getDate()
+    }
   }
 
 }

@@ -167,13 +167,25 @@ describe('FormlyService', () => {
 
   });
 
-  it('formatDate - null', () => {
+  it('formatDate', () => {
     expect(service.formatDate(null)).toBeNull();
     expect(service.formatDate("")).toEqual("");
     expect(service.formatDate("01 Jan 1970 00:00:00 GMT")).toEqual("1970-01-01");
     expect(service.formatDate("01/31/1970")).toEqual("1970-01-31");
     expect(service.formatDate("01/31/1970")).toEqual("1970-01-31");
     expect(service.formatDate("1/1/1970")).toEqual("1970-01-01");
+  });
+
+  it('formatNgbDatepicker', () => {
+    expect(service.formatNgbDatepicker(null)).toBeNull();
+    expect(service.formatNgbDatepicker("")).toEqual("");
+    expect(service.formatDate("01/31/1970")).toEqual(new Date("01/31/1970"));
+  });
+
+  it('getNgbDateStruct', () => {
+    const d = new Date("01/31/1970");
+    const s = service.formatNgbDatepicker(d);
+    expects(s).toEqual({year: 1970, month: 1, day: 31});
   });
 
 });
