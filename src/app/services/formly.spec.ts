@@ -278,6 +278,7 @@ describe('FormlyService', () => {
     expect(service.formatDate("01/31/1970")).toEqual("1970-01-31");
     expect(service.formatDate("01/31/1970")).toEqual("1970-01-31");
     expect(service.formatDate("1/1/1970")).toEqual("1970-01-01");
+    expect(service.formatDate("10/31/1970")).toEqual("1970-10-31");
   });
 
   it('formatNgbDatepicker', () => {
