@@ -165,6 +165,30 @@ describe('FormlyService', () => {
     expect(form["model"]["mykey"]).not.toBeUndefined();
     expect(form["model"]["mykey"]).toEqual("myval");
 
+    for (let d in ['false']) {
+      form = service.getField(
+        {"mykey": d},
+        "checkbox",
+        "mykey",
+        "My Field",
+        true,
+        "My descr"
+      );
+      expect(form["model"]["mykey"]).toBeFalsy();
+    }
+
+    for (let d in ['true']) {
+      form = service.getField(
+        {"mykey": d},
+        "checkbox",
+        "mykey",
+        "My Field",
+        true,
+        "My descr"
+      );
+      expect(form["model"]["mykey"]).toBeTruthy();
+    }
+
   });
 
   it('formatDate', () => {
