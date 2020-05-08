@@ -15,7 +15,7 @@ html, body {
 .footer {
   background-color: #f8f8f8 !important;
   margin-top: 10px;
-  border-top: 1px solid rgba(0,0,0,.125);
+  border-top: 1px solid rgba(0, 0, 0, 0.125);
   line-height: 3em;
   padding-right: 4em;
   padding-left: 4em;
@@ -34,6 +34,7 @@ html, body {
   align-items: center;
   justify-content: center;
 }
+
 .loader {
   height: 4px;
   width: 100%;
@@ -41,6 +42,7 @@ html, body {
   overflow: hidden;
   background-color: #ddd;
 }
+
 .loader:before {
   display: block;
   position: absolute;
@@ -75,12 +77,14 @@ html, body {
   margin-bottom:20px;
   */
 }
+
 .ngx-datatable.bootstrap .datatable-footer {
   background-color: rgb(132, 132, 132);
   color: rgb(255, 255, 255);
   font-weight: bold;
   overflow: initial;  /* it overrides an overflow: auto introduced in latest versions */;
 }
+
 .vertical-center {
   min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
   min-height: 100vh; /* These two lines are counted as one :-)       */
@@ -161,21 +165,27 @@ html, body {
 .fa-red {
   color:red;
 }
+
 .fa-green {
   color:green;
 }
+
 .fa-xlarge {
   font-size: 2em !important;
 }
+
 .fa-large {
   font-size: 1.5em !important;
 }
+
 .fa-medium {
   font-size: 1em !important;
 }
+
 .fa-small {
   font-size: 0.5em !important;
 }
+
 .fa-xsmall {
   font-size: 0.33em !important;
 }
