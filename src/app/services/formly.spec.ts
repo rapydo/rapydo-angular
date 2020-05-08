@@ -162,10 +162,17 @@ describe('FormlyService', () => {
     expect(form["model"]).not.toBeUndefined();
     expect(form["fields"]).not.toEqual([]);
     expect(form["model"]).not.toEqual({});
+    expect(form["fields"][0].key).toEqual("mykey");
+    expect(form["fields"][0].type).toEqual("input");
+    expect(form["fields"][0].templateOptions).not.toBeUndefined();
+    expect(form["fields"][0].templateOptions.label).toEqual("My Field");
+    expect(form["fields"][0].templateOptions.placeholder).toEqual("My descr");
+    expect(form["fields"][0].templateOptions.type).toEqual("text");
+    expect(form["fields"][0].templateOptions.required).toBeTruthy();
     expect(form["model"]["mykey"]).not.toBeUndefined();
     expect(form["model"]["mykey"]).toEqual("myval");
 
-    for (let d in ['false']) {
+    for (let d in ['0', 'false', 'False', 'off']) {
       form = service.getField(
         {"mykey": d},
         "checkbox",
@@ -176,10 +183,17 @@ describe('FormlyService', () => {
       );
       // checkbox is defaulted to FALSE
       expect(form["fields"]).not.toEqual([]);
-      expect(form["fields"][0]["defaultValue"]).toBeFalsy();
+      expect(form["fields"][0].key).toEqual("mykey");
+      expect(form["fields"][0].type).toEqual("checkbox");
+      expect(form["fields"][0].templateOptions).not.toBeUndefined();
+      expect(form["fields"][0].templateOptions.label).toEqual("My Field");
+      expect(form["fields"][0].templateOptions.placeholder).toEqual("My descr");
+      expect(form["fields"][0].templateOptions.type).toEqual("checkbox");
+      expect(form["fields"][0].templateOptions.required).toBeTruthy();
+      expect(form["fields"][0].defaultValue).toBeUndefined();
     }
 
-    for (let d in ['true']) {
+    for (let d in ['1', 'true', 'True', 'on']) {
       form = service.getField(
         {"mykey": d},
         "checkbox",
@@ -189,7 +203,14 @@ describe('FormlyService', () => {
         "My descr"
       );
       expect(form["fields"]).not.toEqual([]);
-      expect(form["fields"][0]["defaultValue"]).toBeTruthy();
+      expect(form["fields"][0].key).toEqual("mykey");
+      expect(form["fields"][0].type).toEqual("checkbox");
+      expect(form["fields"][0].templateOptions).not.toBeUndefined();
+      expect(form["fields"][0].templateOptions.label).toEqual("My Field");
+      expect(form["fields"][0].templateOptions.placeholder).toEqual("My descr");
+      expect(form["fields"][0].templateOptions.type).toEqual("checkbox");
+      expect(form["fields"][0].templateOptions.required).toBeTruthy();
+      expect(form["fields"][0].defaultValue).toBeTruthy();
     }
 
   });
