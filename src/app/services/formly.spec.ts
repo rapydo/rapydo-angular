@@ -179,13 +179,13 @@ describe('FormlyService', () => {
   it('formatNgbDatepicker', () => {
     expect(service.formatNgbDatepicker(null)).toBeNull();
     expect(service.formatNgbDatepicker("")).toEqual("");
-    expect(service.formatDate("01/31/1970")).toEqual(new Date("01/31/1970"));
+    expect(service.formatNgbDatepicker("01/31/1970")).toEqual(new Date("01/31/1970"));
   });
 
   it('getNgbDateStruct', () => {
     const d = new Date("01/31/1970");
-    const s = service.formatNgbDatepicker(d);
-    expects(s).toEqual({year: 1970, month: 1, day: 31});
+    const s = service.getNgbDateStruct(d);
+    expect(s).toEqual({year: 1970, month: 1, day: 31});
   });
 
 });
