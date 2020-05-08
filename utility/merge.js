@@ -4,7 +4,7 @@ const print = new Console(process.stdout, process.stderr);
 const fs = require('fs');
 const merge = require('deepmerge');
 
-function merge_json(commonsPath, customPath, outputPath) {
+function mergeJSON(commonsPath, customPath, outputPath) {
 
     if (fs.existsSync(customPath)) {
 
@@ -31,13 +31,13 @@ function merge_json(commonsPath, customPath, outputPath) {
 
 }
 
-merge_json(
+mergeJSON(
     '/app/app/rapydo/package.json',
     '/app/app/custom/package.json',
     '/app/package.json'
 );
 
-merge_json(
+mergeJSON(
     '/app/app/rapydo/angular.json',
     '/app/app/custom/angular.json',
     '/app/angular.json'
