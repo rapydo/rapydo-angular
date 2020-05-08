@@ -172,8 +172,6 @@ export class FormlyService {
         template_type = "email";
         field["validators"] = { "validation": ["email"]}
       } else if (stype == "password") {
-        console.log(field);
-        console.log(s);
         field_type = "input";
         template_type = "password";
 
