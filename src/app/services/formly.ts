@@ -354,10 +354,10 @@ export class FormlyService {
 
   public formatNgbDatepicker(date_string:string): Date {
     if (date_string === null)
-      return date_string
+      return null;
 
     if (date_string == "")
-      return date_string
+      return null;
 
     // this works because we provided NgbDateAdapter = NgbDateNativeAdapter
     // otherwise by default ngbDatepicker uses { year: 'yyyy', month: 'mm', day: 'dd'}

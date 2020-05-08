@@ -202,7 +202,7 @@ describe('FormlyService', () => {
 
   it('formatNgbDatepicker', () => {
     expect(service.formatNgbDatepicker(null)).toBeNull();
-    expect(service.formatNgbDatepicker("")).toEqual("");
+    expect(service.formatNgbDatepicker("")).toBeNull();
     expect(service.formatNgbDatepicker("01/31/1970")).toEqual(new Date("01/31/1970"));
   });
 
