@@ -232,6 +232,24 @@ describe('FormlyService', () => {
     expect(form["fields"][0].defaultValue).toBeTruthy();
 
     form = service.getField(
+      {},
+      "checkbox",
+      "mykey",
+      "My Field",
+      true,
+      "My descr"
+    );
+    expect(form["fields"]).not.toEqual([]);
+    expect(form["fields"][0].key).toEqual("mykey");
+    expect(form["fields"][0].type).toEqual("checkbox");
+    expect(form["fields"][0].templateOptions).not.toBeUndefined();
+    expect(form["fields"][0].templateOptions.label).toEqual("My Field");
+    expect(form["fields"][0].templateOptions.placeholder).toEqual("My descr");
+    expect(form["fields"][0].templateOptions.type).toEqual("checkbox");
+    expect(form["fields"][0].templateOptions.required).toBeTruthy();
+    expect(form["fields"][0].defaultValue).toBeFalsy();
+
+    form = service.getField(
       {"mykey": 'a'},
       "select",
       "mykey",
@@ -266,6 +284,9 @@ describe('FormlyService', () => {
     expect(service.formatNgbDatepicker(null)).toBeNull();
     expect(service.formatNgbDatepicker("")).toBeNull();
     expect(service.formatNgbDatepicker("01/31/1970")).toEqual(new Date("01/31/1970"));
+    expect(service.formatNgbDatepicker("1/31/1970")).toEqual(new Date("01/31/1970"));
+    expect(service.formatNgbDatepicker("1/4/1970")).toEqual(new Date("01/04/1970"));
+    expect(service.formatNgbDatepicker("1/04/1970")).toEqual(new Date("01/04/1970"));
   });
 
   it('getNgbDateStruct', () => {
