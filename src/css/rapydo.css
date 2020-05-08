@@ -13,12 +13,12 @@ html, body {
 }
 
 .footer {
-    background-color: #f8f8f8 !important;
-    margin-top: 10px;
-    border-top: 1px solid rgba(0,0,0,.125);
-    line-height: 3em;
-    padding-right: 4em;
-    padding-left: 4em;
+  background-color: #f8f8f8 !important;
+  margin-top: 10px;
+  border-top: 1px solid rgba(0,0,0,.125);
+  line-height: 3em;
+  padding-right: 4em;
+  padding-left: 4em;
 }
 
 .initial_loading {
