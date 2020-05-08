@@ -416,10 +416,9 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       let model = data || this.model;
       
       if (model["_id"]) {
-        let model_id = model["_id"];
         let m = {...model};
         delete m['_id'];
-        apiCall = this.api.put(endpoint, model_id, m);
+        apiCall = this.api.put(endpoint, model["_id"], m);
         type = "updated";
       } else {
         apiCall = this.api.post(endpoint, model);
