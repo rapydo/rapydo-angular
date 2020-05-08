@@ -90,7 +90,7 @@ envConfigFile += `
     SENTRY_URL: '${SENTRY_URL}',
     GA_TRACKING_CODE: '${GA_TRACKING_CODE}'
 };
-`
+`;
 fs.writeFile(targetPath, envConfigFile, function (err) {
     if (err) { 
       print.error(err);
