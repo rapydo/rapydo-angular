@@ -8,6 +8,8 @@ export const environment = {
 	'production': false,
 	'apiUrl': base.apiUrl,
 	'authApiUrl': base.authApiUrl,
+	'projectVersion': base.projectVersion,
+	'rapydoVersion': base.rapydoVersion,
 	'projectTitle': base.projectTitle,
 	'projectDescription': base.projectDescription,
 	'enableFooter': base.enableFooter,
