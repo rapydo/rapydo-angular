@@ -1,5 +1,6 @@
 
-html, body {
+html,
+body {
     height: 100%;
     width: 100%;
 }
@@ -22,7 +23,7 @@ html, body {
 }
 
 .initial_loading {
-  background-color: #cceeff;
+  background-color: #CEF;
   padding: 0;
   margin: 0;
   display: -webkit-box;
@@ -82,7 +83,7 @@ html, body {
   background-color: rgb(132, 132, 132);
   color: rgb(255, 255, 255);
   font-weight: bold;
-  overflow: initial;  /* it overrides an overflow: auto introduced in latest versions */;
+  overflow: initial;  /* overrides an overflow: auto introduced in latest versions */
 }
 
 .vertical-center {
@@ -163,11 +164,11 @@ html, body {
 }
 
 .fa-red {
-  color:red;
+  color: red;
 }
 
 .fa-green {
-  color:green;
+  color: green;
 }
 
 .fa-xlarge {
