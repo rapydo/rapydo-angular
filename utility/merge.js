@@ -8,12 +8,12 @@ function mergeJSON(commonsPath, customPath, outputPath) {
 
     if (fs.existsSync(customPath)) {
 
-        let commons_content = require(commonsPath);
-        let custom_content = require(customPath);
-        let merged_content = JSON.stringify(merge(commons_content, custom_content));
+        let commonsContent = require(commonsPath);
+        let customContent = require(customPath);
+        let mergedContent = JSON.stringify(merge(commonsContent, customContent));
 
         print.log("\nMerging files...");
-        fs.writeFile(outputPath, merged_content, 'utf8', function (err) {
+        fs.writeFile(outputPath, mergedContent, 'utf8', function (err) {
             if (err) {
                 print.log("An error occured while writing JSON Object to File.");
                 print.log(err);
@@ -24,8 +24,8 @@ function mergeJSON(commonsPath, customPath, outputPath) {
         });
     } else {
         print.log("\nCopying core file...");
-        let commons_content = fs.readFileSync(commonsPath);
-        fs.writeFileSync(outputPath, commons_content);
+        let commonsContent = fs.readFileSync(commonsPath);
+        fs.writeFileSync(outputPath, commonsContent);
         print.log("["+commonsPath+"] -> ["+outputPath+"]\n");
     }
 
