@@ -30,7 +30,6 @@ const routes: Routes = [
   	RouterModule,
     Error404Component
   ],
-  providers: [],
 })
 export class PageNotFoundModule {
 } 
