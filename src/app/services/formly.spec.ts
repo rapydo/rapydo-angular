@@ -213,6 +213,44 @@ describe('FormlyService', () => {
       expect(form["fields"][0].defaultValue).toBeTruthy();
     }
 
+    form = service.getField(
+      {"mykey": 'strange value'},
+      "checkbox",
+      "mykey",
+      "My Field",
+      true,
+      "My descr"
+    );
+    expect(form["fields"]).not.toEqual([]);
+    expect(form["fields"][0].key).toEqual("mykey");
+    expect(form["fields"][0].type).toEqual("checkbox");
+    expect(form["fields"][0].templateOptions).not.toBeUndefined();
+    expect(form["fields"][0].templateOptions.label).toEqual("My Field");
+    expect(form["fields"][0].templateOptions.placeholder).toEqual("My descr");
+    expect(form["fields"][0].templateOptions.type).toEqual("checkbox");
+    expect(form["fields"][0].templateOptions.required).toBeTruthy();
+    expect(form["fields"][0].defaultValue).toBeTruthy();
+
+    form = service.getField(
+      {"mykey": 'a'},
+      "select",
+      "mykey",
+      "My Field",
+      true,
+      "My descr",
+      {'a': 'AAA', 'b': 'BBB'}
+    );
+    expect(form["fields"]).not.toEqual([]);
+    expect(form["fields"][0].key).toEqual("mykey");
+    expect(form["fields"][0].type).toEqual("select");
+    expect(form["fields"][0].templateOptions).not.toBeUndefined();
+    expect(form["fields"][0].templateOptions.label).toEqual("My Field");
+    expect(form["fields"][0].templateOptions.description).toEqual("My descr");
+    expect(form["fields"][0].templateOptions.placeholder).toBeUndefined();
+    expect(form["fields"][0].templateOptions.type).toEqual("select");
+    expect(form["fields"][0].templateOptions.required).toBeTruthy();
+    expect(form["fields"][0].defaultValue).toBeTruthy();
+
   });
 
   it('formatDate', () => {
