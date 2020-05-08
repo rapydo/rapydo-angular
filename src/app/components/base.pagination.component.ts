@@ -201,29 +201,33 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   public serverSidePagination(event: any): void {
 
     this.paging.page = event.offset;
+    this.set_total_items();
     this.list();
 
   }
 
   /** INTERACTION WITH APIs**/
   protected list() { console.warn("Listing not implemented") }
-  protected set_total_items(): number { 
+  protected set_total_items(): void { 
     let data = {
       'get_total': true
     }
-    return this.api.get(this.counter_endpoint, "", data).subscribe(
+    this.api.get(this.counter_endpoint, "", data).subscribe(
       response => {
         
         if (environment.WRAP_RESPONSE == '1') response = response.data;
 
-        let t = 0
-        if ("total" in response) {
-          t = response["total"];
-        }
+        const t = response["total"] || 0;
 
         this.paging.dataLength = t;
         this.paging.numPages = Math.ceil(t / this.paging.itemsPerPage);
-        return t;
+        // page starts from 0 => if you are on a page after the last page
+        if (this.paging.page >= this.paging.numPages) {
+          // change the page to be the last page
+          this.paging.page = this.paging.numPages - 1;
+          // list again the current page
+          this.list();
+        }
 
       }, error => {
           if (environment.WRAP_RESPONSE == '1')
@@ -232,7 +236,6 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
           else {
             this.notify.showError(error);
           }
-          return 0;
         }
       );
   }
