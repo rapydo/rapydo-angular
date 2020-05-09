@@ -377,7 +377,8 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     if (base_schema) {
       apiCall = this.api.get(endpoint)
     } else {
-      apiCall = this.api.put(endpoint, model_id, data)
+      // apiCall = this.api.put(endpoint, model_id, data)
+      apiCall = this.api.post(endpoint, data)
     }
 
     return apiCall.subscribe(
