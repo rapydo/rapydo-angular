@@ -311,16 +311,9 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     );
   }
 
-  protected post(endpoint, data, formModal, base_schema) {
+  protected post(endpoint, formModal) {
 
-    let apiCall = null;
-    if (base_schema) {
-      apiCall = this.api.get(endpoint)
-    } else {
-      apiCall = this.api.post(endpoint, data)
-    }
-
-    return apiCall.subscribe(
+    return this.api.post(endpoint, {'get_schema': true}).subscribe(
       response => {
         let data = this.formly.json2Form(response, {});
         data = this.form_customizer(data, "post")
@@ -339,7 +332,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     );
   }
 
-  protected put(row, endpoint, data, formModal, base_schema) {
+  protected put(row, endpoint, formModal) {
 
     let model_id;
     if (row.id) {
@@ -351,15 +344,8 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       return false;
     }
 
-    let apiCall = null;
-    if (base_schema) {
-      apiCall = this.api.get(endpoint)
-    } else {
-      // apiCall = this.api.put(endpoint, model_id, data)
-      apiCall = this.api.post(endpoint, data)
-    }
-
-    return apiCall.subscribe(
+    // return this.api.put(endpoint, model_id, {'get_schema': true}).subscribe(
+    return this.api.post(endpoint, {'get_schema': true}).subscribe(
       response => {
         let data = this.formly.json2Form(response, row);
         data = this.form_customizer(data, "put")

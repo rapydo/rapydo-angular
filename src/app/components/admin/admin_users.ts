@@ -84,12 +84,7 @@ export class AdminUsersComponent extends BasePaginationComponent<User> {
 
   create() {
 
-    return this.post(
-      this.endpoint,
-      {'get_schema': true},
-      this.formModal,
-      false
-    );
+    return this.post(this.endpoint, this.formModal);
 
   }
 
@@ -101,13 +96,7 @@ export class AdminUsersComponent extends BasePaginationComponent<User> {
         row["roles_" + n] = true;
       }
     }
-    return this.put(
-      row,
-      this.endpoint,
-      {'get_schema': true},
-      this.formModal,
-      false
-    );
+    return this.put(row, this.endpoint, this.formModal);
 
   }
 
