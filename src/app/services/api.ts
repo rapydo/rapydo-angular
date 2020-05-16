@@ -40,6 +40,7 @@ export class ApiService {
     let formData = this.opt(options, "formData", undefined);
     let conf = this.opt(options, "conf", undefined);
     let base = this.opt(options, "base", undefined);
+    // Deprecated since 0.7.4
     let rawResponse = this.opt(options, "rawResponse", undefined);
     return this.call("GET", endpoint, id, data, formData, conf, base, rawResponse);
   }
@@ -48,6 +49,7 @@ export class ApiService {
     let formData = this.opt(options, "formData", undefined);
     let conf = this.opt(options, "conf", undefined);
     let base = this.opt(options, "base", undefined);
+    // Deprecated since 0.7.4
     let rawResponse = this.opt(options, "rawResponse", undefined);
 
     return this.call("POST", endpoint, "", data, formData, conf, base, rawResponse)
@@ -57,6 +59,7 @@ export class ApiService {
     let formData = this.opt(options, "formData", undefined);
     let conf = this.opt(options, "conf", undefined);
     let base = this.opt(options, "base", undefined);
+    // Deprecated since 0.7.4
     let rawResponse = this.opt(options, "rawResponse", undefined);
     return this.call("PUT", endpoint, id, data, formData, conf, base, rawResponse)
   }
@@ -65,6 +68,7 @@ export class ApiService {
     let formData = this.opt(options, "formData", undefined);
     let conf = this.opt(options, "conf", undefined);
     let base = this.opt(options, "base", undefined);
+    // Deprecated since 0.7.4
     let rawResponse = this.opt(options, "rawResponse", undefined);
     return this.call("PATCH", endpoint, id, data, formData, conf, base, rawResponse)
   }
@@ -73,13 +77,16 @@ export class ApiService {
     let formData = this.opt(options, "formData", undefined);
     let conf = this.opt(options, "conf", undefined);
     let base = this.opt(options, "base", undefined);
+    // Deprecated since 0.7.4
     let rawResponse = this.opt(options, "rawResponse", undefined);
     return this.call("DELETE", endpoint, id, {}, formData, conf, base, rawResponse)
   }
 
   protected call(
     method:string, endpoint: string, id="", data={},
-    formData=false, conf={}, base='api', rawResponse=false) {
+    formData=false, conf={}, base='api',
+    // Deprecated since 0.7.4
+    rawResponse=false) {
 
     let ep = "";
     if (base == "auth") {
@@ -130,10 +137,12 @@ export class ApiService {
       map(response => {
 
         this.set_online();
-        // once remove wrapped responses rawResponse will be deprecated
-        if (rawResponse) return response;
 
-        if (response["Response"]) return response["Response"];
+        // Deprecated since 0.7.4
+        if (rawResponse) {
+          console.warn("Deprecated use of rawResponse");
+        }
+
         return response
       }),
       catchError(error => {
@@ -153,7 +162,11 @@ export class ApiService {
           this.set_online();
         }
 
-        if (rawResponse) return throwError(error);        
+        // Deprecated since 0.7.4
+        if (rawResponse) {
+          console.warn("Deprecated use of rawResponse");
+          return throwError(error);
+        }
         // This is a HttpErrorResponse
         if (error.error) {
           if (error.error instanceof ProgressEvent) {
