@@ -183,11 +183,7 @@ export class LoginComponent implements OnInit {
                                             this.router.navigate([this.returnUrl]);
                                         },
                                         error => {
-                                            if (environment.WRAP_RESPONSE == '1') {
-                                                this.notify.showError(error.error.Response.errors);
-                                            } else {
-                                                this.notify.showError(error.error);
-                                            }
+                                            this.notify.showError(error.error);
                                         }
                                     );
                                 }, (reason) => {
@@ -210,11 +206,7 @@ export class LoginComponent implements OnInit {
                             this.router.navigate(["/offline"]);
 
                         } else {
-                            if (environment.WRAP_RESPONSE == '1') {
-                                this.notify.showError(error.error.Response.errors);
-                            } else {
-                                this.notify.showError(error.error);
-                            }
+                            this.notify.showError(error.error);
                         }
                         this.loading = false;
                     }
@@ -227,20 +219,11 @@ export class LoginComponent implements OnInit {
 
                 } else if (error.status == 409) {
 
-                    if (environment.WRAP_RESPONSE == '1') {
-                        this.notify.showError(error.error.Response.errors);
-                    } else {
-                        this.notify.showError(error.error);
-                    }
+                    this.notify.showError(error.error);
 
                 } else if (error.status == 403) {
 
-                    let body = null;
-                    if (environment.WRAP_RESPONSE == '1') {
-                        body = error.error.Response.errors;
-                    } else {
-                        body = error.error;
-                    }
+                    const body = error.error;
                     let userMessage = "Unrecognized response from server"
 
                     let actions = body.actions
@@ -306,17 +289,10 @@ export class LoginComponent implements OnInit {
                     this.notify.showError("Unable to login due to a server error. If this error persists please contact system administrators");
 
                 } else if (error.error) {
-                    if (environment.WRAP_RESPONSE == '1') {
-                        if (error.error.Response.errors == "Sorry, this account is not active") {
-                            this.account_not_active = true;
-                        }
-                        this.notify.showError(error.error.Response.errors);
-                    } else {
-                        if (error.error == "Sorry, this account is not active") {
-                            this.account_not_active = true;
-                        }
-                        this.notify.showError(error.error);
+                    if (error.error == "Sorry, this account is not active") {
+                        this.account_not_active = true;
                     }
+                    this.notify.showError(error.error);
                 }
 
                 this.loading = false;
@@ -329,15 +305,8 @@ export class LoginComponent implements OnInit {
         this.authService.ask_activation_link(this.model.username).subscribe(
             (response:any) => {
                 this.account_not_active = false;
-                if (environment.WRAP_RESPONSE == '1') {
-                    this.notify.showSuccess(response.Response.data);
-                } else {
-                    this.notify.showSuccess(response);
-                }
+                this.notify.showSuccess(response);
             }, error => {
-                if (environment.WRAP_RESPONSE == '1') {
-                    error = error.error.Response.errors;
-                }
                 this.notify.showError(error);
             }
         );

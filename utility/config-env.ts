@@ -46,7 +46,6 @@ let allowRegistration = process.env.ALLOW_REGISTRATION.toLowerCase() === 'true';
 let allowPasswordReset = process.env.ALLOW_PASSWORD_RESET.toLowerCase() === 'true';
 let SENTRY_URL = process.env.SENTRY_URL;
 let GA_TRACKING_CODE = process.env.GA_TRACKING_CODE;
-let WRAP_RESPONSE = process.env.WRAP_RESPONSE;
 
 // Trimming ' character from title and description
 if (projectTitle.charAt(0) === "'") {
@@ -86,7 +85,6 @@ for (let key in process.env) {
   }
 }
 envConfigFile += `  
-    WRAP_RESPONSE: '${WRAP_RESPONSE}',
     SENTRY_URL: '${SENTRY_URL}',
     GA_TRACKING_CODE: '${GA_TRACKING_CODE}'
 };

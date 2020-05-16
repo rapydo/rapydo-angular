@@ -12,7 +12,6 @@ export const environment = {
 	'allowRegistration': base.allowRegistration,
 	'allowPasswordReset': base.allowPasswordReset,
 	'websocketsUrl': base.websocketsUrl,
-	'WRAP_RESPONSE': base.WRAP_RESPONSE,
 	'SENTRY_URL': base.SENTRY_URL,
 	'GA_TRACKING_CODE': base.GA_TRACKING_CODE,
 	'ALL': {}

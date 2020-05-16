@@ -62,10 +62,6 @@ export class AuthService {
       response => {
         if (!response) return response;
 
-        if (environment.WRAP_RESPONSE == '1') {
-          response = response.Response.data.token;
-        }
-
         this.clean_localstorage();
         this.setToken(JSON.stringify(response));
         return response;
@@ -120,20 +116,11 @@ export class AuthService {
       response => {
         if (!response) return response
 
-        if (environment.WRAP_RESPONSE == '1') {
-          response = response.Response.data;
-        }
-
         this.setUser(JSON.stringify(response));
 
         return response;
       }, error => {
-        if (environment.WRAP_RESPONSE == '1') {
-          this.notification.showError(error.Response.errors);
-        } else {
-          this.notification.showError(error);
-        }
-
+        this.notification.showError(error);
         return null;
       }
     ));

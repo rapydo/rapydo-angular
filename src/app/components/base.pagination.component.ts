@@ -11,8 +11,6 @@ import { NotificationService} from '@rapydo/services/notification';
 import { FormlyService } from '@rapydo/services/formly'
 import { ProjectOptions } from '@app/custom.project.options';
 
-import { environment } from '@rapydo/../environments/environment';
-
 // == @swimlane/ngx-datatable/src/types/column-mode.type
 enum ColumnMode {
   standard = 'standard',
@@ -215,8 +213,6 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     this.api.get(this.counter_endpoint, "", data).subscribe(
       response => {
         
-        if (environment.WRAP_RESPONSE == '1') response = response.data;
-
         const t = response["total"] || 0;
 
         this.paging.dataLength = t;
@@ -229,15 +225,11 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
           this.list();
         }
 
-      }, error => {
-          if (environment.WRAP_RESPONSE == '1')
-            if (error.Response) this.notify.showError(error.Response.errors);
-            else this.notify.showError(error);
-          else {
-            this.notify.showError(error);
-          }
-        }
-      );
+      },
+      error => {
+        this.notify.showError(error);
+      }
+    );
   }
   protected remove(uuid) { console.warn("Remove not implemented") }
   protected create() { console.warn("Create not implemented") }
@@ -278,7 +270,6 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     this.set_loading()
     return this.api.get(endpoint, "", data, opt).subscribe(
       response => {
-        if (environment.WRAP_RESPONSE == '1') response = response.data;
         this.data = response;
         this.unfiltered_data = this.data;
         if (!this.server_side_pagination) {
@@ -290,12 +281,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
         return this.data
       }, error => {
-        if (environment.WRAP_RESPONSE == '1') {
-          if (error.Response) this.notify.showError(error.Response.errors);
-          else this.notify.showError(error);
-        } else {
-          this.notify.showError(error);
-        }
+        this.notify.showError(error);
 
         this.set_unloading();
         this.updating = false;
@@ -316,13 +302,11 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
         this.notify.showSuccess("Confirmation: " + this.resource_name + " successfully deleted");
         this.list();
+
       }, error => {
-        if (environment.WRAP_RESPONSE == '1') {
-          if (error.Response) this.notify.showError(error.Response.errors);
-          else this.notify.showError(error);
-        } else {
-          this.notify.showError(error);
-        }
+
+        this.notify.showError(error);
+
       }
     );
   }
@@ -338,7 +322,6 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
     return apiCall.subscribe(
       response => {
-        if (environment.WRAP_RESPONSE == '1') response = response.data;
         let data = this.formly.json2Form(response, {});
         data = this.form_customizer(data, "post")
 
@@ -351,12 +334,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         }, (reason) => {
         });
       }, error => {
-        if (environment.WRAP_RESPONSE == '1') {
-          if (error.Response) this.notify.showError(error.Response.errors);
-          else this.notify.showError(error);
-        } else {
-          this.notify.showError(error);
-        }
+        this.notify.showError(error);
       }
     );
   }
@@ -383,7 +361,6 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
     return apiCall.subscribe(
       response => {
-        if (environment.WRAP_RESPONSE == '1') response = response.data;
         let data = this.formly.json2Form(response, row);
         data = this.form_customizer(data, "put")
         this.modalTitle = "Update " + this.resource_name;
@@ -401,12 +378,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
           this.is_update = false;
         });
       }, error => {
-        if (environment.WRAP_RESPONSE == '1') {
-          if (error.Response) this.notify.showError(error.Response.errors);
-          else this.notify.showError(error);
-        } else {
-          this.notify.showError(error);
-        }
+        this.notify.showError(error);
       }
     );
   }
@@ -438,12 +410,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
           this.list();
         }, error => {
           this.updating = false;
-          if (environment.WRAP_RESPONSE == '1') {
-            if (error.Response) this.notify.showError(error.Response.errors);
-            else this.notify.showError(error);
-          } else {
-            this.notify.showError(error);
-          }
+          this.notify.showError(error);
         }
       );
     } else {

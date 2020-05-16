@@ -8,8 +8,6 @@ import { ApiService } from '../../services/api';
 import { AuthService } from '../../services/auth';
 import { NotificationService} from '../../services/notification';
 
-import { environment } from '@rapydo/../environments/environment';
-
 @Component({
   templateUrl: 'changepassword.html'
 })
@@ -140,20 +138,12 @@ export class ChangePasswordComponent {
                 if (error.status == 0) {
                   this.router.navigate(["/offline"]);
                 } else {
-                  if (environment.WRAP_RESPONSE == '1') {
-                    this.notify.showError(error.error.Response.errors);
-                  } else {
-                    this.notify.showError(error.error);
-                  }
+                  this.notify.showError(error.error);
                 }
               }
             );
           }, error => {
-            if (environment.WRAP_RESPONSE == '1') {
-              this.notify.showError(error.error.Response.errors);
-            } else {
-              this.notify.showError(error.error);
-            }
+            this.notify.showError(error.error);
           }
         );
       }, error => {
@@ -161,11 +151,7 @@ export class ChangePasswordComponent {
         if (error.status == 401) {
            this.notify.showError("Your request cannot be authorized, is current password wrong?");
         } else {
-          if (environment.WRAP_RESPONSE == '1') {
-            this.notify.showError(error.error.Response.errors);
-          } else {
-            this.notify.showError(error.error);
-          }
+          this.notify.showError(error.error);
         }
       }
     );

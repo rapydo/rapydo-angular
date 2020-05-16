@@ -7,8 +7,6 @@ import { NotificationService} from '../../services/notification';
 import { ApiService } from '../../services/api';
 import { AuthService } from '../../services/auth';
 
-import { environment } from '@rapydo/../environments/environment';
- 
 @Component({
     templateUrl: 'reset.html'
 })
@@ -45,11 +43,7 @@ export class ResetPasswordComponent implements OnInit {
 
                         }, error => {
                             this.token = null;
-                            if (environment.WRAP_RESPONSE == '1') {
-                                this.invalid_token = error.Response.errors;
-                            } else {
-                                this.invalid_token = error;
-                            }
+                            this.invalid_token = error;
                             this.notify.showError(this.invalid_token);
                             return false;
                         }
@@ -126,20 +120,12 @@ export class ResetPasswordComponent implements OnInit {
         let data = {"reset_email": this.model["reset_email"]};
         return this.api.post('reset', data, {"base": "auth"}).subscribe(
             response => {
-                if (environment.WRAP_RESPONSE == '1') {
-                    this.reset_message = response.data;
-                } else {
-                    this.reset_message = response;
-                }
+                this.reset_message = response;
                 this.model = {}
                 return true;
 
             }, error => {
-                if (environment.WRAP_RESPONSE == '1') {
-                    this.notify.showError(error.Response.errors);
-                } else {
-                    this.notify.showError(error);
-                }
+                this.notify.showError(error);
                 return false;
             }
         );
@@ -163,11 +149,7 @@ export class ResetPasswordComponent implements OnInit {
                 return true;
 
             }, error => {
-                if (environment.WRAP_RESPONSE == '1') {
-                    this.notify.showError(error.Response.errors);
-                } else {
-                    this.notify.showError(error);
-                }
+                this.notify.showError(error);
                 return false;
             }
         );

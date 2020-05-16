@@ -44,12 +44,7 @@ describe('AuthService', () => {
         expect(result).toBeUndefined();
       },
       error => {
-        if (environment.WRAP_RESPONSE == '1') {
-          // skipped tests now
-          expect(error.error).not.toBeUndefined();
-        } else {
-          expect(error.error).toEqual('Invalid username or password');
-        }
+        expect(error.error).toEqual('Invalid username or password');
 
         service.isAuthenticated().subscribe(
           result => {
@@ -70,53 +65,18 @@ describe('AuthService', () => {
 
   it('logged in', async () => {
 
-    let token;
-    if (environment.WRAP_RESPONSE == '1') {
-      token = {
-        "Meta": {
-
-        },
-        "Response": {
-          "data": {
-            "token": "xyz"
-          }
-        }
-      }
-    } else {
-      token = "xyz";
-    }
-
-    let user;
-    if (environment.WRAP_RESPONSE == '1') {
-      user = {
-        "Meta": {
-
-        },
-        "Response": {
-          "data": {
-            "id": "xyz",
-            "name": "xyz",
-            "surname": "xyz",
-            "email": "xyz",
-          }
-        }
-      }
-    } else {
-      user = {
-        "id": "xyz",
-        "name": "xyz",
-        "surname": "xyz",
-        "email": "xyz",
-      }
+    const token = "xyz";
+    const user = {
+      "id": "xyz",
+      "name": "xyz",
+      "surname": "xyz",
+      "email": "xyz",
     }
 
     service.login("x", "y").subscribe(
       result => {
-        if (environment.WRAP_RESPONSE == '1') {
-          expect(result).not.toBeUndefined();
-        } else {
-          expect(result).toEqual('xyz');
-        }
+        expect(result).toEqual('xyz');
+
         service.isAuthenticated().subscribe(
           result => {
             expect(result).toBeTruthy();
