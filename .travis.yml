@@ -7,8 +7,6 @@ services:
 - docker
 env:
 - TEMPLATE=core
-# to be deprecated
-- TEMPLATE=wrapped
 
 script:
 
@@ -24,8 +22,6 @@ script:
 
     if [[ "$TEMPLATE" == "core" ]]; then
       rapydo create prj --auth postgres --frontend angular --origin https://your_remote_git/your_project.git;
-    elif [[ "$TEMPLATE" == "wrapped" ]]; then
-      rapydo create prj --auth postgres --wrapped --frontend angular --origin https://your_remote_git/your_project.git;
     else
       echo "Unknown template: ${TEMPLATE}";
       travis_terminate 1;
