@@ -19,16 +19,7 @@ export class NotificationService {
   // deprecated since 0.7.3
   public extractErrors = function(response: ApiResponse, type: number) {
 
-    // WRAPPED_RESPONSE
-    if (response && response.errors) {
-
-      // multiple errors
-      if (Array.isArray(response.errors)) return this.showAll(response.errors, type);
-      // single error
-      return this.showAll([response.errors], type);
-
-    } else if (response) {
-
+    if (response) {
       // now it always is a single error
       return this.showAll([response], type);
 
