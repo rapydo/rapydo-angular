@@ -1,19 +1,31 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
+import { NgxSpinnerService } from "ngx-spinner";
 
-import { ApiService } from '../../services/api';
-import { AuthService, User } from '../../services/auth';
-
+import { AuthService, User } from "../../services/auth";
+import { NotificationService } from "@rapydo/services/notification";
 
 @Component({
-  templateUrl: 'profile.html'
+  templateUrl: "profile.html",
 })
-export class ProfileComponent { 
-
+export class ProfileComponent {
   public user: User;
 
-  constructor(private api: ApiService, private auth: AuthService) {
-
-      this.user = auth.getUser();
-
+  constructor(
+    private spinner: NgxSpinnerService,
+    private notification: NotificationService,
+    private auth: AuthService
+  ) {
+    // this.user = auth.getUser();
+    this.spinner.show();
+    this.auth.loadUser().subscribe(
+      (response) => {
+        this.user = response;
+        this.spinner.hide();
+      },
+      (error) => {
+        this.notification.showError(error);
+        this.spinner.hide();
+      }
+    );
   }
 }

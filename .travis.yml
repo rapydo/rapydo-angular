@@ -2,49 +2,73 @@ os: linux
 dist: bionic
 language: python
 python:
-- 3.8
+  - 3.8
 services:
-- docker
+  - docker
 env:
-- TEMPLATE=core
-# to be deprecated
-- TEMPLATE=wrapped
+  - STAGE=prod
+  - STAGE=karma
+  - STAGE=cypress BROWSER=chrome
+  # it stucks quite often... to be retried in a near future
+  # - STAGE=cypress BROWSER=firefox
+  - STAGE=cypress BROWSER=electron
+  # - STAGE=cypress BROWSER=chromium
 
 script:
-
-  # Current version is extracted from package.json
-  - CURRENT_VERSION=$(grep '"version"' src/package.json | awk {'print $2'} | tr -d '", ')
-  # Install rapydo controller
+  - export CURRENT_VERSION=$(grep '"version"' src/package.json | awk {'print $2'} | tr -d '", ')
   - pip3 install --upgrade git+https://github.com/rapydo/do.git@${CURRENT_VERSION}
+  - mkdir rapydo_tests
+  - cd rapydo_tests
+  - rapydo create prj --auth postgres --frontend angular --origin https://your_remote_git/your_project.git;
+  - >
+    if [[ "$STAGE" == "karma" ]]; then
 
-  - mkdir $TEMPLATE
-  - cd $TEMPLATE
+      TESTING=1 rapydo init
+      rapydo -s frontend pull;
+      rapydo -s frontend start;
+      sleep 5;
+      rapydo shell frontend --command "yarn install" || travis_terminate 1;
+      rapydo shell frontend --command "yarn run test:single" || travis_terminate 1;
+      cp data/prj/karma/lcov.info .;
+      bash <(curl -s https://codecov.io/bash) -R submodules/frontend;
 
-  - > # this enable multiline commands
+    elif [[ "$STAGE" == "prod" ]]; then
 
-    if [[ "$TEMPLATE" == "core" ]]; then
-      rapydo create prj --auth postgres --frontend angular --origin https://your_remote_git/your_project.git;
-    elif [[ "$TEMPLATE" == "wrapped" ]]; then
-      rapydo create prj --auth postgres --wrapped --frontend angular --origin https://your_remote_git/your_project.git;
+      rapydo --prod init
+      rapydo -s frontend pull;
+      rapydo -s frontend start;
+      rapydo dump;
+      rapydo -s frontend logs --follow;
+      docker-compose logs --tail 2 frontend 2>&1 | grep "files have been compressed.";
+
     else
-      echo "Unknown template: ${TEMPLATE}";
-      travis_terminate 1;
+
+      TESTING=1 rapydo init
+
+      cd submodules/frontend;
+      export COMMIT_INFO_BRANCH="$(git rev-parse --abbrev-ref HEAD)";
+      export COMMIT_INFO_MESSAGE="$(git show -s --pretty=%B)";
+      export COMMIT_INFO_SUBJECT="$(git show -s --pretty=%s)";
+      export COMMIT_INFO_BODY="$(git show -s --pretty=%b)";
+      export COMMIT_INFO_EMAIL="$(git show -s --pretty=%ae)";
+      export COMMIT_INFO_AUTHOR="$(git show -s --pretty=%an)";
+      export COMMIT_INFO_SHA="$(git show -s --pretty=%H)";
+      export COMMIT_INFO_TIMESTAMP="$(git show -s --pretty=%ct)";
+      export COMMIT_INFO_REMOTE="$(git config --get remote.origin.url)";
+      export CYPRESS_GROUP="$(git show -s --pretty=%H)";
+      cd -;
+
+      rapydo pull;
+      rapydo start;
+      rapydo shell backend --command 'restapi wait';
+      rapydo shell backend --detach --command "restapi launch";
+      rapydo shell frontend --command "yarn install" || travis_terminate 1;
+      rapydo shell frontend --command "yarn run cypress:start:${BROWSER}" || travis_terminate 1;
+      rapydo shell frontend --command "npx nyc report --reporter=lcov" || travis_terminate 1;
+      cp data/prj/karma/lcov.info .;
+      bash <(curl -s https://codecov.io/bash) -R submodules/frontend;
+
     fi
-
-  # Init in test mode and run tests in development mode
-  - TESTING=1 rapydo init
-  - if [[ $TRAVIS_PULL_REQUEST == "false" ]] || [[ $TRAVIS_EVENT_TYPE != "cron" ]]; then rapydo -s frontend pull; fi
-  - rapydo dump
-  - docker-compose up --exit-code-from frontend frontend || travis_terminate 1;
-  - docker-compose down
-  - cp data/prj/karma/lcov.info . 
-  - bash <(curl -s https://codecov.io/bash) -R submodules/frontend
-
-  # Run compilation test in production mode
-  - rapydo --prod  init --force
-  - rapydo -s frontend start
-  - rapydo -s frontend logs --follow
-  - docker-compose logs --tail 2 frontend 2>&1 | grep "files have been compressed."
 
 notifications:
   email: false

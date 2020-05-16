@@ -1,176 +1,148 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormGroup } from '@angular/forms';
-import { FormlyFieldConfig } from '@ngx-formly/core'; 
+import { Component, OnInit } from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
+import { FormGroup } from "@angular/forms";
+import { FormlyFieldConfig } from "@ngx-formly/core";
 
-import { NotificationService} from '../../services/notification';
-import { ApiService } from '../../services/api';
-import { AuthService } from '../../services/auth';
+import { NotificationService } from "../../services/notification";
+import { ApiService } from "../../services/api";
+import { AuthService } from "../../services/auth";
 
-import { environment } from '@rapydo/../environments/environment';
- 
 @Component({
-    templateUrl: 'reset.html'
+  templateUrl: "reset.html",
 })
- 
 export class ResetPasswordComponent implements OnInit {
+  public token: string;
+  public invalid_token: string;
+  public reset_message: string;
 
-    public token: string;
-    public invalid_token: string;
-    public reset_message: string;
+  public step1_form = new FormGroup({});
+  public step2_form = new FormGroup({});
+  public step1_fields: FormlyFieldConfig[] = [];
+  public step2_fields: FormlyFieldConfig[] = [];
+  public model: any = {};
 
-    public step1_form = new FormGroup({});
-    public step2_form = new FormGroup({});
-    public step1_fields: FormlyFieldConfig[] = []; 
-    public step2_fields: FormlyFieldConfig[] = []; 
-    public model:any = {}
+  public loading = false;
 
-    public loading = false;
- 
-    constructor(
-        private router: Router,
-        private route: ActivatedRoute,
-        private notify: NotificationService,
-        private api: ApiService,
-        private authService: AuthService) {
-
-        this.route.params.subscribe(
-            params => {
-                if (typeof params["token"] !== 'undefined') {
-
-                    this.api.put('reset', params["token"], {}, {"base": "auth"}).subscribe(
-                       response => {
-                            this.token = params["token"]
-                            return true;
-
-                        }, error => {
-                            this.token = null;
-                            if (environment.WRAP_RESPONSE == '1') {
-                                this.invalid_token = error.Response.errors;
-                            } else {
-                                this.invalid_token = error;
-                            }
-                            this.notify.showError(this.invalid_token);
-                            return false;
-                        }
-                    );
-                }
-            }
-        );
-    }
- 
-    ngOnInit() {
-        // reset login status
-        this.authService.logout();
-
-        this.step1_fields.push(
-            {
-                "key": 'reset_email',
-                "type": 'input',
-                "templateOptions": {
-                    "type": 'email',
-                    "label": 'Your e-mail address',
-                    "addonLeft": {
-                        "class": "fa fa-envelope"
-                    },
-                    "required": true
-                },
-                "validators": { "validation": ["email"]}
-            }
-        );
-
-        this.step2_fields.push(
-            {
-                "key": 'newPwd',
-                "type": 'input',
-                "templateOptions": {
-                    "type": 'password',
-                    "label": 'New password',
-                    "addonLeft": {
-                        "class": "fa fa-key"
-                    },
-                    "required": true,
-                    "minLength": 8
-                }
-            }
-        );
-        this.step2_fields.push(
-            {
-                "key": 'confirmPwd',
-                "type": 'input',
-                "templateOptions": {
-                    "type": 'password',
-                    "label": 'Confirm password',
-                    "addonLeft": {
-                        "class": "fa fa-key"
-                    },
-                    "required": true
-                },
-                "validators": {
-                    "fieldMatch": {
-                        "expression": (control) => control.value === this.model.newPwd,
-                        "message": "Password not matching"
-                    }
-                }
-            }
-        );
-
-    }
-
-    resetRequest(): boolean {
-
-        if (!this.step1_form.valid) {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private notify: NotificationService,
+    private api: ApiService,
+    private authService: AuthService
+  ) {
+    this.route.params.subscribe((params) => {
+      if (typeof params["token"] !== "undefined") {
+        this.api.put("reset", params["token"], {}, { base: "auth" }).subscribe(
+          (response) => {
+            this.token = params["token"];
+            return true;
+          },
+          (error) => {
+            this.token = null;
+            this.invalid_token = error;
+            this.notify.showError(this.invalid_token);
             return false;
-        } 
-
-        let data = {"reset_email": this.model["reset_email"]};
-        return this.api.post('reset', data, {"base": "auth"}).subscribe(
-            response => {
-                if (environment.WRAP_RESPONSE == '1') {
-                    this.reset_message = response.data;
-                } else {
-                    this.reset_message = response;
-                }
-                this.model = {}
-                return true;
-
-            }, error => {
-                if (environment.WRAP_RESPONSE == '1') {
-                    this.notify.showError(error.Response.errors);
-                } else {
-                    this.notify.showError(error);
-                }
-                return false;
-            }
+          }
         );
+      }
+    });
+  }
+
+  ngOnInit() {
+    // reset login status
+    this.authService.logout();
+
+    this.step1_fields.push({
+      key: "reset_email",
+      type: "input",
+      templateOptions: {
+        type: "email",
+        label: "Your e-mail address",
+        placeholder: "Type here your email address to receive the reset link",
+        addonLeft: {
+          class: "fa fa-envelope",
+        },
+        required: true,
+      },
+      validators: { validation: ["email"] },
+    });
+
+    this.step2_fields.push({
+      key: "newPwd",
+      type: "input",
+      templateOptions: {
+        type: "password",
+        label: "New password",
+        placeholder: "Type here your new password",
+        addonLeft: {
+          class: "fa fa-key",
+        },
+        required: true,
+        minLength: 8,
+      },
+    });
+    this.step2_fields.push({
+      key: "confirmPwd",
+      type: "input",
+      templateOptions: {
+        type: "password",
+        label: "Confirm password",
+        placeholder: "Type again your new password for confirmation",
+        addonLeft: {
+          class: "fa fa-key",
+        },
+        required: true,
+      },
+      validators: {
+        fieldMatch: {
+          expression: (control) => control.value === this.model.newPwd,
+          message: "Password not matching",
+        },
+      },
+    });
+  }
+
+  resetRequest(): boolean {
+    if (!this.step1_form.valid) {
+      return false;
     }
 
-    public changePassword(): boolean {
+    let data = { reset_email: this.model["reset_email"] };
+    return this.api.post("reset", data, { base: "auth" }).subscribe(
+      (response) => {
+        this.reset_message = response;
+        this.model = {};
+        return true;
+      },
+      (error) => {
+        this.notify.showError(error);
+        return false;
+      }
+    );
+  }
 
-        if (!this.step2_form.valid) {
-            return false;
-        } 
+  public changePassword(): boolean {
+    if (!this.step2_form.valid) {
+      return false;
+    }
 
-        let data = {}
-        data["new_password"] = this.model["newPwd"];
-        data["password_confirm"] = this.model["confirmPwd"];
+    let data = {};
+    data["new_password"] = this.model["newPwd"];
+    data["password_confirm"] = this.model["confirmPwd"];
 
-        return this.api.put('reset', this.token, data, {"base": "auth"}).subscribe(
-            response => {
-                this.notify.showSuccess("Password successfully changed. Please login with your new password")
-
-                this.router.navigate(['app', 'login']);
-                return true;
-
-            }, error => {
-                if (environment.WRAP_RESPONSE == '1') {
-                    this.notify.showError(error.Response.errors);
-                } else {
-                    this.notify.showError(error);
-                }
-                return false;
-            }
+    return this.api.put("reset", this.token, data, { base: "auth" }).subscribe(
+      (response) => {
+        this.notify.showSuccess(
+          "Password successfully changed. Please login with your new password"
         );
-    };
-    
+
+        this.router.navigate(["app", "login"]);
+        return true;
+      },
+      (error) => {
+        this.notify.showError(error);
+        return false;
+      }
+    );
+  }
 }

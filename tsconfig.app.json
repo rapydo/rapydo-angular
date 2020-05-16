@@ -3,22 +3,15 @@
   "compilerOptions": {
     "outDir": "./out-tsc/app",
     "types": ["node"],
-    "typeRoots": [
-      "node_modules/@types"
-    ],
+    "typeRoots": ["node_modules/@types"]
   },
-  "files": [
-    "app/rapydo/main.ts",
-    "polyfills.ts"
-  ],
-  "include": [
-    "rapydo/**/*.ts"
-  ],
+  "files": ["app/rapydo/main.ts", "polyfills.ts"],
+  "include": ["rapydo/**/*.ts"],
   "exclude": [
     "rapydo/tests.ts",
     "rapydo/**/*.spec.ts",
     "rapydo/**/*.d.ts",
     "custom/**/*.spec.ts",
-    "custom/**/*.d.ts",
+    "custom/**/*.d.ts"
   ]
 }

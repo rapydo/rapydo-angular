@@ -17,7 +17,7 @@
  * BROWSER POLYFILLS
  */
 
-import 'ie-shim'; // Internet Explorer 9 support
+import "ie-shim"; // Internet Explorer 9 support
 
 import "core-js/stable";
 /** IE9, IE10 and IE11 requires all of the following polyfills. **/
@@ -50,7 +50,7 @@ import 'core-js/es/weak-set';
 
 /** IE10 and IE11 requires the following for NgClass support on SVG elements */
 // import 'classlist.js';
-import 'angular-polyfills/dist/classlist.js';
+import "angular-polyfills/dist/classlist.js";
 
 /**
  * Web Animations `@angular/platform-browser/animations`
@@ -83,7 +83,6 @@ import 'angular-polyfills/dist/classlist.js';
  *
  */
 
-
 /** Evergreen browsers require these. **/
 // Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
 import "core-js/proposals/reflect-metadata";
@@ -91,27 +90,26 @@ import "core-js/proposals/reflect-metadata";
 /***************************************************************************************************
 
 /** Zone JS is required by default for Angular itself. */
-import 'zone.js/dist/zone';
-import 'zone.js/dist/long-stack-trace-zone';
+import "zone.js/dist/zone";
+import "zone.js/dist/long-stack-trace-zone";
 
 /** APPLICATION IMPORTS */
 
 // import 'angular-polyfills/dist/all.js';
-import 'angular-polyfills/dist/typedarray.js';
-import 'angular-polyfills/dist/blob.js';
-import 'angular-polyfills/dist/formdata.js';
-import 'angular-polyfills/dist/intl.js';
-import 'angular-polyfills/dist/shim.js';
+import "angular-polyfills/dist/typedarray.js";
+import "angular-polyfills/dist/blob.js";
+import "angular-polyfills/dist/formdata.js";
+import "angular-polyfills/dist/intl.js";
+import "angular-polyfills/dist/shim.js";
 // This fails to import with error (on version 1.0.1):
 // TypeError: Cannot set property 'true' of undefined
 // import 'angular-polyfills/dist/webanimations.js';
 
-
-if (typeof (window as any).global === 'undefined') {
+if (typeof (window as any).global === "undefined") {
   (window as any).global = window;
   //(window as any)['global'] = window;
 }
 
 // Angular 9 introduced a global $localize() function that needs to be loaded.
 // Please add import '@angular/localize'; to your polyfills.ts file.
-import '@angular/localize/init';
+import "@angular/localize/init";

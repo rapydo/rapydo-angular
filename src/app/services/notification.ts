@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { Injectable } from "@angular/core";
+import { ToastrService } from "ngx-toastr";
 
 // deprecated since 0.7.3
 export interface ApiResponse {
@@ -8,7 +8,6 @@ export interface ApiResponse {
 
 @Injectable()
 export class NotificationService {
-
   readonly CRITICAL = 1;
   readonly ERROR = 2;
   readonly WARNING = 3;
@@ -17,43 +16,34 @@ export class NotificationService {
   constructor(private toastr: ToastrService) {}
 
   // deprecated since 0.7.3
-  public extractErrors = function(response: ApiResponse, type: number) {
-
-    // WRAPPED_RESPONSE
-    if (response && response.errors) {
-
-      // multiple errors
-      if (Array.isArray(response.errors)) return this.showAll(response.errors, type);
-      // single error
-      return this.showAll([response.errors], type);
-
-    } else if (response) {
-
+  public extractErrors = function (response: ApiResponse, type: number) {
+    if (response) {
       // now it always is a single error
       return this.showAll([response], type);
-
     }
-
-  }
-  public showAll = function(messages: string[], type: number) {
+  };
+  public showAll = function (messages: string[], type: number) {
     // deprecated since 0.7.3
     console.warn("Deprecated use of showAll");
     if (messages)
-    // remove loop when multiple errors will be disabled from backend
-    for (let i=0; i<messages.length; i++) {
+      // remove loop when multiple errors will be disabled from backend
+      for (let i = 0; i < messages.length; i++) {
         let message = messages[i];
 
-        if (typeof(message) == 'object') {
+        if (typeof message == "object") {
           message = this.extractMessage(message);
         }
 
-        if (type == this.CRITICAL) this.showCritical(message);
-        else if (type == this.ERROR) this.showError(message);
-        else if (type == this.WARNING) this.showWarning(message);
-        else if (type == this.INFO) this.showInfo(message);
-        else console.error("Unknown message type. NotificationService is unable to satisfy this request");
-    }
-  }
+        if (type === this.CRITICAL) this.showCritical(message);
+        else if (type === this.ERROR) this.showError(message);
+        else if (type === this.WARNING) this.showWarning(message);
+        else if (type === this.INFO) this.showInfo(message);
+        else
+          console.error(
+            "Unknown message type. NotificationService is unable to satisfy this request"
+          );
+      }
+  };
 
   public extractMessage(message: object) {
     /*
@@ -65,8 +55,8 @@ export class NotificationService {
     }
     */
 
-    if (message['message']) {
-      return message['message'];
+    if (message["message"]) {
+      return message["message"];
     }
 
     return message;
@@ -76,98 +66,81 @@ export class NotificationService {
     return typeof dict === "object" && !Array.isArray(dict);
   }
 
-  public showCritical = function(msg: any, title: string = '') {
-
+  public showCritical = function (msg: any, title: string = "") {
     if (this.isDict(msg)) {
       // only return the first key... to be extended to every key??
       for (let k in msg) {
-        if (title == '') title = k;
+        if (title == "") title = k;
         msg = msg[k];
         break;
       }
     }
 
-    this.toastr.error(
-      msg, title,
-      {
-        timeOut: 0
-      }
-    );
-  }
+    this.toastr.error(msg, title, {
+      timeOut: 0,
+    });
+  };
 
-  public showError = function(msg: any, title: string = '') {
+  public showError = function (msg: any, title: string = "") {
+    if (msg.error) {
+      msg = msg.error;
+    }
 
     if (this.isDict(msg)) {
       // only return the first key... to be extended to every key??
       for (let k in msg) {
-        if (title == '') title = k;
+        if (title == "") title = k;
         msg = msg[k];
         break;
       }
     }
 
-    this.toastr.error(
-      msg, title,
-      {
-        timeOut: 15000
-      }
-    );
-  }
+    this.toastr.error(msg, title, {
+      timeOut: 15000,
+    });
+  };
 
-  public showWarning = function(msg: any, title: string = '') {
-
+  public showWarning = function (msg: any, title: string = "") {
     if (this.isDict(msg)) {
       // only return the first key... to be extended to every key??
       for (let k in msg) {
-        if (title == '') title = k;
+        if (title == "") title = k;
         msg = msg[k];
         break;
       }
     }
 
-    this.toastr.warning(
-      msg, title,
-      {
-        timeOut: 10000
-      }
-    );
-  }
+    this.toastr.warning(msg, title, {
+      timeOut: 10000,
+    });
+  };
 
-  public showSuccess = function(msg: any, title: string = '') {
-
+  public showSuccess = function (msg: any, title: string = "") {
     if (this.isDict(msg)) {
       // only return the first key... to be extended to every key??
       for (let k in msg) {
-        if (title == '') title = k;
+        if (title == "") title = k;
         msg = msg[k];
         break;
       }
     }
 
-    this.toastr.success(
-      msg, title,
-      {
-        timeOut: 10000
-      }
-    );
-  }
-  public showInfo = function(msg: any, title: string = '') {
-
+    this.toastr.success(msg, title, {
+      timeOut: 10000,
+    });
+  };
+  public showInfo = function (msg: any, title: string = "") {
     if (this.isDict(msg)) {
       // only return the first key... to be extended to every key??
       for (let k in msg) {
-        if (title == '') title = k;
+        if (title == "") title = k;
         msg = msg[k];
         break;
       }
     }
 
-    this.toastr.info(
-      msg, title,
-      {
-        timeOut: 10000
-      }
-    );
-  }
-
+    this.toastr.info(msg, title, {
+      timeOut: 10000,
+    });
+  };
 }

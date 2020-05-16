@@ -1,49 +1,52 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Title } from '@angular/platform-browser';
-import { DeviceDetectorService } from 'ngx-device-detector';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { Title } from "@angular/platform-browser";
+import { DeviceDetectorService } from "ngx-device-detector";
 
-import { environment } from '@rapydo/../environments/environment';
+import { environment } from "@rapydo/../environments/environment";
 
-import { AuthService } from '@rapydo/services/auth';
-import { ApiService} from '@rapydo/services/api';
-import { NavbarComponent } from '@rapydo/components/navbar/navbar';
-import { NotificationService} from '@rapydo/services/notification';
-import { ProjectOptions } from '@app/custom.project.options';
+import { AuthService } from "@rapydo/services/auth";
+import { ApiService } from "@rapydo/services/api";
+import { NavbarComponent } from "@rapydo/components/navbar/navbar";
+import { NotificationService } from "@rapydo/services/notification";
+import { ProjectOptions } from "@app/custom.project.options";
 
 @Component({
-  selector: 'rapydo',
-  templateUrl: 'app.component.html'
+  selector: "rapydo",
+  templateUrl: "app.component.html",
 })
 export class AppComponent implements OnInit {
+  @ViewChild("cookieLaw", { static: false }) private cookieLawEl: any;
 
-  @ViewChild('cookieLaw', { static: false }) private cookieLawEl: any;
-
-  public cookieLawText:string;
-  public cookieLawButton:string;
-  public enableFooter:boolean = false;
+  public cookieLawText: string;
+  public cookieLawButton: string;
+  public enableFooter: boolean = false;
 
   constructor(
-      public api: ApiService,
-      private auth: AuthService,
-      private titleService: Title,
-      private customization: ProjectOptions,
-      private notify: NotificationService,
-      private deviceService: DeviceDetectorService
-      ) {
-
-    this.enableFooter = (environment.enableFooter == "true");
-    this.cookieLawText = this.customization.get_option('cookie_law_text');
-    this.cookieLawButton = this.customization.get_option('cookie_law_button');
+    public api: ApiService,
+    private auth: AuthService,
+    private titleService: Title,
+    private customization: ProjectOptions,
+    private notify: NotificationService,
+    private deviceService: DeviceDetectorService
+  ) {
+    this.enableFooter = environment.enableFooter == "true";
+    this.cookieLawText = this.customization.get_option("cookie_law_text");
+    this.cookieLawButton = this.customization.get_option("cookie_law_button");
 
     let deviceInfo = deviceService.getDeviceInfo();
 
     let browser = deviceInfo.browser;
-    let version =deviceInfo.browser_version;
+    let version = deviceInfo.browser_version;
     let os = deviceInfo.os;
     let os_version = deviceInfo.os_version;
-    let compatibilityCheck = this.checkCompatibility(browser, version, os, os_version);
+    let compatibilityCheck = this.checkCompatibility(
+      browser,
+      version,
+      os,
+      os_version
+    );
 
-    let device = ""
+    let device = "";
 
     if (deviceService.isMobile()) {
       device = "mobile";
@@ -55,15 +58,38 @@ export class AppComponent implements OnInit {
       device = "desktop";
     }
 
-    console.info(browser + " (" + version + ") on " + os + " " + device + " (" + os_version + ")");
+    console.info(
+      browser +
+        " (" +
+        version +
+        ") on " +
+        os +
+        " " +
+        device +
+        " (" +
+        os_version +
+        ")"
+    );
 
     if (!compatibilityCheck) {
-      this.notify.showError("You are using " + browser + " " + version + " on " + os + ". We apologize, but your browser is not fully compatible with this website and some or all functionalities may not work.");
+      this.notify.showError(
+        "You are using " +
+          browser +
+          " " +
+          version +
+          " on " +
+          os +
+          ". We apologize, but your browser is not fully compatible with this website and some or all functionalities may not work."
+      );
     }
-
   }
-  private checkCompatibility(browser:string, version:string, os:string, os_version:string): boolean {
-    if (browser == 'IE') {
+  private checkCompatibility(
+    browser: string,
+    version: string,
+    os: string,
+    os_version: string
+  ): boolean {
+    if (browser == "IE") {
       if (parseFloat(version) <= 10) {
         return false;
       }
@@ -82,4 +108,7 @@ export class AppComponent implements OnInit {
     this.cookieLawEl.dismiss();
   }
 
+  public refresh(): void {
+    window.location.reload();
+  }
 }

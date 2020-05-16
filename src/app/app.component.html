@@ -1,65 +1,61 @@
-
 <div *ngIf="!api.is_online()">
-	<br><br><br>
-	<div class='row'>
-	<div class='col-6 offset-3'>
+  <br /><br /><br />
 
-	<div class='card'>
+  <div class="row">
+    <div class="col-6 offset-3">
+      <div class="card">
+        <div class="card-header bg-warning text-center">
+          <h6>
+            Server temporarily unreachable
+          </h6>
+        </div>
 
-	<div class='card-header bg-warning text-center'>
-	    <h6>
-    	Server temporarily reachable
-	    </h6>
-	</div>
+        <div class="card-body text-center">
+          <p>
+            This server is temporarily not reachable.<br />
+            We apologize for any inconvenience this may cause.
 
-	<div class='card-body text-center'>
+            <br /><br />
 
-	    <p>
-
-	    This server is temporarily not reachable.<br>
-	    We apologize for any inconvenience this may cause.
-
-	    <br><br>
-	     
-	    <a routerLink='/app/profile'>
-	        <i class='fas fa-sync-alt'></i>
-	        <br>
-	        Reload 
-	    </a>
-
-	    </p>
-	</div>
-
-	</div>
-
-	</div>
-	</div>
-
+            <a [routerLink]="" (click)="refresh()">
+              <i class="fas fa-sync-alt"></i>
+              <br />
+              Reload
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <navbar *ngIf="api.is_online()"></navbar>
 
 <router-outlet *ngIf="api.is_online()"></router-outlet>
 
-<footer class="footer mt-auto" *ngIf='enableFooter'>
-	<customfooter></customfooter>
+<footer class="footer mt-auto" *ngIf="enableFooter">
+  <customfooter></customfooter>
 </footer>
 
 <cookie-law #cookieLaw>
-	<span *ngIf='cookieLawText; else defaultText'
-		  [innerHTML]='cookieLawText'></span>
-	<ng-template #defaultText>
-		We uses cookies to ensure you get the best experience on our website. If you continue to use this site you accept to receive cookies, otherwise you can leave this page. 
-	</ng-template>
+  <span
+    *ngIf="cookieLawText; else defaultText"
+    [innerHTML]="cookieLawText"
+  ></span>
+  <ng-template #defaultText>
+    We uses cookies to ensure you get the best experience on our website. If you
+    continue to use this site you accept to receive cookies, otherwise you can
+    leave this page.
+  </ng-template>
 
-	&nbsp;
+  &nbsp;
 
-	<button class='btn btn-secondary btn-sm' (click)="dismissCookieLaw()">
-		<ng-container *ngIf='cookieLawButton; else defaultButton'>
-			{{cookieLawButton}}
-		</ng-container>
-		<ng-template #defaultButton>
-			Ok, got it
-		</ng-template>
-	</button >
+  <button class="btn btn-secondary btn-sm" (click)="dismissCookieLaw()">
+    <ng-container *ngIf="cookieLawButton; else defaultButton">
+      {{ cookieLawButton }}
+    </ng-container>
+    <ng-template #defaultButton>
+      Ok, got it
+    </ng-template>
+  </button>
 </cookie-law>

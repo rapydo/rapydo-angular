@@ -1,7 +1,7 @@
-import { TestBed, getTestBed } from '@angular/core/testing';
-import { WebSocketsService } from '@rapydo/services/websockets';
+import { TestBed, getTestBed } from "@angular/core/testing";
+import { WebSocketsService } from "@rapydo/services/websockets";
 
-describe('WebSocketsService', () => {
+describe("WebSocketsService", () => {
   let injector: TestBed;
   let service: WebSocketsService;
 
@@ -13,5 +13,4 @@ describe('WebSocketsService', () => {
     injector = getTestBed();
     service = injector.inject(WebSocketsService);
   });
-
 });

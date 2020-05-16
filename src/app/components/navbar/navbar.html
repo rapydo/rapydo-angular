@@ -1,43 +1,43 @@
-
 <nav class="navbar navbar-expand navbar-light sticky-top">
+  <custombrand></custombrand>
+  <customlinks [user]="user" *ngIf="!loading"></customlinks>
 
-	<custombrand></custombrand>
-	<customlinks [user]='user' *ngIf='!loading'></customlinks>
+  <ul class="nav navbar-nav ml-auto navbar-right" *ngIf="!loading">
+    <li class="nav-item" *ngIf="user">
+      <a class="nav-link" routerLink="/app/profile" routerLinkActive="active">
+        <i
+          class="fas fa-user fa-large"
+          ngbTooltip="Profile of {{user.email}}"
+          placement="left"
+        ></i>
+      </a>
+    </li>
 
-	<ul class="nav navbar-nav ml-auto navbar-right" *ngIf='!loading'>
+    <li class="nav-item" *ngIf="user">
+      <a class="nav-link" href [routerLink]="">
+        <i
+          class="fas fa-sign-out-alt fa-large"
+          ngbTooltip="Logout"
+          mwlConfirmationPopover
+          [popoverTitle]="logoutConfirmationTitle"
+          [popoverMessage]="logoutConfirmationMessage"
+          [appendToBody]="true"
+          placement="left"
+          (confirm)="do_logout()"
+        ></i>
+      </a>
+    </li>
 
-		<li class='nav-item' *ngIf="user">
-	      	<a class='nav-link' routerLink='/app/profile' routerLinkActive="active">
-      		<i  class="fas fa-user fa-large" ngbTooltip="Profile of {{user.email}}" placement='left'></i>
-	      	</a>
-		</li>
+    <li class="nav-item" *ngIf="!user">
+      <a routerLink="/app/login" routerLinkActive="active">
+        Login
+      </a>
+    </li>
 
-		<li class='nav-item' *ngIf="user">
-			<a class='nav-link' href [routerLink]="">
-      		<i class='fas fa-sign-out-alt fa-large' ngbTooltip='Logout' 
-                mwlConfirmationPopover
-                [popoverTitle]="logoutConfirmationTitle"
-                [popoverMessage]="logoutConfirmationMessage"
-	            [appendToBody]="true"
-		        placement="left"
-                (confirm)="do_logout()"
-            ></i>
-      		</a>
-		</li>
-
-		<li class='nav-item' *ngIf="!user">
-			<a routerLink='/app/login' routerLinkActive="active">
-				Login
-			</a>
-		</li>
-
-		<li class='nav-item' *ngIf="allowRegistration && !user">
-			<a routerLink='/public/register' routerLinkActive="active">
-				&nbsp; Sign-in
-			</a>
-		</li>
-
-	</ul>
-
+    <li class="nav-item" *ngIf="allowRegistration && !user">
+      <a routerLink="/public/register" routerLinkActive="active">
+        &nbsp; Sign-in
+      </a>
+    </li>
+  </ul>
 </nav>
-

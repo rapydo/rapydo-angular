@@ -1,7 +1,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-
     // From default Angular CLI
     "baseUrl": "/app/node_modules/",
     "outDir": "/app/dist",
@@ -41,13 +40,9 @@
     // "allowSyntheticDefaultImports": true,
 
     // From default Angular CLI
-    "types": [
-      "node"
-    ],
+    "types": ["node"],
 
-    "typeRoots": [
-      "/app/node_modules/@types"
-    ],
+    "typeRoots": ["/app/node_modules/@types"],
 
     "paths": {
       "@rapydo/*": ["/app/app/rapydo/app/*"],
@@ -55,10 +50,7 @@
       "*": ["/app/node_modules/*"]
     },
 
-    "lib": [
-      "es2018",
-      "dom"
-    ]
+    "lib": ["es2018", "dom"]
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

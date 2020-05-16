@@ -1,58 +1,71 @@
-import { NgModule, ModuleWithProviders, Injectable, ErrorHandler } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {
+  NgModule,
+  ModuleWithProviders,
+  Injectable,
+  ErrorHandler,
+} from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterModule, Routes } from "@angular/router";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
-import { CookieLawModule } from 'angular2-cookie-law';
-import { ToastrModule } from 'ngx-toastr';
-import { DeviceDetectorModule } from 'ngx-device-detector';
+import { CookieLawModule } from "angular2-cookie-law";
+import { ToastrModule } from "ngx-toastr";
+import { DeviceDetectorModule } from "ngx-device-detector";
 import * as Sentry from "@sentry/browser";
 // import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
 
-import { SharedModule } from '@rapydo/shared.module';
-import { OfflineComponent } from '@rapydo/components/errors/offline';
-import { NavbarComponent } from '@rapydo/components/navbar/navbar';
+import { SharedModule } from "@rapydo/shared.module";
+import { NavbarComponent } from "@rapydo/components/navbar/navbar";
 
-import { AuthGuard } from '@rapydo/app.auth.guard';
-import { AuthService } from '@rapydo/services/auth';
-import { ApiService } from '@rapydo/services/api';
-import { FormlyService } from '@rapydo/services/formly';
-import { NotificationService } from '@rapydo/services/notification';
-import { WebSocketsService } from '@rapydo/services/websockets';
+import { AuthGuard } from "@rapydo/app.auth.guard";
+import { AuthService } from "@rapydo/services/auth";
+import { ApiService } from "@rapydo/services/api";
+import { FormlyService } from "@rapydo/services/formly";
+import { NotificationService } from "@rapydo/services/notification";
+import { WebSocketsService } from "@rapydo/services/websockets";
 
-import { JwtInterceptor } from '@rapydo/jwt.interceptor';
+import { JwtInterceptor } from "@rapydo/jwt.interceptor";
 
-import { CustomNavbarComponent } from '@app/custom.navbar';
-import { CustomBrandComponent } from '@app/custom.navbar';
-import { CustomFooterComponent } from '@app/custom.footer';
-import { ProjectOptions } from '@app/custom.project.options';
+import { CustomNavbarComponent } from "@app/custom.navbar";
+import { CustomBrandComponent } from "@app/custom.navbar";
+import { CustomFooterComponent } from "@app/custom.footer";
+import { ProjectOptions } from "@app/custom.project.options";
 
-import { environment } from '@rapydo/../environments/environment';
+import { environment } from "@rapydo/../environments/environment";
 
 const routes: Routes = [
   {
-    path: 'offline', component: OfflineComponent
+    path: "public",
+    loadChildren: () =>
+      import("@rapydo/components/public/public.module").then(
+        (m) => m.PublicModule
+      ),
   },
   {
-    path: 'public',
-    loadChildren: () => import('@rapydo/components/public/public.module').then(m => m.PublicModule)
+    path: "app/login",
+    loadChildren: () =>
+      import("@rapydo/components/login/login.module").then(
+        (m) => m.LoginModule
+      ),
   },
   {
-    path: 'app/login',
-    loadChildren: () => import('@rapydo/components/login/login.module').then(m => m.LoginModule)
+    path: "app/profile",
+    loadChildren: () =>
+      import("@rapydo/components/profile/profile.module").then(
+        (m) => m.ProfileModule
+      ),
   },
   {
-    path: 'app/profile',
-    loadChildren: () => import('@rapydo/components/profile/profile.module').then(m => m.ProfileModule)
+    path: "app/admin",
+    loadChildren: () =>
+      import("@rapydo/components/admin/admin.module").then(
+        (m) => m.AdminModule
+      ),
   },
-  {
-    path: 'app/admin',
-    loadChildren: () => import('@rapydo/components/admin/admin.module').then(m => m.AdminModule)
-  }
 ];
 
-let module_imports:any = [
+let module_imports: any = [
   CommonModule,
   SharedModule,
 
@@ -60,8 +73,8 @@ let module_imports:any = [
     routes,
     {
       enableTracing: false,
-      onSameUrlNavigation: 'reload'
-     } // <-- debugging purposes only
+      onSameUrlNavigation: "reload",
+    } // <-- debugging purposes only
   ),
 
   // BrowserModule,
@@ -78,17 +91,16 @@ let module_imports:any = [
     closeButton: true,
     enableHtml: true,
     progressBar: true,
-    progressAnimation: 'increasing',
-    positionClass: 'toast-bottom-right'
+    progressAnimation: "increasing",
+    positionClass: "toast-bottom-right",
   }),
 
   // NgxGoogleAnalyticsModule.forRoot(environment.GA_TRACKING_CODE),
   // NgxGoogleAnalyticsRouterModule,
-  DeviceDetectorModule.forRoot()
+  DeviceDetectorModule.forRoot(),
 ];
 
 let module_declarations = [
-  OfflineComponent,
   NavbarComponent,
 
   CustomNavbarComponent,
@@ -105,40 +117,50 @@ let module_exports = [
   CookieLawModule,
   ToastrModule,
 
-  OfflineComponent,
   NavbarComponent,
-  CustomFooterComponent
+  CustomFooterComponent,
 ];
 
-let module_providers:any = [
-  AuthService, AuthGuard,
+let module_providers: any = [
+  AuthService,
+  AuthGuard,
   ApiService,
   FormlyService,
   NotificationService,
   WebSocketsService,
   ProjectOptions,
-  { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+  { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
 ];
 
 @Injectable()
 export class SentryErrorHandler implements ErrorHandler {
   constructor() {}
   handleError(error) {
-    if (environment.production && typeof environment.SENTRY_URL !== 'undefined' &&  environment.SENTRY_URL != "") {
+    if (
+      environment.production &&
+      typeof environment.SENTRY_URL !== "undefined" &&
+      environment.SENTRY_URL != ""
+    ) {
       Sentry.captureException(error.originalError || error);
     }
     throw error;
   }
 }
 
-if (environment.production && typeof environment.SENTRY_URL !== 'undefined' &&  environment.SENTRY_URL != "") {
+if (
+  environment.production &&
+  typeof environment.SENTRY_URL !== "undefined" &&
+  environment.SENTRY_URL != ""
+) {
   Sentry.init({
-    dsn: environment.SENTRY_URL
+    dsn: environment.SENTRY_URL,
   });
 
-  module_providers.push({ provide: ErrorHandler, useClass: SentryErrorHandler })
+  module_providers.push({
+    provide: ErrorHandler,
+    useClass: SentryErrorHandler,
+  });
 }
-
 
 @NgModule({
   imports: module_imports,
@@ -150,7 +172,7 @@ export class RapydoModule {
   static forRoot(): ModuleWithProviders<RapydoModule> {
     return {
       ngModule: RapydoModule,
-  	  providers: module_providers,
+      providers: module_providers,
     };
   }
-} 
+}

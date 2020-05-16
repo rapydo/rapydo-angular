@@ -1,38 +1,54 @@
-import { NgModule, ModuleWithProviders, Injectable, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, FormControl } from '@angular/forms';
-import { ReactiveFormsModule, ValidationErrors } from '@angular/forms';
+import {
+  NgModule,
+  ModuleWithProviders,
+  Injectable,
+  CUSTOM_ELEMENTS_SCHEMA,
+} from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule, FormControl } from "@angular/forms";
+import { ReactiveFormsModule, ValidationErrors } from "@angular/forms";
 
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
-import { UploadxModule } from 'ngx-uploadx';
+import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { ConfirmationPopoverModule } from "angular-confirmation-popover";
+import { UploadxModule } from "ngx-uploadx";
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgbDateAdapter, NgbDateNativeAdapter, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import {
+  NgbDateAdapter,
+  NgbDateNativeAdapter,
+  NgbDateParserFormatter,
+  NgbDateStruct,
+} from "@ng-bootstrap/ng-bootstrap";
 
-import { MomentModule } from 'ngx-moment';
-import * as moment from 'moment';
+import { MomentModule } from "ngx-moment";
+import * as moment from "moment";
 
-import { ClipboardModule } from 'ngx-clipboard';
+import { ClipboardModule } from "ngx-clipboard";
 
-import { FormlyModule } from '@ngx-formly/core';
-import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
+import { FormlyModule } from "@ngx-formly/core";
+import { FormlyBootstrapModule } from "@ngx-formly/bootstrap";
 
-import { FormlyHorizontalWrapper } from '@rapydo/components/forms/bootstrap.horizontal.wrapper'
-import { FileValueAccessor } from '@rapydo/components/forms/file-value-accessor';
-import { FormlyFieldFile } from '@rapydo/components/forms/file-type.component';
-import { FormlyDescriptiveRadio } from '@rapydo/components/forms/radio-type.component';
-import { TermsOfUseCheckbox } from '@rapydo/components/forms/terms_of_use_checkbox'
-import { DatePickerComponent } from '@rapydo/components/forms/datepicker.component';
-import { DatePickerValueAccessor } from '@rapydo/components/forms/datepicker.directive';
+import { FormlyHorizontalWrapper } from "@rapydo/components/forms/bootstrap.horizontal.wrapper";
+import { FileValueAccessor } from "@rapydo/components/forms/file-value-accessor";
+import { FormlyFieldFile } from "@rapydo/components/forms/file-type.component";
+import { FormlyDescriptiveRadio } from "@rapydo/components/forms/radio-type.component";
+import { TermsOfUseCheckbox } from "@rapydo/components/forms/terms_of_use_checkbox";
+import { DatePickerComponent } from "@rapydo/components/forms/datepicker.component";
+import { DatePickerValueAccessor } from "@rapydo/components/forms/datepicker.directive";
 
 import { NgxSpinnerModule } from "ngx-spinner";
 
-import { IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe } from '@rapydo/pipes/pipes';
-import { SecurePipe } from '@rapydo/pipes/secure';
-import { BasePaginationComponent } from '@rapydo/components/base.pagination.component';
+import {
+  IteratePipe,
+  BytesPipe,
+  BooleanFlagPipe,
+  YesNoPipe,
+} from "@rapydo/pipes/pipes";
+import { SecurePipe } from "@rapydo/pipes/secure";
+import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
+import { FormModal } from "@rapydo/components/forms/form_modal";
 // loading component is deprecated since 0.7.3
-import { LoadingComponent } from '@rapydo/components/loading/loading';
+import { LoadingComponent } from "@rapydo/components/loading/loading";
 
 export function emailValidator(control: FormControl): ValidationErrors {
   /*
@@ -45,15 +61,21 @@ export function emailValidator(control: FormControl): ValidationErrors {
     - domain block can be repeated (letter/number)+(letters/numbers/-_).
     - required from 2 to 5 letters after the last . 
   */
-  return /^[a-zA-Z]+[a-zA-Z0-9._-]*@[a-zA-Z0-9]+[a-zA-Z0-9_-]*\.([a-zA-Z0-9]+[a-zA-Z0-9_-]*\.)*[a-zA-Z]{2,5}$/.test(control.value) ? null : {'email': true};
+  return /^[a-zA-Z]+[a-zA-Z0-9._-]*@[a-zA-Z0-9]+[a-zA-Z0-9_-]*\.([a-zA-Z0-9]+[a-zA-Z0-9_-]*\.)*[a-zA-Z]{2,5}$/.test(
+    control.value
+  )
+    ? null
+    : { email: true };
 }
 
 export function URLValidator(control: FormControl): ValidationErrors {
+  if (control.value == null) return null;
 
-  if (control.value == null)
-    return null;
-
-  return /^(?:(?:(?:https?|ftp):)?\/\/)?(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(control.value) ? null : {'url': true};
+  return /^(?:(?:(?:https?|ftp):)?\/\/)?(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(
+    control.value
+  )
+    ? null
+    : { url: true };
 
   /*
     Regular expression obtained from https://stackoverflow.com/questions/8667070/javascript-regular-expression-to-validate-url
@@ -109,21 +131,19 @@ export function maxValidationError(error, field) {
   return `Should be lower than ${field.templateOptions.max}`;
 }
 
-
 // ngbDatepicker uses { year: 'yyyy', month: 'mm', day: 'dd'} as date format by default
 // this adpter allow ngbDatepicker to accept js native Dates
 @Injectable()
 export class MomentDateFormatter extends NgbDateParserFormatter {
-
   // Convert a string formatted as 'DD/MM/YYYY' into {year: 'yyyy', month: 'mm', day:}
   parse(value: string): NgbDateStruct {
     if (value) {
       value = value.trim();
-      let mdt = moment(value, 'DD/MM/YYYY')
+      let mdt = moment(value, "DD/MM/YYYY");
       return {
         year: mdt.year(),
         month: 1 + mdt.month(),
-        day: mdt.date()
+        day: mdt.date(),
       };
     }
     return null;
@@ -131,26 +151,26 @@ export class MomentDateFormatter extends NgbDateParserFormatter {
 
   // Convert {year: 'yyyy', month: 'mm', day:} 'dd' into DD/MM/YYYY
   format(date: NgbDateStruct): string {
-    if (!date) return '';
+    if (!date) return "";
     let mdt = moment([date.year, date.month - 1, date.day]);
-    if (!mdt.isValid()) return '';
-    return mdt.format('DD/MM/YYYY');
+    if (!mdt.isValid()) return "";
+    return mdt.format("DD/MM/YYYY");
   }
 }
 
-
-let module_imports:any = [
+let module_imports: any = [
   CommonModule,
 
   NgbModule,
   MomentModule,
-  FormsModule, ReactiveFormsModule,
+  FormsModule,
+  ReactiveFormsModule,
   NgxDatatableModule,
   ConfirmationPopoverModule.forRoot(
     // set defaults here
     {
-      confirmButtonType: 'danger',
-      appendToBody: true
+      confirmButtonType: "danger",
+      appendToBody: true,
     }
   ),
   UploadxModule,
@@ -159,42 +179,51 @@ let module_imports:any = [
   FormlyBootstrapModule,
   FormlyModule.forRoot({
     wrappers: [
-      {name: 'form-field-horizontal', component: FormlyHorizontalWrapper}
+      { name: "form-field-horizontal", component: FormlyHorizontalWrapper },
     ],
     types: [
-      {name: 'file', component: FormlyFieldFile, wrappers: ['form-field']}, 
-      {name: 'radio', component: FormlyDescriptiveRadio}, 
-      {name: 'terms_of_use', component: TermsOfUseCheckbox},
-      {name: 'datepicker', component: DatePickerComponent, wrappers: ['form-field']}
+      { name: "file", component: FormlyFieldFile, wrappers: ["form-field"] },
+      { name: "radio", component: FormlyDescriptiveRadio },
+      { name: "terms_of_use", component: TermsOfUseCheckbox },
+      {
+        name: "datepicker",
+        component: DatePickerComponent,
+        wrappers: ["form-field"],
+      },
     ],
     validationMessages: [
-      {name: 'required', message: 'This field is required'},
-      {name: 'minlength', message: minLengthValidationError},
-      {name: 'maxlength', message: maxLengthValidationError},
-      {name: 'min', message: minValidationError},
-      {name: 'max', message: maxValidationError},
-      {name: 'email', message: 'Invalid email address'},
-      {name: 'url', message: 'Invalid web address'},
-      {name: 'ngbDate', message: 'Invalid date, expected format: dd/mm/yyyy'},
+      { name: "required", message: "This field is required" },
+      { name: "minlength", message: minLengthValidationError },
+      { name: "maxlength", message: maxLengthValidationError },
+      { name: "min", message: minValidationError },
+      { name: "max", message: maxValidationError },
+      { name: "email", message: "Invalid email address" },
+      { name: "url", message: "Invalid web address" },
+      { name: "ngbDate", message: "Invalid date, expected format: dd/mm/yyyy" },
     ],
     validators: [
-      {name: 'email', validation: emailValidator},
-      {name: 'url', validation: URLValidator}
-    ]
+      { name: "email", validation: emailValidator },
+      { name: "url", validation: URLValidator },
+    ],
   }),
 ];
 
 let module_declarations = [
-  IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe,
+  IteratePipe,
+  BytesPipe,
+  BooleanFlagPipe,
+  YesNoPipe,
   SecurePipe,
   BasePaginationComponent,
+  FormModal,
   LoadingComponent,
   FormlyHorizontalWrapper,
   FileValueAccessor,
   FormlyFieldFile,
   FormlyDescriptiveRadio,
   TermsOfUseCheckbox,
-  DatePickerComponent, DatePickerValueAccessor,
+  DatePickerComponent,
+  DatePickerValueAccessor,
 ];
 
 let module_exports = [
@@ -205,29 +234,34 @@ let module_exports = [
   FormlyFieldFile,
   FormlyDescriptiveRadio,
   TermsOfUseCheckbox,
-  DatePickerComponent, DatePickerValueAccessor,
+  DatePickerComponent,
+  DatePickerValueAccessor,
 
   NgxDatatableModule,
   ConfirmationPopoverModule,
   NgbModule,
   MomentModule,
-  FormsModule, ReactiveFormsModule,
+  FormsModule,
+  ReactiveFormsModule,
   FormlyBootstrapModule,
   FormlyModule,
   UploadxModule,
   ClipboardModule,
   NgxSpinnerModule,
 
-  IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe,
+  IteratePipe,
+  BytesPipe,
+  BooleanFlagPipe,
+  YesNoPipe,
   SecurePipe,
   BasePaginationComponent,
+  FormModal,
   LoadingComponent,
-
 ];
 
-let module_providers:any = [
+let module_providers: any = [
   { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
-  { provide: NgbDateParserFormatter, useValue: new MomentDateFormatter() }
+  { provide: NgbDateParserFormatter, useValue: new MomentDateFormatter() },
 ];
 
 @NgModule({
@@ -241,7 +275,7 @@ export class SharedModule {
   static forRoot(): ModuleWithProviders<SharedModule> {
     return {
       ngModule: SharedModule,
-  	  providers: module_providers,
+      providers: module_providers,
     };
   }
-} 
+}
