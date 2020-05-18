@@ -35,10 +35,10 @@
     "ngx-clipboard": "13.0.1",
     "@ngx-formly/core": "5.5.15",
     "@ngx-formly/bootstrap": "5.5.15",
-    "@swimlane/ngx-datatable": "16.0.3",
-    "moment": "2.24.0",
+    "@swimlane/ngx-datatable": "17.0.0",
+    "moment": "2.25.3",
     "ngx-moment": "3.5.0",
-    "angular-confirmation-popover": "4.2.2",
+    "angular-confirmation-popover": "5.0.0",
     "ngx-uploadx": "3.3.5",
     "file-saver": "2.0.2",
     "@types/file-saver": "2.0.1",
@@ -83,6 +83,6 @@
 
     "rimraf": "3.0.2",
     "copyfiles": "2.2.0",
-    "gzipper": "3.5.0"
+    "gzipper": "3.7.0"
   }
 }
