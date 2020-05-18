@@ -141,7 +141,7 @@ export class AuthService {
       return of(false);
     }
 
-    let opt =  {"base": "auth", "rawResponse": true};
+    let opt =  {"base": "auth"};
     return this.api.get('status', "", [], opt).pipe(
       map(response => {
         return of(true);
