@@ -6,6 +6,7 @@ import { AdminUsersComponent } from '@rapydo/components/admin/admin_users';
 import { AdminModule } from '@rapydo/components/admin/admin.module';
 
 describe('AdminUsersComponent', () => {
+  let injector: TestBed;
   let component: AdminUsersComponent;
   let fixture: ComponentFixture<AdminUsersComponent>;
   let httpMock: HttpTestingController;
