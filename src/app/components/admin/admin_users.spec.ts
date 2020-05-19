@@ -19,9 +19,10 @@ describe('AdminUsersComponent', () => {
     })
     .compileComponents();
 
+    injector = getTestBed();
+    httpMock = injector.inject(HttpTestingController);
     fixture = TestBed.createComponent(AdminUsersComponent);
     component = fixture.componentInstance;
-    httpMock = injector.inject(HttpTestingController);
     fixture.detectChanges();
   }));
 
