@@ -23,5 +23,10 @@ describe('AdminUsersComponent', () => {
     expect(component).toBeDefined();
   });
 
+  it('get data', () => {
+    component.list();
+  });
+
+
 });
 
