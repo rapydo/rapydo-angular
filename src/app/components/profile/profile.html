@@ -27,10 +27,10 @@
                 <span
                     *ngFor="let role of user.roles | keyvalue"
                     class='badge badge-info' style='margin-right:3px;'>
-                    <span *ngIf='role.value != "automatic"'>
+                    <span *ngIf='role.value != "disabled"'>
                         {{role.value}}
                     </span>
-                    <span *ngIf='role.value == "automatic"'>
+                    <span *ngIf='role.value == "disabled"'>
                         {{role.key}}
                     </span>
                 </span>

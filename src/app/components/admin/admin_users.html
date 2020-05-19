@@ -52,10 +52,10 @@
 		<span
 			class='badge badge-info' style='margin-right:3px;'
 			*ngFor="let role of value | keyvalue">
-			<span *ngIf='role.value.description != "automatic"'>
+			<span *ngIf='role.value.description != "disabled"'>
 				{{role.value.description}}
 			</span>
-			<span *ngIf='role.value.description == "automatic"'>
+			<span *ngIf='role.value.description == "disabled"'>
 				{{role.value.name}}
 			</span>
 		</span>	
