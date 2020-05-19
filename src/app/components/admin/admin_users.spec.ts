@@ -5,6 +5,8 @@ import { AppModule } from '@rapydo/app.module';
 import { AdminUsersComponent } from '@rapydo/components/admin/admin_users';
 import { AdminModule } from '@rapydo/components/admin/admin.module';
 
+import { environment } from '@rapydo/../environments/environment'
+
 describe('AdminUsersComponent', () => {
   let injector: TestBed;
   let component: AdminUsersComponent;
