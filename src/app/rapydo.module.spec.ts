@@ -44,18 +44,18 @@ describe('Core routing', () => {
 	  expect(location.path()).toBe('/public/reset');
 	}));
 
-  it('navigate to in offline mode', fakeAsync(() => {
+  it('navigate to auth routes', fakeAsync(() => {
     router.navigate(['/app/login']);
     tick();
     expect(location.path()).toBe('/app/login');
 
     router.navigate(['/app/profile']);
     tick();
-    expect(location.path()).toBe('/offline');
+    expect(location.path()).toBe('/app/login?returnUrl=%2Fapp%2Fprofile');
 
     router.navigate(['/app/admin/users']);
     tick();
-    expect(location.path()).toBe('/offline');
+    expect(location.path()).toBe('/app/login?returnUrl=%2Fapp%2Fadmin%2Fusers');
 
   }));
 
