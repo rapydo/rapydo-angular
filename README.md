@@ -11,7 +11,7 @@ Based on:
 *   ngx-uploadx 3.3.5
 *   file-saver 2.0.2
 *   ngx-toastr 12.0.1
-*   moment 2.25.3 with ngx-moment 3.5.0
+*   moment 2.26.0 with ngx-moment 3.5.0
 *   font-awesome 5.13.0 + material-icons 0.3.1
 *   angular-confirmation-popover 5.0.0
 *   ngx-clipboard 13.0.1
