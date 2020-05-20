@@ -15,7 +15,7 @@ describe('AdminUsersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule, AdminModule]
+      imports: [AppModule, AdminModule, HttpClientTestingModule]
     })
     .compileComponents();
 
@@ -33,7 +33,10 @@ describe('AdminUsersComponent', () => {
   it('get data', () => {
     component.list().subscribe(
       result => {
-          expect(result).not.toBeUndefined();
+        expect(result).not.toBeUndefined();
+      },
+      error => {
+        expect(error).toBeUndefined();
       }
     );
     const req = httpMock.expectOne(environment.apiUrl + '/admin/users');
