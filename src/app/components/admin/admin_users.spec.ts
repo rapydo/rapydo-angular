@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { AppModule } from '@rapydo/app.module';
@@ -9,9 +9,9 @@ import { environment } from '@rapydo/../environments/environment'
 
 describe('AdminUsersComponent', () => {
   let injector: TestBed;
-  let component: AdminUsersComponent;
-  let fixture: ComponentFixture<AdminUsersComponent>;
   let httpMock: HttpTestingController;
+  let fixture: ComponentFixture<AdminUsersComponent>;
+  let component: AdminUsersComponent;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
