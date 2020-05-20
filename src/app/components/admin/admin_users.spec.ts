@@ -16,7 +16,7 @@ describe('AdminUsersComponent', () => {
 
   const users: Array<User> = [
     {
-      'uuid': 'x',
+      'id': 'x',
       'email': 'email@example.com',
       'name': 'A',
       'surname': 'B',
