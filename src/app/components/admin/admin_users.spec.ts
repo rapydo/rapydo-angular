@@ -26,7 +26,17 @@ describe('AdminUsersComponent', () => {
       'privacy_accepted': true,
       'roles': [],
     }
-  ]
+  ];
+
+  const mock204Response = {
+    status: 204,
+    statusText: 'NO_CONTENT'
+  };
+  const mock404Response = {
+    status: 404,
+    statusText: 'NOT_FOUND'
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [AppModule, AdminModule, HttpClientTestingModule]
@@ -50,15 +60,16 @@ describe('AdminUsersComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('get data', () => {
-    // component.list().subscribe(
-    //   result => {
-    //     expect(result).not.toBeUndefined();
-    //   },
-    //   error => {
-    //     expect(error).toBeUndefined();
-    //   }
-    // );
+  it('delete data', () => {
+    component.remove("y");
+    const req = httpMock.expectOne(environment.apiUrl + '/admin/users');
+    expect(req.request.method).toEqual('DELETE');
+    req.flush('', mock404Response);
+
+    component.remove("x");
+    const req = httpMock.expectOne(environment.apiUrl + '/admin/users');
+    expect(req.request.method).toEqual('DELETE');
+    req.flush('', mock204Response);
 
   });
 
