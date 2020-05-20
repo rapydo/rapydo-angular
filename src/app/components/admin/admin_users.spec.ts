@@ -62,14 +62,14 @@ describe('AdminUsersComponent', () => {
 
   it('delete data', () => {
     component.remove("y");
-    const req = httpMock.expectOne(environment.apiUrl + '/admin/users');
-    expect(req.request.method).toEqual('DELETE');
-    req.flush('', mock404Response);
+    const req1 = httpMock.expectOne(environment.apiUrl + '/admin/users');
+    expect(req1.request.method).toEqual('DELETE');
+    req1.flush('', mock404Response);
 
     component.remove("x");
-    const req = httpMock.expectOne(environment.apiUrl + '/admin/users');
-    expect(req.request.method).toEqual('DELETE');
-    req.flush('', mock204Response);
+    const req2 = httpMock.expectOne(environment.apiUrl + '/admin/users');
+    expect(req2.request.method).toEqual('DELETE');
+    req2.flush('', mock204Response);
 
   });
 
