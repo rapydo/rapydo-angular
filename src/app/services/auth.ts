@@ -19,7 +19,7 @@ export interface User {
   isGroupAdmin: boolean,
   privacy_accepted: boolean,
   roles: any,
-  group: Group
+  group?: Group
 }
 
 export interface Session {

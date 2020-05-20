@@ -24,6 +24,7 @@ describe('AdminUsersComponent', () => {
       'isLocalAdmin': false,
       'isGroupAdmin': false,
       'privacy_accepted': true,
+      'roles': [],
     }
   ]
   beforeEach(async(() => {
