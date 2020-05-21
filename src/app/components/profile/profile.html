@@ -16,14 +16,32 @@
             <th>Name</th>
             <td>{{user.name}} {{user.surname}}</td>
         </tr>
+
         <tr>
             <th>Email</th>
             <td>{{user.email}}</td>
         </tr>
 
+        <tr *ngIf='user.group'>
+            <th>Email</th>
+            <th>Group</th>
+            <td>{{user.group.fullname}}</td>
+        </tr>
+
         <tr>
             <th>Roles</th>
             <td>
+                <i
+                    class='fa fa-user-shield fa-large fa-red'
+                    ngbTooltip='You are an admin'
+                    *ngIf='user.isAdmin'
+                ></i>
+
+                <i
+                    class='fa fa-user-lock fa-large fa-red'
+                    ngbTooltip='You are a local admin'
+                    *ngIf='user.isLocalAdmin'
+                ></i>
                 <span
                     *ngFor="let role of user.roles | keyvalue"
                     class='badge badge-info' style='margin-right:3px;'>
@@ -36,40 +54,15 @@
                 </span>
             </td>
         </tr>
-        
+
+        <tr>
+            <th>Privacy Accepted</th>
+            <td [innerHTML]="user.privacy_accepted | boolean_flag"></td>
+        </tr>
+
         <!-- here | keyvalue does not work -->
 		<ng-container *ngFor="let row of user | iterate">
-            <ng-container *ngIf="['name', 'surname', 'email', 'password', 'roles'].indexOf(row.key) < 0" [ngSwitch]="row.key">
-
-                <tr *ngSwitchCase="'group'">
-                    <th>Group</th>
-                    <td>{{row.value['fullname']}}</td>
-                </tr>
-
-                <tr *ngSwitchCase="'isAdmin'">
-                    <th>Administrator</th>
-                    <td [innerHTML]="row.value | boolean_flag"></td>
-                </tr>
-
-                <tr *ngSwitchCase="'isLocalAdmin'">
-                    <th>Local Administrator</th>
-                    <td [innerHTML]="row.value | boolean_flag"></td>
-                </tr>
-
-                <tr *ngSwitchCase="'privacy_accepted'">
-                    <th>Privacy Accepted</th>
-                    <td [innerHTML]="row.value | boolean_flag"></td>
-                </tr>
-
-                <tr *ngSwitchCase="'status'">
-                    <th>Account status</th>
-                    <td>{{row.value}}</td>
-                </tr>
-
-                <tr *ngSwitchDefault my-profile-row [row]="row">
-                </tr>
-
-        </ng-container>
+            <tr my-profile-row [row]="row"></tr>
         </ng-container>
 
         <tr>
