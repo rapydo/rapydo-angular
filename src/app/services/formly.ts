@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-
+import * as moment from 'moment';
 
 // key is optional only for back-compatibility
 // remove the ? once dropped all swagger compatibility rules
@@ -167,6 +167,21 @@ export class FormlyService {
         field_type = "datepicker";
         // field_type = "input";
         // template_type = "date";
+        // Note that min and max require getNgbDateStruct even if datepicker is
+        // configured with NgbDateNativeAdapter. This is something like a BUG
+        // in getNgbDate and could (or at least should) be fixed in a near future:
+        // From the ng-bootstrap docs:
+        // You can also tell datepicker to use the native JavaScript date adapter (bundled with ng-bootstrap).
+        // >>>> For now <<<< the adapter works only for the form
+        // integration, so for instance (ngModelChange) will return a native date object
+        // >>>> All other APIs continue to use NgbDateStruct <<<<
+
+        if (s.min) {
+          field['templateOptions']["min"] = this.getNgbDateStruct(s.min);
+        }
+        if (s.max) {
+          field['templateOptions']["max"] = this.getNgbDateStruct(s.max);
+        }
       } else if (stype == "email") {
         field_type = "input";
         template_type = "email";
@@ -378,12 +393,22 @@ export class FormlyService {
 
     return [year, month, day].join('-');
   }
-  public getNgbDateStruct(d: Date): NgbDateStruct {
+  public getNgbDateStruct(d: Date | string): NgbDateStruct {
+
+    // Can handle both string in standard (ISO?) formats and Date objects
+    const mdt = moment.utc(d);
     return {
-      year: d.getFullYear(),
-      month: d.getMonth() + 1,
-      day: d.getDate()
-    }
+      year: mdt.year(),
+      month: 1 + mdt.month(),
+      day: mdt.date()
+    };
+
+    // Version Date only, no moment conversion:
+    // return {
+    //   year: d.getFullYear(),
+    //   month: d.getMonth() + 1,
+    //   day: d.getDate()
+    // }
   }
 
 }
