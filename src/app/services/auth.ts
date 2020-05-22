@@ -32,6 +32,7 @@ export interface Session {
 }
 
 export interface Group {
+  uuid: string,
   shortname: string,
   fullname: string,
   coordinator?: User,
