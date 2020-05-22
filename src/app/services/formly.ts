@@ -393,7 +393,7 @@ export class FormlyService {
 
     return [year, month, day].join('-');
   }
-  public getNgbDateStruct(d: Date | string): NgbDateStruct {
+  public getNgbDateStruct(d: Date | string | number): NgbDateStruct {
 
     // Can handle both string in standard (ISO?) formats and Date objects
     const mdt = moment.utc(d);
