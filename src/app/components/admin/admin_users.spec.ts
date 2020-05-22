@@ -16,13 +16,13 @@ describe('AdminUsersComponent', () => {
 
   const users: Array<User> = [
     {
-      'id': 'x',
+      'uuid': 'x',
       'email': 'email@example.com',
       'name': 'A',
       'surname': 'B',
       'isAdmin': true,
       'isLocalAdmin': false,
-      'isGroupAdmin': false,
+      'is_active': true,
       'privacy_accepted': true,
       'roles': [],
     }

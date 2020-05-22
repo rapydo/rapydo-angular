@@ -10,13 +10,14 @@ import { environment } from '@rapydo/../environments/environment';
 import { NotificationService } from '@rapydo/services/notification';
 
 export interface User {
-  id: string,
+  uuid: string,
   email: string,
   name: string,
   surname: string,
   isAdmin: boolean,
   isLocalAdmin: boolean,
-  isGroupAdmin: boolean,
+  // isGroupAdmin: boolean,
+  is_active: boolean,
   privacy_accepted: boolean,
   roles: any,
   group?: Group
@@ -33,6 +34,7 @@ export interface Session {
 export interface Group {
   shortname: string,
   fullname: string,
+  coordinator?: User,
 }
   
 

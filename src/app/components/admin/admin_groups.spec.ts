@@ -16,7 +16,7 @@ describe('AdminGroupsComponent', () => {
 
   const groups: Array<Group> = [
     {
-      'id': 'x',
+      'uuid': 'x',
       'shortname': 'A',
       'fulname': 'AAA',
     }

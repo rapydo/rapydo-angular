@@ -177,7 +177,7 @@ export class LoginComponent implements OnInit {
                             if (this.terms_of_use !== null) {
                                 this.modalRef = this.modalService.open(this.privacy_acceptance, {size: 'lg'});
                                 this.modalRef.result.then((result) => {
-                                    this.api.put('profile', u.id, {'privacy_accepted': true}, {"base": "auth"}).subscribe(
+                                    this.api.put('profile', u.uuid, {'privacy_accepted': true}, {"base": "auth"}).subscribe(
                                         data => {
                                             this.authService.loadUser();
                                             this.router.navigate([this.returnUrl]);
