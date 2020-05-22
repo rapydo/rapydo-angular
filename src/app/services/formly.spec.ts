@@ -291,13 +291,10 @@ describe('FormlyService', () => {
   });
 
   it('getNgbDateStruct', () => {
-    let d = new Date("01/31/1970");
+    const d = new Date("01/31/1970");
     expect(service.getNgbDateStruct(d)).toEqual({year: 1970, month: 1, day: 31});
-    d = "01/31/1970"
-    expect(service.getNgbDateStruct(d)).toEqual({year: 1970, month: 1, day: 31});
-
-    d = "01/31/1970 23:59:59"
-    expect(service.getNgbDateStruct(d)).toEqual({year: 1970, month: 1, day: 31});
+    expect(service.getNgbDateStruct("01/31/1970")).toEqual({year: 1970, month: 1, day: 31});
+    expect(service.getNgbDateStruct("01/31/1970 23:59:59")).toEqual({year: 1970, month: 1, day: 31});
 
   });
 
