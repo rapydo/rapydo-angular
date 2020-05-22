@@ -18,7 +18,7 @@ describe('AdminGroupsComponent', () => {
     {
       'uuid': 'x',
       'shortname': 'A',
-      'fulname': 'AAA',
+      'fullname': 'AAA',
     }
   ];
 
