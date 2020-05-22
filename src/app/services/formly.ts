@@ -15,8 +15,8 @@ export interface Schema {
   required?: string,
   options?: any[],
 
-  min?: number;
-  max?: number;
+  min?: number | Date;
+  max?: number | Date;
 
   select_id?: string,
   select_label?: string,
