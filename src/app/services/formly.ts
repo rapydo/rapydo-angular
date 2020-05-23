@@ -134,7 +134,15 @@ export class FormlyService {
       }
 
       if (stype == "text" || stype == "string") {
-        field_type = "input";
+
+        if (s.max && s.max > 256) {
+          field_type = "textarea";
+          // should be calculated from s.max
+          field['templateOptions']['rows'] = 5;
+        } else {
+          field_type = "input";
+        }
+
         template_type = "text";
         if (multiple) {
           field['templateOptions']["inputOptions"] = {}
@@ -148,6 +156,7 @@ export class FormlyService {
         if (s.max) {
           field['templateOptions']["maxLength"] = s.max;
         }
+      // to be deprecated, with webargs use string with max len > 256
       } else if (stype == "longtext" || stype == "textarea") {
         field_type = "textarea";
         template_type = "text";
