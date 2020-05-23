@@ -165,10 +165,10 @@ export class FormlyService {
         field_type = "input";
         template_type = "number";
 
-        if (s.min) {
+        if (typeof s.min !== 'undefined') {
           field['templateOptions']["min"] = s.min;
         }
-        if (s.max) {
+        if (typeof s.max !== 'undefined') {
           field['templateOptions']["max"] = s.max;
         }
 
@@ -185,10 +185,10 @@ export class FormlyService {
         // integration, so for instance (ngModelChange) will return a native date object
         // >>>> All other APIs continue to use NgbDateStruct <<<<
 
-        if (s.min) {
+        if (typeof s.min !== 'undefined') {
           field['templateOptions']["min"] = this.getNgbDateStruct(s.min);
         }
-        if (s.max) {
+        if (typeof s.max !== 'undefined') {
           field['templateOptions']["max"] = this.getNgbDateStruct(s.max);
         }
       } else if (stype == "email") {
@@ -199,10 +199,10 @@ export class FormlyService {
         field_type = "input";
         template_type = "password";
 
-        if (s.min) {
+        if (typeof s.min !== 'undefined') {
           field['templateOptions']["minLength"] = s.min;
         }
-        if (s.max) {
+        if (typeof s.max !== 'undefined') {
           field['templateOptions']["maxLength"] = s.max;
         }
 
