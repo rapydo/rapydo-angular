@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewChecked, ViewChild, ChangeDetectorRef, Injector } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, ViewChild, TemplateRef, ChangeDetectorRef, Injector } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup } from '@angular/forms';
 import { FormlyConfig } from '@ngx-formly/core';
@@ -73,8 +73,10 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   public paging: Paging;
   public is_update: boolean = false;
 
+  @ViewChild('formModal', { static: false }) public formModal: TemplateRef<any>;
   @ViewChild('tableWrapper', {static: false}) tableWrapper;
   @ViewChild(DatatableComponent, {static: false}) table: DatatableComponent;
+
   private currentComponentWidth;
 
   constructor(protected injector: Injector) {
@@ -205,7 +207,9 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   }
 
   /** INTERACTION WITH APIs**/
-  protected list() { console.warn("Listing not implemented") }
+  protected list() {
+    return this.get(this.endpoint)
+  }
   protected set_total_items(): void { 
     let data = {
       'get_total': true
@@ -231,10 +235,22 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       }
     );
   }
-  protected remove(uuid) { console.warn("Remove not implemented") }
-  protected create() { console.warn("Create not implemented") }
-  protected update(row, element=null) { console.warn("Update not implemented") }
-  protected submit() { console.warn("Submit not implemented") }
+
+  protected remove(uuid) {
+    return this.delete(this.endpoint, uuid);
+  }
+
+  protected create() {
+    return this.post(this.endpoint, this.formModal);
+  }
+
+  protected update(row) {
+    return this.put(row, this.endpoint, this.formModal);
+  }
+
+  public submit() {
+    this.send(this.endpoint);
+  }
 
   protected form_customizer(form, type) {
     return form;
