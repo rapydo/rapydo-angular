@@ -31,6 +31,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe } from '@rapydo/pipes/pipes';
 import { SecurePipe } from '@rapydo/pipes/secure';
 import { BasePaginationComponent } from '@rapydo/components/base.pagination.component';
+import { FormModal } from '@rapydo/components/forms/form_modal';
 // loading component is deprecated since 0.7.3
 import { LoadingComponent } from '@rapydo/components/loading/loading';
 
@@ -188,6 +189,7 @@ let module_declarations = [
   IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe,
   SecurePipe,
   BasePaginationComponent,
+  FormModal,
   LoadingComponent,
   FormlyHorizontalWrapper,
   FileValueAccessor,
@@ -221,6 +223,7 @@ let module_exports = [
   IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe,
   SecurePipe,
   BasePaginationComponent,
+  FormModal,
   LoadingComponent,
 
 ];

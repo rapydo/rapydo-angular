@@ -13,7 +13,6 @@ export class AdminGroupsComponent extends BasePaginationComponent<Group> {
 	@ViewChild('dataCoordinator', { static: false }) public dataCoordinator: TemplateRef<any>;
 	@ViewChild('controlsCell', { static: false }) public controlsCell: TemplateRef<any>;
 	@ViewChild('emptyHeader', { static: false }) public emptyHeader: TemplateRef<any>;
-	@ViewChild('formModal', { static: false }) public formModal: TemplateRef<any>;
 
 	protected endpoint = 'admin/groups'
 
@@ -47,27 +46,6 @@ export class AdminGroupsComponent extends BasePaginationComponent<Group> {
 			}
 			return false;
 		});
-	}
-
-	list() {
-		return this.get(this.endpoint)
-	}
-
-	remove(uuid) {
-		return this.delete(this.endpoint, uuid);
-	}
-
-	create() {
-		return this.post(this.endpoint, this.formModal);
-	}
-
-	update(row) {
-
-		return this.put(row, this.endpoint, this.formModal);
-	}
-
-	submit() {
-		this.send(this.endpoint);
 	}
 
 }

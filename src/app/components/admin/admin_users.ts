@@ -15,7 +15,6 @@ export class AdminUsersComponent extends BasePaginationComponent<User> {
   @ViewChild('dataDate', { static: false }) public dataDate: TemplateRef<any>;
   @ViewChild('controlsCell', { static: false }) public controlsCell: TemplateRef<any>;
   @ViewChild('emptyHeader', { static: false }) public emptyHeader: TemplateRef<any>;
-  @ViewChild('formModal', { static: false }) public formModal: TemplateRef<any>;
 
   protected endpoint = 'admin/users';
 
@@ -63,14 +62,6 @@ export class AdminUsersComponent extends BasePaginationComponent<User> {
     this.columns.push({name: 'controls', prop: 'controls', cellTemplate: this.controlsCell, headerTemplate: this.emptyHeader, flexGrow: 0.2});
   }
 
-  list() {
-    return this.get(this.endpoint)
-  }
-
-  remove(uuid) {
-    return this.delete(this.endpoint, uuid);
-  }
-
   protected form_customizer(form, type) {
     if (type == 'put') {
       for (let k in form.fields) {
@@ -82,12 +73,6 @@ export class AdminUsersComponent extends BasePaginationComponent<User> {
     return form;
   }
 
-  create() {
-
-    return this.post(this.endpoint, this.formModal);
-
-  }
-
   update(row) {
 
     if (row.roles) {
@@ -96,17 +81,8 @@ export class AdminUsersComponent extends BasePaginationComponent<User> {
         row["roles_" + n] = true;
       }
     }
-    return this.put(row, this.endpoint, this.formModal);
+    return this.put(row, this.endpoint);
 
-  }
-
-  submit() {
-    // If created by admins, credentials  
-    // must accept privacy at the login
-/*    if (!this.model["_id"]) {
-      this.model["privacy_accepted"] = false;
-    }*/
-    this.send(this.endpoint);
   }
 
   filter(data_filter) {

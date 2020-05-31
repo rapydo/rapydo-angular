@@ -9,6 +9,8 @@ import { ApiService } from '@rapydo/services/api';
 import { AuthService } from '@rapydo/services/auth';
 import { NotificationService} from '@rapydo/services/notification';
 import { FormlyService } from '@rapydo/services/formly'
+import { FormModal } from '@rapydo/components/forms/form_modal';
+
 import { ProjectOptions } from '@app/custom.project.options';
 
 // == @swimlane/ngx-datatable/src/types/column-mode.type
@@ -73,7 +75,6 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   public paging: Paging;
   public is_update: boolean = false;
 
-  @ViewChild('formModal', { static: false }) public formModal: TemplateRef<any>;
   @ViewChild('tableWrapper', {static: false}) tableWrapper;
   @ViewChild(DatatableComponent, {static: false}) table: DatatableComponent;
 
@@ -236,16 +237,16 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     );
   }
 
-  protected remove(uuid) {
+  public remove(uuid) {
     return this.delete(this.endpoint, uuid);
   }
 
-  protected create() {
-    return this.post(this.endpoint, this.formModal);
+  public create() {
+    return this.post(this.endpoint);
   }
 
-  protected update(row) {
-    return this.put(row, this.endpoint, this.formModal);
+  public update(row) {
+    return this.put(row, this.endpoint);
   }
 
   public submit() {
@@ -276,8 +277,8 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
     if (this.server_side_pagination && data == null) {
       data = {
-        "currentpage": this.paging.page + 1,
-        "perpage": this.paging.itemsPerPage
+        "page": this.paging.page + 1,
+        "size": this.paging.itemsPerPage
       }
     } else if (data == null) {
       data = {}
@@ -327,7 +328,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     );
   }
 
-  protected post(endpoint, formModal) {
+  protected post(endpoint) {
 
     return this.api.post(endpoint, {'get_schema': true}).subscribe(
       response => {
@@ -338,7 +339,19 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         this.form = new FormGroup({});
         this.fields = data.fields;
         this.model = data.model;
-        this.modalRef = this.modalService.open(formModal, {"size": 'lg', "backdrop": 'static'});
+        this.modalRef = this.modalService.open(
+          FormModal,
+          {
+            "size": 'lg',
+            "backdrop": 'static'
+          }
+        );
+        this.modalRef.componentInstance.modalTitle = this.modalTitle;
+        this.modalRef.componentInstance.updating = this.updating;
+        this.modalRef.componentInstance.form = this.form;
+        this.modalRef.componentInstance.fields = this.fields;
+        this.modalRef.componentInstance.model = this.model;
+        this.modalRef.componentInstance.backRef = this;
         this.modalRef.result.then((result) => {
         }, (reason) => {
         });
@@ -348,7 +361,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     );
   }
 
-  protected put(row, endpoint, formModal) {
+  protected put(row, endpoint) {
 
     let model_id;
     if (row.id) {
@@ -372,7 +385,20 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         // Extra for update:
         this.model["_id"] = model_id;
         this.is_update = true;
-        this.modalRef = this.modalService.open(formModal, {"size": 'lg', "backdrop": 'static'});
+        this.modalRef = this.modalService.open(
+          FormModal,
+          {
+            "size": 'lg',
+            "backdrop": 'static'
+          }
+        );
+        this.modalRef.componentInstance.modalTitle = this.modalTitle;
+        this.modalRef.componentInstance.updating = this.updating;
+        this.modalRef.componentInstance.form = this.form;
+        this.modalRef.componentInstance.fields = this.fields;
+        this.modalRef.componentInstance.model = this.model;
+        this.modalRef.componentInstance.backRef = this;
+
         this.is_update = true;
         this.modalRef.result.then((result) => {
           this.is_update = false;
