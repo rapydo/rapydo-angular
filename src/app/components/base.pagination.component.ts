@@ -268,6 +268,30 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     return this.loading;
   }
 
+  protected get_post_title() {
+    return "Create a new " + this.resource_name;
+  }
+
+  protected get_put_title() {
+    return "Update " + this.resource_name;
+  }
+
+  protected manipulate_post_fields(fields) {
+    return fields;
+  }
+
+  protected manipulate_post_model(model) {
+    return model;
+  }
+
+  protected manipulate_put_fields(fields) {
+    return fields;
+  }
+
+  protected manipulate_put_model(model) {
+    return model;
+  }
+
   protected get(endpoint, data=null, namespace='api') {
 
     let opt;
@@ -335,10 +359,10 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         let data = this.formly.json2Form(response, {});
         data = this.form_customizer(data, "post")
 
-        this.modalTitle = "Create a new " + this.resource_name;
+        this.modalTitle = this.get_post_title();
         this.form = new FormGroup({});
-        this.fields = data.fields;
-        this.model = data.model;
+        this.fields = this.manipulate_post_fields(data.fields);
+        this.model = this.manipulate_post_model(data.model);
         this.modalRef = this.modalService.open(
           FormModal,
           {
@@ -378,10 +402,10 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       response => {
         let data = this.formly.json2Form(response, row);
         data = this.form_customizer(data, "put")
-        this.modalTitle = "Update " + this.resource_name;
+        this.modalTitle = this.get_put_title();
         this.form = new FormGroup({});
-        this.fields = data.fields;
-        this.model = data.model;
+        this.fields = this.manipulate_put_fields(data.fields);
+        this.model = this.manipulate_put_model(data.model);
         // Extra for update:
         this.model["_id"] = model_id;
         this.is_update = true;
