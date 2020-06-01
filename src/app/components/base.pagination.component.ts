@@ -373,8 +373,8 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       return false;
     }
 
-    // return this.api.put(endpoint, model_id, {'get_schema': true}).subscribe(
-    return this.api.post(endpoint, {'get_schema': true}).subscribe(
+    return this.api.put(endpoint, model_id, {'get_schema': true}).subscribe(
+    // return this.api.post(endpoint, {'get_schema': true}).subscribe(
       response => {
         let data = this.formly.json2Form(response, row);
         data = this.form_customizer(data, "put")
