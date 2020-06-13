@@ -222,8 +222,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
         this.paging.dataLength = t;
         this.paging.numPages = Math.ceil(t / this.paging.itemsPerPage);
-        // page starts from 0 => if you are on a page after the last page
-        if (this.paging.page >= this.paging.numPages) {
+        if (this.paging.page > 0 && this.paging.page >= this.paging.numPages) {
           // change the page to be the last page
           this.paging.page = this.paging.numPages - 1;
           // list again the current page
