@@ -1,94 +1,90 @@
+<div class="container-fluid">
+  <div class="row justify-content-md-center" *ngIf="user">
+    <div class="col-12 col-lg-8">
+      <div class="card">
+        <div class="card-header">
+          <h4><i class="fa fa-user-circle-o"></i> User profile</h4>
+        </div>
 
-<div class='container-fluid'>
-<div class="row justify-content-md-center" *ngIf="user">
-<div class='col-12 col-lg-8'>
+        <div class="card-block">
+          <div class="table-responsive">
+            <ngx-spinner [fullScreen]="false"></ngx-spinner>
+            <table class="table">
+              <tr style="border-top: 0px;">
+                <th>Name</th>
+                <td>{{user.name}} {{user.surname}}</td>
+              </tr>
 
-<div class='card'>
-<div class='card-header'>
-    <h4><i class='fa fa-user-circle-o'></i> User profile</h4>
-</div>
+              <tr>
+                <th>Email</th>
+                <td>{{user.email}}</td>
+              </tr>
 
-<div class='card-block'>
-<div class="table-responsive">
-    <ngx-spinner [fullScreen] = "false"></ngx-spinner>
-	<table class='table'>
+              <tr *ngIf="user.group">
+                <th>Group</th>
+                <td>{{user.group.fullname}}</td>
+              </tr>
 
-        <tr style='border-top: 0px'>
-            <th>Name</th>
-            <td>{{user.name}} {{user.surname}}</td>
-        </tr>
+              <tr>
+                <th>Roles</th>
+                <td>
+                  <i
+                    class="fa fa-user-shield fa-large fa-red"
+                    ngbTooltip="You are an admin"
+                    *ngIf="user.isAdmin"
+                  ></i>
 
-        <tr>
-            <th>Email</th>
-            <td>{{user.email}}</td>
-        </tr>
-
-        <tr *ngIf='user.group'>
-            <th>Group</th>
-            <td>{{user.group.fullname}}</td>
-        </tr>
-
-        <tr>
-            <th>Roles</th>
-            <td>
-                <i
-                    class='fa fa-user-shield fa-large fa-red'
-                    ngbTooltip='You are an admin'
-                    *ngIf='user.isAdmin'
-                ></i>
-
-                <i
-                    class='fa fa-user-lock fa-large fa-red'
-                    ngbTooltip='You are a local admin'
-                    *ngIf='user.isLocalAdmin'
-                ></i>
-                <span
+                  <i
+                    class="fa fa-user-lock fa-large fa-red"
+                    ngbTooltip="You are a local admin"
+                    *ngIf="user.isLocalAdmin"
+                  ></i>
+                  <span
                     *ngFor="let role of user.roles | keyvalue"
-                    class='badge badge-info' style='margin-right:3px;'>
+                    class="badge badge-info"
+                    style="margin-right: 3px;"
+                  >
                     <span *ngIf='role.value != "disabled"'>
-                        {{role.value}}
+                      {{role.value}}
                     </span>
                     <span *ngIf='role.value == "disabled"'>
-                        {{role.key}}
+                      {{role.key}}
                     </span>
-                </span>
-            </td>
-        </tr>
+                  </span>
+                </td>
+              </tr>
 
-        <tr>
-            <th>Privacy Accepted</th>
-            <td [innerHTML]="user.privacy_accepted | boolean_flag"></td>
-        </tr>
+              <tr>
+                <th>Privacy Accepted</th>
+                <td [innerHTML]="user.privacy_accepted | boolean_flag"></td>
+              </tr>
 
-        <!-- here | keyvalue does not work -->
-		<ng-container *ngFor="let row of user | iterate">
-            <tr my-profile-row [row]="row"></tr>
-        </ng-container>
+              <!-- here | keyvalue does not work -->
+              <ng-container *ngFor="let row of user | iterate">
+                <tr my-profile-row [row]="row"></tr>
+              </ng-container>
 
-        <tr>
-        <th>Password</th>
-        <td>
-            <a routerLink='changepassword'>
-                <i>Change your password</i>
-            </a>
-        </td>
-        </tr>
+              <tr>
+                <th>Password</th>
+                <td>
+                  <a routerLink="changepassword">
+                    <i>Change your password</i>
+                  </a>
+                </td>
+              </tr>
 
-        <tr>
-        <th>Open Sessions</th>
-        <td>
-            <a routerLink='sessions'>
-                <i>View list of your open sessions</i>
-            </a>
-        </td>
-        </tr>
-
-    </table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
+              <tr>
+                <th>Open Sessions</th>
+                <td>
+                  <a routerLink="sessions">
+                    <i>View list of your open sessions</i>
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

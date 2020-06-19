@@ -1,51 +1,61 @@
+import { Component, ViewChild, TemplateRef, Injector } from "@angular/core";
 
-import { Component, ViewChild, TemplateRef, Injector } from '@angular/core';
+import { Group } from "@rapydo/services/auth";
 
-import { Group } from '@rapydo/services/auth';
-
-import { BasePaginationComponent } from '@rapydo/components/base.pagination.component'
+import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
 
 @Component({
-  templateUrl: './admin_groups.html'
+  templateUrl: "./admin_groups.html",
 })
 export class AdminGroupsComponent extends BasePaginationComponent<Group> {
+  @ViewChild("dataCoordinator", { static: false })
+  public dataCoordinator: TemplateRef<any>;
+  @ViewChild("controlsCell", { static: false })
+  public controlsCell: TemplateRef<any>;
+  @ViewChild("emptyHeader", { static: false }) public emptyHeader: TemplateRef<
+    any
+  >;
 
-	@ViewChild('dataCoordinator', { static: false }) public dataCoordinator: TemplateRef<any>;
-	@ViewChild('controlsCell', { static: false }) public controlsCell: TemplateRef<any>;
-	@ViewChild('emptyHeader', { static: false }) public emptyHeader: TemplateRef<any>;
+  protected endpoint = "admin/groups";
 
-	protected endpoint = 'admin/groups'
+  constructor(protected injector: Injector) {
+    super(injector);
+    this.init("group");
 
-	constructor(protected injector: Injector) {
+    this.list();
+    this.initPaging(20);
+  }
 
-		super(injector);
-		this.init("group");
+  public ngOnInit(): void {}
+  public ngAfterViewInit(): void {
+    this.columns = [
+      { name: "Shortname", prop: "shortname", flexGrow: 0.5 },
+      { name: "Fullname", prop: "fullname", flexGrow: 1.5 },
+      {
+        name: "Coordinator",
+        prop: "coordinator",
+        cellTemplate: this.dataCoordinator,
+        flexGrow: 1.0,
+      },
+      {
+        name: "controls",
+        prop: "controls",
+        cellTemplate: this.controlsCell,
+        headerTemplate: this.emptyHeader,
+        flexGrow: 0.2,
+      },
+    ];
+  }
 
-		this.list();
-		this.initPaging(20);
-	}
-
-	public ngOnInit(): void { }
-	public ngAfterViewInit(): void {
-
-		this.columns = [
-	        {name: 'Shortname', prop: "shortname", flexGrow: 0.5},
-	        {name: 'Fullname', prop: "fullname", flexGrow: 1.5},
-	        {name: 'Coordinator', prop: "coordinator", cellTemplate: this.dataCoordinator, flexGrow: 1.0},
-			{name: 'controls', prop: 'controls', cellTemplate: this.controlsCell, headerTemplate: this.emptyHeader, flexGrow: 0.2},
-		];
-	}
-
-	filter(data_filter) {
-		return this.unfiltered_data.filter(function(d) {
-			if (d.shortname.toLowerCase().indexOf(data_filter) !== -1) {
-			    return true;
-			}
-			if (d.fullname.toLowerCase().indexOf(data_filter) !== -1) {
-			    return true;
-			}
-			return false;
-		});
-	}
-
+  filter(data_filter) {
+    return this.unfiltered_data.filter(function (d) {
+      if (d.shortname.toLowerCase().indexOf(data_filter) !== -1) {
+        return true;
+      }
+      if (d.fullname.toLowerCase().indexOf(data_filter) !== -1) {
+        return true;
+      }
+      return false;
+    });
+  }
 }

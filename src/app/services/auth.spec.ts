@@ -1,27 +1,28 @@
-import { TestBed, getTestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { TestBed, getTestBed } from "@angular/core/testing";
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from "@angular/common/http/testing";
 
-import { AppModule } from '@rapydo/app.module';
-import { AuthService } from '@rapydo/services/auth';
+import { AppModule } from "@rapydo/app.module";
+import { AuthService } from "@rapydo/services/auth";
 
-import { environment } from '@rapydo/../environments/environment'
+import { environment } from "@rapydo/../environments/environment";
 
-describe('AuthService', () => {
+describe("AuthService", () => {
   let injector: TestBed;
   let service: AuthService;
   let httpMock: HttpTestingController;
 
   const mock401Response = {
     status: 401,
-    statusText: 'UNAUTHORIZED'
+    statusText: "UNAUTHORIZED",
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ AuthService],
-      imports: [
-        AppModule, HttpClientTestingModule
-      ]
+      providers: [AuthService],
+      imports: [AppModule, HttpClientTestingModule],
     });
 
     injector = getTestBed();
@@ -29,118 +30,97 @@ describe('AuthService', () => {
     httpMock = injector.inject(HttpTestingController);
   });
 
-  it('not authenticated', async () => {
-    service.isAuthenticated().subscribe(
-      result => {
-        expect(result).toBeFalsy();
-      }
-    ); 
+  it("not authenticated", async () => {
+    service.isAuthenticated().subscribe((result) => {
+      expect(result).toBeFalsy();
+    });
   });
 
-  it('failed login', async () => {
-
+  it("failed login", async () => {
     service.login("x", "y").subscribe(
-      result => {
+      (result) => {
         expect(result).toBeUndefined();
       },
-      error => {
-        expect(error.error).toEqual('Invalid username or password');
+      (error) => {
+        expect(error.error).toEqual("Invalid username or password");
 
-        service.isAuthenticated().subscribe(
-          result => {
-            expect(result).toBeFalsy();
-          }
-        ); 
-
+        service.isAuthenticated().subscribe((result) => {
+          expect(result).toBeFalsy();
+        });
       }
     );
 
-    const req = httpMock.expectOne(environment.authApiUrl + '/login');
+    const req = httpMock.expectOne(environment.authApiUrl + "/login");
 
-    expect(req.request.method).toEqual('POST');
-    req.flush('Invalid username or password', mock401Response);
+    expect(req.request.method).toEqual("POST");
+    req.flush("Invalid username or password", mock401Response);
 
     httpMock.verify();
   });
 
-  it('logged in', async () => {
-
+  it("logged in", async () => {
     const token = "xyz";
     const user = {
-      "id": "xyz",
-      "name": "xyz",
-      "surname": "xyz",
-      "email": "xyz",
-    }
+      id: "xyz",
+      name: "xyz",
+      surname: "xyz",
+      email: "xyz",
+    };
 
-    service.login("x", "y").subscribe(
-      result => {
-        expect(result).toEqual('xyz');
+    service.login("x", "y").subscribe((result) => {
+      expect(result).toEqual("xyz");
 
-        service.isAuthenticated().subscribe(
-          result => {
-            expect(result).toBeTruthy();
-          }
-        );
-      }
-    );
+      service.isAuthenticated().subscribe((result) => {
+        expect(result).toBeTruthy();
+      });
+    });
 
-    const login_req = httpMock.expectOne(environment.authApiUrl + '/login');
-    expect(login_req.request.method).toEqual('POST');
+    const login_req = httpMock.expectOne(environment.authApiUrl + "/login");
+    expect(login_req.request.method).toEqual("POST");
     login_req.flush(token);
 
-    const user_req = httpMock.expectOne(environment.authApiUrl + '/status');
-    expect(user_req.request.method).toEqual('GET');
+    const user_req = httpMock.expectOne(environment.authApiUrl + "/status");
+    expect(user_req.request.method).toEqual("GET");
     user_req.flush(user);
 
     httpMock.verify();
   });
 
-  it('logout - failuire', async () => {
-
+  it("logout - failuire", async () => {
     service.logout().subscribe(
-      result => {
-      },
-      error => {
-        service.isAuthenticated().subscribe(
-          result => {
-            expect(result).toBeFalsy();
-          }
-        );
+      (result) => {},
+      (error) => {
+        service.isAuthenticated().subscribe((result) => {
+          expect(result).toBeFalsy();
+        });
       }
     );
 
-    const logout_req = httpMock.expectOne(environment.authApiUrl + '/logout');
+    const logout_req = httpMock.expectOne(environment.authApiUrl + "/logout");
 
-    expect(logout_req.request.method).toEqual('GET');
-    logout_req.flush('', mock401Response);
+    expect(logout_req.request.method).toEqual("GET");
+    logout_req.flush("", mock401Response);
 
-    const profile_req = httpMock.expectOne(environment.authApiUrl + '/status');
-    expect(profile_req.request.method).toEqual('GET');
-    profile_req.flush('', mock401Response);
+    const profile_req = httpMock.expectOne(environment.authApiUrl + "/status");
+    expect(profile_req.request.method).toEqual("GET");
+    profile_req.flush("", mock401Response);
 
     httpMock.verify();
   });
 
-
-  it('logout ok', async () => {
-
+  it("logout ok", async () => {
     service.logout().subscribe(
-      result => {
-
-        service.isAuthenticated().subscribe(
-          result => {
-            expect(result).toBeFalsy();
-          }
-        );
-
+      (result) => {
+        service.isAuthenticated().subscribe((result) => {
+          expect(result).toBeFalsy();
+        });
       },
-      error => { }
+      (error) => {}
     );
 
-    const logout_req = httpMock.expectOne(environment.authApiUrl + '/logout');
-    expect(logout_req.request.method).toEqual('GET');
-    logout_req.flush('');
+    const logout_req = httpMock.expectOne(environment.authApiUrl + "/logout");
+    expect(logout_req.request.method).toEqual("GET");
+    logout_req.flush("");
 
     httpMock.verify();
   });
@@ -149,5 +129,4 @@ describe('AuthService', () => {
     // make sure that there are no outstanding requests
     httpMock.verify();
   });
-
 });

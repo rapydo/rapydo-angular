@@ -1,10 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { AppModule } from '@rapydo/app.module';
-import { IteratePipe, BytesPipe, BooleanFlagPipe, YesNoPipe } from '@rapydo/pipes/pipes';
-import { LoginModule } from '@rapydo/components/login/login.module';
+import { AppModule } from "@rapydo/app.module";
+import {
+  IteratePipe,
+  BytesPipe,
+  BooleanFlagPipe,
+  YesNoPipe,
+} from "@rapydo/pipes/pipes";
+import { LoginModule } from "@rapydo/components/login/login.module";
 
-describe('Pipes', () => {
+describe("Pipes", () => {
   let iterate_pipe: IteratePipe;
   let bytes_pipe: BytesPipe;
   let boolean_pipe: BooleanFlagPipe;
@@ -17,7 +22,7 @@ describe('Pipes', () => {
     yesno_pipe = new YesNoPipe();
   });
 
-  it('BytesPipe', () => {
+  it("BytesPipe", () => {
     expect(bytes_pipe.transform(0)).toBe("0");
     expect(bytes_pipe.transform(-1)).toBe("-");
     expect(bytes_pipe.transform(10)).toBe("10 bytes");
@@ -30,18 +35,19 @@ describe('Pipes', () => {
     // expect(bytes_pipe.transform({'a': 1, 'b': 2})).toBe([{'key': 'a', value: 1}, {'key': 'b', value: 2}]);
   });
 
-  it('BooleanFlagPipe', () => {
-    expect(boolean_pipe.transform(true)).toBe("<i class='fas fa-check fa-large fa-green'></i>");
-    expect(boolean_pipe.transform(false)).toBe("<i class='fas fa-times fa-large fa-red'></i>");
+  it("BooleanFlagPipe", () => {
+    expect(boolean_pipe.transform(true)).toBe(
+      "<i class='fas fa-check fa-large fa-green'></i>"
+    );
+    expect(boolean_pipe.transform(false)).toBe(
+      "<i class='fas fa-times fa-large fa-red'></i>"
+    );
     expect(boolean_pipe.transform("XYZ")).toBe("XYZ");
   });
 
-  it('YesNoPipe', () => {
+  it("YesNoPipe", () => {
     expect(yesno_pipe.transform(true)).toBe("YES");
     expect(yesno_pipe.transform(false)).toBe("NO");
     expect(yesno_pipe.transform("XYZ")).toBe("XYZ");
   });
-
-
 });
-

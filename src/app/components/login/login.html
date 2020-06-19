@@ -1,97 +1,107 @@
-<div class='container-fluid'>
-<div class="row justify-content-md-center">
-<div class='col-12 col-md-8 col-lg-6'>
+<div class="container-fluid">
+  <div class="row justify-content-md-center">
+    <div class="col-12 col-md-8 col-lg-6">
+      <div class="card" *ngIf="account_not_active">
+        <div class="card-header">
+          <h4>This account is not active</h4>
+        </div>
 
+        <div class="card-block">
+          Didn't receive an activation link?
+          <a [routerLink]="" (click)="ask_activation_link()"
+            >Click here to send again</a
+          >
+        </div>
+      </div>
 
-<div class='card' *ngIf='account_not_active'>
-<div class='card-header'>
-    <h4>This account is not active</h4>
-</div>
+      <br /><br />
 
-<div class='card-block'>
-    Didn't receive an activation link?
-    <a [routerLink]="" (click)='ask_activation_link()'>Click here to send again</a>
-</div>
-</div>
+      <div class="card">
+        <div class="card-header" *ngIf="!warningCard">
+          <h4>{{panelTitle}}</h4>
+        </div>
+        <div class="card-header bg-warning" *ngIf="warningCard">
+          <h4>{{panelTitle}}</h4>
+        </div>
 
-<br><br>
+        <div class="card-block">
+          <form [formGroup]="form" (ngSubmit)="login()">
+            <formly-form [form]="form" [fields]="fields" [model]="model">
+            </formly-form>
 
-<div class='card'>
+            <button
+              [disabled]="loading"
+              class="btn btn-primary"
+              *ngIf="!warningCard"
+            >
+              {{buttonText}}
+            </button>
+            <button
+              [disabled]="loading"
+              class="btn btn-warning"
+              *ngIf="warningCard"
+            >
+              {{buttonText}}
+            </button>
+            <i *ngIf="loading" class="fa fa-spinner fa-spin"></i>
+          </form>
 
-  <div class='card-header' *ngIf='!warningCard'>
-    <h4>{{panelTitle}}</h4>
+          <div class="text-left" *ngIf="allowRegistration">
+            <br />
+            You don't have an account yet?
+            <a href="#" routerLink="/public/register">Register here</a>.
+          </div>
+
+          <div class="text-left" *ngIf="allowPasswordReset">
+            <br />
+            Forgot your password?
+            <a href="#" routerLink="/public/reset">Click here</a>.
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class='card-header bg-warning' *ngIf='warningCard'>
-    <h4>{{panelTitle}}</h4>
-  </div>
-    
-<div class='card-block'>
-  <form [formGroup]="form" (ngSubmit)="login()">
-    <formly-form [form]="form" [fields]="fields" [model]="model">
-    </formly-form>
+</div>
 
-    <button [disabled]="loading" class="btn btn-primary" *ngIf='!warningCard'>
-      {{buttonText}}
+<ng-template #privacy_acceptance let-c="close" let-d="dismiss">
+  <div class="modal-header bg-default">
+    <h4 class="modal-title">Terms of use</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
     </button>
-    <button [disabled]="loading" class="btn btn-warning" *ngIf='warningCard'>
-      {{buttonText}}
+  </div>
+  <div class="modal-body">
+    <ngb-accordion [closeOthers]="true">
+      <ngb-panel *ngFor="let group of terms_of_use">
+        <ng-template ngbPanelTitle>
+          {{group['label']}}
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <div [innerHTML]="group['text']"></div>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+  </div>
+  <div class="modal-footer">
+    <h4>Do you accept all our Terms of Use?</h4>
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="modalRef.close('Save click')"
+    >
+      YES
     </button>
-    <i *ngIf="loading" class='fa fa-spinner fa-spin'></i>
-
-  </form>
-
-  <div class='text-left' *ngIf='allowRegistration'>
-    <br>
-    You don't have an account yet? <a href="#" routerLink='/public/register'>Register here</a>.
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="d('Not accepted')"
+    >
+      NO
+    </button>
   </div>
-
-  <div class='text-left' *ngIf='allowPasswordReset'>
-    <br>
-    Forgot your password? <a href="#" routerLink='/public/reset'>Click here</a>.
-  </div>
-
-</div>
-</div>
-
-
-
-</div>
-</div>
-</div>
-
-    <ng-template #privacy_acceptance let-c="close" let-d="dismiss">
-
-      <div class="modal-header bg-default">
-        <h4 class="modal-title">Terms of use</h4>
-        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <ngb-accordion [closeOthers]="true">
-            <ngb-panel *ngFor="let group of terms_of_use">
-                <ng-template ngbPanelTitle>
-                  {{group['label']}}
-                </ng-template>
-                <ng-template ngbPanelContent>
-                    <div [innerHTML]="group['text']"></div>
-                </ng-template>
-            </ngb-panel>
-        </ngb-accordion>
-      </div>
-      <div class="modal-footer">
-        <h4>Do you accept all our Terms of Use?</h4>
-        <button 
-            type="button"
-            class="btn btn-outline-dark"
-            (click)="modalRef.close('Save click')"
-        >YES</button>
-        <button 
-            type="button"
-            class="btn btn-outline-dark"
-            (click)="d('Not accepted')"
-        >NO</button>
-      </div>
-
-
-    </ng-template>
+</ng-template>

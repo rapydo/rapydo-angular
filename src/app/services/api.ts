@@ -1,31 +1,26 @@
-import { Injectable } from '@angular/core';
-import { catchError, map } from 'rxjs/operators';
-import { of, throwError } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { catchError, map } from "rxjs/operators";
+import { of, throwError } from "rxjs";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
-import { environment } from '@rapydo/../environments/environment';
+import { environment } from "@rapydo/../environments/environment";
 
 @Injectable()
 export class ApiService {
+  public static is_online: boolean = true;
 
-  public static is_online: boolean = true; 
-
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   public is_online(): boolean {
     return ApiService.is_online;
   }
   public set_online(): boolean {
-
     ApiService.is_online = true;
     return ApiService.is_online;
-
   }
-  public set_offline(): boolean{
-
+  public set_offline(): boolean {
     ApiService.is_online = false;
     return ApiService.is_online;
-
   }
 
   private opt(dict, value, defaultValue) {
@@ -36,58 +31,108 @@ export class ApiService {
     }
   }
 
-  public get(endpoint: string, id="", data={}, options={}) {
+  public get(endpoint: string, id = "", data = {}, options = {}) {
     let formData = this.opt(options, "formData", undefined);
     let conf = this.opt(options, "conf", undefined);
     let base = this.opt(options, "base", undefined);
     // Deprecated since 0.7.4
     let rawResponse = this.opt(options, "rawResponse", undefined);
-    return this.call("GET", endpoint, id, data, formData, conf, base, rawResponse);
+    return this.call(
+      "GET",
+      endpoint,
+      id,
+      data,
+      formData,
+      conf,
+      base,
+      rawResponse
+    );
   }
 
-  public post(endpoint: string, data={}, options={}) {
+  public post(endpoint: string, data = {}, options = {}) {
     let formData = this.opt(options, "formData", undefined);
     let conf = this.opt(options, "conf", undefined);
     let base = this.opt(options, "base", undefined);
     // Deprecated since 0.7.4
     let rawResponse = this.opt(options, "rawResponse", undefined);
 
-    return this.call("POST", endpoint, "", data, formData, conf, base, rawResponse)
+    return this.call(
+      "POST",
+      endpoint,
+      "",
+      data,
+      formData,
+      conf,
+      base,
+      rawResponse
+    );
   }
 
-  public put(endpoint: string, id="", data={}, options={}) {
+  public put(endpoint: string, id = "", data = {}, options = {}) {
     let formData = this.opt(options, "formData", undefined);
     let conf = this.opt(options, "conf", undefined);
     let base = this.opt(options, "base", undefined);
     // Deprecated since 0.7.4
     let rawResponse = this.opt(options, "rawResponse", undefined);
-    return this.call("PUT", endpoint, id, data, formData, conf, base, rawResponse)
+    return this.call(
+      "PUT",
+      endpoint,
+      id,
+      data,
+      formData,
+      conf,
+      base,
+      rawResponse
+    );
   }
 
-  public patch(endpoint: string, id="", data={}, options={}) {
+  public patch(endpoint: string, id = "", data = {}, options = {}) {
     let formData = this.opt(options, "formData", undefined);
     let conf = this.opt(options, "conf", undefined);
     let base = this.opt(options, "base", undefined);
     // Deprecated since 0.7.4
     let rawResponse = this.opt(options, "rawResponse", undefined);
-    return this.call("PATCH", endpoint, id, data, formData, conf, base, rawResponse)
+    return this.call(
+      "PATCH",
+      endpoint,
+      id,
+      data,
+      formData,
+      conf,
+      base,
+      rawResponse
+    );
   }
 
-  public delete(endpoint: string, id="", options={}) {
+  public delete(endpoint: string, id = "", options = {}) {
     let formData = this.opt(options, "formData", undefined);
     let conf = this.opt(options, "conf", undefined);
     let base = this.opt(options, "base", undefined);
     // Deprecated since 0.7.4
     let rawResponse = this.opt(options, "rawResponse", undefined);
-    return this.call("DELETE", endpoint, id, {}, formData, conf, base, rawResponse)
+    return this.call(
+      "DELETE",
+      endpoint,
+      id,
+      {},
+      formData,
+      conf,
+      base,
+      rawResponse
+    );
   }
 
   protected call(
-    method:string, endpoint: string, id="", data={},
-    formData=false, conf={}, base='api',
+    method: string,
+    endpoint: string,
+    id = "",
+    data = {},
+    formData = false,
+    conf = {},
+    base = "api",
     // Deprecated since 0.7.4
-    rawResponse=false) {
-
+    rawResponse = false
+  ) {
     let ep = "";
     if (base == "auth") {
       ep = environment.authApiUrl + "/" + endpoint;
@@ -100,20 +145,20 @@ export class ApiService {
 
     let contentType;
     if (formData) {
-      contentType = 'application/x-www-form-urlencoded';
+      contentType = "application/x-www-form-urlencoded";
     } else {
-      contentType = 'application/json';
+      contentType = "application/json";
     }
 
     let options = {
       timeout: 30000,
       headers: new HttpHeaders({
-        'Content-Type': contentType,
-        'Accept': 'application/json'
-      })
+        "Content-Type": contentType,
+        Accept: "application/json",
+      }),
     };
     for (let k in conf) {
-        options[k] = conf[k]
+      options[k] = conf[k];
     }
 
     let httpCall;
@@ -134,8 +179,7 @@ export class ApiService {
     }
 
     return httpCall.pipe(
-      map(response => {
-
+      map((response) => {
         this.set_online();
 
         // Deprecated since 0.7.4
@@ -143,9 +187,9 @@ export class ApiService {
           console.warn("Deprecated use of rawResponse");
         }
 
-        return response
+        return response;
       }),
-      catchError(error => {
+      catchError((error) => {
         if (error.status == null && error.error == null) {
           // 204 empty responses
           return of("");
@@ -176,7 +220,7 @@ export class ApiService {
             }
             return throwError(error.message);
           }
-          
+
           return throwError(error.error);
         }
         // This is a 'normal' error
@@ -186,10 +230,8 @@ export class ApiService {
   }
 
   public parseResponse(response) {
-
     // deprecated since 0.7.3
     console.warn("Obsolete use of parseResponse");
     return response;
   }
-
 }

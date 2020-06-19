@@ -59,11 +59,21 @@ body {
     left: -200px;
     width: 30%;
   }
-  50% { width: 30%; }
-  70% { width: 70%; }
-  80% { left: 50%; }
-  95% { left: 120%; }
-  to { left: 100%; }
+  50% {
+    width: 30%;
+  }
+  70% {
+    width: 70%;
+  }
+  80% {
+    left: 50%;
+  }
+  95% {
+    left: 120%;
+  }
+  to {
+    left: 100%;
+  }
 }
 
 /* Bootstrap v4 */
@@ -80,11 +90,11 @@ body {
   background-color: rgb(132, 132, 132);
   color: rgb(255, 255, 255);
   font-weight: bold;
-  overflow: initial;  /* overrides an overflow: auto introduced in latest versions */
+  overflow: initial; /* overrides an overflow: auto introduced in latest versions */
 }
 
 .vertical-center {
-  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 100%; /* Fallback for browsers do NOT support vh unit */
   min-height: 100vh; /* These two lines are counted as one :-)       */
   display: flex;
   align-items: center;
@@ -151,13 +161,21 @@ body {
 }
 
 @keyframes spin {
-  from { transform: scale(1) rotate(0deg); }
-  to { transform: scale(1) rotate(360deg); }
+  from {
+    transform: scale(1) rotate(0deg);
+  }
+  to {
+    transform: scale(1) rotate(360deg);
+  }
 }
 
 @-webkit-keyframes spin2 {
-  from { -webkit-transform: rotate(0deg); }
-  to { -webkit-transform: rotate(360deg); }
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
 .fa-red {

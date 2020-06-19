@@ -1,14 +1,22 @@
-import { async, ComponentFixture, TestBed, getTestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  async,
+  ComponentFixture,
+  TestBed,
+  getTestBed,
+} from "@angular/core/testing";
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from "@angular/common/http/testing";
 
-import { AppModule } from '@rapydo/app.module';
-import { AdminGroupsComponent } from '@rapydo/components/admin/admin_groups';
-import { AdminModule } from '@rapydo/components/admin/admin.module';
-import { Group } from '@rapydo/services/auth'
+import { AppModule } from "@rapydo/app.module";
+import { AdminGroupsComponent } from "@rapydo/components/admin/admin_groups";
+import { AdminModule } from "@rapydo/components/admin/admin.module";
+import { Group } from "@rapydo/services/auth";
 
-import { environment } from '@rapydo/../environments/environment'
+import { environment } from "@rapydo/../environments/environment";
 
-describe('AdminGroupsComponent', () => {
+describe("AdminGroupsComponent", () => {
   let injector: TestBed;
   let httpMock: HttpTestingController;
   let fixture: ComponentFixture<AdminGroupsComponent>;
@@ -16,17 +24,16 @@ describe('AdminGroupsComponent', () => {
 
   const groups: Array<Group> = [
     {
-      'uuid': 'x',
-      'shortname': 'A',
-      'fullname': 'AAA',
-    }
+      uuid: "x",
+      shortname: "A",
+      fullname: "AAA",
+    },
   ];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule, AdminModule, HttpClientTestingModule]
-    })
-    .compileComponents();
+      imports: [AppModule, AdminModule, HttpClientTestingModule],
+    }).compileComponents();
 
     injector = getTestBed();
     httpMock = injector.inject(HttpTestingController);
@@ -34,16 +41,14 @@ describe('AdminGroupsComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const req = httpMock.expectOne(environment.apiUrl + '/admin/groups');
-    expect(req.request.method).toEqual('GET');
+    const req = httpMock.expectOne(environment.apiUrl + "/admin/groups");
+    expect(req.request.method).toEqual("GET");
     req.flush(groups);
 
     httpMock.verify();
   }));
 
-  it('component initialization', () => {
+  it("component initialization", () => {
     expect(component).toBeDefined();
   });
-
 });
-

@@ -1,188 +1,170 @@
-import { TestBed, getTestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { ApiService } from '@rapydo/services/api';
+import { TestBed, getTestBed } from "@angular/core/testing";
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from "@angular/common/http/testing";
+import { ApiService } from "@rapydo/services/api";
 
-import { environment } from '@rapydo/../environments/environment'
+import { environment } from "@rapydo/../environments/environment";
 
-describe('ApiService', () => {
-	let injector: TestBed;
-	let service: ApiService;
-	let httpMock: HttpTestingController;
+describe("ApiService", () => {
+  let injector: TestBed;
+  let service: ApiService;
+  let httpMock: HttpTestingController;
 
-    const mock401Response = {
-      status: 401,
-      statusText: 'UNAUTHORIZED'
-    };
+  const mock401Response = {
+    status: 401,
+    statusText: "UNAUTHORIZED",
+  };
 
-	beforeEach(() => {
-		TestBed.configureTestingModule({
-			providers: [ApiService],
-			imports: [ HttpClientTestingModule ]
-		});
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [ApiService],
+      imports: [HttpClientTestingModule],
+    });
 
-		injector = getTestBed();
-		service = injector.inject(ApiService);
-		httpMock = injector.inject(HttpTestingController);
-	});
+    injector = getTestBed();
+    service = injector.inject(ApiService);
+    httpMock = injector.inject(HttpTestingController);
+  });
 
-	it('GET - success', () => {
+  it("GET - success", () => {
+    service.get("xyz").subscribe((result) => {
+      expect(result).not.toBeUndefined();
+    });
 
-	    service.get("xyz").subscribe(
-	      result => {
-          	expect(result).not.toBeUndefined();
-	      }
-	    );
+    const req = httpMock.expectOne(environment.apiUrl + "/xyz");
+    expect(req.request.method).toEqual("GET");
+    req.flush("");
 
-	    const req = httpMock.expectOne(environment.apiUrl + '/xyz');
-	    expect(req.request.method).toEqual('GET');
-	    req.flush('');
+    httpMock.verify();
+  });
 
-	    httpMock.verify();
-	});
+  it("GET - fail", () => {
+    service.get("xyz").subscribe(
+      (result) => {},
+      (error) => {
+        expect(error).not.toBeUndefined();
+      }
+    );
 
-	it('GET - fail', () => {
+    const req = httpMock.expectOne(environment.apiUrl + "/xyz");
+    expect(req.request.method).toEqual("GET");
+    req.flush("FAILED", mock401Response);
 
-	    service.get("xyz").subscribe(
-    	  result => { },
-	      error => {
-          	expect(error).not.toBeUndefined();
-	      }
-	    );
+    httpMock.verify();
+  });
 
-	    const req = httpMock.expectOne(environment.apiUrl + '/xyz');
-	    expect(req.request.method).toEqual('GET');
-	    req.flush('FAILED', mock401Response);
+  it("POST - success", () => {
+    service.post("xyz", { key: "value" }).subscribe((result) => {
+      expect(result).not.toBeUndefined();
+    });
 
-	    httpMock.verify();
-	});
+    const req = httpMock.expectOne(environment.apiUrl + "/xyz");
+    expect(req.request.method).toEqual("POST");
+    req.flush("");
 
-	it('POST - success', () => {
+    httpMock.verify();
+  });
 
-	    service.post("xyz", {"key": "value"}).subscribe(
-	      result => {
-          	expect(result).not.toBeUndefined();
-	      }
-	    );
+  it("POST - fail", () => {
+    service.post("xyz", { key: "value" }).subscribe(
+      (result) => {},
+      (error) => {
+        expect(error).not.toBeUndefined();
+      }
+    );
 
-	    const req = httpMock.expectOne(environment.apiUrl + '/xyz');
-	    expect(req.request.method).toEqual('POST');
-	    req.flush('');
+    const req = httpMock.expectOne(environment.apiUrl + "/xyz");
+    expect(req.request.method).toEqual("POST");
+    req.flush("FAILED", mock401Response);
 
-	    httpMock.verify();
-	});
+    httpMock.verify();
+  });
 
-	it('POST - fail', () => {
+  it("DELETE - success", () => {
+    service.delete("xyz").subscribe((result) => {
+      expect(result).not.toBeUndefined();
+    });
 
-	    service.post("xyz", {"key": "value"}).subscribe(
-    	  result => { },
-	      error => {
-          	expect(error).not.toBeUndefined();
-	      }
-	    );
+    const req = httpMock.expectOne(environment.apiUrl + "/xyz");
+    expect(req.request.method).toEqual("DELETE");
+    req.flush("");
 
-	    const req = httpMock.expectOne(environment.apiUrl + '/xyz');
-	    expect(req.request.method).toEqual('POST');
-	    req.flush('FAILED', mock401Response);
+    httpMock.verify();
+  });
 
-	    httpMock.verify();
-	});
+  it("DELETE - fail", () => {
+    service.delete("xyz").subscribe(
+      (result) => {},
+      (error) => {
+        expect(error).not.toBeUndefined();
+      }
+    );
 
-	it('DELETE - success', () => {
+    const req = httpMock.expectOne(environment.apiUrl + "/xyz");
+    expect(req.request.method).toEqual("DELETE");
+    req.flush("FAILED", mock401Response);
 
-	    service.delete("xyz").subscribe(
-	      result => {
-          	expect(result).not.toBeUndefined();
-	      }
-	    );
+    httpMock.verify();
+  });
 
-	    const req = httpMock.expectOne(environment.apiUrl + '/xyz');
-	    expect(req.request.method).toEqual('DELETE');
-	    req.flush('');
+  it("PUT - success", () => {
+    service.put("xyz", "id", { key: "value" }).subscribe((result) => {
+      expect(result).not.toBeUndefined();
+    });
 
-	    httpMock.verify();
-	});
+    const req = httpMock.expectOne(environment.apiUrl + "/xyz/id");
+    expect(req.request.method).toEqual("PUT");
+    req.flush("");
 
-	it('DELETE - fail', () => {
+    httpMock.verify();
+  });
 
-	    service.delete("xyz").subscribe(
-    	  result => { },
-	      error => {
-          	expect(error).not.toBeUndefined();
-	      }
-	    );
+  it("PUT - fail", () => {
+    service.put("xyz", "id", { key: "value" }).subscribe(
+      (result) => {},
+      (error) => {
+        expect(error).not.toBeUndefined();
+      }
+    );
 
-	    const req = httpMock.expectOne(environment.apiUrl + '/xyz');
-	    expect(req.request.method).toEqual('DELETE');
-	    req.flush('FAILED', mock401Response);
+    const req = httpMock.expectOne(environment.apiUrl + "/xyz/id");
+    expect(req.request.method).toEqual("PUT");
+    req.flush("FAILED", mock401Response);
 
-	    httpMock.verify();
-	});
+    httpMock.verify();
+  });
 
-	it('PUT - success', () => {
+  it("PATCH - success", () => {
+    service.patch("xyz", "id", { key: "value" }).subscribe((result) => {
+      expect(result).not.toBeUndefined();
+    });
 
-	    service.put("xyz", "id", {"key": "value"}).subscribe(
-	      result => {
-          	expect(result).not.toBeUndefined();
-	      }
-	    );
+    const req = httpMock.expectOne(environment.apiUrl + "/xyz/id");
+    expect(req.request.method).toEqual("PATCH");
+    req.flush("");
 
-	    const req = httpMock.expectOne(environment.apiUrl + '/xyz/id');
-	    expect(req.request.method).toEqual('PUT');
-	    req.flush('');
+    httpMock.verify();
+  });
 
-	    httpMock.verify();
-	});
+  it("PATCH - fail", () => {
+    service.patch("xyz", "id", { key: "value" }).subscribe(
+      (result) => {},
+      (error) => {
+        expect(error).not.toBeUndefined();
+      }
+    );
 
-	it('PUT - fail', () => {
+    const req = httpMock.expectOne(environment.apiUrl + "/xyz/id");
+    expect(req.request.method).toEqual("PATCH");
+    req.flush("FAILED", mock401Response);
 
-	    service.put("xyz", "id", {"key": "value"}).subscribe(
-    	  result => { },
-	      error => {
-          	expect(error).not.toBeUndefined();
-	      }
-	    );
+    httpMock.verify();
+  });
 
-	    const req = httpMock.expectOne(environment.apiUrl + '/xyz/id');
-	    expect(req.request.method).toEqual('PUT');
-	    req.flush('FAILED', mock401Response);
-
-	    httpMock.verify();
-	});
-
-	it('PATCH - success', () => {
-
-	    service.patch("xyz", "id", {"key": "value"}).subscribe(
-	      result => {
-          	expect(result).not.toBeUndefined();
-	      }
-	    );
-
-	    const req = httpMock.expectOne(environment.apiUrl + '/xyz/id');
-	    expect(req.request.method).toEqual('PATCH');
-	    req.flush('');
-
-	    httpMock.verify();
-	});
-
-	it('PATCH - fail', () => {
-
-	    service.patch("xyz", "id", {"key": "value"}).subscribe(
-    	  result => { },
-	      error => {
-          	expect(error).not.toBeUndefined();
-	      }
-	    );
-
-	    const req = httpMock.expectOne(environment.apiUrl + '/xyz/id');
-	    expect(req.request.method).toEqual('PATCH');
-	    req.flush('FAILED', mock401Response);
-
-	    httpMock.verify();
-	});
-
-	afterEach(() => {
-	    // make sure that there are no outstanding requests
-	    httpMock.verify();
-	});
-
+  afterEach(() => {
+    // make sure that there are no outstanding requests
+    httpMock.verify();
+  });
 });

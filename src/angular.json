@@ -20,10 +20,7 @@
             "tsConfig": "tsconfig.app.json",
             "extractCss": true,
             "aot": true,
-            "assets": [
-              "./app/rapydo/assets",
-              "./app/custom/assets"
-            ],
+            "assets": ["./app/rapydo/assets", "./app/custom/assets"],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/ngx-toastr/toastr.css",
@@ -36,8 +33,7 @@
               "./app/rapydo/css/rapydo.css",
               "./app/custom/css/style.css"
             ],
-            "scripts": [
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -95,10 +91,7 @@
             "polyfills": "polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": [
-              "./app/rapydo/assets",
-              "./app/custom/assets"
-            ],
+            "assets": ["./app/rapydo/assets", "./app/custom/assets"],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/ngx-toastr/toastr.css",
@@ -120,9 +113,7 @@
               "tsconfig.spec.json",
               "e2e/tsconfig.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "e2e": {
@@ -138,6 +129,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "RAPyDo"
 }

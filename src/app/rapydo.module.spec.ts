@@ -1,16 +1,25 @@
-import { TestBed, getTestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
+import {
+  TestBed,
+  getTestBed,
+  ComponentFixture,
+  fakeAsync,
+  tick,
+} from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from "@angular/common/http/testing";
 import { Location } from "@angular/common";
 import { Router } from "@angular/router";
 
-import { AppModule } from '@rapydo/app.module';
-import { RapydoModule } from '@rapydo/rapydo.module';
-import { AppComponent } from '@rapydo/app.component';
+import { AppModule } from "@rapydo/app.module";
+import { RapydoModule } from "@rapydo/rapydo.module";
+import { AppComponent } from "@rapydo/app.component";
 
-import { environment } from '@rapydo/../environments/environment';
+import { environment } from "@rapydo/../environments/environment";
 
-describe('Core routing', () => {
+describe("Core routing", () => {
   let injector: TestBed;
   let router: Router;
   let location: Location;
@@ -19,7 +28,7 @@ describe('Core routing', () => {
 
   const mock401Response = {
     status: 401,
-    statusText: 'UNAUTHORIZED'
+    statusText: "UNAUTHORIZED",
   };
 
   beforeEach(() => {
@@ -32,31 +41,30 @@ describe('Core routing', () => {
     httpMock = injector.inject(HttpTestingController);
     location = TestBed.inject(Location);
 
-  	// Creating the root component with the router-outlet so
-  	// the router has somewhere to insert components.
+    // Creating the root component with the router-outlet so
+    // the router has somewhere to insert components.
     fixture = TestBed.createComponent(AppComponent);
     router.initialNavigation();
   });
 
-	it('navigate to /public/reset', fakeAsync(() => {
-	  router.navigate(['/public/reset']);
-	  tick();
-	  expect(location.path()).toBe('/public/reset');
-	}));
-
-  it('navigate to auth routes', fakeAsync(() => {
-    router.navigate(['/app/login']);
+  it("navigate to /public/reset", fakeAsync(() => {
+    router.navigate(["/public/reset"]);
     tick();
-    expect(location.path()).toBe('/app/login');
+    expect(location.path()).toBe("/public/reset");
+  }));
 
-    router.navigate(['/app/profile']);
+  it("navigate to auth routes", fakeAsync(() => {
+    router.navigate(["/app/login"]);
     tick();
-    expect(location.path()).toBe('/app/login?returnUrl=%2Fapp%2Fprofile');
+    expect(location.path()).toBe("/app/login");
 
-    router.navigate(['/app/admin/users']);
+    router.navigate(["/app/profile"]);
     tick();
-    expect(location.path()).toBe('/app/login?returnUrl=%2Fapp%2Fadmin%2Fusers');
+    expect(location.path()).toBe("/app/login?returnUrl=%2Fapp%2Fprofile");
 
+    router.navigate(["/app/admin/users"]);
+    tick();
+    expect(location.path()).toBe("/app/login?returnUrl=%2Fapp%2Fadmin%2Fusers");
   }));
 
   /*
@@ -96,5 +104,4 @@ describe('Core routing', () => {
     httpMock.verify();
   }));
   */
-
 });

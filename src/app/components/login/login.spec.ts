@@ -1,13 +1,21 @@
-import { async, ComponentFixture, TestBed, getTestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  async,
+  ComponentFixture,
+  TestBed,
+  getTestBed,
+} from "@angular/core/testing";
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from "@angular/common/http/testing";
 
-import { AppModule } from '@rapydo/app.module';
-import { LoginComponent } from '@rapydo/components/login/login';
-import { LoginModule } from '@rapydo/components/login/login.module';
+import { AppModule } from "@rapydo/app.module";
+import { LoginComponent } from "@rapydo/components/login/login";
+import { LoginModule } from "@rapydo/components/login/login.module";
 
-import { environment } from '@rapydo/../environments/environment'
+import { environment } from "@rapydo/../environments/environment";
 
-describe('LoginComponent', () => {
+describe("LoginComponent", () => {
   let injector: TestBed;
   let httpMock: HttpTestingController;
   let fixture: ComponentFixture<LoginComponent>;
@@ -15,9 +23,8 @@ describe('LoginComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule, LoginModule, HttpClientTestingModule]
-    })
-    .compileComponents();
+      imports: [AppModule, LoginModule, HttpClientTestingModule],
+    }).compileComponents();
 
     injector = getTestBed();
     httpMock = injector.inject(HttpTestingController);
@@ -26,13 +33,11 @@ describe('LoginComponent', () => {
     fixture.detectChanges();
   }));
 
-  it('component initialization', () => {
+  it("component initialization", () => {
     expect(component).toBeDefined();
   });
 
-  it('form invalid when empty', () => {
+  it("form invalid when empty", () => {
     expect(component.form.valid).toBeFalsy();
   });
-
 });
-

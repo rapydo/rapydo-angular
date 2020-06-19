@@ -1,13 +1,21 @@
-import { async, ComponentFixture, TestBed, getTestBed} from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  async,
+  ComponentFixture,
+  TestBed,
+  getTestBed,
+} from "@angular/core/testing";
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from "@angular/common/http/testing";
 
-import { AppModule } from '@rapydo/app.module';
-import { ResetPasswordComponent } from '@rapydo/components/public/reset';
-import { PublicModule } from '@rapydo/components/public/public.module';
+import { AppModule } from "@rapydo/app.module";
+import { ResetPasswordComponent } from "@rapydo/components/public/reset";
+import { PublicModule } from "@rapydo/components/public/public.module";
 
-import { environment } from '@rapydo/../environments/environment'
+import { environment } from "@rapydo/../environments/environment";
 
-describe('ResetPasswordComponent', () => {
+describe("ResetPasswordComponent", () => {
   let injector: TestBed;
   let httpMock: HttpTestingController;
   let fixture: ComponentFixture<ResetPasswordComponent>;
@@ -15,9 +23,8 @@ describe('ResetPasswordComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule, PublicModule, HttpClientTestingModule]
-    })
-    .compileComponents();
+      imports: [AppModule, PublicModule, HttpClientTestingModule],
+    }).compileComponents();
 
     injector = getTestBed();
     httpMock = injector.inject(HttpTestingController);
@@ -26,9 +33,7 @@ describe('ResetPasswordComponent', () => {
     fixture.detectChanges();
   }));
 
-  it('component initialization', () => {
+  it("component initialization", () => {
     expect(component).toBeDefined();
   });
-
 });
-

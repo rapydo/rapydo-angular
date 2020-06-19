@@ -1,19 +1,27 @@
-const { Console } = require('console');
+const { Console } = require("console");
 const print = new Console(process.stdout, process.stderr);
 
-var fs = require('fs');
+var fs = require("fs");
 
-require('dotenv').config({path: '/tmp/.env'});
+require("dotenv").config({ path: "/tmp/.env" });
 
 let backendURI = "";
 
-if (typeof process.env.BACKEND_URI !== 'undefined' && process.env.BACKEND_URI !== null && process.env.BACKEND_URI !== '') {
+if (
+  typeof process.env.BACKEND_URI !== "undefined" &&
+  process.env.BACKEND_URI !== null &&
+  process.env.BACKEND_URI !== ""
+) {
   backendURI = process.env.BACKEND_URI;
 } else {
-
-  if (process.env.APP_MODE === 'production') {
+  if (process.env.APP_MODE === "production") {
     backendURI += "https://";
-  } else if (process.env.APP_MODE === 'debug' || process.env.APP_MODE === 'test' || process.env.APP_MODE === 'development' || process.env.APP_MODE === 'cypress') {
+  } else if (
+    process.env.APP_MODE === "debug" ||
+    process.env.APP_MODE === "test" ||
+    process.env.APP_MODE === "development" ||
+    process.env.APP_MODE === "cypress"
+  ) {
     backendURI += "http://";
   } else {
     print.error("Unknown APP MODE: " + process.env.APP_MODE);
@@ -25,7 +33,6 @@ if (typeof process.env.BACKEND_URI !== 'undefined' && process.env.BACKEND_URI !=
   backendURI += process.env.BACKEND_PORT;
 
   backendURI += process.env.BACKEND_PREFIX;
-
 }
 
 let websocketsURI = "";
@@ -33,17 +40,18 @@ websocketsURI += process.env.PUSHPIN_HOST;
 websocketsURI += ":";
 websocketsURI += process.env.PUSHPIN_PORT;
 
-let apiUrl = backendURI + '/api';
-let authApiUrl = backendURI + '/auth';
+let apiUrl = backendURI + "/api";
+let authApiUrl = backendURI + "/auth";
 
 let projectVersion = process.env.VERSION;
 let rapydoVersion = process.env.RAPYDO_VERSION;
 let projectTitle = process.env.PROJECT_TITLE;
 let projectDescription = process.env.PROJECT_DESCRIPTION;
 
-let enableFooter = process.env.ENABLE_FOOTER.toLowerCase() === 'true';
-let allowRegistration = process.env.ALLOW_REGISTRATION.toLowerCase() === 'true';
-let allowPasswordReset = process.env.ALLOW_PASSWORD_RESET.toLowerCase() === 'true';
+let enableFooter = process.env.ENABLE_FOOTER.toLowerCase() === "true";
+let allowRegistration = process.env.ALLOW_REGISTRATION.toLowerCase() === "true";
+let allowPasswordReset =
+  process.env.ALLOW_PASSWORD_RESET.toLowerCase() === "true";
 let SENTRY_URL = process.env.SENTRY_URL;
 let GA_TRACKING_CODE = process.env.GA_TRACKING_CODE;
 
@@ -54,15 +62,15 @@ if (projectTitle.charAt(0) === "'") {
 if (projectDescription.charAt(0) === "'") {
   projectDescription = projectDescription.substr(1);
 }
-if (projectTitle.slice(projectTitle.length -1) === "'") {
+if (projectTitle.slice(projectTitle.length - 1) === "'") {
   projectTitle = projectTitle.slice(0, -1);
 }
-if (projectDescription.slice(projectDescription.length -1) === "'") {
-    projectDescription = projectDescription.slice(0, -1);
+if (projectDescription.slice(projectDescription.length - 1) === "'") {
+  projectDescription = projectDescription.slice(0, -1);
 }
 
 const targetPath = `/tmp/environment.variables.ts`;
-const INJECT_KEY = 'INJECT_';
+const INJECT_KEY = "INJECT_";
 
 let envConfigFile = `
 export const environment = { 
@@ -89,8 +97,7 @@ envConfigFile += `
 };
 `;
 fs.writeFile(targetPath, envConfigFile, function (err) {
-    if (err) { 
-      print.error(err);
-    }
+  if (err) {
+    print.error(err);
   }
-);
+});

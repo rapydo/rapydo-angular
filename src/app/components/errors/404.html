@@ -1,38 +1,38 @@
-<div class='container-fluid'>
-<div class="row justify-content-md-center">
-<div class='card'>
+<div class="container-fluid">
+  <div class="row justify-content-md-center">
+    <div class="card">
+      <div class="card-header bg-light text-warning">
+        <h2 class="text-center">404 - Page not found</h2>
+      </div>
 
-<div class='card-header bg-light text-warning'>
-	<h2 class='text-center'>404 - Page not found</h2>
-</div>
+      <div class="card-body text-center">
+        <div class="row">
+          <div class="col-12">
+            <h5>
+              The page you requested could not be found!
+            </h5>
+            <br />
+            <h6>
+              Please report the error if you reached this page by following a
+              link
+            </h6>
 
-<div class='card-body text-center'>
+            <br /><br /><br />
+          </div>
+        </div>
 
-<div class='row'>
-<div class='col-12'>
-		<h5>
-			The page you requested could not be found!
-		</h5>
-		<br>
-		<h6>
-			Please report the error if you reached this page by following a link
-		</h6>
+        <div class="row">
+          <div class="col-4 offset-1">
+            <a class="btn" (click)="goBack()"
+              ><i class="fas fa-backward"></i> go back</a
+            >
+          </div>
 
-		<br><br><br>
-</div>
-</div>
-
-<div class='row'>
-	<div class='col-4 offset-1'>
-		<a class='btn' (click)="goBack()"><i class='fas fa-backward'></i> go back</a>
-	</div>
-
-	<div class='col-4 offset-3'>
-		<a class='btn' routerLink=''><i class='fas fa-home'></i> go home</a>
-	</div>
-</div>
-
-</div>
-</div>
-</div>
+          <div class="col-4 offset-3">
+            <a class="btn" routerLink=""><i class="fas fa-home"></i> go home</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

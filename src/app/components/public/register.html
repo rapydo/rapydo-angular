@@ -1,47 +1,41 @@
-<div class='container-fluid'>
-<div class="row justify-content-md-center">
-<div class='col-12 col-md-10 col-lg-8'>
-
-<div class='card'>
-<div class='card-header'>
-    <h4>{{registration_title}}</h4>
-</div>
-
-<div class='card-block' *ngIf='!allowRegistration'>
-
-    <i class='fa fa-warning'></i>
-    Account registration is not allowed
-
-</div>
-
-<div class='card-block' *ngIf='showRegistrationForm'>
-
-    <div class='card' *ngIf='disclaimer'>
-        <div class='card-block text-justify' [innerHTML]="disclaimer">
+<div class="container-fluid">
+  <div class="row justify-content-md-center">
+    <div class="col-12 col-md-10 col-lg-8">
+      <div class="card">
+        <div class="card-header">
+          <h4>{{registration_title}}</h4>
         </div>
+
+        <div class="card-block" *ngIf="!allowRegistration">
+          <i class="fa fa-warning"></i>
+          Account registration is not allowed
+        </div>
+
+        <div class="card-block" *ngIf="showRegistrationForm">
+          <div class="card" *ngIf="disclaimer">
+            <div class="card-block text-justify" [innerHTML]="disclaimer"></div>
+          </div>
+
+          <form [formGroup]="form" (ngSubmit)="register()">
+            <formly-form [form]="form" [fields]="fields" [model]="model">
+            </formly-form>
+
+            <button [disabled]="loading" class="btn btn-primary">
+              Register
+            </button>
+            <i *ngIf="loading" class="fa fa-spinner fa-spin"></i>
+          </form>
+        </div>
+
+        <div class="card-block" *ngIf="registration_message">
+          {{registration_message}}
+        </div>
+
+        <div class="card-block" *ngIf="invalid_token">
+          This activation token is not valid and your request can not be
+          satisfied.
+        </div>
+      </div>
     </div>
-
-    <form [formGroup]="form" (ngSubmit)="register()">
-        <formly-form [form]="form" [fields]="fields" [model]="model">
-        </formly-form>
-
-        <button [disabled]="loading" class="btn btn-primary">Register</button>
-        <i *ngIf="loading" class='fa fa-spinner fa-spin'></i>
-
-    </form>
-</div>
-
-<div class='card-block' *ngIf='registration_message'>
-    {{registration_message}}
-</div>
-
-
-<div class='card-block' *ngIf='invalid_token'>
-    This activation token is not valid and your request can not be satisfied.
-</div>
-
-</div>
-
-</div>
-</div>
+  </div>
 </div>

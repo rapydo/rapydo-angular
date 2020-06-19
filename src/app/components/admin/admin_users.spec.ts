@@ -1,14 +1,22 @@
-import { async, ComponentFixture, TestBed, getTestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  async,
+  ComponentFixture,
+  TestBed,
+  getTestBed,
+} from "@angular/core/testing";
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from "@angular/common/http/testing";
 
-import { AppModule } from '@rapydo/app.module';
-import { AdminUsersComponent } from '@rapydo/components/admin/admin_users';
-import { AdminModule } from '@rapydo/components/admin/admin.module';
-import { User } from '@rapydo/services/auth'
+import { AppModule } from "@rapydo/app.module";
+import { AdminUsersComponent } from "@rapydo/components/admin/admin_users";
+import { AdminModule } from "@rapydo/components/admin/admin.module";
+import { User } from "@rapydo/services/auth";
 
-import { environment } from '@rapydo/../environments/environment'
+import { environment } from "@rapydo/../environments/environment";
 
-describe('AdminUsersComponent', () => {
+describe("AdminUsersComponent", () => {
   let injector: TestBed;
   let httpMock: HttpTestingController;
   let fixture: ComponentFixture<AdminUsersComponent>;
@@ -16,32 +24,31 @@ describe('AdminUsersComponent', () => {
 
   const users: Array<User> = [
     {
-      'uuid': 'x',
-      'email': 'email@example.com',
-      'name': 'A',
-      'surname': 'B',
-      'isAdmin': true,
-      'isLocalAdmin': false,
-      'is_active': true,
-      'privacy_accepted': true,
-      'roles': [],
-    }
+      uuid: "x",
+      email: "email@example.com",
+      name: "A",
+      surname: "B",
+      isAdmin: true,
+      isLocalAdmin: false,
+      is_active: true,
+      privacy_accepted: true,
+      roles: [],
+    },
   ];
 
   const mock204Response = {
     status: 204,
-    statusText: 'NO_CONTENT'
+    statusText: "NO_CONTENT",
   };
   const mock404Response = {
     status: 404,
-    statusText: 'NOT_FOUND'
+    statusText: "NOT_FOUND",
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule, AdminModule, HttpClientTestingModule]
-    })
-    .compileComponents();
+      imports: [AppModule, AdminModule, HttpClientTestingModule],
+    }).compileComponents();
 
     injector = getTestBed();
     httpMock = injector.inject(HttpTestingController);
@@ -49,14 +56,14 @@ describe('AdminUsersComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const req = httpMock.expectOne(environment.apiUrl + '/admin/users');
-    expect(req.request.method).toEqual('GET');
+    const req = httpMock.expectOne(environment.apiUrl + "/admin/users");
+    expect(req.request.method).toEqual("GET");
     req.flush(users);
 
     httpMock.verify();
   }));
 
-  it('component initialization', () => {
+  it("component initialization", () => {
     expect(component).toBeDefined();
   });
 
@@ -72,7 +79,4 @@ describe('AdminUsersComponent', () => {
   //   req2.flush('', mock204Response);
 
   // });
-
-
 });
-

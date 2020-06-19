@@ -2,19 +2,13 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
-    "types": [
-      "jasmine",
-      "node"
-    ]
+    "types": ["jasmine", "node"]
   },
-  "files": [
-    "app/rapydo/tests.ts",
-    "polyfills.ts"
-  ],
+  "files": ["app/rapydo/tests.ts", "polyfills.ts"],
   "include": [
     "app/rapydo/**/*.spec.ts",
     "app/rapydo/**/*.d.ts",
     "app/custom/**/*.spec.ts",
-    "app/custom/**/*.d.ts",
+    "app/custom/**/*.d.ts"
   ]
 }
