@@ -79,9 +79,8 @@ export const environment = {
 for (let key in process.env) {
   if (key.startsWith(INJECT_KEY)) {
     let k = key.substr(INJECT_KEY.length);
-    let v = process.env[key];
     envConfigFile += `
-    ${k}: '${v}',`;
+    ${k}: '${process.env[key]}',`;
   }
 }
 envConfigFile += `  
