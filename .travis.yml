@@ -21,6 +21,7 @@ jobs:
     - script: TESTING=1 rapydo init &&
         rapydo -s frontend pull &&
         rapydo -s frontend start &&
+        rapydo -s frontend logs --tail 5 &&
         sleep 60 &&
         rapydo shell frontend --command "yarn run single-test" || travis_terminate 1 &&
         cp data/prj/karma/lcov.info . &&
@@ -44,11 +45,13 @@ jobs:
         rapydo start &&
         rapydo shell backend --detach --command "restapi launch" &&
         sleep 60 &&
+        rapydo -s frontend logs --tail 5 &&
         rapydo shell frontend --command "yarn run start-cypress" || travis_terminate 1
       env:
         - STAGE=cypress
 
     - script: rapydo --prod  init --force &&
+        rapydo -s frontend pull &&
         rapydo dump &&
         rapydo -s frontend start &&
         rapydo -s frontend logs --follow &&
