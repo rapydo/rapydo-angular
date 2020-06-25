@@ -21,7 +21,7 @@ jobs:
     - script: TESTING=1 rapydo init &&
         rapydo -s frontend pull &&
         rapydo -s frontend start &&
-        sleep 20 &&
+        sleep 10 &&
         rapydo -s frontend logs --tail 10 &&
         rapydo shell frontend --command "yarn install" || travis_terminate 1 &&
         rapydo shell frontend --command "yarn run single-test" || travis_terminate 1 &&
@@ -45,7 +45,7 @@ jobs:
         rapydo pull &&
         rapydo start &&
         rapydo shell backend --detach --command "restapi launch" &&
-        sleep 20 &&
+        sleep 10 &&
         rapydo -s frontend logs --tail 10 &&
         rapydo shell frontend --command "yarn install" || travis_terminate 1 &&
         rapydo shell frontend --command "yarn run start-cypress" || travis_terminate 1
