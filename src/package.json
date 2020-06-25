@@ -14,7 +14,7 @@
     "test": "ng test --code-coverage",
     "single-test": "ng test --code-coverage --watch=false",
     "e2e": "ng e2e",
-    "cypress": "cypress run --record",
+    "cypress_record": "cypress run --record",
     "cypress": "cypress run"
   },
   "license": "MIT",
