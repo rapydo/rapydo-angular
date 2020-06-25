@@ -19,7 +19,9 @@ install:
 jobs:
   include:
     - script: TESTING=1 rapydo init &&
+        rapydo -s frontend pull &&
         rapydo -s frontend start &&
+        sleep 60 &&
         rapydo shell frontend --command "yarn run single-test" || travis_terminate 1 &&
         cp data/prj/karma/lcov.info . &&
         bash <(curl -s https://codecov.io/bash) -R submodules/frontend
@@ -38,8 +40,10 @@ jobs:
         export COMMIT_INFO_TIMESTAMP="$(git show -s --pretty=%ct)" &&
         export COMMIT_INFO_REMOTE="$(git config --get remote.origin.url)" &&
         cd - &&
+        rapydo pull &&
         rapydo start &&
         rapydo shell backend --detach --command "restapi launch" &&
+        sleep 60 &&
         rapydo shell frontend --command "yarn run start-cypress" || travis_terminate 1 &&
       env:
         - STAGE=cypress
