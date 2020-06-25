@@ -22,7 +22,7 @@ jobs:
         rapydo -s frontend pull &&
         rapydo -s frontend start &&
         sleep 20 &&
-        rapydo -s frontends logs --tail 10 &&
+        rapydo -s frontend logs --tail 10 &&
         rapydo shell frontend --command "yarn install" || travis_terminate 1 &&
         rapydo shell frontend --command "yarn run single-test" || travis_terminate 1 &&
         cp data/prj/karma/lcov.info . &&
@@ -46,7 +46,7 @@ jobs:
         rapydo start &&
         rapydo shell backend --detach --command "restapi launch" &&
         sleep 20 &&
-        rapydo -s frontends logs --tail 10 &&
+        rapydo -s frontend logs --tail 10 &&
         rapydo shell frontend --command "yarn install" || travis_terminate 1 &&
         rapydo shell frontend --command "yarn run start-cypress" || travis_terminate 1
       env:
