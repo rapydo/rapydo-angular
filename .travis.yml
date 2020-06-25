@@ -44,7 +44,7 @@ jobs:
         rapydo start &&
         rapydo shell backend --detach --command "restapi launch" &&
         sleep 60 &&
-        rapydo shell frontend --command "yarn run start-cypress" || travis_terminate 1 &&
+        rapydo shell frontend --command "yarn run start-cypress" || travis_terminate 1
       env:
         - STAGE=cypress
 
