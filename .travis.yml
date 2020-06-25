@@ -49,6 +49,7 @@ jobs:
         - STAGE=cypress
 
     - script: rapydo --prod  init --force &&
+        rapydo dump &&
         rapydo -s frontend start &&
         rapydo -s frontend logs --follow &&
         docker-compose logs --tail 2 frontend 2>&1 | grep "files have been compressed."
