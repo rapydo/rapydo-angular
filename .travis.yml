@@ -37,8 +37,9 @@ jobs:
         export COMMIT_INFO_SHA="$(git show -s --pretty=%H)" &&
         export COMMIT_INFO_TIMESTAMP="$(git show -s --pretty=%ct)" &&
         export COMMIT_INFO_REMOTE="$(git config --get remote.origin.url)" &&
+        cd - &&
         rapydo start &&
-        rapydo shell backend --command "restapi launch" & &&
+        rapydo shell backend --detach --command "restapi launch" &&
         rapydo shell frontend --command "yarn run start-cypress" || travis_terminate 1 &&
       env:
         - STAGE=cypress
