@@ -19,6 +19,7 @@ install:
 jobs:
   include:
     - script: TESTING=1 rapydo init &&
+        sed -i 's\ angular-test\ angular-dev\' .projectrc &&
         rapydo -s frontend pull &&
         rapydo -s frontend start &&
         sleep 5 &&
