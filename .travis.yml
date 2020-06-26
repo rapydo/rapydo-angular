@@ -8,12 +8,12 @@ services:
 env:
   - STAGE=karma
   - STAGE=prod
-  - STAGE=cypress-electron
-  - STAGE=cypress-chromium
-  - STAGE=cypress-chrome
-  - STAGE=cypress-firefox
-  # - STAGE=cypress-legacy-chromium
-  # - STAGE=cypress-legacy-firefox
+  - STAGE=cypress BROWSER=electron
+  - STAGE=cypress BROWSER=chromium
+  - STAGE=cypress BROWSER=chrome
+  - STAGE=cypress BROWSER=firefox
+  - STAGE=cypress-legacy BROWSER=chromium
+  - STAGE=cypress-legacy BROWSER=firefox
 
 script:
   - export CURRENT_VERSION=$(grep '"version"' src/package.json | awk {'print $2'} | tr -d '", ')
@@ -30,7 +30,7 @@ script:
       rapydo -s frontend start;
       sleep 5;
       rapydo shell frontend --command "yarn install" || travis_terminate 1;
-      rapydo shell frontend --command "yarn run single-test" || travis_terminate 1;
+      rapydo shell frontend --command "yarn run test:single" || travis_terminate 1;
       cp data/prj/karma/lcov.info .;
       bash <(curl -s https://codecov.io/bash) -R submodules/frontend;
 
@@ -46,6 +46,11 @@ script:
     else
 
       TESTING=1 rapydo init
+
+      if [[ "$STAGE" == "cypress-legacy" ]]; then
+        sed -i 's\ angular-test\ angular-legacy\' .projectrc;
+      fi
+
       cd submodules/frontend;
       export COMMIT_INFO_BRANCH="$(git rev-parse --abbrev-ref HEAD)";
       export COMMIT_INFO_MESSAGE="$(git show -s --pretty=%B)";
@@ -63,7 +68,7 @@ script:
       rapydo shell backend --detach --command "restapi launch";
       sleep 5;
       rapydo shell frontend --command "yarn install" || travis_terminate 1;
-      rapydo shell frontend --command "yarn run start-cypress" || travis_terminate;
+      rapydo shell frontend --command "yarn run cypress:start:${BROWSER}" || travis_terminate;
 
     fi
 
