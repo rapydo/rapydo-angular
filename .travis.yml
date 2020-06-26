@@ -48,7 +48,7 @@ script:
       TESTING=1 rapydo init
 
       if [[ "$STAGE" == "cypress-legacy" ]]; then
-        sed -i 's\ angular-test\ angular-legacy\' .projectrc;
+        sed -i 's\ angular-test\ angular-legacytest\' .projectrc;
       fi
 
       cd submodules/frontend;
