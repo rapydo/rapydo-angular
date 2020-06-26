@@ -7,7 +7,7 @@
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --port 8080 --aot --watch --live-reload --progress",
     "single-start": "ng serve --host 0.0.0.0 --port 8080 --aot --disableHostCheck",
-    "start-cypress": "start-server-and-test single-start http://localhost:8080 cypress_record",
+    "start-cypress": "start-server-and-test single-start http://localhost:8080 cypress",
     "courtesy": "rimraf dist/* && copyfiles --flat /app/courtesy/index.html /app/dist",
     "build": "ng build --prod --optimization=true --buildOptimizer=true --extractLicenses=true --progress=true",
     "gzip": "gzipper --verbose /app/dist",

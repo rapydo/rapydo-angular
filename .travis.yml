@@ -51,7 +51,10 @@ jobs:
         rapydo shell frontend --command "yarn install" || travis_terminate 1 &&
         rapydo shell frontend --command "yarn run start-cypress" || travis_terminate 1
       env:
-        - STAGE=cypress
+        - STAGE=cypress BROWSER=electron
+        - STAGE=cypress BROWSER=chromium
+        - STAGE=cypress BROWSER=chrome
+        - STAGE=cypress BROWSER=firefox
 
     - script: rapydo --prod init --force &&
         rapydo -s frontend pull &&
