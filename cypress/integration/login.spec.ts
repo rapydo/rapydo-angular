@@ -3,6 +3,16 @@ describe("Profile", () => {
     cy.visit("app/profile");
   });
 
+  // before(() => {
+  //   let credentials = {
+  //       username: Cypress.env('AUTH_DEFAULT_USERNAME'),
+  //       password: Cypress.env('AUTH_DEFAULT_PASSWORD')
+  //   }
+  //   cy.request('POST', Cypress.env('API_URL')+'/auth/login', credentials)
+  //       .its('body')
+  //       .as('token')
+  // });
+
   it("cy.location() - get window.location", () => {
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/login");
