@@ -12,7 +12,9 @@ env:
   - STAGE=cypress BROWSER=chromium
   - STAGE=cypress BROWSER=chrome
   - STAGE=cypress BROWSER=firefox
-  - STAGE=cypress-legacy BROWSER=chromium
+  # it fails because Cypress requires at least Chrome 64.
+  # but here chromium is 65!!
+  # - STAGE=cypress-legacy BROWSER=chromium
   - STAGE=cypress-legacy BROWSER=firefox
 
 script:

@@ -1,5 +1,13 @@
-<div *ngIf="!api.is_online()">
+<!-- 
+  Only a test... remove me
+  <ngx-spinner
+    zIndex="1000"
+    [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium">
+</ngx-spinner> -->
+
+<div *ngIf="api_offline()">
   <br /><br /><br />
+
   <div class="row">
     <div class="col-6 offset-3">
       <div class="card">
