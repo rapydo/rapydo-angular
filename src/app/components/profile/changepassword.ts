@@ -123,7 +123,7 @@ export class ChangePasswordComponent {
               },
               (error) => {
                 if (error.status == 0) {
-                  this.router.navigate(["/offline"]);
+                  // this.router.navigate(["/offline"]);
                 } else {
                   this.notify.showError(error.error);
                 }

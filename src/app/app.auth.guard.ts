@@ -33,7 +33,7 @@ export class AuthGuard implements CanActivate {
             queryParams: { returnUrl: state.url },
           });
         } else {
-          this.router.navigate(["offline"]);
+          // this.router.navigate(["offline"]);
         }
 
         return false;

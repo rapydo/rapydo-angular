@@ -107,4 +107,8 @@ export class AppComponent implements OnInit {
   public dismissCookieLaw(): void {
     this.cookieLawEl.dismiss();
   }
+
+  public refresh(): void {
+    window.location.reload();
+  }
 }

@@ -16,7 +16,6 @@ import * as Sentry from "@sentry/browser";
 // import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
 
 import { SharedModule } from "@rapydo/shared.module";
-import { OfflineComponent } from "@rapydo/components/errors/offline";
 import { NavbarComponent } from "@rapydo/components/navbar/navbar";
 
 import { AuthGuard } from "@rapydo/app.auth.guard";
@@ -36,10 +35,6 @@ import { ProjectOptions } from "@app/custom.project.options";
 import { environment } from "@rapydo/../environments/environment";
 
 const routes: Routes = [
-  {
-    path: "offline",
-    component: OfflineComponent,
-  },
   {
     path: "public",
     loadChildren: () =>
@@ -106,7 +101,6 @@ let module_imports: any = [
 ];
 
 let module_declarations = [
-  OfflineComponent,
   NavbarComponent,
 
   CustomNavbarComponent,
@@ -123,7 +117,6 @@ let module_exports = [
   CookieLawModule,
   ToastrModule,
 
-  OfflineComponent,
   NavbarComponent,
   CustomFooterComponent,
 ];

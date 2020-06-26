@@ -211,7 +211,7 @@ export class LoginComponent implements OnInit {
             },
             (error) => {
               if (error.status == 0) {
-                this.router.navigate(["/offline"]);
+                // this.router.navigate(["/offline"]);
               } else {
                 this.notify.showError(error.error);
               }
@@ -221,7 +221,7 @@ export class LoginComponent implements OnInit {
         },
         (error) => {
           if (error.status == 0) {
-            this.router.navigate(["/offline"]);
+            // this.router.navigate(["/offline"]);
             this.notify.showError("Error: no response received from backend");
           } else if (error.status == 409) {
             this.notify.showError(error.error);

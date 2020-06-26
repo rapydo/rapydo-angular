@@ -5,7 +5,7 @@
       <div class="card">
         <div class="card-header bg-warning text-center">
           <h6>
-            Server temporarily reachable
+            Server temporarily unreachable
           </h6>
         </div>
 
@@ -16,7 +16,7 @@
 
             <br /><br />
 
-            <a routerLink="/app/profile">
+            <a [routerLink]="" (click)="refresh()">
               <i class="fas fa-sync-alt"></i>
               <br />
               Reload
