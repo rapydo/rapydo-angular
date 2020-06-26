@@ -1,11 +1,4 @@
-<!-- 
-  Only a test... remove me
-  <ngx-spinner
-    zIndex="1000"
-    [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium">
-</ngx-spinner> -->
-
-<div *ngIf="api_offline()">
+<div *ngIf="!api.is_online()">
   <br /><br /><br />
 
   <div class="row">

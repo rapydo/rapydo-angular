@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { DeviceDetectorService } from "ngx-device-detector";
-// import { NgxSpinnerService } from 'ngx-spinner';
 
 import { environment } from "@rapydo/../environments/environment";
 
@@ -23,8 +22,7 @@ export class AppComponent implements OnInit {
   public enableFooter: boolean = false;
 
   constructor(
-    private api: ApiService,
-    // private spinner: NgxSpinnerService,
+    public api: ApiService,
     private auth: AuthService,
     private titleService: Title,
     private customization: ProjectOptions,
@@ -110,11 +108,6 @@ export class AppComponent implements OnInit {
     this.cookieLawEl.dismiss();
   }
 
-  public api_offline(): boolean {
-    if (this.api.is_online()) return false;
-    // this.spinner.show();
-    return true;
-  }
   public refresh(): void {
     window.location.reload();
   }
