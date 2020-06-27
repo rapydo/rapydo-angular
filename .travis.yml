@@ -6,7 +6,6 @@ python:
 services:
   - docker
 env:
-  - STAGE=karma
   - STAGE=prod
   - STAGE=cypress BROWSER=electron
   - STAGE=cypress BROWSER=chromium
@@ -16,6 +15,7 @@ env:
   # but here chromium is 65!!
   # - STAGE=cypress-legacy BROWSER=chromium
   - STAGE=cypress-legacy BROWSER=firefox
+  - STAGE=karma
 
 script:
   - export CURRENT_VERSION=$(grep '"version"' src/package.json | awk {'print $2'} | tr -d '", ')
