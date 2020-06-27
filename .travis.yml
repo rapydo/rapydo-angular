@@ -13,8 +13,8 @@ env:
   - STAGE=cypress BROWSER=firefox
   # it fails because Cypress requires at least Chrome 64.
   # but here chromium is 65!!
-  # - STAGE=cypress-legacy BROWSER=chromium
-  - STAGE=cypress-legacy BROWSER=firefox
+  # - STAGE=cypress BROWSER=legacy-chromium
+  - STAGE=cypress BROWSER=legacy-firefox
   - STAGE=karma
 
 script:
@@ -49,7 +49,7 @@ script:
 
       TESTING=1 rapydo init
 
-      if [[ "$STAGE" == "cypress-legacy" ]]; then
+      if [[ $BROWSER == *"legacy-"* ]]; then
         sed -i 's\ angular-test\ angular-legacytest\' .projectrc;
       fi
 
@@ -71,7 +71,6 @@ script:
       rapydo shell backend --detach --command "restapi launch";
       sleep 5;
       rapydo shell frontend --command "yarn install" || travis_terminate 1;
-      export CYPRESS_BUILD=${BROWSER}
       rapydo shell frontend --command "yarn run cypress:start:${BROWSER}" || travis_terminate 1;
 
     fi
