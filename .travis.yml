@@ -71,6 +71,7 @@ script:
       rapydo shell backend --detach --command "restapi launch";
       sleep 5;
       rapydo shell frontend --command "yarn install" || travis_terminate 1;
+      export CYPRESS_BUILD=${BROWSER}
       rapydo shell frontend --command "yarn run cypress:start:${BROWSER}" || travis_terminate 1;
 
     fi
