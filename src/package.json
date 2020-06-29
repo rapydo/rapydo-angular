@@ -79,6 +79,7 @@
     "protractor": "7.0.0",
     "cypress": "4.9.0",
     "@cypress/code-coverage": "3.8.1",
+    "cypress-localstorage-commands": "1.2.1",
     "start-server-and-test": "1.11.0",
     "raw-loader": "4.0.1",
     "rimraf": "3.0.2",
