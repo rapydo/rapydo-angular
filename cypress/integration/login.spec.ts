@@ -1,13 +1,16 @@
-describe("Profile", () => {
+describe("SuccessfulLogin", () => {
   beforeEach(() => {
     cy.visit("app/profile");
 
+    // Close the cookie law banner
     cy.get('button:contains("Ok, got it")').click();
 
+    // Profile page is restricted and you are automatically redirected to login page
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/login");
     });
 
+    // The URL contain a reference to the previous page (/app/profile)
     cy.url().should("include", "/app/login");
     cy.url().should("include", "?returnUrl=%2Fapp%2Fprofile");
   });
@@ -41,6 +44,7 @@ describe("Profile", () => {
   });
 
   afterEach(() => {
+    // After the login you are automatically redirected to the profile
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/profile");
     });
@@ -48,5 +52,10 @@ describe("Profile", () => {
     cy.get("a").find(".fa-sign-out-alt").parent().click();
 
     cy.get("button").contains("Confirm").click();
+
+    // After the logout you are automatically redirected to the default page
+    cy.location().should((location) => {
+      // expect(location.pathname).to.eq("/app/???");
+    });
   });
 });
