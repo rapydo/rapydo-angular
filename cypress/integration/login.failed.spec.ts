@@ -1,6 +1,6 @@
 describe("FailedLogin", () => {
   beforeEach(() => {
-    cy.visit("app/profile");
+    cy.visit("/app/profile");
 
     // Close the cookie law banner
     cy.get('button:contains("Ok, got it")').click();
@@ -38,7 +38,7 @@ describe("FailedLogin", () => {
     cy.get("input[id=formly_2_input_password_1]").clear().type("invalid");
     cy.get("button").contains("Login").click();
     cy.get("div[role=alertdialog]")
-      .contains("Invalid username !or password")
+      .contains("Invalid username or password")
       .click();
 
     // Password is good, username is wrong

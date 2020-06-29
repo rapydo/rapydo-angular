@@ -1,6 +1,6 @@
 describe("SuccessfulLogin", () => {
   beforeEach(() => {
-    cy.visit("app/profile");
+    cy.visit("/app/profile");
 
     // Close the cookie law banner
     cy.get('button:contains("Ok, got it")').click();
