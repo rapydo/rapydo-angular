@@ -6,10 +6,10 @@
   },
   "files": ["app/rapydo/tests.ts", "polyfills.ts"],
   "include": [
-    "app/rapydo/**/*.spec.ts",
-    "app/rapydo/**/*.d.ts",
-    "app/custom/**/*.spec.ts",
-    "app/custom/**/*.d.ts"
+    "app/rapydo/app/**/*.spec.ts",
+    "app/rapydo/app/**/*.d.ts",
+    "app/custom/app/**/*.spec.ts",
+    "app/custom/app/**/*.d.ts"
   ],
   "exclude": ["app/custom/integration/*"]
 }
