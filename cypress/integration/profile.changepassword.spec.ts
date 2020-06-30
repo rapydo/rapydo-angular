@@ -19,7 +19,7 @@ describe("ChangePassword", () => {
 
     cy.visit("/app/profile");
 
-    cy.get("a").contains("Change your password").click();
+    cy.contains("Change your password").click();
 
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/profile/changepassword");
