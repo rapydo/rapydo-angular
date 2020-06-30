@@ -5,7 +5,7 @@ describe("ResetPassword", () => {
   it("Reset form", () => {
     cy.visit("/app/login");
 
-    cy.get("a").contains("Click here.").click();
+    cy.get('a:contains("Click here")').click();
 
     cy.get("button").contains("Submit request").click();
     cy.get("formly-validation-message").contains("This field is required");
