@@ -7,15 +7,15 @@ services:
   - docker
 env:
   - STAGE=prod
-  - STAGE=cypress BROWSER=electron
-  - STAGE=cypress BROWSER=chromium
+  - STAGE=karma
   - STAGE=cypress BROWSER=chrome
   - STAGE=cypress BROWSER=firefox
+  - STAGE=cypress BROWSER=electron
+  - STAGE=cypress BROWSER=chromium
   # it fails because Cypress requires at least Chrome 64.
   # but here chromium is 65!!
   # - STAGE=cypress BROWSER=legacy-chromium
   - STAGE=cypress BROWSER=legacy-firefox
-  - STAGE=karma
 
 script:
   - export CURRENT_VERSION=$(grep '"version"' src/package.json | awk {'print $2'} | tr -d '", ')
@@ -69,7 +69,7 @@ script:
       rapydo pull;
       rapydo start;
       rapydo shell backend --detach --command "restapi launch";
-      sleep 10;
+      sleep 15;
       rapydo shell frontend --command "yarn install" || travis_terminate 1;
       rapydo shell frontend --command "yarn run cypress:start:${BROWSER}" || travis_terminate 1;
       rapydo shell frontend --command "npx nyc report --reporter=lcov" || travis_terminate 1;
