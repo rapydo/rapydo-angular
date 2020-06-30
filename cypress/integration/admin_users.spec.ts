@@ -20,6 +20,8 @@ describe("AdminUsers", () => {
       expect(location.pathname).to.eq("/app/admin/users");
     });
 
+    cy.get('button:contains("new user")').click();
+    cy.get('button:contains("Close")').click({ force: true });
     // test... something
   });
 });

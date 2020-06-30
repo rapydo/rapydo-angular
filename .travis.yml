@@ -11,7 +11,7 @@ env:
   - STAGE=cypress BROWSER=chrome
   - STAGE=cypress BROWSER=firefox
   - STAGE=cypress BROWSER=electron
-  - STAGE=cypress BROWSER=chromium
+  # - STAGE=cypress BROWSER=chromium
 
 script:
   - export CURRENT_VERSION=$(grep '"version"' src/package.json | awk {'print $2'} | tr -d '", ')
