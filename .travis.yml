@@ -12,10 +12,6 @@ env:
   - STAGE=cypress BROWSER=firefox
   - STAGE=cypress BROWSER=electron
   - STAGE=cypress BROWSER=chromium
-  # it fails because Cypress requires at least Chrome 64.
-  # but here chromium is 65!!
-  # - STAGE=cypress BROWSER=legacy-chromium
-  - STAGE=cypress BROWSER=legacy-firefox
 
 script:
   - export CURRENT_VERSION=$(grep '"version"' src/package.json | awk {'print $2'} | tr -d '", ')
@@ -48,10 +44,6 @@ script:
     else
 
       TESTING=1 rapydo init
-
-      if [[ $BROWSER == *"legacy-"* ]]; then
-        sed -i 's\ angular-test\ angular-legacytest\' .projectrc;
-      fi
 
       cd submodules/frontend;
       export COMMIT_INFO_BRANCH="$(git rev-parse --abbrev-ref HEAD)";

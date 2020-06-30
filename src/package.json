@@ -17,9 +17,7 @@
     "cypress:start:electron": "start-server-and-test start:single http://localhost:8080 'cypress run --record --group electron --browser electron'",
     "cypress:start:chrome": "start-server-and-test start:single http://localhost:8080 'cypress run --record --group chrome --browser chrome'",
     "cypress:start:chromium": "start-server-and-test start:single http://localhost:8080 'cypress run --record --group chromium --browser chromium'",
-    "cypress:start:legacy-chromium": "start-server-and-test start:single http://localhost:8080 'cypress run --record --group legacy-chromium --browser chromium'",
-    "cypress:start:firefox": "start-server-and-test start:single http://localhost:8080 'cypress run --record --group firefox --browser firefox'",
-    "cypress:start:legacy-firefox": "start-server-and-test start:single http://localhost:8080 'cypress run --record --group legacy-firefox --browser firefox'"
+    "cypress:start:firefox": "start-server-and-test start:single http://localhost:8080 'cypress run --record --group firefox --browser firefox'"
   },
   "license": "MIT",
   "dependencies": {

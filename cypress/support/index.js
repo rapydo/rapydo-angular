@@ -1,6 +1,9 @@
 import "@cypress/code-coverage/support";
 import "cypress-localstorage-commands";
 
+// This is to silence ESLint about undefined cy
+/*global Cypress*/
+
 Cypress.Commands.add("login", () => {
   cy.request("POST", Cypress.env("API_URL") + "auth/login", {
     username: Cypress.env("AUTH_DEFAULT_USERNAME"),
