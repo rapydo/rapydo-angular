@@ -29,5 +29,12 @@ describe("Sessions", () => {
     });
 
     // test... something
+
+    // Go back
+    cy.get("button").contains("Back to profile").click({ force: true });
+
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/profile");
+    });
   });
 });

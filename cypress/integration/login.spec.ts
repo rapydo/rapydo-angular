@@ -52,6 +52,8 @@ describe("SuccessfulLogin", () => {
       expect(location.pathname).to.eq("/app/profile");
     });
 
+    cy.get("a").find(".fa-user");
+    cy.get("table").find("td").contains(Cypress.env("AUTH_DEFAULT_USERNAME"));
     cy.get("a").find(".fa-sign-out-alt").parent().click();
 
     cy.get("button").contains("Confirm").click();

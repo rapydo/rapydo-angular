@@ -29,5 +29,12 @@ describe("ChangePassword", () => {
     });
 
     // test... something
+
+    // Go back
+    cy.get("button").contains("Cancel").click();
+
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/profile");
+    });
   });
 });
