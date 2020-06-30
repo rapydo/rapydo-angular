@@ -10,5 +10,6 @@
     "app/rapydo/**/*.d.ts",
     "app/custom/**/*.spec.ts",
     "app/custom/**/*.d.ts"
-  ]
+  ],
+  "exclude": ["app/custom/integration/*"]
 }
