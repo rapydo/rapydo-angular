@@ -1,3 +1,6 @@
+// This is to silence ESLint about undefined cy
+/*global cy*/
+
 describe("AdminUsers", () => {
   it("AdminUsers - without authentication", () => {
     cy.visit("/app/admin/users");

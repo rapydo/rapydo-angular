@@ -22,10 +22,6 @@
     "cypress:start:legacy-firefox": "start-server-and-test start:single http://localhost:8080 'cypress run --record --group legacy-firefox --browser firefox'"
   },
   "license": "MIT",
-  "nyc": {
-    "extends": "@istanbuljs/nyc-config-typescript",
-    "all": true
-  },
   "dependencies": {
     "@angular/common": "9.1.9",
     "@angular/compiler": "9.1.9",

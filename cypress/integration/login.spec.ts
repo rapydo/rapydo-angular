@@ -1,3 +1,6 @@
+// This is to silence ESLint about undefined cy
+/*global cy*/
+
 describe("SuccessfulLogin", () => {
   beforeEach(() => {
     cy.visit("/app/profile");

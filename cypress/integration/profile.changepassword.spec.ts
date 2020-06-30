@@ -1,3 +1,6 @@
+// This is to silence ESLint about undefined cy
+/*global cy*/
+
 describe("ChangePassword", () => {
   it("ChangePassword - without authentication", () => {
     cy.visit("/app/profile/changepassword");
