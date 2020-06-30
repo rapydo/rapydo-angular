@@ -61,8 +61,8 @@ script:
       rapydo start;
       rapydo shell backend --detach --command "restapi launch";
       rapydo shell frontend --command "yarn install" || travis_terminate 1;
-      rapydo shell frontend --command "yarn run cypress:start:${BROWSER}" || travis_terminate 1;
       sleep 20;
+      rapydo shell frontend --command "yarn run cypress:start:${BROWSER}" || travis_terminate 1;
       rapydo shell frontend --command "npx nyc report --reporter=lcov" || travis_terminate 1;
       cp data/prj/karma/lcov.info .;
       bash <(curl -s https://codecov.io/bash) -R submodules/frontend;
