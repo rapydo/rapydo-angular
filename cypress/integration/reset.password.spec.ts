@@ -7,22 +7,22 @@ describe("ResetPassword", () => {
 
     cy.get('a:contains("Click here")').click();
 
-    cy.get("button").contains("Submit request").click({ force: true });
+    cy.get("button").contains("Submit request").click();
     cy.get("formly-validation-message").contains("This field is required");
 
     cy.get("input[id=formly_1_input_reset_email_0]").clear().type("invalid");
-    cy.get("button").contains("Submit request").click({ force: true });
+    cy.get("button").contains("Submit request").click();
     cy.get("formly-validation-message").contains("Invalid email address");
 
     cy.get("input[id=formly_1_input_reset_email_0]")
       .clear()
       .type("invalid@sample.com");
-    cy.get("button").contains("Submit request").click({ force: true });
+    cy.get("button").contains("Submit request").click();
 
     cy.get("div[role=alertdialog]")
       .contains(
         "Sorry, invalid@sample.com is not recognized as a valid username"
       )
-      .click();
+      .click({ force: true });
   });
 });
