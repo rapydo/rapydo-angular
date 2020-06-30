@@ -11,5 +11,5 @@
     "app/custom/app/**/*.spec.ts",
     "app/custom/app/**/*.d.ts"
   ],
-  "exclude": ["app/custom/integration/*"]
+  "exclude": ["cypress/**/*"]
 }
