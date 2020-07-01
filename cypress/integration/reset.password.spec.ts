@@ -6,6 +6,7 @@ describe("ResetPassword", () => {
     cy.visit("/app/login");
 
     cy.get('a:contains("Click here")').click();
+    cy.wait(200);
     cy.get(".card-header").contains("Reset your password");
 
     cy.visit("/public/reset");
