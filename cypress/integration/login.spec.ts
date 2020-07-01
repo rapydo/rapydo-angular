@@ -59,9 +59,10 @@ describe("SuccessfulLogin", () => {
 
     cy.get("button").contains("Confirm").click();
 
-    // After the logout you are automatically redirected to the default page
+    // After the logout you are automatically redirected to the default page...
+    // more in generale not on the profile page
     cy.location().should((location) => {
-      // expect(location.pathname).to.eq("/app/???");
+      expect(location.pathname).to.not.eq("/app/profile");
     });
   });
 });
