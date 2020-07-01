@@ -59,9 +59,9 @@ script:
 
       rapydo pull;
       rapydo start;
+      rapydo shell backend --command 'restapi wait';
       rapydo shell backend --detach --command "restapi launch";
       rapydo shell frontend --command "yarn install" || travis_terminate 1;
-      sleep 20;
       rapydo shell frontend --command "yarn run cypress:start:${BROWSER}" || travis_terminate 1;
       rapydo shell frontend --command "npx nyc report --reporter=lcov" || travis_terminate 1;
       cp data/prj/karma/lcov.info .;
