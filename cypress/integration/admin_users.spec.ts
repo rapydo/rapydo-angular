@@ -47,5 +47,22 @@ describe("AdminUsers", () => {
     cy.get('button:contains("Submit")').click();
 
     // to be completed: should fail because DEFAULT_USERNAME already exists
+
+    cy.get("div[role=alertdialog]")
+      .contains(
+        "Email already exists with value: " +
+          Cypress.env("AUTH_DEFAULT_USERNAME")
+      )
+      .click({ force: true });
+    cy.get("input[id=formly_11_input_email_0]")
+      .clear()
+      .type("new-user@sample.org");
+    cy.get('button:contains("Submit")').click();
+
+    cy.get("div[role=alertdialog]")
+      .contains("Confirmation: user successfully created")
+      .click({ force: true });
+
+    cy.get('td:contains("new-user@sample.org")');
   });
 });
