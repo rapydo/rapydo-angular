@@ -28,10 +28,40 @@ describe("ChangePassword", () => {
       expect(location.pathname).to.eq("/app/profile/changepassword");
     });
 
-    // test... something
+    cy.get("button:contains('Submit')").click();
+    cy.get("formly-validation-message").contains("This field is required");
+
+    cy.get("input[id=formly_3_input_currentPwd_0]").clear().type("wrong");
+    cy.get("input[id=formly_3_input_newPwd_1]").clear().type("short");
+    cy.get("formly-validation-message").contains(
+      "Should have at least 8 characters"
+    );
+    cy.get("input[id=formly_3_input_newPwd_1]").clear().type("looooong");
+    cy.get("input[id=formly_3_input_confirmPwd_2]").clear().type("short");
+    cy.get("formly-validation-message").contains("The password does not match");
+    cy.get("input[id=formly_3_input_confirmPwd_2]").clear().type("looooong");
+
+    cy.get("button:contains('Submit')").click();
+    cy.get("div[role=alertdialog]")
+      .contains("Shorter than minimum length 8.")
+      .click({ force: true });
+    cy.get("input[id=formly_3_input_currentPwd_0]")
+      .clear()
+      .type("wrong-password");
+
+    cy.get("button:contains('Submit')").click();
+    cy.get("div[role=alertdialog]")
+      .contains("Your request cannot be authorized, is current password wrong?")
+      .click({ force: true });
+
+    cy.get("input[id=formly_3_input_currentPwd_0]")
+      .clear()
+      .type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
+
+    // to be completed
 
     // Go back
-    cy.get("button").contains("Cancel").click();
+    cy.get("button:contains('Cancel')").click();
 
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/profile");

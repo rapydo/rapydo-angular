@@ -16,6 +16,7 @@ describe("FailedLogin", () => {
     // The URL contain a reference to the previous page (/app/profile)
     cy.url().should("include", "/app/login");
     cy.url().should("include", "?returnUrl=%2Fapp%2Fprofile");
+    cy.get(".card-header").contains("Login");
   });
 
   it("Login - missing or wrong credentials", () => {
