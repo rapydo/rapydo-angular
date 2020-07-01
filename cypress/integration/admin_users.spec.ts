@@ -28,22 +28,20 @@ describe("AdminUsers", () => {
     cy.get('button:contains("Submit")').click({ force: true });
     cy.get("formly-validation-message").contains("This field is required");
 
-    cy.get("input[id=formly_d_input_email_0]").clear().type("invalid");
+    cy.get("input").eq(0).clear().type("invalid");
     cy.get('button:contains("Submit")').click({ force: true });
     cy.get("formly-validation-message").contains("Invalid email address");
 
-    cy.get("input[id=formly_d_input_email_0]")
-      .clear()
-      .type(Cypress.env("AUTH_DEFAULT_USERNAME"));
-    cy.get("input[id=formly_d_input_password_1]").clear().type("short");
+    cy.get("input").eq(0).clear().type(Cypress.env("AUTH_DEFAULT_USERNAME"));
+    cy.get("input").eq(1).clear().type("short");
     cy.get('button:contains("Submit")').click({ force: true });
     cy.get("formly-validation-message").contains(
       "Should have at least 8 characters"
     );
 
-    cy.get("input[id=formly_d_input_password_1]").clear().type("looooong");
-    cy.get("input[id=formly_d_input_name_2]").clear().type("SampleName");
-    cy.get("input[id=formly_d_input_surname_3]").clear().type("SampleSurname");
+    cy.get("input").eq(1).clear().type("looooong");
+    cy.get("input").eq(2).clear().type("SampleName");
+    cy.get("input").eq(3).clear().type("SampleSurname");
     cy.get('button:contains("Submit")').click({ force: true });
 
     cy.get("div[role=alertdialog]")
@@ -52,9 +50,7 @@ describe("AdminUsers", () => {
           Cypress.env("AUTH_DEFAULT_USERNAME")
       )
       .click({ force: true });
-    cy.get("input[id=formly_d_input_email_0]")
-      .clear()
-      .type("new-user@sample.org");
+    cy.get("input").eq(0).clear().type("new-user@sample.org");
     cy.get('button:contains("Submit")').click({ force: true });
 
     cy.get("div[role=alertdialog]")
