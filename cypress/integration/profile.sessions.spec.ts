@@ -1,5 +1,5 @@
 // This is to silence ESLint about undefined cy
-/*global cy*/
+/*global cy, Cypress*/
 
 describe("Sessions", () => {
   it("Sessions - without authentication", () => {
