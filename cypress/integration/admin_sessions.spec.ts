@@ -3,6 +3,8 @@
 
 describe("AdminSessions", () => {
   beforeEach(() => {
+    // Two login... to have some tokens to test with
+    cy.login();
     cy.login();
 
     cy.visit("/app/admin/sessions");
@@ -18,16 +20,16 @@ describe("AdminSessions", () => {
   it("Sort and search", () => {
     // Sort by Expiration, current token is now the last
     cy.get("span.datatable-header-cell-label").contains("Expiration").click();
-    cy.get("datatable-body-row").eq(0).find(".fa-trash");
+    cy.get("datatable-body-row").first().find(".fa-trash");
     // Sort by Expiration, current token is now the first
     cy.get("span.datatable-header-cell-label").contains("Expiration").click();
-    cy.get("datatable-body-row").eq(0).find(".fa-trash").should("not.exist");
+    cy.get("datatable-body-row").first().find(".fa-trash").should("not.exist");
 
     cy.get("datatable-body-row").its("length").should("be.gte", 1);
     cy.get('input[placeholder="Type to filter sessions"]')
       .clear()
       .type("thisisinvalidforsure");
-    cy.get("datatable-body-row").its("length").should("have.length", 0);
+    cy.get("datatable-body-row").should("have.length", 0);
 
     cy.get('input[placeholder="Type to filter sessions"]')
       .clear()
@@ -38,7 +40,7 @@ describe("AdminSessions", () => {
   // This is the same as in profile.sessions.spec
   it("Copy", () => {
     cy.get("span.datatable-header-cell-label").contains("Expiration").click();
-    cy.get("datatable-body-row").eq(0).last(".fa-clipboard").click();
+    cy.get("datatable-body-row").last().find(".fa-clipboard").click();
     cy.get("div[role=alertdialog]")
       .contains("Token successfully copied")
       .click({ force: true });
@@ -49,10 +51,10 @@ describe("AdminSessions", () => {
   // This is the same as in profile.sessions.spec
   it("Delete", () => {
     cy.get("span.datatable-header-cell-label").contains("Expiration").click();
-    cy.get("datatable-body-row").eq(0).find(".fa-trash").click();
+    cy.get("datatable-body-row").last().find(".fa-trash").click();
     cy.get("h3.popover-title").contains("Confirmation required");
     cy.get("button").contains("Cancel").click();
-    cy.get("datatable-body-row").eq(0).find(".fa-trash").click();
+    cy.get("datatable-body-row").last().find(".fa-trash").click();
     cy.get("h3.popover-title").contains("Confirmation required");
     cy.get("button").contains("Confirm").click();
 
