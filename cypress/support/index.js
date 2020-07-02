@@ -28,3 +28,15 @@ Cypress.Commands.add("login", () => {
         });
     });
 });
+
+Cypress.Commands.add("closecookielaw", () => {
+  cy.get("cookie-law").within((el) => {
+    cy.root().should("have.attr", "seen", "false");
+
+    cy.contains(
+      "We uses cookies to ensure you get the best experience on our website"
+    );
+    // Close the cookie law banner
+    cy.get('button:contains("Ok, got it")').click();
+  });
+});

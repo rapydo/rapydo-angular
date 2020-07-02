@@ -2,16 +2,7 @@
 /*global cy, Cypress*/
 
 describe("ChangePassword", () => {
-  it("ChangePassword - without authentication", () => {
-    cy.visit("/app/profile/changepassword");
-
-    // ChangePassword page is restricted and you are automatically redirected to login page
-    cy.location().should((location) => {
-      expect(location.pathname).to.eq("/app/login");
-    });
-  });
-
-  it("ChangePassword - with authentication", () => {
+  it("ChangePassword", () => {
     cy.login();
 
     cy.visit("/app/profile/changepassword");

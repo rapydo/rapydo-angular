@@ -2,47 +2,89 @@
 /*global cy, Cypress*/
 
 describe("AdminUsers", () => {
-  it("AdminUsers - without authentication", () => {
-    cy.visit("/app/admin/users");
-
-    // AdminUsers page is restricted and you are automatically redirected to login page
-    cy.location().should((location) => {
-      expect(location.pathname).to.eq("/app/login");
-    });
-  });
-
-  it("AdminUsers - with authentication", () => {
+  beforeEach(() => {
     cy.login();
 
     cy.visit("/app/admin/users");
 
+    cy.closecookielaw();
+
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/admin/users");
     });
+  });
 
+  it("Create new user", () => {
     cy.get('button:contains("new user")').click();
     cy.get('button:contains("Close")').click({ force: true });
 
     cy.get('button:contains("new user")').click();
 
-    cy.get('button:contains("Submit")').click({ force: true });
-    cy.get("formly-validation-message").contains("This field is required");
+    cy.get('input[placeholder="Email"]').as("email");
+    cy.get('input[placeholder="Password"]').as("password");
+    cy.get('input[placeholder="Name"]').as("name");
+    cy.get('input[placeholder="Surname"]').as("surname");
+    cy.get('button:contains("Submit")').as("submit");
 
-    cy.get("input").eq(0).clear().type("invalid");
-    cy.get('button:contains("Submit")').click({ force: true });
-    cy.get("formly-validation-message").contains("Invalid email address");
+    cy.get("@submit").click({ force: true });
+    cy.get("formly-validation-message")
+      .eq(0)
+      .contains("This field is required");
+    cy.get("formly-validation-message")
+      .eq(1)
+      .contains("This field is required");
+    cy.get("formly-validation-message")
+      .eq(2)
+      .contains("This field is required");
+    cy.get("formly-validation-message")
+      .eq(3)
+      .contains("This field is required");
 
-    cy.get("input").eq(0).clear().type(Cypress.env("AUTH_DEFAULT_USERNAME"));
-    cy.get("input").eq(1).clear().type("short");
-    cy.get('button:contains("Submit")').click({ force: true });
-    cy.get("formly-validation-message").contains(
-      "Should have at least 8 characters"
-    );
+    cy.get("@email").clear().type("invalid");
+    cy.get("@submit").click({ force: true });
+    cy.get("formly-validation-message").eq(0).contains("Invalid email address");
+    cy.get("formly-validation-message")
+      .eq(1)
+      .contains("This field is required");
+    cy.get("formly-validation-message")
+      .eq(2)
+      .contains("This field is required");
+    cy.get("formly-validation-message")
+      .eq(3)
+      .contains("This field is required");
 
-    cy.get("input").eq(1).clear().type("looooong");
-    cy.get("input").eq(2).clear().type("SampleName");
-    cy.get("input").eq(3).clear().type("SampleSurname");
-    cy.get('button:contains("Submit")').click({ force: true });
+    cy.get("@email").clear().type(Cypress.env("AUTH_DEFAULT_USERNAME"));
+    cy.get("@password").clear().type("short");
+    cy.get("@submit").click({ force: true });
+    cy.get("formly-validation-message")
+      .eq(0)
+      .contains("Should have at least 8 characters");
+    cy.get("formly-validation-message")
+      .eq(1)
+      .contains("This field is required");
+    cy.get("formly-validation-message")
+      .eq(2)
+      .contains("This field is required");
+
+    cy.get("@password").clear().type("looooong");
+    cy.get("@name").clear().type("SampleName");
+    cy.get("@surname").clear().type("SampleSurname");
+
+    // get custom fields added at project level:
+    // foreach element select required input text/number still empty and fill them
+    cy.get("input").each(($el, index, $list) => {
+      if ($el.prop("required") && $el.val() == "") {
+        if ($el.attr("type") == "text") {
+          cy.wrap($el).type("a");
+        } else if ($el.attr("type") == "number") {
+          cy.wrap($el).type("0");
+        }
+      }
+    });
+
+    cy.get("formly-validation-message").should("not.exist");
+
+    cy.get("@submit").click({ force: true });
 
     cy.get("div[role=alertdialog]")
       .contains(
@@ -50,13 +92,28 @@ describe("AdminUsers", () => {
           Cypress.env("AUTH_DEFAULT_USERNAME")
       )
       .click({ force: true });
-    cy.get("input").eq(0).clear().type("new-user@sample.org");
-    cy.get('button:contains("Submit")').click({ force: true });
+    cy.get("@email").clear().type("newuser@sample.org");
+    cy.get("@submit").click({ force: true });
 
     cy.get("div[role=alertdialog]")
       .contains("Confirmation: user successfully created")
       .click({ force: true });
 
-    cy.get('td:contains("new-user@sample.org")');
+    cy.get("datatable-body").contains(
+      "datatable-body-cell",
+      "newuser@sample.org"
+    );
   });
+
+  // it("Search user"), () => {
+
+  // }
+
+  // it("Modify user", () => {
+
+  // }
+
+  // it("Delete user", () => {
+
+  // }
 });
