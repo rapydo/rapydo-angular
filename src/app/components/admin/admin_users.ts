@@ -33,6 +33,7 @@ export class AdminUsersComponent extends BasePaginationComponent<User> {
     this.init("user");
 
     if (this.auth.getUser()?.isLocalAdmin && !this.auth.getUser()?.isAdmin) {
+      // pragma: no cover
       this.endpoint = "localadmin/users";
     }
 
@@ -107,17 +108,6 @@ export class AdminUsersComponent extends BasePaginationComponent<User> {
       headerTemplate: this.emptyHeader,
       flexGrow: 0.2,
     });
-  }
-
-  protected form_customizer(form, type) {
-    if (type == "put") {
-      for (let k in form.fields) {
-        if (form.fields[k].key == "email") {
-          form.fields[k].templateOptions["readonly"] = true;
-        }
-      }
-    }
-    return form;
   }
 
   update(row) {

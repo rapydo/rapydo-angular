@@ -109,6 +109,8 @@ describe("AdminUsers", () => {
     const username = "aaa0000000000000@sample.org";
 
     cy.get("datatable-body-row").its("length").should("be.gt", 1);
+
+    // search by email
     cy.get('input[placeholder="Type to filter users"]')
       .clear()
       .type("thisisinvalidforsure");
@@ -118,6 +120,18 @@ describe("AdminUsers", () => {
       .type(Cypress.env("AUTH_DEFAULT_USERNAME"));
     cy.get("datatable-body-row").should("have.length", 1);
     cy.get('input[placeholder="Type to filter users"]').clear().type(username);
+    cy.get("datatable-body-row").should("have.length", 1);
+
+    // search by name
+    cy.get('input[placeholder="Type to filter users"]')
+      .clear()
+      .type("SampleName");
+    cy.get("datatable-body-row").should("have.length", 1);
+
+    // search by surname
+    cy.get('input[placeholder="Type to filter users"]')
+      .clear()
+      .type("SampleSurname");
     cy.get("datatable-body-row").should("have.length", 1);
 
     cy.get('input[placeholder="Type to filter users"]').clear();
@@ -163,6 +177,7 @@ describe("AdminUsers", () => {
       .contains("datatable-body-cell", "SampleName");
 
     cy.get("datatable-body-row").eq(0).find(".fa-edit").click();
+    cy.get('input[placeholder="Email"]').should("not.exist");
     cy.get('input[placeholder="Name"]').clear().type("NewName");
     cy.get('button:contains("Submit")').click({ force: true });
     cy.get("div[role=alertdialog]")
