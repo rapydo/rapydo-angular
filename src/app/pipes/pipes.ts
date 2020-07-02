@@ -7,14 +7,10 @@ import { Injectable, Pipe } from "@angular/core";
 export class IteratePipe {
   // Used to iterate over objects, as for user in profile
   // for any other use case use keyvalue pipe
-  transform(value, skipFields: string[] = []): any {
+  transform(value): any {
     let keys = [];
 
     for (let key in value) {
-      if (skipFields.indexOf(key) > -1) {
-        continue;
-      }
-
       keys.push({ key: key, value: value[key] });
     }
     return keys;

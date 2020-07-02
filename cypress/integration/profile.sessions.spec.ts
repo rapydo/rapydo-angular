@@ -79,10 +79,12 @@ describe("Sessions", () => {
   // This is the same as in admin_sessions.spec
   it("Delete", () => {
     cy.get("span.datatable-header-cell-label").contains("Expiration").click();
-    cy.get("datatable-body-row").first().find(".fa-trash").click();
+    // Delete the second token
+    cy.get("datatable-body-row").eq(1).find(".fa-trash").click();
     cy.get("h3.popover-title").contains("Confirmation required");
     cy.get("button").contains("Cancel").click();
-    cy.get("datatable-body-row").first().find(".fa-trash").click();
+    // Delete the second token
+    cy.get("datatable-body-row").eq(1).find(".fa-trash").click();
     cy.get("h3.popover-title").contains("Confirmation required");
     cy.get("button").contains("Confirm").click();
 
