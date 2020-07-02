@@ -15,6 +15,9 @@ describe("AdminUsers", () => {
   });
 
   it("Create new user", () => {
+    // with this email the user should be the first when sorted by email
+    const username = "aaa0000000000000@sample.org";
+
     cy.get('button:contains("new user")').click();
     cy.get('button:contains("Close")').click({ force: true });
 
@@ -73,11 +76,11 @@ describe("AdminUsers", () => {
     // get custom fields added at project level:
     // foreach element select required input text/number still empty and fill them
     cy.get("input").each(($el, index, $list) => {
-      if ($el.prop("required") && $el.val() == "") {
-        if ($el.attr("type") == "text") {
+      if ($el.prop("required") && $el.val() === "") {
+        if ($el.attr("type") === "text") {
           cy.wrap($el).type("a");
-        } else if ($el.attr("type") == "number") {
-          cy.wrap($el).type("0");
+        } else if ($el.attr("type") === "number") {
+          cy.wrap($el).type("1");
         }
       }
     });
@@ -92,28 +95,118 @@ describe("AdminUsers", () => {
           Cypress.env("AUTH_DEFAULT_USERNAME")
       )
       .click({ force: true });
-    cy.get("@email").clear().type("newuser@sample.org");
+    cy.get("@email").clear().type(username);
     cy.get("@submit").click({ force: true });
 
     cy.get("div[role=alertdialog]")
       .contains("Confirmation: user successfully created")
       .click({ force: true });
 
-    cy.get("datatable-body").contains(
-      "datatable-body-cell",
-      "newuser@sample.org"
-    );
+    cy.get("datatable-body").contains("datatable-body-cell", username);
   });
 
-  // it("Search user"), () => {
+  it("Search and sort user", () => {
+    const username = "aaa0000000000000@sample.org";
 
-  // }
+    cy.get("datatable-body-row").its("length").should("be.gt", 1);
+    cy.get('input[placeholder="Type to filter users"]')
+      .clear()
+      .type("thisisinvalidforsure");
+    cy.get("datatable-body-row").should("have.length", 0);
+    cy.get('input[placeholder="Type to filter users"]')
+      .clear()
+      .type(Cypress.env("AUTH_DEFAULT_USERNAME"));
+    cy.get("datatable-body-row").should("have.length", 1);
+    cy.get('input[placeholder="Type to filter users"]').clear().type(username);
+    cy.get("datatable-body-row").should("have.length", 1);
 
-  // it("Modify user", () => {
+    cy.get('input[placeholder="Type to filter users"]').clear();
 
-  // }
+    // Sort by email, username is now the first
+    cy.get("span.datatable-header-cell-label").contains("Email").click();
 
-  // it("Delete user", () => {
+    cy.get("datatable-body-row")
+      .first()
+      .contains("datatable-body-cell", username);
+    cy.get("datatable-body-row")
+      .last()
+      .contains("datatable-body-cell", username)
+      .should("not.exist");
 
-  // }
+    // Sort by email again, username is now the last
+    cy.get("span.datatable-header-cell-label").contains("Email").click();
+    cy.get("datatable-body-row")
+      .first()
+      .contains("datatable-body-cell", username)
+      .should("not.exist");
+
+    cy.get("datatable-body-row")
+      .last()
+      .contains("datatable-body-cell", username);
+
+    cy.wait(1000);
+  });
+
+  it("Modify user", () => {
+    const username = "aaa0000000000000@sample.org";
+
+    cy.get('input[placeholder="Type to filter users"]').clear().type(username);
+    cy.get("datatable-body-row")
+      .eq(0)
+      .contains("datatable-body-cell", username);
+
+    cy.get("datatable-body-row").eq(0).find(".fa-edit").click();
+    cy.get('button:contains("Close")').click({ force: true });
+
+    cy.get("datatable-body-row")
+      .eq(0)
+      .contains("datatable-body-cell", "SampleName");
+
+    cy.get("datatable-body-row").eq(0).find(".fa-edit").click();
+    cy.get('input[placeholder="Name"]').clear().type("NewName");
+    cy.get('button:contains("Submit")').click({ force: true });
+    cy.get("div[role=alertdialog]")
+      .contains("Confirmation: user successfully update")
+      .click({ force: true });
+
+    cy.get('input[placeholder="Type to filter users"]').clear().type(username);
+    cy.get("datatable-body-row")
+      .eq(0)
+      .contains("datatable-body-cell", "NewName");
+
+    // Restore previous value
+    cy.get("datatable-body-row").eq(0).find(".fa-edit").click();
+    cy.get('input[placeholder="Name"]').clear().type("SampleName");
+    cy.get('button:contains("Submit")').click({ force: true });
+    cy.get("div[role=alertdialog]")
+      .contains("Confirmation: user successfully update")
+      .click({ force: true });
+  });
+
+  it("Delete user", () => {
+    const username = "aaa0000000000000@sample.org";
+    cy.get('input[placeholder="Type to filter users"]').clear().type(username);
+    cy.get("datatable-body-row")
+      .eq(0)
+      .contains("datatable-body-cell", username);
+    cy.get("datatable-body-row").eq(0).find(".fa-trash").click();
+    cy.get("button").contains("Cancel").click();
+    cy.get("datatable-body-row")
+      .eq(0)
+      .contains("datatable-body-cell", username);
+    cy.get("datatable-body-row").eq(0).find(".fa-trash").click();
+    cy.get("button").contains("Confirm").click();
+
+    cy.get("div[role=alertdialog]")
+      .contains("Confirmation: user successfully deleted")
+      .click({ force: true });
+
+    cy.get('input[placeholder="Type to filter users"]').clear().type(username);
+
+    cy.get("datatable-body-row").should("not.exist");
+
+    cy.get('input[placeholder="Type to filter users"]').clear();
+
+    cy.get("datatable-body-row").its("length").should("be.gte", 1);
+  });
 });

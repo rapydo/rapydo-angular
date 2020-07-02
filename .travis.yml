@@ -9,7 +9,8 @@ env:
   - STAGE=prod
   - STAGE=karma
   - STAGE=cypress BROWSER=chrome
-  - STAGE=cypress BROWSER=firefox
+  # it stucks quite often... to be retried in a near future
+  # - STAGE=cypress BROWSER=firefox
   - STAGE=cypress BROWSER=electron
   # - STAGE=cypress BROWSER=chromium
 
