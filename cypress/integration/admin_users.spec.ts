@@ -16,6 +16,7 @@ describe("AdminUsers", () => {
 
   it("Create new user", () => {
     // with this email the user should be the first when sorted by email
+    // username will be created without roles
     const username = "aaa0000000000000@sample.org";
 
     cy.get('button:contains("new user")').click();
@@ -103,6 +104,8 @@ describe("AdminUsers", () => {
       .click({ force: true });
 
     cy.get("datatable-body").contains("datatable-body-cell", username);
+    // The user is created without roles, but User is added by default
+    cy.get("datatable-body").contains("datatable-body-cell", "User");
   });
 
   it("Search and sort user", () => {
@@ -179,6 +182,7 @@ describe("AdminUsers", () => {
     cy.get("datatable-body-row").eq(0).find(".fa-edit").click();
     cy.get('input[placeholder="Email"]').should("not.exist");
     cy.get('input[placeholder="Name"]').clear().type("NewName");
+    cy.get('input:checkbox[placeholder="User"]').uncheck({ force: true });
     cy.get('button:contains("Submit")').click({ force: true });
     cy.get("div[role=alertdialog]")
       .contains("Confirmation: user successfully update")
@@ -188,6 +192,8 @@ describe("AdminUsers", () => {
     cy.get("datatable-body-row")
       .eq(0)
       .contains("datatable-body-cell", "NewName");
+    // The role is still there... because it is the default
+    cy.get("datatable-body-row").eq(0).contains("datatable-body-cell", "User");
 
     // Restore previous value
     cy.get("datatable-body-row").eq(0).find(".fa-edit").click();

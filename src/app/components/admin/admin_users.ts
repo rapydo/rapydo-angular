@@ -33,7 +33,6 @@ export class AdminUsersComponent extends BasePaginationComponent<User> {
     this.init("user");
 
     if (this.auth.getUser()?.isLocalAdmin && !this.auth.getUser()?.isAdmin) {
-      // pragma: no cover
       this.endpoint = "localadmin/users";
     }
 
