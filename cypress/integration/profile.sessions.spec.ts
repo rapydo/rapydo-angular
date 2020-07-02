@@ -66,15 +66,15 @@ describe("Sessions", () => {
   });
 
   // This is the same as in admin_sessions.spec
-  it("Copy", () => {
-    cy.get("span.datatable-header-cell-label").contains("Expiration").click();
-    cy.get("datatable-body-row").last().find(".fa-clipboard").click();
-    cy.get("div[role=alertdialog]")
-      .contains("Token successfully copied")
-      .click({ force: true });
+  // it("Copy", () => {
+  //   cy.get("span.datatable-header-cell-label").contains("Expiration").click();
+  //   cy.get("datatable-body-row").last().find(".fa-clipboard").click();
+  //   cy.get("div[role=alertdialog]")
+  //     .contains("Token successfully copied")
+  //     .click({ force: true });
 
-    // Verify the clipboard requires an additional plugin...
-  });
+  //   // Verify the clipboard requires an additional plugin...
+  // });
 
   // This is the same as in admin_sessions.spec
   it("Delete", () => {

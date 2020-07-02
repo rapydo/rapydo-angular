@@ -37,16 +37,16 @@ describe("AdminSessions", () => {
     cy.get("datatable-body-row").its("length").should("be.gte", 1);
   });
 
-  // This is the same as in profile.sessions.spec
-  it("Copy", () => {
-    cy.get("span.datatable-header-cell-label").contains("Expiration").click();
-    cy.get("datatable-body-row").last().find(".fa-clipboard").click();
-    cy.get("div[role=alertdialog]")
-      .contains("Token successfully copied")
-      .click({ force: true });
+  // // This is the same as in profile.sessions.spec
+  // it("Copy", () => {
+  //   cy.get("span.datatable-header-cell-label").contains("Expiration").click();
+  //   cy.get("datatable-body-row").last().find(".fa-clipboard").click();
+  //   cy.get("div[role=alertdialog]")
+  //     .contains("Token successfully copied")
+  //     .click({ force: true });
 
-    // Verify the clipboard requires an additional plugin...
-  });
+  //   // Verify the clipboard requires an additional plugin...
+  // });
 
   // This is the same as in profile.sessions.spec
   it("Delete", () => {
