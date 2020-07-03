@@ -51,17 +51,8 @@ export class LoginComponent implements OnInit {
     private api: ApiService,
     private authService: AuthService
   ) {
-    if (typeof environment.allowRegistration === "boolean") {
-      this.allowRegistration = JSON.parse(environment.allowRegistration);
-    } else {
-      this.allowRegistration = environment.allowRegistration == "true";
-    }
-
-    if (typeof environment.allowPasswordReset === "boolean") {
-      this.allowPasswordReset = JSON.parse(environment.allowPasswordReset);
-    } else {
-      this.allowPasswordReset = environment.allowPasswordReset == "true";
-    }
+    this.allowRegistration = environment.allowRegistration == "true";
+    this.allowPasswordReset = environment.allowPasswordReset == "true";
   }
 
   ngOnInit() {
@@ -89,6 +80,7 @@ export class LoginComponent implements OnInit {
         templateOptions: {
           type: "email",
           label: "Username",
+          placeholder: "Your username (email)",
           addonLeft: {
             class: "fa fa-envelope",
           },
@@ -105,6 +97,7 @@ export class LoginComponent implements OnInit {
         templateOptions: {
           type: "password",
           label: "Password",
+          placeholder: "Your password",
           addonLeft: {
             class: "fa fa-key",
           },
@@ -230,7 +223,10 @@ export class LoginComponent implements OnInit {
             let userMessage = "Unrecognized response from server";
 
             let actions = body.actions;
-            if (typeof actions === "undefined") {
+
+            if (body == "Sorry, this account is not active") {
+              this.account_not_active = true;
+            } else if (typeof actions === "undefined") {
               this.notify.showError(userMessage);
               this.notify.showError(body.errors);
             } else if (!(actions instanceof Array)) {
@@ -286,9 +282,6 @@ export class LoginComponent implements OnInit {
               "Unable to login due to a server error. If this error persists please contact system administrators"
             );
           } else if (error.error) {
-            if (error.error == "Sorry, this account is not active") {
-              this.account_not_active = true;
-            }
             this.notify.showError(error.error);
           }
 

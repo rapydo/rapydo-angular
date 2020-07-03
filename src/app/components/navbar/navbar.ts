@@ -28,19 +28,10 @@ export class NavbarComponent implements OnInit {
     private auth: AuthService,
     private ref: ChangeDetectorRef
   ) {
-    if (typeof environment.allowRegistration === "boolean") {
-      this.allowRegistration = JSON.parse(environment.allowRegistration);
-    } else {
-      this.allowRegistration = environment.allowRegistration == "true";
-    }
+    this.allowRegistration = environment.allowRegistration == "true";
   }
 
   ngOnInit() {
-    /*    
-    this.auth.userChanged.subscribe(
-      user => this.changeLogged(user)
-    );
-*/
     this.loading = true;
     this.auth.isAuthenticated().subscribe((is_auth) => {
       if (is_auth) {

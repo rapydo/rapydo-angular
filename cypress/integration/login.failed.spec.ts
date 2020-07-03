@@ -21,35 +21,37 @@ describe("FailedLogin", () => {
 
   it("Login - missing or wrong credentials", () => {
     // Missing credentials
-    cy.get("input[id=formly_2_input_username_0]");
-    cy.get("input[id=formly_2_input_password_1]");
+    cy.get("input[placeholder='Your username (email)']");
+    cy.get("input[placeholder='Your password']");
     cy.get("button").contains("Login").click();
     cy.get("formly-validation-message").contains("This field is required");
 
     // Providing a non-email username
-    cy.get("input[id=formly_2_input_username_0]").clear().type("invalid");
+    cy.get("input[placeholder='Your username (email)']")
+      .clear()
+      .type("invalid");
     cy.get("button").contains("Login").click();
     cy.get("formly-validation-message").contains("Invalid email address");
 
     // Username is good, password is missing
-    cy.get("input[id=formly_2_input_username_0]")
+    cy.get("input[placeholder='Your username (email)']")
       .clear()
       .type(Cypress.env("AUTH_DEFAULT_USERNAME"));
     cy.get("button").contains("Login").click();
     cy.get("formly-validation-message").contains("This field is required");
 
     // Username is good, password is wrong
-    cy.get("input[id=formly_2_input_password_1]").clear().type("invalid");
+    cy.get("input[placeholder='Your password']").clear().type("invalid");
     cy.get("button").contains("Login").click();
     cy.get("div[role=alertdialog]")
       .contains("Invalid username or password")
       .click();
 
     // Password is good, username is wrong
-    cy.get("input[id=formly_2_input_username_0]")
+    cy.get("input[placeholder='Your username (email)']")
       .clear()
       .type("invalid@user.name");
-    cy.get("input[id=formly_2_input_password_1]")
+    cy.get("input[placeholder='Your password']")
       .clear()
       .type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
     cy.get("button").contains("Login").click();

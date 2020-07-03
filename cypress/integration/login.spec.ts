@@ -20,29 +20,29 @@ describe("SuccessfulLogin", () => {
   });
 
   it("Login - click on submit button", () => {
-    cy.get("input[id=formly_2_input_password_1]").type(
+    cy.get("input[placeholder='Your password']").type(
       Cypress.env("AUTH_DEFAULT_PASSWORD")
     );
-    cy.get("input[id=formly_2_input_username_0]").type(
+    cy.get("input[placeholder='Your username (email)']").type(
       Cypress.env("AUTH_DEFAULT_USERNAME")
     );
     cy.get("button").contains("Login").click();
   });
 
   it("Login - enter on password field", () => {
-    cy.get("input[id=formly_2_input_username_0]").type(
+    cy.get("input[placeholder='Your username (email)']").type(
       Cypress.env("AUTH_DEFAULT_USERNAME")
     );
-    cy.get("input[id=formly_2_input_password_1]").type(
+    cy.get("input[placeholder='Your password']").type(
       Cypress.env("AUTH_DEFAULT_PASSWORD") + "{enter}"
     );
   });
 
   it("Login - enter on username field", () => {
-    cy.get("input[id=formly_2_input_password_1]").type(
+    cy.get("input[placeholder='Your password']").type(
       Cypress.env("AUTH_DEFAULT_PASSWORD")
     );
-    cy.get("input[id=formly_2_input_username_0]").type(
+    cy.get("input[placeholder='Your username (email)']").type(
       Cypress.env("AUTH_DEFAULT_USERNAME") + "{enter}"
     );
   });

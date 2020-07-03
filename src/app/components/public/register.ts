@@ -36,11 +36,7 @@ export class RegisterComponent implements OnInit {
     private authService: AuthService,
     private customization: ProjectOptions
   ) {
-    if (typeof environment.allowRegistration === "boolean") {
-      this.allowRegistration = JSON.parse(environment.allowRegistration);
-    } else {
-      this.allowRegistration = environment.allowRegistration == "true";
-    }
+    this.allowRegistration = environment.allowRegistration == "true";
 
     this.route.params.subscribe((params) => {
       if (typeof params["token"] !== "undefined") {
@@ -82,6 +78,7 @@ export class RegisterComponent implements OnInit {
       templateOptions: {
         type: "text",
         label: "Name",
+        placeholder: "Type here your name",
         addonLeft: {
           class: "fa fa-user",
         },
@@ -95,6 +92,7 @@ export class RegisterComponent implements OnInit {
       templateOptions: {
         type: "text",
         label: "Surname",
+        placeholder: "Type here your surname",
         addonLeft: {
           class: "fa fa-user",
         },
@@ -108,6 +106,7 @@ export class RegisterComponent implements OnInit {
       templateOptions: {
         type: "email",
         label: "Username (email address)",
+        placeholder: "Type here your email address",
         addonLeft: {
           class: "fa fa-envelope",
         },
@@ -122,6 +121,7 @@ export class RegisterComponent implements OnInit {
       templateOptions: {
         type: "password",
         label: "Password",
+        placeholder: "Type here the desidered password",
         addonLeft: {
           class: "fa fa-key",
         },
@@ -136,6 +136,7 @@ export class RegisterComponent implements OnInit {
       templateOptions: {
         type: "password",
         label: "Password confirmation",
+        placeholder: "Type again the desidered password for confirmation",
         addonLeft: {
           class: "fa fa-key",
         },

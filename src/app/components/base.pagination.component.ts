@@ -468,6 +468,13 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     }
   }
 
+  /*
+<ngx-datatable
+    [...]
+    (activate)="onDatatableActivate($event)"
+    >
+</ngx-datatable>
+*/
   public onDatatableActivate(event: any) {
     if (event.type === "click") {
       event.cellElement.blur();

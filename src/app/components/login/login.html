@@ -16,7 +16,7 @@
 
       <br /><br />
 
-      <div class="card">
+      <div class="card" *ngIf="!account_not_active">
         <div class="card-header" *ngIf="!warningCard">
           <h4>{{panelTitle}}</h4>
         </div>
