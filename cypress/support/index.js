@@ -40,3 +40,7 @@ Cypress.Commands.add("closecookielaw", () => {
     cy.get('button:contains("Ok, got it")').click();
   });
 });
+
+Cypress.Commands.add("getmail", () => {
+  return cy.readFile("/logs/mock.mail.lastsent.body");
+});

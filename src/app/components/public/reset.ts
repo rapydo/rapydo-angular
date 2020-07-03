@@ -72,6 +72,7 @@ export class ResetPasswordComponent implements OnInit {
       templateOptions: {
         type: "password",
         label: "New password",
+        placeholder: "Type here your new password",
         addonLeft: {
           class: "fa fa-key",
         },
@@ -85,6 +86,7 @@ export class ResetPasswordComponent implements OnInit {
       templateOptions: {
         type: "password",
         label: "Confirm password",
+        placeholder: "Type again your new password for confirmation",
         addonLeft: {
           class: "fa fa-key",
         },
