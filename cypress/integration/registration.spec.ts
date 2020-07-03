@@ -233,13 +233,15 @@ describe("Registration", () => {
         .click({ force: true });
     });
   } else {
-    cy.visit("/public/register");
-    cy.location().should((location) => {
-      expect(location.pathname).to.eq("/public/register");
+    it("Registration not allowed", () => {
+      cy.visit("/public/register");
+      cy.location().should((location) => {
+        expect(location.pathname).to.eq("/public/register");
+      });
+
+      cy.get("div.card-header h4").contains("Register a new account");
+
+      cy.contains("Account registration is not allowed");
     });
-
-    cy.get("div.card-header h4").contains("Register a new account");
-
-    cy.contains("Account registration is not allowed");
   }
 });
