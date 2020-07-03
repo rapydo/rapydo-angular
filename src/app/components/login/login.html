@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row justify-content-md-center">
     <div class="col-12 col-md-8 col-lg-6">
-      <div class="card" *ngIf="account_not_active">
+      <div class="card" *ngIf="accountNotActive">
         <div class="card-header">
           <h4>This account is not active</h4>
         </div>
@@ -16,7 +16,7 @@
 
       <br /><br />
 
-      <div class="card" *ngIf="!account_not_active">
+      <div class="card" *ngIf="!accountNotActive">
         <div class="card-header" *ngIf="!warningCard">
           <h4>{{panelTitle}}</h4>
         </div>

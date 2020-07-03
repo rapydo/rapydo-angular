@@ -36,7 +36,7 @@ export class RegisterComponent implements OnInit {
     private authService: AuthService,
     private customization: ProjectOptions
   ) {
-    this.allowRegistration = environment.allowRegistration == "true";
+    this.allowRegistration = environment.allowRegistration === "true";
 
     this.route.params.subscribe((params) => {
       if (typeof params["token"] !== "undefined") {

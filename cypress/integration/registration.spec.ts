@@ -65,10 +65,10 @@ describe("Registration", () => {
 
       cy.get("@submit").click({ force: true });
 
-      const new_password = "looooong";
+      const newPassword = "looooong";
       cy.get("@email").clear().type(Cypress.env("AUTH_DEFAULT_USERNAME"));
-      cy.get("@password").clear().type(new_password);
-      cy.get("@confirmation").clear().type(new_password);
+      cy.get("@password").clear().type(newPassword);
+      cy.get("@confirmation").clear().type(newPassword);
 
       cy.get("@submit").click({ force: true });
 
@@ -78,9 +78,9 @@ describe("Registration", () => {
         )
         .click();
 
-      const new_user =
+      const newUser =
         "testuser" + Math.floor(Math.random() * 1000000) + "@sample.org";
-      cy.get("@email").clear().type(new_user);
+      cy.get("@email").clear().type(newUser);
 
       cy.get("@submit").click({ force: true });
 
@@ -98,10 +98,10 @@ describe("Registration", () => {
 
       cy.get("input[placeholder='Your username (email)']")
         .clear()
-        .type(new_user);
+        .type(newUser);
       cy.get("input[placeholder='Your password']")
         .clear()
-        .type(new_password + "{enter}");
+        .type(newPassword + "{enter}");
       // cy.get("button").contains("Login").click();
 
       cy.wait(500);
@@ -123,7 +123,7 @@ describe("Registration", () => {
 
       // also verify error on reset
       cy.visit("/public/reset");
-      cy.get("input[id=formly_1_input_reset_email_0]").clear().type(new_user);
+      cy.get("input[id=formly_1_input_reset_email_0]").clear().type(newUser);
       cy.get("button:contains('Submit request')").click();
 
       cy.get("div[role=alertdialog]")
@@ -165,17 +165,17 @@ describe("Registration", () => {
 
       cy.get("input[placeholder='Your username (email)']")
         .clear()
-        .type(new_user);
+        .type(newUser);
       cy.get("input[placeholder='Your password']")
         .clear()
-        .type(new_password + "{enter}");
+        .type(newPassword + "{enter}");
       // cy.get("button").contains("Login").click();
 
       cy.location().should((location) => {
         expect(location.pathname).to.eq("/app/profile");
       });
 
-      cy.get("table").find("td").contains(new_user);
+      cy.get("table").find("td").contains(newUser);
 
       cy.visit("/app/admin/users");
 
@@ -203,9 +203,7 @@ describe("Registration", () => {
 
       cy.visit("/app/admin/users");
 
-      cy.get('input[placeholder="Type to filter users"]')
-        .clear()
-        .type(new_user);
+      cy.get('input[placeholder="Type to filter users"]').clear().type(newUser);
 
       cy.get("datatable-body-row").first().find(".fa-trash").click();
       cy.get("h3.popover-title").contains("Confirmation required");
@@ -222,7 +220,7 @@ describe("Registration", () => {
 
       cy.get("input[placeholder='Your username (email)']")
         .clear()
-        .type(new_user);
+        .type(newUser);
       cy.get("input[placeholder='Your password']")
         .clear()
         .type("looooong{enter}");

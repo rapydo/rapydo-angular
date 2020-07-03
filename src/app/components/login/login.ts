@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
   public askNewPassword: boolean = false;
   public askTOTP: boolean = false;
 
-  public account_not_active: boolean = false;
+  public accountNotActive: boolean = false;
 
   @ViewChild("privacy_acceptance", { static: false })
   public privacy_acceptance: TemplateRef<any>;
@@ -51,8 +51,8 @@ export class LoginComponent implements OnInit {
     private api: ApiService,
     private authService: AuthService
   ) {
-    this.allowRegistration = environment.allowRegistration == "true";
-    this.allowPasswordReset = environment.allowPasswordReset == "true";
+    this.allowRegistration = environment.allowRegistration === "true";
+    this.allowPasswordReset = environment.allowPasswordReset === "true";
   }
 
   ngOnInit() {
@@ -224,8 +224,8 @@ export class LoginComponent implements OnInit {
 
             let actions = body.actions;
 
-            if (body == "Sorry, this account is not active") {
-              this.account_not_active = true;
+            if (body === "Sorry, this account is not active") {
+              this.accountNotActive = true;
             } else if (typeof actions === "undefined") {
               this.notify.showError(userMessage);
               this.notify.showError(body.errors);
@@ -293,7 +293,7 @@ export class LoginComponent implements OnInit {
   ask_activation_link() {
     this.authService.ask_activation_link(this.model.username).subscribe(
       (response: any) => {
-        this.account_not_active = false;
+        this.accountNotActive = false;
         this.notify.showSuccess(response);
       },
       (error) => {

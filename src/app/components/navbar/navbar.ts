@@ -28,7 +28,7 @@ export class NavbarComponent implements OnInit {
     private auth: AuthService,
     private ref: ChangeDetectorRef
   ) {
-    this.allowRegistration = environment.allowRegistration == "true";
+    this.allowRegistration = environment.allowRegistration === "true";
   }
 
   ngOnInit() {
