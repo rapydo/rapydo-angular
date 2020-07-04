@@ -56,7 +56,7 @@ describe("AdminSessions", () => {
 
     // This is the same as in profile.sessions.spec
     cy.get("datatable-body-row").first().find(".fa-clipboard").click();
-    cy.checkalert("Token successfully copied");
+    // cy.checkalert("Token successfully copied");
 
     // Verify the clipboard requires an additional plugin...
   });
