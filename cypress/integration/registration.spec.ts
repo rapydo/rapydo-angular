@@ -16,6 +16,7 @@ describe("Registration", () => {
 
       cy.get("div.card-header h4").contains("Register a new account");
 
+      // Save form fields as aliases
       cy.get('input[placeholder="Type here your name"]').as("name");
       cy.get('input[placeholder="Type here your surname"]').as("surname");
       cy.get('input[placeholder="Type here your email address"]').as("email");
@@ -27,6 +28,7 @@ describe("Registration", () => {
       ).as("confirmation");
       cy.get('button:contains("Register")').as("submit");
 
+      // Submit empty form (validations errors for all required fields are expected)
       cy.get("@submit").click({ force: true });
 
       cy.get("formly-validation-message")
@@ -45,6 +47,7 @@ describe("Registration", () => {
         .eq(4)
         .contains("This field is required");
 
+      // Submit short inputs (validation errors on email and password are expected)
       cy.get("@name").clear().type("a");
       cy.get("@surname").clear().type("b");
       cy.get("@email").clear().type("c");
@@ -65,11 +68,11 @@ describe("Registration", () => {
 
       cy.get("@submit").click({ force: true });
 
-      const newPassword = "looooong";
+      // Validation is now ok, but sending an already existing user as username
+      let newPassword = "looooong";
       cy.get("@email").clear().type(Cypress.env("AUTH_DEFAULT_USERNAME"));
       cy.get("@password").clear().type(newPassword);
       cy.get("@confirmation").clear().type(newPassword);
-
       cy.get("@submit").click({ force: true });
 
       cy.get("div[role=alertdialog]")
@@ -78,12 +81,47 @@ describe("Registration", () => {
         )
         .click();
 
+      // Failures on password validation: missing upper case letters
       const newUser =
         "testuser" + Math.floor(Math.random() * 1000000) + "@sample.org";
       cy.get("@email").clear().type(newUser);
-
       cy.get("@submit").click({ force: true });
+      cy.get("div[role=alertdialog]")
+        .contains("Password is too weak, missing upper case letters")
+        .click();
 
+      // Failures on password validation: missing lower case letters
+      newPassword = "LOOOOONG";
+      cy.get("@password").clear().type(newPassword);
+      cy.get("@confirmation").clear().type(newPassword);
+      cy.get("@submit").click({ force: true });
+      cy.get("div[role=alertdialog]")
+        .contains("Password is too weak, missing lower case letters")
+        .click();
+
+      // Failures on password validation: missing numbers
+      newPassword = "LoOoOoNg";
+      cy.get("@password").clear().type(newPassword);
+      cy.get("@confirmation").clear().type(newPassword);
+      cy.get("@submit").click({ force: true });
+      cy.get("div[role=alertdialog]")
+        .contains("Password is too weak, missing numbers")
+        .click();
+
+      // Failures on password validation: missing numbers
+      newPassword = "LoO0OoNg";
+      cy.get("@password").clear().type(newPassword);
+      cy.get("@confirmation").clear().type(newPassword);
+      cy.get("@submit").click({ force: true });
+      cy.get("div[role=alertdialog]")
+        .contains("Password is too weak, missing special characters")
+        .click();
+
+      // That's all ok, let's create the user!
+      newPassword = "LoO0OoNg!";
+      cy.get("@password").clear().type(newPassword);
+      cy.get("@confirmation").clear().type(newPassword);
+      cy.get("@submit").click({ force: true });
       cy.get("div[role=alertdialog]")
         .contains("User successfully registered")
         .click();
@@ -104,7 +142,7 @@ describe("Registration", () => {
         .type(newPassword + "{enter}");
       // cy.get("button").contains("Login").click();
 
-      cy.wait(500);
+      cy.wait(1000);
       cy.get("div.card-header h4").contains("This account is not active");
       cy.get("div.card-block").contains("Didn't receive an activation link?");
 

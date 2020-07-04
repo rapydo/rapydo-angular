@@ -131,7 +131,7 @@ export class RegisterComponent implements OnInit {
     });
 
     this.fields.push({
-      key: "password_confirmation",
+      key: "password_confirm",
       type: "input",
       templateOptions: {
         type: "password",
