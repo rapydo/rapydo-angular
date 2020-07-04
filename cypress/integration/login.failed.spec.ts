@@ -16,7 +16,7 @@ describe("FailedLogin", () => {
     // The URL contain a reference to the previous page (/app/profile)
     cy.url().should("include", "/app/login");
     cy.url().should("include", "?returnUrl=%2Fapp%2Fprofile");
-    cy.get("div.card-header").contains("Login");
+    cy.get("div.card-header h4").contains("Login");
   });
 
   it("Login - missing or wrong credentials", () => {
@@ -43,9 +43,7 @@ describe("FailedLogin", () => {
     // Username is good, password is wrong
     cy.get("input[placeholder='Your password']").clear().type("invalid");
     cy.get("button").contains("Login").click();
-    cy.get("div[role=alertdialog]")
-      .contains("Invalid username or password")
-      .click();
+    cy.checkalert("Invalid username or password");
 
     // Password is good, username is wrong
     cy.get("input[placeholder='Your username (email)']")
@@ -55,9 +53,7 @@ describe("FailedLogin", () => {
       .clear()
       .type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
     cy.get("button").contains("Login").click();
-    cy.get("div[role=alertdialog]")
-      .contains("Invalid username or password")
-      .click();
+    cy.checkalert("Invalid username or password");
   });
 
   afterEach(() => {

@@ -28,7 +28,30 @@ Cypress.Commands.add("login", () => {
         });
     });
 });
-
+Cypress.Commands.add("pwdchange", (username, current_pwd, new_pwd) => {
+  cy.request("POST", Cypress.env("API_URL") + "auth/login", {
+    username: username,
+    password: current_pwd,
+  })
+    .its("body")
+    .then((token) => {
+      const options = {
+        method: "PUT",
+        url: Cypress.env("API_URL") + "auth/profile",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: {
+          password: current_pwd,
+          new_password: new_pwd,
+          password_confirm: new_pwd,
+        },
+      };
+      cy.request(options).then((response) => {
+        cy.log("Password changed");
+      });
+    });
+});
 Cypress.Commands.add("closecookielaw", () => {
   cy.get("cookie-law").within((el) => {
     cy.root().should("have.attr", "seen", "false");
@@ -40,7 +63,10 @@ Cypress.Commands.add("closecookielaw", () => {
     cy.get('button:contains("Ok, got it")').click();
   });
 });
-
+Cypress.Commands.add("checkalert", (msg) => {
+  cy.wait(200);
+  cy.get("div[role=alertdialog]").contains(msg).click({ force: true });
+});
 Cypress.Commands.add("getmail", () => {
   return cy.readFile("/logs/mock.mail.lastsent.body");
 });

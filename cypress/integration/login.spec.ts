@@ -16,7 +16,7 @@ describe("SuccessfulLogin", () => {
     // The URL contain a reference to the previous page (/app/profile)
     cy.url().should("include", "/app/login");
     cy.url().should("include", "?returnUrl=%2Fapp%2Fprofile");
-    cy.get("div.card-header").contains("Login");
+    cy.get("div.card-header h4").contains("Login");
   });
 
   it("Login - click on submit button", () => {

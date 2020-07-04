@@ -35,6 +35,7 @@ export class ChangePasswordComponent {
         templateOptions: {
           type: "number",
           label: "Verification code",
+          placeholder: "TOTP verification code",
           addonLeft: {
             class: "fa fa-shield",
           },
@@ -50,6 +51,7 @@ export class ChangePasswordComponent {
         templateOptions: {
           type: "password",
           label: "Current password",
+          placeholder: "Type here your current password",
           addonLeft: {
             class: "fa fa-key",
           },
@@ -64,6 +66,7 @@ export class ChangePasswordComponent {
       templateOptions: {
         type: "password",
         label: "New password",
+        placeholder: "Type here the desidered new password",
         addonLeft: {
           class: "fa fa-key",
         },
@@ -77,6 +80,8 @@ export class ChangePasswordComponent {
       templateOptions: {
         type: "password",
         label: "Confirm password",
+        placeholder:
+          "Type here again the desidered new password for confirmation",
         addonLeft: {
           class: "fa fa-key",
         },

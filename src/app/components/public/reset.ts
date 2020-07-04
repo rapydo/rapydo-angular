@@ -58,6 +58,7 @@ export class ResetPasswordComponent implements OnInit {
       templateOptions: {
         type: "email",
         label: "Your e-mail address",
+        placeholder: "Type here your email address to receive the reset link",
         addonLeft: {
           class: "fa fa-envelope",
         },

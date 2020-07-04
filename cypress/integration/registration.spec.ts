@@ -75,56 +75,44 @@ describe("Registration", () => {
       cy.get("@confirmation").clear().type(newPassword);
       cy.get("@submit").click({ force: true });
 
-      cy.get("div[role=alertdialog]")
-        .contains(
-          "This user already exists: " + Cypress.env("AUTH_DEFAULT_USERNAME")
-        )
-        .click();
+      cy.checkalert(
+        "This user already exists: " + Cypress.env("AUTH_DEFAULT_USERNAME")
+      );
 
       // Failures on password validation: missing upper case letters
       const newUser =
         "testuser" + Math.floor(Math.random() * 1000000) + "@sample.org";
       cy.get("@email").clear().type(newUser);
       cy.get("@submit").click({ force: true });
-      cy.get("div[role=alertdialog]")
-        .contains("Password is too weak, missing upper case letters")
-        .click();
+      cy.checkalert("Password is too weak, missing upper case letters");
 
       // Failures on password validation: missing lower case letters
       newPassword = "LOOOOONG";
       cy.get("@password").clear().type(newPassword);
       cy.get("@confirmation").clear().type(newPassword);
       cy.get("@submit").click({ force: true });
-      cy.get("div[role=alertdialog]")
-        .contains("Password is too weak, missing lower case letters")
-        .click();
+      cy.checkalert("Password is too weak, missing lower case letters");
 
       // Failures on password validation: missing numbers
       newPassword = "LoOoOoNg";
       cy.get("@password").clear().type(newPassword);
       cy.get("@confirmation").clear().type(newPassword);
       cy.get("@submit").click({ force: true });
-      cy.get("div[role=alertdialog]")
-        .contains("Password is too weak, missing numbers")
-        .click();
+      cy.checkalert("Password is too weak, missing numbers");
 
       // Failures on password validation: missing numbers
       newPassword = "LoO0OoNg";
       cy.get("@password").clear().type(newPassword);
       cy.get("@confirmation").clear().type(newPassword);
       cy.get("@submit").click({ force: true });
-      cy.get("div[role=alertdialog]")
-        .contains("Password is too weak, missing special characters")
-        .click();
+      cy.checkalert("Password is too weak, missing special characters");
 
       // That's all ok, let's create the user!
       newPassword = "LoO0OoNg!";
       cy.get("@password").clear().type(newPassword);
       cy.get("@confirmation").clear().type(newPassword);
       cy.get("@submit").click({ force: true });
-      cy.get("div[role=alertdialog]")
-        .contains("User successfully registered")
-        .click();
+      cy.checkalert("User successfully registered");
 
       cy.get("div.card-header h4").contains("Account registered");
 
@@ -148,11 +136,9 @@ describe("Registration", () => {
 
       cy.get("a").contains("Click here to send again").click();
 
-      cy.get("div[role=alertdialog]")
-        .contains(
-          "We are sending an email to your email address where you will find the link to activate your account"
-        )
-        .click();
+      cy.checkalert(
+        "We are sending an email to your email address where you will find the link to activate your account"
+      );
 
       cy.location().should((location) => {
         expect(location.pathname).to.eq("/app/login");
@@ -164,9 +150,7 @@ describe("Registration", () => {
       cy.get("input[id=formly_1_input_reset_email_0]").clear().type(newUser);
       cy.get("button:contains('Submit request')").click();
 
-      cy.get("div[role=alertdialog]")
-        .contains("Sorry, this account is not active")
-        .click();
+      cy.checkalert("Sorry, this account is not active");
 
       cy.visit("/public/register/invalid");
 
@@ -186,9 +170,7 @@ describe("Registration", () => {
           expect(location.pathname).to.eq("/app/login");
         });
 
-        cy.get("div[role=alertdialog]")
-          .contains("User successfully activated")
-          .click();
+        cy.checkalert("User successfully activated");
 
         cy.visit("/public/register/" + token[1]);
 
@@ -217,19 +199,15 @@ describe("Registration", () => {
 
       cy.visit("/app/admin/users");
 
-      cy.get("div[role=alertdialog]")
-        .contains(
-          "Permission denied: you are not authorized to access this page"
-        )
-        .click({ force: true });
+      cy.checkalert(
+        "Permission denied: you are not authorized to access this page"
+      );
 
       cy.visit("/app/admin/sessions");
 
-      cy.get("div[role=alertdialog]")
-        .contains(
-          "Permission denied: you are not authorized to access this page"
-        )
-        .click({ force: true });
+      cy.checkalert(
+        "Permission denied: you are not authorized to access this page"
+      );
 
       cy.get("a").find(".fa-sign-out-alt").parent().click();
       cy.get("button").contains("Confirm").click();
@@ -247,9 +225,7 @@ describe("Registration", () => {
       cy.get("h3.popover-title").contains("Confirmation required");
       cy.get("button").contains("Confirm").click();
 
-      cy.get("div[role=alertdialog]")
-        .contains("Confirmation: user successfully deleted")
-        .click({ force: true });
+      cy.checkalert("Confirmation: user successfully deleted");
 
       cy.get("a").find(".fa-sign-out-alt").parent().click();
       cy.get("button").contains("Confirm").click();
@@ -264,9 +240,7 @@ describe("Registration", () => {
         .type("looooong{enter}");
       // cy.get("button").contains("Login").click();
 
-      cy.get("div[role=alertdialog]")
-        .contains("Invalid username or password")
-        .click({ force: true });
+      cy.checkalert("Invalid username or password");
     });
   } else {
     it("Registration not allowed", () => {

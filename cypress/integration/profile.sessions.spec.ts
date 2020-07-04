@@ -69,9 +69,7 @@ describe("Sessions", () => {
   // it("Copy", () => {
   //   cy.get("span.datatable-header-cell-label").contains("Expiration").click();
   //   cy.get("datatable-body-row").last().find(".fa-clipboard").click();
-  //   cy.get("div[role=alertdialog]")
-  //     .contains("Token successfully copied")
-  //     .click({ force: true });
+  //   cy.checkalert("Token successfully copied");
 
   //   // Verify the clipboard requires an additional plugin...
   // });
@@ -88,8 +86,6 @@ describe("Sessions", () => {
     cy.get("h3.popover-title").contains("Confirmation required");
     cy.get("button").contains("Confirm").click();
 
-    cy.get("div[role=alertdialog]")
-      .contains("Confirmation: token successfully deleted")
-      .click({ force: true });
+    cy.checkalert("Confirmation: token successfully deleted");
   });
 });

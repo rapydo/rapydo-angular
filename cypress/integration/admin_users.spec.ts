@@ -90,18 +90,13 @@ describe("AdminUsers", () => {
 
     cy.get("@submit").click({ force: true });
 
-    cy.get("div[role=alertdialog]")
-      .contains(
-        "Email already exists with value: " +
-          Cypress.env("AUTH_DEFAULT_USERNAME")
-      )
-      .click({ force: true });
+    cy.checkalert(
+      "Email already exists with value: " + Cypress.env("AUTH_DEFAULT_USERNAME")
+    );
     cy.get("@email").clear().type(username);
     cy.get("@submit").click({ force: true });
 
-    cy.get("div[role=alertdialog]")
-      .contains("Confirmation: user successfully created")
-      .click({ force: true });
+    cy.checkalert("Confirmation: user successfully created");
 
     cy.get("datatable-body").contains("datatable-body-cell", username);
     // The user is created without roles, but User is added by default
@@ -184,9 +179,7 @@ describe("AdminUsers", () => {
     cy.get('input[placeholder="Name"]').clear().type("NewName");
     cy.get('input:checkbox[placeholder="User"]').uncheck({ force: true });
     cy.get('button:contains("Submit")').click({ force: true });
-    cy.get("div[role=alertdialog]")
-      .contains("Confirmation: user successfully update")
-      .click({ force: true });
+    cy.checkalert("Confirmation: user successfully update");
 
     cy.get('input[placeholder="Type to filter users"]').clear().type(username);
     cy.get("datatable-body-row")
@@ -199,9 +192,7 @@ describe("AdminUsers", () => {
     cy.get("datatable-body-row").eq(0).find(".fa-edit").click();
     cy.get('input[placeholder="Name"]').clear().type("SampleName");
     cy.get('button:contains("Submit")').click({ force: true });
-    cy.get("div[role=alertdialog]")
-      .contains("Confirmation: user successfully update")
-      .click({ force: true });
+    cy.checkalert("Confirmation: user successfully update");
   });
 
   it("Delete user", () => {
@@ -220,9 +211,7 @@ describe("AdminUsers", () => {
     cy.get("h3.popover-title").contains("Confirmation required");
     cy.get("button").contains("Confirm").click();
 
-    cy.get("div[role=alertdialog]")
-      .contains("Confirmation: user successfully deleted")
-      .click({ force: true });
+    cy.checkalert("Confirmation: user successfully deleted");
 
     cy.get('input[placeholder="Type to filter users"]').clear().type(username);
 
