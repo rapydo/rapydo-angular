@@ -127,16 +127,12 @@ export class ChangePasswordComponent {
                 this.router.navigate([""]);
               },
               (error) => {
-                if (error.status == 0) {
-                  // this.router.navigate(["/offline"]);
-                } else {
-                  this.notify.showError(error.error);
-                }
+                this.notify.showError(error);
               }
             );
           },
           (error) => {
-            this.notify.showError(error.error);
+            this.notify.showError(error);
           }
         );
       },
@@ -146,7 +142,7 @@ export class ChangePasswordComponent {
             "Your request cannot be authorized, is current password wrong?"
           );
         } else {
-          this.notify.showError(error.error);
+          this.notify.showError(error);
         }
       }
     );

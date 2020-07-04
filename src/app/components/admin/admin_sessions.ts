@@ -85,12 +85,6 @@ export class AdminSessionsComponent extends BasePaginationComponent<Session> {
       if (d.user.email.toLowerCase().indexOf(data_filter) !== -1) {
         return true;
       }
-      if (d.user.name.toLowerCase().indexOf(data_filter) !== -1) {
-        return true;
-      }
-      if (d.user.surname.toLowerCase().indexOf(data_filter) !== -1) {
-        return true;
-      }
       if (d.IP != null && d.IP.toLowerCase().indexOf(data_filter) !== -1) {
         return true;
       }

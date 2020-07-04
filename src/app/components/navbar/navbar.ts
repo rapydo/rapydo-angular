@@ -46,17 +46,15 @@ export class NavbarComponent implements OnInit {
       this.changeLogged(user)
     );
   }
-  ngOnDestroy() {
-    this.userChangedSubscription.unsubscribe();
-  }
+
   changeLogged(user: any) {
     if (user == this.auth.LOGGED_OUT) {
       this.user = null;
       this.ref.detectChanges();
     } else if (user == this.auth.LOGGED_IN) {
       this.user = this.auth.getUser();
-    } else {
-      console.warn("Received unknown user event: <" + user + ">");
+      // } else {
+      //   console.warn("Received unknown user event: <" + user + ">");
     }
   }
 

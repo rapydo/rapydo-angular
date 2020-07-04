@@ -182,7 +182,7 @@ export class LoginComponent implements OnInit {
                             this.router.navigate([this.returnUrl]);
                           },
                           (error) => {
-                            this.notify.showError(error.error);
+                            this.notify.showError(error);
                           }
                         );
                     },
@@ -203,11 +203,7 @@ export class LoginComponent implements OnInit {
               }
             },
             (error) => {
-              if (error.status == 0) {
-                // this.router.navigate(["/offline"]);
-              } else {
-                this.notify.showError(error.error);
-              }
+              this.notify.showError(error);
               this.loading = false;
             }
           );
@@ -217,7 +213,7 @@ export class LoginComponent implements OnInit {
             // this.router.navigate(["/offline"]);
             this.notify.showError("Error: no response received from backend");
           } else if (error.status == 409) {
-            this.notify.showError(error.error);
+            this.notify.showError(error);
           } else if (error.status == 403) {
             const body = error.error;
             let userMessage = "Unrecognized response from server";
@@ -281,8 +277,8 @@ export class LoginComponent implements OnInit {
             this.notify.showError(
               "Unable to login due to a server error. If this error persists please contact system administrators"
             );
-          } else if (error.error) {
-            this.notify.showError(error.error);
+          } else {
+            this.notify.showError(error);
           }
 
           this.loading = false;

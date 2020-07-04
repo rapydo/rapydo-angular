@@ -145,11 +145,10 @@ describe("Registration", () => {
       });
       cy.get("div.card-header h4").contains("Login");
 
-      // also verify error on reset
+      // also verify errors on reset
       cy.visit("/public/reset");
       cy.get("input[id=formly_1_input_reset_email_0]").clear().type(newUser);
       cy.get("button:contains('Submit request')").click();
-
       cy.checkalert("Sorry, this account is not active");
 
       cy.visit("/public/register/invalid");

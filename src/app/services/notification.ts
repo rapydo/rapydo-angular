@@ -91,6 +91,10 @@ export class NotificationService {
       }
     }
 
+    if (msg.error) {
+      msg = msg.error;
+    }
+
     this.toastr.error(msg, title, {
       timeOut: 15000,
     });

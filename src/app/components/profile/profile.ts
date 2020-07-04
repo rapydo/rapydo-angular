@@ -23,11 +23,7 @@ export class ProfileComponent {
         this.spinner.hide();
       },
       (error) => {
-        if (error.error) {
-          this.notification.showError(error.error);
-        } else {
-          this.notification.showError(error);
-        }
+        this.notification.showError(error);
         this.spinner.hide();
       }
     );
