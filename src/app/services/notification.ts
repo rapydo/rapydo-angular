@@ -82,6 +82,10 @@ export class NotificationService {
   };
 
   public showError = function (msg: any, title: string = "") {
+    if (msg.error) {
+      msg = msg.error;
+    }
+
     if (this.isDict(msg)) {
       // only return the first key... to be extended to every key??
       for (let k in msg) {
@@ -89,10 +93,6 @@ export class NotificationService {
         msg = msg[k];
         break;
       }
-    }
-
-    if (msg.error) {
-      msg = msg.error;
     }
 
     this.toastr.error(msg, title, {
