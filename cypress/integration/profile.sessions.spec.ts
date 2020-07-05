@@ -92,9 +92,7 @@ describe("Sessions", () => {
         .click();
       cy.get("h3.popover-title").contains("Confirmation required");
       cy.get("button").contains("Cancel").click();
-      cy.get("h3.popover-title")
-        .contains("Confirmation required")
-        .should("not.exist");
+      cy.contains("Confirmation required").should("not.exist");
 
       // Delete the second-last token
       cy.wrap(rows)
