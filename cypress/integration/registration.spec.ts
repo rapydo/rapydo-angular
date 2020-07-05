@@ -33,17 +33,13 @@ describe("Registration", () => {
 
       cy.get("formly-validation-message")
         .first()
-        .contains("This field is required");
-      cy.get("formly-validation-message")
+        .contains("This field is required")
         .next()
-        .contains("This field is required");
-      cy.get("formly-validation-message")
+        .contains("This field is required")
         .next()
-        .contains("This field is required");
-      cy.get("formly-validation-message")
+        .contains("This field is required")
         .next()
-        .contains("This field is required");
-      cy.get("formly-validation-message")
+        .contains("This field is required")
         .next()
         .contains("This field is required");
 
