@@ -87,7 +87,7 @@ describe("Sessions", () => {
 
       // Get the second-last token
       cy.wrap(rows)
-        .eq(length - 2)
+        .eq(num - 2)
         .find(".fa-trash")
         .click();
       cy.get("h3.popover-title").contains("Confirmation required");
@@ -98,7 +98,7 @@ describe("Sessions", () => {
 
       // Delete the second-last token
       cy.wrap(rows)
-        .eq(length - 2)
+        .eq(num - 2)
         .find(".fa-trash")
         .click();
       cy.get("h3.popover-title").contains("Confirmation required");
