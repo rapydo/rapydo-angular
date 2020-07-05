@@ -8,6 +8,10 @@ services:
 env:
 - PROJECT=sql
 
+jobs:
+  allow_failures:
+    - env: PROJECT=sql
+
 script:
   - scripts/tests.sh
   - cd rapydo_tests
