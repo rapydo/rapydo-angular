@@ -82,11 +82,11 @@ describe("Sessions", () => {
   it("Delete", () => {
     cy.get("span.datatable-header-cell-label").contains("Expiration").click();
     // Delete the second token
-    cy.get("datatable-body-row").eq(1).find(".fa-trash").click();
+    cy.get("datatable-body-row").last().prev().find(".fa-trash").click();
     cy.get("h3.popover-title").contains("Confirmation required");
     cy.get("button").contains("Cancel").click();
     // Delete the second token
-    cy.get("datatable-body-row").eq(1).find(".fa-trash").click();
+    cy.get("datatable-body-row").last().prev().find(".fa-trash").click();
     cy.get("h3.popover-title").contains("Confirmation required");
     cy.get("button").contains("Confirm").click();
 

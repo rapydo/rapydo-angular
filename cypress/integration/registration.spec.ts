@@ -32,19 +32,19 @@ describe("Registration", () => {
       cy.get("@submit").click({ force: true });
 
       cy.get("formly-validation-message")
-        .eq(0)
+        .first()
         .contains("This field is required");
       cy.get("formly-validation-message")
-        .eq(1)
+        .next()
         .contains("This field is required");
       cy.get("formly-validation-message")
-        .eq(2)
+        .next()
         .contains("This field is required");
       cy.get("formly-validation-message")
-        .eq(3)
+        .next()
         .contains("This field is required");
       cy.get("formly-validation-message")
-        .eq(4)
+        .next()
         .contains("This field is required");
 
       // Submit short inputs (validation errors on email and password are expected)
@@ -190,9 +190,7 @@ describe("Registration", () => {
         .type(newPassword + "{enter}");
       // cy.get("button").contains("Login").click();
 
-      cy.location().should((location) => {
-        expect(location.pathname).to.eq("/app/profile");
-      });
+      cy.visit("/app/profile");
 
       cy.get("table").find("td").contains(newUser);
 
