@@ -15,7 +15,6 @@ jobs:
     - env: TEMPLATE=core
     - env: TEMPLATE=wrapped
 
-PROJECT=sql
 script:
 
   # Current version is extracted from package.json
