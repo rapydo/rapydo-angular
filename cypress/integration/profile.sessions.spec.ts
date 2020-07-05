@@ -81,15 +81,30 @@ describe("Sessions", () => {
   // This is the same as in admin_sessions.spec
   it("Delete", () => {
     cy.get("span.datatable-header-cell-label").contains("Expiration").click();
-    // Delete the second token
-    cy.get("datatable-body-row").last().prev().find(".fa-trash").click();
-    cy.get("h3.popover-title").contains("Confirmation required");
-    cy.get("button").contains("Cancel").click();
-    // Delete the second token
-    cy.get("datatable-body-row").last().prev().find(".fa-trash").click();
-    cy.get("h3.popover-title").contains("Confirmation required");
-    cy.get("button").contains("Confirm").click();
 
-    cy.checkalert("Confirmation: token successfully deleted");
+    cy.get("datatable-body-row").then((rows) => {
+      const num = Cypress.$(rows).length;
+
+      // Get the second-last token
+      cy.wrap(rows)
+        .eq(length - 2)
+        .find(".fa-trash")
+        .click();
+      cy.get("h3.popover-title").contains("Confirmation required");
+      cy.get("button").contains("Cancel").click();
+      cy.get("h3.popover-title")
+        .contains("Confirmation required")
+        .should("not.exist");
+
+      // Delete the second-last token
+      cy.wrap(rows)
+        .eq(length - 2)
+        .find(".fa-trash")
+        .click();
+      cy.get("h3.popover-title").contains("Confirmation required");
+      cy.get("button").contains("Confirm").click();
+
+      cy.checkalert("Confirmation: token successfully deleted");
+    });
   });
 });

@@ -32,15 +32,19 @@ describe("Registration", () => {
       cy.get("@submit").click({ force: true });
 
       cy.get("formly-validation-message")
-        .first()
-        .contains("This field is required")
-        .next()
-        .contains("This field is required")
-        .next()
-        .contains("This field is required")
-        .next()
-        .contains("This field is required")
-        .next()
+        .eq(0)
+        .contains("This field is required");
+      cy.get("formly-validation-message")
+        .eq(1)
+        .contains("This field is required");
+      cy.get("formly-validation-message")
+        .eq(2)
+        .contains("This field is required");
+      cy.get("formly-validation-message")
+        .eq(3)
+        .contains("This field is required");
+      cy.get("formly-validation-message")
+        .eq(4)
         .contains("This field is required");
 
       // Submit short inputs (validation errors on email and password are expected)
