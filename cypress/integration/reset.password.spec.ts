@@ -149,6 +149,8 @@ describe("ResetPassword", () => {
           .type(newPassword + "{enter}");
         // cy.get("button").contains("Login").click();
 
+        cy.visit("/app/profile");
+
         cy.location().should((location) => {
           expect(location.pathname).to.eq("/app/profile");
         });
