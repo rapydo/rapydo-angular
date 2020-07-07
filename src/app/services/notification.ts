@@ -34,10 +34,10 @@ export class NotificationService {
           message = this.extractMessage(message);
         }
 
-        if (type == this.CRITICAL) this.showCritical(message);
-        else if (type == this.ERROR) this.showError(message);
-        else if (type == this.WARNING) this.showWarning(message);
-        else if (type == this.INFO) this.showInfo(message);
+        if (type === this.CRITICAL) this.showCritical(message);
+        else if (type === this.ERROR) this.showError(message);
+        else if (type === this.WARNING) this.showWarning(message);
+        else if (type === this.INFO) this.showInfo(message);
         else
           console.error(
             "Unknown message type. NotificationService is unable to satisfy this request"

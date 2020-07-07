@@ -23,9 +23,12 @@ export class IteratePipe {
 @Injectable()
 export class BytesPipe {
   transform(bytes: number = 0, precision: number = undefined): string {
-    if (bytes == 0) return "0";
-
-    if (bytes == -1 || Number.isNaN(bytes) || !isFinite(bytes)) return "-";
+    if (bytes === 0) {
+      return "0";
+    }
+    if (bytes == -1 || Number.isNaN(bytes) || !isFinite(bytes)) {
+      return "-";
+    }
 
     let units = ["bytes", "kB", "MB", "GB", "TB", "PB"],
       number = Math.floor(Math.log(bytes) / Math.log(1024));
