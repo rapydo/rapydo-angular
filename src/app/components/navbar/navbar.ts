@@ -48,10 +48,10 @@ export class NavbarComponent implements OnInit {
   }
 
   changeLogged(user: any) {
-    if (user == this.auth.LOGGED_OUT) {
+    if (user === this.auth.LOGGED_OUT) {
       this.user = null;
       this.ref.detectChanges();
-    } else if (user == this.auth.LOGGED_IN) {
+    } else if (user === this.auth.LOGGED_IN) {
       this.user = this.auth.getUser();
       // } else {
       //   console.warn("Received unknown user event: <" + user + ">");

@@ -24,6 +24,7 @@ import { ApiService } from "@rapydo/services/api";
 import { FormlyService } from "@rapydo/services/formly";
 import { NotificationService } from "@rapydo/services/notification";
 import { WebSocketsService } from "@rapydo/services/websockets";
+import { ExcelService } from "@rapydo/services/excel";
 
 import { JwtInterceptor } from "@rapydo/jwt.interceptor";
 
@@ -128,6 +129,7 @@ let module_providers: any = [
   FormlyService,
   NotificationService,
   WebSocketsService,
+  ExcelService,
   ProjectOptions,
   { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
 ];
@@ -139,7 +141,7 @@ export class SentryErrorHandler implements ErrorHandler {
     if (
       environment.production &&
       typeof environment.SENTRY_URL !== "undefined" &&
-      environment.SENTRY_URL != ""
+      environment.SENTRY_URL !== ""
     ) {
       Sentry.captureException(error.originalError || error);
     }
@@ -150,7 +152,7 @@ export class SentryErrorHandler implements ErrorHandler {
 if (
   environment.production &&
   typeof environment.SENTRY_URL !== "undefined" &&
-  environment.SENTRY_URL != ""
+  environment.SENTRY_URL !== ""
 ) {
   Sentry.init({
     dsn: environment.SENTRY_URL,

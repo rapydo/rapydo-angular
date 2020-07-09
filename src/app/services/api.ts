@@ -23,7 +23,7 @@ export class ApiService {
     return ApiService.is_online;
   }
 
-  private opt(dict, value, defaultValue) {
+  private opt(dict, value, defaultValue = null) {
     if (value in dict) {
       return dict[value];
     } else {
@@ -32,94 +32,38 @@ export class ApiService {
   }
 
   public get(endpoint: string, id = "", data = {}, options = {}) {
-    let formData = this.opt(options, "formData", undefined);
-    let conf = this.opt(options, "conf", undefined);
-    let base = this.opt(options, "base", undefined);
-    // Deprecated since 0.7.4
-    let rawResponse = this.opt(options, "rawResponse", undefined);
-    return this.call(
-      "GET",
-      endpoint,
-      id,
-      data,
-      formData,
-      conf,
-      base,
-      rawResponse
-    );
+    let formData = this.opt(options, "formData");
+    let conf = this.opt(options, "conf");
+    let base = this.opt(options, "base");
+    return this.call("GET", endpoint, id, data, formData, conf, base);
   }
 
   public post(endpoint: string, data = {}, options = {}) {
-    let formData = this.opt(options, "formData", undefined);
-    let conf = this.opt(options, "conf", undefined);
-    let base = this.opt(options, "base", undefined);
-    // Deprecated since 0.7.4
-    let rawResponse = this.opt(options, "rawResponse", undefined);
-
-    return this.call(
-      "POST",
-      endpoint,
-      "",
-      data,
-      formData,
-      conf,
-      base,
-      rawResponse
-    );
+    let formData = this.opt(options, "formData");
+    let conf = this.opt(options, "conf");
+    let base = this.opt(options, "base");
+    return this.call("POST", endpoint, "", data, formData, conf, base);
   }
 
   public put(endpoint: string, id = "", data = {}, options = {}) {
-    let formData = this.opt(options, "formData", undefined);
-    let conf = this.opt(options, "conf", undefined);
-    let base = this.opt(options, "base", undefined);
-    // Deprecated since 0.7.4
-    let rawResponse = this.opt(options, "rawResponse", undefined);
-    return this.call(
-      "PUT",
-      endpoint,
-      id,
-      data,
-      formData,
-      conf,
-      base,
-      rawResponse
-    );
+    let formData = this.opt(options, "formData");
+    let conf = this.opt(options, "conf");
+    let base = this.opt(options, "base");
+    return this.call("PUT", endpoint, id, data, formData, conf, base);
   }
 
   public patch(endpoint: string, id = "", data = {}, options = {}) {
-    let formData = this.opt(options, "formData", undefined);
-    let conf = this.opt(options, "conf", undefined);
-    let base = this.opt(options, "base", undefined);
-    // Deprecated since 0.7.4
-    let rawResponse = this.opt(options, "rawResponse", undefined);
-    return this.call(
-      "PATCH",
-      endpoint,
-      id,
-      data,
-      formData,
-      conf,
-      base,
-      rawResponse
-    );
+    let formData = this.opt(options, "formData");
+    let conf = this.opt(options, "conf");
+    let base = this.opt(options, "base");
+    return this.call("PATCH", endpoint, id, data, formData, conf, base);
   }
 
   public delete(endpoint: string, id = "", options = {}) {
-    let formData = this.opt(options, "formData", undefined);
-    let conf = this.opt(options, "conf", undefined);
-    let base = this.opt(options, "base", undefined);
-    // Deprecated since 0.7.4
-    let rawResponse = this.opt(options, "rawResponse", undefined);
-    return this.call(
-      "DELETE",
-      endpoint,
-      id,
-      {},
-      formData,
-      conf,
-      base,
-      rawResponse
-    );
+    let formData = this.opt(options, "formData");
+    let conf = this.opt(options, "conf");
+    let base = this.opt(options, "base");
+    return this.call("DELETE", endpoint, id, {}, formData, conf, base);
   }
 
   protected call(
@@ -129,17 +73,15 @@ export class ApiService {
     data = {},
     formData = false,
     conf = {},
-    base = "api",
-    // Deprecated since 0.7.4
-    rawResponse = false
+    base = "api"
   ) {
     let ep = "";
-    if (base == "auth") {
+    if (base === "auth") {
       ep = environment.authApiUrl + "/" + endpoint;
     } else {
       ep = environment.apiUrl + "/" + endpoint;
     }
-    if (id != "") {
+    if (id !== "") {
       ep += "/" + id;
     }
 
@@ -158,20 +100,24 @@ export class ApiService {
       }),
     };
     for (let k in conf) {
-      options[k] = conf[k];
+      // The body of a for-in should be wrapped in an if statement
+      // to filter unwanted properties from the prototype.
+      if ({}.hasOwnProperty.call(conf, k)) {
+        options[k] = conf[k];
+      }
     }
 
     let httpCall;
-    if (method == "GET") {
+    if (method === "GET") {
       options["params"] = data;
       httpCall = this.http.get(ep, options);
-    } else if (method == "POST") {
+    } else if (method === "POST") {
       httpCall = this.http.post(ep, data, options);
-    } else if (method == "PUT") {
+    } else if (method === "PUT") {
       httpCall = this.http.put(ep, data, options);
-    } else if (method == "PATCH") {
+    } else if (method === "PATCH") {
       httpCall = this.http.patch(ep, data, options);
-    } else if (method == "DELETE") {
+    } else if (method === "DELETE") {
       httpCall = this.http.delete(ep, options);
     } else {
       console.error("Unknown API method: " + method);
@@ -182,35 +128,25 @@ export class ApiService {
       map((response) => {
         this.set_online();
 
-        // Deprecated since 0.7.4
-        if (rawResponse) {
-          console.warn("Deprecated use of rawResponse");
-        }
-
         return response;
       }),
       catchError((error) => {
-        if (error.status == null && error.error == null) {
+        if (error.status === null && error.error === null) {
           // 204 empty responses
           return of("");
         }
         // Note that Chrome also returns status 0 in case of CORS issues.
         // A wrong endpoint will raise a 404 error from OPTIONS pre-flight request,
-        // this will bring to a CORS error on the request == a error status 0
-        // => missing endpoint == 404 on pre-flight == 0 on request == OFFLINE :\
+        // this will bring to a CORS error on the request === a error status 0
+        // => missing endpoint === 404 on pre-flight === 0 on request === OFFLINE :\
         // Same error status 0 is obtained when APIs are not reachable
-        // => server offline == endpoint is missing :\
+        // => server offline === endpoint is missing :\
         if (error.status <= 0) {
           this.set_offline();
         } else {
           this.set_online();
         }
 
-        // Deprecated since 0.7.4
-        if (rawResponse) {
-          console.warn("Deprecated use of rawResponse");
-          return throwError(error);
-        }
         // This is a HttpErrorResponse
         if (error.error) {
           if (error.error instanceof ProgressEvent) {
@@ -227,11 +163,5 @@ export class ApiService {
         return throwError(error);
       })
     );
-  }
-
-  public parseResponse(response) {
-    // deprecated since 0.7.3
-    console.warn("Obsolete use of parseResponse");
-    return response;
   }
 }

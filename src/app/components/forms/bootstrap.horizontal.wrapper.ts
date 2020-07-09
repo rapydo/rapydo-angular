@@ -13,6 +13,15 @@ import { FieldWrapper } from "@ngx-formly/core";
       </label>
       <div class="col-sm-10">
         <ng-template #fieldComponent></ng-template>
+        <div
+          *ngIf="showError"
+          class="invalid-feedback"
+          [style.display]="'block'"
+        >
+          <formly-validation-message
+            [field]="field"
+          ></formly-validation-message>
+        </div>
       </div>
     </div>
   `,

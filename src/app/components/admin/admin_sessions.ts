@@ -28,8 +28,9 @@ export class AdminSessionsComponent extends BasePaginationComponent<Session> {
     super(injector);
     this.init("token");
 
-    this.list();
+    this.server_side_pagination = true;
     this.initPaging(20);
+    this.list();
 
     this.currentToken = this.auth.getToken();
   }
@@ -78,28 +79,6 @@ export class AdminSessionsComponent extends BasePaginationComponent<Session> {
 
   list() {
     return this.get(this.endpoint);
-  }
-
-  filter(data_filter) {
-    return this.unfiltered_data.filter(function (d) {
-      if (d.user.email.toLowerCase().indexOf(data_filter) !== -1) {
-        return true;
-      }
-      if (d.IP != null && d.IP.toLowerCase().indexOf(data_filter) !== -1) {
-        return true;
-      }
-      if (
-        d.location != null &&
-        d.location.toLowerCase().indexOf(data_filter) !== -1
-      ) {
-        return true;
-      }
-      if (d.token.toLowerCase().indexOf(data_filter) !== -1) {
-        return true;
-      }
-
-      return false;
-    });
   }
 
   remove(uuid) {

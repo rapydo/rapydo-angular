@@ -3,9 +3,9 @@ import { Router } from "@angular/router";
 import { FormGroup } from "@angular/forms";
 import { FormlyFieldConfig } from "@ngx-formly/core";
 
-import { ApiService } from "../../services/api";
-import { AuthService } from "../../services/auth";
-import { NotificationService } from "../../services/notification";
+import { ApiService } from "@rapydo/services/api";
+import { AuthService } from "@rapydo/services/auth";
+import { NotificationService } from "@rapydo/services/notification";
 
 @Component({
   templateUrl: "changepassword.html",
@@ -27,7 +27,7 @@ export class ChangePasswordComponent {
     if (
       this.user &&
       this.user["SECOND_FACTOR"] &&
-      this.user["SECOND_FACTOR"] == "TOTP"
+      this.user["SECOND_FACTOR"] === "TOTP"
     ) {
       this.fields.push({
         key: "totp_code",
@@ -105,11 +105,15 @@ export class ChangePasswordComponent {
     data["new_password"] = this.model["newPwd"];
     data["password_confirm"] = this.model["confirmPwd"];
 
-    if (this.model["currentPwd"]) data["password"] = this.model["currentPwd"];
+    if (this.model["currentPwd"]) {
+      data["password"] = this.model["currentPwd"];
+    }
 
-    if (this.model["totp_code"]) data["password"] = this.model["totp_code"];
+    if (this.model["totp_code"]) {
+      data["password"] = this.model["totp_code"];
+    }
 
-    if (this.auth.getUser() == null) {
+    if (this.auth.getUser() === null) {
       this.router.navigate([""]);
       return false;
     }
@@ -137,7 +141,7 @@ export class ChangePasswordComponent {
         );
       },
       (error) => {
-        if (error.status == 401) {
+        if (error.status === 401) {
           this.notify.showError(
             "Your request cannot be authorized, is current password wrong?"
           );

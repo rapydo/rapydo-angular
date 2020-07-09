@@ -86,7 +86,7 @@ describe("AuthService", () => {
     httpMock.verify();
   });
 
-  it("logout - failuire", async () => {
+  it("logout - failure", async () => {
     service.logout().subscribe(
       (result) => {},
       (error) => {

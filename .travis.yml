@@ -9,9 +9,12 @@ env:
   - STAGE=prod
   - STAGE=karma
   - STAGE=cypress BROWSER=chrome
+
   # it stucks quite often... to be retried in a near future
   # - STAGE=cypress BROWSER=firefox
-  - STAGE=cypress BROWSER=electron
+  # Only slower than chrome and more error-prone... probably no need to test it
+  # - STAGE=cypress BROWSER=electron
+  # Very similar to chrome? Probably no need to test it
   # - STAGE=cypress BROWSER=chromium
 
 script:
@@ -19,22 +22,23 @@ script:
   - pip3 install --upgrade git+https://github.com/rapydo/do.git@${CURRENT_VERSION}
   - mkdir rapydo_tests
   - cd rapydo_tests
-  - rapydo create prj --auth postgres --frontend angular --origin https://your_remote_git/your_project.git;
   - >
     if [[ "$STAGE" == "karma" ]]; then
 
-      TESTING=1 rapydo init
+      rapydo create prj --auth postgres --frontend angular --origin-url https://your_remote_git/your_project.git;
+      rapydo --testing init;
       rapydo -s frontend pull;
       rapydo -s frontend start;
       sleep 5;
       rapydo shell frontend --command "yarn install" || travis_terminate 1;
       rapydo shell frontend --command "yarn run test:single" || travis_terminate 1;
       cp data/prj/karma/lcov.info .;
-      bash <(curl -s https://codecov.io/bash) -R submodules/frontend;
+      bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular;
 
     elif [[ "$STAGE" == "prod" ]]; then
 
-      rapydo --prod init
+      rapydo create prj --auth postgres --frontend angular --origin-url https://your_remote_git/your_project.git;
+      rapydo --prod init;
       rapydo -s frontend pull;
       rapydo -s frontend start;
       rapydo dump;
@@ -43,9 +47,13 @@ script:
 
     else
 
-      TESTING=1 rapydo init
+      rapydo --testing create prj --auth postgres --frontend angular --origin-url https://your_remote_git/your_project.git;
+      rapydo --testing init;
+      rapydo add component sink;
+      cp submodules/do/controller/templates/testing_sink.html.j2 projects/prj/frontend/app/components/sink/sink.html;
+      cp submodules/do/controller/templates/testing_sink.ts.j2 projects/prj/frontend/app/components/sink/sink.ts;
 
-      cd submodules/frontend;
+      cd submodules/rapydo-angular;
       export COMMIT_INFO_BRANCH="$(git rev-parse --abbrev-ref HEAD)";
       export COMMIT_INFO_MESSAGE="$(git show -s --pretty=%B)";
       export COMMIT_INFO_SUBJECT="$(git show -s --pretty=%s)";
@@ -66,7 +74,7 @@ script:
       rapydo shell frontend --command "yarn run cypress:start:${BROWSER}" || travis_terminate 1;
       rapydo shell frontend --command "npx nyc report --reporter=lcov" || travis_terminate 1;
       cp data/prj/karma/lcov.info .;
-      bash <(curl -s https://codecov.io/bash) -R submodules/frontend;
+      bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular;
 
     fi
 

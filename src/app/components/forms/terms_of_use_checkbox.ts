@@ -14,7 +14,7 @@ import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
         type="checkbox"
         [id]="id"
         [class.is-invalid]="showError"
-        [indeterminate]="to.indeterminate && model[key] === undefined"
+        [indeterminate]="to.indeterminate && model[key] === null"
         [formControl]="formControl"
         [formlyAttributes]="field"
       />

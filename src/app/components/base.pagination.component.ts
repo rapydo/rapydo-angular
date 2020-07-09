@@ -21,7 +21,7 @@ import { FormModal } from "@rapydo/components/forms/form_modal";
 
 import { ProjectOptions } from "@app/custom.project.options";
 
-// == @swimlane/ngx-datatable/src/types/column-mode.type
+// === @swimlane/ngx-datatable/src/types/column-mode.type
 enum ColumnMode {
   standard = "standard",
   flex = "flex",
@@ -55,12 +55,9 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
   public resource_name: string;
 
-  protected server_side_filter: boolean = false;
-  protected server_side_sort: boolean = false;
   protected server_side_pagination: boolean = false;
 
   protected endpoint: string;
-  protected counter_endpoint: string;
 
   protected modalRef: NgbModalRef;
   public form;
@@ -81,6 +78,9 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
   public paging: Paging;
   public is_update: boolean = false;
+
+  protected sort_by: string = null;
+  protected sort_order: string = null;
 
   @ViewChild("tableWrapper", { static: false }) tableWrapper;
   @ViewChild(DatatableComponent, { static: false }) table: DatatableComponent;
@@ -134,24 +134,14 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     };
   }
 
-  protected server_side_update(): void {
-    console.warn("Server side update function not implemented");
-  }
-
-  updateSort(event): void {
-    console.warn("Update sort function not implemented");
-    if (this.server_side_filter) {
-      this.server_side_update();
-    }
-  }
-
-  updateFilter(event): void {
-    if (event != null) {
+  public updateFilter(event): void {
+    if (event !== null) {
       this.data_filter = event.target.value.toLowerCase();
     }
 
-    if (this.server_side_filter) {
-      this.server_side_update();
+    if (this.server_side_pagination) {
+      this.set_total_items();
+      this.list();
     } else {
       if (!this.unfiltered_data) {
         this.unfiltered_data = this.data;
@@ -203,12 +193,21 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         [limit]="paging.itemsPerPage"
         [offset]="paging.page"
         (page)="serverSidePagination($event)"
+        (sort)="updateSort($event)"
         [...]
 */
   public serverSidePagination(event: any): void {
     this.paging.page = event.offset;
     this.set_total_items();
     this.list();
+  }
+  public updateSort(event: any): void {
+    if (this.server_side_pagination) {
+      this.sort_by = event.column.prop;
+      this.sort_order = event.newValue;
+      this.set_total_items();
+      this.list();
+    }
   }
 
   /** INTERACTION WITH APIs**/
@@ -219,7 +218,10 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     let data = {
       get_total: true,
     };
-    this.api.get(this.counter_endpoint, "", data).subscribe(
+    if (this.data_filter) {
+      data["input_filter"] = this.data_filter;
+    }
+    this.api.get(this.endpoint, "", data).subscribe(
       (response) => {
         const t = response["total"] || 0;
 
@@ -295,16 +297,26 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
   protected get(endpoint, data = null, namespace = "api") {
     let opt;
-    if (namespace != "api") {
+    if (namespace !== "api") {
       opt = { base: namespace };
     }
 
-    if (this.server_side_pagination && data == null) {
+    if (this.server_side_pagination && data === null) {
       data = {
         page: this.paging.page + 1,
         size: this.paging.itemsPerPage,
       };
-    } else if (data == null) {
+
+      if (this.sort_by) {
+        data["sort_by"] = this.sort_by;
+      }
+      if (this.sort_order) {
+        data["sort_order"] = this.sort_order;
+      }
+      if (this.data_filter) {
+        data["input_filter"] = this.data_filter;
+      }
+    } else if (data === null) {
       data = {};
     }
 
@@ -334,7 +346,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
   protected delete(endpoint, uuid, namespace = "api") {
     let opt;
-    if (namespace != "api") {
+    if (namespace !== "api") {
       opt = { base: namespace };
     }
 

@@ -7,6 +7,7 @@ import {
 } from "@angular/core";
 
 import { Session } from "@rapydo/services/auth";
+import { ExcelService } from "@rapydo/services/excel";
 
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
 
@@ -25,7 +26,7 @@ export class SessionsComponent extends BasePaginationComponent<Session> {
   public currentToken: string;
   protected endpoint = "tokens";
 
-  constructor(protected injector: Injector) {
+  constructor(protected injector: Injector, private excel: ExcelService) {
     super(injector);
     this.init("token");
 
@@ -81,11 +82,11 @@ export class SessionsComponent extends BasePaginationComponent<Session> {
 
   filter(data_filter) {
     return this.unfiltered_data.filter(function (d) {
-      if (d.IP != null && d.IP.toLowerCase().indexOf(data_filter) !== -1) {
+      if (d.IP !== null && d.IP.toLowerCase().indexOf(data_filter) !== -1) {
         return true;
       }
       if (
-        d.location != null &&
+        d.location !== null &&
         d.location.toLowerCase().indexOf(data_filter) !== -1
       ) {
         return true;
@@ -102,5 +103,39 @@ export class SessionsComponent extends BasePaginationComponent<Session> {
     if (event["isSuccess"]) {
       this.notify.showSuccess("Token successfully copied");
     }
+  }
+
+  download() {
+    const filename = "sessions.xlsx";
+
+    const headers = [
+      "IP",
+      "Location",
+      "Emitted",
+      "Last access",
+      "Expiration",
+      "Token",
+    ];
+    let download_data = [];
+
+    for (let index in this.unfiltered_data) {
+      let t = this.unfiltered_data[index];
+      download_data.push([
+        t["IP"],
+        t["location"],
+        t["emitted"],
+        t["last_access"],
+        t["expiration"],
+        t["token"],
+      ]);
+    }
+
+    let workbook = this.excel.createWorkbook();
+
+    let worksheet = workbook.addWorksheet("Sessions");
+    this.excel.addHeader(worksheet, headers);
+    worksheet.addRows(download_data);
+
+    this.excel.saveAs(workbook, filename);
   }
 }

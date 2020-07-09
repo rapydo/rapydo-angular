@@ -11,7 +11,11 @@ export class IteratePipe {
     let keys = [];
 
     for (let key in value) {
-      keys.push({ key: key, value: value[key] });
+      // The body of a for-in should be wrapped in an if statement
+      // to filter unwanted properties from the prototype.
+      if (Object.prototype.hasOwnProperty.call(value, key)) {
+        keys.push({ key, value: value[key] });
+      }
     }
     return keys;
   }
@@ -22,26 +26,25 @@ export class IteratePipe {
 })
 @Injectable()
 export class BytesPipe {
-  transform(bytes: number = 0, precision: number = undefined): string {
+  transform(bytes: number = 0, precision: number = null): string {
     if (bytes === 0) {
       return "0";
     }
-    if (bytes == -1 || Number.isNaN(bytes) || !isFinite(bytes)) {
+    if (bytes === -1 || Number.isNaN(bytes) || !isFinite(bytes)) {
       return "-";
     }
 
     let units = ["bytes", "kB", "MB", "GB", "TB", "PB"],
       number = Math.floor(Math.log(bytes) / Math.log(1024));
 
-    if (typeof precision === "undefined") {
-      if (number <= 1) precision = 0;
-      else precision = 1;
+    if (precision === null) {
+      precision = number <= 1 ? 0 : 1;
     }
-    return (
-      (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +
-      " " +
-      units[number]
+
+    const value = (bytes / Math.pow(1024, Math.floor(number))).toFixed(
+      precision
     );
+    return value + " " + units[number];
   }
 }
 
@@ -51,9 +54,13 @@ export class BytesPipe {
 @Injectable()
 export class BooleanFlagPipe {
   transform(str): string {
-    if (str == true) return "<i class='fas fa-check fa-large fa-green'></i>";
+    if (str === true) {
+      return "<i class='fas fa-check fa-large fa-green'></i>";
+    }
 
-    if (str == false) return "<i class='fas fa-times fa-large fa-red'></i>";
+    if (str === false) {
+      return "<i class='fas fa-times fa-large fa-red'></i>";
+    }
 
     return str;
   }
@@ -65,9 +72,13 @@ export class BooleanFlagPipe {
 @Injectable()
 export class YesNoPipe {
   transform(str): string {
-    if (str == true) return "YES";
+    if (str === true) {
+      return "YES";
+    }
 
-    if (str == false) return "NO";
+    if (str === false) {
+      return "NO";
+    }
 
     return str;
   }

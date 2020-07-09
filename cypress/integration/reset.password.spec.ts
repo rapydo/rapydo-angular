@@ -41,7 +41,7 @@ describe("ResetPassword", () => {
 
       cy.get("div.card-header h4").contains("Reset your password");
       cy.get("div.card-block").contains(
-        "You will shortly receive an email with a link to a page where you can create a new password, please check your spam/junk folder."
+        "We'll send instructions to the email provided if it's associated with an account. Please check your spam/junk folder."
       );
 
       cy.visit("/public/reset/token-received-by-email");

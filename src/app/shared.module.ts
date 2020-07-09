@@ -29,8 +29,6 @@ import { FormlyModule } from "@ngx-formly/core";
 import { FormlyBootstrapModule } from "@ngx-formly/bootstrap";
 
 import { FormlyHorizontalWrapper } from "@rapydo/components/forms/bootstrap.horizontal.wrapper";
-import { FileValueAccessor } from "@rapydo/components/forms/file-value-accessor";
-import { FormlyFieldFile } from "@rapydo/components/forms/file-type.component";
 import { FormlyDescriptiveRadio } from "@rapydo/components/forms/radio-type.component";
 import { TermsOfUseCheckbox } from "@rapydo/components/forms/terms_of_use_checkbox";
 import { DatePickerComponent } from "@rapydo/components/forms/datepicker.component";
@@ -47,8 +45,6 @@ import {
 import { SecurePipe } from "@rapydo/pipes/secure";
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
 import { FormModal } from "@rapydo/components/forms/form_modal";
-// loading component is deprecated since 0.7.3
-import { LoadingComponent } from "@rapydo/components/loading/loading";
 
 export function emailValidator(control: FormControl): ValidationErrors {
   /*
@@ -69,7 +65,9 @@ export function emailValidator(control: FormControl): ValidationErrors {
 }
 
 export function URLValidator(control: FormControl): ValidationErrors {
-  if (control.value == null) return null;
+  if (control.value === null) {
+    return null;
+  }
 
   return /^(?:(?:(?:https?|ftp):)?\/\/)?(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(
     control.value
@@ -151,9 +149,13 @@ export class MomentDateFormatter extends NgbDateParserFormatter {
 
   // Convert {year: 'yyyy', month: 'mm', day:} 'dd' into DD/MM/YYYY
   format(date: NgbDateStruct): string {
-    if (!date) return "";
+    if (!date) {
+      return "";
+    }
     let mdt = moment([date.year, date.month - 1, date.day]);
-    if (!mdt.isValid()) return "";
+    if (!mdt.isValid()) {
+      return "";
+    }
     return mdt.format("DD/MM/YYYY");
   }
 }
@@ -182,8 +184,7 @@ let module_imports: any = [
       { name: "form-field-horizontal", component: FormlyHorizontalWrapper },
     ],
     types: [
-      { name: "file", component: FormlyFieldFile, wrappers: ["form-field"] },
-      { name: "radio", component: FormlyDescriptiveRadio },
+      { name: "radio_with_description", component: FormlyDescriptiveRadio },
       { name: "terms_of_use", component: TermsOfUseCheckbox },
       {
         name: "datepicker",
@@ -216,10 +217,7 @@ let module_declarations = [
   SecurePipe,
   BasePaginationComponent,
   FormModal,
-  LoadingComponent,
   FormlyHorizontalWrapper,
-  FileValueAccessor,
-  FormlyFieldFile,
   FormlyDescriptiveRadio,
   TermsOfUseCheckbox,
   DatePickerComponent,
@@ -230,8 +228,6 @@ let module_exports = [
   CommonModule,
 
   FormlyHorizontalWrapper,
-  FileValueAccessor,
-  FormlyFieldFile,
   FormlyDescriptiveRadio,
   TermsOfUseCheckbox,
   DatePickerComponent,
@@ -256,7 +252,6 @@ let module_exports = [
   SecurePipe,
   BasePaginationComponent,
   FormModal,
-  LoadingComponent,
 ];
 
 let module_providers: any = [

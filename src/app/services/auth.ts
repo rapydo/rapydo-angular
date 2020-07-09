@@ -4,9 +4,9 @@ import { HttpClient } from "@angular/common/http";
 import { catchError, map } from "rxjs/operators";
 import { of, throwError } from "rxjs";
 import { Subject } from "rxjs";
-import { ApiService } from "./api";
 
 import { environment } from "@rapydo/../environments/environment";
+import { ApiService } from "@rapydo/services/api";
 import { NotificationService } from "@rapydo/services/notification";
 
 export interface User {
@@ -56,19 +56,29 @@ export class AuthService {
   public login(
     username: string,
     password: string,
-    new_password: string = undefined,
-    password_confirm: string = undefined
+    new_password: string = null,
+    password_confirm: string = null
   ) {
-    let data = {
-      username: username,
-      password: password,
-      new_password: new_password,
-      password_confirm: password_confirm,
-    };
+    let data;
+    if (new_password !== null && password_confirm !== null) {
+      data = {
+        username,
+        password,
+        new_password,
+        password_confirm,
+      };
+    } else {
+      data = {
+        username,
+        password,
+      };
+    }
 
     return this.http.post<any>(environment.authApiUrl + "/login", data).pipe(
       map((response) => {
-        if (!response) return response;
+        if (!response) {
+          return response;
+        }
 
         this.clean_localstorage();
         this.setToken(JSON.stringify(response));
@@ -109,9 +119,8 @@ export class AuthService {
   }
 
   public ask_activation_link(username) {
-    let data = { username: username };
     return this.http
-      .post(environment.authApiUrl + "/profile/activate", data)
+      .post(environment.authApiUrl + "/profile/activate", { username })
       .pipe(
         map(
           (response) => {
@@ -128,7 +137,9 @@ export class AuthService {
     return this.http.get<any>(environment.authApiUrl + "/profile").pipe(
       map(
         (response) => {
-          if (!response) return response;
+          if (!response) {
+            return response;
+          }
 
           this.setUser(JSON.stringify(response));
 
@@ -170,12 +181,12 @@ export class AuthService {
   }
 
   public hasRole(expectedRoles: string[]): boolean {
-    if (!expectedRoles || expectedRoles.length == 0) {
+    if (!expectedRoles || expectedRoles.length === 0) {
       return true;
     }
 
     let user = this.getUser();
-    if (user == null) {
+    if (user === null) {
       return false;
     }
 

@@ -6,70 +6,70 @@ describe("FormlyService", () => {
   let service: FormlyService;
   const schema: Schema[] = [
     {
-      custom: { label: "Text" },
+      label: "Text",
       description: "Text",
-      name: "text",
+      key: "text",
       required: "true",
       type: "string",
     },
     {
-      custom: { label: "List" },
+      label: "List",
       description: "List",
       enum: {
         k1: "val1",
         k2: "val2",
       },
-      name: "list",
+      key: "list",
       required: "true",
       type: "string",
     },
     {
-      custom: { label: "Checkbox" },
-      name: "checkbox",
+      label: "Checkbox",
+      key: "checkbox",
       required: "false",
       type: "boolean",
     },
     {
-      custom: { label: "Number" },
+      label: "Number",
       description: "number",
-      name: "number",
+      key: "number",
       required: "true",
       type: "number",
     },
   ];
   const schema_with_defaults: Schema[] = [
     {
-      custom: { label: "Text" },
+      label: "Text",
       description: "Text",
-      name: "text",
+      key: "text",
       default: "default text",
       required: "true",
       type: "string",
     },
     {
-      custom: { label: "List" },
+      label: "List",
       description: "List",
       enum: {
         k1: "val1",
         k2: "val2",
       },
       default: "k1",
-      name: "list",
+      key: "list",
       required: "true",
       type: "string",
     },
     {
-      custom: { label: "Checkbox" },
+      label: "Checkbox",
       default: "true",
-      name: "checkbox",
+      key: "checkbox",
       required: "false",
       type: "boolean",
     },
     {
-      custom: { label: "Number" },
+      label: "Number",
       description: "number",
       default: 42,
-      name: "number",
+      key: "number",
       required: "true",
       type: "number",
     },
@@ -91,7 +91,7 @@ describe("FormlyService", () => {
   });
 
   it("json2Form - empty schema", () => {
-    let form = service.json2Form(undefined, {});
+    let form = service.json2Form(null, {});
     expect(form).not.toBeUndefined();
     expect(form["fields"]).not.toBeUndefined();
     expect(form["model"]).not.toBeUndefined();

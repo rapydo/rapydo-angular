@@ -15,6 +15,7 @@ export const environment = {
   enableFooter: base.enableFooter,
   allowRegistration: base.allowRegistration,
   allowPasswordReset: base.allowPasswordReset,
+  allowTermsOfUse: base.allowTermsOfUse,
   websocketsUrl: base.websocketsUrl,
   SENTRY_URL: base.SENTRY_URL,
   GA_TRACKING_CODE: base.GA_TRACKING_CODE,

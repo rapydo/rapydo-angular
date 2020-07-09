@@ -1,0 +1,246 @@
+<div class="container-fluid">
+  <div class="row justify-content-md-center">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="float-left">Server Stats</h4>
+          <span class="float-right"
+            ><i class="fa fa-retweet fa-large" (click)="retrieve_stats();"></i
+          ></span>
+        </div>
+
+        <div class="card-block">
+          <ngx-spinner [fullScreen]="false"> </ngx-spinner>
+
+          <div class="table-responsive">
+            <table class="table table-sm" *ngIf="stats">
+              <tr>
+                <th>Server startup</th>
+                <td>
+                  <span
+                    ngbTooltip="{{stats.boot_time | amFromUtc | date : 'dd MMM yyyy HH:mm:ss' }}"
+                  >
+                    {{stats.boot_time | amTimeAgo:false}}
+                  </span>
+                </td>
+              </tr>
+
+              <tr class="table-primary">
+                <th colspan="2">CPU</th>
+              </tr>
+
+              <tr>
+                <th>Num</th>
+                <td>{{ stats.cpu.count }}</td>
+              </tr>
+
+              <tr
+                [ngClass]="{
+                'text-success': stats.cpu.load <= 75,
+                'text-warning': stats.cpu.load >= 75 && stats.cpu.load < 110,
+                'text-danger': stats.cpu.load >= 110
+              }"
+              >
+                <th>Load</th>
+                <td>{{ stats.cpu.load}}%</td>
+              </tr>
+
+              <tr class="table-primary">
+                <th colspan="2">Root Disk</th>
+              </tr>
+
+              <tr>
+                <th>Disk size</th>
+                <td>{{ stats.disk.total_disk_space }} GB</td>
+              </tr>
+
+              <tr
+                [ngClass]="{
+                'text-success': stats.disk.occupacy < 75,
+                'text-warning': stats.disk.occupacy >= 75 && stats.disk.occupacy < 85,
+                'text-danger': stats.disk.occupacy >= 85
+              }"
+              >
+                <th>Used disk</th>
+                <td>
+                  {{ stats.disk.used_disk_space }} GB ({{ stats.disk.occupacy
+                  }}%)
+                </td>
+              </tr>
+
+              <tr
+                [ngClass]="{
+                'text-success': stats.disk.occupacy < 75,
+                'text-warning': stats.disk.occupacy >= 75 && stats.disk.occupacy < 85,
+                'text-danger': stats.disk.occupacy >= 85
+              }"
+              >
+                <th>Free disk</th>
+                <td>{{ stats.disk.free_disk_space }} GB</td>
+              </tr>
+
+              <tr class="table-primary">
+                <th colspan="2">RAM</th>
+              </tr>
+
+              <tr>
+                <th>Total RAM</th>
+                <td>{{ stats.ram.total }} MB</td>
+              </tr>
+
+              <tr
+                [ngClass]="{
+                'text-success': stats.ram.used < stats.ram.total * 0.7,
+                'text-warning': stats.ram.used >= stats.ram.total * 0.7 && stats.ram.used < stats.ram.total * 0.85,
+                'text-danger': stats.ram.used >= stats.ram.total * 0.85
+              }"
+              >
+                <th>Used RAM</th>
+                <td>{{ stats.ram.used }} MB</td>
+              </tr>
+
+              <tr
+                [ngClass]="{
+                'text-success': stats.ram.used < stats.ram.total * 0.7,
+                'text-warning': stats.ram.used >= stats.ram.total * 0.7 && stats.ram.used < stats.ram.total * 0.85,
+                'text-danger': stats.ram.used >= stats.ram.total * 0.85
+              }"
+              >
+                <th>Available RAM</th>
+                <td>
+                  {{ stats.ram.free + stats.ram.cache + stats.ram.buffer }} MB
+                </td>
+              </tr>
+
+              <tr>
+                <th>Free RAM</th>
+                <td>{{ stats.ram.free }} MB</td>
+              </tr>
+
+              <tr>
+                <th>Cache</th>
+                <td>{{ stats.ram.cache }} MB</td>
+              </tr>
+
+              <tr>
+                <th>Buffer</th>
+                <td>{{ stats.ram.buffer }} MB</td>
+              </tr>
+
+              <tr>
+                <th>Active</th>
+                <td>{{ stats.ram.active }} MB</td>
+              </tr>
+
+              <tr>
+                <th>Inactive</th>
+                <td>{{ stats.ram.inactive }} MB</td>
+              </tr>
+
+              <tr class="table-primary" *ngIf="stats.swap.total > 0">
+                <th colspan="2">Swap</th>
+              </tr>
+              <tr class="table-secondary" *ngIf="stats.swap.total == 0">
+                <th colspan="2">Swap is disabled</th>
+              </tr>
+
+              <tr
+                [ngClass]="{
+                'text-muted': stats.swap.total == 0
+              }"
+              >
+                <th>Total size</th>
+                <td>{{ stats.swap.total }} MB</td>
+              </tr>
+
+              <tr
+                [ngClass]="{
+                'text-muted': stats.swap.total == 0
+              }"
+              >
+                <th>Free swap</th>
+                <td>{{ stats.swap.free }} MB</td>
+              </tr>
+
+              <tr
+                [ngClass]="{
+                'text-muted': stats.swap.total == 0
+              }"
+              >
+                <th>Used swap</th>
+                <td>{{ stats.swap.used }} MB</td>
+              </tr>
+
+              <tr
+                [ngClass]="{
+                'text-muted': stats.swap.total == 0
+              }"
+              >
+                <th>Memory swapped<br />from disk</th>
+                <td>{{ stats.swap.from_disk }} MB/s</td>
+              </tr>
+
+              <tr
+                [ngClass]="{
+                'text-muted': stats.swap.total == 0
+              }"
+              >
+                <th>Memory swapped<br />to disk</th>
+                <td>{{ stats.swap.to_disk }} MB/s</td>
+              </tr>
+
+              <tr class="table-primary">
+                <th colspan="2">Network</th>
+              </tr>
+
+              <tr>
+                <th>Min Latency</th>
+                <td>{{ stats.network_latency.min }} ms</td>
+              </tr>
+
+              <tr>
+                <th>Avg Latency</th>
+                <td>{{ stats.network_latency.avg }} ms</td>
+              </tr>
+
+              <tr>
+                <th>Max Latency</th>
+                <td>{{ stats.network_latency.max }} ms</td>
+              </tr>
+              <!-- 
+              <tr class="table-primary">
+                <th colspan="2">I/O</th>
+              </tr>
+
+              <tr>
+                <th>Blocks received</th>
+                <td>{{ stats.io.blocks_received }}</td>
+              </tr>
+
+              <tr>
+                <th>Blocks sent</th>
+                <td>{{ stats.io.blocks_sent }}</td>
+              </tr>
+ -->
+              <!-- 
+              <tr class="table-primary">
+                <th colspan="2">Procs</th>
+              </tr>
+
+              <tr>
+                <th>Waiting for run</th>
+                <td>{{ stats.procs.waiting_for_run }}</td>
+              </tr>
+
+              <tr>
+                <th>Uninterruptible sleep</th>
+                <td>{{ stats.procs.uninterruptible_sleep }}</td>
+              </tr>
+ -->
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
     private notify: NotificationService,
     private deviceService: DeviceDetectorService
   ) {
-    this.enableFooter = environment.enableFooter == "true";
+    this.enableFooter = environment.enableFooter === "true";
     this.cookieLawText = this.customization.get_option("cookie_law_text");
     this.cookieLawButton = this.customization.get_option("cookie_law_button");
 
@@ -89,7 +89,7 @@ export class AppComponent implements OnInit {
     os: string,
     os_version: string
   ): boolean {
-    if (browser == "IE") {
+    if (browser === "IE") {
       if (parseFloat(version) <= 10) {
         return false;
       }
