@@ -26,7 +26,7 @@ export class BytesPipe {
     if (bytes === 0) {
       return "0";
     }
-    if (bytes == -1 || Number.isNaN(bytes) || !isFinite(bytes)) {
+    if (bytes === -1 || Number.isNaN(bytes) || !isFinite(bytes)) {
       return "-";
     }
 

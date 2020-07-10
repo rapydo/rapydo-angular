@@ -172,7 +172,7 @@ export class LoginComponent implements OnInit {
                       this.api
                         .put(
                           "profile",
-                          u.uuid,
+                          "",
                           { privacy_accepted: true },
                           { base: "auth" }
                         )
