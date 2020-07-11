@@ -45,7 +45,7 @@ script:
 
       TESTING=1 rapydo init
 
-      cd submodules/frontend;
+      cd submodules/rapydo-angular;
       export COMMIT_INFO_BRANCH="$(git rev-parse --abbrev-ref HEAD)";
       export COMMIT_INFO_MESSAGE="$(git show -s --pretty=%B)";
       export COMMIT_INFO_SUBJECT="$(git show -s --pretty=%s)";
