@@ -19,7 +19,7 @@ script:
   - pip3 install --upgrade git+https://github.com/rapydo/do.git@${CURRENT_VERSION}
   - mkdir rapydo_tests
   - cd rapydo_tests
-  - rapydo create prj --auth postgres --frontend angular --origin https://your_remote_git/your_project.git;
+  - rapydo create prj --auth postgres --frontend angular --origin-url https://your_remote_git/your_project.git;
   - >
     if [[ "$STAGE" == "karma" ]]; then
 
