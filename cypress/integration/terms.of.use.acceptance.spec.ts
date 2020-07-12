@@ -47,10 +47,10 @@ describe("Terms of use", () => {
   beforeEach(() => {
     cy.visit("/app/login");
 
-    cy.get("input[placeholder='Your username (email)']").clear().type(newUser);
+    cy.get("input[placeholder='Your username (email)']").clear().type(username);
     cy.get("input[placeholder='Your password']")
       .clear()
-      .type(newPassword + "{enter}");
+      .type("looooong{enter}");
   });
 
   if (Cypress.env("ALLOW_TERMS_OF_USE")) {
