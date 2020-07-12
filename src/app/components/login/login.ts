@@ -257,11 +257,12 @@ export class LoginComponent implements OnInit {
         {
           label: "Click here to visualize our Terms of Use",
           text: `
-This is a default text, something like a lorem ipsum placeholder. <br/>
+This is a default text, something like a lorem ipsum placeholder. 
 You should never visualize this text in a production environment. <br/>
-If you are reading this text your terms of use test is missing in your customization component <br/>
-Please add something like this to your ProjectOptions.get_option in custom.project.options.ts <br />
-
+If you are reading this text your terms of use are missing in your customization component <br/>
+Please add something like this to your ProjectOptions.get_option (in custom.project.options.ts)<br />
+<br/>
+<pre>
   if (opt == "privacy_acceptance") {
     return this.privacy_acceptance();
   }
@@ -274,6 +275,8 @@ Please add something like this to your ProjectOptions.get_option in custom.proje
       },
     ];
   }
+</pre>
+<br/>
 `,
         },
       ];
