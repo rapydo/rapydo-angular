@@ -30,7 +30,7 @@ script:
       rapydo shell frontend --command "yarn install" || travis_terminate 1;
       rapydo shell frontend --command "yarn run test:single" || travis_terminate 1;
       cp data/prj/karma/lcov.info .;
-      bash <(curl -s https://codecov.io/bash) -R submodules/frontend;
+      bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular;
 
     elif [[ "$STAGE" == "prod" ]]; then
 
@@ -66,7 +66,7 @@ script:
       rapydo shell frontend --command "yarn run cypress:start:${BROWSER}" || travis_terminate 1;
       rapydo shell frontend --command "npx nyc report --reporter=lcov" || travis_terminate 1;
       cp data/prj/karma/lcov.info .;
-      bash <(curl -s https://codecov.io/bash) -R submodules/frontend;
+      bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular;
 
     fi
 
