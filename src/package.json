@@ -20,6 +20,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "typescript": "3.8.3",
     "@angular/common": "9.1.9",
     "@angular/compiler": "9.1.9",
     "@angular/core": "9.1.9",
@@ -54,10 +55,12 @@
     "core-js": "3.6.5",
     "zone.js": "0.10.3",
     "angular-polyfills": "1.0.1",
-    "ie-shim": "0.1.0"
+    "ie-shim": "0.1.0",
+    "gzipper": "3.7.0",
+    "rimraf": "3.0.2",
+    "copyfiles": "2.2.0"
   },
   "devDependencies": {
-    "typescript": "3.8.3",
     "tslib": "1.13.0",
     "@angular/cli": "9.1.6",
     "@angular/compiler-cli": "9.1.9",
@@ -83,9 +86,6 @@
     "source-map-support": "0.5.19",
     "ngx-build-plus": "9.0.6",
     "start-server-and-test": "1.11.0",
-    "raw-loader": "4.0.1",
-    "rimraf": "3.0.2",
-    "copyfiles": "2.2.0",
-    "gzipper": "3.7.0"
+    "raw-loader": "4.0.1"
   }
 }
