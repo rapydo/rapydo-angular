@@ -17,7 +17,7 @@ describe("AdminSessions", () => {
   });
 
   // This is the same as in profile.sessions.spec
-  it("Sortm search, copy", () => {
+  it("Sort, search, copy", () => {
     // Sort by Expiration, current token is now the last
     cy.get("span.datatable-header-cell-label").contains("Expiration").click();
     cy.get("datatable-body-row").first().find(".fa-trash");

@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
 
   public allowPasswordReset: boolean = false;
   public allowRegistration: boolean = false;
+  public allowTermsOfUse: boolean = false;
 
   public form = new FormGroup({});
   public fields: FormlyFieldConfig[] = [];
@@ -53,6 +54,7 @@ export class LoginComponent implements OnInit {
   ) {
     this.allowRegistration = environment.allowRegistration === "true";
     this.allowPasswordReset = environment.allowPasswordReset === "true";
+    this.allowTermsOfUse = environment.allowTermsOfUse === "true";
   }
 
   ngOnInit() {
@@ -158,48 +160,11 @@ export class LoginComponent implements OnInit {
             (response) => {
               this.loading = false;
               let u = this.authService.getUser();
-              if (!u.privacy_accepted) {
-                this.terms_of_use = this.customization.get_option(
-                  "privacy_acceptance"
-                );
-                if (this.terms_of_use !== null) {
-                  this.modalRef = this.modalService.open(
-                    this.privacy_acceptance,
-                    { size: "lg" }
-                  );
-                  this.modalRef.result.then(
-                    (result) => {
-                      this.api
-                        .put(
-                          "profile",
-                          u.uuid,
-                          { privacy_accepted: true },
-                          { base: "auth" }
-                        )
-                        .subscribe(
-                          (data) => {
-                            this.authService.loadUser();
-                            this.router.navigate([this.returnUrl]);
-                          },
-                          (error) => {
-                            this.notify.showError(error);
-                          }
-                        );
-                    },
-                    (reason) => {
-                      this.authService.logout().subscribe((response) => {
-                        this.notify.showError(
-                          "We apologize but you are not allowed to login, as you have not accepted our Terms of Use"
-                        );
-                        this.router.navigate([""]);
-                      });
-                    }
-                  );
-                } else {
-                  this.router.navigate([this.returnUrl]);
-                }
-              } else {
+
+              if (u.privacy_accepted || !this.allowTermsOfUse) {
                 this.router.navigate([this.returnUrl]);
+              } else {
+                this.showTermsOfUse();
               }
             },
             (error) => {
@@ -210,7 +175,6 @@ export class LoginComponent implements OnInit {
         },
         (error) => {
           if (error.status == 0) {
-            // this.router.navigate(["/offline"]);
             this.notify.showError("Error: no response received from backend");
           } else if (error.status == 409) {
             this.notify.showError(error);
@@ -284,6 +248,64 @@ export class LoginComponent implements OnInit {
           this.loading = false;
         }
       );
+  }
+
+  showTermsOfUse() {
+    this.terms_of_use = this.customization.get_option("privacy_acceptance");
+    if (this.terms_of_use === null) {
+      this.terms_of_use = [
+        {
+          label: "Click here to visualize our Terms of Use",
+          text: `
+This is a default text, something like a lorem ipsum placeholder. <br/>
+You should never visualize this text in a production environment. <br/>
+If you are reading this text your terms of use test is missing in your customization component <br/>
+Please add something like this to your ProjectOptions.get_option in custom.project.options.ts <br />
+
+  if (opt == "privacy_acceptance") {
+    return this.privacy_acceptance();
+  }
+
+  private privacy_acceptance() {
+    return [
+      {
+        label: "Click here to visualize our Terms of Use",
+        text: "Your Terms of Use",
+      },
+    ];
+  }
+`,
+        },
+      ];
+    }
+
+    this.modalRef = this.modalService.open(this.privacy_acceptance, {
+      size: "lg",
+    });
+
+    this.modalRef.result.then(
+      (result) => {
+        this.api
+          .put("profile", u.uuid, { privacy_accepted: true }, { base: "auth" })
+          .subscribe(
+            (data) => {
+              this.authService.loadUser();
+              this.router.navigate([this.returnUrl]);
+            },
+            (error) => {
+              this.notify.showError(error);
+            }
+          );
+      },
+      (reason) => {
+        this.authService.logout().subscribe((response) => {
+          this.notify.showError(
+            "We apologize but you are not allowed to login, as you have not accepted our Terms of Use"
+          );
+          this.router.navigate([""]);
+        });
+      }
+    );
   }
 
   ask_activation_link() {
