@@ -31,6 +31,8 @@
     "@angular/animations": "9.1.9",
     "@angular/localize": "9.1.9",
     "@angular/language-service": "9.1.9",
+    "@angular/compiler-cli": "9.1.9",
+    "@angular/cli": "9.1.6",
     "@angular-devkit/build-angular": "0.901.6",
     "rxjs": "6.5.5",
     "rxjs-compat": "6.5.5",
@@ -64,8 +66,6 @@
   },
   "devDependencies": {
     "tslib": "1.13.0",
-    "@angular/cli": "9.1.6",
-    "@angular/compiler-cli": "9.1.9",
     "@types/node": "13.13.6",
     "karma": "5.0.7",
     "karma-chrome-launcher": "3.1.0",
