@@ -170,7 +170,7 @@ export class LoginComponent implements OnInit {
                   this.modalRef.result.then(
                     (result) => {
                       this.api
-                        .put(
+                        .patch(
                           "profile",
                           "",
                           { privacy_accepted: true },
