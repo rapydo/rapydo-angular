@@ -7,7 +7,7 @@ import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { environment } from "@rapydo/../environments/environment";
 
 import { ApiService } from "@rapydo/services/api";
-import { AuthService } from "@rapydo/services/auth";
+import { AuthService, User } from "@rapydo/services/auth";
 import { NotificationService } from "@rapydo/services/notification";
 import { ProjectOptions } from "@app/custom.project.options";
 
@@ -159,12 +159,12 @@ export class LoginComponent implements OnInit {
           this.authService.loadUser().subscribe(
             (response) => {
               this.loading = false;
-              let u = this.authService.getUser();
+              let u: User = this.authService.getUser();
 
               if (u.privacy_accepted || !this.allowTermsOfUse) {
                 this.router.navigate([this.returnUrl]);
               } else {
-                this.showTermsOfUse();
+                this.showTermsOfUse(u);
               }
             },
             (error) => {
@@ -250,7 +250,7 @@ export class LoginComponent implements OnInit {
       );
   }
 
-  showTermsOfUse() {
+  showTermsOfUse(user: User) {
     this.terms_of_use = this.customization.get_option("privacy_acceptance");
     if (this.terms_of_use === null) {
       this.terms_of_use = [
@@ -286,7 +286,12 @@ Please add something like this to your ProjectOptions.get_option in custom.proje
     this.modalRef.result.then(
       (result) => {
         this.api
-          .put("profile", u.uuid, { privacy_accepted: true }, { base: "auth" })
+          .put(
+            "profile",
+            user.uuid,
+            { privacy_accepted: true },
+            { base: "auth" }
+          )
           .subscribe(
             (data) => {
               this.authService.loadUser();
