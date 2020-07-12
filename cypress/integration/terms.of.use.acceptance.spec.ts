@@ -2,7 +2,7 @@
 /*global cy, Cypress*/
 
 describe("Terms of use", () => {
-  beforeach(() => {
+  before(() => {
     const username = "bbb0000000000000@sample.org";
     cy.login();
 
