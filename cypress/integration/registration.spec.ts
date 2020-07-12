@@ -192,10 +192,6 @@ describe("Registration", () => {
 
       cy.visit("/app/profile");
 
-      if (Cypress.env("ALLOW_TERMS_OF_USE")) {
-        cy.contains("Terms of Use");
-      }
-
       cy.get("table").find("td").contains(newUser);
 
       cy.visit("/app/admin/users");
