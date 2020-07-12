@@ -90,6 +90,12 @@ describe("Terms of use", () => {
       cy.location().should((location) => {
         expect(location.pathname).to.eq("/app/profile");
       });
+
+      cy.get("table")
+        .find("th")
+        .contains("Privacy Accepted")
+        .parent()
+        .find(".fa-check");
     });
   } else {
     it("Terms of Use not enabled", () => {
