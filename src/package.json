@@ -21,6 +21,7 @@
   "license": "MIT",
   "dependencies": {
     "typescript": "3.8.3",
+    "tslib": "2.0.0",
     "@angular/common": "9.1.12",
     "@angular/compiler": "9.1.12",
     "@angular/core": "9.1.12",
@@ -66,7 +67,6 @@
     "copyfiles": "2.3.0"
   },
   "devDependencies": {
-    "tslib": "2.0.0",
     "karma": "5.1.0",
     "karma-chrome-launcher": "3.1.0",
     "karma-coverage-istanbul-reporter": "3.0.3",
