@@ -12,8 +12,13 @@ Based on:
 - file-saver 2.0.2
 - ngx-toastr 12.0.1
 - moment 2.26.0 with ngx-moment 3.5.0
-- font-awesome 5.13.0 + material-icons 0.3.1
+- font-awesome 5.13.1 + material-icons 0.3.1
 - angular-confirmation-popover 5.0.0
 - ngx-clipboard 13.0.1
 - angular2-cookie-law 7.0.1
 - ngx-spinner 9.0.2
+
+Tests based on:
+
+- Karma 5.1.0 with Jasmine 3.5.0
+- Cypress 4.10.0
