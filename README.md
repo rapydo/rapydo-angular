@@ -10,7 +10,7 @@ Based on:
 - ngx-datatable 17.0.0
 - ngx-uploadx 3.3.5
 - file-saver 2.0.2
-- ngx-toastr 12.0.1
+- ngx-toastr 12.1.0
 - moment 2.26.0 with ngx-moment 3.5.0
 - font-awesome 5.13.1 + material-icons 0.3.1
 - angular-confirmation-popover 5.0.0
