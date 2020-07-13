@@ -9,9 +9,12 @@ env:
   - STAGE=prod
   - STAGE=karma
   - STAGE=cypress BROWSER=chrome
+
   # it stucks quite often... to be retried in a near future
   # - STAGE=cypress BROWSER=firefox
-  - STAGE=cypress BROWSER=electron
+  # Only slower than chrome and more error-prone... probably no need to test it
+  # - STAGE=cypress BROWSER=electron
+  # Very similar to chrome? Probably no need to test it
   # - STAGE=cypress BROWSER=chromium
 
 script:
