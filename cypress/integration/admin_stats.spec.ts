@@ -19,7 +19,7 @@ describe("AdminStats", () => {
     // Let's wait a bit before starting the tests
     cy.wait(5000);
 
-    cy.get("div.card-header h4").contains("Server stats");
+    cy.get("div.card-header h4").contains("Server Stats");
 
     cy.get("table")
       .find("th")

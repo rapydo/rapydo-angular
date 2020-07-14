@@ -28,24 +28,20 @@ Cypress.Commands.add("login", () => {
         });
     });
 });
-Cypress.Commands.add("pwdchange", (username, current_pwd, new_pwd) => {
+Cypress.Commands.add("pwdchange", (username, password, new_password) => {
+  const password_confirm = new_password;
+  //                                         This is ES6 Literal Shorthand Syntax
   cy.request("POST", Cypress.env("API_URL") + "auth/login", {
-    username: username,
-    password: current_pwd,
+    username,
+    password,
   })
     .its("body")
     .then((token) => {
       const options = {
         method: "PUT",
         url: Cypress.env("API_URL") + "auth/profile",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: {
-          password: current_pwd,
-          new_password: new_pwd,
-          password_confirm: new_pwd,
-        },
+        headers: { Authorization: `Bearer ${token}` },
+        body: { password, new_password, password_confirm },
       };
       cy.request(options).then((response) => {
         cy.log("Password changed");
