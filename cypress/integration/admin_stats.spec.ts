@@ -28,12 +28,7 @@ describe("AdminStats", () => {
       .contains("ago");
 
     cy.get("table").find("tr.table-primary").contains("CPU");
-    cy.get("table")
-      .find("th")
-      .contains("Num")
-      .parent()
-      .find("td")
-      .should("be.gte", 1);
+    cy.get("table").find("th").contains("Num");
     cy.get("table").find("th").contains("Load").parent().contains(".");
     cy.get("table").find("th").contains("Load").parent().contains("%");
 
@@ -68,32 +63,12 @@ describe("AdminStats", () => {
     cy.get("table").find("th").contains("Max Latency").parent().contains(" ms");
 
     cy.get("table").find("tr.table-primary").contains("I/O");
-    cy.get("table")
-      .find("th")
-      .contains("Blocks received")
-      .parent()
-      .find("td")
-      .should("be.gte", 1);
-    cy.get("table")
-      .find("th")
-      .contains("Blocks sent")
-      .parent()
-      .find("td")
-      .should("be.gte", 1);
+    cy.get("table").find("th").contains("Blocks received");
+    cy.get("table").find("th").contains("Blocks sent");
 
     cy.get("table").find("tr.table-primary").contains("Procs");
 
-    cy.get("table")
-      .find("th")
-      .contains("Waiting for run")
-      .parent()
-      .find("td")
-      .should("be.gte", 1);
-    cy.get("table")
-      .find("th")
-      .contains("Uninterruptible sleep")
-      .parent()
-      .find("td")
-      .should("be.gte", 1);
+    cy.get("table").find("th").contains("Waiting for run");
+    cy.get("table").find("th").contains("Uninterruptible sleep");
   });
 });
