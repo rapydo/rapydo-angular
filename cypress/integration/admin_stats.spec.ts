@@ -31,16 +31,16 @@ describe("AdminStats", () => {
     cy.get("table").find("th").contains("Num");
     cy.get("table").find("th").contains("Load").parent().contains("%");
 
-    cy.get("table").find("tr.table-primary").contains("Disk");
-    cy.get("table").find("th").contains("Root size").parent().contains(" GB");
-    cy.get("table").find("th").contains("Used").parent().contains(" GB");
-    cy.get("table").find("th").contains("Used").parent().contains("%)");
-    cy.get("table").find("th").contains("Free").parent().contains(" GB");
+    cy.get("table").find("tr.table-primary").contains("Root Disk");
+    cy.get("table").find("th").contains("Disk size").parent().contains(" GB");
+    cy.get("table").find("th").contains("Used disk").parent().contains(" GB");
+    cy.get("table").find("th").contains("Used disk").parent().contains("%)");
+    cy.get("table").find("th").contains("Free disk").parent().contains(" GB");
 
     cy.get("table").find("tr.table-primary").contains("RAM");
-    cy.get("table").find("th").contains("Total").parent().contains(" MB");
-    cy.get("table").find("th").contains("Used").parent().contains(" MB");
-    cy.get("table").find("th").contains("Free").parent().contains(" MB");
+    cy.get("table").find("th").contains("Total RAM").parent().contains(" MB");
+    cy.get("table").find("th").contains("Used RAM").parent().contains(" MB");
+    cy.get("table").find("th").contains("Free RAM").parent().contains(" MB");
     cy.get("table").find("th").contains("Cache").parent().contains(" MB");
     cy.get("table").find("th").contains("Buffer").parent().contains(" MB");
     cy.get("table").find("th").contains("Active").parent().contains(" MB");
@@ -48,8 +48,8 @@ describe("AdminStats", () => {
 
     cy.get("table").find("tr.table-primary").contains("Swap");
     cy.get("table").find("th").contains("Total size").parent().contains(" MB");
-    cy.get("table").find("th").contains("Free").parent().contains(" MB");
-    cy.get("table").find("th").contains("Used").parent().contains(" MB");
+    cy.get("table").find("th").contains("Free swap").parent().contains(" MB");
+    cy.get("table").find("th").contains("Used swap").parent().contains(" MB");
     cy.get("table").find("th").contains("from disk").parent().contains(" MB/s");
     cy.get("table").find("th").contains("to disk").parent().contains(" MB/s");
 
