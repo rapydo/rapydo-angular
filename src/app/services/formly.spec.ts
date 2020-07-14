@@ -91,7 +91,7 @@ describe("FormlyService", () => {
   });
 
   it("json2Form - empty schema", () => {
-    let form = service.json2Form(undefined, {});
+    let form = service.json2Form(null, {});
     expect(form).not.toBeUndefined();
     expect(form["fields"]).not.toBeUndefined();
     expect(form["model"]).not.toBeUndefined();

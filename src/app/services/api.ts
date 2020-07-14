@@ -23,7 +23,7 @@ export class ApiService {
     return ApiService.is_online;
   }
 
-  private opt(dict, value, defaultValue) {
+  private opt(dict, value, defaultValue = null) {
     if (value in dict) {
       return dict[value];
     } else {
@@ -32,11 +32,11 @@ export class ApiService {
   }
 
   public get(endpoint: string, id = "", data = {}, options = {}) {
-    let formData = this.opt(options, "formData", undefined);
-    let conf = this.opt(options, "conf", undefined);
-    let base = this.opt(options, "base", undefined);
+    let formData = this.opt(options, "formData");
+    let conf = this.opt(options, "conf");
+    let base = this.opt(options, "base");
     // Deprecated since 0.7.4
-    let rawResponse = this.opt(options, "rawResponse", undefined);
+    let rawResponse = this.opt(options, "rawResponse");
     return this.call(
       "GET",
       endpoint,
@@ -50,11 +50,11 @@ export class ApiService {
   }
 
   public post(endpoint: string, data = {}, options = {}) {
-    let formData = this.opt(options, "formData", undefined);
-    let conf = this.opt(options, "conf", undefined);
-    let base = this.opt(options, "base", undefined);
+    let formData = this.opt(options, "formData");
+    let conf = this.opt(options, "conf");
+    let base = this.opt(options, "base");
     // Deprecated since 0.7.4
-    let rawResponse = this.opt(options, "rawResponse", undefined);
+    let rawResponse = this.opt(options, "rawResponse");
 
     return this.call(
       "POST",
@@ -69,11 +69,11 @@ export class ApiService {
   }
 
   public put(endpoint: string, id = "", data = {}, options = {}) {
-    let formData = this.opt(options, "formData", undefined);
-    let conf = this.opt(options, "conf", undefined);
-    let base = this.opt(options, "base", undefined);
+    let formData = this.opt(options, "formData");
+    let conf = this.opt(options, "conf");
+    let base = this.opt(options, "base");
     // Deprecated since 0.7.4
-    let rawResponse = this.opt(options, "rawResponse", undefined);
+    let rawResponse = this.opt(options, "rawResponse");
     return this.call(
       "PUT",
       endpoint,
@@ -87,11 +87,11 @@ export class ApiService {
   }
 
   public patch(endpoint: string, id = "", data = {}, options = {}) {
-    let formData = this.opt(options, "formData", undefined);
-    let conf = this.opt(options, "conf", undefined);
-    let base = this.opt(options, "base", undefined);
+    let formData = this.opt(options, "formData");
+    let conf = this.opt(options, "conf");
+    let base = this.opt(options, "base");
     // Deprecated since 0.7.4
-    let rawResponse = this.opt(options, "rawResponse", undefined);
+    let rawResponse = this.opt(options, "rawResponse");
     return this.call(
       "PATCH",
       endpoint,
@@ -105,11 +105,11 @@ export class ApiService {
   }
 
   public delete(endpoint: string, id = "", options = {}) {
-    let formData = this.opt(options, "formData", undefined);
-    let conf = this.opt(options, "conf", undefined);
-    let base = this.opt(options, "base", undefined);
+    let formData = this.opt(options, "formData");
+    let conf = this.opt(options, "conf");
+    let base = this.opt(options, "base");
     // Deprecated since 0.7.4
-    let rawResponse = this.opt(options, "rawResponse", undefined);
+    let rawResponse = this.opt(options, "rawResponse");
     return this.call(
       "DELETE",
       endpoint,

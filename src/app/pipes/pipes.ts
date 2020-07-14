@@ -22,7 +22,7 @@ export class IteratePipe {
 })
 @Injectable()
 export class BytesPipe {
-  transform(bytes: number = 0, precision: number = undefined): string {
+  transform(bytes: number = 0, precision: number = null): string {
     if (bytes === 0) {
       return "0";
     }
@@ -33,7 +33,7 @@ export class BytesPipe {
     let units = ["bytes", "kB", "MB", "GB", "TB", "PB"],
       number = Math.floor(Math.log(bytes) / Math.log(1024));
 
-    if (typeof precision === "undefined") {
+    if (precision === null) {
       if (number <= 1) precision = 0;
       else precision = 1;
     }

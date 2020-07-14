@@ -38,7 +38,7 @@ export class FormlyService {
   public json2Form(schema: Schema[], data: Record<string, any>) {
     let fields = [];
     let model = {};
-    if (typeof schema == "undefined") {
+    if (schema == null || typeof schema == "undefined") {
       return { fields: fields, model: model };
     }
 
@@ -325,15 +325,7 @@ export class FormlyService {
     return { fields: fields, model: model };
   }
 
-  public getField(
-    model,
-    type,
-    key,
-    name,
-    required,
-    descr,
-    options = undefined
-  ) {
+  public getField(model, type, key, name, required, descr, options = null) {
     const field = {
       description: descr,
       key: key,

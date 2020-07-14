@@ -56,14 +56,14 @@ export class AuthService {
   public login(
     username: string,
     password: string,
-    new_password: string = undefined,
-    password_confirm: string = undefined
+    new_password: string = null,
+    password_confirm: string = null
   ) {
     let data = {
-      username: username,
-      password: password,
-      new_password: new_password,
-      password_confirm: password_confirm,
+      username,
+      password,
+      new_password,
+      password_confirm,
     };
 
     return this.http.post<any>(environment.authApiUrl + "/login", data).pipe(
