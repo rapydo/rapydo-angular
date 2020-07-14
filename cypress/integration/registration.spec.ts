@@ -153,7 +153,6 @@ describe("Registration", () => {
 
       cy.visit("/public/register/invalid");
 
-      cy.contains("Validating activation token...");
       cy.get("div.card-header h4").contains("Invalid activation token");
       cy.get("div.card-block").contains(
         "This activation token is not valid and your request can not be satisfied."
@@ -163,7 +162,6 @@ describe("Registration", () => {
         let re = /.*https?:\/\/.*\/register\/(.*)$/;
         var token = body.match(re);
         cy.visit("/public/register/" + token[1]);
-        cy.contains("Validating activation token...");
 
         cy.location().should((location) => {
           expect(location.pathname).to.eq("/app/login");
@@ -173,7 +171,6 @@ describe("Registration", () => {
 
         cy.visit("/public/register/" + token[1]);
 
-        cy.contains("Validating activation token...");
         cy.get("div.card-header h4").contains("Invalid activation token");
         cy.get("div.card-block").contains(
           "This activation token is not valid and your request can not be satisfied."
