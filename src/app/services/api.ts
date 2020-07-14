@@ -158,7 +158,11 @@ export class ApiService {
       }),
     };
     for (let k in conf) {
-      options[k] = conf[k];
+      // The body of a for-in should be wrapped in an if statement
+      // to filter unwanted properties from the prototype.
+      if ({}.hasOwnProperty.call(conf, k)) {
+        options[k] = conf[k];
+      }
     }
 
     let httpCall;

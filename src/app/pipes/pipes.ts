@@ -11,7 +11,11 @@ export class IteratePipe {
     let keys = [];
 
     for (let key in value) {
-      keys.push({ key, value: value[key] });
+      // The body of a for-in should be wrapped in an if statement
+      // to filter unwanted properties from the prototype.
+      if (Object.prototype.hasOwnProperty.call(value, key)) {
+        keys.push({ key, value: value[key] });
+      }
     }
     return keys;
   }

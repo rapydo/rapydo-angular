@@ -73,11 +73,15 @@ export class NotificationService {
     if (this.isDict(msg)) {
       // only return the first key... to be extended to every key??
       for (let k in msg) {
-        if (title === "") {
-          title = k;
+        // The body of a for-in should be wrapped in an if statement
+        // to filter unwanted properties from the prototype.
+        if (Object.prototype.hasOwnProperty.call(msg, k)) {
+          if (title === "") {
+            title = k;
+          }
+          msg = msg[k];
+          break;
         }
-        msg = msg[k];
-        break;
       }
     }
 

@@ -43,6 +43,12 @@ export class FormlyService {
     }
 
     for (let s of schema) {
+      // The body of a for-in should be wrapped in an if statement
+      // to filter unwanted properties from the prototype.
+      if (!Object.prototype.hasOwnProperty.call(schema, s)) {
+        continue;
+      }
+
       let stype: string = s.type;
 
       let field_type = "";
@@ -128,7 +134,11 @@ export class FormlyService {
           // { k1: v1, k2: v2}
         } else {
           for (let key in s.enum) {
-            s.options.push({ value: key, label: s.enum[key] });
+            // The body of a for-in should be wrapped in an if statement
+            // to filter unwanted properties from the prototype.
+            if ({}.hasOwnProperty.call(s.enum, key)) {
+              s.options.push({ value: key, label: s.enum[key] });
+            }
           }
         }
       }
