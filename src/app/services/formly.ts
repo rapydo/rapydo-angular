@@ -43,12 +43,6 @@ export class FormlyService {
     }
 
     for (let s of schema) {
-      // The body of a for-in should be wrapped in an if statement
-      // to filter unwanted properties from the prototype.
-      if (!Object.prototype.hasOwnProperty.call(schema, s)) {
-        continue;
-      }
-
       let stype: string = s.type;
 
       let field_type = "";
@@ -134,11 +128,7 @@ export class FormlyService {
           // { k1: v1, k2: v2}
         } else {
           for (let key in s.enum) {
-            // The body of a for-in should be wrapped in an if statement
-            // to filter unwanted properties from the prototype.
-            if ({}.hasOwnProperty.call(s.enum, key)) {
-              s.options.push({ value: key, label: s.enum[key] });
-            }
+            s.options.push({ value: key, label: s.enum[key] });
           }
         }
       }
@@ -347,18 +337,17 @@ export class FormlyService {
     model,
     type,
     key,
-    label,
+    name,
     required,
-    description,
-    options = null
+    descr,
+    options = undefined
   ) {
-    required = required ? "true" : "false";
     const field = {
-      description,
-      key,
-      label,
-      required,
-      type,
+      description: descr,
+      key: key,
+      label: name,
+      required: required ? "true" : "false",
+      type: type,
     };
 
     if (type === "checkbox" || type === "boolean") {
