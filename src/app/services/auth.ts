@@ -59,16 +59,25 @@ export class AuthService {
     new_password: string = null,
     password_confirm: string = null
   ) {
-    let data = {
-      username,
-      password,
-      new_password,
-      password_confirm,
-    };
+    if (new_password != null && password_confirm != null) {
+      let data = {
+        username,
+        password,
+        new_password,
+        password_confirm,
+      };
+    } else {
+      let data = {
+        username,
+        password,
+      };
+    }
 
     return this.http.post<any>(environment.authApiUrl + "/login", data).pipe(
       map((response) => {
-        if (!response) return response;
+        if (!response) {
+          return response;
+        }
 
         this.clean_localstorage();
         this.setToken(JSON.stringify(response));
@@ -127,7 +136,9 @@ export class AuthService {
     return this.http.get<any>(environment.authApiUrl + "/profile").pipe(
       map(
         (response) => {
-          if (!response) return response;
+          if (!response) {
+            return response;
+          }
 
           this.setUser(JSON.stringify(response));
 
@@ -169,12 +180,12 @@ export class AuthService {
   }
 
   public hasRole(expectedRoles: string[]): boolean {
-    if (!expectedRoles || expectedRoles.length == 0) {
+    if (!expectedRoles || expectedRoles.length === 0) {
       return true;
     }
 
     let user = this.getUser();
-    if (user == null) {
+    if (user === null) {
       return false;
     }
 

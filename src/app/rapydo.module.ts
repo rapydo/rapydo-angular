@@ -139,7 +139,7 @@ export class SentryErrorHandler implements ErrorHandler {
     if (
       environment.production &&
       typeof environment.SENTRY_URL !== "undefined" &&
-      environment.SENTRY_URL != ""
+      environment.SENTRY_URL !== ""
     ) {
       Sentry.captureException(error.originalError || error);
     }
@@ -150,7 +150,7 @@ export class SentryErrorHandler implements ErrorHandler {
 if (
   environment.production &&
   typeof environment.SENTRY_URL !== "undefined" &&
-  environment.SENTRY_URL != ""
+  environment.SENTRY_URL !== ""
 ) {
   Sentry.init({
     dsn: environment.SENTRY_URL,

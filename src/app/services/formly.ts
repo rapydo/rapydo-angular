@@ -38,7 +38,7 @@ export class FormlyService {
   public json2Form(schema: Schema[], data: Record<string, any>) {
     let fields = [];
     let model = {};
-    if (schema == null || typeof schema == "undefined") {
+    if (schema === null || typeof schema === "undefined") {
       return { fields, model };
     }
 
@@ -49,8 +49,8 @@ export class FormlyService {
       let template_type = "";
 
       let field = {};
-      let multiple = "multiple" in s && s.multiple == "true";
-      let islink = "islink" in s && s.islink == "true";
+      let multiple = "multiple" in s && s.multiple === "true";
+      let islink = "islink" in s && s.islink === "true";
       field["templateOptions"] = {};
       field["validators"] = {};
 
@@ -97,13 +97,13 @@ export class FormlyService {
           s.required = "true";
         }
         if ("format" in s) {
-          if (s.format == "date") {
+          if (s.format === "date") {
             stype = "date";
           }
-          if (s.format == "email") {
+          if (s.format === "email") {
             stype = "email";
           }
-          if (s.format == "password") {
+          if (s.format === "password") {
             stype = "password";
           }
         }
@@ -133,7 +133,7 @@ export class FormlyService {
         }
       }
 
-      if (stype == "text" || stype == "string") {
+      if (stype === "text" || stype === "string") {
         if (s.max && s.max > 256) {
           field_type = "textarea";
           // should be calculated from s.max
@@ -156,11 +156,11 @@ export class FormlyService {
           field["templateOptions"]["maxLength"] = s.max;
         }
         // to be deprecated, with webargs use string with max len > 256
-      } else if (stype == "longtext" || stype == "textarea") {
+      } else if (stype === "longtext" || stype === "textarea") {
         field_type = "textarea";
         template_type = "text";
         field["templateOptions"]["rows"] = 5;
-      } else if (stype == "int" || stype == "number") {
+      } else if (stype === "int" || stype === "number") {
         field_type = "input";
         template_type = "number";
 
@@ -170,7 +170,7 @@ export class FormlyService {
         if (typeof s.max !== "undefined") {
           field["templateOptions"]["max"] = s.max;
         }
-      } else if (stype == "date") {
+      } else if (stype === "date") {
         field_type = "datepicker";
         // field_type = "input";
         // template_type = "date";
@@ -189,11 +189,11 @@ export class FormlyService {
         if (typeof s.max !== "undefined") {
           field["templateOptions"]["max"] = this.getNgbDateStruct(s.max);
         }
-      } else if (stype == "email") {
+      } else if (stype === "email") {
         field_type = "input";
         template_type = "email";
         field["validators"] = { validation: ["email"] };
-      } else if (stype == "password") {
+      } else if (stype === "password") {
         field_type = "input";
         template_type = "password";
 
@@ -203,7 +203,7 @@ export class FormlyService {
         if (typeof s.max !== "undefined") {
           field["templateOptions"]["maxLength"] = s.max;
         }
-      } else if (stype == "select") {
+      } else if (stype === "select") {
         field_type = "select";
         template_type = "select";
 
@@ -222,18 +222,18 @@ export class FormlyService {
           }
         }
         field["templateOptions"]["multiple"] = multiple;
-      } else if (stype == "checkbox" || stype == "boolean") {
+      } else if (stype === "checkbox" || stype === "boolean") {
         field_type = "checkbox";
         template_type = "checkbox";
 
-        if (typeof model[s.key] == "undefined") {
+        if (typeof model[s.key] === "undefined") {
           model[s.key] = false;
         }
-      } else if (stype == "radio") {
+      } else if (stype === "radio") {
         field_type = "radio";
         template_type = "radio";
         field["templateOptions"]["options"] = s.options;
-      } else if (stype == "file") {
+      } else if (stype === "file") {
         field_type = "file";
         template_type = "file";
       }
@@ -241,7 +241,7 @@ export class FormlyService {
       field["key"] = s.key;
       field["type"] = field_type;
       if ("default" in s) {
-        if (field["type"] == "checkbox") {
+        if (field["type"] === "checkbox") {
           if (s.default) {
             field["defaultValue"] = true;
             model[s.key] = true;
@@ -258,15 +258,15 @@ export class FormlyService {
 
       field["templateOptions"]["label"] = s.label;
 
-      if (stype == "select") {
+      if (stype === "select") {
         field["templateOptions"]["description"] = s.description;
       } else {
         field["templateOptions"]["placeholder"] = s.description;
       }
       field["templateOptions"]["type"] = template_type;
-      field["templateOptions"]["required"] = s.required == "true";
+      field["templateOptions"]["required"] = s.required === "true";
 
-      // if (template_type == 'radio') {
+      // if (template_type === 'radio') {
       //   field['templateOptions']['labelProp'] = "value";
       //   field['templateOptions']['valueProp'] = "name";
       //   field['templateOptions']['options'] = s.options;
@@ -283,16 +283,16 @@ export class FormlyService {
         if (model_key in data) {
           let default_data = data[model_key];
 
-          if (default_data == null || default_data == "") {
+          if (default_data === null || default_data === "") {
             model[s.key] = "";
           } else {
-            if (template_type == "number") {
+            if (template_type === "number") {
               default_data = parseInt(default_data);
-            } else if (field_type == "datepicker") {
+            } else if (field_type === "datepicker") {
               default_data = this.formatNgbDatepicker(default_data);
-            } else if (template_type == "date") {
+            } else if (template_type === "date") {
               default_data = this.formatDate(default_data);
-            } else if (template_type == "select") {
+            } else if (template_type === "select") {
               if (islink) {
                 default_data = default_data[0];
               }
@@ -304,7 +304,7 @@ export class FormlyService {
 
               // This is to replace islink
               if (Array.isArray(default_data)) {
-                if (default_data.length == 1) {
+                if (default_data.length === 1) {
                   default_data = default_data[0];
                 } else {
                   console.warn(
@@ -351,20 +351,20 @@ export class FormlyService {
       type,
     };
 
-    if (type == "checkbox" || type == "boolean") {
+    if (type === "checkbox" || type === "boolean") {
       if (key in model) {
         const v = model[key];
 
-        if (v == "0" || v == "false" || v == "False" || v == "off") {
+        if (v === "0" || v === "false" || v === "False" || v === "off") {
           field["default"] = false;
-        } else if (v == "1" || v == "true" || v == "True" || v == "on") {
+        } else if (v === "1" || v === "true" || v === "True" || v === "on") {
           field["default"] = true;
         } else {
           field["default"] = v;
         }
         delete model[key];
       }
-    } else if (type == "select") {
+    } else if (type === "select") {
       field["default"] = model[key];
     }
 
@@ -376,7 +376,7 @@ export class FormlyService {
   }
 
   public formatNgbDatepicker(date_string: string): Date {
-    if (date_string === null || date_string == "") {
+    if (date_string === null || date_string === "") {
       return null;
     }
 
@@ -385,7 +385,7 @@ export class FormlyService {
     return new Date(date_string);
   }
   public formatDate(date_string: string): string {
-    if (date_string === null || date_string == "") {
+    if (date_string === null || date_string === "") {
       return date_string;
     }
 

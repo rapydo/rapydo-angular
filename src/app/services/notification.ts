@@ -18,7 +18,9 @@ export class NotificationService {
     if (this.isDict(msg)) {
       // only return the first key... to be extended to every key??
       for (let k in msg) {
-        if (title == "") title = k;
+        if (title === "") {
+          title = k;
+        }
         msg = msg[k];
         break;
       }
@@ -37,7 +39,9 @@ export class NotificationService {
     if (this.isDict(msg)) {
       // only return the first key... to be extended to every key??
       for (let k in msg) {
-        if (title == "") title = k;
+        if (title === "") {
+          title = k;
+        }
         msg = msg[k];
         break;
       }
@@ -52,7 +56,9 @@ export class NotificationService {
     if (this.isDict(msg)) {
       // only return the first key... to be extended to every key??
       for (let k in msg) {
-        if (title == "") title = k;
+        if (title === "") {
+          title = k;
+        }
         msg = msg[k];
         break;
       }
@@ -67,7 +73,9 @@ export class NotificationService {
     if (this.isDict(msg)) {
       // only return the first key... to be extended to every key??
       for (let k in msg) {
-        if (title == "") title = k;
+        if (title === "") {
+          title = k;
+        }
         msg = msg[k];
         break;
       }
@@ -81,7 +89,9 @@ export class NotificationService {
     if (this.isDict(msg)) {
       // only return the first key... to be extended to every key??
       for (let k in msg) {
-        if (title == "") title = k;
+        if (title === "") {
+          title = k;
+        }
         msg = msg[k];
         break;
       }

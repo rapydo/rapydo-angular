@@ -69,7 +69,7 @@ export function emailValidator(control: FormControl): ValidationErrors {
 }
 
 export function URLValidator(control: FormControl): ValidationErrors {
-  if (control.value == null) {
+  if (control.value === null) {
     return null;
   }
 

@@ -134,12 +134,12 @@ export class ApiService {
     rawResponse = false
   ) {
     let ep = "";
-    if (base == "auth") {
+    if (base === "auth") {
       ep = environment.authApiUrl + "/" + endpoint;
     } else {
       ep = environment.apiUrl + "/" + endpoint;
     }
-    if (id != "") {
+    if (id !== "") {
       ep += "/" + id;
     }
 
@@ -162,16 +162,16 @@ export class ApiService {
     }
 
     let httpCall;
-    if (method == "GET") {
+    if (method === "GET") {
       options["params"] = data;
       httpCall = this.http.get(ep, options);
-    } else if (method == "POST") {
+    } else if (method === "POST") {
       httpCall = this.http.post(ep, data, options);
-    } else if (method == "PUT") {
+    } else if (method === "PUT") {
       httpCall = this.http.put(ep, data, options);
-    } else if (method == "PATCH") {
+    } else if (method === "PATCH") {
       httpCall = this.http.patch(ep, data, options);
-    } else if (method == "DELETE") {
+    } else if (method === "DELETE") {
       httpCall = this.http.delete(ep, options);
     } else {
       console.error("Unknown API method: " + method);
@@ -190,16 +190,16 @@ export class ApiService {
         return response;
       }),
       catchError((error) => {
-        if (error.status == null && error.error == null) {
+        if (error.status === null && error.error === null) {
           // 204 empty responses
           return of("");
         }
         // Note that Chrome also returns status 0 in case of CORS issues.
         // A wrong endpoint will raise a 404 error from OPTIONS pre-flight request,
-        // this will bring to a CORS error on the request == a error status 0
-        // => missing endpoint == 404 on pre-flight == 0 on request == OFFLINE :\
+        // this will bring to a CORS error on the request === a error status 0
+        // => missing endpoint === 404 on pre-flight === 0 on request === OFFLINE :\
         // Same error status 0 is obtained when APIs are not reachable
-        // => server offline == endpoint is missing :\
+        // => server offline === endpoint is missing :\
         if (error.status <= 0) {
           this.set_offline();
         } else {

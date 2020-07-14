@@ -81,11 +81,11 @@ export class SessionsComponent extends BasePaginationComponent<Session> {
 
   filter(data_filter) {
     return this.unfiltered_data.filter(function (d) {
-      if (d.IP != null && d.IP.toLowerCase().indexOf(data_filter) !== -1) {
+      if (d.IP !== null && d.IP.toLowerCase().indexOf(data_filter) !== -1) {
         return true;
       }
       if (
-        d.location != null &&
+        d.location !== null &&
         d.location.toLowerCase().indexOf(data_filter) !== -1
       ) {
         return true;

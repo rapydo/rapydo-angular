@@ -27,7 +27,7 @@ export class ChangePasswordComponent {
     if (
       this.user &&
       this.user["SECOND_FACTOR"] &&
-      this.user["SECOND_FACTOR"] == "TOTP"
+      this.user["SECOND_FACTOR"] === "TOTP"
     ) {
       this.fields.push({
         key: "totp_code",
@@ -113,7 +113,7 @@ export class ChangePasswordComponent {
       data["password"] = this.model["totp_code"];
     }
 
-    if (this.auth.getUser() == null) {
+    if (this.auth.getUser() === null) {
       this.router.navigate([""]);
       return false;
     }
@@ -141,7 +141,7 @@ export class ChangePasswordComponent {
         );
       },
       (error) => {
-        if (error.status == 401) {
+        if (error.status === 401) {
           this.notify.showError(
             "Your request cannot be authorized, is current password wrong?"
           );

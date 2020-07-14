@@ -34,14 +34,11 @@ export class BytesPipe {
       number = Math.floor(Math.log(bytes) / Math.log(1024));
 
     if (precision === null) {
-      if (number <= 1) precision = 0;
-      else precision = 1;
+      precision = number <= 1 ? 0 : 1;
     }
-    return (
-      (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) +
-      " " +
-      units[number]
-    );
+
+    value = (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision);
+    return value + " " + units[number];
   }
 }
 
@@ -51,11 +48,11 @@ export class BytesPipe {
 @Injectable()
 export class BooleanFlagPipe {
   transform(str): string {
-    if (str == true) {
+    if (str === true) {
       return "<i class='fas fa-check fa-large fa-green'></i>";
     }
 
-    if (str == false) {
+    if (str === false) {
       return "<i class='fas fa-times fa-large fa-red'></i>";
     }
 
@@ -69,11 +66,11 @@ export class BooleanFlagPipe {
 @Injectable()
 export class YesNoPipe {
   transform(str): string {
-    if (str == true) {
+    if (str === true) {
       return "YES";
     }
 
-    if (str == false) {
+    if (str === false) {
       return "NO";
     }
 

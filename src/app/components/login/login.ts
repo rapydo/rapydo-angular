@@ -174,11 +174,11 @@ export class LoginComponent implements OnInit {
           );
         },
         (error) => {
-          if (error.status == 0) {
+          if (error.status === 0) {
             this.notify.showError("Error: no response received from backend");
-          } else if (error.status == 409) {
+          } else if (error.status === 409) {
             this.notify.showError(error);
-          } else if (error.status == 403) {
+          } else if (error.status === 403) {
             const body = error.error;
             let userMessage = "Unrecognized response from server";
 
@@ -196,7 +196,7 @@ export class LoginComponent implements OnInit {
               for (let i = 0; i < actions.length; i++) {
                 let action = actions[i];
                 let notyLevel = this.notify.ERROR;
-                if (action == "FIRST LOGIN") {
+                if (action === "FIRST LOGIN") {
                   this.panelTitle = "Please change your temporary password";
                   this.buttonText = "Change";
                   this.warningCard = true;
@@ -205,7 +205,7 @@ export class LoginComponent implements OnInit {
                   this.askNewPassword = true;
                   this.set_form();
                   notyLevel = this.notify.WARNING;
-                } else if (action == "PASSWORD EXPIRED") {
+                } else if (action === "PASSWORD EXPIRED") {
                   this.panelTitle =
                     "Your password is expired, please change it";
                   this.buttonText = "Change";
@@ -215,7 +215,7 @@ export class LoginComponent implements OnInit {
                   this.askNewPassword = true;
                   this.set_form();
                   notyLevel = this.notify.WARNING;
-                } else if (action == "TOTP") {
+                } else if (action === "TOTP") {
                   console.warn("2FA not yet implemented");
                   this.panelTitle = "Provide the verification code";
                   this.buttonText = "Authorize";
@@ -237,7 +237,7 @@ export class LoginComponent implements OnInit {
                 // self.qr_code = body.qr_code;
               }
             }
-          } else if (error.status == 404) {
+          } else if (error.status === 404) {
             this.notify.showError(
               "Unable to login due to a server error. If this error persists please contact system administrators"
             );
@@ -263,7 +263,7 @@ If you are reading this text your terms of use are missing in your customization
 Please add something like this to your ProjectOptions.get_option (in custom.project.options.ts)<br />
 <br/>
 <pre>
-  if (opt == "privacy_acceptance") {
+  if (opt === "privacy_acceptance") {
     return this.privacy_acceptance();
   }
 

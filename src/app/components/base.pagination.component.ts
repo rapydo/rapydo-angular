@@ -21,7 +21,7 @@ import { FormModal } from "@rapydo/components/forms/form_modal";
 
 import { ProjectOptions } from "@app/custom.project.options";
 
-// == @swimlane/ngx-datatable/src/types/column-mode.type
+// === @swimlane/ngx-datatable/src/types/column-mode.type
 enum ColumnMode {
   standard = "standard",
   flex = "flex",
@@ -146,7 +146,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   }
 
   updateFilter(event): void {
-    if (event != null) {
+    if (event !== null) {
       this.data_filter = event.target.value.toLowerCase();
     }
 
@@ -295,16 +295,16 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
   protected get(endpoint, data = null, namespace = "api") {
     let opt;
-    if (namespace != "api") {
+    if (namespace !== "api") {
       opt = { base: namespace };
     }
 
-    if (this.server_side_pagination && data == null) {
+    if (this.server_side_pagination && data === null) {
       data = {
         page: this.paging.page + 1,
         size: this.paging.itemsPerPage,
       };
-    } else if (data == null) {
+    } else if (data === null) {
       data = {};
     }
 
@@ -334,7 +334,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
   protected delete(endpoint, uuid, namespace = "api") {
     let opt;
-    if (namespace != "api") {
+    if (namespace !== "api") {
       opt = { base: namespace };
     }
 
