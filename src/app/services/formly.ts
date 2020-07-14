@@ -97,9 +97,15 @@ export class FormlyService {
           s.required = "true";
         }
         if ("format" in s) {
-          if (s.format == "date") stype = "date";
-          if (s.format == "email") stype = "email";
-          if (s.format == "password") stype = "password";
+          if (s.format == "date") {
+            stype = "date";
+          }
+          if (s.format == "email") {
+            stype = "email";
+          }
+          if (s.format == "password") {
+            stype = "password";
+          }
         }
       }
       // End of swagger compatibility
@@ -246,7 +252,9 @@ export class FormlyService {
         }
       }
 
-      if ("size" in s) field["className"] = "col-" + s.size;
+      if ("size" in s) {
+        field["className"] = "col-" + s.size;
+      }
 
       field["templateOptions"]["label"] = s.label;
 
@@ -368,26 +376,30 @@ export class FormlyService {
   }
 
   public formatNgbDatepicker(date_string: string): Date {
-    if (date_string === null) return null;
-
-    if (date_string == "") return null;
+    if (date_string === null || date_string == "") {
+      return null;
+    }
 
     // this works because we provided NgbDateAdapter = NgbDateNativeAdapter
     // otherwise by default ngbDatepicker uses { year: 'yyyy', month: 'mm', day: 'dd'}
     return new Date(date_string);
   }
   public formatDate(date_string: string): string {
-    if (date_string === null) return date_string;
-
-    if (date_string == "") return date_string;
+    if (date_string === null || date_string == "") {
+      return date_string;
+    }
 
     const d = new Date(date_string);
     let month = "" + (d.getMonth() + 1);
     let day = "" + d.getDate();
     const year = d.getFullYear();
 
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
+    if (month.length < 2) {
+      month = "0" + month;
+    }
+    if (day.length < 2) {
+      day = "0" + day;
+    }
 
     return [year, month, day].join("-");
   }

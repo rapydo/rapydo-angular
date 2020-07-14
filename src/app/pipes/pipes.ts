@@ -51,9 +51,13 @@ export class BytesPipe {
 @Injectable()
 export class BooleanFlagPipe {
   transform(str): string {
-    if (str == true) return "<i class='fas fa-check fa-large fa-green'></i>";
+    if (str == true) {
+      return "<i class='fas fa-check fa-large fa-green'></i>";
+    }
 
-    if (str == false) return "<i class='fas fa-times fa-large fa-red'></i>";
+    if (str == false) {
+      return "<i class='fas fa-times fa-large fa-red'></i>";
+    }
 
     return str;
   }
@@ -65,9 +69,13 @@ export class BooleanFlagPipe {
 @Injectable()
 export class YesNoPipe {
   transform(str): string {
-    if (str == true) return "YES";
+    if (str == true) {
+      return "YES";
+    }
 
-    if (str == false) return "NO";
+    if (str == false) {
+      return "NO";
+    }
 
     return str;
   }
