@@ -47,8 +47,6 @@ import {
 import { SecurePipe } from "@rapydo/pipes/secure";
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
 import { FormModal } from "@rapydo/components/forms/form_modal";
-// loading component is deprecated since 0.7.3
-import { LoadingComponent } from "@rapydo/components/loading/loading";
 
 export function emailValidator(control: FormControl): ValidationErrors {
   /*
@@ -222,7 +220,6 @@ let module_declarations = [
   SecurePipe,
   BasePaginationComponent,
   FormModal,
-  LoadingComponent,
   FormlyHorizontalWrapper,
   FileValueAccessor,
   FormlyFieldFile,
@@ -262,7 +259,6 @@ let module_exports = [
   SecurePipe,
   BasePaginationComponent,
   FormModal,
-  LoadingComponent,
 ];
 
 let module_providers: any = [
