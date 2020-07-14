@@ -228,10 +228,4 @@ export class ApiService {
       })
     );
   }
-
-  public parseResponse(response) {
-    // deprecated since 0.7.3
-    console.warn("Obsolete use of parseResponse");
-    return response;
-  }
 }

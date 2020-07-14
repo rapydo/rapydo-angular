@@ -37,7 +37,9 @@ export class BytesPipe {
       precision = number <= 1 ? 0 : 1;
     }
 
-    value = (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision);
+    const value = (bytes / Math.pow(1024, Math.floor(number))).toFixed(
+      precision
+    );
     return value + " " + units[number];
   }
 }
