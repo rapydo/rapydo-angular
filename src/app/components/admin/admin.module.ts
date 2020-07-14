@@ -7,6 +7,7 @@ import { AuthGuard } from "@rapydo/app.auth.guard";
 import { AdminUsersComponent } from "@rapydo/components/admin/admin_users";
 import { AdminGroupsComponent } from "@rapydo/components/admin/admin_groups";
 import { AdminSessionsComponent } from "@rapydo/components/admin/admin_sessions";
+import { AdminStatsComponent } from "@rapydo/components/admin/admin_stats";
 
 const routes: Routes = [
   {
@@ -30,6 +31,13 @@ const routes: Routes = [
     runGuardsAndResolvers: "always",
     data: { roles: ["admin_root"] },
   },
+  {
+    path: "stats",
+    component: AdminStatsComponent,
+    canActivate: [AuthGuard],
+    runGuardsAndResolvers: "always",
+    data: { roles: ["admin_root"] },
+  },
 ];
 
 @NgModule({
@@ -37,8 +45,14 @@ const routes: Routes = [
     AdminUsersComponent,
     AdminGroupsComponent,
     AdminSessionsComponent,
+    AdminStatsComponent,
   ],
-  exports: [AdminUsersComponent, AdminGroupsComponent, AdminSessionsComponent],
+  exports: [
+    AdminUsersComponent,
+    AdminGroupsComponent,
+    AdminSessionsComponent,
+    AdminStatsComponent,
+  ],
   imports: [SharedModule, RouterModule.forChild(routes)],
 })
 export class AdminModule {}
