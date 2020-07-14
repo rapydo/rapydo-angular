@@ -29,16 +29,12 @@ describe("AdminStats", () => {
 
     cy.get("table").find("tr.table-primary").contains("CPU");
     cy.get("table").find("th").contains("Num");
-    cy.get("table").find("th").contains("Load").parent().contains(".");
     cy.get("table").find("th").contains("Load").parent().contains("%");
 
     cy.get("table").find("tr.table-primary").contains("Disk");
-    cy.get("table").find("th").contains("Root size").parent().contains(".");
     cy.get("table").find("th").contains("Root size").parent().contains(" GB");
-    cy.get("table").find("th").contains("Used").parent().contains(".");
     cy.get("table").find("th").contains("Used").parent().contains(" GB");
     cy.get("table").find("th").contains("Used").parent().contains("%)");
-    cy.get("table").find("th").contains("Free").parent().contains(".");
     cy.get("table").find("th").contains("Free").parent().contains(" GB");
 
     cy.get("table").find("tr.table-primary").contains("RAM");
