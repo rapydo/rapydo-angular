@@ -32,7 +32,7 @@ describe("AdminStats", () => {
       .find("th")
       .contains("Num")
       .parent()
-      .get("td")
+      .find("td")
       .should("be.gte", 1);
     cy.get("table").find("th").contains("Load").parent().contains(".");
     cy.get("table").find("th").contains("Load").parent().contains("%");
@@ -72,13 +72,13 @@ describe("AdminStats", () => {
       .find("th")
       .contains("Blocks received")
       .parent()
-      .get("td")
+      .find("td")
       .should("be.gte", 1);
     cy.get("table")
       .find("th")
       .contains("Blocks sent")
       .parent()
-      .get("td")
+      .find("td")
       .should("be.gte", 1);
 
     cy.get("table").find("tr.table-primary").contains("Procs");
@@ -87,13 +87,13 @@ describe("AdminStats", () => {
       .find("th")
       .contains("Waiting for run")
       .parent()
-      .get("td")
+      .find("td")
       .should("be.gte", 1);
     cy.get("table")
       .find("th")
       .contains("Uninterruptible sleep")
       .parent()
-      .get("td")
+      .find("td")
       .should("be.gte", 1);
   });
 });
