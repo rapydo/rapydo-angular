@@ -195,7 +195,6 @@ export class LoginComponent implements OnInit {
             } else {
               for (let i = 0; i < actions.length; i++) {
                 let action = actions[i];
-                let notyLevel = this.notify.ERROR;
                 if (action === "FIRST LOGIN") {
                   this.panelTitle = "Please change your temporary password";
                   this.buttonText = "Change";
@@ -204,7 +203,7 @@ export class LoginComponent implements OnInit {
                   this.askPassword = false;
                   this.askNewPassword = true;
                   this.set_form();
-                  notyLevel = this.notify.WARNING;
+                  this.notify.showWarning(body.errors);
                 } else if (action === "PASSWORD EXPIRED") {
                   this.panelTitle =
                     "Your password is expired, please change it";
@@ -214,7 +213,7 @@ export class LoginComponent implements OnInit {
                   this.askPassword = false;
                   this.askNewPassword = true;
                   this.set_form();
-                  notyLevel = this.notify.WARNING;
+                  this.notify.showWarning(body.errors);
                 } else if (action === "TOTP") {
                   console.warn("2FA not yet implemented");
                   this.panelTitle = "Provide the verification code";
@@ -224,12 +223,11 @@ export class LoginComponent implements OnInit {
                   this.askPassword = false;
                   this.askTOTP = true;
                   this.set_form();
-                  notyLevel = this.notify.WARNING;
+                  this.notify.showWarning(body.errors);
                 } else {
                   console.error("Unrecognized action: " + action);
                   this.notify.showError(userMessage);
                 }
-                this.notify.showAll(body.errors, notyLevel);
               }
 
               if (body.qr_code) {
