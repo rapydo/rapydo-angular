@@ -59,16 +59,18 @@ export class AuthService {
     new_password: string = null,
     password_confirm: string = null
   ) {
-    let data = {
-      username,
-      password,
-    };
+    let data;
     if (new_password !== null && password_confirm !== null) {
       data = {
         username,
         password,
         new_password,
         password_confirm,
+      };
+    } else {
+      data = {
+        username,
+        password,
       };
     }
 
