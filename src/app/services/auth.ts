@@ -109,9 +109,8 @@ export class AuthService {
   }
 
   public ask_activation_link(username) {
-    let data = { username: username };
     return this.http
-      .post(environment.authApiUrl + "/profile/activate", data)
+      .post(environment.authApiUrl + "/profile/activate", { username })
       .pipe(
         map(
           (response) => {

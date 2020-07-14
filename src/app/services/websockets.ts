@@ -16,7 +16,7 @@ export class WebSocketsService {
       "ws://" + host + "/api/socket/" + channel + "?access_token=" + token;
 
     const socket: WebSocketSubject<any> = webSocket({
-      url: url,
+      url,
       // avoid the default JSON.parse on incoming messages
       deserializer: (msg) => msg,
     });

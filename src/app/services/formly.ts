@@ -39,7 +39,7 @@ export class FormlyService {
     let fields = [];
     let model = {};
     if (schema == null || typeof schema == "undefined") {
-      return { fields: fields, model: model };
+      return { fields, model };
     }
 
     for (let s of schema) {
@@ -322,16 +322,25 @@ export class FormlyService {
       }
     }
 
-    return { fields: fields, model: model };
+    return { fields, model };
   }
 
-  public getField(model, type, key, name, required, descr, options = null) {
+  public getField(
+    model,
+    type,
+    key,
+    label,
+    required,
+    description,
+    options = null
+  ) {
+    required = required ? "true" : "false";
     const field = {
-      description: descr,
-      key: key,
-      label: name,
-      required: required ? "true" : "false",
-      type: type,
+      description,
+      key,
+      label,
+      required,
+      type,
     };
 
     if (type == "checkbox" || type == "boolean") {
