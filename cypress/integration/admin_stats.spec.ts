@@ -15,6 +15,10 @@ describe("AdminStats", () => {
   });
 
   it("View stats", () => {
+    // The endpoint quite slow due to the ping to calculate the network latency
+    // Let's wait a bit before starting the tests
+    cy.wait(5000);
+
     cy.get("div.card-header h4").contains("Server stats");
 
     cy.get("table")
