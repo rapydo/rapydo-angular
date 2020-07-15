@@ -31,7 +31,13 @@
                 <td>{{ stats.cpu.count }}</td>
               </tr>
 
-              <tr>
+              <tr
+                [ngClass]="{
+                'text-success': stats.cpu.load < 0.75,
+                'text-warning': stats.cpu.load >= 0.75 && stats.cpu.load < 1.1,
+                'text-danger': stats.cpu.load >= 1.2
+              }"
+              >
                 <th>Load</th>
                 <td>{{ stats.cpu.load}}%</td>
               </tr>
@@ -45,7 +51,13 @@
                 <td>{{ stats.disk.total_disk_space }} GB</td>
               </tr>
 
-              <tr>
+              <tr
+                [ngClass]="{
+                'text-success': stats.disk.occupacy < 0.75,
+                'text-warning': stats.disk.occupacy >= 0.75 && stats.disk.occupacy < 0.85,
+                'text-danger': stats.disk.occupacy >= 0.85
+              }"
+              >
                 <th>Used disk</th>
                 <td>
                   {{ stats.disk.used_disk_space }} GB ({{ stats.disk.occupacy
@@ -53,7 +65,13 @@
                 </td>
               </tr>
 
-              <tr>
+              <tr
+                [ngClass]="{
+                'text-success': stats.disk.occupacy < 0.75,
+                'text-warning': stats.disk.occupacy >= 0.75 && stats.disk.occupacy < 0.85,
+                'text-danger': stats.disk.occupacy >= 0.85
+              }"
+              >
                 <th>Free disk</th>
                 <td>{{ stats.disk.free_disk_space }} GB</td>
               </tr>
@@ -70,7 +88,7 @@
               <tr
                 [ngClass]="{
                 'text-success': stats.ram.used < stats.ram.total * 0.5,
-                'text-warning': stats.ram.used < stats.ram.total * 0.75,
+                'text-warning': stats.ram.used >= stats.ram.total * 0.5 && stats.ram.used < stats.ram.total * 0.75,
                 'text-danger': stats.ram.used >= stats.ram.total * 0.75
               }"
               >
@@ -78,7 +96,13 @@
                 <td>{{ stats.ram.used }} MB</td>
               </tr>
 
-              <tr>
+              <tr
+                [ngClass]="{
+                'text-success': stats.ram.used < stats.ram.total * 0.5,
+                'text-warning': stats.ram.used >= stats.ram.total * 0.5 && stats.ram.used < stats.ram.total * 0.75,
+                'text-danger': stats.ram.used >= stats.ram.total * 0.75
+              }"
+              >
                 <th>Available RAM</th>
                 <td>
                   {{ stats.ram.free + stats.ram.cache + stats.ram.buffer }} MB
