@@ -33,9 +33,9 @@
 
               <tr
                 [ngClass]="{
-                'text-success': stats.cpu.load < 0.75,
-                'text-warning': stats.cpu.load >= 0.75 && stats.cpu.load < 1.1,
-                'text-danger': stats.cpu.load >= 1.2
+                'text-success': stats.cpu.load 0.75,
+                'text-warning': stats.cpu.load >= 75 && stats.cpu.load < 110,
+                'text-danger': stats.cpu.load >= 110
               }"
               >
                 <th>Load</th>
@@ -204,7 +204,7 @@
                 <th>Max Latency</th>
                 <td>{{ stats.network_latency.max }} ms</td>
               </tr>
-
+              <!-- 
               <tr class="table-primary">
                 <th colspan="2">I/O</th>
               </tr>
@@ -218,7 +218,8 @@
                 <th>Blocks sent</th>
                 <td>{{ stats.io.blocks_sent }}</td>
               </tr>
-
+ -->
+              <!-- 
               <tr class="table-primary">
                 <th colspan="2">Procs</th>
               </tr>
@@ -232,6 +233,7 @@
                 <th>Uninterruptible sleep</th>
                 <td>{{ stats.procs.uninterruptible_sleep }}</td>
               </tr>
+ -->
             </table>
           </div>
         </div>

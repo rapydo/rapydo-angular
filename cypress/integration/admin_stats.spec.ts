@@ -65,13 +65,13 @@ describe("AdminStats", () => {
     cy.get("table").find("th").contains("Avg Latency").parent().contains(" ms");
     cy.get("table").find("th").contains("Max Latency").parent().contains(" ms");
 
-    cy.get("table").find("tr.table-primary").contains("I/O");
-    cy.get("table").find("th").contains("Blocks received");
-    cy.get("table").find("th").contains("Blocks sent");
+    // cy.get("table").find("tr.table-primary").contains("I/O");
+    // cy.get("table").find("th").contains("Blocks received");
+    // cy.get("table").find("th").contains("Blocks sent");
 
-    cy.get("table").find("tr.table-primary").contains("Procs");
+    // cy.get("table").find("tr.table-primary").contains("Procs");
 
-    cy.get("table").find("th").contains("Waiting for run");
-    cy.get("table").find("th").contains("Uninterruptible sleep");
+    // cy.get("table").find("th").contains("Waiting for run");
+    // cy.get("table").find("th").contains("Uninterruptible sleep");
   });
 });
