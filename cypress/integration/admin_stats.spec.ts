@@ -51,7 +51,9 @@ describe("AdminStats", () => {
     cy.get("table").find("th").contains("Active").parent().contains(" MB");
     cy.get("table").find("th").contains("Inactive").parent().contains(" MB");
 
-    cy.get("table").find("tr.table-primary").contains("Swap");
+    // How to check A || B ?
+    // cy.get("table").find("tr.table-primary").contains("Swap");
+    // cy.get("table").find("tr.table-secondary").contains("Swap is disabled");
     cy.get("table").find("th").contains("Total size").parent().contains(" MB");
     cy.get("table").find("th").contains("Free swap").parent().contains(" MB");
     cy.get("table").find("th").contains("Used swap").parent().contains(" MB");
