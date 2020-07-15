@@ -3,7 +3,10 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <h4>Server Stats</h4>
+          <h4 class="float-left">Server Stats</h4>
+          <span class="float-right"
+            ><i class="fa fa-retweet fa-large" (click)="retrieve_stats();"></i
+          ></span>
         </div>
 
         <div class="card-block">
@@ -87,9 +90,9 @@
 
               <tr
                 [ngClass]="{
-                'text-success': stats.ram.used < stats.ram.total * 0.5,
-                'text-warning': stats.ram.used >= stats.ram.total * 0.5 && stats.ram.used < stats.ram.total * 0.75,
-                'text-danger': stats.ram.used >= stats.ram.total * 0.75
+                'text-success': stats.ram.used < stats.ram.total * 0.7,
+                'text-warning': stats.ram.used >= stats.ram.total * 0.7 && stats.ram.used < stats.ram.total * 0.85,
+                'text-danger': stats.ram.used >= stats.ram.total * 0.85
               }"
               >
                 <th>Used RAM</th>
@@ -98,9 +101,9 @@
 
               <tr
                 [ngClass]="{
-                'text-success': stats.ram.used < stats.ram.total * 0.5,
-                'text-warning': stats.ram.used >= stats.ram.total * 0.5 && stats.ram.used < stats.ram.total * 0.75,
-                'text-danger': stats.ram.used >= stats.ram.total * 0.75
+                'text-success': stats.ram.used < stats.ram.total * 0.7,
+                'text-warning': stats.ram.used >= stats.ram.total * 0.7 && stats.ram.used < stats.ram.total * 0.85,
+                'text-danger': stats.ram.used >= stats.ram.total * 0.85
               }"
               >
                 <th>Available RAM</th>

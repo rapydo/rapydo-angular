@@ -80,6 +80,10 @@ export class AdminStatsComponent {
     private auth: AuthService,
     private notify: NotificationService
   ) {
+    this.retrieve_stats();
+  }
+
+  public retrieve_stats(): void {
     this.spinner.show();
     this.api.get("admin/stats").subscribe(
       (response) => {
