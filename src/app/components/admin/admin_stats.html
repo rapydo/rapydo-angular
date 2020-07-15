@@ -33,7 +33,7 @@
 
               <tr
                 [ngClass]="{
-                'text-success': stats.cpu.load 0.75,
+                'text-success': stats.cpu.load <= 75,
                 'text-warning': stats.cpu.load >= 75 && stats.cpu.load < 110,
                 'text-danger': stats.cpu.load >= 110
               }"
