@@ -67,9 +67,9 @@
 
               <tr
                 [ngClass]="{
-                'text-success': stats.disk.occupacy < 0.75,
-                'text-warning': stats.disk.occupacy >= 0.75 && stats.disk.occupacy < 0.85,
-                'text-danger': stats.disk.occupacy >= 0.85
+                'text-success': stats.disk.occupacy < 75,
+                'text-warning': stats.disk.occupacy >= 75 && stats.disk.occupacy < 85,
+                'text-danger': stats.disk.occupacy >= 85
               }"
               >
                 <th>Free disk</th>
@@ -137,7 +137,7 @@
               <tr class="table-primary" *ngIf="stats.swap.total > 0">
                 <th colspan="2">Swap</th>
               </tr>
-              <tr class="table-muted" *ngIf="stats.swap.total == 0">
+              <tr class="table-secondary" *ngIf="stats.swap.total == 0">
                 <th colspan="2">Swap is disabled</th>
               </tr>
 
