@@ -67,9 +67,22 @@
                 <td>{{ stats.ram.total }} MB</td>
               </tr>
 
-              <tr>
+              <tr
+                [ngClass]="{
+                text-success: stats.ram.used < stats.ram.total * 0.5,
+                text-warning: stats.ram.used < stats.ram.total * 0.75,
+                text-danger: stats.ram.used >= stats.ram.total * 0.75
+              }"
+              >
                 <th>Used RAM</th>
                 <td>{{ stats.ram.used }} MB</td>
+              </tr>
+
+              <tr>
+                <th>Available RAM</th>
+                <td>
+                  {{ stats.ram.free + stats.ram.cache + stats.ram.buffer }} MB
+                </td>
               </tr>
 
               <tr>

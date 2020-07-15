@@ -40,6 +40,11 @@ describe("AdminStats", () => {
     cy.get("table").find("tr.table-primary").contains("RAM");
     cy.get("table").find("th").contains("Total RAM").parent().contains(" MB");
     cy.get("table").find("th").contains("Used RAM").parent().contains(" MB");
+    cy.get("table")
+      .find("th")
+      .contains("Available RAM")
+      .parent()
+      .contains(" MB");
     cy.get("table").find("th").contains("Free RAM").parent().contains(" MB");
     cy.get("table").find("th").contains("Cache").parent().contains(" MB");
     cy.get("table").find("th").contains("Buffer").parent().contains(" MB");
