@@ -53,9 +53,9 @@
 
               <tr
                 [ngClass]="{
-                'text-success': stats.disk.occupacy < 0.75,
-                'text-warning': stats.disk.occupacy >= 0.75 && stats.disk.occupacy < 0.85,
-                'text-danger': stats.disk.occupacy >= 0.85
+                'text-success': stats.disk.occupacy < 75,
+                'text-warning': stats.disk.occupacy >= 75 && stats.disk.occupacy < 85,
+                'text-danger': stats.disk.occupacy >= 85
               }"
               >
                 <th>Used disk</th>
