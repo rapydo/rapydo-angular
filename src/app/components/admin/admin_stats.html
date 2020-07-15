@@ -12,7 +12,7 @@
           <div class="table-responsive">
             <table class="table table-sm" *ngIf="stats">
               <tr>
-                <th>Server uptime</th>
+                <th>Server startup</th>
                 <td>
                   <span
                     ngbTooltip="{{stats.boot_time | amFromUtc | date : 'dd MMM yyyy HH:mm:ss' }}"
@@ -69,9 +69,9 @@
 
               <tr
                 [ngClass]="{
-                text-success: stats.ram.used < stats.ram.total * 0.5,
-                text-warning: stats.ram.used < stats.ram.total * 0.75,
-                text-danger: stats.ram.used >= stats.ram.total * 0.75
+                'text-success': stats.ram.used < stats.ram.total * 0.5,
+                'text-warning': stats.ram.used < stats.ram.total * 0.75,
+                'text-danger': stats.ram.used >= stats.ram.total * 0.75
               }"
               >
                 <th>Used RAM</th>

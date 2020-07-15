@@ -23,7 +23,7 @@ describe("AdminStats", () => {
 
     cy.get("table")
       .find("th")
-      .contains("Server uptime")
+      .contains("Server startup")
       .parent()
       .contains("ago");
 
