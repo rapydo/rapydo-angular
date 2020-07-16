@@ -4,7 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { catchError, map } from "rxjs/operators";
 import { of, throwError } from "rxjs";
 import { Subject } from "rxjs";
-import { ApiService } from "./api";
+import { ApiService } from "@rapydo/api";
 
 import { environment } from "@rapydo/../environments/environment";
 import { NotificationService } from "@rapydo/services/notification";
