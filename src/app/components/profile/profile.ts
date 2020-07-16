@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { NgxSpinnerService } from "ngx-spinner";
 
-import { AuthService, User } from "../../services/auth";
+import { AuthService, User } from "@rapydo/services/auth";
 import { NotificationService } from "@rapydo/services/notification";
 
 @Component({

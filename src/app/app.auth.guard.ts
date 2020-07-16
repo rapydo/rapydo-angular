@@ -6,8 +6,8 @@ import {
   RouterStateSnapshot,
 } from "@angular/router";
 import { map } from "rxjs/operators";
-import { AuthService } from "./services/auth";
-import { ApiService } from "./services/api";
+import { AuthService } from "@rapydo/services/auth";
+import { ApiService } from "@rapydo/services/api";
 
 @Injectable()
 export class AuthGuard implements CanActivate {

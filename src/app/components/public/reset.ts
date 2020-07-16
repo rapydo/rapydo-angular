@@ -3,9 +3,9 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { FormGroup } from "@angular/forms";
 import { FormlyFieldConfig } from "@ngx-formly/core";
 
-import { NotificationService } from "../../services/notification";
-import { ApiService } from "../../services/api";
-import { AuthService } from "../../services/auth";
+import { NotificationService } from "@rapydo/services/notification";
+import { ApiService } from "@rapydo/services/api";
+import { AuthService } from "@rapydo/services/auth";
 
 @Component({
   templateUrl: "reset.html",
