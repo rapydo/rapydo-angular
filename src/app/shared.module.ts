@@ -186,8 +186,8 @@ let module_imports: any = [
       { name: "form-field-horizontal", component: FormlyHorizontalWrapper },
     ],
     types: [
-      { name: "file", component: FormlyFieldFile, wrappers: ["form-field"] },
-      { name: "radio", component: FormlyDescriptiveRadio },
+      // { name: "file", component: FormlyFieldFile, wrappers: ["form-field"] },
+      // { name: "radio", component: FormlyDescriptiveRadio },
       { name: "terms_of_use", component: TermsOfUseCheckbox },
       {
         name: "datepicker",
