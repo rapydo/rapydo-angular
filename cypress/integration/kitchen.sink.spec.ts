@@ -2,13 +2,15 @@
 /*global cy, Cypress*/
 
 describe("KitchenSink", () => {
-  cy.login();
+  it("TestSink", () => {
+    cy.login();
 
-  cy.visit("/app/sink");
+    cy.visit("/app/sink");
 
-  cy.location().should((location) => {
-    if (location.pathname.to.eq("/app/sink")) {
-      cy.contains("Lorem ipsum dolor sit amet, consectetur adipiscing elit");
-    }
+    cy.location().should((location) => {
+      if (location.pathname.to.eq("/app/sink")) {
+        cy.contains("Lorem ipsum dolor sit amet, consectetur adipiscing elit");
+      }
+    });
   });
 });
