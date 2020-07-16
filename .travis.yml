@@ -23,9 +23,6 @@ script:
   - mkdir rapydo_tests
   - cd rapydo_tests
   - rapydo create prj --auth postgres --frontend angular --origin-url https://your_remote_git/your_project.git;
-  - rapydo add component sink
-  - cp ../controller/templates/testing_sink.html.j2 projects/prj/frontend/app/components/sink/sink.html
-  - cp ../controller/templates/testing_sink.ts.j2 projects/prj/frontend/app/components/sink/sink.ts
   - >
     if [[ "$STAGE" == "karma" ]]; then
 
@@ -63,6 +60,10 @@ script:
       export COMMIT_INFO_REMOTE="$(git config --get remote.origin.url)";
       export CYPRESS_GROUP="$(git show -s --pretty=%H)";
       cd -;
+
+      rapydo add component sink;
+      cp ../controller/templates/testing_sink.html.j2 projects/prj/frontend/app/components/sink/sink.html;
+      cp ../controller/templates/testing_sink.ts.j2 projects/prj/frontend/app/components/sink/sink.ts;
 
       rapydo pull;
       rapydo start;
