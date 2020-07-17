@@ -22,11 +22,11 @@ script:
   - pip3 install --upgrade git+https://github.com/rapydo/do.git@${CURRENT_VERSION}
   - mkdir rapydo_tests
   - cd rapydo_tests
-  - rapydo create prj --auth postgres --frontend angular --origin-url https://your_remote_git/your_project.git;
   - >
     if [[ "$STAGE" == "karma" ]]; then
 
-      TESTING=1 rapydo init
+      rapydo create prj --auth postgres --frontend angular --origin-url https://your_remote_git/your_project.git;
+      rapydo --testing init;
       rapydo -s frontend pull;
       rapydo -s frontend start;
       sleep 5;
@@ -37,7 +37,8 @@ script:
 
     elif [[ "$STAGE" == "prod" ]]; then
 
-      rapydo --prod init
+      rapydo create prj --auth postgres --frontend angular --origin-url https://your_remote_git/your_project.git;
+      rapydo --prod init;
       rapydo -s frontend pull;
       rapydo -s frontend start;
       rapydo dump;
@@ -46,7 +47,11 @@ script:
 
     else
 
-      TESTING=1 rapydo init
+      rapydo --testing create prj --auth postgres --frontend angular --origin-url https://your_remote_git/your_project.git;
+      rapydo --testing init;
+      rapydo add component sink;
+      cp ../controller/templates/testing_sink.html.j2 projects/prj/frontend/app/components/sink/sink.html;
+      cp ../controller/templates/testing_sink.ts.j2 projects/prj/frontend/app/components/sink/sink.ts;
 
       cd submodules/rapydo-angular;
       export COMMIT_INFO_BRANCH="$(git rev-parse --abbrev-ref HEAD)";
@@ -60,10 +65,6 @@ script:
       export COMMIT_INFO_REMOTE="$(git config --get remote.origin.url)";
       export CYPRESS_GROUP="$(git show -s --pretty=%H)";
       cd -;
-
-      rapydo add component sink;
-      cp ../controller/templates/testing_sink.html.j2 projects/prj/frontend/app/components/sink/sink.html;
-      cp ../controller/templates/testing_sink.ts.j2 projects/prj/frontend/app/components/sink/sink.ts;
 
       rapydo pull;
       rapydo start;
