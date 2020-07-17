@@ -50,8 +50,8 @@ script:
       rapydo --testing create prj --auth postgres --frontend angular --origin-url https://your_remote_git/your_project.git;
       rapydo --testing init;
       rapydo add component sink;
-      cp ../controller/templates/testing_sink.html.j2 projects/prj/frontend/app/components/sink/sink.html;
-      cp ../controller/templates/testing_sink.ts.j2 projects/prj/frontend/app/components/sink/sink.ts;
+      cp submodules/do/controller/templates/testing_sink.html.j2 projects/prj/frontend/app/components/sink/sink.html;
+      cp submodules/do/controller/templates/testing_sink.ts.j2 projects/prj/frontend/app/components/sink/sink.ts;
 
       cd submodules/rapydo-angular;
       export COMMIT_INFO_BRANCH="$(git rev-parse --abbrev-ref HEAD)";

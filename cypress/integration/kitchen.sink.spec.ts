@@ -7,8 +7,9 @@ describe("KitchenSink", () => {
 
     cy.visit("/app/sink");
 
-    cy.location().should((location) => {
-      if (location.pathname.to.eq("/app/sink")) {
+    cy.location("pathname").then((pathname) => {
+      if (pathname == "/app/sink") {
+        // Kitchen Sink is enabled, add here all tests!
         cy.contains("Lorem ipsum dolor sit amet, consectetur adipiscing elit");
       }
     });
