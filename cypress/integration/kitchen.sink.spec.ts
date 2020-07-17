@@ -45,6 +45,9 @@ describe("KitchenSink", () => {
           .click();
 
         cy.get("formly-horizontal-wrapper");
+
+        cy.get('input[placeholder="email"]').clear();
+        cy.get('input[placeholder="password"]').clear();
         cy.get('button:contains("Submit")').click({ force: true });
         cy.get("formly-validation-message")
           .eq(0)
