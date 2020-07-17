@@ -71,7 +71,6 @@ describe("KitchenSink", () => {
         cy.contains('"password": "thisIsSUPERS3cret!"');
 
         // Upload
-
         cy.get("ul.nav-tabs li.nav-item a").contains("ngx-uploadx").click();
 
         // Datatables
