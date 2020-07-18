@@ -29,7 +29,6 @@ import { FormlyModule } from "@ngx-formly/core";
 import { FormlyBootstrapModule } from "@ngx-formly/bootstrap";
 
 import { FormlyHorizontalWrapper } from "@rapydo/components/forms/bootstrap.horizontal.wrapper";
-import { FileValueAccessor } from "@rapydo/components/forms/file-value-accessor";
 import { FormlyDescriptiveRadio } from "@rapydo/components/forms/radio-type.component";
 import { TermsOfUseCheckbox } from "@rapydo/components/forms/terms_of_use_checkbox";
 import { DatePickerComponent } from "@rapydo/components/forms/datepicker.component";
@@ -219,7 +218,6 @@ let module_declarations = [
   BasePaginationComponent,
   FormModal,
   FormlyHorizontalWrapper,
-  FileValueAccessor,
   FormlyDescriptiveRadio,
   TermsOfUseCheckbox,
   DatePickerComponent,
@@ -230,7 +228,6 @@ let module_exports = [
   CommonModule,
 
   FormlyHorizontalWrapper,
-  FileValueAccessor,
   FormlyDescriptiveRadio,
   TermsOfUseCheckbox,
   DatePickerComponent,
