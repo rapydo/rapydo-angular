@@ -229,8 +229,8 @@ export class FormlyService {
         if (typeof model[s.key] === "undefined") {
           model[s.key] = false;
         }
-      } else if (stype === "radio") {
-        field_type = "radio";
+      } else if (stype === "radio" || stype == "radio_with_description") {
+        field_type = stype;
         template_type = "radio";
         field["templateOptions"]["options"] = s.options;
       } else if (stype === "file") {
