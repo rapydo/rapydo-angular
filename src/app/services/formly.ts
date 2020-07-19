@@ -40,6 +40,9 @@ export class FormlyService {
       field["templateOptions"] = {};
       field["validators"] = {};
 
+      if (s.enum) {
+        stype = "select";
+      }
       if (stype === "text" || stype === "string" || stype === "textarea") {
         if (s.max && s.max > 256) {
           stype = "textarea";
