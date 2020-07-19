@@ -104,9 +104,9 @@ export class FormlyService {
         if (typeof s.min !== "undefined") {
           field["templateOptions"]["minLength"] = s.min;
         }
-        if (typeof s.max !== "undefined") {
-          field["templateOptions"]["maxLength"] = s.max;
-        }
+        // if (typeof s.max !== "undefined") {
+        //   field["templateOptions"]["maxLength"] = s.max;
+        // }
       } else if (stype === "select") {
         field_type = "select";
         template_type = "select";
