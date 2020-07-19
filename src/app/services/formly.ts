@@ -6,31 +6,19 @@ import * as moment from "moment";
 // remove the ? once dropped all swagger compatibility rules
 export interface Schema {
   type: string;
-  key?: string;
+  key: string;
   label?: string;
   description?: string;
   default?: any;
-  size?: string;
   format?: string;
   required?: string;
   options?: any[];
 
   min?: number | Date;
   max?: number | Date;
-
-  select_id?: string;
-  select_label?: string;
-  model_key?: string;
-  // TO BE DEPRECATED
-  // any[] is only for swagger compatibility
-  enum?: any[] | Record<string, string>;
-
-  // only for swagger compatibility
-  name?: string;
-  custom?: any;
-  multiple?: string;
-  islink?: string;
+  enum?: Record<string, string>;
 }
+
 @Injectable()
 export class FormlyService {
   constructor() {}
@@ -49,105 +37,23 @@ export class FormlyService {
       let template_type = "";
 
       let field = {};
-      let multiple = "multiple" in s && s.multiple === "true";
-      let islink = "islink" in s && s.islink === "true";
       field["templateOptions"] = {};
       field["validators"] = {};
 
-      // Swagger compatibility
-      if (!("key" in s)) {
-        s.key = s.name;
-        if ("custom" in s) {
-          let custom = s.custom;
-
-          if ("label" in custom) {
-            s.label = custom["label"];
-          }
-
-          if ("htmltype" in custom) {
-            stype = custom["htmltype"];
-          }
-
-          if ("islink" in custom) {
-            islink = custom["islink"];
-          }
-
-          if ("multiple" in custom) {
-            multiple = custom["multiple"];
-          }
-
-          if ("size" in custom) {
-            s.size = custom["size"];
-          }
-
-          if ("autocomplete" in custom) {
-            stype = "autocomplete";
-          }
-          if ("model_key" in custom) {
-            s.model_key = custom["model_key"];
-          }
-          if ("select_id" in custom) {
-            s.select_id = custom["select_id"];
-          }
-          if ("select_label" in custom) {
-            s.select_label = custom["select_label"];
-          }
-        }
-        if (s.required) {
-          s.required = "true";
-        }
-        if ("format" in s) {
-          if (s.format === "date") {
-            stype = "date";
-          }
-          if (s.format === "email") {
-            stype = "email";
-          }
-          if (s.format === "password") {
-            stype = "password";
-          }
-        }
-      }
-      // End of swagger compatibility
-
-      if (s.enum) {
-        stype = "select";
-        s.options = [];
-
-        // TO BE DEPRECATED
-        // this is from swagger models
-        // [ {k1: v1}, {k1: v1} ]
-        if (s.enum instanceof Array) {
-          for (let j in s.enum) {
-            let option = s.enum[j];
-            for (let key in option) {
-              s.options.push({ value: key, label: option[key] });
-            }
-          }
-          // this is from webargs models:
-          // { k1: v1, k2: v2}
-        } else {
-          for (let key in s.enum) {
-            s.options.push({ value: key, label: s.enum[key] });
-          }
-        }
-      }
-
-      if (stype === "text" || stype === "string") {
+      if (stype === "text" || stype === "string" || stype === "textarea") {
         if (s.max && s.max > 256) {
+          stype = "textarea";
+        }
+
+        if (stype === "textarea") {
           field_type = "textarea";
-          // should be calculated from s.max
+          // should be calculated from s.max, if provided
           field["templateOptions"]["rows"] = 5;
         } else {
           field_type = "input";
         }
 
         template_type = "text";
-        if (multiple) {
-          field["templateOptions"]["inputOptions"] = {};
-          field["templateOptions"]["inputOptions"]["type"] = field_type;
-          field["type"] = "multiInput";
-        }
 
         if (s.min) {
           field["templateOptions"]["minLength"] = s.min;
@@ -155,11 +61,6 @@ export class FormlyService {
         if (s.max) {
           field["templateOptions"]["maxLength"] = s.max;
         }
-        // to be deprecated, with webargs use string with max len > 256
-      } else if (stype === "longtext" || stype === "textarea") {
-        field_type = "textarea";
-        template_type = "text";
-        field["templateOptions"]["rows"] = 5;
       } else if (stype === "int" || stype === "number") {
         field_type = "input";
         template_type = "number";
@@ -207,10 +108,15 @@ export class FormlyService {
         field_type = "select";
         template_type = "select";
 
-        /*
-        field['templateOptions']['labelProp'] = "value";
-        field['templateOptions']['valueProp'] = "id";
-*/
+        if (s.enum) {
+          stype = "select";
+          s.options = [];
+
+          // { k1: v1, k2: v2}
+          for (let key in s.enum) {
+            s.options.push({ value: key, label: s.enum[key] });
+          }
+        }
 
         field["templateOptions"]["options"] = s.options;
         if (!field["templateOptions"]["required"]) {
@@ -221,7 +127,7 @@ export class FormlyService {
             });
           }
         }
-        field["templateOptions"]["multiple"] = multiple;
+        // field["templateOptions"]["multiple"] = multiple;
       } else if (stype === "checkbox" || stype === "boolean") {
         field_type = "checkbox";
         template_type = "checkbox";
@@ -233,13 +139,15 @@ export class FormlyService {
         field_type = stype;
         template_type = "radio";
         field["templateOptions"]["options"] = s.options;
-      } else if (stype === "file") {
-        field_type = "file";
-        template_type = "file";
+
+        // } else if (stype === "file") {
+        //   field_type = "file";
+        //   template_type = "file";
       }
 
       field["key"] = s.key;
       field["type"] = field_type;
+
       if ("default" in s) {
         if (field["type"] === "checkbox") {
           if (s.default) {
@@ -250,10 +158,6 @@ export class FormlyService {
           field["defaultValue"] = s.default;
           model[s.key] = s.default;
         }
-      }
-
-      if ("size" in s) {
-        field["className"] = "col-" + s.size;
       }
 
       field["templateOptions"]["label"] = s.label;
@@ -276,9 +180,6 @@ export class FormlyService {
 
       if (data) {
         let model_key = s.key;
-        if (islink && "model_key" in s) {
-          model_key = s.model_key;
-        }
 
         if (model_key in data) {
           let default_data = data[model_key];
@@ -293,16 +194,6 @@ export class FormlyService {
             } else if (template_type === "date") {
               default_data = this.formatDate(default_data);
             } else if (template_type === "select") {
-              if (islink) {
-                default_data = default_data[0];
-              }
-
-              if ("select_id" in s && s.select_id in default_data) {
-                default_data = default_data[s.select_id];
-                default_data = default_data.toString();
-              }
-
-              // This is to replace islink
               if (Array.isArray(default_data)) {
                 if (default_data.length === 1) {
                   default_data = default_data[0];
@@ -314,7 +205,6 @@ export class FormlyService {
                 }
               }
 
-              // This s to replace select_id and select_label
               if (typeof default_data["key"] !== "undefined") {
                 default_data = default_data["key"].toString();
               } else if (typeof default_data["uuid"] !== "undefined") {
