@@ -6,14 +6,14 @@ describe("FormlyService", () => {
   let service: FormlyService;
   const schema: Schema[] = [
     {
-      custom: { label: "Text" },
+      label: "Text",
       description: "Text",
       key: "text",
       required: "true",
       type: "string",
     },
     {
-      custom: { label: "List" },
+      label: "List",
       description: "List",
       enum: {
         k1: "val1",
@@ -24,13 +24,13 @@ describe("FormlyService", () => {
       type: "string",
     },
     {
-      custom: { label: "Checkbox" },
+      label: "Checkbox",
       key: "checkbox",
       required: "false",
       type: "boolean",
     },
     {
-      custom: { label: "Number" },
+      label: "Number",
       description: "number",
       key: "number",
       required: "true",
@@ -39,7 +39,7 @@ describe("FormlyService", () => {
   ];
   const schema_with_defaults: Schema[] = [
     {
-      custom: { label: "Text" },
+      label: "Text",
       description: "Text",
       key: "text",
       default: "default text",
@@ -47,7 +47,7 @@ describe("FormlyService", () => {
       type: "string",
     },
     {
-      custom: { label: "List" },
+      label: "List",
       description: "List",
       enum: {
         k1: "val1",
@@ -59,14 +59,14 @@ describe("FormlyService", () => {
       type: "string",
     },
     {
-      custom: { label: "Checkbox" },
+      label: "Checkbox",
       default: "true",
       key: "checkbox",
       required: "false",
       type: "boolean",
     },
     {
-      custom: { label: "Number" },
+      label: "Number",
       description: "number",
       default: 42,
       key: "number",
