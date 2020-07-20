@@ -35,91 +35,35 @@ export class ApiService {
     let formData = this.opt(options, "formData");
     let conf = this.opt(options, "conf");
     let base = this.opt(options, "base");
-    // Deprecated since 0.7.4
-    let rawResponse = this.opt(options, "rawResponse");
-    return this.call(
-      "GET",
-      endpoint,
-      id,
-      data,
-      formData,
-      conf,
-      base,
-      rawResponse
-    );
+    return this.call("GET", endpoint, id, data, formData, conf, base);
   }
 
   public post(endpoint: string, data = {}, options = {}) {
     let formData = this.opt(options, "formData");
     let conf = this.opt(options, "conf");
     let base = this.opt(options, "base");
-    // Deprecated since 0.7.4
-    let rawResponse = this.opt(options, "rawResponse");
-
-    return this.call(
-      "POST",
-      endpoint,
-      "",
-      data,
-      formData,
-      conf,
-      base,
-      rawResponse
-    );
+    return this.call("POST", endpoint, "", data, formData, conf, base);
   }
 
   public put(endpoint: string, id = "", data = {}, options = {}) {
     let formData = this.opt(options, "formData");
     let conf = this.opt(options, "conf");
     let base = this.opt(options, "base");
-    // Deprecated since 0.7.4
-    let rawResponse = this.opt(options, "rawResponse");
-    return this.call(
-      "PUT",
-      endpoint,
-      id,
-      data,
-      formData,
-      conf,
-      base,
-      rawResponse
-    );
+    return this.call("PUT", endpoint, id, data, formData, conf, base);
   }
 
   public patch(endpoint: string, id = "", data = {}, options = {}) {
     let formData = this.opt(options, "formData");
     let conf = this.opt(options, "conf");
     let base = this.opt(options, "base");
-    // Deprecated since 0.7.4
-    let rawResponse = this.opt(options, "rawResponse");
-    return this.call(
-      "PATCH",
-      endpoint,
-      id,
-      data,
-      formData,
-      conf,
-      base,
-      rawResponse
-    );
+    return this.call("PATCH", endpoint, id, data, formData, conf, base);
   }
 
   public delete(endpoint: string, id = "", options = {}) {
     let formData = this.opt(options, "formData");
     let conf = this.opt(options, "conf");
     let base = this.opt(options, "base");
-    // Deprecated since 0.7.4
-    let rawResponse = this.opt(options, "rawResponse");
-    return this.call(
-      "DELETE",
-      endpoint,
-      id,
-      {},
-      formData,
-      conf,
-      base,
-      rawResponse
-    );
+    return this.call("DELETE", endpoint, id, {}, formData, conf, base);
   }
 
   protected call(
@@ -129,9 +73,7 @@ export class ApiService {
     data = {},
     formData = false,
     conf = {},
-    base = "api",
-    // Deprecated since 0.7.4
-    rawResponse = false
+    base = "api"
   ) {
     let ep = "";
     if (base === "auth") {
@@ -186,11 +128,6 @@ export class ApiService {
       map((response) => {
         this.set_online();
 
-        // Deprecated since 0.7.4
-        if (rawResponse) {
-          console.warn("Deprecated use of rawResponse");
-        }
-
         return response;
       }),
       catchError((error) => {
@@ -210,11 +147,6 @@ export class ApiService {
           this.set_online();
         }
 
-        // Deprecated since 0.7.4
-        if (rawResponse) {
-          console.warn("Deprecated use of rawResponse");
-          return throwError(error);
-        }
         // This is a HttpErrorResponse
         if (error.error) {
           if (error.error instanceof ProgressEvent) {
