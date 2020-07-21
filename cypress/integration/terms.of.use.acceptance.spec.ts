@@ -82,13 +82,13 @@ describe("Terms of use", () => {
       cy.get("div.modal-footer button").first().contains("YES").click();
 
       cy.location().should((location) => {
-        expect(location.pathname).to.eq("/app/profile");
+        expect(location.pathname).to.not.equal("/app/login");
       });
     });
 
     it("Terms of Use - already accepted", () => {
       cy.location().should((location) => {
-        expect(location.pathname).to.eq("/app/profile");
+        expect(location.pathname).to.not.equal("/app/login");
       });
 
       cy.get("table")
@@ -100,7 +100,7 @@ describe("Terms of use", () => {
   } else {
     it("Terms of Use not enabled", () => {
       cy.location().should((location) => {
-        expect(location.pathname).to.eq("/app/profile");
+        expect(location.pathname).to.not.equal("/app/login");
       });
     });
   }
