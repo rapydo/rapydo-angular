@@ -3,7 +3,7 @@
 
 describe("Terms of use", () => {
   before(() => {
-    const username = "bbb0000000000000@sample.org";
+    const username = "bbb000@sample.org";
     cy.login();
 
     cy.visit("/app/admin/users");
@@ -45,7 +45,7 @@ describe("Terms of use", () => {
   });
 
   beforeEach(() => {
-    const username = "bbb0000000000000@sample.org";
+    const username = "bbb000@sample.org";
     cy.visit("/app/login");
 
     cy.get("input[placeholder='Your username (email)']").clear().type(username);
@@ -91,6 +91,8 @@ describe("Terms of use", () => {
         expect(location.pathname).to.not.equal("/app/login");
       });
 
+      cy.visit("/app/profile");
+
       cy.get("table")
         .find("th")
         .contains("Privacy Accepted")
@@ -113,7 +115,7 @@ describe("Terms of use", () => {
 
     cy.visit("/app/admin/users");
 
-    const username = "bbb0000000000000@sample.org";
+    const username = "bbb000@sample.org";
 
     cy.get('input[placeholder="Type to filter users"]').clear().type(username);
     cy.get("datatable-body-row")
