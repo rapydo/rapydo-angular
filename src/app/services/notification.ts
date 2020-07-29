@@ -14,95 +14,67 @@ export class NotificationService {
     return typeof dict === "object" && !Array.isArray(dict);
   }
 
-  public showCritical = function (msg: any, title: string = "") {
+  public showCritical = function (msg: any, title: string = ""): void {
     if (this.isDict(msg)) {
-      // only return the first key... to be extended to every key??
       for (let k in msg) {
-        if (title === "") {
-          title = k;
-        }
-        msg = msg[k];
-        break;
+        this.showCritical(msg[k], title || k);
       }
+    } else {
+      this.toastr.error(msg, title, {
+        timeOut: 0,
+      });
     }
-
-    this.toastr.error(msg, title, {
-      timeOut: 0,
-    });
   };
 
-  public showError = function (msg: any, title: string = "") {
+  public showError = function (msg: any, title: string = ""): void {
     if (msg.error) {
       msg = msg.error;
     }
 
     if (this.isDict(msg)) {
-      // only return the first key... to be extended to every key??
       for (let k in msg) {
-        if (title === "") {
-          title = k;
-        }
-        msg = msg[k];
-        break;
+        this.showError(msg[k], title || k);
       }
+    } else {
+      this.toastr.error(msg, title, {
+        timeOut: 15000,
+      });
     }
-
-    this.toastr.error(msg, title, {
-      timeOut: 15000,
-    });
   };
 
-  public showWarning = function (msg: any, title: string = "") {
+  public showWarning = function (msg: any, title: string = ""): void {
     if (this.isDict(msg)) {
-      // only return the first key... to be extended to every key??
       for (let k in msg) {
-        if (title === "") {
-          title = k;
-        }
-        msg = msg[k];
-        break;
+        this.showWarning(msg[k], title || k);
       }
+    } else {
+      this.toastr.warning(msg, title, {
+        timeOut: 10000,
+      });
     }
-
-    this.toastr.warning(msg, title, {
-      timeOut: 10000,
-    });
   };
 
-  public showSuccess = function (msg: any, title: string = "") {
+  public showSuccess = function (msg: any, title: string = ""): void {
     if (this.isDict(msg)) {
-      // only return the first key... to be extended to every key??
       for (let k in msg) {
-        // The body of a for-in should be wrapped in an if statement
-        // to filter unwanted properties from the prototype.
-        if (Object.prototype.hasOwnProperty.call(msg, k)) {
-          if (title === "") {
-            title = k;
-          }
-          msg = msg[k];
-          break;
-        }
+        this.showSuccess(msg[k], title || k);
       }
+    } else {
+      this.toastr.success(msg, title, {
+        timeOut: 10000,
+      });
     }
-
-    this.toastr.success(msg, title, {
-      timeOut: 10000,
-    });
   };
-  public showInfo = function (msg: any, title: string = "") {
-    if (this.isDict(msg)) {
-      // only return the first key... to be extended to every key??
-      for (let k in msg) {
-        if (title === "") {
-          title = k;
-        }
-        msg = msg[k];
-        break;
-      }
-    }
 
-    this.toastr.info(msg, title, {
-      timeOut: 10000,
-    });
+  public showInfo = function (msg: any, title: string = ""): void {
+    if (this.isDict(msg)) {
+      for (let k in msg) {
+        this.showInfo(msg[k], title || k);
+      }
+    } else {
+      this.toastr.info(msg, title, {
+        timeOut: 10000,
+      });
+    }
   };
 }
