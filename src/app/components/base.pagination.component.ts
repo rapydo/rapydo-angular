@@ -60,7 +60,6 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   protected server_side_pagination: boolean = false;
 
   protected endpoint: string;
-  protected counter_endpoint: string;
 
   protected modalRef: NgbModalRef;
   public form;
@@ -219,7 +218,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     let data = {
       get_total: true,
     };
-    this.api.get(this.counter_endpoint, "", data).subscribe(
+    this.api.get(this.endpoint, "", data).subscribe(
       (response) => {
         const t = response["total"] || 0;
 

@@ -30,7 +30,11 @@
                 [columnMode]="ColumnMode.flex"
                 [headerHeight]="40"
                 [footerHeight]="40"
+                [externalPaging]="true"
+                [count]="paging.dataLength"
                 [limit]="paging.itemsPerPage"
+                [offset]="paging.page"
+                (page)="serverSidePagination($event)"
                 [rowHeight]="'auto'"
               >
               </ngx-datatable>
