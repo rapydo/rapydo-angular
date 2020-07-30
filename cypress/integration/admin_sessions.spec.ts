@@ -19,10 +19,12 @@ describe("AdminSessions", () => {
 
   // This is the same as in profile.sessions.spec
   it("Sort, search, copy", () => {
+    cy.scrollTo("bottom");
     cy.get("div.page-count").contains(" total");
     cy.get("ul.pager li.pages").contains(" 1 ");
     cy.get("ul.pager li.pages").contains(" 2 ").click();
     cy.get("ul.pager li.pages").contains(" 1 ").click();
+    cy.scrollTo("top");
 
     // Sort by Expiration, current token is now the last
     cy.get("span.datatable-header-cell-label").contains("Expiration").click();
