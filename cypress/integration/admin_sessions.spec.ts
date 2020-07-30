@@ -74,6 +74,8 @@ describe("AdminSessions", () => {
 
   // This is the same as in profile.sessions.spec
   it("Delete", () => {
+    cy.wait(500);
+    cy.scrollTo("top");
     cy.get("span.datatable-header-cell-label").contains("Expiration").click();
     cy.get("datatable-body-row").first().find(".fa-trash").click();
     cy.get("h3.popover-title").contains("Confirmation required");
