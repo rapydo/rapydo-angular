@@ -3,9 +3,10 @@
 
 describe("AdminSessions", () => {
   beforeEach(() => {
-    // Two login... to have some tokens to test with
-    cy.login();
-    cy.login();
+    // A lot's of logins... to have some tokens to test with
+    for (i = 0; i < 21; i++) {
+      cy.login();
+    }
 
     cy.visit("/app/admin/sessions");
 
@@ -18,6 +19,11 @@ describe("AdminSessions", () => {
 
   // This is the same as in profile.sessions.spec
   it("Sort, search, copy", () => {
+    cy.get("div.page-count").contains(" total");
+    cy.get("ul.pager li.pages").contains(" 1 ");
+    cy.get("ul.pager li.pages").contains(" 2 ").click();
+    cy.get("ul.pager li.pages").contains(" 1 ").click();
+
     // Sort by Expiration, current token is now the last
     cy.get("span.datatable-header-cell-label").contains("Expiration").click();
     cy.get("datatable-body-row").first().find(".fa-trash");
