@@ -1,5 +1,6 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
+const path = require("path");
 
 describe("Sessions", () => {
   beforeEach(() => {
@@ -104,5 +105,29 @@ describe("Sessions", () => {
 
       cy.checkalert("Confirmation: token successfully deleted");
     });
+  });
+  it("Download", () => {
+    cy.get("div.card-header div span i.fa-download").click();
+
+    // Thank you Vivek Nayyar
+    // https://dev.to/viveknayyar/e2e-testing-of-excel-downloads-with-cypress-21fb
+
+    // arbitrary wait so that the download can complete
+    cy.wait(1000);
+    const header = [
+      "IP",
+      "Location",
+      "Emitted",
+      "Last access",
+      "Expiration",
+      "Token",
+    ];
+    // parseXlsx task is defined in cypress/plugins/index.js
+    cy.parseXlsx(path.join(__dirname, "..", "downloads", "sessions.xlsx")).then(
+      (jsonData) => {
+        // finally we write the assertion rule to check if that data matches the data we expected the excel file to have.
+        expect(jsonData[0].data[0]).to.eqls(header);
+      }
+    );
   });
 });
