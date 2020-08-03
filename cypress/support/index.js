@@ -66,3 +66,6 @@ Cypress.Commands.add("checkalert", (msg) => {
 Cypress.Commands.add("getmail", () => {
   return cy.readFile("/logs/mock.mail.lastsent.body");
 });
+Cypress.Commands.add("parseXlsx", (inputFile) => {
+  return cy.task("parseXlsx", { filePath: inputFile });
+});
