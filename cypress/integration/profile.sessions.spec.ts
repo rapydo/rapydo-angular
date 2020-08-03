@@ -113,7 +113,7 @@ describe("Sessions", () => {
     // IT DOES NOT WORK :-/ //
     //////////////////////////
 
-    // // Thank you Vivek Nayyar
+    // // From Vivek Nayyar
     // // https://dev.to/viveknayyar/e2e-testing-of-excel-downloads-with-cypress-21fb
 
     // // arbitrary wait so that the download can complete
