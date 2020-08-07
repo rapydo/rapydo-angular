@@ -218,6 +218,9 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     let data = {
       get_total: true,
     };
+    if (this.data_filter) {
+      data["input_filter"] = this.data_filter;
+    }
     this.api.get(this.endpoint, "", data).subscribe(
       (response) => {
         const t = response["total"] || 0;
@@ -311,7 +314,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         data["sort_order"] = this.sort_order;
       }
       if (this.data_filter) {
-        data["filter"] = this.data_filter;
+        data["input_filter"] = this.data_filter;
       }
     } else if (data === null) {
       data = {};
