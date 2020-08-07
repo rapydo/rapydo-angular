@@ -35,6 +35,7 @@
                 [limit]="paging.itemsPerPage"
                 [offset]="paging.page"
                 (page)="serverSidePagination($event)"
+                (sort)="updateSort($event)"
                 [rowHeight]="'auto'"
               >
               </ngx-datatable>

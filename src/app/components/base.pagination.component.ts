@@ -55,8 +55,6 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
   public resource_name: string;
 
-  protected server_side_filter: boolean = false;
-  protected server_side_sort: boolean = false;
   protected server_side_pagination: boolean = false;
 
   protected endpoint: string;
@@ -80,6 +78,9 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
   public paging: Paging;
   public is_update: boolean = false;
+
+  protected sort_by: string = null;
+  protected sort_order: string = null;
 
   @ViewChild("tableWrapper", { static: false }) tableWrapper;
   @ViewChild(DatatableComponent, { static: false }) table: DatatableComponent;
@@ -133,24 +134,14 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     };
   }
 
-  protected server_side_update(): void {
-    console.warn("Server side update function not implemented");
-  }
-
-  updateSort(event): void {
-    console.warn("Update sort function not implemented");
-    if (this.server_side_filter) {
-      this.server_side_update();
-    }
-  }
-
-  updateFilter(event): void {
+  public updateFilter(event): void {
     if (event !== null) {
       this.data_filter = event.target.value.toLowerCase();
     }
 
-    if (this.server_side_filter) {
-      this.server_side_update();
+    if (this.server_side_pagination) {
+      this.set_total_items();
+      this.list();
     } else {
       if (!this.unfiltered_data) {
         this.unfiltered_data = this.data;
@@ -202,12 +193,21 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         [limit]="paging.itemsPerPage"
         [offset]="paging.page"
         (page)="serverSidePagination($event)"
+        (sort)="updateSort($event)"
         [...]
 */
   public serverSidePagination(event: any): void {
     this.paging.page = event.offset;
     this.set_total_items();
     this.list();
+  }
+  public updateSort(event: any): void {
+    if (this.server_side_pagination) {
+      this.sort_by = event.column.prop;
+      this.sort_order = event.newValue;
+      this.set_total_items();
+      this.list();
+    }
   }
 
   /** INTERACTION WITH APIs**/
@@ -303,6 +303,16 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         page: this.paging.page + 1,
         size: this.paging.itemsPerPage,
       };
+
+      if (this.sort_by) {
+        data["sort_by"] = this.sort_by;
+      }
+      if (this.sort_order) {
+        data["sort_order"] = this.sort_order;
+      }
+      if (this.data_filter) {
+        data["filter"] = this.data_filter;
+      }
     } else if (data === null) {
       data = {};
     }
