@@ -10,7 +10,7 @@ describe("KitchenSink", () => {
     cy.closecookielaw();
 
     cy.location("pathname").then((pathname) => {
-      if (pathname == "/app/sink") {
+      if (pathname === "/app/sink") {
         // Kitchen Sink is enabled, add here all tests!
 
         cy.get("div.card-header h4").contains("Kitchen Sink");

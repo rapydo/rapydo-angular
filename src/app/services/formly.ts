@@ -138,7 +138,7 @@ export class FormlyService {
         if (typeof model[s.key] === "undefined") {
           model[s.key] = false;
         }
-      } else if (stype === "radio" || stype == "radio_with_description") {
+      } else if (stype === "radio" || stype === "radio_with_description") {
         field_type = stype;
         template_type = "radio";
         field["templateOptions"]["options"] = s.options;
@@ -237,10 +237,10 @@ export class FormlyService {
   ) {
     const field = {
       description: descr,
-      key: key,
+      key,
       label: name,
       required: required ? "true" : "false",
-      type: type,
+      type,
     };
 
     if (type === "checkbox" || type === "boolean") {

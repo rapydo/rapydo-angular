@@ -4,7 +4,7 @@
 describe("AdminSessions", () => {
   beforeEach(() => {
     // A lot's of logins... to have some tokens to test with
-    for (i = 0; i < 21; i++) {
+    for (let i = 0; i < 21; i++) {
       cy.login();
     }
 
