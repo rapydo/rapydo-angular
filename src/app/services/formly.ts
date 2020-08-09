@@ -226,15 +226,7 @@ export class FormlyService {
     return { fields, model };
   }
 
-  public getField(
-    model,
-    type,
-    key,
-    name,
-    required,
-    descr,
-    options = undefined
-  ) {
+  public getField(model, type, key, name, required, descr, options = null) {
     const field = {
       description: descr,
       key,
