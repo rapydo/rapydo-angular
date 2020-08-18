@@ -29,11 +29,11 @@
               "node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/brands.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/solid.min.css",
-              "node_modules/material-icons/iconfont/material-icons.css",
               "./app/rapydo/css/rapydo.css",
               "./app/custom/css/style.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": ["file-saver", "rxjs", "exceljs"]
           },
           "configurations": {
             "production": {
@@ -99,7 +99,6 @@
               "node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/brands.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/solid.min.css",
-              "node_modules/material-icons/iconfont/material-icons.css",
               "./app/rapydo/css/rapydo.css",
               "./app/custom/css/style.css"
             ],

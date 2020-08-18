@@ -18,7 +18,7 @@ describe("Sessions", () => {
   it("Access from profile", () => {
     cy.visit("/app/profile");
 
-    cy.contains("View list of your open sessions").click();
+    cy.contains("View list of your open sessions").click({ force: true });
 
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/profile/sessions");

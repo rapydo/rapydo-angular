@@ -42,7 +42,9 @@ export class AdminGroupsComponent extends BasePaginationComponent<Group> {
         prop: "controls",
         cellTemplate: this.controlsCell,
         headerTemplate: this.emptyHeader,
+        sortable: false,
         flexGrow: 0.2,
+        minWidth: 60,
       },
     ];
   }

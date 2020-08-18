@@ -7,6 +7,6 @@ import { FieldType } from "@ngx-formly/core";
 })
 export class DatePickerComponent extends FieldType {
   public clear() {
-    this.field.parent.formControl.get(this.field.key).setValue(null);
+    this.field.parent.formControl.get(String(this.field.key)).setValue(null);
   }
 }

@@ -1,9 +1,15 @@
 import { Injectable } from "@angular/core";
 import { catchError, map } from "rxjs/operators";
-import { of, throwError } from "rxjs";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { of, throwError, Observable } from "rxjs";
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpErrorResponse,
+} from "@angular/common/http";
 
 import { environment } from "@rapydo/../environments/environment";
+
+const reader: FileReader = new FileReader();
 
 @Injectable()
 export class ApiService {
@@ -32,57 +38,48 @@ export class ApiService {
   }
 
   public get(endpoint: string, id = "", data = {}, options = {}) {
-    let formData = this.opt(options, "formData");
-    let conf = this.opt(options, "conf");
-    let base = this.opt(options, "base");
-    return this.call("GET", endpoint, id, data, formData, conf, base);
+    if (id !== "") {
+      endpoint += "/" + id;
+    }
+    return this.call("GET", endpoint, data, options);
   }
 
   public post(endpoint: string, data = {}, options = {}) {
-    let formData = this.opt(options, "formData");
-    let conf = this.opt(options, "conf");
-    let base = this.opt(options, "base");
-    return this.call("POST", endpoint, "", data, formData, conf, base);
+    return this.call("POST", endpoint, data, options);
   }
 
   public put(endpoint: string, id = "", data = {}, options = {}) {
-    let formData = this.opt(options, "formData");
-    let conf = this.opt(options, "conf");
-    let base = this.opt(options, "base");
-    return this.call("PUT", endpoint, id, data, formData, conf, base);
+    if (id !== "") {
+      endpoint += "/" + id;
+    }
+    return this.call("PUT", endpoint, data, options);
   }
 
   public patch(endpoint: string, id = "", data = {}, options = {}) {
-    let formData = this.opt(options, "formData");
-    let conf = this.opt(options, "conf");
-    let base = this.opt(options, "base");
-    return this.call("PATCH", endpoint, id, data, formData, conf, base);
+    if (id !== "") {
+      endpoint += "/" + id;
+    }
+    return this.call("PATCH", endpoint, data, options);
   }
 
   public delete(endpoint: string, id = "", options = {}) {
+    if (id !== "") {
+      endpoint += "/" + id;
+    }
+    return this.call("DELETE", endpoint, {}, options);
+  }
+
+  protected call(method: string, endpoint: string, data = {}, options = {}) {
     let formData = this.opt(options, "formData");
     let conf = this.opt(options, "conf");
     let base = this.opt(options, "base");
-    return this.call("DELETE", endpoint, id, {}, formData, conf, base);
-  }
+    let rawError = this.opt(options, "rawError", false);
 
-  protected call(
-    method: string,
-    endpoint: string,
-    id = "",
-    data = {},
-    formData = false,
-    conf = {},
-    base = "api"
-  ) {
     let ep = "";
     if (base === "auth") {
       ep = environment.authApiUrl + "/" + endpoint;
     } else {
       ep = environment.apiUrl + "/" + endpoint;
-    }
-    if (id !== "") {
-      ep += "/" + id;
     }
 
     let contentType;
@@ -92,7 +89,7 @@ export class ApiService {
       contentType = "application/json";
     }
 
-    let options = {
+    let opt = {
       timeout: 30000,
       headers: new HttpHeaders({
         "Content-Type": contentType,
@@ -103,22 +100,22 @@ export class ApiService {
       // The body of a for-in should be wrapped in an if statement
       // to filter unwanted properties from the prototype.
       if ({}.hasOwnProperty.call(conf, k)) {
-        options[k] = conf[k];
+        opt[k] = conf[k];
       }
     }
 
     let httpCall;
     if (method === "GET") {
-      options["params"] = data;
-      httpCall = this.http.get(ep, options);
+      opt["params"] = data;
+      httpCall = this.http.get(ep, opt);
     } else if (method === "POST") {
-      httpCall = this.http.post(ep, data, options);
+      httpCall = this.http.post(ep, data, opt);
     } else if (method === "PUT") {
-      httpCall = this.http.put(ep, data, options);
+      httpCall = this.http.put(ep, data, opt);
     } else if (method === "PATCH") {
-      httpCall = this.http.patch(ep, data, options);
+      httpCall = this.http.patch(ep, data, opt);
     } else if (method === "DELETE") {
-      httpCall = this.http.delete(ep, options);
+      httpCall = this.http.delete(ep, opt);
     } else {
       console.error("Unknown API method: " + method);
       return false;
@@ -147,6 +144,16 @@ export class ApiService {
           this.set_online();
         }
 
+        if (rawError) {
+          return throwError(error);
+        }
+        if (error.status === 502) {
+          return throwError({
+            "Resource unavailable":
+              "The page you are looking for is currently unreachable",
+          });
+        }
+
         // This is a HttpErrorResponse
         if (error.error) {
           if (error.error instanceof ProgressEvent) {
@@ -163,5 +170,22 @@ export class ApiService {
         return throwError(error);
       })
     );
+  }
+
+  // Utility to convert Blob errors into text
+  // example of use:
+  // return this.http.post<Blob>("endpoint", null, {
+  //     params: params,
+  //     responseType: "blob" as "json",
+  //   }).pipe(catchError(this.parseErrorBlob));
+  public parseErrorBlob(err: HttpErrorResponse): Observable<any> {
+    const obs = Observable.create((observer: any) => {
+      reader.onloadend = (e) => {
+        observer.error(JSON.parse(reader.result as string));
+        observer.complete();
+      };
+    });
+    reader.readAsText(err.error);
+    return obs;
   }
 }

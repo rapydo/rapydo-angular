@@ -35,47 +35,6 @@ body {
   justify-content: center;
 }
 
-.loader {
-  height: 4px;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-  background-color: #ddd;
-}
-
-.loader::before {
-  display: block;
-  position: absolute;
-  content: "";
-  left: -200px;
-  width: 200px;
-  height: 4px;
-  background-color: #2980b9;
-  animation: loading 2s linear infinite;
-}
-
-@keyframes loading {
-  from {
-    left: -200px;
-    width: 30%;
-  }
-  50% {
-    width: 30%;
-  }
-  70% {
-    width: 70%;
-  }
-  80% {
-    left: 50%;
-  }
-  95% {
-    left: 120%;
-  }
-  to {
-    left: 100%;
-  }
-}
-
 /* Bootstrap v4 */
 .card-block {
   padding: 20px;
@@ -155,53 +114,42 @@ body {
   top: -10px;
 }
 
-.glyphicon.spinning {
-  animation: spin 2s infinite linear;
-  -webkit-animation: spin2 2s infinite linear;
+.black {
+  color: #333 !important;
 }
-
-@keyframes spin {
-  from {
-    transform: scale(1) rotate(0deg);
-  }
-  to {
-    transform: scale(1) rotate(360deg);
-  }
+.gray {
+  color: #8c8c8c !important;
 }
-
-@-webkit-keyframes spin2 {
-  from {
-    -webkit-transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(360deg);
-  }
+.lightgray {
+  color: #bbb !important;
 }
-
-.fa-red {
-  color: red;
+.white {
+  color: #fff !important;
 }
-
-.fa-green {
-  color: green;
+.red {
+  color: #dd5a43 !important;
 }
-
-.fa-xlarge {
-  font-size: 2em !important;
+.orange {
+  color: #ff892a !important;
 }
-
-.fa-large {
-  font-size: 1.5em !important;
+.lightorange {
+  color: #fcac6f !important;
 }
-
-.fa-medium {
-  font-size: 1em !important;
+.green {
+  color: #69aa46 !important;
 }
-
-.fa-small {
-  font-size: 0.5em !important;
+.lightgreen {
+  color: #b0d877 !important;
 }
-
-.fa-xsmall {
-  font-size: 0.33em !important;
+.blue {
+  color: #478fca !important;
+}
+.lightblue {
+  color: #93cbf9 !important;
+}
+.brown {
+  color: #603913 !important;
+}
+.lightbrown {
+  color: #cbb69d !important;
 }

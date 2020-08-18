@@ -37,7 +37,7 @@ export class ChangePasswordComponent {
           label: "Verification code",
           placeholder: "TOTP verification code",
           addonLeft: {
-            class: "fa fa-shield",
+            class: "fas fa-shield-alt",
           },
           required: true,
           min: 100000,
@@ -53,7 +53,7 @@ export class ChangePasswordComponent {
           label: "Current password",
           placeholder: "Type here your current password",
           addonLeft: {
-            class: "fa fa-key",
+            class: "fas fa-key",
           },
           required: true,
         },
@@ -68,7 +68,7 @@ export class ChangePasswordComponent {
         label: "New password",
         placeholder: "Type here the desidered new password",
         addonLeft: {
-          class: "fa fa-key",
+          class: "fas fa-key",
         },
         required: true,
         minLength: 8,
@@ -83,7 +83,7 @@ export class ChangePasswordComponent {
         placeholder:
           "Type here again the desidered new password for confirmation",
         addonLeft: {
-          class: "fa fa-key",
+          class: "fas fa-key",
         },
         required: true,
       },

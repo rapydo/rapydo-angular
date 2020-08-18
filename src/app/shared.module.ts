@@ -15,7 +15,7 @@ import { UploadxModule } from "ngx-uploadx";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import {
   NgbDateAdapter,
-  NgbDateNativeAdapter,
+  NgbDateNativeUTCAdapter,
   NgbDateParserFormatter,
   NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
@@ -32,17 +32,14 @@ import { FormlyHorizontalWrapper } from "@rapydo/components/forms/bootstrap.hori
 import { FormlyDescriptiveRadio } from "@rapydo/components/forms/radio-type.component";
 import { TermsOfUseCheckbox } from "@rapydo/components/forms/terms_of_use_checkbox";
 import { DatePickerComponent } from "@rapydo/components/forms/datepicker.component";
-import { DatePickerValueAccessor } from "@rapydo/components/forms/datepicker.directive";
 
 import { NgxSpinnerModule } from "ngx-spinner";
 
-import {
-  IteratePipe,
-  BytesPipe,
-  BooleanFlagPipe,
-  YesNoPipe,
-} from "@rapydo/pipes/pipes";
-import { SecurePipe } from "@rapydo/pipes/secure";
+import { IteratePipe } from "@rapydo/pipes/iterate";
+import { BytesPipe } from "@rapydo/pipes/bytes";
+import { BooleanFlagPipe } from "@rapydo/pipes/boolean_flag";
+import { YesNoPipe } from "@rapydo/pipes/yes_or_no";
+
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
 import { FormModal } from "@rapydo/components/forms/form_modal";
 
@@ -214,14 +211,12 @@ let module_declarations = [
   BytesPipe,
   BooleanFlagPipe,
   YesNoPipe,
-  SecurePipe,
   BasePaginationComponent,
   FormModal,
   FormlyHorizontalWrapper,
   FormlyDescriptiveRadio,
   TermsOfUseCheckbox,
   DatePickerComponent,
-  DatePickerValueAccessor,
 ];
 
 let module_exports = [
@@ -231,7 +226,6 @@ let module_exports = [
   FormlyDescriptiveRadio,
   TermsOfUseCheckbox,
   DatePickerComponent,
-  DatePickerValueAccessor,
 
   NgxDatatableModule,
   ConfirmationPopoverModule,
@@ -249,13 +243,12 @@ let module_exports = [
   BytesPipe,
   BooleanFlagPipe,
   YesNoPipe,
-  SecurePipe,
   BasePaginationComponent,
   FormModal,
 ];
 
 let module_providers: any = [
-  { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+  { provide: NgbDateAdapter, useClass: NgbDateNativeUTCAdapter },
   { provide: NgbDateParserFormatter, useValue: new MomentDateFormatter() },
 ];
 

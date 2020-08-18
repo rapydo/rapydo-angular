@@ -19,37 +19,14 @@
 
 import "ie-shim"; // Internet Explorer 9 support
 
+// Old Safari and IE
 import "core-js/stable";
-/** IE9, IE10 and IE11 requires all of the following polyfills. **/
-/*
-import 'core-js/es/array';
-import 'core-js/es/array-buffer';
-import 'core-js/es/data-view';
-import 'core-js/es/date';
-import 'core-js/es/function';
-import 'core-js/es/global-this';
-import 'core-js/es/map';
-import 'core-js/es/math';
-import 'core-js/es/number';
-import 'core-js/es/object';
-import 'core-js/es/parse-int';
-import 'core-js/es/parse-float';
-import 'core-js/es/promise';
-import 'core-js/es/reflect';
-import 'core-js/es/regexp';
-import 'core-js/es/set';
-import 'core-js/es/string';
-import 'core-js/es/symbol';
-import 'core-js/es/typed-array';
-import 'core-js/es/weak-map';
-import 'core-js/es/weak-set';
 
-// JSON object is missed only in very old engines like IE7
-// import 'core-js/es/json';
-*/
+/** Evergreen browsers require these. **/
+// Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
+import "core-js/proposals/reflect-metadata";
 
 /** IE10 and IE11 requires the following for NgClass support on SVG elements */
-// import 'classlist.js';
 import "angular-polyfills/dist/classlist.js";
 
 /**
@@ -82,10 +59,6 @@ import "angular-polyfills/dist/classlist.js";
  *  (window as any).__Zone_enable_cross_context_check = true;
  *
  */
-
-/** Evergreen browsers require these. **/
-// Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
-import "core-js/proposals/reflect-metadata";
 
 /***************************************************************************************************
 

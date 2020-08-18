@@ -64,16 +64,18 @@ export class AdminSessionsComponent extends BasePaginationComponent<Session> {
       cellTemplate: this.dataDate,
     });
     this.columns.push({
-      name: "Delete",
-      prop: "id",
-      flexGrow: 0.2,
-      cellTemplate: this.dataRevoke,
-    });
-    this.columns.push({
-      name: "Token",
+      name: "Copy",
       prop: "token",
       flexGrow: 0.2,
       cellTemplate: this.dataToken,
+      sortable: false,
+    });
+    this.columns.push({
+      name: "",
+      prop: "id",
+      flexGrow: 0.2,
+      cellTemplate: this.dataRevoke,
+      sortable: false,
     });
   }
 

@@ -5,11 +5,11 @@
         <div class="card-header">
           <div style="float: right; padding-right: 5px;">
             <span (click)="download()">
-              <i class="fa fa-download fa-large"></i>
+              <i class="fas fa-download fa-lg"></i>
             </span>
           </div>
 
-          <h4><i class="fa fa-users"></i> List of your open sessions</h4>
+          <h4><i class="fas fa-users"></i> List of your open sessions</h4>
         </div>
 
         <div class="card-block">
@@ -58,8 +58,7 @@
           >
             <span *ngIf="currentToken != row['token']; else activeCurrent">
               <i
-                class="fa fa-trash fa-large"
-                style="color: red;"
+                class="fas fa-trash fa-lg red"
                 mwlConfirmationPopover
                 [popoverTitle]="'Confirmation required'"
                 [popoverMessage]="'Are you really sure you want to close this session?'"
@@ -74,7 +73,7 @@
 
           <ng-template #dataToken let-row="row" let-value="value" let-i="index">
             <i
-              class="fa fa-clipboard fa-large"
+              class="fas fa-clipboard fa-lg"
               ngxClipboard
               [cbContent]="value"
               (cbOnSuccess)="copied($event)"
@@ -86,7 +85,7 @@
         <div class="card-footer text-muted">
           <div class="text-left" style="float: right;">
             <button class="btn btn-secondary" type="submit" routerLink="..">
-              <i class="fa fa-backward"></i> Back to profile
+              <i class="fas fa-backward"></i> Back to profile
             </button>
           </div>
         </div>

@@ -19,10 +19,10 @@ describe("AdminUsers", () => {
     // username will be created without roles
     const username = "aaa0000000000000@sample.org";
 
-    cy.get('button:contains("new user")').click();
+    cy.get('button:contains("new user")').click({ force: true });
     cy.get('button:contains("Close")').click({ force: true });
 
-    cy.get('button:contains("new user")').click();
+    cy.get('button:contains("new user")').click({ force: true });
 
     cy.get('input[placeholder="Email"]').as("email");
     cy.get('input[placeholder="Password"]').as("password");
@@ -135,7 +135,9 @@ describe("AdminUsers", () => {
     cy.get('input[placeholder="Type to filter users"]').clear();
 
     // Sort by email, username is now the first
-    cy.get("span.datatable-header-cell-label").contains("Email").click();
+    cy.get("span.datatable-header-cell-label")
+      .contains("Email")
+      .click({ force: true });
 
     cy.get("datatable-body-row")
       .first()
@@ -146,7 +148,9 @@ describe("AdminUsers", () => {
       .should("not.exist");
 
     // Sort by email again, username is now the last
-    cy.get("span.datatable-header-cell-label").contains("Email").click();
+    cy.get("span.datatable-header-cell-label")
+      .contains("Email")
+      .click({ force: true });
     cy.get("datatable-body-row")
       .first()
       .contains("datatable-body-cell", username)
@@ -167,14 +171,14 @@ describe("AdminUsers", () => {
       .eq(0)
       .contains("datatable-body-cell", username);
 
-    cy.get("datatable-body-row").eq(0).find(".fa-edit").click();
+    cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
     cy.get('button:contains("Close")').click({ force: true });
 
     cy.get("datatable-body-row")
       .eq(0)
       .contains("datatable-body-cell", "SampleName");
 
-    cy.get("datatable-body-row").eq(0).find(".fa-edit").click();
+    cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
     cy.get('input[placeholder="Email"]').should("not.exist");
     cy.get('input[placeholder="Name"]').clear().type("NewName");
     cy.get('input:checkbox[placeholder="User"]').uncheck({ force: true });
@@ -189,7 +193,7 @@ describe("AdminUsers", () => {
     cy.get("datatable-body-row").eq(0).contains("datatable-body-cell", "User");
 
     // Restore previous value
-    cy.get("datatable-body-row").eq(0).find(".fa-edit").click();
+    cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
     cy.get('input[placeholder="Name"]').clear().type("SampleName");
     cy.get('button:contains("Submit")').click({ force: true });
     cy.checkalert("Confirmation: user successfully update");
@@ -201,15 +205,15 @@ describe("AdminUsers", () => {
     cy.get("datatable-body-row")
       .eq(0)
       .contains("datatable-body-cell", username);
-    cy.get("datatable-body-row").eq(0).find(".fa-trash").click();
+    cy.get("datatable-body-row").eq(0).find(".fa-trash").click({ force: true });
     cy.get("h3.popover-title").contains("Confirmation required");
-    cy.get("button").contains("Cancel").click();
+    cy.get("button").contains("Cancel").click({ force: true });
     cy.get("datatable-body-row")
       .eq(0)
       .contains("datatable-body-cell", username);
-    cy.get("datatable-body-row").eq(0).find(".fa-trash").click();
+    cy.get("datatable-body-row").eq(0).find(".fa-trash").click({ force: true });
     cy.get("h3.popover-title").contains("Confirmation required");
-    cy.get("button").contains("Confirm").click();
+    cy.get("button").contains("Confirm").click({ force: true });
 
     cy.checkalert("Confirmation: user successfully deleted");
 

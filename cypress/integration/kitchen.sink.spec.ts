@@ -68,7 +68,7 @@ describe("KitchenSink", () => {
 
         cy.contains('"email": "user@sample.org"');
         cy.contains('"password": "thisIsVeryS3cret!"');
-        cy.contains('"date": "1981-05-19T12:00:00.000Z"');
+        cy.contains('"date": "1981-05-19T00:00:00.000Z"');
 
         cy.get("button.btn-outline-danger").find("i.fa-times").parent().click();
         cy.get('button:contains("Submit")').click({ force: true });

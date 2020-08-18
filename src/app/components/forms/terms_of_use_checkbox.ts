@@ -14,7 +14,7 @@ import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
         type="checkbox"
         [id]="id"
         [class.is-invalid]="showError"
-        [indeterminate]="to.indeterminate && model[key] === null"
+        [indeterminate]="to.indeterminate && model.get(key) === null"
         [formControl]="formControl"
         [formlyAttributes]="field"
       />
@@ -23,7 +23,7 @@ import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
         <span *ngIf="to.required && to.hideRequiredMarker !== true">*</span>
       </label>
       <a (click)="open(content)">
-        ( <i class="fa fa-external-link"></i> read)
+        ( <i class="fas fa-external-link-alt"></i> read)
       </a>
     </div>
 

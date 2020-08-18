@@ -3,7 +3,16 @@
     <div class="col-12 col-lg-8">
       <div class="card">
         <div class="card-header">
-          <h4><i class="fa fa-user-circle-o"></i> User profile</h4>
+          <h4>
+            <i class="fas fa-user-circle-o"></i> User profile
+            <span class="float-right">
+              <i
+                class="fas fa-edit"
+                ngbTooltip="Edit your profile"
+                (click)="edit_profile();"
+              ></i>
+            </span>
+          </h4>
         </div>
 
         <div class="card-block">
@@ -28,17 +37,6 @@
               <tr>
                 <th>Roles</th>
                 <td>
-                  <i
-                    class="fa fa-user-shield fa-large fa-red"
-                    ngbTooltip="You are an admin"
-                    *ngIf="user.isAdmin"
-                  ></i>
-
-                  <i
-                    class="fa fa-user-lock fa-large fa-red"
-                    ngbTooltip="You are a local admin"
-                    *ngIf="user.isLocalAdmin"
-                  ></i>
                   <span
                     *ngFor="let role of user.roles | keyvalue"
                     class="badge badge-info"

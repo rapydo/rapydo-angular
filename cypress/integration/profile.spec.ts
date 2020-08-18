@@ -13,6 +13,8 @@ describe("Profile", () => {
       expect(location.pathname).to.eq("/app/profile");
     });
 
+    cy.get("div.card-header h4").contains("User profile");
+
     cy.get("table").find("th").contains("Name");
     cy.get("table").find("th").contains("Email");
     cy.get("table").find("th").contains("Roles");
@@ -22,6 +24,26 @@ describe("Profile", () => {
 
     cy.get("table").find("td").contains(Cypress.env("AUTH_DEFAULT_USERNAME"));
 
-    // test... something
+    cy.get("div.card-header h4").find(".fa-edit").click({ force: true });
+    cy.get("div.modal-header h4.modal-title").contains("Update your profile");
+    cy.get('button:contains("Close")').click({ force: true });
+
+    const randval = Math.floor(Math.random() * 1000000);
+    cy.get("div.card-header h4").find(".fa-edit").click({ force: true });
+    cy.get("div.modal-header h4.modal-title").contains("Update your profile");
+
+    cy.get('input[placeholder="Name"]')
+      .clear()
+      .type("NewName" + randval);
+    cy.get('input[placeholder="Surname"]')
+      .clear()
+      .type("NewSurname" + randval);
+    cy.get('button:contains("Submit")').click({ force: true });
+    cy.get("table")
+      .find("td")
+      .contains("NewName" + randval);
+    cy.get("table")
+      .find("td")
+      .contains("NewSurname" + randval);
   });
 });
