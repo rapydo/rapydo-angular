@@ -6,7 +6,7 @@ Based on:
 
 - Angular 10.0.11 with typescript 3.9.7
 - bootstrap 4.5.2 with @ng-bootstrap 7.0.0
-- @ngx-formly 5.9.3
+- @ngx-formly 5.8.0
 - ngx-datatable 17.1.0
 - ngx-uploadx 3.5.1
 - file-saver 2.0.2
