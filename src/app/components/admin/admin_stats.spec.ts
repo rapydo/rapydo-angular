@@ -27,8 +27,9 @@ describe("AdminStatsComponent", () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
-
+  /*
   it("component initialization", () => {
     expect(component).toBeDefined();
   });
+*/
 });
