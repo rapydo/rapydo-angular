@@ -48,7 +48,7 @@
     "@swimlane/ngx-datatable": "17.1.0",
     "moment": "2.27.0",
     "ngx-moment": "5.0.0",
-    "angular-confirmation-popover": "5.0.0",
+    "angular-confirmation-popover": "6.0.0",
     "ngx-uploadx": "3.5.1",
     "file-saver": "2.0.2",
     "@types/file-saver": "2.0.1",
