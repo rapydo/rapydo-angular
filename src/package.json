@@ -21,7 +21,7 @@
   "license": "MIT",
   "dependencies": {
     "typescript": "3.8.3",
-    "tslib": "2.0.0",
+    "tslib": "2.0.1",
     "@angular/common": "9.1.12",
     "@angular/compiler": "9.1.12",
     "@angular/core": "9.1.12",
@@ -38,15 +38,15 @@
     "@types/node": "14.0.22",
     "core-js": "3.6.5",
     "zone.js": "0.10.3",
-    "rxjs": "6.6.0",
-    "rxjs-compat": "6.6.0",
-    "bootstrap": "4.5.0",
+    "rxjs": "6.6.2",
+    "rxjs-compat": "6.6.2",
+    "bootstrap": "4.5.2",
     "@ng-bootstrap/ng-bootstrap": "6.2.0",
     "ngx-clipboard": "13.0.1",
     "@ngx-formly/core": "5.8.0",
     "@ngx-formly/bootstrap": "5.8.0",
     "@swimlane/ngx-datatable": "17.0.0",
-    "moment": "2.27",
+    "moment": "2.27.0",
     "ngx-moment": "5.0.0",
     "angular-confirmation-popover": "5.0.0",
     "ngx-uploadx": "3.4.0",
@@ -87,7 +87,7 @@
     "@istanbuljs/nyc-config-typescript": "1.0.1",
     "source-map-support": "0.5.19",
     "ngx-build-plus": "9.0.6",
-    "start-server-and-test": "1.11.2",
+    "start-server-and-test": "1.11.3",
     "raw-loader": "4.0.1"
   }
 }
