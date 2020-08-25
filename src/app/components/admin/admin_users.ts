@@ -80,6 +80,7 @@ export class AdminUsersComponent extends BasePaginationComponent<User> {
       name: "Roles",
       prop: "roles",
       cellTemplate: this.dataRoles,
+      sortable: false,
       flexGrow: 0.9,
     });
     this.columns.push({
@@ -105,6 +106,7 @@ export class AdminUsersComponent extends BasePaginationComponent<User> {
       prop: "controls",
       cellTemplate: this.controlsCell,
       headerTemplate: this.emptyHeader,
+      sortable: false,
       flexGrow: 0.2,
     });
   }
