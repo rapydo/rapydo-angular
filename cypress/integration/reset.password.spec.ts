@@ -36,7 +36,6 @@ describe("ResetPassword", () => {
       cy.get("button:contains('Submit request')").click();
 
       // APIs can respond in a long time (receive the request, validate the email, create the token, send the email...)
-      // This wait may be removed if replace the page content with a spinner after the request...
       cy.wait(1000);
 
       cy.get("div.card-header h4").contains("Reset your password");
@@ -46,7 +45,6 @@ describe("ResetPassword", () => {
 
       cy.visit("/public/reset/token-received-by-email");
       // The page is modified after a short time, after the token is validated
-      // This wait may be removed if replace the page content with a spinner...
       cy.wait(500);
       cy.get("div.card-header h4").contains("Invalid request");
       cy.get("div.card-block").contains("Invalid reset token");
