@@ -140,7 +140,6 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     }
 
     if (this.server_side_pagination) {
-      this.set_total_items();
       this.list();
     } else {
       if (!this.unfiltered_data) {
@@ -198,14 +197,12 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 */
   public serverSidePagination(event: any): void {
     this.paging.page = event.offset;
-    this.set_total_items();
     this.list();
   }
   public updateSort(event: any): void {
     if (this.server_side_pagination) {
       this.sort_by = event.column.prop;
       this.sort_order = event.newValue;
-      this.set_total_items();
       this.list();
     }
   }
@@ -325,7 +322,9 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       (response) => {
         this.data = response;
         this.unfiltered_data = this.data;
-        if (!this.server_side_pagination) {
+        if (this.server_side_pagination) {
+          this.set_total_items();
+        } else {
           this.updatePaging(this.data.length);
         }
 
@@ -355,9 +354,6 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         this.notify.showSuccess(
           "Confirmation: " + this.resource_name + " successfully deleted"
         );
-        if (this.server_side_pagination) {
-          this.set_total_items();
-        }
         this.list();
       },
       (error) => {
@@ -470,9 +466,6 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
           this.notify.showSuccess(
             "Confirmation: " + this.resource_name + " successfully " + type
           );
-          if (this.server_side_pagination) {
-            this.set_total_items();
-          }
           this.list();
         },
         (error) => {
