@@ -32,32 +32,38 @@ export class ApiService {
   }
 
   public get(endpoint: string, id = "", data = {}, options = {}) {
-    return this.call("GET", endpoint, id, data, options);
+    if (id !== "") {
+      endpoint += "/" + id;
+    }
+    return this.call("GET", endpoint, data, options);
   }
 
   public post(endpoint: string, data = {}, options = {}) {
-    return this.call("POST", endpoint, "", data, options);
+    return this.call("POST", endpoint, data, options);
   }
 
   public put(endpoint: string, id = "", data = {}, options = {}) {
-    return this.call("PUT", endpoint, id, data, options);
+    if (id !== "") {
+      endpoint += "/" + id;
+    }
+    return this.call("PUT", endpoint, data, options);
   }
 
   public patch(endpoint: string, id = "", data = {}, options = {}) {
-    return this.call("PATCH", endpoint, id, data, options);
+    if (id !== "") {
+      endpoint += "/" + id;
+    }
+    return this.call("PATCH", endpoint, data, options);
   }
 
   public delete(endpoint: string, id = "", options = {}) {
-    return this.call("DELETE", endpoint, id, {}, options);
+    if (id !== "") {
+      endpoint += "/" + id;
+    }
+    return this.call("DELETE", endpoint, {}, options);
   }
 
-  protected call(
-    method: string,
-    endpoint: string,
-    id = "",
-    data = {},
-    options = {}
-  ) {
+  protected call(method: string, endpoint: string, data = {}, options = {}) {
     let formData = this.opt(options, "formData");
     let conf = this.opt(options, "conf");
     let base = this.opt(options, "base");
@@ -68,9 +74,6 @@ export class ApiService {
       ep = environment.authApiUrl + "/" + endpoint;
     } else {
       ep = environment.apiUrl + "/" + endpoint;
-    }
-    if (id !== "") {
-      ep += "/" + id;
     }
 
     let contentType;
