@@ -32,43 +32,23 @@ export class ApiService {
   }
 
   public get(endpoint: string, id = "", data = {}, options = {}) {
-    let formData = this.opt(options, "formData");
-    let conf = this.opt(options, "conf");
-    let base = this.opt(options, "base");
-    let raw = this.opt(options, "rawError", false);
-    return this.call("GET", endpoint, id, data, formData, conf, base, raw);
+    return this.call("GET", endpoint, id, data, options);
   }
 
   public post(endpoint: string, data = {}, options = {}) {
-    let formData = this.opt(options, "formData");
-    let conf = this.opt(options, "conf");
-    let base = this.opt(options, "base");
-    let raw = this.opt(options, "rawError", false);
-    return this.call("POST", endpoint, "", data, formData, conf, base, raw);
+    return this.call("POST", endpoint, "", data, options);
   }
 
   public put(endpoint: string, id = "", data = {}, options = {}) {
-    let formData = this.opt(options, "formData");
-    let conf = this.opt(options, "conf");
-    let base = this.opt(options, "base");
-    let raw = this.opt(options, "rawError", false);
-    return this.call("PUT", endpoint, id, data, formData, conf, base, raw);
+    return this.call("PUT", endpoint, id, data, options);
   }
 
   public patch(endpoint: string, id = "", data = {}, options = {}) {
-    let formData = this.opt(options, "formData");
-    let conf = this.opt(options, "conf");
-    let base = this.opt(options, "base");
-    let raw = this.opt(options, "rawError", false);
-    return this.call("PATCH", endpoint, id, data, formData, conf, base, raw);
+    return this.call("PATCH", endpoint, id, data, options);
   }
 
   public delete(endpoint: string, id = "", options = {}) {
-    let formData = this.opt(options, "formData");
-    let conf = this.opt(options, "conf");
-    let base = this.opt(options, "base");
-    let raw = this.opt(options, "rawError", false);
-    return this.call("DELETE", endpoint, id, {}, formData, conf, base, raw);
+    return this.call("DELETE", endpoint, id, {}, options);
   }
 
   protected call(
@@ -76,11 +56,13 @@ export class ApiService {
     endpoint: string,
     id = "",
     data = {},
-    formData = false,
-    conf = {},
-    base = "api",
-    rawError = false
+    options = {}
   ) {
+    let formData = this.opt(options, "formData");
+    let conf = this.opt(options, "conf");
+    let base = this.opt(options, "base");
+    let raw = this.opt(options, "rawError", false);
+
     let ep = "";
     if (base === "auth") {
       ep = environment.authApiUrl + "/" + endpoint;
