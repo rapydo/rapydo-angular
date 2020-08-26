@@ -31,39 +31,84 @@ export class ApiService {
     }
   }
 
-  public get(endpoint: string, id = "", data = {}, options = {}) {
+  public get(
+    endpoint: string,
+    id = "",
+    data = {},
+    options = {},
+    rawError = false
+  ) {
     let formData = this.opt(options, "formData");
     let conf = this.opt(options, "conf");
     let base = this.opt(options, "base");
-    return this.call("GET", endpoint, id, data, formData, conf, base);
+    return this.call("GET", endpoint, id, data, formData, conf, base, rawError);
   }
 
-  public post(endpoint: string, data = {}, options = {}) {
+  public post(endpoint: string, data = {}, options = {}, rawError = false) {
     let formData = this.opt(options, "formData");
     let conf = this.opt(options, "conf");
     let base = this.opt(options, "base");
-    return this.call("POST", endpoint, "", data, formData, conf, base);
+    return this.call(
+      "POST",
+      endpoint,
+      "",
+      data,
+      formData,
+      conf,
+      base,
+      rawError
+    );
   }
 
-  public put(endpoint: string, id = "", data = {}, options = {}) {
+  public put(
+    endpoint: string,
+    id = "",
+    data = {},
+    options = {},
+    rawError = false
+  ) {
     let formData = this.opt(options, "formData");
     let conf = this.opt(options, "conf");
     let base = this.opt(options, "base");
-    return this.call("PUT", endpoint, id, data, formData, conf, base);
+    return this.call("PUT", endpoint, id, data, formData, conf, base, rawError);
   }
 
-  public patch(endpoint: string, id = "", data = {}, options = {}) {
+  public patch(
+    endpoint: string,
+    id = "",
+    data = {},
+    options = {},
+    rawError = false
+  ) {
     let formData = this.opt(options, "formData");
     let conf = this.opt(options, "conf");
     let base = this.opt(options, "base");
-    return this.call("PATCH", endpoint, id, data, formData, conf, base);
+    return this.call(
+      "PATCH",
+      endpoint,
+      id,
+      data,
+      formData,
+      conf,
+      base,
+      rawError
+    );
   }
 
-  public delete(endpoint: string, id = "", options = {}) {
+  public delete(endpoint: string, id = "", options = {}, rawError = false) {
     let formData = this.opt(options, "formData");
     let conf = this.opt(options, "conf");
     let base = this.opt(options, "base");
-    return this.call("DELETE", endpoint, id, {}, formData, conf, base);
+    return this.call(
+      "DELETE",
+      endpoint,
+      id,
+      {},
+      formData,
+      conf,
+      base,
+      rawError
+    );
   }
 
   protected call(
@@ -73,7 +118,8 @@ export class ApiService {
     data = {},
     formData = false,
     conf = {},
-    base = "api"
+    base = "api",
+    rawError = false
   ) {
     let ep = "";
     if (base === "auth") {
@@ -147,6 +193,9 @@ export class ApiService {
           this.set_online();
         }
 
+        if (rawError) {
+          return throwError(error);
+        }
         // This is a HttpErrorResponse
         if (error.error) {
           if (error.error instanceof ProgressEvent) {
