@@ -355,6 +355,9 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         this.notify.showSuccess(
           "Confirmation: " + this.resource_name + " successfully deleted"
         );
+        if (this.server_side_pagination) {
+          this.set_total_items();
+        }
         this.list();
       },
       (error) => {
@@ -467,7 +470,9 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
           this.notify.showSuccess(
             "Confirmation: " + this.resource_name + " successfully " + type
           );
-
+          if (this.server_side_pagination) {
+            this.set_total_items();
+          }
           this.list();
         },
         (error) => {
