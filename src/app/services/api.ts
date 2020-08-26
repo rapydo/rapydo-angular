@@ -51,42 +51,24 @@ export class ApiService {
     let formData = this.opt(options, "formData");
     let conf = this.opt(options, "conf");
     let base = this.opt(options, "base");
-    let rawError = this.opt(options, "rawError", false);
-    return this.call("PUT", endpoint, id, data, formData, conf, base, rawError);
+    let raw = this.opt(options, "rawError", false);
+    return this.call("PUT", endpoint, id, data, formData, conf, base, raw);
   }
 
   public patch(endpoint: string, id = "", data = {}, options = {}) {
     let formData = this.opt(options, "formData");
     let conf = this.opt(options, "conf");
     let base = this.opt(options, "base");
-    let rawError = this.opt(options, "rawError", false);
-    return this.call(
-      "PATCH",
-      endpoint,
-      id,
-      data,
-      formData,
-      conf,
-      base,
-      rawError
-    );
+    let raw = this.opt(options, "rawError", false);
+    return this.call("PATCH", endpoint, id, data, formData, conf, base, raw);
   }
 
   public delete(endpoint: string, id = "", options = {}) {
     let formData = this.opt(options, "formData");
     let conf = this.opt(options, "conf");
     let base = this.opt(options, "base");
-    let rawError = this.opt(options, "rawError", false);
-    return this.call(
-      "DELETE",
-      endpoint,
-      id,
-      {},
-      formData,
-      conf,
-      base,
-      rawError
-    );
+    let raw = this.opt(options, "rawError", false);
+    return this.call("DELETE", endpoint, id, {}, formData, conf, base, raw);
   }
 
   protected call(
