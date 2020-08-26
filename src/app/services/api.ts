@@ -67,7 +67,7 @@ export class ApiService {
     let formData = this.opt(options, "formData");
     let conf = this.opt(options, "conf");
     let base = this.opt(options, "base");
-    let raw = this.opt(options, "rawError", false);
+    let rawError = this.opt(options, "rawError", false);
 
     let ep = "";
     if (base === "auth") {
@@ -83,7 +83,7 @@ export class ApiService {
       contentType = "application/json";
     }
 
-    let options = {
+    let opt = {
       timeout: 30000,
       headers: new HttpHeaders({
         "Content-Type": contentType,
@@ -94,22 +94,22 @@ export class ApiService {
       // The body of a for-in should be wrapped in an if statement
       // to filter unwanted properties from the prototype.
       if ({}.hasOwnProperty.call(conf, k)) {
-        options[k] = conf[k];
+        opt[k] = conf[k];
       }
     }
 
     let httpCall;
     if (method === "GET") {
-      options["params"] = data;
-      httpCall = this.http.get(ep, options);
+      opt["params"] = data;
+      httpCall = this.http.get(ep, opt);
     } else if (method === "POST") {
-      httpCall = this.http.post(ep, data, options);
+      httpCall = this.http.post(ep, data, opt);
     } else if (method === "PUT") {
-      httpCall = this.http.put(ep, data, options);
+      httpCall = this.http.put(ep, data, opt);
     } else if (method === "PATCH") {
-      httpCall = this.http.patch(ep, data, options);
+      httpCall = this.http.patch(ep, data, opt);
     } else if (method === "DELETE") {
-      httpCall = this.http.delete(ep, options);
+      httpCall = this.http.delete(ep, opt);
     } else {
       console.error("Unknown API method: " + method);
       return false;
