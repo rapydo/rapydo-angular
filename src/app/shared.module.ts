@@ -15,7 +15,7 @@ import { UploadxModule } from "ngx-uploadx";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import {
   NgbDateAdapter,
-  NgbDateNativeAdapter,
+  NgbDateNativeUTCAdapter,
   NgbDateParserFormatter,
   NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
@@ -255,7 +255,7 @@ let module_exports = [
 ];
 
 let module_providers: any = [
-  { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
+  { provide: NgbDateAdapter, useClass: NgbDateNativeUTCAdapter },
   { provide: NgbDateParserFormatter, useValue: new MomentDateFormatter() },
 ];
 
