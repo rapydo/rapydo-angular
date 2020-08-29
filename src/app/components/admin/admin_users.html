@@ -3,7 +3,7 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <h4><i class="fa fa-users"></i> Users list</h4>
+          <h4><i class="fas fa-users"></i> Users list</h4>
         </div>
 
         <div class="card-block">
@@ -61,7 +61,7 @@
               {{value[0].shortname}}
             </span>
             <i
-              class="fa fa-star"
+              class="fas fa-star"
               style="color: #ffd700;"
               *ngIf="row._coordinator"
               ngbTooltip="Coordinator of the group"
@@ -89,13 +89,13 @@
             let-i="index"
           >
             <i
-              class="fa fa-check"
+              class="fas fa-check"
               *ngIf="value"
               style="color: green;"
               ngbTooltip="This user is active"
             ></i>
             <i
-              class="fa fa-ban"
+              class="fas fa-ban"
               *ngIf="!value"
               style="color: orange;"
               ngbTooltip="This user is inactive"
@@ -113,12 +113,12 @@
             let-i="index"
           >
             <i
-              class="fa fa-edit fa-large"
+              class="fas fa-edit fa-large"
               ngbTooltip="Edit this user"
               (click)="update(row)"
             ></i>
             <i
-              class="fa fa-trash fa-large"
+              class="fas fa-trash fa-large"
               style="color: red;"
               mwlConfirmationPopover
               [popoverTitle]="'Confirmation required'"

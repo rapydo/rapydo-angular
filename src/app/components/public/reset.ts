@@ -60,7 +60,7 @@ export class ResetPasswordComponent implements OnInit {
         label: "Your e-mail address",
         placeholder: "Type here your email address to receive the reset link",
         addonLeft: {
-          class: "fa fa-envelope",
+          class: "fas fa-envelope",
         },
         required: true,
       },
@@ -75,7 +75,7 @@ export class ResetPasswordComponent implements OnInit {
         label: "New password",
         placeholder: "Type here your new password",
         addonLeft: {
-          class: "fa fa-key",
+          class: "fas fa-key",
         },
         required: true,
         minLength: 8,
@@ -89,7 +89,7 @@ export class ResetPasswordComponent implements OnInit {
         label: "Confirm password",
         placeholder: "Type again your new password for confirmation",
         addonLeft: {
-          class: "fa fa-key",
+          class: "fas fa-key",
         },
         required: true,
       },

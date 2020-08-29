@@ -80,7 +80,7 @@ export class RegisterComponent implements OnInit {
         label: "Name",
         placeholder: "Type here your name",
         addonLeft: {
-          class: "fa fa-user",
+          class: "fas fa-user",
         },
         required: true,
       },
@@ -94,7 +94,7 @@ export class RegisterComponent implements OnInit {
         label: "Surname",
         placeholder: "Type here your surname",
         addonLeft: {
-          class: "fa fa-user",
+          class: "fas fa-user",
         },
         required: true,
       },
@@ -108,7 +108,7 @@ export class RegisterComponent implements OnInit {
         label: "Username (email address)",
         placeholder: "Type here your email address",
         addonLeft: {
-          class: "fa fa-envelope",
+          class: "fas fa-envelope",
         },
         required: true,
       },
@@ -123,7 +123,7 @@ export class RegisterComponent implements OnInit {
         label: "Password",
         placeholder: "Type here the desidered password",
         addonLeft: {
-          class: "fa fa-key",
+          class: "fas fa-key",
         },
         required: true,
         minLength: 8,
@@ -138,7 +138,7 @@ export class RegisterComponent implements OnInit {
         label: "Password confirmation",
         placeholder: "Type again the desidered password for confirmation",
         addonLeft: {
-          class: "fa fa-key",
+          class: "fas fa-key",
         },
         required: true,
       },

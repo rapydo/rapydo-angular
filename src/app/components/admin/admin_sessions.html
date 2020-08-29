@@ -3,7 +3,7 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <h4><i class="fa fa-users"></i> Sessions list</h4>
+          <h4><i class="fas fa-users"></i> Sessions list</h4>
         </div>
 
         <div class="card-block">
@@ -62,7 +62,7 @@
           >
             <span *ngIf="currentToken != row['token']; else activeCurrent">
               <i
-                class="fa fa-trash fa-large"
+                class="fas fa-trash fa-large"
                 style="color: red;"
                 mwlConfirmationPopover
                 [popoverTitle]="'Confirmation required'"
@@ -78,7 +78,7 @@
 
           <ng-template #dataToken let-row="row" let-value="value" let-i="index">
             <i
-              class="fa fa-clipboard fa-large"
+              class="fas fa-clipboard fa-large"
               ngxClipboard
               [cbContent]="value"
               (cbOnSuccess)="copied($event)"

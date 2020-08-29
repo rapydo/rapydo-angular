@@ -84,7 +84,7 @@ export class LoginComponent implements OnInit {
           label: "Username",
           placeholder: "Your username (email)",
           addonLeft: {
-            class: "fa fa-envelope",
+            class: "fas fa-envelope",
           },
           required: true,
         },
@@ -101,7 +101,7 @@ export class LoginComponent implements OnInit {
           label: "Password",
           placeholder: "Your password",
           addonLeft: {
-            class: "fa fa-key",
+            class: "fas fa-key",
           },
           required: true,
         },
@@ -116,7 +116,7 @@ export class LoginComponent implements OnInit {
           type: "password",
           label: "New password",
           addonLeft: {
-            class: "fa fa-key",
+            class: "fas fa-key",
           },
           required: true,
           minLength: 8,
@@ -129,7 +129,7 @@ export class LoginComponent implements OnInit {
           type: "password",
           label: "Password confirmation",
           addonLeft: {
-            class: "fa fa-key",
+            class: "fas fa-key",
           },
           required: true,
         },
