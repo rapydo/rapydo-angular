@@ -23,7 +23,7 @@ import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
         <span *ngIf="to.required && to.hideRequiredMarker !== true">*</span>
       </label>
       <a (click)="open(content)">
-        ( <i class="fas fa-external-link"></i> read)
+        ( <i class="fas fa-external-link-alt"></i> read)
       </a>
     </div>
 

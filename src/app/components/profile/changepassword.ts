@@ -37,7 +37,7 @@ export class ChangePasswordComponent {
           label: "Verification code",
           placeholder: "TOTP verification code",
           addonLeft: {
-            class: "fas fa-shield",
+            class: "fas fa-shield-alt",
           },
           required: true,
           min: 100000,
