@@ -55,11 +55,11 @@ export class BytesPipe {
 export class BooleanFlagPipe {
   transform(str): string {
     if (str === true) {
-      return "<i class='fas fa-check fa-large fa-green'></i>";
+      return "<i class='fas fa-check fa-large green'></i>";
     }
 
     if (str === false) {
-      return "<i class='fas fa-times fa-large fa-red'></i>";
+      return "<i class='fas fa-times fa-large red'></i>";
     }
 
     return str;

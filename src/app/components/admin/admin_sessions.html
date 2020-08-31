@@ -62,8 +62,7 @@
           >
             <span *ngIf="currentToken != row['token']; else activeCurrent">
               <i
-                class="fas fa-trash fa-large"
-                style="color: red;"
+                class="fas fa-trash fa-large red"
                 mwlConfirmationPopover
                 [popoverTitle]="'Confirmation required'"
                 [popoverMessage]="'Are you really sure you want to close this session?'"

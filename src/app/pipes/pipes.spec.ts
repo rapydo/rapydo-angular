@@ -37,10 +37,10 @@ describe("Pipes", () => {
 
   it("BooleanFlagPipe", () => {
     expect(boolean_pipe.transform(true)).toBe(
-      "<i class='fas fa-check fa-large fa-green'></i>"
+      "<i class='fas fa-check fa-large green'></i>"
     );
     expect(boolean_pipe.transform(false)).toBe(
-      "<i class='fas fa-times fa-large fa-red'></i>"
+      "<i class='fas fa-times fa-large red'></i>"
     );
     expect(boolean_pipe.transform("XYZ")).toBe("XYZ");
   });

@@ -114,22 +114,46 @@ body {
   top: -10px;
 }
 
-.fa-red {
-  color: red;
-}
-
-.fa-green {
-  color: green;
-}
-
-.fa-orange {
-  color: orange;
-}
-
-.fa-gray {
-  color: lightgray;
-}
-
 .fa-large {
   font-size: 1.5em !important;
+}
+
+.black {
+  color: #333 !important;
+}
+.gray {
+  color: #8c8c8c !important;
+}
+.lightgray {
+  color: #bbb !important;
+}
+.white {
+  color: #fff !important;
+}
+.red {
+  color: #dd5a43 !important;
+}
+.orange {
+  color: #ff892a !important;
+}
+.lightorange {
+  color: #fcac6f !important;
+}
+.green {
+  color: #69aa46 !important;
+}
+.lightgreen {
+  color: #b0d877 !important;
+}
+.blue {
+  color: #478fca !important;
+}
+.lightblue {
+  color: #93cbf9 !important;
+}
+.brown {
+  color: #603913 !important;
+}
+.lightbrown {
+  color: #cbb69d !important;
 }
