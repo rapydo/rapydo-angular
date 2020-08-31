@@ -5,7 +5,7 @@
         <div class="card-header">
           <div style="float: right; padding-right: 5px;">
             <span (click)="download()">
-              <i class="fas fa-download fa-large"></i>
+              <i class="fas fa-download fa-lg"></i>
             </span>
           </div>
 
@@ -58,7 +58,7 @@
           >
             <span *ngIf="currentToken != row['token']; else activeCurrent">
               <i
-                class="fas fa-trash fa-large red"
+                class="fas fa-trash fa-lg red"
                 mwlConfirmationPopover
                 [popoverTitle]="'Confirmation required'"
                 [popoverMessage]="'Are you really sure you want to close this session?'"
@@ -73,7 +73,7 @@
 
           <ng-template #dataToken let-row="row" let-value="value" let-i="index">
             <i
-              class="fas fa-clipboard fa-large"
+              class="fas fa-clipboard fa-lg"
               ngxClipboard
               [cbContent]="value"
               (cbOnSuccess)="copied($event)"
