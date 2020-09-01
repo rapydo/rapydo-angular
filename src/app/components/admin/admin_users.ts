@@ -108,7 +108,6 @@ export class AdminUsersComponent extends BasePaginationComponent<User> {
       headerTemplate: this.emptyHeader,
       sortable: false,
       flexGrow: 0.2,
-      minWidth: 60,
     });
   }
 
