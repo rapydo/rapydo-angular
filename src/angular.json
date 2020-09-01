@@ -32,7 +32,8 @@
               "./app/rapydo/css/rapydo.css",
               "./app/custom/css/style.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": ["file-saver", "rxjs", "exceljs"]
           },
           "configurations": {
             "production": {
