@@ -44,6 +44,7 @@ export class AdminGroupsComponent extends BasePaginationComponent<Group> {
         headerTemplate: this.emptyHeader,
         sortable: false,
         flexGrow: 0.2,
+        minWidth: 60,
       },
     ];
   }
