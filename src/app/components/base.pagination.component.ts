@@ -9,7 +9,7 @@ import {
 } from "@angular/core";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { FormGroup } from "@angular/forms";
-import { FormlyConfig } from "@ngx-formly/core";
+// import { FormlyConfig } from "@ngx-formly/core";
 import { DatatableComponent } from "@swimlane/ngx-datatable";
 import { NgxSpinnerService } from "ngx-spinner";
 
