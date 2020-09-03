@@ -32,7 +32,6 @@ import { FormlyHorizontalWrapper } from "@rapydo/components/forms/bootstrap.hori
 import { FormlyDescriptiveRadio } from "@rapydo/components/forms/radio-type.component";
 import { TermsOfUseCheckbox } from "@rapydo/components/forms/terms_of_use_checkbox";
 import { DatePickerComponent } from "@rapydo/components/forms/datepicker.component";
-import { DatePickerValueAccessor } from "@rapydo/components/forms/datepicker.directive";
 
 import { NgxSpinnerModule } from "ngx-spinner";
 
@@ -221,7 +220,6 @@ let module_declarations = [
   FormlyDescriptiveRadio,
   TermsOfUseCheckbox,
   DatePickerComponent,
-  DatePickerValueAccessor,
 ];
 
 let module_exports = [
@@ -231,7 +229,6 @@ let module_exports = [
   FormlyDescriptiveRadio,
   TermsOfUseCheckbox,
   DatePickerComponent,
-  DatePickerValueAccessor,
 
   NgxDatatableModule,
   ConfirmationPopoverModule,
