@@ -35,13 +35,11 @@ import { DatePickerComponent } from "@rapydo/components/forms/datepicker.compone
 
 import { NgxSpinnerModule } from "ngx-spinner";
 
-import {
-  IteratePipe,
-  BytesPipe,
-  BooleanFlagPipe,
-  YesNoPipe,
-} from "@rapydo/pipes/pipes";
-import { SecurePipe } from "@rapydo/pipes/secure";
+import { IteratePipe } from "@rapydo/pipes/iterate";
+import { BytesPipe } from "@rapydo/pipes/bytes";
+import { BooleanFlagPipe } from "@rapydo/pipes/boolean_flag";
+import { YesNoPipe } from "@rapydo/pipes/yes_or_no";
+
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
 import { FormModal } from "@rapydo/components/forms/form_modal";
 
@@ -213,7 +211,6 @@ let module_declarations = [
   BytesPipe,
   BooleanFlagPipe,
   YesNoPipe,
-  SecurePipe,
   BasePaginationComponent,
   FormModal,
   FormlyHorizontalWrapper,
@@ -246,7 +243,6 @@ let module_exports = [
   BytesPipe,
   BooleanFlagPipe,
   YesNoPipe,
-  SecurePipe,
   BasePaginationComponent,
   FormModal,
 ];
