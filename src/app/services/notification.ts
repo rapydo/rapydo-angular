@@ -29,8 +29,6 @@ export class NotificationService {
   public showError = function (msg: any, title: string = ""): void {
     if (msg.error) {
       msg = msg.error;
-    } else if (msg.message) {
-      msg = msg.message;
     }
 
     if (this.isDict(msg)) {

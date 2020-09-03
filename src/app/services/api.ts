@@ -1,9 +1,15 @@
 import { Injectable } from "@angular/core";
 import { catchError, map } from "rxjs/operators";
 import { of, throwError } from "rxjs";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpErrorResponse,
+} from "@angular/common/http";
 
 import { environment } from "@rapydo/../environments/environment";
+
+const reader: FileReader = new FileReader();
 
 @Injectable()
 export class ApiService {
@@ -157,5 +163,22 @@ export class ApiService {
         return throwError(error);
       })
     );
+  }
+
+  // Utility to convert Blob errors into text
+  // example of use:
+  // return this.http.post<Blob>("endpoint", null, {
+  //     params: params,
+  //     responseType: "blob" as "json",
+  //   }).pipe(catchError(this.parseErrorBlob));
+  public parseErrorBlob(err: HttpErrorResponse): Observable<any> {
+    const obs = Observable.create((observer: any) => {
+      reader.onloadend = (e) => {
+        observer.error(JSON.parse(reader.result as string));
+        observer.complete();
+      };
+    });
+    reader.readAsText(err.error);
+    return obs;
   }
 }
