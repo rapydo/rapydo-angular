@@ -11,7 +11,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
 import { CookieLawModule } from "angular2-cookie-law";
 import { ToastrModule } from "ngx-toastr";
-import { DeviceDetectorModule } from "ngx-device-detector";
 import * as Sentry from "@sentry/browser";
 // import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
 
@@ -31,6 +30,7 @@ import { JwtInterceptor } from "@rapydo/jwt.interceptor";
 import { CustomNavbarComponent } from "@app/custom.navbar";
 import { CustomBrandComponent } from "@app/custom.navbar";
 import { CustomFooterComponent } from "@app/custom.footer";
+import { BaseProjectOptions } from "@rapydo/base.project.options";
 import { ProjectOptions } from "@app/custom.project.options";
 
 import { environment } from "@rapydo/../environments/environment";
@@ -98,7 +98,6 @@ let module_imports: any = [
 
   // NgxGoogleAnalyticsModule.forRoot(environment.GA_TRACKING_CODE),
   // NgxGoogleAnalyticsRouterModule,
-  DeviceDetectorModule.forRoot(),
 ];
 
 let module_declarations = [
@@ -128,32 +127,28 @@ let module_providers: any = [
   ApiService,
   FormlyService,
   NotificationService,
-  WebSocketsService,
-  ExcelService,
+  BaseProjectOptions,
   ProjectOptions,
   { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
 ];
 
+module_providers.push(WebSocketsService);
+module_providers.push(ExcelService);
+
 @Injectable()
+/* istanbul ignore next */
 export class SentryErrorHandler implements ErrorHandler {
+  /* istanbul ignore next */
   constructor() {}
+  /* istanbul ignore next */
   handleError(error) {
-    if (
-      environment.production &&
-      typeof environment.SENTRY_URL !== "undefined" &&
-      environment.SENTRY_URL !== ""
-    ) {
-      Sentry.captureException(error.originalError || error);
-    }
+    Sentry.captureException(error.originalError || error);
     throw error;
   }
 }
 
-if (
-  environment.production &&
-  typeof environment.SENTRY_URL !== "undefined" &&
-  environment.SENTRY_URL !== ""
-) {
+/* istanbul ignore if */
+if (environment.production && environment.SENTRY_URL) {
   Sentry.init({
     dsn: environment.SENTRY_URL,
   });

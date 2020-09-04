@@ -3,6 +3,8 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from "@angular/common/http/testing";
+
+import { AppModule } from "@rapydo/app.module";
 import { ApiService } from "@rapydo/services/api";
 
 import { environment } from "@rapydo/../environments/environment";
@@ -20,7 +22,7 @@ describe("ApiService", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [ApiService],
-      imports: [HttpClientTestingModule],
+      imports: [AppModule, HttpClientTestingModule],
     });
 
     injector = getTestBed();
@@ -33,7 +35,7 @@ describe("ApiService", () => {
       expect(result).not.toBeUndefined();
     });
 
-    const req = httpMock.expectOne(environment.apiUrl + "/xyz");
+    const req = httpMock.expectOne(environment.backendURI + "/api/xyz");
     expect(req.request.method).toEqual("GET");
     req.flush("");
 
@@ -48,7 +50,7 @@ describe("ApiService", () => {
       }
     );
 
-    const req = httpMock.expectOne(environment.apiUrl + "/xyz");
+    const req = httpMock.expectOne(environment.backendURI + "/api/xyz");
     expect(req.request.method).toEqual("GET");
     req.flush("FAILED", mock401Response);
 
@@ -60,7 +62,7 @@ describe("ApiService", () => {
       expect(result).not.toBeUndefined();
     });
 
-    const req = httpMock.expectOne(environment.apiUrl + "/xyz");
+    const req = httpMock.expectOne(environment.backendURI + "/api/xyz");
     expect(req.request.method).toEqual("POST");
     req.flush("");
 
@@ -75,7 +77,7 @@ describe("ApiService", () => {
       }
     );
 
-    const req = httpMock.expectOne(environment.apiUrl + "/xyz");
+    const req = httpMock.expectOne(environment.backendURI + "/api/xyz");
     expect(req.request.method).toEqual("POST");
     req.flush("FAILED", mock401Response);
 
@@ -87,7 +89,7 @@ describe("ApiService", () => {
       expect(result).not.toBeUndefined();
     });
 
-    const req = httpMock.expectOne(environment.apiUrl + "/xyz");
+    const req = httpMock.expectOne(environment.backendURI + "/api/xyz");
     expect(req.request.method).toEqual("DELETE");
     req.flush("");
 
@@ -102,7 +104,7 @@ describe("ApiService", () => {
       }
     );
 
-    const req = httpMock.expectOne(environment.apiUrl + "/xyz");
+    const req = httpMock.expectOne(environment.backendURI + "/api/xyz");
     expect(req.request.method).toEqual("DELETE");
     req.flush("FAILED", mock401Response);
 
@@ -114,7 +116,7 @@ describe("ApiService", () => {
       expect(result).not.toBeUndefined();
     });
 
-    const req = httpMock.expectOne(environment.apiUrl + "/xyz/id");
+    const req = httpMock.expectOne(environment.backendURI + "/api/xyz/id");
     expect(req.request.method).toEqual("PUT");
     req.flush("");
 
@@ -129,7 +131,7 @@ describe("ApiService", () => {
       }
     );
 
-    const req = httpMock.expectOne(environment.apiUrl + "/xyz/id");
+    const req = httpMock.expectOne(environment.backendURI + "/api/xyz/id");
     expect(req.request.method).toEqual("PUT");
     req.flush("FAILED", mock401Response);
 
@@ -137,11 +139,11 @@ describe("ApiService", () => {
   });
 
   it("PATCH - success", () => {
-    service.patch("xyz", "id", { key: "value" }).subscribe((result) => {
+    service.patch("xyz/id", "", { key: "value" }).subscribe((result) => {
       expect(result).not.toBeUndefined();
     });
 
-    const req = httpMock.expectOne(environment.apiUrl + "/xyz/id");
+    const req = httpMock.expectOne(environment.backendURI + "/api/xyz/id");
     expect(req.request.method).toEqual("PATCH");
     req.flush("");
 
@@ -149,14 +151,14 @@ describe("ApiService", () => {
   });
 
   it("PATCH - fail", () => {
-    service.patch("xyz", "id", { key: "value" }).subscribe(
+    service.patch("xyz/id", "", { key: "value" }).subscribe(
       (result) => {},
       (error) => {
         expect(error).not.toBeUndefined();
       }
     );
 
-    const req = httpMock.expectOne(environment.apiUrl + "/xyz/id");
+    const req = httpMock.expectOne(environment.backendURI + "/api/xyz/id");
     expect(req.request.method).toEqual("PATCH");
     req.flush("FAILED", mock401Response);
 

@@ -7,12 +7,12 @@ import {
 } from "@angular/core";
 
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
-import { User } from "@rapydo/services/auth";
+import { AdminUser } from "@rapydo/types";
 
 @Component({
   templateUrl: "admin_users.html",
 })
-export class AdminUsersComponent extends BasePaginationComponent<User> {
+export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
   @ViewChild("dataActive", { static: false }) public dataActive: TemplateRef<
     any
   >;
@@ -26,18 +26,18 @@ export class AdminUsersComponent extends BasePaginationComponent<User> {
     any
   >;
 
-  protected endpoint = "admin/users";
-
   constructor(protected injector: Injector) {
     super(injector);
-    this.init("user");
 
+    let endpoint = "admin/users";
+    /* istanbul ignore next */
     if (this.auth.getUser()?.isLocalAdmin && !this.auth.getUser()?.isAdmin) {
-      this.endpoint = "localadmin/users";
+      endpoint = "localadmin/users";
     }
 
+    this.init("user", endpoint, "AdminUsers");
+    this.initPaging();
     this.list();
-    this.initPaging(20);
   }
 
   public ngAfterViewInit(): void {
@@ -58,21 +58,19 @@ export class AdminUsersComponent extends BasePaginationComponent<User> {
       cellTemplate: this.dataName,
     });
 
-    let user_page = this.customization.get_option("user_page");
-    if (user_page !== null) {
-      if (user_page["group"]) {
-        this.columns.push({
-          name: "Group",
-          prop: "group",
-          cellTemplate: this.dataGroup,
-          flexGrow: 0.3,
-        });
-      }
+    if (this.customization.show_groups()) {
+      this.columns.push({
+        name: "Group",
+        prop: "group",
+        cellTemplate: this.dataGroup,
+        flexGrow: 0.3,
+      });
+    }
 
-      if (user_page["custom"]) {
-        for (let i = 0; i < user_page["custom"].length; i++) {
-          this.columns.push(user_page["custom"][i]);
-        }
+    const custom = this.customization.custom_user_data();
+    if (custom) {
+      for (let field of custom) {
+        this.columns.push(field);
       }
     }
 
@@ -112,14 +110,14 @@ export class AdminUsersComponent extends BasePaginationComponent<User> {
     });
   }
 
-  update(row) {
+  public update(row) {
     if (row.roles) {
       for (let i = 0; i < row.roles.length; i++) {
         let n = row.roles[i].name;
         row["roles_" + n] = true;
       }
     }
-    return this.put(row, this.endpoint);
+    return super.update(row);
   }
 
   filter(data_filter) {

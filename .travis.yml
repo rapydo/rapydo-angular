@@ -1,24 +1,20 @@
 os: linux
-dist: bionic
+dist: focal
 language: python
 python:
   - 3.8
 services:
   - docker
+addons:
+  chrome: stable
 env:
   - STAGE=prod
   - STAGE=karma
-  - STAGE=cypress BROWSER=chrome
-
-  # it stucks quite often... to be retried in a near future
-  # - STAGE=cypress BROWSER=firefox
-  # Only slower than chrome and more error-prone... probably no need to test it
-  # - STAGE=cypress BROWSER=electron
-  # Very similar to chrome? Probably no need to test it
-  # - STAGE=cypress BROWSER=chromium
+  - STAGE=cypress
 
 script:
-  - export CURRENT_VERSION=$(grep '"version"' src/package.json | awk {'print $2'} | tr -d '", ')
+  # version is "x.y.0", convert in x.y
+  - export CURRENT_VERSION=$(grep '"version"' src/package.json | awk {'print $2'} | tr -d '", ' | awk -F. {'print $1 "." $2'})
   - pip3 install --upgrade git+https://github.com/rapydo/do.git@${CURRENT_VERSION}
   - mkdir rapydo_tests
   - cd rapydo_tests
@@ -30,8 +26,8 @@ script:
       rapydo -s frontend pull;
       rapydo -s frontend start;
       sleep 5;
-      rapydo shell frontend --command "yarn install" || travis_terminate 1;
-      rapydo shell frontend --command "yarn run test:single" || travis_terminate 1;
+      rapydo shell frontend "yarn install" || travis_terminate 1;
+      rapydo shell frontend "yarn run test:single" || travis_terminate 1;
       cp data/prj/karma/lcov.info .;
       travis_retry bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular;
 
@@ -39,13 +35,21 @@ script:
 
       rapydo create prj --auth postgres --frontend angular --origin-url https://your_remote_git/your_project.git;
       rapydo --prod init;
-      rapydo -s frontend pull;
-      rapydo -s frontend start;
+      rapydo pull;
+      rapydo -s frontend,proxy start;
       rapydo dump;
       rapydo -s frontend logs --follow;
       docker-compose logs --tail 2 frontend 2>&1 | grep "files have been compressed.";
+      docker-compose logs --tail 20 proxy;
+      curl --insecure -X GET https://localhost;
+      npm install -g seespee cypress;
+      seespee --level 1 --validate https://localhost;
+      curl --silent --head --insecure -X GET https://localhost/app/index.html | grep "cache-control: no-store";
 
-    else
+      echo "{}" > cypress.json
+      cypress run --browser chrome --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
+
+    elif [[ "$STAGE" == "cypress" ]]; then
 
       rapydo --testing create prj --auth postgres --frontend angular --origin-url https://your_remote_git/your_project.git;
       rapydo --testing init;
@@ -68,11 +72,11 @@ script:
 
       rapydo pull;
       rapydo start;
-      rapydo shell backend --command 'restapi wait';
-      rapydo shell backend --detach --command "restapi launch";
-      rapydo shell frontend --command "yarn install" || travis_terminate 1;
-      rapydo shell frontend --command "yarn run cypress:start:${BROWSER}" || travis_terminate 1;
-      rapydo shell frontend --command "npx nyc report --reporter=lcov" || travis_terminate 1;
+      rapydo shell backend 'restapi wait';
+      rapydo shell backend --detach "restapi launch";
+      rapydo shell frontend "yarn install" || travis_terminate 1;
+      rapydo shell frontend "yarn run cypress:start" || travis_terminate 1;
+      rapydo shell frontend "npx nyc --all report --reporter=lcov" || travis_terminate 1;
       cp data/prj/karma/lcov.info .;
       travis_retry bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular;
 

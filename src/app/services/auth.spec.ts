@@ -50,7 +50,7 @@ describe("AuthService", () => {
       }
     );
 
-    const req = httpMock.expectOne(environment.authApiUrl + "/login");
+    const req = httpMock.expectOne(environment.backendURI + "/auth/login");
 
     expect(req.request.method).toEqual("POST");
     req.flush("Invalid username or password", mock401Response);
@@ -75,11 +75,15 @@ describe("AuthService", () => {
       });
     });
 
-    const login_req = httpMock.expectOne(environment.authApiUrl + "/login");
+    const login_req = httpMock.expectOne(
+      environment.backendURI + "/auth/login"
+    );
     expect(login_req.request.method).toEqual("POST");
     login_req.flush(token);
 
-    const user_req = httpMock.expectOne(environment.authApiUrl + "/status");
+    const user_req = httpMock.expectOne(
+      environment.backendURI + "/auth/status"
+    );
     expect(user_req.request.method).toEqual("GET");
     user_req.flush(user);
 
@@ -96,12 +100,16 @@ describe("AuthService", () => {
       }
     );
 
-    const logout_req = httpMock.expectOne(environment.authApiUrl + "/logout");
+    const logout_req = httpMock.expectOne(
+      environment.backendURI + "/auth/logout"
+    );
 
     expect(logout_req.request.method).toEqual("GET");
     logout_req.flush("", mock401Response);
 
-    const profile_req = httpMock.expectOne(environment.authApiUrl + "/status");
+    const profile_req = httpMock.expectOne(
+      environment.backendURI + "/auth/status"
+    );
     expect(profile_req.request.method).toEqual("GET");
     profile_req.flush("", mock401Response);
 
@@ -118,7 +126,9 @@ describe("AuthService", () => {
       (error) => {}
     );
 
-    const logout_req = httpMock.expectOne(environment.authApiUrl + "/logout");
+    const logout_req = httpMock.expectOne(
+      environment.backendURI + "/auth/logout"
+    );
     expect(logout_req.request.method).toEqual("GET");
     logout_req.flush("");
 

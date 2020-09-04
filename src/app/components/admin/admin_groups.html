@@ -3,7 +3,16 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <h4 class="panel-title"><i class="fas fa-users"></i> Groups list</h4>
+          <h4 class="panel-title">
+            <i class="fas fa-users"></i> Groups list
+            <span class="float-right"
+              ><i
+                class="fas fa-sync-alt"
+                ngbTooltip="Reload the list of {{resource_name}}s"
+                (click)="list();"
+              ></i
+            ></span>
+          </h4>
         </div>
 
         <div class="card-block">
@@ -15,8 +24,7 @@
                 <div class="col-6">
                   <input
                     type="text"
-                    style="padding: 8px; margin-bottom: 15px;"
-                    class="form-control"
+                    class="form-control data-filter"
                     placeholder="Type to filter groups"
                     (keyup)="updateFilter($event)"
                   />
@@ -54,9 +62,7 @@
             </span>
           </ng-template>
 
-          <ng-template #emptyHeader let-column="column">
-            &nbsp;
-          </ng-template>
+          <ng-template #emptyHeader let-column="column"> &nbsp; </ng-template>
 
           <ng-template
             #controlsCell
@@ -64,9 +70,9 @@
             let-value="value"
             let-i="index"
           >
-            <i class="fas fa-edit fa-lg" (click)="update(row)"></i>
+            <i class="fas fa-edit fa-lg clickable" (click)="update(row)"></i>
             <i
-              class="fas fa-trash fa-lg red"
+              class="fas fa-trash fa-lg red clickable"
               mwlConfirmationPopover
               [popoverTitle]="deleteConfirmation.title"
               [popoverMessage]="deleteConfirmation.message"

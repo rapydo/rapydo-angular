@@ -2,22 +2,7 @@ import { Injectable } from "@angular/core";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import * as moment from "moment";
 
-// key is optional only for back-compatibility
-// remove the ? once dropped all swagger compatibility rules
-export interface Schema {
-  type: string;
-  key: string;
-  label?: string;
-  description?: string;
-  default?: any;
-  format?: string;
-  required?: string;
-  options?: any[];
-
-  min?: number | Date;
-  max?: number | Date;
-  enum?: Record<string, string>;
-}
+import { Schema } from "@rapydo/types";
 
 @Injectable()
 export class FormlyService {
@@ -108,29 +93,43 @@ export class FormlyService {
         //   field["templateOptions"]["maxLength"] = s.max;
         // }
       } else if (stype === "select") {
-        field_type = "select";
-        template_type = "select";
+        if (s.multiple) {
+          field_type = "multicheckbox";
+          // will output as a list instead of an object)
+          template_type = "array";
+        } else {
+          field_type = "select";
+          template_type = "select";
+        }
 
-        if (s.enum) {
-          stype = "select";
-          s.options = [];
-
-          // { k1: v1, k2: v2}
-          for (let key in s.enum) {
-            s.options.push({ value: key, label: s.enum[key] });
-          }
+        s.options = [];
+        // { k1: v1, k2: v2}
+        for (let key in s.enum) {
+          s.options.push({ value: key, label: s.enum[key] });
         }
 
         field["templateOptions"]["options"] = s.options;
-        if (!field["templateOptions"]["required"]) {
+        if (!s.multiple && !field["templateOptions"]["required"]) {
           if (Array.isArray(field["templateOptions"]["options"])) {
-            field["templateOptions"]["options"].unshift({
-              value: "",
-              label: "",
-            });
+            // prevent duplicated empty options if already provided as valid value
+            let empty_option_found = false;
+            for (let opt of field["templateOptions"]["options"]) {
+              if (opt.value == "") {
+                empty_option_found = true;
+                break;
+              }
+            }
+            if (!empty_option_found) {
+              field["templateOptions"]["options"].unshift({
+                value: "",
+                label: "",
+              });
+            }
           }
         }
-        // field["templateOptions"]["multiple"] = multiple;
+        // if (s.multiple) {
+        //   field["templateOptions"]["multiple"] = s.multiple;
+        // }
       } else if (stype === "checkbox" || stype === "boolean") {
         field_type = "checkbox";
         template_type = "checkbox";
@@ -196,6 +195,43 @@ export class FormlyService {
               default_data = this.formatNgbDatepicker(default_data);
             } else if (template_type === "date") {
               default_data = this.formatDate(default_data);
+            } else if (field_type == "multicheckbox") {
+              let default_data_list = [];
+
+              // This works because template_type = "array";
+              // Otherwise the model should be {key1: true, key2: true}
+              for (let d of default_data) {
+                if (typeof d["key"] !== "undefined") {
+                  d = d["key"].toString();
+                } else if (typeof d["uuid"] !== "undefined") {
+                  d = d["uuid"].toString();
+                } else if (typeof d["id"] !== "undefined") {
+                  d = d["id"].toString();
+                }
+                default_data_list.push(d);
+              }
+
+              default_data = default_data_list;
+
+              // } else if (template_type === "select" && s.multiple) {
+              //   if (!Array.isArray(default_data)) {
+              //     default_data = [default_data];
+              //   }
+              //   let default_data_list = [];
+
+              //   for (let d of default_data) {
+              //     if (typeof d["key"] !== "undefined") {
+              //       d = d["key"].toString();
+              //     } else if (typeof d["uuid"] !== "undefined") {
+              //       d = d["uuid"].toString();
+              //     } else if (typeof d["id"] !== "undefined") {
+              //       d = d["id"].toString();
+              //     }
+              //     default_data_list.push(d);
+              //   }
+
+              //   default_data = default_data_list;
+              // } else if (template_type === "select" && !s.multiple) {
             } else if (template_type === "select") {
               if (Array.isArray(default_data)) {
                 if (default_data.length === 1) {

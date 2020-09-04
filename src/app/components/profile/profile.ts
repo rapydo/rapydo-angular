@@ -3,10 +3,12 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { FormGroup } from "@angular/forms";
 
-import { AuthService, User } from "@rapydo/services/auth";
+import { AuthService } from "@rapydo/services/auth";
+import { User } from "@rapydo/types";
 import { ApiService } from "@rapydo/services/api";
 import { NotificationService } from "@rapydo/services/notification";
 import { FormlyService } from "@rapydo/services/formly";
+import { Schema } from "@rapydo/types";
 import { FormModal } from "@rapydo/components/forms/form_modal";
 
 @Component({
@@ -45,16 +47,16 @@ export class ProfileComponent {
     );
   }
   public edit_profile(): void {
-    return this.api
-      .patch("profile", "", { get_schema: true }, { base: "auth" })
+    this.api
+      .patch<Schema[]>("/auth/profile", "", { get_schema: true })
       .subscribe(
         (response) => {
-          for (let index in response) {
-            if (response[index].key == "privacy_accepted") {
+          response.some((value, index) => {
+            if (value.key === "privacy_accepted") {
               response.splice(index, 1);
-              break;
+              return true;
             }
-          }
+          });
 
           let model = {};
           for (let field of response) {
@@ -90,7 +92,7 @@ export class ProfileComponent {
   public submit(): void {
     if (this.form.valid) {
       this.spinner.show();
-      this.api.patch("profile", "", this.model, { base: "auth" }).subscribe(
+      this.api.patch("/auth/profile", "", this.model).subscribe(
         (response) => {
           this.modalRef.close("");
           this.notify.showSuccess("Confirmation: Profile successfully updated");

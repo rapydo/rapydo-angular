@@ -86,4 +86,19 @@ describe("AdminSessions", () => {
 
     cy.checkalert("Confirmation: token successfully deleted");
   });
+
+  it("Backend errors", () => {
+    cy.server();
+
+    cy.route({
+      method: "GET",
+      url: "/api/admin/tokens?*",
+      status: 500,
+      response: "Stubbed get error",
+    });
+
+    cy.visit("/app/admin/sessions");
+    cy.checkalert("Stubbed get error");
+    cy.server({ enable: false });
+  });
 });

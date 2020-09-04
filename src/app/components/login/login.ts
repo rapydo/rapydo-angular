@@ -7,7 +7,8 @@ import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { environment } from "@rapydo/../environments/environment";
 
 import { ApiService } from "@rapydo/services/api";
-import { AuthService, User } from "@rapydo/services/auth";
+import { AuthService } from "@rapydo/services/auth";
+import { User } from "@rapydo/types";
 import { NotificationService } from "@rapydo/services/notification";
 import { ProjectOptions } from "@app/custom.project.options";
 
@@ -19,7 +20,6 @@ export class LoginComponent implements OnInit {
 
   public allowPasswordReset: boolean = false;
   public allowRegistration: boolean = false;
-  public allowTermsOfUse: boolean = false;
 
   public form = new FormGroup({});
   public fields: FormlyFieldConfig[] = [];
@@ -52,9 +52,8 @@ export class LoginComponent implements OnInit {
     private api: ApiService,
     private authService: AuthService
   ) {
-    this.allowRegistration = environment.allowRegistration === "true";
-    this.allowPasswordReset = environment.allowPasswordReset === "true";
-    this.allowTermsOfUse = environment.allowTermsOfUse === "true";
+    this.allowRegistration = environment.allowRegistration;
+    this.allowPasswordReset = environment.allowPasswordReset;
   }
 
   ngOnInit() {
@@ -67,6 +66,7 @@ export class LoginComponent implements OnInit {
 
     // check for secondary route and remove it, can make router navigate fail
     const offset = this.returnUrl.lastIndexOf("(");
+    /* istanbul ignore if */
     if (offset >= 0) {
       this.returnUrl = this.returnUrl.slice(0, offset);
     }
@@ -115,6 +115,7 @@ export class LoginComponent implements OnInit {
         templateOptions: {
           type: "password",
           label: "New password",
+          placeholder: "Your new password",
           addonLeft: {
             class: "fas fa-key",
           },
@@ -128,6 +129,7 @@ export class LoginComponent implements OnInit {
         templateOptions: {
           type: "password",
           label: "Password confirmation",
+          placeholder: "Confirm your new password",
           addonLeft: {
             class: "fas fa-key",
           },
@@ -161,7 +163,7 @@ export class LoginComponent implements OnInit {
               this.loading = false;
               let u: User = this.authService.getUser();
 
-              if (u.privacy_accepted || !this.allowTermsOfUse) {
+              if (u.privacy_accepted || !environment.allowTermsOfUse) {
                 this.router.navigate([this.returnUrl]);
               } else {
                 this.showTermsOfUse(u);
@@ -174,27 +176,18 @@ export class LoginComponent implements OnInit {
           );
         },
         (error) => {
-          if (error.status === 0) {
-            this.notify.showError("Error: no response received from backend");
-          } else if (error.status === 409) {
-            this.notify.showError(error);
-          } else if (error.status === 403) {
+          if (error.status === 403) {
             const body = error.error;
-            let userMessage = "Unrecognized response from server";
-
-            let actions = body.actions;
 
             if (body === "Sorry, this account is not active") {
               this.accountNotActive = true;
-            } else if (typeof actions === "undefined") {
-              this.notify.showError(userMessage);
-              this.notify.showError(body.errors);
-            } else if (!(actions instanceof Array)) {
-              this.notify.showError(userMessage);
-              this.notify.showError(body.errors);
+            } else if (!body.actions || body.actions.length === 0) {
+              this.notify.showError("Unrecognized response from server");
+              if (body.errors) {
+                this.notify.showError(body.errors);
+              }
             } else {
-              for (let i = 0; i < actions.length; i++) {
-                let action = actions[i];
+              for (let action of body.actions) {
                 if (action === "FIRST LOGIN") {
                   this.panelTitle = "Please change your temporary password";
                   this.buttonText = "Change";
@@ -226,7 +219,7 @@ export class LoginComponent implements OnInit {
                   this.notify.showWarning(body.errors);
                 } else {
                   console.error("Unrecognized action: " + action);
-                  this.notify.showError(userMessage);
+                  this.notify.showError("Unrecognized response from server");
                 }
               }
 
@@ -249,36 +242,7 @@ export class LoginComponent implements OnInit {
   }
 
   showTermsOfUse(user: User) {
-    this.terms_of_use = this.customization.get_option("privacy_acceptance");
-    if (this.terms_of_use === null) {
-      this.terms_of_use = [
-        {
-          label: "Click here to visualize our Terms of Use",
-          text: `
-This is a default text, something like a lorem ipsum placeholder. 
-You should never visualize this text in a production environment. <br/>
-If you are reading this text your terms of use are missing in your customization component <br/>
-Please add something like this to your ProjectOptions.get_option (in custom.project.options.ts)<br />
-<br/>
-<pre>
-  if (opt === "privacy_acceptance") {
-    return this.privacy_acceptance();
-  }
-
-  private privacy_acceptance() {
-    return [
-      {
-        label: "Click here to visualize our Terms of Use",
-        text: "Your Terms of Use",
-      },
-    ];
-  }
-</pre>
-<br/>
-`,
-        },
-      ];
-    }
+    this.terms_of_use = this.customization.privacy_statements();
 
     this.modalRef = this.modalService.open(this.privacy_acceptance, {
       size: "lg",
@@ -287,7 +251,7 @@ Please add something like this to your ProjectOptions.get_option (in custom.proj
     this.modalRef.result.then(
       (result) => {
         this.api
-          .patch("profile", "", { privacy_accepted: true }, { base: "auth" })
+          .patch("/auth/profile", "", { privacy_accepted: true })
           .subscribe(
             (data) => {
               this.authService.loadUser();

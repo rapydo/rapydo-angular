@@ -12,7 +12,7 @@ import {
 import { AppModule } from "@rapydo/app.module";
 import { AdminStatsComponent } from "@rapydo/components/admin/admin_stats";
 import { AdminModule } from "@rapydo/components/admin/admin.module";
-import { User } from "@rapydo/services/auth";
+import { User } from "@rapydo/types";
 
 import { environment } from "@rapydo/../environments/environment";
 
@@ -65,7 +65,7 @@ describe("AdminStatsComponent", () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const req = httpMock.expectOne(environment.apiUrl + "/admin/stats");
+    const req = httpMock.expectOne(environment.backendURI + "/api/admin/stats");
     expect(req.request.method).toEqual("GET");
     req.flush(stats);
 

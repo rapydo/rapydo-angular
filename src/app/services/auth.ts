@@ -1,47 +1,16 @@
 import { Injectable } from "@angular/core";
-// import { Output, EventEmitter } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { catchError, map } from "rxjs/operators";
+import { catchError, map, finalize } from "rxjs/operators";
 import { of, throwError } from "rxjs";
 import { Subject } from "rxjs";
 
+import { User, Session, Group } from "@rapydo/types";
 import { environment } from "@rapydo/../environments/environment";
 import { ApiService } from "@rapydo/services/api";
 import { NotificationService } from "@rapydo/services/notification";
 
-export interface User {
-  uuid: string;
-  email: string;
-  name: string;
-  surname: string;
-  isAdmin: boolean;
-  isLocalAdmin: boolean;
-  // isGroupAdmin: boolean,
-  is_active: boolean;
-  privacy_accepted: boolean;
-  roles: any;
-  group?: Group;
-}
-
-export interface Session {
-  token: string;
-  IP: string;
-  location: string;
-  user?: User;
-}
-
-export interface Group {
-  uuid: string;
-  shortname: string;
-  fullname: string;
-  coordinator?: User;
-}
-
 @Injectable()
 export class AuthService {
-  // @Output() userChanged: EventEmitter<string> = new EventEmitter<string>();
-  // userChanged: EventEmitter<string> = new EventEmitter<string>();
-
   userChanged = new Subject<any>();
 
   readonly LOGGED_IN = "logged-in";
@@ -50,7 +19,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private api: ApiService,
-    private notification: NotificationService
+    private notify: NotificationService
   ) {}
 
   public login(
@@ -74,82 +43,54 @@ export class AuthService {
       };
     }
 
-    return this.http.post<any>(environment.authApiUrl + "/login", data).pipe(
-      map((response) => {
-        if (!response) {
+    return this.http
+      .post<any>(environment.backendURI + "/auth/login", data)
+      .pipe(
+        map((response) => {
+          this.clean_localstorage();
+          this.setToken(JSON.stringify(response));
           return response;
-        }
+        })
+      );
+  }
 
-        this.clean_localstorage();
-        this.setToken(JSON.stringify(response));
+  public logout() {
+    return this.http.get<any>(environment.backendURI + "/auth/logout").pipe(
+      finalize(() => {
+        this.removeToken();
+      })
+    );
+  }
+
+  public change_password(data) {
+    return this.http.put(environment.backendURI + "/auth/profile", data).pipe(
+      map((response) => {
+        this.removeToken();
+
         return response;
       })
     );
   }
 
-  public logout() {
-    return this.http.get<any>(environment.authApiUrl + "/logout").pipe(
-      map(
-        (response) => {
-          this.removeToken();
-
-          return response;
-        },
-        (error) => {
-          this.removeToken();
-          return error;
-        }
-      )
-    );
-  }
-
-  public change_password(data) {
-    return this.http.put(environment.authApiUrl + "/profile", data).pipe(
-      map(
-        (response) => {
-          this.removeToken();
-
-          return response;
-        },
-        (error) => {
-          return throwError(error);
-        }
-      )
-    );
-  }
-
   public ask_activation_link(username) {
-    return this.http
-      .post(environment.authApiUrl + "/profile/activate", { username })
-      .pipe(
-        map(
-          (response) => {
-            return response;
-          },
-          (error) => {
-            return error;
-          }
-        )
-      );
+    const data = { username };
+    return this.http.post(
+      environment.backendURI + "/auth/profile/activate",
+      data
+    );
   }
 
   public loadUser() {
-    return this.http.get<any>(environment.authApiUrl + "/profile").pipe(
-      map(
-        (response) => {
-          if (!response) {
-            return response;
-          }
+    return this.http.get<any>(environment.backendURI + "/auth/profile").pipe(
+      map((response) => {
+        this.setUser(JSON.stringify(response));
 
-          this.setUser(JSON.stringify(response));
-
-          return response;
-        },
-        (error) => {
-          this.notification.showError(error);
-          return null;
-        }
-      )
+        return response;
+      }),
+      catchError((error) => {
+        this.notify.showError(error);
+        return null;
+      })
     );
   }
 
@@ -160,18 +101,20 @@ export class AuthService {
   public getToken() {
     return JSON.parse(localStorage.getItem("token"));
   }
+
   public isAuthenticated() {
     let token = this.getToken();
     if (!token) {
       return of(false);
     }
 
-    let opt = { base: "auth" };
-    return this.api.get("status", "", [], opt).pipe(
+    // {validationSchema: "Boolean"}
+    return this.api.get<boolean>("/auth/status").pipe(
       map((response) => {
         return of(true);
       }),
       catchError((error, caught) => {
+        /* istanbul ignore else */
         if (this.api.is_online()) {
           this.removeToken();
         }
@@ -186,6 +129,8 @@ export class AuthService {
     }
 
     let user = this.getUser();
+
+    /* istanbul ignore if */
     if (user === null) {
       return false;
     }
@@ -195,7 +140,7 @@ export class AuthService {
         return true;
       }
     }
-    this.notification.showError(
+    this.notify.showError(
       "Permission denied: you are not authorized to access this page"
     );
     return false;

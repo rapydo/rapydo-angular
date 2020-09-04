@@ -6,7 +6,7 @@ import {
   Injector,
 } from "@angular/core";
 
-import { Session } from "@rapydo/services/auth";
+import { Session } from "@rapydo/types";
 
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
 
@@ -17,19 +17,14 @@ export class AdminSessionsComponent extends BasePaginationComponent<Session> {
   @ViewChild("dataToken", { static: false }) public dataToken: TemplateRef<any>;
   @ViewChild("dataUser", { static: false }) public dataUser: TemplateRef<any>;
   @ViewChild("dataDate", { static: false }) public dataDate: TemplateRef<any>;
-  @ViewChild("dataRevoke", { static: false }) public dataRevoke: TemplateRef<
-    any
-  >;
+  @ViewChild("dataRevoke", { static: false }) public revoke: TemplateRef<any>;
 
   public currentToken: string;
-  protected endpoint = "admin/tokens";
 
   constructor(protected injector: Injector) {
     super(injector);
-    this.init("token");
-
-    this.server_side_pagination = true;
-    this.initPaging(20);
+    this.init("token", "admin/tokens", "Sessions");
+    this.initPaging(20, true);
     this.list();
 
     this.currentToken = this.auth.getToken();
@@ -74,19 +69,12 @@ export class AdminSessionsComponent extends BasePaginationComponent<Session> {
       name: "",
       prop: "id",
       flexGrow: 0.2,
-      cellTemplate: this.dataRevoke,
+      cellTemplate: this.revoke,
       sortable: false,
     });
   }
 
-  list() {
-    return this.get(this.endpoint);
-  }
-
-  remove(uuid) {
-    return this.delete(this.endpoint, uuid);
-  }
-
+  /* istanbul ignore next */
   public copied(event) {
     if (event["isSuccess"]) {
       this.notify.showSuccess("Token successfully copied");

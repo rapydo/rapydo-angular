@@ -17,8 +17,6 @@
  * BROWSER POLYFILLS
  */
 
-import "ie-shim"; // Internet Explorer 9 support
-
 // Old Safari and IE
 import "core-js/stable";
 
@@ -78,6 +76,7 @@ import "angular-polyfills/dist/shim.js";
 // TypeError: Cannot set property 'true' of undefined
 // import 'angular-polyfills/dist/webanimations.js';
 
+/* istanbul ignore next */
 if (typeof (window as any).global === "undefined") {
   (window as any).global = window;
   //(window as any)['global'] = window;
@@ -86,3 +85,6 @@ if (typeof (window as any).global === "undefined") {
 // Angular 9 introduced a global $localize() function that needs to be loaded.
 // Please add import '@angular/localize'; to your polyfills.ts file.
 import "@angular/localize/init";
+
+// required by exceljs (no longer used)
+// import "regenerator-runtime/runtime";

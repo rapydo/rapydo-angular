@@ -21,31 +21,84 @@ describe("KitchenSink", () => {
         cy.get("formly-wrapper-form-field");
         cy.get('button:contains("Submit")').click({ force: true });
         // This is email
-        cy.get("formly-validation-message")
-          .eq(0)
-          .contains("This field is required");
+        cy.checkvalidation(0, "This field is required");
         // This is password
-        cy.get("formly-validation-message")
-          .eq(1)
-          .contains("This field is required");
+        cy.checkvalidation(1, "This field is required");
+        // This is url
+        cy.checkvalidation(2, "This field is required");
 
-        cy.get('input[placeholder="email"]').clear().type("Invalid");
-        cy.get("formly-validation-message")
-          .eq(0)
-          .contains("Invalid email address");
+        cy.get('input[placeholder="email"]').as("email");
+        cy.get('input[placeholder="password"]').as("pwd");
+        cy.get('input[placeholder="url"]').as("url");
+        cy.get('input[placeholder="date"]').as("date");
 
-        cy.get('input[placeholder="email"]').clear().type("user@sample.org");
-        cy.get('input[placeholder="password"]')
-          .clear()
-          .type("thisIsVeryS3cret!");
+        cy.get("@email").clear().type("Invalid");
+        cy.checkvalidation(0, "Invalid email address");
+
+        cy.get("@email").clear().type("user@sample.org");
+        cy.get("@pwd").clear().type("thisIsVeryS3cret!");
+
+        cy.get("@url").clear().type("invalid");
+        cy.checkvalidation(0, "Invalid web address");
+
+        cy.get("@url").clear().type("www.google.");
+        cy.checkvalidation(0, "Invalid web address");
+
+        cy.get("@url").clear().type("www.google.c");
+        cy.checkvalidation(0, "Invalid web address");
+
+        cy.get("@url").clear().type("www.google.co");
+        cy.get("formly-validation-message").should(
+          "not.contain",
+          "Invalid web address"
+        );
+
+        cy.get("@url").clear().type("wwwgoogle.com");
+        cy.get("formly-validation-message").should(
+          "not.contain",
+          "Invalid web address"
+        );
 
         // Not allowed in cypress...
         // cy.get('input[ngbdatepicker]').should('be.readonly')
 
+        cy.get("@url").clear().type("http://www.google.com");
+        cy.get("formly-validation-message").should(
+          "not.contain",
+          "Invalid web address"
+        );
+
+        cy.get("@url").clear().type("https://www.google.com");
+        cy.get("formly-validation-message").should(
+          "not.contain",
+          "Invalid web address"
+        );
+
+        cy.get("@url").clear().type("httpx://www.google.com");
+        cy.checkvalidation(0, "Invalid web address");
+
+        cy.get("@url").clear().type("ftp://www.google.com");
+        cy.get("formly-validation-message").should(
+          "not.contain",
+          "Invalid web address"
+        );
+
+        cy.get("@url").clear().type("user@sample.org");
+        cy.get("formly-validation-message").should(
+          "not.contain",
+          "Invalid web address"
+        );
+
+        cy.get("@url").clear().type("www.google.com");
+        cy.get("formly-validation-message").should(
+          "not.contain",
+          "Invalid web address"
+        );
+
         // to verify that the placeholder works
-        cy.get('input[placeholder="date"]').click();
+        cy.get("@date").click();
         // first click opens, second click closes
-        cy.get('input[placeholder="date"]').click();
+        cy.get("@date").click();
         // to verify that the type is ngbdatepicker
         cy.get("input[ngbdatepicker]").click();
 
@@ -81,26 +134,18 @@ describe("KitchenSink", () => {
 
         cy.get("formly-horizontal-wrapper");
 
-        cy.get('input[placeholder="email"]').clear();
-        cy.get('input[placeholder="password"]').clear();
+        cy.get("@email").clear();
+        cy.get("@pwd").clear();
 
         cy.get('button:contains("Submit")').click({ force: true });
-        cy.get("formly-validation-message")
-          .eq(0)
-          .contains("This field is required");
-        cy.get("formly-validation-message")
-          .eq(1)
-          .contains("This field is required");
+        cy.checkvalidation(0, "This field is required");
+        cy.checkvalidation(1, "This field is required");
 
-        cy.get('input[placeholder="email"]').clear().type("Invalid");
-        cy.get("formly-validation-message")
-          .eq(0)
-          .contains("Invalid email address");
+        cy.get("@email").clear().type("Invalid");
+        cy.checkvalidation(0, "Invalid email address");
 
-        cy.get('input[placeholder="email"]').clear().type("user2@sample.org");
-        cy.get('input[placeholder="password"]')
-          .clear()
-          .type("thisIsSUPERS3cret!");
+        cy.get("@email").clear().type("user2@sample.org");
+        cy.get("@pwd").clear().type("thisIsSUPERS3cret!");
 
         cy.get('button:contains("Submit")').click({ force: true });
 

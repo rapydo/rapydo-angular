@@ -31,21 +31,11 @@ describe("Registration", () => {
       // Submit empty form (validations errors for all required fields are expected)
       cy.get("@submit").click({ force: true });
 
-      cy.get("formly-validation-message")
-        .eq(0)
-        .contains("This field is required");
-      cy.get("formly-validation-message")
-        .eq(1)
-        .contains("This field is required");
-      cy.get("formly-validation-message")
-        .eq(2)
-        .contains("This field is required");
-      cy.get("formly-validation-message")
-        .eq(3)
-        .contains("This field is required");
-      cy.get("formly-validation-message")
-        .eq(4)
-        .contains("This field is required");
+      cy.checkvalidation(0, "This field is required");
+      cy.checkvalidation(1, "This field is required");
+      cy.checkvalidation(2, "This field is required");
+      cy.checkvalidation(3, "This field is required");
+      cy.checkvalidation(4, "This field is required");
 
       // Submit short inputs (validation errors on email and password are expected)
       cy.get("@name").clear().type("a");
@@ -56,15 +46,51 @@ describe("Registration", () => {
 
       cy.get("@submit").click({ force: true });
 
-      cy.get("formly-validation-message")
-        .eq(0)
-        .contains("Invalid email address");
-      cy.get("formly-validation-message")
-        .eq(1)
-        .contains("Should have at least 8 characters");
-      cy.get("formly-validation-message")
-        .eq(2)
-        .contains("Password not matching");
+      cy.checkvalidation(0, "Invalid email address");
+      cy.checkvalidation(1, "Should have at least 8 characters");
+      cy.checkvalidation(2, "Password not matching");
+
+      cy.get("@submit").click({ force: true });
+
+      cy.contains("Acceptance is mandatory");
+
+      cy.get("a").contains(" read)").click({ force: true });
+      cy.get("button").contains("I read it").click({ force: true });
+
+      // Accept all privacy boxes
+      cy.get("formly-field-terms_of_use_checkbox")
+        .get('input[type="checkbox"]')
+        .each(($el, index, $list) => {
+          cy.wrap($el).click({ force: true });
+        });
+
+      // File extra fields
+      // get custom fields added at project level:
+      // foreach element select required input text/number still empty and fill them
+      cy.get("input").each(($el, index, $list) => {
+        if ($el.prop("required") && $el.val() === "") {
+          if ($el.attr("type") === "text") {
+            cy.wrap($el).type("a");
+          } else if ($el.attr("type") === "number") {
+            cy.wrap($el).type("1");
+          }
+        }
+      });
+
+      // This should pick the groups select, if enabled (e.g. in IMC)
+      // IT DOES NOT WORK YET!
+      if (Cypress.$("select").length > 0) {
+        cy.find("select").each(($el, index, $list) => {
+          cy.wrap($el).click();
+          if ($el.prop("required")) {
+            // select the first option
+            cy.wrap($el)
+              .get("option")
+              .eq(0)
+              .then((element) => cy.wrap($el).select(element.val()));
+          }
+        });
+      }
 
       cy.get("@submit").click({ force: true });
 

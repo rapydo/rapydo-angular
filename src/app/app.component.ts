@@ -29,9 +29,9 @@ export class AppComponent implements OnInit {
     private notify: NotificationService,
     private deviceService: DeviceDetectorService
   ) {
-    this.enableFooter = environment.enableFooter === "true";
-    this.cookieLawText = this.customization.get_option("cookie_law_text");
-    this.cookieLawButton = this.customization.get_option("cookie_law_button");
+    this.enableFooter = environment.enableFooter;
+    this.cookieLawText = this.customization.cookie_law_text();
+    this.cookieLawButton = this.customization.cookie_law_button();
 
     let deviceInfo = deviceService.getDeviceInfo();
 
@@ -48,12 +48,15 @@ export class AppComponent implements OnInit {
 
     let device = "";
 
+    /* istanbul ignore if */
     if (deviceService.isMobile()) {
       device = "mobile";
     }
+    /* istanbul ignore if */
     if (deviceService.isTablet()) {
       device = "tablet";
     }
+    /* istanbul ignore else */
     if (deviceService.isDesktop()) {
       device = "desktop";
     }
@@ -71,6 +74,7 @@ export class AppComponent implements OnInit {
         ")"
     );
 
+    /* istanbul ignore if */
     if (!compatibilityCheck) {
       this.notify.showError(
         "You are using " +
@@ -89,6 +93,7 @@ export class AppComponent implements OnInit {
     os: string,
     os_version: string
   ): boolean {
+    /* istanbul ignore if */
     if (browser === "IE") {
       if (parseFloat(version) <= 10) {
         return false;

@@ -32,7 +32,7 @@ export class ResetPasswordComponent implements OnInit {
   ) {
     this.route.params.subscribe((params) => {
       if (typeof params["token"] !== "undefined") {
-        this.api.put("reset", params["token"], {}, { base: "auth" }).subscribe(
+        this.api.put("/auth/reset/" + params["token"]).subscribe(
           (response) => {
             this.token = params["token"];
             return true;
@@ -102,46 +102,44 @@ export class ResetPasswordComponent implements OnInit {
     });
   }
 
-  resetRequest(): boolean {
+  resetRequest(): void {
     if (!this.step1_form.valid) {
-      return false;
+      return;
     }
 
     let data = { reset_email: this.model["reset_email"] };
-    return this.api.post("reset", data, { base: "auth" }).subscribe(
-      (response) => {
-        this.reset_message = response;
-        this.model = {};
-        return true;
-      },
-      (error) => {
-        this.notify.showError(error);
-        return false;
-      }
-    );
+    this.api
+      .post<string>("/auth/reset", data, { validationSchema: "String" })
+      .subscribe(
+        (response) => {
+          this.reset_message = response;
+          this.model = {};
+        },
+        (error) => {
+          this.notify.showError(error);
+        }
+      );
   }
 
-  public changePassword(): boolean {
+  public changePassword(): void {
     if (!this.step2_form.valid) {
-      return false;
+      return;
     }
 
     let data = {};
     data["new_password"] = this.model["newPwd"];
     data["password_confirm"] = this.model["confirmPwd"];
 
-    return this.api.put("reset", this.token, data, { base: "auth" }).subscribe(
+    this.api.put("/auth/reset/" + this.token, "", data).subscribe(
       (response) => {
         this.notify.showSuccess(
           "Password successfully changed. Please login with your new password"
         );
 
         this.router.navigate(["app", "login"]);
-        return true;
       },
       (error) => {
         this.notify.showError(error);
-        return false;
       }
     );
   }

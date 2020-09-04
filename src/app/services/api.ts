@@ -7,7 +7,10 @@ import {
   HttpErrorResponse,
 } from "@angular/common/http";
 
+import { NotificationService } from "@rapydo/services/notification";
 import { environment } from "@rapydo/../environments/environment";
+
+import { validate } from "@rapydo/validate";
 
 const reader: FileReader = new FileReader();
 
@@ -15,7 +18,7 @@ const reader: FileReader = new FileReader();
 export class ApiService {
   public static is_online: boolean = true;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private notify: NotificationService) {}
 
   public is_online(): boolean {
     return ApiService.is_online;
@@ -24,6 +27,7 @@ export class ApiService {
     ApiService.is_online = true;
     return ApiService.is_online;
   }
+  /* istanbul ignore next */
   public set_offline(): boolean {
     ApiService.is_online = false;
     return ApiService.is_online;
@@ -37,62 +41,94 @@ export class ApiService {
     }
   }
 
-  public get(endpoint: string, id = "", data = {}, options = {}) {
+  public get<T>(
+    endpoint: string,
+    id = "",
+    data = {},
+    options = {}
+  ): Observable<T> {
+    /* istanbul ignore next */
     if (id !== "") {
+      // Deprecated since 0.8
+      console.warn("Deprecated use of id parameter in api.get");
       endpoint += "/" + id;
     }
     return this.call("GET", endpoint, data, options);
   }
 
-  public post(endpoint: string, data = {}, options = {}) {
+  public post<T>(endpoint: string, data = {}, options = {}): Observable<T> {
     return this.call("POST", endpoint, data, options);
   }
 
-  public put(endpoint: string, id = "", data = {}, options = {}) {
+  public put<T>(
+    endpoint: string,
+    id = "",
+    data = {},
+    options = {}
+  ): Observable<T> {
+    /* istanbul ignore next */
     if (id !== "") {
+      // Deprecated since 0.8
+      console.warn("Deprecated use of id parameter in api.get");
       endpoint += "/" + id;
     }
     return this.call("PUT", endpoint, data, options);
   }
 
-  public patch(endpoint: string, id = "", data = {}, options = {}) {
+  public patch<T>(
+    endpoint: string,
+    id = "",
+    data = {},
+    options = {}
+  ): Observable<T> {
+    /* istanbul ignore next */
     if (id !== "") {
+      // Deprecated since 0.8
+      console.warn("Deprecated use of id parameter in api.get");
       endpoint += "/" + id;
     }
     return this.call("PATCH", endpoint, data, options);
   }
 
-  public delete(endpoint: string, id = "", options = {}) {
+  public delete<T>(endpoint: string, id = "", options = {}): Observable<T> {
+    /* istanbul ignore next */
     if (id !== "") {
+      // Deprecated since 0.8
+      console.warn("Deprecated use of id parameter in api.get");
       endpoint += "/" + id;
     }
     return this.call("DELETE", endpoint, {}, options);
   }
 
-  protected call(method: string, endpoint: string, data = {}, options = {}) {
-    let formData = this.opt(options, "formData");
+  protected call<T>(
+    method: string,
+    endpoint: string,
+    data = {},
+    options = {}
+  ): Observable<T> {
     let conf = this.opt(options, "conf");
-    let base = this.opt(options, "base");
     let rawError = this.opt(options, "rawError", false);
+    let validationSchema = this.opt(options, "validationSchema");
 
-    let ep = "";
-    if (base === "auth") {
-      ep = environment.authApiUrl + "/" + endpoint;
-    } else {
-      ep = environment.apiUrl + "/" + endpoint;
+    // to be deprecated
+    if (!endpoint.startsWith("/")) {
+      endpoint = "/api/" + endpoint;
     }
 
-    let contentType;
-    if (formData) {
-      contentType = "application/x-www-form-urlencoded";
-    } else {
-      contentType = "application/json";
-    }
+    endpoint = environment.backendURI + endpoint;
+
+    // let contentType;
+    // let formData = this.opt(options, "formData");
+    // if (formData) {
+    //   contentType = "application/x-www-form-urlencoded";
+    // } else {
+    //   contentType = "application/json";
+    // }
 
     let opt = {
       timeout: 30000,
       headers: new HttpHeaders({
-        "Content-Type": contentType,
+        "Content-Type": "application/json",
         Accept: "application/json",
       }),
     };
@@ -104,27 +140,43 @@ export class ApiService {
       }
     }
 
-    let httpCall;
+    let httpCall = null;
     if (method === "GET") {
       opt["params"] = data;
-      httpCall = this.http.get(ep, opt);
+      httpCall = this.http.get<T>(endpoint, opt);
     } else if (method === "POST") {
-      httpCall = this.http.post(ep, data, opt);
+      httpCall = this.http.post<T>(endpoint, data, opt);
     } else if (method === "PUT") {
-      httpCall = this.http.put(ep, data, opt);
+      httpCall = this.http.put<T>(endpoint, data, opt);
     } else if (method === "PATCH") {
-      httpCall = this.http.patch(ep, data, opt);
+      httpCall = this.http.patch<T>(endpoint, data, opt);
     } else if (method === "DELETE") {
-      httpCall = this.http.delete(ep, opt);
-    } else {
+      httpCall = this.http.delete<T>(endpoint, opt);
+    }
+
+    /* istanbul ignore next */
+    if (httpCall === null) {
       console.error("Unknown API method: " + method);
-      return false;
+      return null;
     }
 
     return httpCall.pipe(
-      map((response) => {
+      map((response: T) => {
         this.set_online();
 
+        if (validationSchema) {
+          const errors = validate(validationSchema, response);
+
+          if (errors) {
+            for (let error of errors) {
+              this.notify.showError(error);
+              console.error(error);
+            }
+            throw new Error("Response validation error");
+          }
+          // } else {
+          //   console.warn("Unvalidated response");
+        }
         return response;
       }),
       catchError((error) => {
@@ -178,14 +230,23 @@ export class ApiService {
   //     params: params,
   //     responseType: "blob" as "json",
   //   }).pipe(catchError(this.parseErrorBlob));
+  /* istanbul ignore next */
   public parseErrorBlob(err: HttpErrorResponse): Observable<any> {
-    const obs = Observable.create((observer: any) => {
-      reader.onloadend = (e) => {
-        observer.error(JSON.parse(reader.result as string));
-        observer.complete();
-      };
-    });
-    reader.readAsText(err.error);
-    return obs;
+    if (err.error instanceof Blob) {
+      const obs = Observable.create((observer: any) => {
+        reader.onloadend = (e) => {
+          observer.error(JSON.parse(reader.result as string));
+          observer.complete();
+        };
+      });
+      reader.readAsText(err.error);
+      return obs;
+    }
+
+    if (err.error instanceof ProgressEvent) {
+      return throwError(err.message);
+    }
+
+    return throwError(err.error);
   }
 }

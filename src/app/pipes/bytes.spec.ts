@@ -20,6 +20,10 @@ describe("Pipes", () => {
     // expect(bytes_pipe.transform(10737418240‬)).toBe("10 GB");
     // expect(bytes_pipe.transform(‭10995116277760‬)).toBe("10 TB");
     // expect(bytes_pipe.transform(1,125899906842624e+16‬)).toBe("10 PB");
+    expect(bytes_pipe.transform(10, 0)).toBe("10 bytes");
+    expect(bytes_pipe.transform(10, 1)).toBe("10.0 bytes");
+    expect(bytes_pipe.transform(10, 2)).toBe("10.00 bytes");
+    expect(bytes_pipe.transform(10, 3)).toBe("10.000 bytes");
 
     // expect(bytes_pipe.transform({'a': 1, 'b': 2})).toBe([{'key': 'a', value: 1}, {'key': 'b', value: 2}]);
   });

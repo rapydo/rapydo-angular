@@ -6,7 +6,7 @@ import {
   Injector,
 } from "@angular/core";
 
-import { Session } from "@rapydo/services/auth";
+import { Session } from "@rapydo/types";
 import { ExcelService } from "@rapydo/services/excel";
 
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
@@ -19,19 +19,15 @@ import { environment } from "@rapydo/../environments/environment";
 export class SessionsComponent extends BasePaginationComponent<Session> {
   @ViewChild("dataToken", { static: false }) public dataToken: TemplateRef<any>;
   @ViewChild("dataDate", { static: false }) public dataDate: TemplateRef<any>;
-  @ViewChild("dataRevoke", { static: false }) public dataRevoke: TemplateRef<
-    any
-  >;
+  @ViewChild("dataRevoke", { static: false }) public revoke: TemplateRef<any>;
 
   public currentToken: string;
-  protected endpoint = "tokens";
 
   constructor(protected injector: Injector, private excel: ExcelService) {
     super(injector);
-    this.init("token");
-
+    this.init("token", "/auth/tokens", "Sessions");
+    this.initPaging();
     this.list();
-    this.initPaging(20);
 
     this.currentToken = this.auth.getToken();
   }
@@ -62,7 +58,7 @@ export class SessionsComponent extends BasePaginationComponent<Session> {
       name: "Close",
       prop: "id",
       flexGrow: 0.2,
-      cellTemplate: this.dataRevoke,
+      cellTemplate: this.revoke,
     });
     this.columns.push({
       name: "Copy",
@@ -70,14 +66,6 @@ export class SessionsComponent extends BasePaginationComponent<Session> {
       flexGrow: 0.2,
       cellTemplate: this.dataToken,
     });
-  }
-
-  list() {
-    return this.get(this.endpoint, null, "auth");
-  }
-
-  remove(uuid) {
-    return this.delete(this.endpoint, uuid, "auth");
   }
 
   filter(data_filter) {
@@ -99,6 +87,7 @@ export class SessionsComponent extends BasePaginationComponent<Session> {
     });
   }
 
+  /* istanbul ignore next */
   public copied(event) {
     if (event["isSuccess"]) {
       this.notify.showSuccess("Token successfully copied");
@@ -118,8 +107,7 @@ export class SessionsComponent extends BasePaginationComponent<Session> {
     ];
     let download_data = [];
 
-    for (let index in this.unfiltered_data) {
-      let t = this.unfiltered_data[index];
+    for (let t of this.unfiltered_data) {
       download_data.push([
         t["IP"],
         t["location"],
@@ -130,12 +118,8 @@ export class SessionsComponent extends BasePaginationComponent<Session> {
       ]);
     }
 
-    let workbook = this.excel.createWorkbook();
-
-    let worksheet = workbook.addWorksheet("Sessions");
-    this.excel.addHeader(worksheet, headers);
-    worksheet.addRows(download_data);
-
+    const workbook = this.excel.createWorkbook();
+    this.excel.addWorksheet(workbook, "Sessions", headers, download_data);
     this.excel.saveAs(workbook, filename);
   }
 }

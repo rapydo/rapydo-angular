@@ -1,6 +1,6 @@
 import { Component, ViewChild, TemplateRef, Injector } from "@angular/core";
 
-import { Group } from "@rapydo/services/auth";
+import { Group } from "@rapydo/types";
 
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
 
@@ -16,14 +16,11 @@ export class AdminGroupsComponent extends BasePaginationComponent<Group> {
     any
   >;
 
-  protected endpoint = "admin/groups";
-
   constructor(protected injector: Injector) {
     super(injector);
-    this.init("group");
-
+    this.init("group", "admin/groups", "Groups");
+    this.initPaging();
     this.list();
-    this.initPaging(20);
   }
 
   public ngOnInit(): void {}

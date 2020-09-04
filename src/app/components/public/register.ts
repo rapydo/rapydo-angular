@@ -16,6 +16,7 @@ import { ProjectOptions } from "@app/custom.project.options";
 })
 export class RegisterComponent implements OnInit {
   public allowRegistration: boolean = false;
+
   public registration_title: string;
   public showRegistrationForm: boolean = false;
   public registration_message: string;
@@ -36,30 +37,28 @@ export class RegisterComponent implements OnInit {
     private authService: AuthService,
     private customization: ProjectOptions
   ) {
-    this.allowRegistration = environment.allowRegistration === "true";
+    this.allowRegistration = environment.allowRegistration;
 
     this.route.params.subscribe((params) => {
       if (typeof params["token"] !== "undefined") {
         this.registration_title = "Validating activation token...";
-        this.api
-          .put("profile/activate", params["token"], {}, { base: "auth" })
-          .subscribe(
-            (response) => {
-              this.invalid_token = false;
-              this.showRegistrationForm = false;
-              this.registration_title = "Registraction activated";
-              this.notify.showSuccess("User successfully activated.");
-              this.router.navigate(["app", "login"]);
-              return true;
-            },
-            (error) => {
-              this.invalid_token = true;
-              this.showRegistrationForm = false;
-              this.registration_title = "Invalid activation token";
-              this.notify.showError(error);
-              return false;
-            }
-          );
+        this.api.put("/auth/profile/activate/" + params["token"]).subscribe(
+          (response) => {
+            this.invalid_token = false;
+            this.showRegistrationForm = false;
+            this.registration_title = "Registraction activated";
+            this.notify.showSuccess("User successfully activated.");
+            this.router.navigate(["app", "login"]);
+            return true;
+          },
+          (error) => {
+            this.invalid_token = true;
+            this.showRegistrationForm = false;
+            this.registration_title = "Invalid activation token";
+            this.notify.showError(error);
+            return false;
+          }
+        );
       } else {
         this.showRegistrationForm = this.allowRegistration;
         this.registration_title = "Register a new account";
@@ -68,9 +67,7 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
-    // retrieve custom fields from apis
-
-    // initial disclaimer
+    this.disclaimer = this.customization.registration_disclaimer();
 
     this.fields.push({
       key: "name",
@@ -150,18 +147,39 @@ export class RegisterComponent implements OnInit {
       },
     });
 
-    let custom = this.customization.get_option("registration");
-
+    const custom = this.customization.custom_registration_options();
     if (custom) {
-      if ("fields" in custom) {
-        for (let i = 0; i < custom["fields"].length; i++) {
-          let f = custom["fields"][i];
-          this.fields.push(f);
-        }
+      for (let field of custom) {
+        this.fields.push(field);
       }
+    }
 
-      if ("disclaimer" in custom) {
-        this.disclaimer = custom["disclaimer"];
+    if (environment.allowTermsOfUse) {
+      const privacy = this.customization.privacy_statements();
+
+      if (privacy) {
+        this.fields.push({
+          className: "section-label",
+          template:
+            "<hr><div><strong>To protect your privacy we ask you to accept our:</strong></div>",
+        });
+
+        for (let p of privacy) {
+          const field = {
+            key: p.label.toLowerCase().replace(/ /gi, "_") + "_optin",
+            type: "terms_of_use",
+            templateOptions: {
+              label: p.label,
+              terms_of_use: p.text,
+            },
+            validators: {
+              fieldMatch: {
+                expression: (control) => control.value,
+              },
+            },
+          };
+          this.fields.push(field);
+        }
       }
     }
   }
@@ -171,20 +189,33 @@ export class RegisterComponent implements OnInit {
       return false;
     }
     this.loading = true;
-    this.api.post("profile", this.model, { base: "auth" }).subscribe(
-      (data) => {
-        this.showRegistrationForm = false;
-        this.registration_title = "Account registered";
-        this.registration_message =
-          "User successfully registered. You will receive an email to confirm your registraton and activate your account";
 
-        this.notify.showSuccess("User successfully registered");
-        this.loading = false;
-      },
-      (error) => {
-        this.notify.showError(error);
-        this.loading = false;
+    // Removed privacy statements from the model (not defined in backend input model)
+    const cleaned_model = { ...this.model };
+    for (let k in this.model) {
+      if (k.endsWith("_optin")) {
+        delete cleaned_model[k];
       }
-    );
+    }
+
+    this.api
+      .post<string>("/auth/profile", cleaned_model, {
+        validationSchema: "String",
+      })
+      .subscribe(
+        (data) => {
+          this.showRegistrationForm = false;
+          this.registration_title = "Account registered";
+          this.registration_message =
+            "User successfully registered. You will receive an email to confirm your registraton and activate your account";
+
+          this.notify.showSuccess("User successfully registered");
+          this.loading = false;
+        },
+        (error) => {
+          this.notify.showError(error);
+          this.loading = false;
+        }
+      );
   }
 }

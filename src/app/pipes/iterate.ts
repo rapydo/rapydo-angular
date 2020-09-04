@@ -1,5 +1,7 @@
 import { Injectable, Pipe } from "@angular/core";
 
+import { KeyValue } from "@rapydo/types";
+
 @Pipe({
   name: "iterate",
 })
@@ -7,7 +9,7 @@ import { Injectable, Pipe } from "@angular/core";
 export class IteratePipe {
   // Used to iterate over objects, as for user in profile
   // for any other use case use keyvalue pipe
-  transform(value): any {
+  transform(value): KeyValue[] {
     let keys = [];
 
     for (let key in value) {

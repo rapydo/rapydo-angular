@@ -31,44 +31,24 @@ describe("AdminUsers", () => {
     cy.get('button:contains("Submit")').as("submit");
 
     cy.get("@submit").click({ force: true });
-    cy.get("formly-validation-message")
-      .eq(0)
-      .contains("This field is required");
-    cy.get("formly-validation-message")
-      .eq(1)
-      .contains("This field is required");
-    cy.get("formly-validation-message")
-      .eq(2)
-      .contains("This field is required");
-    cy.get("formly-validation-message")
-      .eq(3)
-      .contains("This field is required");
+    cy.checkvalidation(0, "This field is required");
+    cy.checkvalidation(1, "This field is required");
+    cy.checkvalidation(2, "This field is required");
+    cy.checkvalidation(3, "This field is required");
 
     cy.get("@email").clear().type("invalid");
     cy.get("@submit").click({ force: true });
-    cy.get("formly-validation-message").eq(0).contains("Invalid email address");
-    cy.get("formly-validation-message")
-      .eq(1)
-      .contains("This field is required");
-    cy.get("formly-validation-message")
-      .eq(2)
-      .contains("This field is required");
-    cy.get("formly-validation-message")
-      .eq(3)
-      .contains("This field is required");
+    cy.checkvalidation(0, "Invalid email address");
+    cy.checkvalidation(1, "This field is required");
+    cy.checkvalidation(2, "This field is required");
+    cy.checkvalidation(3, "This field is required");
 
     cy.get("@email").clear().type(Cypress.env("AUTH_DEFAULT_USERNAME"));
     cy.get("@password").clear().type("short");
     cy.get("@submit").click({ force: true });
-    cy.get("formly-validation-message")
-      .eq(0)
-      .contains("Should have at least 8 characters");
-    cy.get("formly-validation-message")
-      .eq(1)
-      .contains("This field is required");
-    cy.get("formly-validation-message")
-      .eq(2)
-      .contains("This field is required");
+    cy.checkvalidation(0, "This field is required");
+    cy.checkvalidation(1, "This field is required");
+    cy.checkvalidation(2, "Should have at least 8 characters");
 
     cy.get("@password").clear().type("looooong");
     cy.get("@name").clear().type("SampleName");
@@ -85,6 +65,21 @@ describe("AdminUsers", () => {
         }
       }
     });
+
+    // This should pick the groups select, if enabled (e.g. in IMC)
+    // IT DOES NOT WORK YET!
+    if (Cypress.$("select").length > 0) {
+      cy.find("select").each(($el, index, $list) => {
+        cy.wrap($el).click();
+        if ($el.prop("required")) {
+          // select the first option
+          cy.wrap($el)
+            .get("option")
+            .eq(0)
+            .then((element) => cy.wrap($el).select(element.val()));
+        }
+      });
+    }
 
     cy.get("formly-validation-message").should("not.exist");
 
@@ -224,5 +219,31 @@ describe("AdminUsers", () => {
     cy.get('input[placeholder="Type to filter users"]').clear();
 
     cy.get("datatable-body-row").its("length").should("be.gte", 1);
+  });
+
+  it("Backend errors", () => {
+    cy.server();
+
+    cy.route({
+      method: "DELETE",
+      url: "/api/admin/users/*",
+      status: 500,
+      response: "Stubbed delete error",
+    });
+
+    cy.get("datatable-body-row").eq(0).find(".fa-trash").click({ force: true });
+    cy.get("button").contains("Confirm").click({ force: true });
+    cy.checkalert("Stubbed delete error");
+
+    cy.route({
+      method: "GET",
+      url: "/api/admin/users",
+      status: 500,
+      response: "Stubbed get error",
+    });
+
+    cy.visit("/app/admin/users");
+    cy.checkalert("Stubbed get error");
+    cy.server({ enable: false });
   });
 });

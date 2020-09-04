@@ -7,6 +7,7 @@ import {
   ChangeDetectorRef,
   Injector,
 } from "@angular/core";
+import { Subscription } from "rxjs";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { FormGroup } from "@angular/forms";
 // import { FormlyConfig } from "@ngx-formly/core";
@@ -17,7 +18,9 @@ import { ApiService } from "@rapydo/services/api";
 import { AuthService } from "@rapydo/services/auth";
 import { NotificationService } from "@rapydo/services/notification";
 import { FormlyService } from "@rapydo/services/formly";
+import { Schema, Paging, Total, Confirmation } from "@rapydo/types";
 import { FormModal } from "@rapydo/components/forms/form_modal";
+import { UUID } from "@rapydo/types";
 
 import { ProjectOptions } from "@app/custom.project.options";
 
@@ -26,16 +29,6 @@ enum ColumnMode {
   standard = "standard",
   flex = "flex",
   force = "force",
-}
-export interface Paging {
-  page: number;
-  itemsPerPage: number;
-  numPages: number;
-  dataLength: number;
-}
-export interface Confirmation {
-  title: string;
-  message: string;
 }
 
 @Component({
@@ -55,9 +48,11 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
   public resource_name: string;
 
-  protected server_side_pagination: boolean = false;
+  private server_side_pagination: boolean = false;
+  private server_side_filtering: boolean = false;
 
-  protected endpoint: string;
+  private endpoint: string;
+  private data_type: string = null;
 
   protected modalRef: NgbModalRef;
   public form;
@@ -70,14 +65,14 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   public data: Array<T> = [];
 
   public columns: Array<any> = [];
-  // Only used by the filter function
-  protected data_filter: string;
+  // Used by the filter function
+  public data_filter: string;
+  public data_filters: Record<string, string | number>;
   public unfiltered_data: Array<T>;
 
   public deleteConfirmation: Confirmation;
 
   public paging: Paging;
-  public is_update: boolean = false;
 
   protected sort_by: string = null;
   protected sort_order: string = null;
@@ -97,8 +92,10 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     this.spinner = injector.get(NgxSpinnerService);
     this.customization = injector.get(ProjectOptions);
   }
-  public init(res: string): void {
-    this.resource_name = res;
+  protected init(res_name: string, endpoint: string, data_type: string): void {
+    this.resource_name = res_name;
+    this.endpoint = endpoint;
+    this.data_type = data_type;
     this.deleteConfirmation = this.getDeleteConfirmation(this.resource_name);
   }
 
@@ -142,10 +139,6 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     if (this.server_side_pagination) {
       this.list();
     } else {
-      if (!this.unfiltered_data) {
-        this.unfiltered_data = this.data;
-      }
-
       this.data = this.filter(this.data_filter);
       this.post_filter();
 
@@ -153,15 +146,16 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     }
   }
 
-  post_filter(): void {}
+  protected post_filter(): void {}
 
-  filter(data_filter: string): Array<T> {
+  /* istanbul ignore next */
+  public filter(data_filter: string): Array<T> {
     console.warn("Filter function not implemented");
     return this.data;
   }
 
   /** PAGINATION **/
-  protected initPaging(itemPerPage: number): Paging {
+  protected initPaging(itemPerPage: number = 20, ssp: boolean = false): Paging {
     this.paging = {
       page: 0,
       itemsPerPage: itemPerPage,
@@ -169,14 +163,19 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       dataLength: 0,
     };
 
-    if (this.server_side_pagination) {
-      this.set_total_items();
+    if (ssp) {
+      this.server_side_pagination = true;
+      this.server_side_filtering = true;
+      // this.set_total_items();
     }
 
     return this.paging;
   }
+  protected setServerSideFiltering() {
+    this.server_side_filtering = true;
+  }
 
-  protected updatePaging(dataLen: number): Paging {
+  private updatePaging(dataLen: number): Paging {
     this.paging.dataLength = dataLen;
     this.paging.numPages = Math.ceil(dataLen / this.paging.itemsPerPage);
 
@@ -187,12 +186,12 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   To be used this way:
     <ngx-datatable
         [...]
-        [externalPaging]="true"
-        [count]="paging.dataLength"
-        [limit]="paging.itemsPerPage"
-        [offset]="paging.page"
-        (page)="serverSidePagination($event)"
-        (sort)="updateSort($event)"
+        [externalPaging]="true" << add this
+        [count]="paging.dataLength" << add this
+        [offset]="paging.page" << add this
+        (page)="serverSidePagination($event)" << add this
+        (sort)="updateSort($event)" << add this
+        (activate)="onDatatableActivate($event)"
         [...]
 */
   public serverSidePagination(event: any): void {
@@ -206,55 +205,10 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       this.list();
     }
   }
-
-  /** INTERACTION WITH APIs**/
-  protected list() {
-    return this.get(this.endpoint);
-  }
-  protected set_total_items(): void {
-    let data = {
-      get_total: true,
-    };
-    if (this.data_filter) {
-      data["input_filter"] = this.data_filter;
+  public onDatatableActivate(event: any) {
+    if (event.type === "click") {
+      event.cellElement.blur();
     }
-    this.api.get(this.endpoint, "", data).subscribe(
-      (response) => {
-        const t = response["total"] || 0;
-
-        this.paging.dataLength = t;
-        this.paging.numPages = Math.ceil(t / this.paging.itemsPerPage);
-        if (this.paging.page > 0 && this.paging.page >= this.paging.numPages) {
-          // change the page to be the last page
-          this.paging.page = this.paging.numPages - 1;
-          // list again the current page
-          this.list();
-        }
-      },
-      (error) => {
-        this.notify.showError(error);
-      }
-    );
-  }
-
-  public remove(uuid) {
-    return this.delete(this.endpoint, uuid);
-  }
-
-  public create() {
-    return this.post(this.endpoint);
-  }
-
-  public update(row) {
-    return this.put(row, this.endpoint);
-  }
-
-  public submit() {
-    this.send(this.endpoint);
-  }
-
-  protected form_customizer(form, type) {
-    return form;
   }
 
   protected set_loading(): boolean {
@@ -266,6 +220,10 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     this.loading = false;
     this.spinner.hide();
     return this.loading;
+  }
+
+  protected form_customizer(form, type) {
+    return form;
   }
 
   protected get_post_title() {
@@ -292,17 +250,57 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     return model;
   }
 
-  protected get(endpoint, data = null, namespace = "api") {
-    let opt;
-    if (namespace !== "api") {
-      opt = { base: namespace };
+  /** INTERACTION WITH APIs**/
+  protected set_total_items(): void {
+    let data = {
+      get_total: true,
+    };
+    if (this.data_filters) {
+      for (let k in this.data_filters) {
+        if (this.data_filters[k] != null) {
+          data[k] = this.data_filters[k];
+        }
+      }
+    }
+    if (this.data_filter) {
+      data["input_filter"] = this.data_filter;
     }
 
-    if (this.server_side_pagination && data === null) {
-      data = {
-        page: this.paging.page + 1,
-        size: this.paging.itemsPerPage,
-      };
+    this.api
+      .get<Total>(this.endpoint, "", data, { validationSchema: "Total" })
+      .subscribe(
+        (response) => {
+          const t = response.total;
+
+          this.paging.dataLength = t;
+          this.paging.numPages = Math.ceil(t / this.paging.itemsPerPage);
+          if (
+            this.paging.page > 0 &&
+            this.paging.page >= this.paging.numPages
+          ) {
+            // change the page to be the last page
+            this.paging.page = this.paging.numPages - 1;
+            // list again the current page
+            this.list();
+          }
+        },
+        (error) => {
+          this.notify.showError(error);
+        }
+      );
+  }
+
+  public list(): Subscription {
+    let opt = {};
+
+    if (this.data_type) {
+      opt["validationSchema"] = this.data_type;
+    }
+
+    let data = {};
+    if (this.server_side_pagination) {
+      data["page"] = this.paging.page + 1;
+      data["size"] = this.paging.itemsPerPage;
 
       if (this.sort_by) {
         data["sort_by"] = this.sort_by;
@@ -310,15 +308,22 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       if (this.sort_order) {
         data["sort_order"] = this.sort_order;
       }
+    }
+    if (this.server_side_pagination || this.server_side_filtering) {
+      if (this.data_filters) {
+        for (let k in this.data_filters) {
+          if (this.data_filters[k] != null) {
+            data[k] = this.data_filters[k];
+          }
+        }
+      }
       if (this.data_filter) {
         data["input_filter"] = this.data_filter;
       }
-    } else if (data === null) {
-      data = {};
     }
 
     this.set_loading();
-    return this.api.get(endpoint, "", data, opt).subscribe(
+    return this.api.get<T[]>(this.endpoint, "", data, opt).subscribe(
       (response) => {
         this.data = response;
         this.unfiltered_data = this.data;
@@ -343,13 +348,8 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     );
   }
 
-  protected delete(endpoint, uuid, namespace = "api") {
-    let opt;
-    if (namespace !== "api") {
-      opt = { base: namespace };
-    }
-
-    return this.api.delete(endpoint, uuid, opt).subscribe(
+  public remove(uuid: string): Subscription {
+    return this.api.delete(this.endpoint + "/" + uuid).subscribe(
       (response) => {
         this.notify.showSuccess(
           "Confirmation: " + this.resource_name + " successfully deleted"
@@ -362,16 +362,56 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     );
   }
 
-  protected post(endpoint) {
-    return this.api.post(endpoint, { get_schema: true }).subscribe(
-      (response) => {
-        let data = this.formly.json2Form(response, {});
-        data = this.form_customizer(data, "post");
+  public create() {
+    return this.open_form();
+  }
 
-        this.modalTitle = this.get_post_title();
+  public update(row) {
+    return this.open_form(row);
+  }
+
+  private open_form(model = null) {
+    let apiCall;
+    let model_id;
+    let type;
+
+    if (model === null) {
+      type = "post";
+      model_id = null;
+      apiCall = this.api.post<Schema[]>(this.endpoint, { get_schema: true });
+      model = {};
+    } else {
+      type = "put";
+      model_id = model.id || model.uuid || null;
+      /* istanbul ignore if */
+      if (model_id === null) {
+        this.notify.showError("Malformed request: ID not found");
+        return false;
+      }
+      apiCall = this.api.put<Schema[]>(this.endpoint + "/" + model_id, "", {
+        get_schema: true,
+      });
+    }
+
+    return apiCall.subscribe(
+      (response) => {
+        let data = this.formly.json2Form(response, model);
+
+        data = this.form_customizer(data, type);
+
         this.form = new FormGroup({});
-        this.fields = this.manipulate_post_fields(data.fields);
-        this.model = this.manipulate_post_model(data.model);
+
+        if (type === "put") {
+          this.modalTitle = this.get_put_title();
+          this.fields = this.manipulate_put_fields(data.fields);
+          this.model = this.manipulate_put_model(data.model);
+          this.model["_id"] = model_id;
+        } else {
+          this.modalTitle = this.get_post_title();
+          this.fields = this.manipulate_post_fields(data.fields);
+          this.model = this.manipulate_post_model(data.model);
+        }
+
         this.modalRef = this.modalService.open(FormModal, {
           size: "lg",
           backdrop: "static",
@@ -393,101 +433,39 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     );
   }
 
-  protected put(row, endpoint) {
-    let model_id;
-    if (row.id) {
-      model_id = row.id;
-    } else if (row.uuid) {
-      model_id = row.uuid;
-    } else {
-      this.notify.showError("Malformed request: ID not found");
+  public submit(): boolean {
+    if (!this.form.valid) {
+      this.updating = false;
       return false;
     }
 
-    return this.api.put(endpoint, model_id, { get_schema: true }).subscribe(
-      // return this.api.post(endpoint, {'get_schema': true}).subscribe(
-      (response) => {
-        let data = this.formly.json2Form(response, row);
-        data = this.form_customizer(data, "put");
-        this.modalTitle = this.get_put_title();
-        this.form = new FormGroup({});
-        this.fields = this.manipulate_put_fields(data.fields);
-        this.model = this.manipulate_put_model(data.model);
-        // Extra for update:
-        this.model["_id"] = model_id;
-        this.is_update = true;
-        this.modalRef = this.modalService.open(FormModal, {
-          size: "lg",
-          backdrop: "static",
-        });
-        this.modalRef.componentInstance.modalTitle = this.modalTitle;
-        this.modalRef.componentInstance.updating = this.updating;
-        this.modalRef.componentInstance.form = this.form;
-        this.modalRef.componentInstance.fields = this.fields;
-        this.modalRef.componentInstance.model = this.model;
-        this.modalRef.componentInstance.backRef = this;
+    let apiCall;
+    let type = "";
 
-        this.is_update = true;
-        this.modalRef.result.then(
-          (result) => {
-            this.is_update = false;
-          },
-          (reason) => {
-            this.is_update = false;
-          }
+    if (this.model["_id"]) {
+      let m = { ...this.model };
+      delete m["_id"];
+      apiCall = this.api.put(this.endpoint + "/" + this.model["_id"], "", m);
+      type = "updated";
+    } else {
+      apiCall = this.api.post<UUID>(this.endpoint, this.model);
+      type = "created";
+    }
+
+    return apiCall.subscribe(
+      (response) => {
+        this.modalRef.close("");
+        this.notify.showSuccess(
+          "Confirmation: " + this.resource_name + " successfully " + type
         );
+        this.list();
+        return true;
       },
       (error) => {
+        this.updating = false;
         this.notify.showError(error);
+        return false;
       }
     );
-  }
-
-  protected send(endpoint, data = null) {
-    if (this.form.valid) {
-      let apiCall;
-      let type = "";
-
-      let model = data || this.model;
-
-      if (model["_id"]) {
-        let m = { ...model };
-        delete m["_id"];
-        apiCall = this.api.put(endpoint, model["_id"], m);
-        type = "updated";
-      } else {
-        apiCall = this.api.post(endpoint, model);
-        type = "created";
-      }
-
-      apiCall.subscribe(
-        (response) => {
-          this.modalRef.close("");
-          this.notify.showSuccess(
-            "Confirmation: " + this.resource_name + " successfully " + type
-          );
-          this.list();
-        },
-        (error) => {
-          this.updating = false;
-          this.notify.showError(error);
-        }
-      );
-    } else {
-      this.updating = false;
-    }
-  }
-
-  /*
-<ngx-datatable
-    [...]
-    (activate)="onDatatableActivate($event)"
-    >
-</ngx-datatable>
-*/
-  public onDatatableActivate(event: any) {
-    if (event.type === "click") {
-      event.cellElement.blur();
-    }
   }
 }

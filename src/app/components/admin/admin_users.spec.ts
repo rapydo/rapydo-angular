@@ -12,7 +12,7 @@ import {
 import { AppModule } from "@rapydo/app.module";
 import { AdminUsersComponent } from "@rapydo/components/admin/admin_users";
 import { AdminModule } from "@rapydo/components/admin/admin.module";
-import { User } from "@rapydo/services/auth";
+import { User } from "@rapydo/types";
 
 import { environment } from "@rapydo/../environments/environment";
 
@@ -22,19 +22,7 @@ describe("AdminUsersComponent", () => {
   let fixture: ComponentFixture<AdminUsersComponent>;
   let component: AdminUsersComponent;
 
-  const users: Array<User> = [
-    {
-      uuid: "x",
-      email: "email@example.com",
-      name: "A",
-      surname: "B",
-      isAdmin: true,
-      isLocalAdmin: false,
-      is_active: true,
-      privacy_accepted: true,
-      roles: [],
-    },
-  ];
+  const users: Array<User> = [];
 
   const mock204Response = {
     status: 204,
@@ -56,7 +44,7 @@ describe("AdminUsersComponent", () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const req = httpMock.expectOne(environment.apiUrl + "/admin/users");
+    const req = httpMock.expectOne(environment.backendURI + "/api/admin/users");
     expect(req.request.method).toEqual("GET");
     req.flush(users);
 
@@ -69,12 +57,12 @@ describe("AdminUsersComponent", () => {
 
   // it('delete data', () => {
   //   component.remove("y");
-  //   const req1 = httpMock.expectOne(environment.apiUrl + '/admin/users');
+  //   const req1 = httpMock.expectOne(environment.backendURI + '/api/admin/users');
   //   expect(req1.request.method).toEqual('DELETE');
   //   req1.flush('', mock404Response);
 
   //   component.remove("x");
-  //   const req2 = httpMock.expectOne(environment.apiUrl + '/admin/users');
+  //   const req2 = httpMock.expectOne(environment.backendURI + '/api/admin/users');
   //   expect(req2.request.method).toEqual('DELETE');
   //   req2.flush('', mock204Response);
 

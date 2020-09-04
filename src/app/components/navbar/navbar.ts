@@ -1,11 +1,12 @@
 import { Component, ChangeDetectorRef, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { Subscription } from "rxjs/Subscription";
 
 import { environment } from "@rapydo/../environments/environment";
 
+import { ProjectOptions } from "@app/custom.project.options";
 import { ApiService } from "@rapydo/services/api";
-import { AuthService, User } from "@rapydo/services/auth";
+import { AuthService } from "@rapydo/services/auth";
+import { User } from "@rapydo/types";
 
 @Component({
   selector: "navbar",
@@ -20,15 +21,14 @@ export class NavbarComponent implements OnInit {
   public logoutConfirmationMessage: string =
     "Do you really want to close this session?";
 
-  private userChangedSubscription: Subscription;
-
   constructor(
     private router: Router,
+    private customization: ProjectOptions,
     private api: ApiService,
     private auth: AuthService,
     private ref: ChangeDetectorRef
   ) {
-    this.allowRegistration = environment.allowRegistration === "true";
+    this.allowRegistration = environment.allowRegistration;
   }
 
   ngOnInit() {
@@ -42,9 +42,7 @@ export class NavbarComponent implements OnInit {
       this.loading = false;
     });
 
-    this.userChangedSubscription = this.auth.userChanged.subscribe((user) =>
-      this.changeLogged(user)
-    );
+    this.auth.userChanged.subscribe((user) => this.changeLogged(user));
   }
 
   changeLogged(user: any) {

@@ -6,9 +6,12 @@ import { AuthService } from "@rapydo/services/auth";
 import { environment } from "@rapydo/../environments/environment";
 
 @Injectable()
+/* istanbul ignore next */
 export class WebSocketsService {
+  /* istanbul ignore next */
   constructor(private auth: AuthService) {}
 
+  /* istanbul ignore next */
   public subscribe(channel: string, callback: (message: string) => void) {
     let host = environment.websocketsUrl;
     let token = this.auth.getToken();

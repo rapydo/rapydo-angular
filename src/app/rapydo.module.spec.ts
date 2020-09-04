@@ -73,7 +73,7 @@ describe("Core routing", () => {
     tick();
     expect(location.path()).toBe('/app/login');
 
-    const profile_req = httpMock.expectOne(environment.authApiUrl + '/profile');
+    const profile_req = httpMock.expectOne(environment.backendURI + '/auth/profile');
     expect(profile_req.request.method).toEqual('GET');
     profile_req.flush('', mock401Response);
 
@@ -85,7 +85,7 @@ describe("Core routing", () => {
     tick();
     expect(location.path()).toBe('/app/login');
 
-    const profile_req = httpMock.expectOne(environment.authApiUrl + '/profile');
+    const profile_req = httpMock.expectOne(environment.backendURI + '/auth/profile');
     expect(profile_req.request.method).toEqual('GET');
     profile_req.flush('', mock401Response);
 
@@ -97,7 +97,7 @@ describe("Core routing", () => {
     tick();
     expect(location.path()).toBe('/app/login');
 
-    const profile_req = httpMock.expectOne(environment.authApiUrl + '/profile');
+    const profile_req = httpMock.expectOne(environment.backendURI + '/auth/profile');
     expect(profile_req.request.method).toEqual('GET');
     profile_req.flush('', mock401Response);
 

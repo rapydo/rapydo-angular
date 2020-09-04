@@ -75,7 +75,7 @@ export function URLValidator(control: FormControl): ValidationErrors {
   /*
     Regular expression obtained from https://stackoverflow.com/questions/8667070/javascript-regular-expression-to-validate-url
 
-    Just adoded a '?' after protocols to make schema optional (i.e. www.google.com is valid)
+    Just added a '?' after protocols to make schema optional (i.e. www.google.com is valid)
 
     How it works
       // protocol identifier
@@ -127,7 +127,7 @@ export function maxValidationError(error, field) {
 }
 
 // ngbDatepicker uses { year: 'yyyy', month: 'mm', day: 'dd'} as date format by default
-// this adpter allow ngbDatepicker to accept js native Dates
+// this adapter allow ngbDatepicker to accept js native Dates
 @Injectable()
 export class MomentDateFormatter extends NgbDateParserFormatter {
   // Convert a string formatted as 'DD/MM/YYYY' into {year: 'yyyy', month: 'mm', day:}
@@ -259,11 +259,4 @@ let module_providers: any = [
   providers: module_providers,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class SharedModule {
-  static forRoot(): ModuleWithProviders<SharedModule> {
-    return {
-      ngModule: SharedModule,
-      providers: module_providers,
-    };
-  }
-}
+export class SharedModule {}

@@ -20,7 +20,11 @@
             "tsConfig": "tsconfig.app.json",
             "extractCss": true,
             "aot": true,
-            "assets": ["./app/rapydo/assets", "./app/custom/assets"],
+            "assets": [
+              "./app/rapydo/assets",
+              "./app/custom/assets",
+              "./app/subproject/assets"
+            ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/ngx-toastr/toastr.css",
@@ -33,7 +37,7 @@
               "./app/custom/css/style.css"
             ],
             "scripts": [],
-            "allowedCommonJsDependencies": ["file-saver", "rxjs", "exceljs"]
+            "allowedCommonJsDependencies": ["file-saver", "rxjs", "ajv", "xlsx"]
           },
           "configurations": {
             "production": {
@@ -70,12 +74,14 @@
         "serve": {
           "builder": "ngx-build-plus:dev-server",
           "options": {
-            "browserTarget": "RAPyDo:build",
-            "extraWebpackConfig": "./cypress/coverage.webpack.js"
+            "browserTarget": "RAPyDo:build"
           },
           "configurations": {
             "production": {
               "browserTarget": "RAPyDo:build:production"
+            },
+            "cypress": {
+              "extraWebpackConfig": "./cypress/coverage.webpack.js"
             }
           }
         },
