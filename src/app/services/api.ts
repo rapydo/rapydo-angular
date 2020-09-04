@@ -150,7 +150,7 @@ export class ApiService {
         if (error.status === 502) {
           return throwError({
             "Resource unavailable":
-              "502 BAD GATEWAY: The page you are looking for is currently unreachable",
+              "The page you are looking for is currently unreachable",
           });
         }
 
