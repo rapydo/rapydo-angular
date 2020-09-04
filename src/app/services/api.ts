@@ -147,6 +147,13 @@ export class ApiService {
         if (rawError) {
           return throwError(error);
         }
+        if (error.status === 502) {
+          return throwError({
+            "Resource unavailable":
+              "502 BAD GATEWAY: The page you are looking for is currently unreachable",
+          });
+        }
+
         // This is a HttpErrorResponse
         if (error.error) {
           if (error.error instanceof ProgressEvent) {
