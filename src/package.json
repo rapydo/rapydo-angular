@@ -1,6 +1,6 @@
 {
   "name": "rapydo",
-  "version": "0.8",
+  "version": "0.8.0",
   "private": true,
   "description": "Frontend for RAPyDo framework",
   "scripts": {
