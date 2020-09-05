@@ -249,8 +249,40 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     return this.put(row, this.endpoint);
   }
 
-  public submit() {
-    this.send(this.endpoint);
+  public submit(): boolean {
+    if (!this.form.valid) {
+      this.updating = false;
+      return false;
+    }
+
+    let apiCall;
+    let type = "";
+
+    if (this.model["_id"]) {
+      let m = { ...this.model };
+      delete m["_id"];
+      apiCall = this.api.put(this.endpoint, this.model["_id"], m);
+      type = "updated";
+    } else {
+      apiCall = this.api.post(this.endpoint, this.model);
+      type = "created";
+    }
+
+    return apiCall.subscribe(
+      (response) => {
+        this.modalRef.close("");
+        this.notify.showSuccess(
+          "Confirmation: " + this.resource_name + " successfully " + type
+        );
+        this.list();
+        return true;
+      },
+      (error) => {
+        this.updating = false;
+        this.notify.showError(error);
+        return false;
+      }
+    );
   }
 
   protected form_customizer(form, type) {
@@ -441,41 +473,6 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         this.notify.showError(error);
       }
     );
-  }
-
-  protected send(endpoint, data = null) {
-    if (this.form.valid) {
-      let apiCall;
-      let type = "";
-
-      let model = data || this.model;
-
-      if (model["_id"]) {
-        let m = { ...model };
-        delete m["_id"];
-        apiCall = this.api.put(endpoint, model["_id"], m);
-        type = "updated";
-      } else {
-        apiCall = this.api.post(endpoint, model);
-        type = "created";
-      }
-
-      apiCall.subscribe(
-        (response) => {
-          this.modalRef.close("");
-          this.notify.showSuccess(
-            "Confirmation: " + this.resource_name + " successfully " + type
-          );
-          this.list();
-        },
-        (error) => {
-          this.updating = false;
-          this.notify.showError(error);
-        }
-      );
-    } else {
-      this.updating = false;
-    }
   }
 
   /*
