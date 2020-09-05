@@ -61,7 +61,6 @@
     "ngx-spinner": "10.0.1",
     "exceljs": "4.1.1",
     "angular-polyfills": "1.0.1",
-    "ie-shim": "0.1.0",
     "regenerator-runtime": "0.13.7",
     "gzipper": "4.0.1",
     "rimraf": "3.0.2",

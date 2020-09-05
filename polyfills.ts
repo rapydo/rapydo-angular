@@ -17,8 +17,6 @@
  * BROWSER POLYFILLS
  */
 
-import "ie-shim"; // Internet Explorer 9 support
-
 // Old Safari and IE
 import "core-js/stable";
 
