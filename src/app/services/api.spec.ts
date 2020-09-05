@@ -137,7 +137,7 @@ describe("ApiService", () => {
   });
 
   it("PATCH - success", () => {
-    service.patch("xyz", "id", { key: "value" }).subscribe((result) => {
+    service.patch("xyz/id", "", { key: "value" }).subscribe((result) => {
       expect(result).not.toBeUndefined();
     });
 
@@ -149,7 +149,7 @@ describe("ApiService", () => {
   });
 
   it("PATCH - fail", () => {
-    service.patch("xyz", "id", { key: "value" }).subscribe(
+    service.patch("xyz/id", "", { key: "value" }).subscribe(
       (result) => {},
       (error) => {
         expect(error).not.toBeUndefined();
