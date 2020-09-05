@@ -5,6 +5,7 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
 } from "@angular/router";
+import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { AuthService } from "@rapydo/services/auth";
 import { ApiService } from "@rapydo/services/api";
@@ -20,7 +21,7 @@ export class AuthGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): boolean {
+  ): Observable<boolean> {
     const expectedRoles = route.data.roles;
 
     return this.auth.isAuthenticated().pipe(

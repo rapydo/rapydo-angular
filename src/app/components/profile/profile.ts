@@ -6,7 +6,7 @@ import { FormGroup } from "@angular/forms";
 import { AuthService, User } from "@rapydo/services/auth";
 import { ApiService } from "@rapydo/services/api";
 import { NotificationService } from "@rapydo/services/notification";
-import { FormlyService } from "@rapydo/services/formly";
+import { FormlyService, Schema } from "@rapydo/services/formly";
 import { FormModal } from "@rapydo/components/forms/form_modal";
 
 @Component({
@@ -45,16 +45,16 @@ export class ProfileComponent {
     );
   }
   public edit_profile(): void {
-    return this.api
-      .patch("profile", "", { get_schema: true }, { base: "auth" })
+    this.api
+      .patch<Schema[]>("profile", "", { get_schema: true }, { base: "auth" })
       .subscribe(
         (response) => {
-          for (let index in response) {
-            if (response[index].key == "privacy_accepted") {
+          response.some((value, index) => {
+            if (value.key == "privacy_accepted") {
               response.splice(index, 1);
-              break;
+              return true;
             }
-          }
+          });
 
           let model = {};
           for (let field of response) {

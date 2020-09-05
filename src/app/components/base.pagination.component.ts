@@ -16,7 +16,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { ApiService } from "@rapydo/services/api";
 import { AuthService } from "@rapydo/services/auth";
 import { NotificationService } from "@rapydo/services/notification";
-import { FormlyService } from "@rapydo/services/formly";
+import { FormlyService, Schema } from "@rapydo/services/formly";
 import { FormModal } from "@rapydo/components/forms/form_modal";
 
 import { ProjectOptions } from "@app/custom.project.options";
@@ -350,7 +350,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     }
 
     this.set_loading();
-    return this.api.get(endpoint, "", data, opt).subscribe(
+    return this.api.get<T[]>(endpoint, "", data, opt).subscribe(
       (response) => {
         this.data = response;
         this.unfiltered_data = this.data;
@@ -395,34 +395,36 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   }
 
   protected post(endpoint) {
-    return this.api.post(endpoint, { get_schema: true }).subscribe(
-      (response) => {
-        let data = this.formly.json2Form(response, {});
-        data = this.form_customizer(data, "post");
+    return this.api
+      .post<Schema[]>(endpoint, { get_schema: true })
+      .subscribe(
+        (response) => {
+          let data = this.formly.json2Form(response, {});
+          data = this.form_customizer(data, "post");
 
-        this.modalTitle = this.get_post_title();
-        this.form = new FormGroup({});
-        this.fields = this.manipulate_post_fields(data.fields);
-        this.model = this.manipulate_post_model(data.model);
-        this.modalRef = this.modalService.open(FormModal, {
-          size: "lg",
-          backdrop: "static",
-        });
-        this.modalRef.componentInstance.modalTitle = this.modalTitle;
-        this.modalRef.componentInstance.updating = this.updating;
-        this.modalRef.componentInstance.form = this.form;
-        this.modalRef.componentInstance.fields = this.fields;
-        this.modalRef.componentInstance.model = this.model;
-        this.modalRef.componentInstance.backRef = this;
-        this.modalRef.result.then(
-          (result) => {},
-          (reason) => {}
-        );
-      },
-      (error) => {
-        this.notify.showError(error);
-      }
-    );
+          this.modalTitle = this.get_post_title();
+          this.form = new FormGroup({});
+          this.fields = this.manipulate_post_fields(data.fields);
+          this.model = this.manipulate_post_model(data.model);
+          this.modalRef = this.modalService.open(FormModal, {
+            size: "lg",
+            backdrop: "static",
+          });
+          this.modalRef.componentInstance.modalTitle = this.modalTitle;
+          this.modalRef.componentInstance.updating = this.updating;
+          this.modalRef.componentInstance.form = this.form;
+          this.modalRef.componentInstance.fields = this.fields;
+          this.modalRef.componentInstance.model = this.model;
+          this.modalRef.componentInstance.backRef = this;
+          this.modalRef.result.then(
+            (result) => {},
+            (reason) => {}
+          );
+        },
+        (error) => {
+          this.notify.showError(error);
+        }
+      );
   }
 
   protected put(row, endpoint) {
@@ -436,43 +438,45 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       return false;
     }
 
-    return this.api.put(endpoint, model_id, { get_schema: true }).subscribe(
-      // return this.api.post(endpoint, {'get_schema': true}).subscribe(
-      (response) => {
-        let data = this.formly.json2Form(response, row);
-        data = this.form_customizer(data, "put");
-        this.modalTitle = this.get_put_title();
-        this.form = new FormGroup({});
-        this.fields = this.manipulate_put_fields(data.fields);
-        this.model = this.manipulate_put_model(data.model);
-        // Extra for update:
-        this.model["_id"] = model_id;
-        this.is_update = true;
-        this.modalRef = this.modalService.open(FormModal, {
-          size: "lg",
-          backdrop: "static",
-        });
-        this.modalRef.componentInstance.modalTitle = this.modalTitle;
-        this.modalRef.componentInstance.updating = this.updating;
-        this.modalRef.componentInstance.form = this.form;
-        this.modalRef.componentInstance.fields = this.fields;
-        this.modalRef.componentInstance.model = this.model;
-        this.modalRef.componentInstance.backRef = this;
+    return this.api
+      .put<Schema[]>(endpoint, model_id, { get_schema: true })
+      .subscribe(
+        // return this.api.post(endpoint, {'get_schema': true}).subscribe(
+        (response) => {
+          let data = this.formly.json2Form(response, row);
+          data = this.form_customizer(data, "put");
+          this.modalTitle = this.get_put_title();
+          this.form = new FormGroup({});
+          this.fields = this.manipulate_put_fields(data.fields);
+          this.model = this.manipulate_put_model(data.model);
+          // Extra for update:
+          this.model["_id"] = model_id;
+          this.is_update = true;
+          this.modalRef = this.modalService.open(FormModal, {
+            size: "lg",
+            backdrop: "static",
+          });
+          this.modalRef.componentInstance.modalTitle = this.modalTitle;
+          this.modalRef.componentInstance.updating = this.updating;
+          this.modalRef.componentInstance.form = this.form;
+          this.modalRef.componentInstance.fields = this.fields;
+          this.modalRef.componentInstance.model = this.model;
+          this.modalRef.componentInstance.backRef = this;
 
-        this.is_update = true;
-        this.modalRef.result.then(
-          (result) => {
-            this.is_update = false;
-          },
-          (reason) => {
-            this.is_update = false;
-          }
-        );
-      },
-      (error) => {
-        this.notify.showError(error);
-      }
-    );
+          this.is_update = true;
+          this.modalRef.result.then(
+            (result) => {
+              this.is_update = false;
+            },
+            (reason) => {
+              this.is_update = false;
+            }
+          );
+        },
+        (error) => {
+          this.notify.showError(error);
+        }
+      );
   }
 
   /*

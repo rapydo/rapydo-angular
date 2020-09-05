@@ -85,7 +85,7 @@ export class AdminStatsComponent {
 
   public retrieve_stats(): void {
     this.spinner.show();
-    this.api.get("admin/stats").subscribe(
+    this.api.get<Stats>("admin/stats").subscribe(
       (response) => {
         this.stats = response;
         this.spinner.hide();

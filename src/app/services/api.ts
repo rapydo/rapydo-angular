@@ -37,7 +37,12 @@ export class ApiService {
     }
   }
 
-  public get(endpoint: string, id = "", data = {}, options = {}) {
+  public get<T>(
+    endpoint: string,
+    id = "",
+    data = {},
+    options = {}
+  ): Observable<T> {
     if (id !== "") {
       // Deprecated since 0.8
       console.warn("Deprecated use of id parameter in api.get");
@@ -46,11 +51,16 @@ export class ApiService {
     return this.call("GET", endpoint, data, options);
   }
 
-  public post(endpoint: string, data = {}, options = {}) {
+  public post<T>(endpoint: string, data = {}, options = {}): Observable<T> {
     return this.call("POST", endpoint, data, options);
   }
 
-  public put(endpoint: string, id = "", data = {}, options = {}) {
+  public put<T>(
+    endpoint: string,
+    id = "",
+    data = {},
+    options = {}
+  ): Observable<T> {
     if (id !== "") {
       // Deprecated since 0.8
       console.warn("Deprecated use of id parameter in api.get");
@@ -59,7 +69,12 @@ export class ApiService {
     return this.call("PUT", endpoint, data, options);
   }
 
-  public patch(endpoint: string, id = "", data = {}, options = {}) {
+  public patch<T>(
+    endpoint: string,
+    id = "",
+    data = {},
+    options = {}
+  ): Observable<T> {
     if (id !== "") {
       // Deprecated since 0.8
       console.warn("Deprecated use of id parameter in api.get");
@@ -68,7 +83,7 @@ export class ApiService {
     return this.call("PATCH", endpoint, data, options);
   }
 
-  public delete(endpoint: string, id = "", options = {}) {
+  public delete<T>(endpoint: string, id = "", options = {}): Observable<T> {
     if (id !== "") {
       // Deprecated since 0.8
       console.warn("Deprecated use of id parameter in api.get");
@@ -77,7 +92,12 @@ export class ApiService {
     return this.call("DELETE", endpoint, {}, options);
   }
 
-  protected call(method: string, endpoint: string, data = {}, options = {}) {
+  protected call<T>(
+    method: string,
+    endpoint: string,
+    data = {},
+    options = {}
+  ): Observable<T> {
     let formData = this.opt(options, "formData");
     let conf = this.opt(options, "conf");
     let base = this.opt(options, "base");
@@ -126,7 +146,7 @@ export class ApiService {
       httpCall = this.http.delete(ep, opt);
     } else {
       console.error("Unknown API method: " + method);
-      return false;
+      return null;
     }
 
     return httpCall.pipe(
