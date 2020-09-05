@@ -18,7 +18,8 @@ env:
   # - STAGE=cypress BROWSER=chromium
 
 script:
-  - export CURRENT_VERSION=$(grep '"version"' src/package.json | awk {'print $2'} | tr -d '", ')
+  # version is "x.y.0", convert in x.y
+  - export CURRENT_VERSION=$(grep '"version"' src/package.json | awk {'print $2'} | tr -d '", ') | awk -F. {'print $1 "." $2'}
   - pip3 install --upgrade git+https://github.com/rapydo/do.git@${CURRENT_VERSION}
   - mkdir rapydo_tests
   - cd rapydo_tests
