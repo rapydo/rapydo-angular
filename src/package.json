@@ -60,6 +60,7 @@
     "ngx-device-detector": "1.4.6",
     "ngx-spinner": "10.0.1",
     "exceljs": "4.1.1",
+    "ajv": "6.12.4",
     "angular-polyfills": "1.0.1",
     "regenerator-runtime": "0.13.7",
     "gzipper": "4.0.1",

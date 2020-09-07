@@ -28,6 +28,9 @@
     // Remove all comments except copy-right header comments beginning with /*!
     "removeComments": true,
 
+    // Needed to load json schemas from file (for aij validation)
+    "resolveJsonModule": true,
+
     // Raise error on expressions and declarations with an implied any type.
     // enable in a near future
     // "noImplicitAny": true,
