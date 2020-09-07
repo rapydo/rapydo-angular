@@ -16,7 +16,8 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { ApiService } from "@rapydo/services/api";
 import { AuthService } from "@rapydo/services/auth";
 import { NotificationService } from "@rapydo/services/notification";
-import { FormlyService, Schema } from "@rapydo/services/formly";
+import { FormlyService } from "@rapydo/services/formly";
+import { Schema, Paging, Confirmation } from "@rapydo/types";
 import { FormModal } from "@rapydo/components/forms/form_modal";
 
 import { ProjectOptions } from "@app/custom.project.options";
@@ -26,16 +27,6 @@ enum ColumnMode {
   standard = "standard",
   flex = "flex",
   force = "force",
-}
-export interface Paging {
-  page: number;
-  itemsPerPage: number;
-  numPages: number;
-  dataLength: number;
-}
-export interface Confirmation {
-  title: string;
-  message: string;
 }
 
 @Component({
@@ -350,7 +341,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     }
 
     this.set_loading();
-    return this.api.get<T[]>(endpoint, "", data, opt, "Sessions").subscribe(
+    return this.api.get<T[]>(endpoint, "", data, opt).subscribe(
       (response) => {
         this.data = response;
         this.unfiltered_data = this.data;

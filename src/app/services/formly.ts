@@ -2,22 +2,7 @@ import { Injectable } from "@angular/core";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import * as moment from "moment";
 
-// key is optional only for back-compatibility
-// remove the ? once dropped all swagger compatibility rules
-export interface Schema {
-  type: string;
-  key: string;
-  label?: string;
-  description?: string;
-  default?: any;
-  format?: string;
-  required?: string;
-  options?: any[];
-
-  min?: number | Date;
-  max?: number | Date;
-  enum?: Record<string, string>;
-}
+import { Schema } from "@rapydo/types";
 
 @Injectable()
 export class FormlyService {

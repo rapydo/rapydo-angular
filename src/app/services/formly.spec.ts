@@ -1,5 +1,6 @@
 import { TestBed, getTestBed } from "@angular/core/testing";
-import { FormlyService, Schema } from "@rapydo/services/formly";
+import { FormlyService } from "@rapydo/services/formly";
+import { Schema } from "@rapydo/types";
 
 describe("FormlyService", () => {
   let injector: TestBed;

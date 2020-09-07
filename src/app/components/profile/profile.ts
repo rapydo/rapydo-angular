@@ -7,7 +7,8 @@ import { AuthService } from "@rapydo/services/auth";
 import { User } from "@rapydo/types";
 import { ApiService } from "@rapydo/services/api";
 import { NotificationService } from "@rapydo/services/notification";
-import { FormlyService, Schema } from "@rapydo/services/formly";
+import { FormlyService } from "@rapydo/services/formly";
+import { Schema } from "@rapydo/types";
 import { FormModal } from "@rapydo/components/forms/form_modal";
 
 @Component({

@@ -7,7 +7,10 @@ import {
   HttpErrorResponse,
 } from "@angular/common/http";
 
+import { NotificationService } from "@rapydo/services/notification";
 import { environment } from "@rapydo/../environments/environment";
+
+import { validate } from "@rapydo/validate";
 
 const reader: FileReader = new FileReader();
 
@@ -15,7 +18,7 @@ const reader: FileReader = new FileReader();
 export class ApiService {
   public static is_online: boolean = true;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private notify: NotificationService) {}
 
   public is_online(): boolean {
     return ApiService.is_online;
@@ -41,14 +44,15 @@ export class ApiService {
     endpoint: string,
     id = "",
     data = {},
-    options = {}
+    options = {},
+    schema = null
   ): Observable<T> {
     if (id !== "") {
       // Deprecated since 0.8
       console.warn("Deprecated use of id parameter in api.get");
       endpoint += "/" + id;
     }
-    return this.call("GET", endpoint, data, options);
+    return this.call("GET", endpoint, data, options, schema);
   }
 
   public post<T>(endpoint: string, data = {}, options = {}): Observable<T> {
@@ -96,7 +100,8 @@ export class ApiService {
     method: string,
     endpoint: string,
     data = {},
-    options = {}
+    options = {},
+    schema = null
   ): Observable<T> {
     let formData = this.opt(options, "formData");
     let conf = this.opt(options, "conf");
@@ -135,24 +140,34 @@ export class ApiService {
     let httpCall;
     if (method === "GET") {
       opt["params"] = data;
-      httpCall = this.http.get(ep, opt);
+      httpCall = this.http.get<T>(ep, opt);
     } else if (method === "POST") {
-      httpCall = this.http.post(ep, data, opt);
+      httpCall = this.http.post<T>(ep, data, opt);
     } else if (method === "PUT") {
-      httpCall = this.http.put(ep, data, opt);
+      httpCall = this.http.put<T>(ep, data, opt);
     } else if (method === "PATCH") {
-      httpCall = this.http.patch(ep, data, opt);
+      httpCall = this.http.patch<T>(ep, data, opt);
     } else if (method === "DELETE") {
-      httpCall = this.http.delete(ep, opt);
+      httpCall = this.http.delete<T>(ep, opt);
     } else {
       console.error("Unknown API method: " + method);
       return null;
     }
 
     return httpCall.pipe(
-      map((response) => {
+      map((response: T) => {
         this.set_online();
 
+        if (schema) {
+          const errors = validate(schema, response);
+
+          if (errors) {
+            for (let error of errors) {
+              this.notify.showError(error);
+            }
+            throw new Error("Response validation error");
+          }
+        }
         return response;
       }),
       catchError((error) => {

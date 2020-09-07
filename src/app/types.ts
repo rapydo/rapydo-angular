@@ -25,3 +25,32 @@ export interface Group {
   fullname: string;
   coordinator?: User;
 }
+
+export interface Paging {
+  page: number;
+  itemsPerPage: number;
+  numPages: number;
+  dataLength: number;
+}
+
+export interface Confirmation {
+  title: string;
+  message: string;
+}
+
+// key is optional only for back-compatibility
+// remove the ? once dropped all swagger compatibility rules
+export interface Schema {
+  type: string;
+  key: string;
+  label?: string;
+  description?: string;
+  default?: any;
+  format?: string;
+  required?: string;
+  options?: any[];
+
+  min?: number | Date;
+  max?: number | Date;
+  enum?: Record<string, string>;
+}
