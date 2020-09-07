@@ -54,3 +54,65 @@ export interface Schema {
   max?: number | Date;
   enum?: Record<string, string>;
 }
+
+export interface AdminStats {
+  boot_time: Date;
+  cpu: CPUStats;
+  disk: DiskStats;
+  io: IOStats;
+  network_latency: NetworkStats;
+  procs: ProcsStats;
+  ram: RAMStats;
+  swap: SwapStats;
+}
+
+interface CPUStats {
+  count: number;
+  load: number;
+  user: number;
+  idle: number;
+  wait: number;
+  system: number;
+  stolen: number;
+}
+
+interface DiskStats {
+  free_disk_space: number;
+  total_disk_space: number;
+  used_disk_space: number;
+  occupacy: number;
+}
+
+interface IOStats {
+  blocks_received: number;
+  blocks_sent: number;
+}
+
+interface NetworkStats {
+  min: number;
+  max: number;
+  avg: number;
+}
+
+interface ProcsStats {
+  waiting_for_run: number;
+  uninterruptible_sleep: number;
+}
+
+interface RAMStats {
+  active: number;
+  buffer: number;
+  cache: number;
+  free: number;
+  inactive: number;
+  total: number;
+  used: number;
+}
+
+interface SwapStats {
+  free: number;
+  from_disk: number;
+  to_disk: number;
+  total: number;
+  used: number;
+}
