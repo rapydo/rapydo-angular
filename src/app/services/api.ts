@@ -45,15 +45,14 @@ export class ApiService {
     endpoint: string,
     id = "",
     data = {},
-    options = {},
-    schema = null
+    options = {}
   ): Observable<T> {
     if (id !== "") {
       // Deprecated since 0.8
       console.warn("Deprecated use of id parameter in api.get");
       endpoint += "/" + id;
     }
-    return this.call("GET", endpoint, data, options, schema);
+    return this.call("GET", endpoint, data, options);
   }
 
   public post<T>(endpoint: string, data = {}, options = {}): Observable<T> {
@@ -101,13 +100,13 @@ export class ApiService {
     method: string,
     endpoint: string,
     data = {},
-    options = {},
-    schema = null
+    options = {}
   ): Observable<T> {
     let formData = this.opt(options, "formData");
     let conf = this.opt(options, "conf");
     let base = this.opt(options, "base");
     let rawError = this.opt(options, "rawError", false);
+    let validationSchema = this.opt(options, "validationSchema");
 
     let ep = "";
     if (base === "auth") {
@@ -159,8 +158,8 @@ export class ApiService {
       map((response: T) => {
         this.set_online();
 
-        if (schema) {
-          const errors = validate(schema, response);
+        if (validationSchema) {
+          const errors = validate(validationSchema, response);
 
           if (errors) {
             for (let error of errors) {

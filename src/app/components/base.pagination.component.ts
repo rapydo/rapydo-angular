@@ -17,7 +17,7 @@ import { ApiService } from "@rapydo/services/api";
 import { AuthService } from "@rapydo/services/auth";
 import { NotificationService } from "@rapydo/services/notification";
 import { FormlyService } from "@rapydo/services/formly";
-import { Schema, Paging, Confirmation } from "@rapydo/types";
+import { Schema, Paging, Total, Confirmation } from "@rapydo/types";
 import { FormModal } from "@rapydo/components/forms/form_modal";
 
 import { ProjectOptions } from "@app/custom.project.options";
@@ -49,6 +49,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   protected server_side_pagination: boolean = false;
 
   protected endpoint: string;
+  protected data_type: string = null;
 
   protected modalRef: NgbModalRef;
   public form;
@@ -209,23 +210,28 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     if (this.data_filter) {
       data["input_filter"] = this.data_filter;
     }
-    this.api.get(this.endpoint, "", data).subscribe(
-      (response) => {
-        const t = response["total"] || 0;
+    this.api
+      .get<Total>(this.endpoint, "", data, { validationSchema: "Total" })
+      .subscribe(
+        (response) => {
+          const t = response["total"] || 0;
 
-        this.paging.dataLength = t;
-        this.paging.numPages = Math.ceil(t / this.paging.itemsPerPage);
-        if (this.paging.page > 0 && this.paging.page >= this.paging.numPages) {
-          // change the page to be the last page
-          this.paging.page = this.paging.numPages - 1;
-          // list again the current page
-          this.list();
+          this.paging.dataLength = t;
+          this.paging.numPages = Math.ceil(t / this.paging.itemsPerPage);
+          if (
+            this.paging.page > 0 &&
+            this.paging.page >= this.paging.numPages
+          ) {
+            // change the page to be the last page
+            this.paging.page = this.paging.numPages - 1;
+            // list again the current page
+            this.list();
+          }
+        },
+        (error) => {
+          this.notify.showError(error);
         }
-      },
-      (error) => {
-        this.notify.showError(error);
-      }
-    );
+      );
   }
 
   public remove(uuid) {
@@ -316,9 +322,13 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   }
 
   protected get(endpoint, data = null, namespace = "api") {
-    let opt;
+    let opt = {};
     if (namespace !== "api") {
-      opt = { base: namespace };
+      opt["base"] = namespace;
+    }
+
+    if (this.data_type) {
+      opt["validationSchema"] = this.data_type;
     }
 
     if (this.server_side_pagination && data === null) {

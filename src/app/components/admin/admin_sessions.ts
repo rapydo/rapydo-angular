@@ -22,11 +22,12 @@ export class AdminSessionsComponent extends BasePaginationComponent<Session> {
   >;
 
   public currentToken: string;
-  protected endpoint = "admin/tokens";
 
   constructor(protected injector: Injector) {
     super(injector);
     this.init("token");
+    this.endpoint = "admin/tokens";
+    // this.data_type = "Sessions";
 
     this.server_side_pagination = true;
     this.initPaging(20);

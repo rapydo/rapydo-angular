@@ -21,6 +21,7 @@ export class AdminGroupsComponent extends BasePaginationComponent<Group> {
   constructor(protected injector: Injector) {
     super(injector);
     this.init("group");
+    this.data_type = "Groups";
 
     this.list();
     this.initPaging(20);

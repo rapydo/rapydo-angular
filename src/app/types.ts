@@ -1,8 +1,18 @@
-export interface User {
-  uuid: string;
+// It is used in Sessions response
+interface SimpleUser {
   email: string;
   name: string;
   surname: string;
+}
+
+// It is used in Groups response
+interface SimpleUserWithId extends SimpleUser {
+  uuid: string;
+}
+
+// It is used in Users response
+export interface Users extends Array<User> {}
+export interface User extends SimpleUserWithId {
   isAdmin: boolean;
   isLocalAdmin: boolean;
   is_active: boolean;
@@ -16,14 +26,15 @@ export interface Session {
   token: string;
   IP: string;
   location: string;
-  user?: User;
+  user?: SimpleUser;
 }
 
+export interface Groups extends Array<Group> {}
 export interface Group {
   uuid: string;
   shortname: string;
   fullname: string;
-  coordinator?: User;
+  coordinator?: SimpleUserWithId;
 }
 
 export interface Paging {
@@ -33,6 +44,9 @@ export interface Paging {
   dataLength: number;
 }
 
+export interface Total {
+  total: number;
+}
 export interface Confirmation {
   title: string;
   message: string;

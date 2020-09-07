@@ -21,12 +21,13 @@ export function validate(ref, data) {
     return null;
   }
 
-  console.log("Validating against " + ref + " schema");
   const valid = validator(data);
   if (valid) {
+    console.info("Response validated against " + ref + " schema");
     return null;
   }
 
+  console.warn("Response does not meet " + ref + " schema");
   let errors = [];
   for (let error of validator.errors) {
     if (error.keyword == "additionalProperties") {

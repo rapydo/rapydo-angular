@@ -24,15 +24,22 @@ export class AdminStatsComponent {
 
   public retrieve_stats(): void {
     this.spinner.show();
-    this.api.get<AdminStats>("admin/stats", "", {}, {}, "AdminStats").subscribe(
-      (response) => {
-        this.stats = response;
-        this.spinner.hide();
-      },
-      (error) => {
-        this.notify.showError(error);
-        this.spinner.hide();
-      }
-    );
+    this.api
+      .get<AdminStats>(
+        "admin/stats",
+        "",
+        {},
+        { validationSchema: "AdminStats" }
+      )
+      .subscribe(
+        (response) => {
+          this.stats = response;
+          this.spinner.hide();
+        },
+        (error) => {
+          this.notify.showError(error);
+          this.spinner.hide();
+        }
+      );
   }
 }
