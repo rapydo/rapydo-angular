@@ -6,7 +6,7 @@ import {
   Injector,
 } from "@angular/core";
 
-import { Session } from "@rapydo/services/auth";
+import { Session } from "@rapydo/types";
 
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
 

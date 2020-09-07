@@ -12,7 +12,7 @@ import {
 import { AppModule } from "@rapydo/app.module";
 import { AdminGroupsComponent } from "@rapydo/components/admin/admin_groups";
 import { AdminModule } from "@rapydo/components/admin/admin.module";
-import { Group } from "@rapydo/services/auth";
+import { Group } from "@rapydo/types";
 
 import { environment } from "@rapydo/../environments/environment";
 

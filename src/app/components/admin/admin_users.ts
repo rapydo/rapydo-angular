@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
-import { User } from "@rapydo/services/auth";
+import { User } from "@rapydo/types";
 
 @Component({
   templateUrl: "admin_users.html",

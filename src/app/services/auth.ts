@@ -5,37 +5,10 @@ import { catchError, map } from "rxjs/operators";
 import { of, throwError } from "rxjs";
 import { Subject } from "rxjs";
 
+import { User, Session, Group } from "@rapydo/types";
 import { environment } from "@rapydo/../environments/environment";
 import { ApiService } from "@rapydo/services/api";
 import { NotificationService } from "@rapydo/services/notification";
-
-export interface User {
-  uuid: string;
-  email: string;
-  name: string;
-  surname: string;
-  isAdmin: boolean;
-  isLocalAdmin: boolean;
-  // isGroupAdmin: boolean,
-  is_active: boolean;
-  privacy_accepted: boolean;
-  roles: any;
-  group?: Group;
-}
-
-export interface Session {
-  token: string;
-  IP: string;
-  location: string;
-  user?: User;
-}
-
-export interface Group {
-  uuid: string;
-  shortname: string;
-  fullname: string;
-  coordinator?: User;
-}
 
 @Injectable()
 export class AuthService {

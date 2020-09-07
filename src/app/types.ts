@@ -5,7 +5,6 @@ export interface User {
   surname: string;
   isAdmin: boolean;
   isLocalAdmin: boolean;
-  // isGroupAdmin: boolean,
   is_active: boolean;
   privacy_accepted: boolean;
   roles: any;
@@ -13,7 +12,6 @@ export interface User {
 }
 
 export interface Sessions extends Array<Session> {}
-
 export interface Session {
   token: string;
   IP: string;

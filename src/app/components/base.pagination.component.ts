@@ -350,7 +350,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     }
 
     this.set_loading();
-    return this.api.get<T[]>(endpoint, "", data, opt).subscribe(
+    return this.api.get<T[]>(endpoint, "", data, opt, "Sessions").subscribe(
       (response) => {
         this.data = response;
         this.unfiltered_data = this.data;

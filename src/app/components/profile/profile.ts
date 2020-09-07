@@ -3,7 +3,8 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { FormGroup } from "@angular/forms";
 
-import { AuthService, User } from "@rapydo/services/auth";
+import { AuthService } from "@rapydo/services/auth";
+import { User } from "@rapydo/types";
 import { ApiService } from "@rapydo/services/api";
 import { NotificationService } from "@rapydo/services/notification";
 import { FormlyService, Schema } from "@rapydo/services/formly";

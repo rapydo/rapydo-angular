@@ -7,7 +7,8 @@ import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { environment } from "@rapydo/../environments/environment";
 
 import { ApiService } from "@rapydo/services/api";
-import { AuthService, User } from "@rapydo/services/auth";
+import { AuthService } from "@rapydo/services/auth";
+import { User } from "@rapydo/types";
 import { NotificationService } from "@rapydo/services/notification";
 import { ProjectOptions } from "@app/custom.project.options";
 

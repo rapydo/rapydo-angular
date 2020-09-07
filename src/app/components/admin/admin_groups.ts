@@ -1,6 +1,6 @@
 import { Component, ViewChild, TemplateRef, Injector } from "@angular/core";
 
-import { Group } from "@rapydo/services/auth";
+import { Group } from "@rapydo/types";
 
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
 

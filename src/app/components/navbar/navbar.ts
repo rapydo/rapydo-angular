@@ -5,7 +5,8 @@ import { Subscription } from "rxjs/Subscription";
 import { environment } from "@rapydo/../environments/environment";
 
 import { ApiService } from "@rapydo/services/api";
-import { AuthService, User } from "@rapydo/services/auth";
+import { AuthService } from "@rapydo/services/auth";
+import { User } from "@rapydo/types";
 
 @Component({
   selector: "navbar",
