@@ -3,6 +3,8 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from "@angular/common/http/testing";
+
+import { AppModule } from "@rapydo/app.module";
 import { ApiService } from "@rapydo/services/api";
 
 import { environment } from "@rapydo/../environments/environment";
@@ -20,7 +22,7 @@ describe("ApiService", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [ApiService],
-      imports: [HttpClientTestingModule],
+      imports: [AppModule, HttpClientTestingModule],
     });
 
     injector = getTestBed();

@@ -23,7 +23,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private api: ApiService,
-    private notification: NotificationService
+    private notify: NotificationService
   ) {}
 
   public login(
@@ -119,7 +119,7 @@ export class AuthService {
           return response;
         },
         (error) => {
-          this.notification.showError(error);
+          this.notify.showError(error);
           return null;
         }
       )
@@ -168,7 +168,7 @@ export class AuthService {
         return true;
       }
     }
-    this.notification.showError(
+    this.notify.showError(
       "Permission denied: you are not authorized to access this page"
     );
     return false;
