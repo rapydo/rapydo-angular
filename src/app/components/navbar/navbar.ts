@@ -1,6 +1,5 @@
 import { Component, ChangeDetectorRef, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { Subscription } from "rxjs/Subscription";
 
 import { environment } from "@rapydo/../environments/environment";
 
@@ -20,8 +19,6 @@ export class NavbarComponent implements OnInit {
   public logoutConfirmationTitle: string = "Logout request";
   public logoutConfirmationMessage: string =
     "Do you really want to close this session?";
-
-  private userChangedSubscription: Subscription;
 
   constructor(
     private router: Router,
@@ -43,9 +40,7 @@ export class NavbarComponent implements OnInit {
       this.loading = false;
     });
 
-    this.userChangedSubscription = this.auth.userChanged.subscribe((user) =>
-      this.changeLogged(user)
-    );
+    this.auth.userChanged.subscribe((user) => this.changeLogged(user));
   }
 
   changeLogged(user: any) {
