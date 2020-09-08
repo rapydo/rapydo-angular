@@ -26,19 +26,18 @@ export class AdminUsersComponent extends BasePaginationComponent<User> {
     any
   >;
 
-  protected endpoint = "admin/users";
-
   constructor(protected injector: Injector) {
     super(injector);
-    this.init("user");
-    // this.data_type = "Users";
 
+    let endpoint = "admin/users";
     if (this.auth.getUser()?.isLocalAdmin && !this.auth.getUser()?.isAdmin) {
-      this.endpoint = "localadmin/users";
+      endpoint = "localadmin/users";
     }
 
+    // this.data_type = "Users";
+    this.init("user", endpoint);
+    this.initPaging();
     this.list();
-    this.initPaging(20);
   }
 
   public ngAfterViewInit(): void {
@@ -113,14 +112,14 @@ export class AdminUsersComponent extends BasePaginationComponent<User> {
     });
   }
 
-  update(row) {
+  public update(row) {
     if (row.roles) {
       for (let i = 0; i < row.roles.length; i++) {
         let n = row.roles[i].name;
         row["roles_" + n] = true;
       }
     }
-    return this.put(row, this.endpoint);
+    return super.update(row);
   }
 
   filter(data_filter) {

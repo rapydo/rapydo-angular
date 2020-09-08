@@ -25,12 +25,9 @@ export class AdminSessionsComponent extends BasePaginationComponent<Session> {
 
   constructor(protected injector: Injector) {
     super(injector);
-    this.init("token");
-    this.endpoint = "admin/tokens";
     // this.data_type = "Sessions";
-
-    this.server_side_pagination = true;
-    this.initPaging(20);
+    this.init("token", "admin/tokens");
+    this.initPaging(20, true);
     this.list();
 
     this.currentToken = this.auth.getToken();
@@ -78,14 +75,6 @@ export class AdminSessionsComponent extends BasePaginationComponent<Session> {
       cellTemplate: this.dataRevoke,
       sortable: false,
     });
-  }
-
-  list() {
-    return this.get(this.endpoint);
-  }
-
-  remove(uuid) {
-    return this.delete(this.endpoint, uuid);
   }
 
   public copied(event) {

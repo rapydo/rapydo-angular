@@ -16,15 +16,11 @@ export class AdminGroupsComponent extends BasePaginationComponent<Group> {
     any
   >;
 
-  protected endpoint = "admin/groups";
-
   constructor(protected injector: Injector) {
     super(injector);
-    this.init("group");
-    this.data_type = "Groups";
-
+    this.init("group", "admin/groups", "Groups");
+    this.initPaging();
     this.list();
-    this.initPaging(20);
   }
 
   public ngOnInit(): void {}

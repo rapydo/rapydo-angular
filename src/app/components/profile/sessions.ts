@@ -24,15 +24,13 @@ export class SessionsComponent extends BasePaginationComponent<Session> {
   >;
 
   public currentToken: string;
-  protected endpoint = "tokens";
 
   constructor(protected injector: Injector, private excel: ExcelService) {
     super(injector);
-    this.init("token");
     // this.data_type = "Sessions";
-
+    this.init("token", "tokens", null, "auth");
+    this.initPaging();
     this.list();
-    this.initPaging(20);
 
     this.currentToken = this.auth.getToken();
   }
@@ -71,14 +69,6 @@ export class SessionsComponent extends BasePaginationComponent<Session> {
       flexGrow: 0.2,
       cellTemplate: this.dataToken,
     });
-  }
-
-  list() {
-    return this.get(this.endpoint, null, "auth");
-  }
-
-  remove(uuid) {
-    return this.delete(this.endpoint, uuid, "auth");
   }
 
   filter(data_filter) {

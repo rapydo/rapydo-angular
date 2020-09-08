@@ -46,10 +46,11 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
   public resource_name: string;
 
-  protected server_side_pagination: boolean = false;
+  private server_side_pagination: boolean = false;
 
-  protected endpoint: string;
-  protected data_type: string = null;
+  private endpoint: string;
+  private base: string = "api";
+  private data_type: string = null;
 
   protected modalRef: NgbModalRef;
   public form;
@@ -89,8 +90,16 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     this.spinner = injector.get(NgxSpinnerService);
     this.customization = injector.get(ProjectOptions);
   }
-  public init(res: string): void {
-    this.resource_name = res;
+  protected init(
+    res_name: string,
+    endpoint: string,
+    data_type: string = null,
+    base: string = "api"
+  ): void {
+    this.resource_name = res_name;
+    this.endpoint = endpoint;
+    this.base = base;
+    this.data_type = data_type;
     this.deleteConfirmation = this.getDeleteConfirmation(this.resource_name);
   }
 
@@ -145,7 +154,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     }
   }
 
-  post_filter(): void {}
+  protected post_filter(): void {}
 
   filter(data_filter: string): Array<T> {
     console.warn("Filter function not implemented");
@@ -153,7 +162,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   }
 
   /** PAGINATION **/
-  protected initPaging(itemPerPage: number): Paging {
+  protected initPaging(itemPerPage: number = 20, ssp: boolean = false): Paging {
     this.paging = {
       page: 0,
       itemsPerPage: itemPerPage,
@@ -161,7 +170,8 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       dataLength: 0,
     };
 
-    if (this.server_side_pagination) {
+    if (ssp) {
+      this.server_side_pagination = true;
       this.set_total_items();
     }
 
@@ -323,8 +333,8 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
   protected get(endpoint, data = null, namespace = "api") {
     let opt = {};
-    if (namespace !== "api") {
-      opt["base"] = namespace;
+    if (this.base !== "api") {
+      opt["base"] = this.base;
     }
 
     if (this.data_type) {
@@ -378,8 +388,8 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
   protected delete(endpoint, uuid, namespace = "api") {
     let opt;
-    if (namespace !== "api") {
-      opt = { base: namespace };
+    if (this.base !== "api") {
+      opt = { base: this.base };
     }
 
     return this.api.delete(endpoint, uuid, opt).subscribe(
