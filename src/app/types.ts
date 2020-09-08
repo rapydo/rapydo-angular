@@ -27,7 +27,13 @@ export interface AdminUsers extends Array<AdminUser> {}
 export interface AdminUser extends SimpleUserWithId {
   readonly is_active: boolean;
   readonly privacy_accepted: boolean;
+  /**
+   * @nullable
+   */
   readonly last_login: Date;
+  /**
+   * @nullable
+   */
   readonly first_login: Date;
   /**
    * @nullable
