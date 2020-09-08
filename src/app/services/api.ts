@@ -7,7 +7,7 @@ import {
   HttpErrorResponse,
 } from "@angular/common/http";
 
-// import { NotificationService } from "@rapydo/services/notification";
+import { NotificationService } from "@rapydo/services/notification";
 import { environment } from "@rapydo/../environments/environment";
 
 import { validate } from "@rapydo/validate";
@@ -18,8 +18,7 @@ const reader: FileReader = new FileReader();
 export class ApiService {
   public static is_online: boolean = true;
 
-  // constructor(private http: HttpClient, private notify: NotificationService) {}
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private notify: NotificationService) {}
 
   public is_online(): boolean {
     return ApiService.is_online;
@@ -163,8 +162,8 @@ export class ApiService {
 
           if (errors) {
             for (let error of errors) {
-              // this.notify.showError(error);
-              console.log(error);
+              this.notify.showError(error);
+              // console.log(error);
             }
             throw new Error("Response validation error");
           }

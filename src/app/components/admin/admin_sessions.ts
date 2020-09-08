@@ -25,8 +25,7 @@ export class AdminSessionsComponent extends BasePaginationComponent<Session> {
 
   constructor(protected injector: Injector) {
     super(injector);
-    // this.data_type = "Sessions";
-    this.init("token", "admin/tokens");
+    this.init("token", "admin/tokens", "Sessions");
     this.initPaging(20, true);
     this.list();
 

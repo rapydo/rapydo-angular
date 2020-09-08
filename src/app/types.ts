@@ -23,10 +23,14 @@ export interface User extends SimpleUserWithId {
 
 export interface Sessions extends Array<Session> {}
 export interface Session {
+  readonly id: string;
   readonly token: string;
   readonly IP: string;
   readonly location: string;
   readonly user?: SimpleUser;
+  readonly emitted: Date;
+  readonly last_access: Date;
+  readonly expiration: Date;
 }
 
 export interface Groups extends Array<Group> {}
