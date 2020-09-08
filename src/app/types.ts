@@ -1,5 +1,8 @@
 // It is used in Sessions response
 interface SimpleUser {
+  /**
+   * @format email
+   */
   readonly email: string;
   readonly name: string;
   readonly surname: string;
