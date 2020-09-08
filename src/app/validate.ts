@@ -34,7 +34,7 @@ export function validate(ref, data) {
       errors.push(
         "Found unknown property " + error.params["additionalProperty"]
       );
-    } else if (error.keyword == "type") {
+    } else if (error.dataPath) {
       errors.push("Response" + error.dataPath + " " + error.message);
     } else {
       errors.push("Response " + error.message);

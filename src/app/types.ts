@@ -10,8 +10,6 @@ interface SimpleUserWithId extends SimpleUser {
   readonly uuid: string;
 }
 
-// It is used in Users response
-export interface Users extends Array<User> {}
 export interface User extends SimpleUserWithId {
   readonly isAdmin: boolean;
   readonly isLocalAdmin: boolean;
@@ -19,6 +17,21 @@ export interface User extends SimpleUserWithId {
   readonly privacy_accepted: boolean;
   readonly roles: any;
   readonly group?: Group;
+}
+
+// It is used in AdminUsers response
+export interface AdminUsers extends Array<AdminUser> {}
+export interface AdminUser extends SimpleUserWithId {
+  readonly is_active: boolean;
+  readonly privacy_accepted: boolean;
+  readonly last_login: Date;
+  readonly first_login: Date;
+  /**
+   * @nullable
+   */
+  readonly last_password_change: Date;
+  readonly roles: any;
+  readonly group?: Group[];
 }
 
 export interface Sessions extends Array<Session> {}
@@ -86,8 +99,8 @@ export interface AdminStats {
 }
 
 interface CPUStats {
-  /*
-   * @min 10
+  /**
+   * @minimum 0
    */
   readonly count: number;
   readonly load: number;

@@ -7,12 +7,12 @@ import {
 } from "@angular/core";
 
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
-import { User } from "@rapydo/types";
+import { AdminUser } from "@rapydo/types";
 
 @Component({
   templateUrl: "admin_users.html",
 })
-export class AdminUsersComponent extends BasePaginationComponent<User> {
+export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
   @ViewChild("dataActive", { static: false }) public dataActive: TemplateRef<
     any
   >;
@@ -34,8 +34,7 @@ export class AdminUsersComponent extends BasePaginationComponent<User> {
       endpoint = "localadmin/users";
     }
 
-    // this.data_type = "Users";
-    this.init("user", endpoint);
+    this.init("user", endpoint, "AdminUsers");
     this.initPaging();
     this.list();
   }
