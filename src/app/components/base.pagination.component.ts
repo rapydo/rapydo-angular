@@ -462,7 +462,6 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
           this.model = this.manipulate_put_model(data.model);
           // Extra for update:
           this.model["_id"] = model_id;
-          this.is_update = true;
           this.modalRef = this.modalService.open(FormModal, {
             size: "lg",
             backdrop: "static",
