@@ -31,8 +31,8 @@ script:
       rapydo -s frontend pull;
       rapydo -s frontend start;
       sleep 5;
-      rapydo shell frontend --command "yarn install" || travis_terminate 1;
-      rapydo shell frontend --command "yarn run test:single" || travis_terminate 1;
+      rapydo shell frontend "yarn install" || travis_terminate 1;
+      rapydo shell frontend "yarn run test:single" || travis_terminate 1;
       cp data/prj/karma/lcov.info .;
       travis_retry bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular;
 
@@ -69,11 +69,11 @@ script:
 
       rapydo pull;
       rapydo start;
-      rapydo shell backend --command 'restapi wait';
-      rapydo shell backend --detach --command "restapi launch";
-      rapydo shell frontend --command "yarn install" || travis_terminate 1;
-      rapydo shell frontend --command "yarn run cypress:start:${BROWSER}" || travis_terminate 1;
-      rapydo shell frontend --command "npx nyc --all report --reporter=lcov" || travis_terminate 1;
+      rapydo shell backend 'restapi wait';
+      rapydo shell backend --detach "restapi launch";
+      rapydo shell frontend "yarn install" || travis_terminate 1;
+      rapydo shell frontend "yarn run cypress:start:${BROWSER}" || travis_terminate 1;
+      rapydo shell frontend "npx nyc --all report --reporter=lcov" || travis_terminate 1;
       cp data/prj/karma/lcov.info .;
       travis_retry bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular;
 
