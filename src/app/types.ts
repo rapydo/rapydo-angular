@@ -192,7 +192,7 @@ interface IOStats {
 
 interface NetworkStats {
   /**
-   * @minimum 1
+   * @minimum 0
    */
   readonly min: number;
   /**

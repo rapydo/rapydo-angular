@@ -70,7 +70,6 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   public deleteConfirmation: Confirmation;
 
   public paging: Paging;
-  public is_update: boolean = false;
 
   protected sort_by: string = null;
   protected sort_order: string = null;
@@ -156,7 +155,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
   protected post_filter(): void {}
 
-  filter(data_filter: string): Array<T> {
+  public filter(data_filter: string): Array<T> {
     console.warn("Filter function not implemented");
     return this.data;
   }
@@ -178,7 +177,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     return this.paging;
   }
 
-  protected updatePaging(dataLen: number): Paging {
+  private updatePaging(dataLen: number): Paging {
     this.paging.dataLength = dataLen;
     this.paging.numPages = Math.ceil(dataLen / this.paging.itemsPerPage);
 
@@ -195,6 +194,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         [offset]="paging.page"
         (page)="serverSidePagination($event)"
         (sort)="updateSort($event)"
+        (activate)="onDatatableActivate($event)"
         [...]
 */
   public serverSidePagination(event: any): void {
@@ -208,11 +208,52 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       this.list();
     }
   }
+  public onDatatableActivate(event: any) {
+    if (event.type === "click") {
+      event.cellElement.blur();
+    }
+  }
+
+  protected set_loading(): boolean {
+    this.loading = true;
+    this.spinner.show();
+    return this.loading;
+  }
+  protected set_unloading(): boolean {
+    this.loading = false;
+    this.spinner.hide();
+    return this.loading;
+  }
+
+  protected form_customizer(form, type) {
+    return form;
+  }
+
+  protected get_post_title() {
+    return "Create a new " + this.resource_name;
+  }
+
+  protected get_put_title() {
+    return "Update " + this.resource_name;
+  }
+
+  protected manipulate_post_fields(fields) {
+    return fields;
+  }
+
+  protected manipulate_post_model(model) {
+    return model;
+  }
+
+  protected manipulate_put_fields(fields) {
+    return fields;
+  }
+
+  protected manipulate_put_model(model) {
+    return model;
+  }
 
   /** INTERACTION WITH APIs**/
-  protected list() {
-    return this.get(this.endpoint);
-  }
   protected set_total_items(): void {
     let data = {
       get_total: true,
@@ -244,16 +285,145 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       );
   }
 
+  protected list() {
+    let opt = {};
+    if (this.base !== "api") {
+      opt["base"] = this.base;
+    }
+
+    if (this.data_type) {
+      opt["validationSchema"] = this.data_type;
+    }
+
+    let data = {};
+    if (this.server_side_pagination) {
+      data["page"] = this.paging.page + 1;
+      data["size"] = this.paging.itemsPerPage;
+
+      if (this.sort_by) {
+        data["sort_by"] = this.sort_by;
+      }
+      if (this.sort_order) {
+        data["sort_order"] = this.sort_order;
+      }
+      if (this.data_filter) {
+        data["input_filter"] = this.data_filter;
+      }
+    }
+
+    this.set_loading();
+    return this.api.get<T[]>(this.endpoint, "", data, opt).subscribe(
+      (response) => {
+        this.data = response;
+        this.unfiltered_data = this.data;
+        if (this.server_side_pagination) {
+          this.set_total_items();
+        } else {
+          this.updatePaging(this.data.length);
+        }
+
+        this.set_unloading();
+        this.updating = false;
+
+        return this.data;
+      },
+      (error) => {
+        this.notify.showError(error);
+
+        this.set_unloading();
+        this.updating = false;
+        return this.data;
+      }
+    );
+  }
+
   public remove(uuid) {
-    return this.delete(this.endpoint, uuid);
+    let opt;
+    if (this.base !== "api") {
+      opt = { base: this.base };
+    }
+
+    return this.api.delete(this.endpoint, uuid, opt).subscribe(
+      (response) => {
+        this.notify.showSuccess(
+          "Confirmation: " + this.resource_name + " successfully deleted"
+        );
+        this.list();
+      },
+      (error) => {
+        this.notify.showError(error);
+      }
+    );
   }
 
   public create() {
-    return this.post(this.endpoint);
+    return this.open_form();
   }
 
   public update(row) {
-    return this.put(row, this.endpoint);
+    return this.open_form(row);
+  }
+
+  private open_form(model = null) {
+    let apiCall;
+    let model_id;
+    let type;
+
+    if (model === null) {
+      type = "post";
+      model_id = null;
+      apiCall = this.api.post<Schema[]>(this.endpoint, { get_schema: true });
+      model = {};
+    } else {
+      type = "put";
+      model_id = model.id || model.uuid || null;
+      if (model_id === null) {
+        this.notify.showError("Malformed request: ID not found");
+        return false;
+      }
+      apiCall = this.api.put<Schema[]>(this.endpoint, model_id, {
+        get_schema: true,
+      });
+    }
+
+    return apiCall.subscribe(
+      (response) => {
+        let data = this.formly.json2Form(response, model);
+
+        data = this.form_customizer(data, type);
+
+        this.form = new FormGroup({});
+
+        if (type == "put") {
+          this.modalTitle = this.get_put_title();
+          this.fields = this.manipulate_put_fields(data.fields);
+          this.model = this.manipulate_put_model(data.model);
+          this.model["_id"] = model_id;
+        } else {
+          this.modalTitle = this.get_post_title();
+          this.fields = this.manipulate_post_fields(data.fields);
+          this.model = this.manipulate_post_model(data.model);
+        }
+
+        this.modalRef = this.modalService.open(FormModal, {
+          size: "lg",
+          backdrop: "static",
+        });
+        this.modalRef.componentInstance.modalTitle = this.modalTitle;
+        this.modalRef.componentInstance.updating = this.updating;
+        this.modalRef.componentInstance.form = this.form;
+        this.modalRef.componentInstance.fields = this.fields;
+        this.modalRef.componentInstance.model = this.model;
+        this.modalRef.componentInstance.backRef = this;
+        this.modalRef.result.then(
+          (result) => {},
+          (reason) => {}
+        );
+      },
+      (error) => {
+        this.notify.showError(error);
+      }
+    );
   }
 
   public submit(): boolean {
@@ -290,215 +460,5 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         return false;
       }
     );
-  }
-
-  protected form_customizer(form, type) {
-    return form;
-  }
-
-  protected set_loading(): boolean {
-    this.loading = true;
-    this.spinner.show();
-    return this.loading;
-  }
-  protected set_unloading(): boolean {
-    this.loading = false;
-    this.spinner.hide();
-    return this.loading;
-  }
-
-  protected get_post_title() {
-    return "Create a new " + this.resource_name;
-  }
-
-  protected get_put_title() {
-    return "Update " + this.resource_name;
-  }
-
-  protected manipulate_post_fields(fields) {
-    return fields;
-  }
-
-  protected manipulate_post_model(model) {
-    return model;
-  }
-
-  protected manipulate_put_fields(fields) {
-    return fields;
-  }
-
-  protected manipulate_put_model(model) {
-    return model;
-  }
-
-  protected get(endpoint, data = null, namespace = "api") {
-    let opt = {};
-    if (this.base !== "api") {
-      opt["base"] = this.base;
-    }
-
-    if (this.data_type) {
-      opt["validationSchema"] = this.data_type;
-    }
-
-    if (this.server_side_pagination && data === null) {
-      data = {
-        page: this.paging.page + 1,
-        size: this.paging.itemsPerPage,
-      };
-
-      if (this.sort_by) {
-        data["sort_by"] = this.sort_by;
-      }
-      if (this.sort_order) {
-        data["sort_order"] = this.sort_order;
-      }
-      if (this.data_filter) {
-        data["input_filter"] = this.data_filter;
-      }
-    } else if (data === null) {
-      data = {};
-    }
-
-    this.set_loading();
-    return this.api.get<T[]>(endpoint, "", data, opt).subscribe(
-      (response) => {
-        this.data = response;
-        this.unfiltered_data = this.data;
-        if (this.server_side_pagination) {
-          this.set_total_items();
-        } else {
-          this.updatePaging(this.data.length);
-        }
-
-        this.set_unloading();
-        this.updating = false;
-
-        return this.data;
-      },
-      (error) => {
-        this.notify.showError(error);
-
-        this.set_unloading();
-        this.updating = false;
-        return this.data;
-      }
-    );
-  }
-
-  protected delete(endpoint, uuid, namespace = "api") {
-    let opt;
-    if (this.base !== "api") {
-      opt = { base: this.base };
-    }
-
-    return this.api.delete(endpoint, uuid, opt).subscribe(
-      (response) => {
-        this.notify.showSuccess(
-          "Confirmation: " + this.resource_name + " successfully deleted"
-        );
-        this.list();
-      },
-      (error) => {
-        this.notify.showError(error);
-      }
-    );
-  }
-
-  protected post(endpoint) {
-    return this.api
-      .post<Schema[]>(endpoint, { get_schema: true })
-      .subscribe(
-        (response) => {
-          let data = this.formly.json2Form(response, {});
-          data = this.form_customizer(data, "post");
-
-          this.modalTitle = this.get_post_title();
-          this.form = new FormGroup({});
-          this.fields = this.manipulate_post_fields(data.fields);
-          this.model = this.manipulate_post_model(data.model);
-          this.modalRef = this.modalService.open(FormModal, {
-            size: "lg",
-            backdrop: "static",
-          });
-          this.modalRef.componentInstance.modalTitle = this.modalTitle;
-          this.modalRef.componentInstance.updating = this.updating;
-          this.modalRef.componentInstance.form = this.form;
-          this.modalRef.componentInstance.fields = this.fields;
-          this.modalRef.componentInstance.model = this.model;
-          this.modalRef.componentInstance.backRef = this;
-          this.modalRef.result.then(
-            (result) => {},
-            (reason) => {}
-          );
-        },
-        (error) => {
-          this.notify.showError(error);
-        }
-      );
-  }
-
-  protected put(row, endpoint) {
-    let model_id;
-    if (row.id) {
-      model_id = row.id;
-    } else if (row.uuid) {
-      model_id = row.uuid;
-    } else {
-      this.notify.showError("Malformed request: ID not found");
-      return false;
-    }
-
-    return this.api
-      .put<Schema[]>(endpoint, model_id, { get_schema: true })
-      .subscribe(
-        // return this.api.post(endpoint, {'get_schema': true}).subscribe(
-        (response) => {
-          let data = this.formly.json2Form(response, row);
-          data = this.form_customizer(data, "put");
-          this.modalTitle = this.get_put_title();
-          this.form = new FormGroup({});
-          this.fields = this.manipulate_put_fields(data.fields);
-          this.model = this.manipulate_put_model(data.model);
-          // Extra for update:
-          this.model["_id"] = model_id;
-          this.modalRef = this.modalService.open(FormModal, {
-            size: "lg",
-            backdrop: "static",
-          });
-          this.modalRef.componentInstance.modalTitle = this.modalTitle;
-          this.modalRef.componentInstance.updating = this.updating;
-          this.modalRef.componentInstance.form = this.form;
-          this.modalRef.componentInstance.fields = this.fields;
-          this.modalRef.componentInstance.model = this.model;
-          this.modalRef.componentInstance.backRef = this;
-
-          this.is_update = true;
-          this.modalRef.result.then(
-            (result) => {
-              this.is_update = false;
-            },
-            (reason) => {
-              this.is_update = false;
-            }
-          );
-        },
-        (error) => {
-          this.notify.showError(error);
-        }
-      );
-  }
-
-  /*
-<ngx-datatable
-    [...]
-    (activate)="onDatatableActivate($event)"
-    >
-</ngx-datatable>
-*/
-  public onDatatableActivate(event: any) {
-    if (event.type === "click") {
-      event.cellElement.blur();
-    }
   }
 }
