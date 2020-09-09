@@ -172,7 +172,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
     if (ssp) {
       this.server_side_pagination = true;
-      this.set_total_items();
+      // this.set_total_items();
     }
 
     return this.paging;
