@@ -55,7 +55,7 @@
     "ngx-toastr": "13.0.0",
     "ngx-google-analytics": "9.0.1",
     "@sentry/browser": "5.23.0",
-    "ngx-device-detector": "1.4.6",
+    "ngx-device-detector": "2.0.0",
     "ngx-spinner": "10.0.1",
     "exceljs": "4.1.1",
     "ajv": "6.12.4",

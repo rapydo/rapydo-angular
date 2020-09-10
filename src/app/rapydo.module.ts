@@ -11,7 +11,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
 import { CookieLawModule } from "angular2-cookie-law";
 import { ToastrModule } from "ngx-toastr";
-import { DeviceDetectorModule } from "ngx-device-detector";
 import * as Sentry from "@sentry/browser";
 // import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
 
@@ -98,7 +97,6 @@ let module_imports: any = [
 
   // NgxGoogleAnalyticsModule.forRoot(environment.GA_TRACKING_CODE),
   // NgxGoogleAnalyticsRouterModule,
-  DeviceDetectorModule.forRoot(),
 ];
 
 let module_declarations = [
