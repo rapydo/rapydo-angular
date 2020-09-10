@@ -1,11 +1,3 @@
-export interface Group {
-  readonly uuid: string;
-  readonly shortname: string;
-  readonly fullname: string;
-  readonly coordinator?: SimpleUserWithId;
-}
-export interface Groups extends Array<Group> {}
-
 // It is used in Sessions response
 interface SimpleUser {
   /**
@@ -20,6 +12,14 @@ interface SimpleUser {
 interface SimpleUserWithId extends SimpleUser {
   readonly uuid: string;
 }
+
+export interface Group {
+  readonly uuid: string;
+  readonly shortname: string;
+  readonly fullname: string;
+  readonly coordinator?: SimpleUserWithId;
+}
+export interface Groups extends Array<Group> {}
 
 export interface User extends SimpleUserWithId {
   readonly isAdmin: boolean;
