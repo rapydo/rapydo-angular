@@ -394,7 +394,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
         this.form = new FormGroup({});
 
-        if (type == "put") {
+        if (type === "put") {
           this.modalTitle = this.get_put_title();
           this.fields = this.manipulate_put_fields(data.fields);
           this.model = this.manipulate_put_model(data.model);

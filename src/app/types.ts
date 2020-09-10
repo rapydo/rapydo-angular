@@ -1,3 +1,11 @@
+export interface Group {
+  readonly uuid: string;
+  readonly shortname: string;
+  readonly fullname: string;
+  readonly coordinator?: SimpleUserWithId;
+}
+export interface Groups extends Array<Group> {}
+
 // It is used in Sessions response
 interface SimpleUser {
   /**
@@ -23,7 +31,6 @@ export interface User extends SimpleUserWithId {
 }
 
 // It is used in AdminUsers response
-export interface AdminUsers extends Array<AdminUser> {}
 export interface AdminUser extends SimpleUserWithId {
   readonly is_active: boolean;
   readonly privacy_accepted: boolean;
@@ -42,8 +49,8 @@ export interface AdminUser extends SimpleUserWithId {
   readonly roles: any;
   readonly group?: Group[];
 }
+export interface AdminUsers extends Array<AdminUser> {}
 
-export interface Sessions extends Array<Session> {}
 export interface Session {
   readonly id: string;
   readonly token: string;
@@ -54,14 +61,7 @@ export interface Session {
   readonly last_access: Date;
   readonly expiration: Date;
 }
-
-export interface Groups extends Array<Group> {}
-export interface Group {
-  readonly uuid: string;
-  readonly shortname: string;
-  readonly fullname: string;
-  readonly coordinator?: SimpleUserWithId;
-}
+export interface Sessions extends Array<Session> {}
 
 export interface Paging {
   /**
@@ -109,17 +109,6 @@ export interface Schema {
   readonly min?: number | Date;
   readonly max?: number | Date;
   readonly enum?: Record<string, string>;
-}
-
-export interface AdminStats {
-  readonly boot_time: Date;
-  readonly cpu: CPUStats;
-  readonly disk: DiskStats;
-  readonly io: IOStats;
-  readonly network_latency: NetworkStats;
-  readonly procs: ProcsStats;
-  readonly ram: RAMStats;
-  readonly swap: SwapStats;
 }
 
 interface CPUStats {
@@ -270,4 +259,15 @@ interface SwapStats {
    */
 
   readonly used: number;
+}
+
+export interface AdminStats {
+  readonly boot_time: Date;
+  readonly cpu: CPUStats;
+  readonly disk: DiskStats;
+  readonly io: IOStats;
+  readonly network_latency: NetworkStats;
+  readonly procs: ProcsStats;
+  readonly ram: RAMStats;
+  readonly swap: SwapStats;
 }

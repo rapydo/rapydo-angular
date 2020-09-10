@@ -30,7 +30,7 @@ export function validate(ref, data) {
   console.warn("Response does not meet " + ref + " schema");
   let errors = [];
   for (let error of validator.errors) {
-    if (error.keyword == "additionalProperties") {
+    if (error.keyword === "additionalProperties") {
       errors.push(
         "Found unknown property " + error.params["additionalProperty"]
       );

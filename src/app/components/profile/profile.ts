@@ -52,7 +52,7 @@ export class ProfileComponent {
       .subscribe(
         (response) => {
           response.some((value, index) => {
-            if (value.key == "privacy_accepted") {
+            if (value.key === "privacy_accepted") {
               response.splice(index, 1);
               return true;
             }
