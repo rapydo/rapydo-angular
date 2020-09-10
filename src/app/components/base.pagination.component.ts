@@ -285,7 +285,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       );
   }
 
-  protected list() {
+  public list() {
     let opt = {};
     if (this.base !== "api") {
       opt["base"] = this.base;
