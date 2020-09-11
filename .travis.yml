@@ -46,8 +46,10 @@ script:
       rapydo dump;
       rapydo -s frontend logs --follow;
       docker-compose logs --tail 2 frontend 2>&1 | grep "files have been compressed.";
-      npm install -g seespee
+      npm install -g seespee cypress
       seespee --level 1 --validate https://localhost
+
+      cypress run --spec "submodules/rapydo-angular/cypress/prod-test.js"
 
     else
 
