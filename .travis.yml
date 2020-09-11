@@ -49,7 +49,7 @@ script:
       npm install -g seespee cypress
       seespee --level 1 --validate https://localhost
 
-      touch cypress.json
+      echo "{}" > cypress.json
       cypress run --spec "submodules/rapydo-angular/cypress/prod-test.js"
 
     else
