@@ -10,6 +10,7 @@ env:
   - STAGE=karma
   - STAGE=cypress BROWSER=chrome
 
+
   # it stucks quite often... to be retried in a near future
   # - STAGE=cypress BROWSER=firefox
   # Only slower than chrome and more error-prone... probably no need to test it
@@ -35,6 +36,7 @@ script:
       rapydo shell frontend "yarn run test:single" || travis_terminate 1;
       cp data/prj/karma/lcov.info .;
       travis_retry bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular;
+      curl --insecure -X GET --max-time 5 https://localhost/api/status | grep "Server is alive"
 
     elif [[ "$STAGE" == "prod" ]]; then
 
@@ -45,6 +47,8 @@ script:
       rapydo dump;
       rapydo -s frontend logs --follow;
       docker-compose logs --tail 2 frontend 2>&1 | grep "files have been compressed.";
+      npm install -g seespee
+      seespee --level 1 --validate https://localhost
 
     else
 
