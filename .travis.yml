@@ -41,8 +41,8 @@ script:
 
       rapydo create prj --auth postgres --frontend angular --origin-url https://your_remote_git/your_project.git;
       rapydo --prod init;
-      rapydo -s frontend pull;
-      rapydo -s frontend start;
+      rapydo -s frontend,proxy pull;
+      rapydo -s frontend,proxy start;
       rapydo dump;
       rapydo -s frontend logs --follow;
       docker-compose logs --tail 2 frontend 2>&1 | grep "files have been compressed.";
