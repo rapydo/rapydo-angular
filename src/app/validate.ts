@@ -1,5 +1,6 @@
 import * as Ajv from "ajv";
 import * as schema from "@rapydo/../../types.json";
+import { environment } from "@rapydo/../environments/environment";
 
 const ajv = Ajv({
   allErrors: true,
@@ -8,13 +9,21 @@ const ajv = Ajv({
   strictNumbers: true,
 });
 
-for (let definition in schema["definitions"]) {
-  const def = schema["definitions"][definition];
-  const ref = "#/definitions/" + definition;
-  ajv.addSchema(def, ref);
+// Validation is currently not enabled in production due to limitations with CSP
+if (!environment.production) {
+  for (let definition in schema["definitions"]) {
+    const def = schema["definitions"][definition];
+    const ref = "#/definitions/" + definition;
+    ajv.addSchema(def, ref);
+  }
 }
 
 export function validate(ref, data) {
+  // Validation is currently not enabled in production due to limitations with CSP
+  if (environment.production) {
+    return null;
+  }
+
   const validator = ajv.getSchema("#/definitions/" + ref);
   if (!validator) {
     console.warn("Validation function not found");
