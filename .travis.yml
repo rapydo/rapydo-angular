@@ -50,7 +50,7 @@ script:
       seespee --level 1 --validate https://localhost
 
       echo "{}" > cypress.json
-      cypress run --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
+      cypress run --record --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
 
     else
 
