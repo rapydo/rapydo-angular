@@ -5,10 +5,9 @@ import { Injectable } from "@angular/core";
 // Zone.js has detected that ZoneAwarePromise (window|global).Promise has been overwritten.
 // Most likely cause is that a Promise polyfill has been loaded after Zone.js (Polyfilling Promise api is not necessary when zone.js is loaded. If you must load one, do so before loading zone.js.)
 // https://github.com/exceljs/exceljs/issues/1008
-// This bundle skips ALL polyfills, included regenerator-runtime that is still needed
-// => added regenerator-runtime to package.json and imported here
-import "regenerator-runtime/runtime";
-
+// This bundle skips ALL polyfills, included core-js and regenerator-runtime
+// that are still needed
+// => added regenerator-runtime to package.json and polyfills
 import * as Excel from "exceljs/dist/exceljs.bare.min.js";
 
 import { saveAs as importedSaveAs } from "file-saver";
