@@ -126,11 +126,12 @@ let module_providers: any = [
   ApiService,
   FormlyService,
   NotificationService,
-  WebSocketsService,
-  ExcelService,
   ProjectOptions,
   { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
 ];
+
+module_providers.push(WebSocketsService);
+module_providers.push(ExcelService);
 
 @Injectable()
 export class SentryErrorHandler implements ErrorHandler {
