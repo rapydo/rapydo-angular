@@ -21,6 +21,11 @@ body {
   padding-left: 4em;
 }
 
+/* used in Profile and AdminUsers */
+span.role-badge {
+  margin-right: 3px;
+}
+
 .initial_loading {
   background-color: #cef;
   padding: 0;
@@ -35,6 +40,11 @@ body {
   justify-content: center;
 }
 
+div.initial_loading > h2 > div.spinner-grow {
+  width: 3rem;
+  height: 3rem;
+}
+
 /* Bootstrap v4 */
 .card-block {
   padding: 20px;
@@ -45,6 +55,14 @@ body {
   font-size: 1.1em;
 }
 
+input.data-filter {
+  padding: 8px;
+  margin-bottom: 15px;
+}
+
+input.datepicker {
+  background-color: #fff !important;
+}
 .ngx-datatable.bootstrap .datatable-footer {
   background-color: rgb(132, 132, 132);
   color: rgb(255, 255, 255);
@@ -134,6 +152,9 @@ body {
 }
 .lightorange {
   color: #fcac6f !important;
+}
+.yellow {
+  color: #ffd700 !important;
 }
 .green {
   color: #69aa46 !important;
