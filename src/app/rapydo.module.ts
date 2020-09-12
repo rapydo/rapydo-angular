@@ -137,22 +137,12 @@ module_providers.push(ExcelService);
 export class SentryErrorHandler implements ErrorHandler {
   constructor() {}
   handleError(error) {
-    if (
-      environment.production &&
-      typeof environment.SENTRY_URL !== "undefined" &&
-      environment.SENTRY_URL !== ""
-    ) {
-      Sentry.captureException(error.originalError || error);
-    }
+    Sentry.captureException(error.originalError || error);
     throw error;
   }
 }
 
-if (
-  environment.production &&
-  typeof environment.SENTRY_URL !== "undefined" &&
-  environment.SENTRY_URL !== ""
-) {
+if (environment.production && environment.SENTRY_URL) {
   Sentry.init({
     dsn: environment.SENTRY_URL,
   });
