@@ -43,7 +43,7 @@ script:
 
       rapydo create prj --auth postgres --frontend angular --origin-url https://your_remote_git/your_project.git;
       rapydo --prod init;
-      rapydo -s frontend,proxy pull;
+      rapydo pull;
       rapydo -s frontend,proxy start;
       rapydo dump;
       rapydo -s frontend logs --follow;
