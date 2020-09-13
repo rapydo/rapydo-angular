@@ -85,5 +85,5 @@ if (typeof (window as any).global === "undefined") {
 // Please add import '@angular/localize'; to your polyfills.ts file.
 import "@angular/localize/init";
 
-// required by exceljs
-import "regenerator-runtime/runtime";
+// required by exceljs (no longer used)
+// import "regenerator-runtime/runtime";

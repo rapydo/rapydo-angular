@@ -120,12 +120,8 @@ export class SessionsComponent extends BasePaginationComponent<Session> {
       ]);
     }
 
-    let workbook = this.excel.createWorkbook();
-
-    let worksheet = workbook.addWorksheet("Sessions");
-    this.excel.addHeader(worksheet, headers);
-    worksheet.addRows(download_data);
-
+    const workbook = this.excel.createWorkbook();
+    this.excel.addWorksheet(workbook, "Sessions", headers, download_data);
     this.excel.saveAs(workbook, filename);
   }
 }
