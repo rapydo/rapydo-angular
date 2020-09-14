@@ -70,6 +70,17 @@
         "serve": {
           "builder": "ngx-build-plus:dev-server",
           "options": {
+            "browserTarget": "RAPyDo:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "RAPyDo:build:production"
+            }
+          }
+        },
+        "serve-for-cypress": {
+          "builder": "ngx-build-plus:dev-server",
+          "options": {
             "browserTarget": "RAPyDo:build",
             "extraWebpackConfig": "./cypress/coverage.webpack.js"
           },

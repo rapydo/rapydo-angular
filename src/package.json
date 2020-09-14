@@ -6,17 +6,17 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --port 8080 --aot --watch --live-reload --progress",
-    "start:single": "ng serve --host 0.0.0.0 --port 8080 --aot --disableHostCheck",
+    "start:for-cypress": "ng serve-for-cypress --host 0.0.0.0 --port 8080 --aot --disableHostCheck",
     "courtesy": "rimraf dist/* && copyfiles --flat /app/courtesy/index.html /app/dist",
     "build": "ng build --prod --optimization=true --buildOptimizer=true --extractLicenses=true --progress=true",
     "gzip": "gzipper compress --verbose --level 9 /app/dist",
     "test": "ng test --code-coverage",
     "test:single": "ng test --code-coverage --watch=false",
     "cypress": "cypress run",
-    "cypress:start:electron": "start-server-and-test start:single http://localhost:8080 'cypress run --record --group electron --browser electron'",
-    "cypress:start:chrome": "start-server-and-test start:single http://localhost:8080 'cypress run --record --group chrome --browser chrome'",
-    "cypress:start:chromium": "start-server-and-test start:single http://localhost:8080 'cypress run --record --group chromium --browser chromium'",
-    "cypress:start:firefox": "start-server-and-test start:single http://localhost:8080 'cypress run --record --group firefox --browser firefox'"
+    "cypress:start:electron": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --record --group electron --browser electron'",
+    "cypress:start:chrome": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --record --group chrome --browser chrome'",
+    "cypress:start:chromium": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --record --group chromium --browser chromium'",
+    "cypress:start:firefox": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --record --group firefox --browser firefox'"
   },
   "license": "MIT",
   "dependencies": {
