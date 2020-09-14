@@ -69,8 +69,8 @@
             </span>
             <i
               class="fas fa-star yellow"
-              *ngIf="row._coordinator"
-              ngbTooltip="Coordinator of the group"
+              *ngIf="row.coordinator.length"
+              ngbTooltip="Group coordinator"
             ></i>
           </ng-template>
 

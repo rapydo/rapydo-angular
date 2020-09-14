@@ -48,6 +48,7 @@ export interface AdminUser extends SimpleUserWithId {
   readonly last_password_change: Date;
   readonly roles: any;
   readonly group?: Group[];
+  readonly coordinator?: Group[];
 }
 export interface AdminUsers extends Array<AdminUser> {}
 
