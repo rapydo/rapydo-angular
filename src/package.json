@@ -6,7 +6,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --port 8080 --aot --watch --live-reload --progress",
-    "start:for-cypress": "ng serve --configuration serve-for-cypress --host 0.0.0.0 --port 8080 --aot --disableHostCheck",
+    "start:for-cypress": "ng serve --configuration cypress --host 0.0.0.0 --port 8080 --aot --disableHostCheck",
     "courtesy": "rimraf dist/* && copyfiles --flat /app/courtesy/index.html /app/dist",
     "build": "ng build --prod --optimization=true --buildOptimizer=true --extractLicenses=true --progress=true",
     "gzip": "gzipper compress --verbose --level 9 /app/dist",

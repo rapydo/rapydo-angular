@@ -75,18 +75,9 @@
           "configurations": {
             "production": {
               "browserTarget": "RAPyDo:build:production"
-            }
-          }
-        },
-        "serve-for-cypress": {
-          "builder": "ngx-build-plus:dev-server",
-          "options": {
-            "browserTarget": "RAPyDo:build",
-            "extraWebpackConfig": "./cypress/coverage.webpack.js"
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "RAPyDo:build:production"
+            },
+            "cypress": {
+              "extraWebpackConfig": "./cypress/coverage.webpack.js"
             }
           }
         },
