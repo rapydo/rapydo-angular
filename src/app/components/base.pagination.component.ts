@@ -374,7 +374,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     } else {
       type = "put";
       model_id = model.id || model.uuid || null;
-      /* istanbul ignore next */
+      /* istanbul ignore if */
       if (model_id === null) {
         this.notify.showError("Malformed request: ID not found");
         return false;
@@ -415,7 +415,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         this.modalRef.componentInstance.backRef = this;
         this.modalRef.result.then(
           (result) => {},
-          /* istanbul ignore next */ (reason) => {}
+          (reason) => {}
         );
       },
       (error) => {

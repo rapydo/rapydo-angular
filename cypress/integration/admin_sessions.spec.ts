@@ -86,4 +86,20 @@ describe("AdminSessions", () => {
 
     cy.checkalert("Confirmation: token successfully deleted");
   });
+
+  it("API failures", () => {
+    cy.server();
+
+    cy.route({
+      method: "GET",
+      url: Cypress.env("API_URL") + "admin/tokens",
+      status: 400,
+      delay: 500,
+      response: "Forced failure",
+    });
+
+    cy.visit("/app/admin/sessions");
+
+    cy.checkalert("Forced failure");
+  });
 });

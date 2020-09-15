@@ -13,10 +13,7 @@
     "test": "ng test --code-coverage",
     "test:single": "ng test --code-coverage --watch=false",
     "cypress": "cypress run",
-    "cypress:start:electron": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --record --group electron --browser electron'",
-    "cypress:start:chrome": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --record --group chrome --browser chrome'",
-    "cypress:start:chromium": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --record --group chromium --browser chromium'",
-    "cypress:start:firefox": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --record --group firefox --browser firefox'"
+    "cypress:start": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --record --group successes --browser chrome'"
   },
   "license": "MIT",
   "dependencies": {
