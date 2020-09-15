@@ -61,6 +61,7 @@ export function emailValidator(control: FormControl): ValidationErrors {
     : { email: true };
 }
 
+/* istanbul ignore next */
 export function URLValidator(control: FormControl): ValidationErrors {
   if (control.value === null) {
     return null;

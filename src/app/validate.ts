@@ -20,11 +20,13 @@ if (!environment.production) {
 
 export function validate(ref, data) {
   // Validation is currently not enabled in production due to limitations with CSP
+  /* istanbul ignore if */
   if (environment.production) {
     return null;
   }
 
   const validator = ajv.getSchema("#/definitions/" + ref);
+  /* istanbul ignore if */
   if (!validator) {
     console.warn("Validation function not found");
     return null;

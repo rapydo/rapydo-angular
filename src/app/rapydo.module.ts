@@ -133,6 +133,7 @@ let module_providers: any = [
 module_providers.push(WebSocketsService);
 module_providers.push(ExcelService);
 
+/* istanbul ignore next */
 @Injectable()
 export class SentryErrorHandler implements ErrorHandler {
   constructor() {}

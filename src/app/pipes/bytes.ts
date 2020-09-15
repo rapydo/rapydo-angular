@@ -16,6 +16,7 @@ export class BytesPipe {
     let units = ["bytes", "kB", "MB", "GB", "TB", "PB"],
       number = Math.floor(Math.log(bytes) / Math.log(1024));
 
+    /* istanbul ignore else */
     if (precision === null) {
       precision = number <= 1 ? 0 : 1;
     }

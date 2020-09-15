@@ -89,6 +89,7 @@ export class SessionsComponent extends BasePaginationComponent<Session> {
     });
   }
 
+  /* istanbul ignore next */
   public copied(event) {
     if (event["isSuccess"]) {
       this.notify.showSuccess("Token successfully copied");

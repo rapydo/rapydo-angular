@@ -27,6 +27,7 @@ export class ApiService {
     ApiService.is_online = true;
     return ApiService.is_online;
   }
+  /* istanbul ignore next */
   public set_offline(): boolean {
     ApiService.is_online = false;
     return ApiService.is_online;
@@ -46,6 +47,7 @@ export class ApiService {
     data = {},
     options = {}
   ): Observable<T> {
+    /* istanbul ignore if */
     if (id !== "") {
       // Deprecated since 0.8
       console.warn("Deprecated use of id parameter in api.get");
@@ -64,6 +66,7 @@ export class ApiService {
     data = {},
     options = {}
   ): Observable<T> {
+    /* istanbul ignore if */
     if (id !== "") {
       // Deprecated since 0.8
       console.warn("Deprecated use of id parameter in api.get");
@@ -78,6 +81,7 @@ export class ApiService {
     data = {},
     options = {}
   ): Observable<T> {
+    /* istanbul ignore if */
     if (id !== "") {
       // Deprecated since 0.8
       console.warn("Deprecated use of id parameter in api.get");
@@ -87,6 +91,7 @@ export class ApiService {
   }
 
   public delete<T>(endpoint: string, id = "", options = {}): Observable<T> {
+    /* istanbul ignore if */
     if (id !== "") {
       // Deprecated since 0.8
       console.warn("Deprecated use of id parameter in api.get");
@@ -115,6 +120,7 @@ export class ApiService {
     }
 
     let contentType;
+    /* istanbul ignore if */
     if (formData) {
       contentType = "application/x-www-form-urlencoded";
     } else {
@@ -148,6 +154,7 @@ export class ApiService {
       httpCall = this.http.patch<T>(ep, data, opt);
     } else if (method === "DELETE") {
       httpCall = this.http.delete<T>(ep, opt);
+      /* istanbul ignore next */
     } else {
       console.error("Unknown API method: " + method);
       return null;
@@ -221,6 +228,7 @@ export class ApiService {
   //     params: params,
   //     responseType: "blob" as "json",
   //   }).pipe(catchError(this.parseErrorBlob));
+  /* istanbul ignore next */
   public parseErrorBlob(err: HttpErrorResponse): Observable<any> {
     const obs = Observable.create((observer: any) => {
       reader.onloadend = (e) => {

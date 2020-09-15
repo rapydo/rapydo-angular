@@ -48,9 +48,11 @@ export class AppComponent implements OnInit {
 
     let device = "";
 
+    /* istanbul ignore if */
     if (deviceService.isMobile()) {
       device = "mobile";
     }
+    /* istanbul ignore if */
     if (deviceService.isTablet()) {
       device = "tablet";
     }
@@ -71,6 +73,7 @@ export class AppComponent implements OnInit {
         ")"
     );
 
+    /* istanbul ignore if */
     if (!compatibilityCheck) {
       this.notify.showError(
         "You are using " +
@@ -89,6 +92,7 @@ export class AppComponent implements OnInit {
     os: string,
     os_version: string
   ): boolean {
+    /* istanbul ignore if */
     if (browser === "IE") {
       if (parseFloat(version) <= 10) {
         return false;

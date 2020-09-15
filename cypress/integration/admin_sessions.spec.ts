@@ -87,19 +87,20 @@ describe("AdminSessions", () => {
     cy.checkalert("Confirmation: token successfully deleted");
   });
 
-  it("API failures", () => {
-    cy.server();
+  // https://docs.cypress.io/api/commands/route.html#Arguments
+  // it("API failures", () => {
+  //   cy.server();
 
-    cy.route({
-      method: "GET",
-      url: "**/admin/tokens",
-      status: 400,
-      delay: 500,
-      response: "Forced failure",
-    });
+  //   cy.route({
+  //     method: "GET",
+  //     url: "**/admin/tokens",
+  //     status: 400,
+  //     delay: 500,
+  //     response: "Forced failure",
+  //   });
 
-    cy.visit("/app/admin/sessions");
+  //   cy.visit("/app/admin/sessions");
 
-    cy.checkalert("Forced failure");
-  });
+  //   cy.checkalert("Forced failure");
+  // });
 });
