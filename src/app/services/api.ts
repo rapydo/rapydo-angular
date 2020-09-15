@@ -179,6 +179,10 @@ export class ApiService {
   //     responseType: "blob" as "json",
   //   }).pipe(catchError(this.parseErrorBlob));
   public parseErrorBlob(err: HttpErrorResponse): Observable<any> {
+    if (!(err.error instanceof Blob)) {
+      return err.error;
+    }
+
     const obs = Observable.create((observer: any) => {
       reader.onloadend = (e) => {
         observer.error(JSON.parse(reader.result as string));
