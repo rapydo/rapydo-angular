@@ -92,7 +92,7 @@ describe("AdminSessions", () => {
 
     cy.route({
       method: "GET",
-      url: Cypress.env("API_URL") + "admin/tokens",
+      url: "**/admin/tokens",
       status: 400,
       delay: 500,
       response: "Forced failure",

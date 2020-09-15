@@ -92,7 +92,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   protected init(
     res_name: string,
     endpoint: string,
-    data_type: string = null,
+    data_type: string = /* istanbul ignore next: core components alway set data_types */ null,
     base: string = "api"
   ): void {
     this.resource_name = res_name;
