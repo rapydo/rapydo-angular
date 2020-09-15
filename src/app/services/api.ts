@@ -231,7 +231,7 @@ export class ApiService {
   /* istanbul ignore next */
   public parseErrorBlob(err: HttpErrorResponse): Observable<any> {
     if (!(err.error instanceof Blob)) {
-      return err.error;
+      return of(err.error);
     }
 
     const obs = Observable.create((observer: any) => {
