@@ -142,10 +142,6 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     if (this.server_side_pagination) {
       this.list();
     } else {
-      if (!this.unfiltered_data) {
-        this.unfiltered_data = this.data;
-      }
-
       this.data = this.filter(this.data_filter);
       this.post_filter();
 
@@ -155,6 +151,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
   protected post_filter(): void {}
 
+  /* istanbul ignore next */
   public filter(data_filter: string): Array<T> {
     console.warn("Filter function not implemented");
     return this.data;
@@ -377,6 +374,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     } else {
       type = "put";
       model_id = model.id || model.uuid || null;
+      /* istanbul ignore next */
       if (model_id === null) {
         this.notify.showError("Malformed request: ID not found");
         return false;
@@ -417,7 +415,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         this.modalRef.componentInstance.backRef = this;
         this.modalRef.result.then(
           (result) => {},
-          (reason) => {}
+          /* istanbul ignore next */ (reason) => {}
         );
       },
       (error) => {

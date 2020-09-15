@@ -36,8 +36,7 @@ export class AdminStatsComponent {
           this.stats = response;
           this.spinner.hide();
         },
-        /* istanbul ignore next */
-        (error) => {
+        /* istanbul ignore next */ (error) => {
           this.notify.showError(error);
           this.spinner.hide();
         }
