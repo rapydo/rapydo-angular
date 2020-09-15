@@ -230,17 +230,21 @@ export class ApiService {
   //   }).pipe(catchError(this.parseErrorBlob));
   /* istanbul ignore next */
   public parseErrorBlob(err: HttpErrorResponse): Observable<any> {
-    if (!(err.error instanceof Blob)) {
-      return throwError(err.error);
+    if (err.error instanceof Blob) {
+      const obs = Observable.create((observer: any) => {
+        reader.onloadend = (e) => {
+          observer.error(JSON.parse(reader.result as string));
+          observer.complete();
+        };
+      });
+      reader.readAsText(err.error);
+      return obs;
     }
 
-    const obs = Observable.create((observer: any) => {
-      reader.onloadend = (e) => {
-        observer.error(JSON.parse(reader.result as string));
-        observer.complete();
-      };
-    });
-    reader.readAsText(err.error);
-    return obs;
+    if (err.error instanceof ProgressEvent) {
+      return throwError(err.message);
+    }
+
+    return throwError(err.error);
   }
 }
