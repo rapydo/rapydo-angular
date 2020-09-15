@@ -180,7 +180,7 @@ export class ApiService {
   //   }).pipe(catchError(this.parseErrorBlob));
   public parseErrorBlob(err: HttpErrorResponse): Observable<any> {
     if (!(err.error instanceof Blob)) {
-      return of(err.error);
+      return throwError(err.error);
     }
 
     const obs = Observable.create((observer: any) => {
