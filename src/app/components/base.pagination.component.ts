@@ -7,6 +7,7 @@ import {
   ChangeDetectorRef,
   Injector,
 } from "@angular/core";
+import { Subscription } from "rxjs";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { FormGroup } from "@angular/forms";
 // import { FormlyConfig } from "@ngx-formly/core";
@@ -282,7 +283,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       );
   }
 
-  public list() {
+  public list(): Subscription {
     let opt = {};
     if (this.base !== "api") {
       opt["base"] = this.base;
