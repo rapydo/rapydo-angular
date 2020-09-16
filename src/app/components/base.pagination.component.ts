@@ -263,7 +263,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       .get<Total>(this.endpoint, "", data, { validationSchema: "Total" })
       .subscribe(
         (response) => {
-          const t = response["total"] || 0;
+          const t = response.total;
 
           this.paging.dataLength = t;
           this.paging.numPages = Math.ceil(t / this.paging.itemsPerPage);
