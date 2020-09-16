@@ -124,7 +124,6 @@ interface CPUStats {
   readonly load: number;
   /**
    * @minimum 0
-   * @maximum 100
    */
   readonly user: number;
   /**
