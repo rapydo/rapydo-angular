@@ -3,7 +3,7 @@ import { CustomUser } from "@app/types";
 export type UUID = string;
 
 // It is used in Sessions response
-interface SimpleUser {
+export interface SimpleUser {
   /**
    * @format email
    */
@@ -17,12 +17,16 @@ interface SimpleUserWithId extends SimpleUser {
   readonly uuid: string;
 }
 
-export interface Group {
-  readonly uuid: string;
+export interface SimpleGroup {
   readonly shortname: string;
   readonly fullname: string;
   readonly coordinator?: SimpleUserWithId;
 }
+
+export interface Group extends SimpleGroup {
+  readonly uuid: string;
+}
+
 export interface Groups extends Array<Group> {}
 
 export interface User extends SimpleUserWithId, CustomUser {
@@ -35,7 +39,7 @@ export interface User extends SimpleUserWithId, CustomUser {
 }
 
 // It is used in AdminUsers response
-export interface AdminUser extends SimpleUserWithId {
+export interface AdminUser extends SimpleUserWithId, CustomUser {
   readonly is_active: boolean;
   readonly privacy_accepted: boolean;
   /**

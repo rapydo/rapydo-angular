@@ -174,6 +174,8 @@ export class ApiService {
             }
             throw new Error("Response validation error");
           }
+          // } else {
+          //   console.warn("Unvalidated response");
         }
         return response;
       }),
