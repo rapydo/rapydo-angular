@@ -1,3 +1,5 @@
+import { CustomUser } from "@app/types";
+
 export type UUID = string;
 
 // It is used in Sessions response
@@ -23,7 +25,7 @@ export interface Group {
 }
 export interface Groups extends Array<Group> {}
 
-export interface User extends SimpleUserWithId {
+export interface User extends SimpleUserWithId, CustomUser {
   readonly isAdmin: boolean;
   readonly isLocalAdmin: boolean;
   readonly is_active: boolean;
