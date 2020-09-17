@@ -1,3 +1,5 @@
+export type UUID = string;
+
 // It is used in Sessions response
 interface SimpleUser {
   /**

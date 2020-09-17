@@ -335,7 +335,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     );
   }
 
-  public remove(uuid) {
+  public remove(uuid: string): Subscription {
     let opt;
     if (this.base !== "api") {
       opt = { base: this.base };
