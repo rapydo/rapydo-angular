@@ -142,7 +142,7 @@ export class AuthService {
 
     const opt = {
       base: "auth",
-      validationSchema: "Boolean",
+      // validationSchema: "Boolean",
     };
     return this.api.get<boolean>("status", "", [], opt).pipe(
       map((response) => {
