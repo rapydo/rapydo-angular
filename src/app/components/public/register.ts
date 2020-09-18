@@ -171,20 +171,22 @@ export class RegisterComponent implements OnInit {
       return false;
     }
     this.loading = true;
-    this.api.post("profile", this.model, { base: "auth" }).subscribe(
-      (data) => {
-        this.showRegistrationForm = false;
-        this.registration_title = "Account registered";
-        this.registration_message =
-          "User successfully registered. You will receive an email to confirm your registraton and activate your account";
+    this.api
+      .post<string>("profile", this.model, { base: "auth" })
+      .subscribe(
+        (data) => {
+          this.showRegistrationForm = false;
+          this.registration_title = "Account registered";
+          this.registration_message =
+            "User successfully registered. You will receive an email to confirm your registraton and activate your account";
 
-        this.notify.showSuccess("User successfully registered");
-        this.loading = false;
-      },
-      (error) => {
-        this.notify.showError(error);
-        this.loading = false;
-      }
-    );
+          this.notify.showSuccess("User successfully registered");
+          this.loading = false;
+        },
+        (error) => {
+          this.notify.showError(error);
+          this.loading = false;
+        }
+      );
   }
 }

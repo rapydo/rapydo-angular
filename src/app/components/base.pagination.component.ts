@@ -20,6 +20,7 @@ import { NotificationService } from "@rapydo/services/notification";
 import { FormlyService } from "@rapydo/services/formly";
 import { Schema, Paging, Total, Confirmation } from "@rapydo/types";
 import { FormModal } from "@rapydo/components/forms/form_modal";
+import { UUID } from "@rapydo/types";
 
 import { ProjectOptions } from "@app/custom.project.options";
 
@@ -340,8 +341,9 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       opt = { base: this.base };
     }
 
-    return this.api.delete(this.endpoint, uuid, opt).subscribe(
+    return this.api.delete(this.endpoint + "/" + uuid, "", opt).subscribe(
       (response) => {
+        console.log(response);
         this.notify.showSuccess(
           "Confirmation: " + this.resource_name + " successfully deleted"
         );
@@ -379,7 +381,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         this.notify.showError("Malformed request: ID not found");
         return false;
       }
-      apiCall = this.api.put<Schema[]>(this.endpoint, model_id, {
+      apiCall = this.api.put<Schema[]>(this.endpoint + "/" + model_id, "", {
         get_schema: true,
       });
     }
@@ -436,10 +438,10 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     if (this.model["_id"]) {
       let m = { ...this.model };
       delete m["_id"];
-      apiCall = this.api.put(this.endpoint, this.model["_id"], m);
+      apiCall = this.api.put(this.endpoint + "/" + this.model["_id"], "", m);
       type = "updated";
     } else {
-      apiCall = this.api.post(this.endpoint, this.model);
+      apiCall = this.api.post<UUID>(this.endpoint, this.model);
       type = "created";
     }
 

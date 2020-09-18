@@ -133,6 +133,7 @@ export class AuthService {
   public getToken() {
     return JSON.parse(localStorage.getItem("token"));
   }
+
   public isAuthenticated() {
     let token = this.getToken();
     if (!token) {
@@ -140,7 +141,7 @@ export class AuthService {
     }
 
     let opt = { base: "auth" };
-    return this.api.get("status", "", [], opt).pipe(
+    return this.api.get<boolean>("status", "", [], opt).pipe(
       map((response) => {
         return of(true);
       }),

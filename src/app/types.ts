@@ -64,6 +64,9 @@ export interface Session {
   readonly id: string;
   readonly token: string;
   readonly IP: string;
+  /**
+   * @nullable
+   */
   readonly location: string;
   readonly user?: SimpleUser;
   readonly emitted: Date;
