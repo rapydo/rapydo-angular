@@ -186,12 +186,11 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   To be used this way:
     <ngx-datatable
         [...]
-        [externalPaging]="true"
-        [count]="paging.dataLength"
-        [limit]="paging.itemsPerPage"
-        [offset]="paging.page"
-        (page)="serverSidePagination($event)"
-        (sort)="updateSort($event)"
+        [externalPaging]="true" << add this
+        [count]="paging.dataLength" << add this
+        [offset]="paging.page" << add this
+        (page)="serverSidePagination($event)" << add this
+        (sort)="updateSort($event)" << add this
         (activate)="onDatatableActivate($event)"
         [...]
 */
