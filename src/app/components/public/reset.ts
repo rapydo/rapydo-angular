@@ -108,17 +108,19 @@ export class ResetPasswordComponent implements OnInit {
     }
 
     let data = { reset_email: this.model["reset_email"] };
-    this.api
-      .post<string>("reset", data, { base: "auth" })
-      .subscribe(
-        (response) => {
-          this.reset_message = response;
-          this.model = {};
-        },
-        (error) => {
-          this.notify.showError(error);
-        }
-      );
+    const opt = {
+      base: "auth",
+      validationSchema: "String",
+    };
+    this.api.post<string>("reset", data, opt).subscribe(
+      (response) => {
+        this.reset_message = response;
+        this.model = {};
+      },
+      (error) => {
+        this.notify.showError(error);
+      }
+    );
   }
 
   public changePassword(): void {

@@ -1,6 +1,8 @@
 import { CustomUser } from "@app/types";
 
 export type UUID = string;
+export type String = string;
+export type Boolean = boolean;
 
 // It is used in Sessions response
 export interface SimpleUser {
