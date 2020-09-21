@@ -41,7 +41,6 @@ websocketsURI += ":";
 websocketsURI += process.env.PUSHPIN_PORT;
 
 let apiUrl = backendURI + "/api";
-let authApiUrl = backendURI + "/auth";
 
 let projectVersion = process.env.VERSION;
 let rapydoVersion = process.env.RAPYDO_VERSION;
@@ -75,8 +74,8 @@ const INJECT_KEY = "INJECT_";
 
 let envConfigFile = `
 export const environment = { 
+    backendURI: '${backendURI}',
     apiUrl: '${apiUrl}',
-    authApiUrl: '${authApiUrl}',
     projectVersion: '${projectVersion}',
     rapydoVersion: '${rapydoVersion}',
     projectTitle: '${projectTitle}',

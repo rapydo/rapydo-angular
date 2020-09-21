@@ -27,7 +27,7 @@ export class SessionsComponent extends BasePaginationComponent<Session> {
 
   constructor(protected injector: Injector, private excel: ExcelService) {
     super(injector);
-    this.init("token", "tokens", "Sessions", "auth");
+    this.init("token", "/auth/tokens", "Sessions");
     this.initPaging();
     this.list();
 

@@ -47,21 +47,23 @@ export class AuthService {
       };
     }
 
-    return this.http.post<any>(environment.authApiUrl + "/login", data).pipe(
-      map((response) => {
-        if (!response) {
-          return response;
-        }
+    return this.http
+      .post<any>(environment.backendURI + "/auth/login", data)
+      .pipe(
+        map((response) => {
+          if (!response) {
+            return response;
+          }
 
-        this.clean_localstorage();
-        this.setToken(JSON.stringify(response));
-        return response;
-      })
-    );
+          this.clean_localstorage();
+          this.setToken(JSON.stringify(response));
+          return response;
+        })
+      );
   }
 
   public logout() {
-    return this.http.get<any>(environment.authApiUrl + "/logout").pipe(
+    return this.http.get<any>(environment.backendURI + "/auth/logout").pipe(
       map(
         (response) => {
           this.removeToken();
@@ -77,7 +79,7 @@ export class AuthService {
   }
 
   public change_password(data) {
-    return this.http.put(environment.authApiUrl + "/profile", data).pipe(
+    return this.http.put(environment.backendURI + "/auth/profile", data).pipe(
       map(
         (response) => {
           this.removeToken();
@@ -93,7 +95,7 @@ export class AuthService {
 
   public ask_activation_link(username) {
     return this.http
-      .post(environment.authApiUrl + "/profile/activate", { username })
+      .post(environment.backendURI + "/auth/profile/activate", { username })
       .pipe(
         map(
           (response) => {
@@ -107,7 +109,7 @@ export class AuthService {
   }
 
   public loadUser() {
-    return this.http.get<any>(environment.authApiUrl + "/profile").pipe(
+    return this.http.get<any>(environment.backendURI + "/auth/profile").pipe(
       map(
         (response) => {
           if (!response) {
@@ -140,11 +142,8 @@ export class AuthService {
       return of(false);
     }
 
-    const opt = {
-      base: "auth",
-      // validationSchema: "Boolean",
-    };
-    return this.api.get<boolean>("status", "", [], opt).pipe(
+    // {validationSchema: "Boolean"}
+    return this.api.get<boolean>("/auth/status").pipe(
       map((response) => {
         return of(true);
       }),

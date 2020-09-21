@@ -2,8 +2,8 @@ import { environment as base } from "/tmp/environment.variables";
 
 export const environment = {
   production: true,
+  backendURI: base.backendURI,
   apiUrl: base.apiUrl,
-  authApiUrl: base.authApiUrl,
   projectVersion: base.projectVersion,
   rapydoVersion: base.rapydoVersion,
   projectTitle: base.projectTitle,

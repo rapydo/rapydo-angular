@@ -41,25 +41,23 @@ export class RegisterComponent implements OnInit {
     this.route.params.subscribe((params) => {
       if (typeof params["token"] !== "undefined") {
         this.registration_title = "Validating activation token...";
-        this.api
-          .put("profile/activate", params["token"], {}, { base: "auth" })
-          .subscribe(
-            (response) => {
-              this.invalid_token = false;
-              this.showRegistrationForm = false;
-              this.registration_title = "Registraction activated";
-              this.notify.showSuccess("User successfully activated.");
-              this.router.navigate(["app", "login"]);
-              return true;
-            },
-            (error) => {
-              this.invalid_token = true;
-              this.showRegistrationForm = false;
-              this.registration_title = "Invalid activation token";
-              this.notify.showError(error);
-              return false;
-            }
-          );
+        this.api.put("/auth/profile/activate/" + params["token"]).subscribe(
+          (response) => {
+            this.invalid_token = false;
+            this.showRegistrationForm = false;
+            this.registration_title = "Registraction activated";
+            this.notify.showSuccess("User successfully activated.");
+            this.router.navigate(["app", "login"]);
+            return true;
+          },
+          (error) => {
+            this.invalid_token = true;
+            this.showRegistrationForm = false;
+            this.registration_title = "Invalid activation token";
+            this.notify.showError(error);
+            return false;
+          }
+        );
       } else {
         this.showRegistrationForm = this.allowRegistration;
         this.registration_title = "Register a new account";
@@ -171,24 +169,22 @@ export class RegisterComponent implements OnInit {
       return false;
     }
     this.loading = true;
-    const opt = {
-      base: "auth",
-      validationSchema: "String",
-    };
-    this.api.post<string>("profile", this.model, opt).subscribe(
-      (data) => {
-        this.showRegistrationForm = false;
-        this.registration_title = "Account registered";
-        this.registration_message =
-          "User successfully registered. You will receive an email to confirm your registraton and activate your account";
+    this.api
+      .post<string>("/auth/profile", this.model, { validationSchema: "String" })
+      .subscribe(
+        (data) => {
+          this.showRegistrationForm = false;
+          this.registration_title = "Account registered";
+          this.registration_message =
+            "User successfully registered. You will receive an email to confirm your registraton and activate your account";
 
-        this.notify.showSuccess("User successfully registered");
-        this.loading = false;
-      },
-      (error) => {
-        this.notify.showError(error);
-        this.loading = false;
-      }
-    );
+          this.notify.showSuccess("User successfully registered");
+          this.loading = false;
+        },
+        (error) => {
+          this.notify.showError(error);
+          this.loading = false;
+        }
+      );
   }
 }

@@ -108,16 +108,17 @@ export class ApiService {
   ): Observable<T> {
     let formData = this.opt(options, "formData");
     let conf = this.opt(options, "conf");
-    let base = this.opt(options, "base");
     let rawError = this.opt(options, "rawError", false);
     let validationSchema = this.opt(options, "validationSchema");
 
     let ep = "";
-    if (base === "auth") {
-      ep = environment.authApiUrl + "/" + endpoint;
+    if (endpoint.startsWith("/")) {
+      ep = environment.backendURI + endpoint;
     } else {
       ep = environment.apiUrl + "/" + endpoint;
     }
+
+    console.log(ep);
 
     let contentType;
     /* istanbul ignore if */

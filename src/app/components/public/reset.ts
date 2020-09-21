@@ -32,20 +32,18 @@ export class ResetPasswordComponent implements OnInit {
   ) {
     this.route.params.subscribe((params) => {
       if (typeof params["token"] !== "undefined") {
-        this.api
-          .put("reset/" + params["token"], "", {}, { base: "auth" })
-          .subscribe(
-            (response) => {
-              this.token = params["token"];
-              return true;
-            },
-            (error) => {
-              this.token = null;
-              this.invalid_token = error;
-              this.notify.showError(this.invalid_token);
-              return false;
-            }
-          );
+        this.api.put("/auth/reset/" + params["token"]).subscribe(
+          (response) => {
+            this.token = params["token"];
+            return true;
+          },
+          (error) => {
+            this.token = null;
+            this.invalid_token = error;
+            this.notify.showError(this.invalid_token);
+            return false;
+          }
+        );
       }
     });
   }
@@ -110,19 +108,17 @@ export class ResetPasswordComponent implements OnInit {
     }
 
     let data = { reset_email: this.model["reset_email"] };
-    const opt = {
-      base: "auth",
-      validationSchema: "String",
-    };
-    this.api.post<string>("reset", data, opt).subscribe(
-      (response) => {
-        this.reset_message = response;
-        this.model = {};
-      },
-      (error) => {
-        this.notify.showError(error);
-      }
-    );
+    this.api
+      .post<string>("/auth/reset", data, { validationSchema: "String" })
+      .subscribe(
+        (response) => {
+          this.reset_message = response;
+          this.model = {};
+        },
+        (error) => {
+          this.notify.showError(error);
+        }
+      );
   }
 
   public changePassword(): void {
@@ -134,7 +130,7 @@ export class ResetPasswordComponent implements OnInit {
     data["new_password"] = this.model["newPwd"];
     data["password_confirm"] = this.model["confirmPwd"];
 
-    this.api.put("reset/" + this.token, "", data, { base: "auth" }).subscribe(
+    this.api.put("/auth/reset/" + this.token).subscribe(
       (response) => {
         this.notify.showSuccess(
           "Password successfully changed. Please login with your new password"

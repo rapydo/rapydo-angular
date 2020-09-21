@@ -5,8 +5,8 @@ describe("Environment", () => {
     expect(environment).not.toBeUndefined();
 
     expect(environment.production).not.toBeUndefined();
+    expect(environment.backendURI).not.toBeUndefined();
     expect(environment.apiUrl).not.toBeUndefined();
-    expect(environment.authApiUrl).not.toBeUndefined();
     expect(environment.projectVersion).not.toBeUndefined();
     expect(environment.rapydoVersion).not.toBeUndefined();
     expect(environment.projectTitle).not.toBeUndefined();
@@ -19,5 +19,8 @@ describe("Environment", () => {
     expect(environment.SENTRY_URL).not.toBeUndefined();
     expect(environment.GA_TRACKING_CODE).not.toBeUndefined();
     expect(environment.ALL).not.toBeUndefined();
+
+    // Removed with version 0.8
+    expect(environment.authApiUrl).not.toUndefined();
   });
 });

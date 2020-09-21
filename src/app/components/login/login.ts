@@ -288,7 +288,7 @@ Please add something like this to your ProjectOptions.get_option (in custom.proj
     this.modalRef.result.then(
       (result) => {
         this.api
-          .patch("profile", "", { privacy_accepted: true }, { base: "auth" })
+          .patch("/auth/profile", "", { privacy_accepted: true })
           .subscribe(
             (data) => {
               this.authService.loadUser();

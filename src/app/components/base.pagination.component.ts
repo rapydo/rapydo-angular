@@ -51,7 +51,6 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   private server_side_pagination: boolean = false;
 
   private endpoint: string;
-  private base: string = "api";
   private data_type: string = null;
 
   protected modalRef: NgbModalRef;
@@ -94,12 +93,10 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   protected init(
     res_name: string,
     endpoint: string,
-    data_type: string = /* istanbul ignore next: core components alway set data_types */ null,
-    base: string = "api"
+    data_type: string = null
   ): void {
     this.resource_name = res_name;
     this.endpoint = endpoint;
-    this.base = base;
     this.data_type = data_type;
     this.deleteConfirmation = this.getDeleteConfirmation(this.resource_name);
   }
@@ -285,9 +282,6 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
   public list(): Subscription {
     let opt = {};
-    if (this.base !== "api") {
-      opt["base"] = this.base;
-    }
 
     if (this.data_type) {
       opt["validationSchema"] = this.data_type;
@@ -336,12 +330,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   }
 
   public remove(uuid: string): Subscription {
-    let opt;
-    if (this.base !== "api") {
-      opt = { base: this.base };
-    }
-
-    return this.api.delete(this.endpoint + "/" + uuid, "", opt).subscribe(
+    return this.api.delete(this.endpoint + "/" + uuid).subscribe(
       (response) => {
         console.log(response);
         this.notify.showSuccess(
