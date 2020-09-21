@@ -18,9 +18,5 @@ describe("Environment", () => {
     expect(environment.SENTRY_URL).not.toBeUndefined();
     expect(environment.GA_TRACKING_CODE).not.toBeUndefined();
     expect(environment.ALL).not.toBeUndefined();
-
-    // Removed with version 0.8
-    expect(environment.authApiUrl).toBeUndefined();
-    expect(environment.apiUrl).toBeUndefined();
   });
 });
