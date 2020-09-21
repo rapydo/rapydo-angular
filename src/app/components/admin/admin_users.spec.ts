@@ -56,7 +56,7 @@ describe("AdminUsersComponent", () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const req = httpMock.expectOne(environment.apiUrl + "/admin/users");
+    const req = httpMock.expectOne(environment.backendURI + "/api/admin/users");
     expect(req.request.method).toEqual("GET");
     req.flush(users);
 
@@ -69,12 +69,12 @@ describe("AdminUsersComponent", () => {
 
   // it('delete data', () => {
   //   component.remove("y");
-  //   const req1 = httpMock.expectOne(environment.apiUrl + '/admin/users');
+  //   const req1 = httpMock.expectOne(environment.backendURI + '/api/admin/users');
   //   expect(req1.request.method).toEqual('DELETE');
   //   req1.flush('', mock404Response);
 
   //   component.remove("x");
-  //   const req2 = httpMock.expectOne(environment.apiUrl + '/admin/users');
+  //   const req2 = httpMock.expectOne(environment.backendURI + '/api/admin/users');
   //   expect(req2.request.method).toEqual('DELETE');
   //   req2.flush('', mock204Response);
 

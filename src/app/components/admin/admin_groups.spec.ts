@@ -41,7 +41,9 @@ describe("AdminGroupsComponent", () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const req = httpMock.expectOne(environment.apiUrl + "/admin/groups");
+    const req = httpMock.expectOne(
+      environment.backendURI + "/api/admin/groups"
+    );
     expect(req.request.method).toEqual("GET");
     req.flush(groups);
 

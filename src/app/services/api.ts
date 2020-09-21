@@ -106,32 +106,29 @@ export class ApiService {
     data = {},
     options = {}
   ): Observable<T> {
-    let formData = this.opt(options, "formData");
     let conf = this.opt(options, "conf");
     let rawError = this.opt(options, "rawError", false);
     let validationSchema = this.opt(options, "validationSchema");
 
-    let ep = "";
-    if (endpoint.startsWith("/")) {
-      ep = environment.backendURI + endpoint;
-    } else {
-      ep = environment.apiUrl + "/" + endpoint;
+    // to be deprecated
+    if (!endpoint.startsWith("/")) {
+      endpoint = "/api/" + endpoint;
     }
 
-    console.log(ep);
+    endpoint = environment.backendURI + endpoint;
 
-    let contentType;
-    /* istanbul ignore if */
-    if (formData) {
-      contentType = "application/x-www-form-urlencoded";
-    } else {
-      contentType = "application/json";
-    }
+    // let contentType;
+    // let formData = this.opt(options, "formData");
+    // if (formData) {
+    //   contentType = "application/x-www-form-urlencoded";
+    // } else {
+    //   contentType = "application/json";
+    // }
 
     let opt = {
       timeout: 30000,
       headers: new HttpHeaders({
-        "Content-Type": contentType,
+        "Content-Type": "application/json",
         Accept: "application/json",
       }),
     };
@@ -146,15 +143,15 @@ export class ApiService {
     let httpCall;
     if (method === "GET") {
       opt["params"] = data;
-      httpCall = this.http.get<T>(ep, opt);
+      httpCall = this.http.get<T>(endpoint, opt);
     } else if (method === "POST") {
-      httpCall = this.http.post<T>(ep, data, opt);
+      httpCall = this.http.post<T>(endpoint, data, opt);
     } else if (method === "PUT") {
-      httpCall = this.http.put<T>(ep, data, opt);
+      httpCall = this.http.put<T>(endpoint, data, opt);
     } else if (method === "PATCH") {
-      httpCall = this.http.patch<T>(ep, data, opt);
+      httpCall = this.http.patch<T>(endpoint, data, opt);
     } else if (method === "DELETE") {
-      httpCall = this.http.delete<T>(ep, opt);
+      httpCall = this.http.delete<T>(endpoint, opt);
       /* istanbul ignore next */
     } else {
       console.error("Unknown API method: " + method);

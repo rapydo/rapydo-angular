@@ -65,7 +65,7 @@ describe("AdminStatsComponent", () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const req = httpMock.expectOne(environment.apiUrl + "/admin/stats");
+    const req = httpMock.expectOne(environment.backendURI + "/api/admin/stats");
     expect(req.request.method).toEqual("GET");
     req.flush(stats);
 

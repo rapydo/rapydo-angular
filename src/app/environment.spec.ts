@@ -6,7 +6,6 @@ describe("Environment", () => {
 
     expect(environment.production).not.toBeUndefined();
     expect(environment.backendURI).not.toBeUndefined();
-    expect(environment.apiUrl).not.toBeUndefined();
     expect(environment.projectVersion).not.toBeUndefined();
     expect(environment.rapydoVersion).not.toBeUndefined();
     expect(environment.projectTitle).not.toBeUndefined();
@@ -21,6 +20,7 @@ describe("Environment", () => {
     expect(environment.ALL).not.toBeUndefined();
 
     // Removed with version 0.8
-    expect(environment.authApiUrl).not.toUndefined();
+    expect(environment.authApiUrl).toBeUndefined();
+    expect(environment.apiUrl).toBeUndefined();
   });
 });
