@@ -130,7 +130,7 @@ export class ResetPasswordComponent implements OnInit {
     data["new_password"] = this.model["newPwd"];
     data["password_confirm"] = this.model["confirmPwd"];
 
-    this.api.put("/auth/reset/" + this.token).subscribe(
+    this.api.put("/auth/reset/" + this.token, "", data).subscribe(
       (response) => {
         this.notify.showSuccess(
           "Password successfully changed. Please login with your new password"
