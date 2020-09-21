@@ -8,7 +8,7 @@ Based on:
 - bootstrap 4.5.2 with @ng-bootstrap 7.0.0
 - @ngx-formly 5.10.1
 - ngx-datatable 17.1.0
-- ngx-uploadx 3.5.1
+- ngx-uploadx 3.5.2
 - file-saver 2.0.2
 - ngx-toastr 13.0.0
 - moment 2.28.0 with ngx-moment 5.0.0
