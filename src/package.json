@@ -51,7 +51,7 @@
     "@fortawesome/fontawesome-free": "5.14.0",
     "ngx-toastr": "13.0.0",
     "ngx-google-analytics": "9.0.1",
-    "@sentry/browser": "5.23.0",
+    "@sentry/browser": "5.24.2",
     "ngx-device-detector": "2.0.0",
     "ngx-spinner": "10.0.1",
     "xlsx": "0.16.7",
