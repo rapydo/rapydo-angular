@@ -36,6 +36,13 @@ describe("AdminUsersComponent", () => {
     },
   ];
 
+  // Veeeeeery temporary fix!!! How to solve this?
+  if (environment.projectTitle == "Meteo-Hub") {
+    users[0]["disk_quota"] = 0;
+    users[0]["amqp_queue"] = null;
+    users[0]["requests_expiration_days"] = 0;
+  }
+
   const mock204Response = {
     status: 204,
     statusText: "NO_CONTENT",
