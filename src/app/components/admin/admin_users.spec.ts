@@ -22,26 +22,7 @@ describe("AdminUsersComponent", () => {
   let fixture: ComponentFixture<AdminUsersComponent>;
   let component: AdminUsersComponent;
 
-  const users: Array<User> = [
-    {
-      uuid: "x",
-      email: "email@example.com",
-      name: "A",
-      surname: "B",
-      isAdmin: true,
-      isLocalAdmin: false,
-      is_active: true,
-      privacy_accepted: true,
-      roles: [],
-    },
-  ];
-
-  // Veeeeeery temporary fix!!! How to solve this?
-  if (environment.projectTitle == "Meteo-Hub") {
-    users[0]["disk_quota"] = 0;
-    users[0]["amqp_queue"] = null;
-    users[0]["requests_expiration_days"] = 0;
-  }
+  const users: Array<User> = [];
 
   const mock204Response = {
     status: 204,
