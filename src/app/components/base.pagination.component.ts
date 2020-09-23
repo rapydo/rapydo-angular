@@ -90,12 +90,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     this.spinner = injector.get(NgxSpinnerService);
     this.customization = injector.get(ProjectOptions);
   }
-  protected init(
-    res_name: string,
-    endpoint: string,
-    /* istanbul ignore next */
-    data_type: string = null
-  ): void {
+  protected init(res_name: string, endpoint: string, data_type: string): void {
     this.resource_name = res_name;
     this.endpoint = endpoint;
     this.data_type = data_type;
