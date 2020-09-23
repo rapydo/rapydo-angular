@@ -136,7 +136,9 @@ module_providers.push(ExcelService);
 @Injectable()
 /* istanbul ignore next */
 export class SentryErrorHandler implements ErrorHandler {
+  /* istanbul ignore next */
   constructor() {}
+  /* istanbul ignore next */
   handleError(error) {
     Sentry.captureException(error.originalError || error);
     throw error;
