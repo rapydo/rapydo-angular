@@ -225,4 +225,17 @@ describe("AdminUsers", () => {
 
     cy.get("datatable-body-row").its("length").should("be.gte", 1);
   });
+
+  it("Backend errors", () => {
+    cy.server();
+    cy.route({
+      method: "GET", // Route all GET requests
+      url: "/api/admin/users", // that have a URL that matches '/users/*'
+      status: 500,
+      response: "Stubbed error",
+    });
+
+    cy.visit("/app/admin/users");
+    cy.checkalert("Stubbed error");
+  });
 });

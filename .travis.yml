@@ -46,7 +46,7 @@ script:
       echo "{}" > cypress.json
       cypress run --browser chrome --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
 
-    else
+    elif [[ "$STAGE" == "cypress" ]]; then
 
       rapydo --testing create prj --auth postgres --frontend angular --origin-url https://your_remote_git/your_project.git;
       rapydo --testing init;

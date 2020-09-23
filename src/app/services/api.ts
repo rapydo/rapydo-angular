@@ -140,7 +140,7 @@ export class ApiService {
       }
     }
 
-    let httpCall;
+    let httpCall = null;
     if (method === "GET") {
       opt["params"] = data;
       httpCall = this.http.get<T>(endpoint, opt);
@@ -152,8 +152,10 @@ export class ApiService {
       httpCall = this.http.patch<T>(endpoint, data, opt);
     } else if (method === "DELETE") {
       httpCall = this.http.delete<T>(endpoint, opt);
-      /* istanbul ignore next */
-    } else {
+    }
+
+    /* istanbul ignore next */
+    if (httpCall === null) {
       console.error("Unknown API method: " + method);
       return null;
     }
