@@ -133,8 +133,8 @@ let module_providers: any = [
 module_providers.push(WebSocketsService);
 module_providers.push(ExcelService);
 
-/* istanbul ignore next */
 @Injectable()
+/* istanbul ignore next */
 export class SentryErrorHandler implements ErrorHandler {
   constructor() {}
   handleError(error) {
@@ -143,6 +143,7 @@ export class SentryErrorHandler implements ErrorHandler {
   }
 }
 
+/* istanbul ignore if */
 if (environment.production && environment.SENTRY_URL) {
   Sentry.init({
     dsn: environment.SENTRY_URL,
