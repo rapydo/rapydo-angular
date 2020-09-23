@@ -57,6 +57,13 @@ describe("FailedLogin", () => {
   });
 
   it("Backend errors", () => {
+    cy.get("input[placeholder='Your username (email)']")
+      .clear()
+      .type("invalid@user.name");
+    cy.get("input[placeholder='Your password']")
+      .clear()
+      .type("invalid-password");
+
     cy.server();
 
     cy.route({
@@ -66,16 +73,20 @@ describe("FailedLogin", () => {
       response: "Stubbed login error",
     });
 
-    cy.get("input[placeholder='Your username (email)']")
-      .clear()
-      .type("invalid@user.name");
-    cy.get("input[placeholder='Your password']")
-      .clear()
-      .type("invalid-password");
     cy.get("button").contains("Login").click();
     cy.checkalert(
       "Unable to login due to a server error. If this error persists please contact system administrators"
     );
+
+    cy.route({
+      method: "POST",
+      url: "/auth/login",
+      status: 0,
+      response: "Stubbed login error",
+    });
+
+    cy.get("button").contains("Login").click();
+    cy.checkalert("Error: no response received from backend");
 
     cy.route({
       method: "POST",
