@@ -249,5 +249,6 @@ describe("AdminUsers", () => {
 
     cy.visit("/app/admin/users");
     cy.checkalert("Stubbed get error");
+    cy.server({ enable: false });
   });
 });

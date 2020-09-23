@@ -86,6 +86,7 @@ describe("FailedLogin", () => {
 
     cy.get("button").contains("Login").click();
     cy.checkalert("Stubbed login error");
+    cy.server({ enable: false });
   });
 
   afterEach(() => {
