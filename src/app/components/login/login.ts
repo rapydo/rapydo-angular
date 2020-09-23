@@ -68,6 +68,7 @@ export class LoginComponent implements OnInit {
 
     // check for secondary route and remove it, can make router navigate fail
     const offset = this.returnUrl.lastIndexOf("(");
+    /* istanbul ignore if */
     if (offset >= 0) {
       this.returnUrl = this.returnUrl.slice(0, offset);
     }
@@ -177,8 +178,6 @@ export class LoginComponent implements OnInit {
         (error) => {
           if (error.status === 0) {
             this.notify.showError("Error: no response received from backend");
-          } else if (error.status === 409) {
-            this.notify.showError(error);
           } else if (error.status === 403) {
             const body = error.error;
             let userMessage = "Unrecognized response from server";

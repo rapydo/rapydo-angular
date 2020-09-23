@@ -56,6 +56,38 @@ describe("FailedLogin", () => {
     cy.checkalert("Invalid username or password");
   });
 
+  it("Backend errors", () => {
+    cy.server();
+
+    cy.route({
+      method: "POST",
+      url: "/auth/login",
+      status: 404,
+      response: "Stubbed login error",
+    });
+
+    cy.get("input[placeholder='Your username (email)']")
+      .clear()
+      .type("invalid@user.name");
+    cy.get("input[placeholder='Your password']")
+      .clear()
+      .type("invalid-password");
+    cy.get("button").contains("Login").click();
+    cy.checkalert(
+      "Unable to login due to a server error. If this error persists please contact system administrators"
+    );
+
+    cy.route({
+      method: "POST",
+      url: "/auth/login",
+      status: 409,
+      response: "Stubbed login error",
+    });
+
+    cy.get("button").contains("Login").click();
+    cy.checkalert("Stubbed login error");
+  });
+
   afterEach(() => {
     // You are still on the login page
     cy.location().should((location) => {

@@ -228,14 +228,26 @@ describe("AdminUsers", () => {
 
   it("Backend errors", () => {
     cy.server();
+
     cy.route({
-      method: "GET", // Route all GET requests
-      url: "/api/admin/users", // that have a URL that matches '/users/*'
+      method: "DELETE",
+      url: "/api/admin/users",
       status: 500,
-      response: "Stubbed error",
+      response: "Stubbed delete error",
+    });
+
+    cy.get("datatable-body-row").eq(0).find(".fa-trash").click({ force: true });
+    cy.get("button").contains("Confirm").click({ force: true });
+    cy.checkalert("Stubbed delete error");
+
+    cy.route({
+      method: "GET",
+      url: "/api/admin/users",
+      status: 500,
+      response: "Stubbed get error",
     });
 
     cy.visit("/app/admin/users");
-    cy.checkalert("Stubbed error");
+    cy.checkalert("Stubbed get error");
   });
 });
