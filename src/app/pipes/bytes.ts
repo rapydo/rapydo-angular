@@ -7,7 +7,7 @@ const units = ["bytes", "kB", "MB", "GB", "TB", "PB"];
 })
 @Injectable()
 export class BytesPipe {
-  transform(bytes: number = 0, precision: number = null): string {
+  transform(bytes: number, precision: number = null): string {
     if (bytes === 0) {
       return "0";
     }

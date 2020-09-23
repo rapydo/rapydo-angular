@@ -19,9 +19,7 @@ import { environment } from "@rapydo/../environments/environment";
 export class SessionsComponent extends BasePaginationComponent<Session> {
   @ViewChild("dataToken", { static: false }) public dataToken: TemplateRef<any>;
   @ViewChild("dataDate", { static: false }) public dataDate: TemplateRef<any>;
-  @ViewChild("dataRevoke", { static: false }) public dataRevoke: TemplateRef<
-    any
-  >;
+  @ViewChild("dataRevoke", { static: false }) public revoke: TemplateRef<any>;
 
   public currentToken: string;
 
@@ -60,7 +58,7 @@ export class SessionsComponent extends BasePaginationComponent<Session> {
       name: "Close",
       prop: "id",
       flexGrow: 0.2,
-      cellTemplate: this.dataRevoke,
+      cellTemplate: this.revoke,
     });
     this.columns.push({
       name: "Copy",

@@ -17,9 +17,7 @@ export class AdminSessionsComponent extends BasePaginationComponent<Session> {
   @ViewChild("dataToken", { static: false }) public dataToken: TemplateRef<any>;
   @ViewChild("dataUser", { static: false }) public dataUser: TemplateRef<any>;
   @ViewChild("dataDate", { static: false }) public dataDate: TemplateRef<any>;
-  @ViewChild("dataRevoke", { static: false }) public dataRevoke: TemplateRef<
-    any
-  >;
+  @ViewChild("dataRevoke", { static: false }) public revoke: TemplateRef<any>;
 
   public currentToken: string;
 
@@ -71,7 +69,7 @@ export class AdminSessionsComponent extends BasePaginationComponent<Session> {
       name: "",
       prop: "id",
       flexGrow: 0.2,
-      cellTemplate: this.dataRevoke,
+      cellTemplate: this.revoke,
       sortable: false,
     });
   }

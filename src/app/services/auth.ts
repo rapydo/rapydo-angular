@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-// import { Output, EventEmitter } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { catchError, map, finalize } from "rxjs/operators";
 import { of, throwError } from "rxjs";
@@ -12,9 +11,6 @@ import { NotificationService } from "@rapydo/services/notification";
 
 @Injectable()
 export class AuthService {
-  // @Output() userChanged: EventEmitter<string> = new EventEmitter<string>();
-  // userChanged: EventEmitter<string> = new EventEmitter<string>();
-
   userChanged = new Subject<any>();
 
   readonly LOGGED_IN = "logged-in";
@@ -118,6 +114,7 @@ export class AuthService {
         return of(true);
       }),
       catchError((error, caught) => {
+        /* istanbul ignore else */
         if (this.api.is_online()) {
           this.removeToken();
         }
@@ -132,6 +129,8 @@ export class AuthService {
     }
 
     let user = this.getUser();
+
+    /* istanbul ignore if */
     if (user === null) {
       return false;
     }

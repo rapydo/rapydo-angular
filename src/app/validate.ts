@@ -41,10 +41,12 @@ export function validate(ref, data) {
   console.warn("Response does not meet " + ref + " schema");
   let errors = [];
   for (let error of validator.errors) {
+    /* istanbul ignore if */
     if (error.keyword === "additionalProperties") {
       errors.push(
         "Found unknown property " + error.params["additionalProperty"]
       );
+      /* istanbul ignore else */
     } else if (error.dataPath) {
       errors.push("Response" + error.dataPath + " " + error.message);
     } else {
