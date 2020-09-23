@@ -5,6 +5,7 @@ import { AuthService } from "@rapydo/services/auth";
 
 import { environment } from "@rapydo/../environments/environment";
 
+/* istanbul ignore next */
 @Injectable()
 export class WebSocketsService {
   constructor(private auth: AuthService) {}

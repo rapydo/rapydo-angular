@@ -260,11 +260,4 @@ let module_providers: any = [
   providers: module_providers,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class SharedModule {
-  static forRoot(): ModuleWithProviders<SharedModule> {
-    return {
-      ngModule: SharedModule,
-      providers: module_providers,
-    };
-  }
-}
+export class SharedModule {}
