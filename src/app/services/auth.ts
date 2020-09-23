@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 // import { Output, EventEmitter } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { catchError, map } from "rxjs/operators";
+import { catchError, map, finalize } from "rxjs/operators";
 import { of, throwError } from "rxjs";
 import { Subject } from "rxjs";
 
@@ -51,10 +51,6 @@ export class AuthService {
       .post<any>(environment.backendURI + "/auth/login", data)
       .pipe(
         map((response) => {
-          if (!response) {
-            return response;
-          }
-
           this.clean_localstorage();
           this.setToken(JSON.stringify(response));
           return response;
@@ -64,67 +60,41 @@ export class AuthService {
 
   public logout() {
     return this.http.get<any>(environment.backendURI + "/auth/logout").pipe(
-      map(
-        (response) => {
-          this.removeToken();
-
-          return response;
-        },
-        (error) => {
-          this.removeToken();
-          return error;
-        }
-      )
+      finalize(() => {
+        this.removeToken();
+      })
     );
   }
 
   public change_password(data) {
     return this.http.put(environment.backendURI + "/auth/profile", data).pipe(
-      map(
-        (response) => {
-          this.removeToken();
+      map((response) => {
+        this.removeToken();
 
-          return response;
-        },
-        (error) => {
-          return throwError(error);
-        }
-      )
+        return response;
+      })
     );
   }
 
   public ask_activation_link(username) {
-    return this.http
-      .post(environment.backendURI + "/auth/profile/activate", { username })
-      .pipe(
-        map(
-          (response) => {
-            return response;
-          },
-          (error) => {
-            return error;
-          }
-        )
-      );
+    const data = { username };
+    return this.http.post(
+      environment.backendURI + "/auth/profile/activate",
+      data
+    );
   }
 
   public loadUser() {
     return this.http.get<any>(environment.backendURI + "/auth/profile").pipe(
-      map(
-        (response) => {
-          if (!response) {
-            return response;
-          }
+      map((response) => {
+        this.setUser(JSON.stringify(response));
 
-          this.setUser(JSON.stringify(response));
-
-          return response;
-        },
-        (error) => {
-          this.notify.showError(error);
-          return null;
-        }
-      )
+        return response;
+      }),
+      catchError((error) => {
+        this.notify.showError(error);
+        return null;
+      })
     );
   }
 
@@ -188,6 +158,7 @@ export class AuthService {
   }
 
   private removeToken() {
+    console.log("remove token");
     this.clean_localstorage();
     localStorage.removeItem("token");
     localStorage.removeItem("currentUser");
