@@ -231,7 +231,7 @@ describe("AdminUsers", () => {
 
     cy.route({
       method: "DELETE",
-      url: "/api/admin/users",
+      url: "/api/admin/users/*",
       status: 500,
       response: "Stubbed delete error",
     });

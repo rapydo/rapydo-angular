@@ -92,7 +92,7 @@ describe("AdminSessions", () => {
 
     cy.route({
       method: "GET",
-      url: "/api/admin/tokens",
+      url: "/api/admin/tokens?*",
       status: 500,
       response: "Stubbed get error",
     });
