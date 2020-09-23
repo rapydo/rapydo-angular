@@ -1,5 +1,7 @@
 import { Injectable, Pipe } from "@angular/core";
 
+const units = ["bytes", "kB", "MB", "GB", "TB", "PB"];
+
 @Pipe({
   name: "bytes",
 })
@@ -13,17 +15,14 @@ export class BytesPipe {
       return "-";
     }
 
-    let units = ["bytes", "kB", "MB", "GB", "TB", "PB"],
-      number = Math.floor(Math.log(bytes) / Math.log(1024));
+    const num = Math.floor(Math.log(bytes) / Math.log(1024));
 
     /* istanbul ignore else */
     if (precision === null) {
-      precision = number <= 1 ? 0 : 1;
+      precision = num <= 1 ? 0 : 1;
     }
 
-    const value = (bytes / Math.pow(1024, Math.floor(number))).toFixed(
-      precision
-    );
-    return value + " " + units[number];
+    const value = (bytes / Math.pow(1024, Math.floor(num))).toFixed(precision);
+    return value + " " + units[num];
   }
 }
