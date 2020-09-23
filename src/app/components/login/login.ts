@@ -176,9 +176,7 @@ export class LoginComponent implements OnInit {
           );
         },
         (error) => {
-          if (error.status === 0) {
-            this.notify.showError("Error: no response received from backend");
-          } else if (error.status === 403) {
+          if (error.status === 403) {
             const body = error.error;
             let userMessage = "Unrecognized response from server";
 

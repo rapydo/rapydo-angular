@@ -81,16 +81,6 @@ describe("FailedLogin", () => {
     cy.route({
       method: "POST",
       url: "/auth/login",
-      status: 0,
-      response: "Stubbed login error",
-    });
-
-    cy.get("button").contains("Login").click();
-    cy.checkalert("Error: no response received from backend");
-
-    cy.route({
-      method: "POST",
-      url: "/auth/login",
       status: 409,
       response: "Stubbed login error",
     });
