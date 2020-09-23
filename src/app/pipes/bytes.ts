@@ -17,7 +17,6 @@ export class BytesPipe {
 
     const num = Math.floor(Math.log(bytes) / Math.log(1024));
 
-    /* istanbul ignore else */
     if (precision === null) {
       precision = num <= 1 ? 0 : 1;
     }
