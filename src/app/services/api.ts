@@ -47,7 +47,7 @@ export class ApiService {
     data = {},
     options = {}
   ): Observable<T> {
-    /* istanbul ignore if */
+    /* istanbul ignore next */
     if (id !== "") {
       // Deprecated since 0.8
       console.warn("Deprecated use of id parameter in api.get");
@@ -66,7 +66,7 @@ export class ApiService {
     data = {},
     options = {}
   ): Observable<T> {
-    /* istanbul ignore if */
+    /* istanbul ignore next */
     if (id !== "") {
       // Deprecated since 0.8
       console.warn("Deprecated use of id parameter in api.get");
@@ -81,7 +81,7 @@ export class ApiService {
     data = {},
     options = {}
   ): Observable<T> {
-    /* istanbul ignore if */
+    /* istanbul ignore next */
     if (id !== "") {
       // Deprecated since 0.8
       console.warn("Deprecated use of id parameter in api.get");
@@ -91,7 +91,7 @@ export class ApiService {
   }
 
   public delete<T>(endpoint: string, id = "", options = {}): Observable<T> {
-    /* istanbul ignore if */
+    /* istanbul ignore next */
     if (id !== "") {
       // Deprecated since 0.8
       console.warn("Deprecated use of id parameter in api.get");

@@ -20,7 +20,7 @@ if (!environment.production) {
 
 export function validate(ref, data) {
   // Validation is currently not enabled in production due to limitations with CSP
-  /* istanbul ignore if */
+  /* istanbul ignore else */
   if (environment.production) {
     return null;
   }

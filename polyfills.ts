@@ -76,7 +76,7 @@ import "angular-polyfills/dist/shim.js";
 // TypeError: Cannot set property 'true' of undefined
 // import 'angular-polyfills/dist/webanimations.js';
 
-/* istanbul ignore if */
+/* istanbul ignore next */
 if (typeof (window as any).global === "undefined") {
   (window as any).global = window;
   //(window as any)['global'] = window;

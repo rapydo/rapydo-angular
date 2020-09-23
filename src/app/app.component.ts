@@ -56,6 +56,7 @@ export class AppComponent implements OnInit {
     if (deviceService.isTablet()) {
       device = "tablet";
     }
+    /* istanbul ignore else */
     if (deviceService.isDesktop()) {
       device = "desktop";
     }
