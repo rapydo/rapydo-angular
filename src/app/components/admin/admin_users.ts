@@ -58,21 +58,19 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
       cellTemplate: this.dataName,
     });
 
-    let user_page = this.customization.get_option("user_page");
-    if (user_page !== null) {
-      if (user_page["group"]) {
-        this.columns.push({
-          name: "Group",
-          prop: "group",
-          cellTemplate: this.dataGroup,
-          flexGrow: 0.3,
-        });
-      }
+    if (this.customization.show_groups()) {
+      this.columns.push({
+        name: "Group",
+        prop: "group",
+        cellTemplate: this.dataGroup,
+        flexGrow: 0.3,
+      });
+    }
 
-      if (user_page["custom"]) {
-        for (let i = 0; i < user_page["custom"].length; i++) {
-          this.columns.push(user_page["custom"][i]);
-        }
+    const custom = this.customization.custom_user_data();
+    if (custom) {
+      for (let field of custom) {
+        this.columns.push(field);
       }
     }
 

@@ -30,8 +30,8 @@ export class AppComponent implements OnInit {
     private deviceService: DeviceDetectorService
   ) {
     this.enableFooter = environment.enableFooter === "true";
-    this.cookieLawText = this.customization.get_option("cookie_law_text");
-    this.cookieLawButton = this.customization.get_option("cookie_law_button");
+    this.cookieLawText = this.customization.cookie_law_text();
+    this.cookieLawButton = this.customization.cookie_law_button();
 
     let deviceInfo = deviceService.getDeviceInfo();
 
