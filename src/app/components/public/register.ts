@@ -67,9 +67,7 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
-    // retrieve custom fields from apis
-
-    // initial disclaimer
+    this.disclaimer = this.customization.registration_disclaimer();
 
     this.fields.push({
       key: "name",
@@ -148,8 +146,6 @@ export class RegisterComponent implements OnInit {
         },
       },
     });
-
-    this.disclaimer = this.customization.registration_disclaimer();
 
     const custom = this.customization.custom_registration_options();
     if (custom) {
