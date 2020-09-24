@@ -16,6 +16,8 @@ import { ProjectOptions } from "@app/custom.project.options";
 })
 export class RegisterComponent implements OnInit {
   public allowRegistration: boolean = false;
+  public allowTermsOfUse: boolean = false;
+
   public registration_title: string;
   public showRegistrationForm: boolean = false;
   public registration_message: string;
@@ -37,6 +39,7 @@ export class RegisterComponent implements OnInit {
     private customization: ProjectOptions
   ) {
     this.allowRegistration = environment.allowRegistration === "true";
+    this.allowTermsOfUse = environment.allowTermsOfUse === "true";
 
     this.route.params.subscribe((params) => {
       if (typeof params["token"] !== "undefined") {
@@ -148,18 +151,16 @@ export class RegisterComponent implements OnInit {
       },
     });
 
-    let custom = this.customization.get_option("registration");
+    if (this.allowTermsOfUse) {
+      console.log("?");
+    }
 
+    this.disclaimer = this.customization.registration_disclaimer();
+
+    const custom = this.customization.custom_registration_options();
     if (custom) {
-      if ("fields" in custom) {
-        for (let i = 0; i < custom["fields"].length; i++) {
-          let f = custom["fields"][i];
-          this.fields.push(f);
-        }
-      }
-
-      if ("disclaimer" in custom) {
-        this.disclaimer = custom["disclaimer"];
+      for (let field of custom) {
+        this.fields.push(field);
       }
     }
   }

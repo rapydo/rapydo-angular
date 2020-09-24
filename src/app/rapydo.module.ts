@@ -30,6 +30,7 @@ import { JwtInterceptor } from "@rapydo/jwt.interceptor";
 import { CustomNavbarComponent } from "@app/custom.navbar";
 import { CustomBrandComponent } from "@app/custom.navbar";
 import { CustomFooterComponent } from "@app/custom.footer";
+import { BaseProjectOptions } from "@rapydo/base.project.options";
 import { ProjectOptions } from "@app/custom.project.options";
 
 import { environment } from "@rapydo/../environments/environment";
@@ -126,6 +127,7 @@ let module_providers: any = [
   ApiService,
   FormlyService,
   NotificationService,
+  BaseProjectOptions,
   ProjectOptions,
   { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
 ];

@@ -247,7 +247,7 @@ export class LoginComponent implements OnInit {
   }
 
   showTermsOfUse(user: User) {
-    this.terms_of_use = this.customization.get_option("privacy_acceptance");
+    this.terms_of_use = this.customization.privacy_acceptance();
 
     this.modalRef = this.modalService.open(this.privacy_acceptance, {
       size: "lg",
