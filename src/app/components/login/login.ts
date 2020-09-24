@@ -4,8 +4,6 @@ import { FormGroup } from "@angular/forms";
 import { FormlyFieldConfig } from "@ngx-formly/core";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
-import { environment } from "@rapydo/../environments/environment";
-
 import { ApiService } from "@rapydo/services/api";
 import { AuthService } from "@rapydo/services/auth";
 import { User } from "@rapydo/types";
@@ -20,7 +18,6 @@ export class LoginComponent implements OnInit {
 
   public allowPasswordReset: boolean = false;
   public allowRegistration: boolean = false;
-  public allowTermsOfUse: boolean = false;
 
   public form = new FormGroup({});
   public fields: FormlyFieldConfig[] = [];
@@ -53,9 +50,8 @@ export class LoginComponent implements OnInit {
     private api: ApiService,
     private authService: AuthService
   ) {
-    this.allowRegistration = environment.allowRegistration === "true";
-    this.allowPasswordReset = environment.allowPasswordReset === "true";
-    this.allowTermsOfUse = environment.allowTermsOfUse === "true";
+    this.allowRegistration = customization.allowRegistration;
+    this.allowPasswordReset = customization.allowPasswordReset;
   }
 
   ngOnInit() {
@@ -163,7 +159,7 @@ export class LoginComponent implements OnInit {
               this.loading = false;
               let u: User = this.authService.getUser();
 
-              if (u.privacy_accepted || !this.allowTermsOfUse) {
+              if (u.privacy_accepted || !this.customization.allowTermsOfUse) {
                 this.router.navigate([this.returnUrl]);
               } else {
                 this.showTermsOfUse(u);
