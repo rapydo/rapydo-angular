@@ -70,6 +70,9 @@ describe("Registration", () => {
 
       cy.contains("Acceptance is mandatory");
 
+      cy.get("a").contains(" read)").click({ force: true });
+      cy.get("button").contains("I read it").click({ force: true });
+
       // Accept all privacy boxes
       cy.get("formly-field-terms_of_use_checkbox")
         .get('input[type="checkbox"]')
