@@ -174,21 +174,14 @@ export class LoginComponent implements OnInit {
         (error) => {
           if (error.status === 403) {
             const body = error.error;
-            let userMessage = "Unrecognized response from server";
-
-            let actions = body.actions;
 
             if (body === "Sorry, this account is not active") {
               this.accountNotActive = true;
-            } else if (typeof actions === "undefined") {
-              this.notify.showError(userMessage);
-              this.notify.showError(body.errors);
-            } else if (!(actions instanceof Array)) {
-              this.notify.showError(userMessage);
+            } else if (!body.actions) {
+              this.notify.showError("Unrecognized response from server");
               this.notify.showError(body.errors);
             } else {
-              for (let i = 0; i < actions.length; i++) {
-                let action = actions[i];
+              for (let action of body.actions.length) {
                 if (action === "FIRST LOGIN") {
                   this.panelTitle = "Please change your temporary password";
                   this.buttonText = "Change";
@@ -220,7 +213,7 @@ export class LoginComponent implements OnInit {
                   this.notify.showWarning(body.errors);
                 } else {
                   console.error("Unrecognized action: " + action);
-                  this.notify.showError(userMessage);
+                  this.notify.showError("Unrecognized response from server");
                 }
               }
 
