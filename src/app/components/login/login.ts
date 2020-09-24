@@ -248,35 +248,6 @@ export class LoginComponent implements OnInit {
 
   showTermsOfUse(user: User) {
     this.terms_of_use = this.customization.get_option("privacy_acceptance");
-    if (this.terms_of_use === null) {
-      this.terms_of_use = [
-        {
-          label: "Click here to visualize our Terms of Use",
-          text: `
-This is a default text, something like a lorem ipsum placeholder. 
-You should never visualize this text in a production environment. <br/>
-If you are reading this text your terms of use are missing in your customization component <br/>
-Please add something like this to your ProjectOptions.get_option (in custom.project.options.ts)<br />
-<br/>
-<pre>
-  if (opt === "privacy_acceptance") {
-    return this.privacy_acceptance();
-  }
-
-  private privacy_acceptance() {
-    return [
-      {
-        label: "Click here to visualize our Terms of Use",
-        text: "Your Terms of Use",
-      },
-    ];
-  }
-</pre>
-<br/>
-`,
-        },
-      ];
-    }
 
     this.modalRef = this.modalService.open(this.privacy_acceptance, {
       size: "lg",
