@@ -193,8 +193,23 @@ export class RegisterComponent implements OnInit {
       return false;
     }
     this.loading = true;
+
+    // Removed privacy statements from the model (not defined in backend input model)
+    const to_be_removed = [];
+    for (let k in this.model) {
+      if (k.endsWith("_optin")) {
+        to_be_removed.push(k);
+      }
+    }
+    const cleaned_model = { ...this.model };
+    for (let k of to_be_removed) {
+      delete cleaned_model[k];
+    }
+
     this.api
-      .post<string>("/auth/profile", this.model, { validationSchema: "String" })
+      .post<string>("/auth/profile", cleaned_model, {
+        validationSchema: "String",
+      })
       .subscribe(
         (data) => {
           this.showRegistrationForm = false;
