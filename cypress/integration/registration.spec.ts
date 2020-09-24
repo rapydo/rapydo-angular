@@ -28,17 +28,6 @@ describe("Registration", () => {
       ).as("confirmation");
       cy.get('button:contains("Register")').as("submit");
 
-      cy.contains("Acceptance is mandatory");
-
-      // Accept all privacy boxes
-      cy.get("formly-field-terms_of_use_checkbox")
-        .get('input[type="checkbox"]')
-        .each(($el, index, $list) => {
-          cy.wrap($el).click({ force: true });
-        });
-
-      cy.get('button:contains("Register")').as("submit");
-
       // Submit empty form (validations errors for all required fields are expected)
       cy.get("@submit").click({ force: true });
 
@@ -76,6 +65,17 @@ describe("Registration", () => {
       cy.get("formly-validation-message")
         .eq(2)
         .contains("Password not matching");
+
+      cy.get("@submit").click({ force: true });
+
+      cy.contains("Acceptance is mandatory");
+
+      // Accept all privacy boxes
+      cy.get("formly-field-terms_of_use_checkbox")
+        .get('input[type="checkbox"]')
+        .each(($el, index, $list) => {
+          cy.wrap($el).click({ force: true });
+        });
 
       cy.get("@submit").click({ force: true });
 
