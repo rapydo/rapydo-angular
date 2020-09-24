@@ -149,16 +149,41 @@ export class RegisterComponent implements OnInit {
       },
     });
 
-    if (this.customization.allowTermsOfUse) {
-      console.log("?");
-    }
-
     this.disclaimer = this.customization.registration_disclaimer();
 
     const custom = this.customization.custom_registration_options();
     if (custom) {
       for (let field of custom) {
         this.fields.push(field);
+      }
+    }
+
+    if (this.customization.allowTermsOfUse) {
+      const privacy = this.customization.privacy_acceptance();
+
+      if (privacy) {
+        this.fields.push({
+          className: "section-label",
+          template:
+            "<hr><div><strong>To protect your privacy we ask you to accept our:</strong></div>",
+        });
+
+        for (let p of privacy) {
+          const field = {
+            key: p.label.toLowerCase().replace(/ /gi, "_") + "_optin",
+            type: "terms_of_use",
+            templateOptions: {
+              label: p.label,
+              terms_of_use: p.text,
+            },
+            validators: {
+              fieldMatch: {
+                expression: (control) => control.value,
+              },
+            },
+          };
+          this.fields.push(field);
+        }
       }
     }
   }

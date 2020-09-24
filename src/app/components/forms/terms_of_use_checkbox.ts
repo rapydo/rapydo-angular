@@ -14,7 +14,7 @@ import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
         type="checkbox"
         [id]="id"
         [class.is-invalid]="showError"
-        [indeterminate]="to.indeterminate && model.get(key) === null"
+        [indeterminate]="to.indeterminate"
         [formControl]="formControl"
         [formlyAttributes]="field"
       />
@@ -25,6 +25,10 @@ import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
       <a (click)="open(content)">
         ( <i class="fas fa-external-link-alt"></i> read)
       </a>
+      <div *ngIf="showError" class="invalid-feedback" [style.display]="'block'">
+        Acceptance is mandatory
+        <formly-validation-message [field]="field"></formly-validation-message>
+      </div>
     </div>
 
     <ng-template #content let-c="close" let-d="dismiss">
