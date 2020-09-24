@@ -195,15 +195,11 @@ export class RegisterComponent implements OnInit {
     this.loading = true;
 
     // Removed privacy statements from the model (not defined in backend input model)
-    const to_be_removed = [];
+    const cleaned_model = { ...this.model };
     for (let k in this.model) {
       if (k.endsWith("_optin")) {
-        to_be_removed.push(k);
+        delete cleaned_model[k];
       }
-    }
-    const cleaned_model = { ...this.model };
-    for (let k of to_be_removed) {
-      delete cleaned_model[k];
     }
 
     this.api
