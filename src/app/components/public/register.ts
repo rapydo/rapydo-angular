@@ -159,7 +159,7 @@ export class RegisterComponent implements OnInit {
     }
 
     if (this.customization.allowTermsOfUse) {
-      const privacy = this.customization.privacy_acceptance();
+      const privacy = this.customization.privacy_statements();
 
       if (privacy) {
         this.fields.push({
