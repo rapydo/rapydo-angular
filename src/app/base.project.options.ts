@@ -8,7 +8,7 @@ export abstract class BaseProjectOptions {
   public allowTermsOfUse: boolean = environment.allowTermsOfUse === "true";
   public enableFooter: boolean = environment.enableFooter === "true";
 
-  abstract privacy_acceptance(): any;
+  abstract privacy_statements(): any;
 
   // It is used in admin users page to enable group column
   abstract show_groups(): boolean;
