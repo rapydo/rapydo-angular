@@ -44,7 +44,7 @@ script:
       seespee --level 1 --validate https://localhost
 
       echo "{}" > cypress.json
-      cypress run --browser chrome --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
+      cypress run --browser chrome --record --group prod --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
 
     elif [[ "$STAGE" == "cypress" ]]; then
 
