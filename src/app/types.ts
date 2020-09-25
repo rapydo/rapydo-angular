@@ -131,7 +131,7 @@ interface CPUStats {
    */
   readonly count: number;
   /**
-   * @maximum 100
+   * @minimum 0
    */
   readonly load: number;
   /**

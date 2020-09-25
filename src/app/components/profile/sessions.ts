@@ -107,8 +107,7 @@ export class SessionsComponent extends BasePaginationComponent<Session> {
     ];
     let download_data = [];
 
-    for (let index in this.unfiltered_data) {
-      let t = this.unfiltered_data[index];
+    for (let t of this.unfiltered_data) {
       download_data.push([
         t["IP"],
         t["location"],

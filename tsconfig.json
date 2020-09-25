@@ -26,6 +26,7 @@
     "emitDecoratorMetadata": true,
 
     // Remove all comments except copy-right header comments beginning with /*!
+    // Kept because used to ignore lines of code from coverage via istanbul ignore
     "removeComments": false,
 
     // Needed to load json schemas from file (for aij validation)
