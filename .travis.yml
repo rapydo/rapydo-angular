@@ -40,6 +40,9 @@ script:
       rapydo dump;
       rapydo -s frontend logs --follow;
       docker-compose logs --tail 2 frontend 2>&1 | grep "files have been compressed.";
+      docker-compose logs --tail 20 backend
+      docker-compose logs --tail 20 proxy
+      curl --insecure -X GET https://localhost
       npm install -g seespee cypress
       seespee --level 1 --validate https://localhost
 
