@@ -35,5 +35,24 @@ describe("Validate", () => {
     expect(errors).not.toBeNull();
     expect(errors[0]).not.toBeUndefined();
     expect(errors[0]).toBe("Response contains unknown property: .extra = null");
+
+    errors = validate("SimpleUser", {
+      email: "sample@nomail.org",
+      name: "Name",
+    });
+
+    expect(errors).not.toBeNull();
+    expect(errors[0]).not.toBeUndefined();
+    expect(errors[0]).toBe("Response should have required property 'surname'");
+
+    errors = validate("SimpleUser", {
+      email: "sample@nomail.org",
+      name: "Name",
+      surname: 42,
+    });
+
+    expect(errors).not.toBeNull();
+    expect(errors[0]).not.toBeUndefined();
+    expect(errors[0]).toBe("Response should be string...");
   });
 });
