@@ -64,9 +64,7 @@ describe("Validate", () => {
 
     expect(errors).not.toBeNull();
     expect(errors[0]).not.toBeUndefined();
-    expect(errors[0]).toBe(
-      "Response[0] should have required property 'surname'"
-    );
+    expect(errors[0]).toBe("Response[0] should have required property 'uuid'");
 
     errors = validate("Groups", [
       {
