@@ -6,9 +6,7 @@ export type Boolean = boolean;
 
 // It is used in Sessions response
 export interface SimpleUser {
-  /**
-   * @format email
-   */
+  /** @format email */
   readonly email: string;
   readonly name: string;
   readonly surname: string;
@@ -44,17 +42,11 @@ export interface User extends SimpleUserWithId, CustomUser {
 export interface AdminUser extends SimpleUserWithId, CustomUser {
   readonly is_active: boolean;
   readonly privacy_accepted: boolean;
-  /**
-   * @nullable
-   */
+  /** @nullable */
   readonly last_login: Date;
-  /**
-   * @nullable
-   */
+  /** @nullable */
   readonly first_login: Date;
-  /**
-   * @nullable
-   */
+  /** @nullable */
   readonly last_password_change: Date;
   readonly roles: any;
   readonly group?: Group[];
@@ -66,9 +58,7 @@ export interface Session {
   readonly id: string;
   readonly token: string;
   readonly IP: string;
-  /**
-   * @nullable
-   */
+  /** @nullable */
   readonly location: string;
   readonly user?: SimpleUser;
   readonly emitted: Date;
@@ -78,28 +68,18 @@ export interface Session {
 export interface Sessions extends Array<Session> {}
 
 export interface Paging {
-  /**
-   * @minimum 1
-   */
+  /** @minimum 1 */
   page: number;
-  /**
-   * @minimum 1
-   */
+  /** @minimum 1 */
   readonly itemsPerPage: number;
-  /**
-   * @minimum 0
-   */
+  /** @minimum 0 */
   numPages: number;
-  /**
-   * @minimum 0
-   */
+  /** @minimum 0 */
   dataLength: number;
 }
 
 export interface Total {
-  /**
-   * @minimum 0
-   */
+  /** @minimum 0 */
   readonly total: number;
 }
 export interface Confirmation {
@@ -126,13 +106,9 @@ export interface Schema {
 }
 
 interface CPUStats {
-  /**
-   * @minimum 1
-   */
+  /** @minimum 1 */
   readonly count: number;
-  /**
-   * @minimum 0
-   */
+  /** @minimum 0 */
   readonly load: number;
   /**
    * @minimum 0
@@ -162,17 +138,11 @@ interface CPUStats {
 }
 
 interface DiskStats {
-  /**
-   * @minimum 1
-   */
+  /** @minimum 1 */
   readonly free_disk_space: number;
-  /**
-   * @minimum 1
-   */
+  /** @minimum 1 */
   readonly total_disk_space: number;
-  /**
-   * @minimum 1
-   */
+  /** @minimum 1 */
   readonly used_disk_space: number;
   /**
    * @minimum 0
@@ -182,94 +152,56 @@ interface DiskStats {
 }
 
 interface IOStats {
-  /**
-   * @minimum 0
-   */
+  /** @minimum 0 */
   readonly blocks_received: number;
-  /**
-   * @minimum 0
-   */
+  /** @minimum 0 */
   readonly blocks_sent: number;
 }
 
 interface NetworkStats {
-  /**
-   * @minimum 0
-   */
+  /** @minimum 0 */
   readonly min: number;
-  /**
-   * @minimum 0
-   */
+  /** @minimum 0 */
   readonly max: number;
-  /**
-   * @minimum 0
-   */
+  /** @minimum 0 */
   readonly avg: number;
 }
 
 interface ProcsStats {
-  /**
-   * @minimum 0
-   */
+  /** @minimum 0 */
   readonly waiting_for_run: number;
-  /**
-   * @minimum 0
-   */
+  /** @minimum 0 */
   readonly uninterruptible_sleep: number;
 }
 
 interface RAMStats {
-  /**
-   * @minimum 0
-   */
+  /** @minimum 0 */
   readonly active: number;
-  /**
-   * @minimum 0
-   */
+  /** @minimum 0 */
   readonly buffer: number;
-  /**
-   * @minimum 0
-   */
+  /** @minimum 0 */
   readonly cache: number;
-  /**
-   * @minimum 0
-   */
+  /** @minimum 0 */
   readonly free: number;
-  /**
-   * @minimum 0
-   */
+  /** @minimum 0 */
   readonly inactive: number;
-  /**
-   * @minimum 0
-   */
+  /** @minimum 0 */
   readonly total: number;
-  /**
-   * @minimum 0
-   */
+  /** @minimum 0 */
   readonly used: number;
 }
 
 interface SwapStats {
-  /**
-   * @minimum 0
-   */
+  /** @minimum 0 */
   readonly free: number;
-  /**
-   * @minimum 0
-   */
+  /** @minimum 0 */
   readonly from_disk: number;
-  /**
-   * @minimum 0
-   */
+  /** @minimum 0 */
   readonly to_disk: number;
-  /**
-   * @minimum 0
-   */
+  /** @minimum 0 */
 
   readonly total: number;
-  /**
-   * @minimum 0
-   */
+  /** @minimum 0 */
 
   readonly used: number;
 }
