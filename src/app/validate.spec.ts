@@ -77,7 +77,7 @@ describe("Validate", () => {
     expect(errors).not.toBeNull();
     expect(errors[0]).not.toBeUndefined();
     expect(errors[0]).toBe(
-      "Response[0] contains unknown property: .extra = null"
+      "Response contains unknown property: [0].extra = invalid"
     );
 
     errors = validate("Groups", [
