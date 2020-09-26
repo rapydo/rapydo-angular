@@ -18,6 +18,25 @@ if (!environment.production) {
   }
 }
 
+// https://stackoverflow.com/questions/6491463/accessing-nested-javascript-objects-and-arays-by-string-path
+/* istanbul ignore next */
+function get_value(obj: any, data_path: string): any {
+  // convert indexes to properties
+  data_path = data_path.replace(/\[(\w+)\]/g, ".$1");
+  // strip a leading dot
+  data_path = data_path.replace(/^\./, "");
+  const a = data_path.split(".");
+  for (let i = 0, n = a.length; i < n; ++i) {
+    let k = a[i];
+    if (k in obj) {
+      obj = obj[k];
+    } else {
+      return;
+    }
+  }
+  return obj;
+}
+
 export function validate(ref, data) {
   // Validation is currently not enabled in production due to limitations with CSP
   /* istanbul ignore if */
@@ -28,7 +47,7 @@ export function validate(ref, data) {
   const validator = ajv.getSchema("#/definitions/" + ref);
   /* istanbul ignore if */
   if (!validator) {
-    console.warn("Validation function not found");
+    console.warn("Validation function " + ref + " not found");
     return null;
   }
 
@@ -43,11 +62,20 @@ export function validate(ref, data) {
   /* istanbul ignore next */
   for (let error of validator.errors) {
     if (error.keyword === "additionalProperties") {
+      const data_path =
+        error.dataPath + "." + error.params["additionalProperty"];
+      const value = get_value(data, data_path);
       errors.push(
-        "Found unknown property " + error.params["additionalProperty"]
+        "Response contains unknown property: " + data_path + " = " + value
       );
-    } else if (error.dataPath) {
+    } else if (error.keyword == "required") {
+      // Response should have required property 'xyz'
       errors.push("Response" + error.dataPath + " " + error.message);
+    } else if (error.dataPath) {
+      const value = get_value(data, error.dataPath);
+      errors.push(
+        "Response" + error.dataPath + " = " + value + " " + error.message
+      );
     } else {
       errors.push("Response " + error.message);
     }

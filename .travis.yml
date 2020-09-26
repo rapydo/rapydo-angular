@@ -40,7 +40,6 @@ script:
       rapydo dump;
       rapydo -s frontend logs --follow;
       docker-compose logs --tail 2 frontend 2>&1 | grep "files have been compressed.";
-      docker-compose logs --tail 20 backend;
       docker-compose logs --tail 20 proxy;
       curl --insecure -X GET https://localhost;
       npm install -g seespee cypress;
@@ -48,7 +47,7 @@ script:
       curl --silent --head --insecure -X GET https://localhost/app/index.html | grep "cache-control: no-store";
 
       echo "{}" > cypress.json
-      cypress run --browser chrome --record --group prod --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
+      cypress run --browser chrome --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
 
     elif [[ "$STAGE" == "cypress" ]]; then
 

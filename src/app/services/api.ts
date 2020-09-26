@@ -170,7 +170,7 @@ export class ApiService {
           if (errors) {
             for (let error of errors) {
               this.notify.showError(error);
-              // console.log(error);
+              console.error(error);
             }
             throw new Error("Response validation error");
           }

@@ -157,7 +157,6 @@ export class AuthService {
   }
 
   private removeToken() {
-    console.log("remove token");
     this.clean_localstorage();
     localStorage.removeItem("token");
     localStorage.removeItem("currentUser");
