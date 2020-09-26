@@ -45,7 +45,6 @@ export function validate(ref, data) {
   }
 
   const validator = ajv.getSchema("#/definitions/" + ref);
-  /* istanbul ignore if */
   if (!validator) {
     console.warn("Validation function " + ref + " not found");
     return null;
@@ -68,7 +67,7 @@ export function validate(ref, data) {
       errors.push(
         "Response contains unknown property: " + data_path + " = " + value
       );
-    } else if (error.keyword == "required") {
+    } else if (error.keyword === "required") {
       // Response should have required property 'xyz'
       errors.push("Response" + error.dataPath + " " + error.message);
     } else if (error.dataPath) {

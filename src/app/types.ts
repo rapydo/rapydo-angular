@@ -3,6 +3,7 @@ import { CustomUser } from "@app/types";
 export type UUID = string;
 export type String = string;
 export type Boolean = boolean;
+export type Number = number;
 
 // as returned by keyvalue pipe
 export interface KeyValue {
