@@ -4,6 +4,12 @@ export type UUID = string;
 export type String = string;
 export type Boolean = boolean;
 
+// as returned by keyvalue pipe
+export interface KeyValue {
+  readonly key: string;
+  readonly value: string;
+}
+
 // It is used in Sessions response
 export interface SimpleUser {
   /** @format email */
