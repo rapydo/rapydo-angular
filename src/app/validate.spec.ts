@@ -2,17 +2,14 @@ import { validate } from "@rapydo/validate";
 
 describe("Validate", () => {
   it("validate", () => {
-    let data = {
-      invalid: "invalid",
-    };
+    expect(validate("InvalidSchema", { invalid: "invalid" })).toBeNull();
 
-    expect(validate("InvalidSchema", data)).toBeNull();
-
-    data = {
-      email: "sample@nomail.org",
-      name: "Name",
-      surname: "Surname",
-    };
-    expect(validate("SimpleUser", data)).toBeNull();
+    expect(
+      validate("SimpleUser", {
+        email: "sample@nomail.org",
+        name: "Name",
+        surname: "Surname",
+      })
+    ).toBeNull();
   });
 });
