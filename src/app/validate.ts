@@ -10,6 +10,7 @@ const ajv = Ajv({
 });
 
 // Validation is currently not enabled in production due to limitations with CSP
+/* istanbul ignore else */
 if (!environment.production) {
   for (let definition in schema["definitions"]) {
     const def = schema["definitions"][definition];
@@ -19,7 +20,6 @@ if (!environment.production) {
 }
 
 // https://stackoverflow.com/questions/6491463/accessing-nested-javascript-objects-and-arays-by-string-path
-/* istanbul ignore next */
 function get_value(obj: any, data_path: string): any {
   // convert indexes to properties
   data_path = data_path.replace(/\[(\w+)\]/g, ".$1");
@@ -58,7 +58,6 @@ export function validate(ref, data) {
 
   console.warn("Response does not meet " + ref + " schema");
   let errors = [];
-  /* istanbul ignore next */
   for (let error of validator.errors) {
     if (error.keyword === "additionalProperties") {
       const data_path =
