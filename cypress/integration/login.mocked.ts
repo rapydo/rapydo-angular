@@ -30,7 +30,8 @@ describe("Mocked logins", () => {
       expect(location.pathname).to.eq("/app/login");
     });
 
-    // verify something
+    cy.get("div.card-header h4").contains("This account is not active");
+    cy.get("div.card-block").contains("Didn't receive an activation link?");
   });
 
   it("Login - Missing actions", () => {
@@ -49,7 +50,7 @@ describe("Mocked logins", () => {
       expect(location.pathname).to.eq("/app/login");
     });
 
-    // verify something
+    cy.checkalert("Unrecognized response from server");
   });
 
   it("Login - Empty actions", () => {
@@ -69,7 +70,7 @@ describe("Mocked logins", () => {
       expect(location.pathname).to.eq("/app/login");
     });
 
-    // verify something
+    cy.checkalert("Unrecognized response from server");
   });
 
   it("Login - FIRST LOGIN", () => {
@@ -90,6 +91,70 @@ describe("Mocked logins", () => {
     });
 
     // verify something
+
+    // fill form!
+  });
+
+  it("Login - PASSWORD EXPIRED", () => {
+    cy.route({
+      method: "POST",
+      url: "/auth/login",
+      status: 403,
+      response: {
+        actions: ["PASSWORD EXPIRED"],
+        errors: ["Your password is expired, please change it"],
+      },
+    });
+
+    cy.get("button").contains("Login").click();
+
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/login");
+    });
+
+    // verify something
+
+    // fill form!
+  });
+
+  it("Login - TOTP", () => {
+    cy.route({
+      method: "POST",
+      url: "/auth/login",
+      status: 403,
+      response: {
+        actions: ["TOTP"],
+        errors: ["You do not provided a valid second factor"],
+      },
+    });
+
+    cy.get("button").contains("Login").click();
+
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/login");
+    });
+
+    // verify something
+  });
+
+  it("Login - Unknown action", () => {
+    cy.route({
+      method: "POST",
+      url: "/auth/login",
+      status: 403,
+      response: {
+        actions: ["invalid"],
+        errors: ["invalid"],
+      },
+    });
+
+    cy.get("button").contains("Login").click();
+
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/login");
+    });
+
+    cy.checkalert("Unrecognized response from server");
   });
 
   afterEach(() => {
