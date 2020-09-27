@@ -24,6 +24,10 @@ describe("Mocked logins", () => {
       response: {
         actions: ["FIRST LOGIN"],
         errors: ["Please change your temporary password"],
+        error: {
+          actions: ["FIRST LOGIN"],
+          errors: ["Please change your temporary password"],
+        },
       },
     });
 
