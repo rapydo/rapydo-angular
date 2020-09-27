@@ -5,15 +5,28 @@ describe("Mocked logins", () => {
   beforeEach(() => {
     cy.visit("/app/login");
     cy.closecookielaw();
-  });
 
-  it("Login - FIRST LOGIN", () => {
     cy.get("input[placeholder='Your password']").type(
       Cypress.env("AUTH_DEFAULT_PASSWORD")
     );
     cy.get("input[placeholder='Your username (email)']").type(
       Cypress.env("AUTH_DEFAULT_USERNAME")
     );
+
+    cy.server();
+  });
+
+  it("Login - FIRST LOGIN", () => {
+    cy.route({
+      method: "POST",
+      url: "/auth/login",
+      status: 403,
+      response: {
+        actions: ["FIRST LOGIN"],
+        errors: ["Please change your temporary password"],
+      },
+    });
+
     cy.get("button").contains("Login").click();
 
     cy.location().should((location) => {
@@ -22,6 +35,7 @@ describe("Mocked logins", () => {
   });
 
   afterEach(() => {
-    // restore default password and logout
+    cy.server({ enable: false });
+    // restore default password and logout? Only for successful logins
   });
 });
