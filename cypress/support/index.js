@@ -15,7 +15,36 @@ Cypress.Commands.add("login", () => {
     failOnStatusCode: false,
   }).then((response) => {
     if (response.status == 403) {
-      cy.wrap(response.body).its("body").should("eq", 42);
+      cy.wrap(response.body)
+        .its("actions")
+        .should(($actions) => {
+          // Is this chaijs syntax?
+          expect($actions).to.be.an("array");
+          expect($actions).to.have.lengthOf.above(0);
+          expect($actions[0]).to.equal("FIRST LOGIN");
+
+          // send new password
+          cy.request({
+            method: "POST",
+            url: Cypress.env("API_URL") + "auth/login",
+            body: {
+              username: Cypress.env("AUTH_DEFAULT_USERNAME"),
+              password: Cypress.env("AUTH_DEFAULT_PASSWORD"),
+              new_password: Cypress.env("AUTH_DEFAULT_PASSWORD") + "!",
+              password_confirm: Cypress.env("AUTH_DEFAULT_PASSWORD") + "!",
+            },
+          }).then((response) => {
+            // restore default password
+            cy.pwdchange(
+              Cypress.env("AUTH_DEFAULT_USERNAME"),
+              Cypress.env("AUTH_DEFAULT_PASSWORD") + "!",
+              Cypress.env("AUTH_DEFAULT_PASSWORD")
+            );
+          });
+
+          // now you can login again
+          cy.login();
+        });
       // cy.login();
     } else if (response.status == 200) {
       cy.setLocalStorage("token", JSON.stringify(response.body));
