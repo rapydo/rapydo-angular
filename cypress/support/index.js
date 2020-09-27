@@ -34,18 +34,18 @@ Cypress.Commands.add("login", () => {
               password_confirm: Cypress.env("AUTH_DEFAULT_PASSWORD") + "!",
             },
           }).then((response) => {
-            // restore default password
+            // First password changed, now:
+            // 1 - restore default password
             cy.pwdchange(
               Cypress.env("AUTH_DEFAULT_USERNAME"),
               Cypress.env("AUTH_DEFAULT_PASSWORD") + "!",
               Cypress.env("AUTH_DEFAULT_PASSWORD")
             );
-          });
 
-          // now you can login again
-          cy.login();
+            // 2 - login again with the default password
+            cy.login();
+          });
         });
-      // cy.login();
     } else if (response.status == 200) {
       cy.setLocalStorage("token", JSON.stringify(response.body));
 
