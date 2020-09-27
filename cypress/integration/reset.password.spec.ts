@@ -161,8 +161,7 @@ describe("ResetPassword", () => {
         cy.pwdchange(
           Cypress.env("AUTH_DEFAULT_USERNAME"),
           newPassword,
-          Cypress.env("AUTH_DEFAULT_PASSWORD"),
-          false
+          Cypress.env("AUTH_DEFAULT_PASSWORD")
         );
       });
     });
