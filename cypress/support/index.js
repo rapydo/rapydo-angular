@@ -34,7 +34,6 @@ Cypress.Commands.add("login", () => {
               password_confirm: Cypress.env("AUTH_DEFAULT_PASSWORD") + "!",
             },
           }).then((response) => {
-            cy.log("First password changed");
             // First password changed, now:
             // 1 - restore default password
             cy.pwdchange(
@@ -43,10 +42,8 @@ Cypress.Commands.add("login", () => {
               Cypress.env("AUTH_DEFAULT_PASSWORD")
             );
 
-            cy.log("Password change request sent");
-            // 2 - wait for the password change to complete (3 seconds should be enough)
-            cy.wait(3000);
-            cy.log("waited 3 seconds, now can we login agin?");
+            // 2 - wait for the password change to complete
+            cy.wait(60000);
 
             // 3 - login again with the default password
             cy.login();
