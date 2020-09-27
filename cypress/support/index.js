@@ -34,6 +34,7 @@ Cypress.Commands.add("login", () => {
               password_confirm: Cypress.env("AUTH_DEFAULT_PASSWORD") + "!",
             },
           }).then((response) => {
+            cy.log("First password changed");
             // First password changed, now:
             // 1 - restore default password
             cy.pwdchange(
@@ -42,8 +43,10 @@ Cypress.Commands.add("login", () => {
               Cypress.env("AUTH_DEFAULT_PASSWORD")
             );
 
-            // 2 - wait for the password change to complete (1 second should be enough)
-            cy.wait(1000);
+            cy.log("Password change request sent");
+            // 2 - wait for the password change to complete (3 seconds should be enough)
+            cy.wait(3000);
+            cy.log("waited 3 seconds, now can we login agin?");
 
             // 3 - login again with the default password
             cy.login();
@@ -70,8 +73,8 @@ Cypress.Commands.add("login", () => {
 });
 Cypress.Commands.add("pwdchange", (username, password, new_password) => {
   const password_confirm = new_password;
-  //                                         This is ES6 Literal Shorthand Syntax
   cy.request("POST", Cypress.env("API_URL") + "auth/login", {
+    // This is ES6 Literal Shorthand Syntax
     username,
     password,
   })
