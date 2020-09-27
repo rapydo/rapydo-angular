@@ -42,7 +42,10 @@ Cypress.Commands.add("login", () => {
               Cypress.env("AUTH_DEFAULT_PASSWORD")
             );
 
-            // 2 - login again with the default password
+            // 2 - wait for the password change to complete (1 second should be enough)
+            cy.wait(1000);
+
+            // 3 - login again with the default password
             cy.login();
           });
         });
