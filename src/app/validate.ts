@@ -28,6 +28,7 @@ function get_value(obj: any, data_path: string): any {
   const a = data_path.split(".");
   for (let i = 0, n = a.length; i < n; ++i) {
     let k = a[i];
+    /* istanbul ignore else */
     if (k in obj) {
       obj = obj[k];
     } else {
@@ -75,6 +76,7 @@ export function validate(ref, data) {
         "Response" + error.dataPath + " = " + value + " " + error.message
       );
     } else {
+      /* istanbul ignore next */
       errors.push("Response " + error.message);
     }
   }
