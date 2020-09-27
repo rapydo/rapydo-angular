@@ -21,14 +21,15 @@ describe("Mocked logins", () => {
       method: "POST",
       url: "/auth/login",
       status: 403,
-      response: {
-        actions: ["FIRST LOGIN"],
-        errors: ["Please change your temporary password"],
-        error: {
-          actions: ["FIRST LOGIN"],
-          errors: ["Please change your temporary password"],
-        },
-      },
+      response: "Sorry, this account is not active",
+      // response: {
+      //   actions: ["FIRST LOGIN"],
+      //   errors: ["Please change your temporary password"],
+      //   error: {
+      //     actions: ["FIRST LOGIN"],
+      //     errors: ["Please change your temporary password"],
+      //   },
+      // },
     });
 
     cy.get("button").contains("Login").click();
