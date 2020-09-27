@@ -177,7 +177,7 @@ export class LoginComponent implements OnInit {
 
             if (body === "Sorry, this account is not active") {
               this.accountNotActive = true;
-            } else if (!body.actions) {
+            } else if (!body.actions || body.actions.length === 0) {
               this.notify.showError("Unrecognized response from server");
               this.notify.showError(body.errors);
             } else {
