@@ -16,20 +16,12 @@ describe("Mocked logins", () => {
     cy.server();
   });
 
-  it("Login - FIRST LOGIN", () => {
+  it("Login - Account not active", () => {
     cy.route({
       method: "POST",
       url: "/auth/login",
       status: 403,
       response: "Sorry, this account is not active",
-      // response: {
-      //   actions: ["FIRST LOGIN"],
-      //   errors: ["Please change your temporary password"],
-      //   error: {
-      //     actions: ["FIRST LOGIN"],
-      //     errors: ["Please change your temporary password"],
-      //   },
-      // },
     });
 
     cy.get("button").contains("Login").click();
@@ -37,6 +29,67 @@ describe("Mocked logins", () => {
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/login");
     });
+
+    // verify something
+  });
+
+  it("Login - Missing actions", () => {
+    cy.route({
+      method: "POST",
+      url: "/auth/login",
+      status: 403,
+      response: {
+        errors: ["Please change your temporary password"],
+      },
+    });
+
+    cy.get("button").contains("Login").click();
+
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/login");
+    });
+
+    // verify something
+  });
+
+  it("Login - Empty actions", () => {
+    cy.route({
+      method: "POST",
+      url: "/auth/login",
+      status: 403,
+      response: {
+        actions: [],
+        errors: [],
+      },
+    });
+
+    cy.get("button").contains("Login").click();
+
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/login");
+    });
+
+    // verify something
+  });
+
+  it("Login - FIRST LOGIN", () => {
+    cy.route({
+      method: "POST",
+      url: "/auth/login",
+      status: 403,
+      response: {
+        actions: ["FIRST LOGIN"],
+        errors: ["Please change your temporary password"],
+      },
+    });
+
+    cy.get("button").contains("Login").click();
+
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/login");
+    });
+
+    // verify something
   });
 
   afterEach(() => {

@@ -181,7 +181,7 @@ export class LoginComponent implements OnInit {
               this.notify.showError("Unrecognized response from server");
               this.notify.showError(body.errors);
             } else {
-              for (let action of body.actions.length) {
+              for (let action of body.actions) {
                 if (action === "FIRST LOGIN") {
                   this.panelTitle = "Please change your temporary password";
                   this.buttonText = "Change";
