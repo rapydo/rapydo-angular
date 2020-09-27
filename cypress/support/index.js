@@ -39,14 +39,9 @@ Cypress.Commands.add("login", () => {
             cy.pwdchange(
               Cypress.env("AUTH_DEFAULT_USERNAME"),
               Cypress.env("AUTH_DEFAULT_PASSWORD") + "!",
-              Cypress.env("AUTH_DEFAULT_PASSWORD")
+              Cypress.env("AUTH_DEFAULT_PASSWORD"),
+              true
             );
-
-            // 2 - wait for the password change to complete
-            cy.wait(60000);
-
-            // 3 - login again with the default password
-            cy.login();
           });
         });
     } else if (response.status == 200) {
@@ -68,26 +63,33 @@ Cypress.Commands.add("login", () => {
     }
   });
 });
-Cypress.Commands.add("pwdchange", (username, password, new_password) => {
-  const password_confirm = new_password;
-  cy.request("POST", Cypress.env("API_URL") + "auth/login", {
-    // This is ES6 Literal Shorthand Syntax
-    username,
-    password,
-  })
-    .its("body")
-    .then((token) => {
-      const options = {
-        method: "PUT",
-        url: Cypress.env("API_URL") + "auth/profile",
-        headers: { Authorization: `Bearer ${token}` },
-        body: { password, new_password, password_confirm },
-      };
-      cy.request(options).then((response) => {
-        cy.log("Password changed");
+Cypress.Commands.add(
+  "pwdchange",
+  (username, password, new_password, do_login) => {
+    const password_confirm = new_password;
+    cy.request("POST", Cypress.env("API_URL") + "auth/login", {
+      // This is ES6 Literal Shorthand Syntax
+      username,
+      password,
+    })
+      .its("body")
+      .then((token) => {
+        const options = {
+          method: "PUT",
+          url: Cypress.env("API_URL") + "auth/profile",
+          headers: { Authorization: `Bearer ${token}` },
+          body: { password, new_password, password_confirm },
+        };
+        cy.request(options).then((response) => {
+          cy.log("Password changed");
+          // this login will be executed by using the default password...
+          // not the new password provided here
+          // This should work because pwdchange is always used to restore the default pwd
+          cy.login();
+        });
       });
-    });
-});
+  }
+);
 Cypress.Commands.add("closecookielaw", () => {
   cy.get("cookie-law").within((el) => {
     cy.root().should("have.attr", "seen", "false");

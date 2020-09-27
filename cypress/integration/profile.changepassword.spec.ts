@@ -112,7 +112,8 @@ describe("ChangePassword", () => {
     cy.pwdchange(
       Cypress.env("AUTH_DEFAULT_USERNAME"),
       newPassword,
-      Cypress.env("AUTH_DEFAULT_PASSWORD")
+      Cypress.env("AUTH_DEFAULT_PASSWORD"),
+      false
     );
   });
 });
