@@ -70,13 +70,13 @@ export function validate(ref, data) {
     } else if (error.keyword === "required") {
       // Response should have required property 'xyz'
       errors.push("Response" + error.dataPath + " " + error.message);
+      /* istanbul ignore else */
     } else if (error.dataPath) {
       const value = get_value(data, error.dataPath);
       errors.push(
         "Response" + error.dataPath + " = " + value + " " + error.message
       );
     } else {
-      /* istanbul ignore next */
       errors.push("Response " + error.message);
     }
   }
