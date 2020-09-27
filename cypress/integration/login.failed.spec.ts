@@ -4,9 +4,7 @@
 describe("FailedLogin", () => {
   beforeEach(() => {
     cy.visit("/app/profile");
-
-    // Close the cookie law banner
-    cy.get('button:contains("Ok, got it")').click();
+    cy.closecookielaw();
 
     // Profile page is restricted and you are automatically redirected to login page
     cy.location().should((location) => {
