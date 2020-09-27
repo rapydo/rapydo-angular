@@ -5,33 +5,36 @@ import "cypress-localstorage-commands";
 /*global cy, Cypress*/
 
 Cypress.Commands.add("login", () => {
-  cy.request("POST", Cypress.env("API_URL") + "auth/login", {
-    username: Cypress.env("AUTH_DEFAULT_USERNAME"),
-    password: Cypress.env("AUTH_DEFAULT_PASSWORD"),
-  })
-    .its("body")
-    .then(
-      (response) => {
-        cy.setLocalStorage("token", JSON.stringify(response));
+  cy.request({
+    method: "POST",
+    url: Cypress.env("API_URL") + "auth/login",
+    body: {
+      username: Cypress.env("AUTH_DEFAULT_USERNAME"),
+      password: Cypress.env("AUTH_DEFAULT_PASSWORD"),
+    },
+    failOnStatusCode: false,
+  }).then((response) => {
+    if (response.status == 403) {
+      cy.wrap(response.body).its("body").should("eq", 42);
+      // cy.login();
+    } else if (response.status == 200) {
+      cy.setLocalStorage("token", JSON.stringify(response.body));
 
-        const options = {
-          method: "GET",
-          url: Cypress.env("API_URL") + "auth/profile",
-          headers: {
-            Authorization: `Bearer ${response}`,
-          },
-        };
+      const options = {
+        method: "GET",
+        url: Cypress.env("API_URL") + "auth/profile",
+        headers: {
+          Authorization: `Bearer ${response.body}`,
+        },
+      };
 
-        cy.request(options)
-          .its("body")
-          .then((response) => {
-            cy.setLocalStorage("currentUser", JSON.stringify(response));
-          });
-      },
-      (error) => {
-        error.should.be(403);
-      }
-    );
+      cy.request(options).then((response) => {
+        cy.setLocalStorage("currentUser", JSON.stringify(response.body));
+      });
+    } else {
+      throw new Error("Unexpected login response: " + response.status);
+    }
+  });
 });
 Cypress.Commands.add("pwdchange", (username, password, new_password) => {
   const password_confirm = new_password;
