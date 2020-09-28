@@ -171,7 +171,12 @@ describe("Mocked logins", () => {
       .type(Cypress.env("AUTH_DEFAULT_PASSWORD") + "!");
     cy.get("button").contains("Change").click();
 
-    // test the form!
+    // Restore the default password
+    cy.pwdchange(
+      Cypress.env("AUTH_DEFAULT_USERNAME"),
+      Cypress.env("AUTH_DEFAULT_PASSWORD") + "!",
+      Cypress.env("AUTH_DEFAULT_PASSWORD")
+    );
   });
 
   it("Login - PASSWORD EXPIRED", () => {
@@ -255,7 +260,12 @@ describe("Mocked logins", () => {
       .type(Cypress.env("AUTH_DEFAULT_PASSWORD") + "!");
     cy.get("button").contains("Change").click();
 
-    // test the form!
+    // Restore the default password
+    cy.pwdchange(
+      Cypress.env("AUTH_DEFAULT_USERNAME"),
+      Cypress.env("AUTH_DEFAULT_PASSWORD") + "!",
+      Cypress.env("AUTH_DEFAULT_PASSWORD")
+    );
   });
 
   it("Login - TOTP", () => {
