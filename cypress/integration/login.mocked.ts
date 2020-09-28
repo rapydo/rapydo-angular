@@ -107,6 +107,8 @@ describe("Mocked logins", () => {
       expect(location.pathname).to.eq("/app/login");
     });
 
+    cy.server({ enable: false });
+
     cy.checkalert("Please change your temporary password");
     cy.get("div.card-header h4").contains(
       "Please change your temporary password"
@@ -139,16 +141,32 @@ describe("Mocked logins", () => {
 
     cy.get("@pwd_confirm").type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
     cy.get("button").contains("Change").click();
-    // cy.checkalert("????????????????????");
+    cy.checkalert("The new password cannot match the previous password");
 
     cy.get("@new_pwd").type("loooooooong");
     cy.get("@pwd_confirm").type("loooooooong");
     cy.get("button").contains("Change").click();
-    // cy.checkalert("????????????????????");
+    cy.checkalert("Password is too weak, missing upper case letters");
 
-    // missing Upper, numbers, symbols
-
+    cy.get("@new_pwd").clear().type("LOOOOONG");
+    cy.get("@pwd_confirm").clear().type("LOOOOONG");
     cy.get("button").contains("Change").click();
+    cy.checkalert("Password is too weak, missing lower case letters");
+
+    cy.get("@new_pwd").clear().type("LoOoOoNg");
+    cy.get("@pwd_confirm").clear().type("LoOoOoNg");
+    cy.get("button").contains("Change").click();
+    cy.checkalert("Password is too weak, missing numbers");
+
+    cy.get("@new_pwd").clear().type("LoO0OoNg");
+    cy.get("@pwd_confirm").clear().type("LoO0OoNg");
+    cy.get("button").contains("Change").click();
+    cy.checkalert("Password is too weak, missing special characters");
+
+    cy.get("@new_pwd").type(Cypress.env("AUTH_DEFAULT_PASSWORD") + "!");
+    cy.get("@pwd_confirm").type(Cypress.env("AUTH_DEFAULT_PASSWORD") + "!");
+    cy.get("button").contains("Change").click();
+
     // test the form!
   });
 
@@ -169,13 +187,67 @@ describe("Mocked logins", () => {
       expect(location.pathname).to.eq("/app/login");
     });
 
+    cy.server({ enable: false });
+
     cy.checkalert("Your password is expired, please change it");
     cy.get("div.card-header h4").contains(
       "Your password is expired, please change it"
     );
     cy.get("button").contains("Change").click();
 
-    // test the form, copy the previous tests
+    cy.get("formly-validation-message")
+      .eq(0)
+      .contains("This field is required");
+    cy.get("formly-validation-message")
+      .eq(1)
+      .contains("This field is required");
+
+    cy.get("input[placeholder='Your new password']").as("new_pwd");
+    cy.get("input[placeholder='Confirm your new password']").as("pwd_confirm");
+
+    cy.get("@new_pwd").type("short");
+    cy.get("formly-validation-message")
+      .eq(0)
+      .contains("Should have at least 8 characters");
+    cy.get("button").contains("Change").click();
+
+    cy.get("@new_pwd").type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
+    cy.get("@pwd_confirm").type("invalid");
+
+    cy.get("formly-validation-message")
+      .eq(0)
+      .contains("The password does not match");
+    cy.get("button").contains("Change").click();
+
+    cy.get("@pwd_confirm").type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
+    cy.get("button").contains("Change").click();
+    cy.checkalert("The new password cannot match the previous password");
+
+    cy.get("@new_pwd").type("loooooooong");
+    cy.get("@pwd_confirm").type("loooooooong");
+    cy.get("button").contains("Change").click();
+    cy.checkalert("Password is too weak, missing upper case letters");
+
+    cy.get("@new_pwd").clear().type("LOOOOONG");
+    cy.get("@pwd_confirm").clear().type("LOOOOONG");
+    cy.get("button").contains("Change").click();
+    cy.checkalert("Password is too weak, missing lower case letters");
+
+    cy.get("@new_pwd").clear().type("LoOoOoNg");
+    cy.get("@pwd_confirm").clear().type("LoOoOoNg");
+    cy.get("button").contains("Change").click();
+    cy.checkalert("Password is too weak, missing numbers");
+
+    cy.get("@new_pwd").clear().type("LoO0OoNg");
+    cy.get("@pwd_confirm").clear().type("LoO0OoNg");
+    cy.get("button").contains("Change").click();
+    cy.checkalert("Password is too weak, missing special characters");
+
+    cy.get("@new_pwd").type(Cypress.env("AUTH_DEFAULT_PASSWORD") + "!");
+    cy.get("@pwd_confirm").type(Cypress.env("AUTH_DEFAULT_PASSWORD") + "!");
+    cy.get("button").contains("Change").click();
+
+    // test the form!
   });
 
   it("Login - TOTP", () => {
@@ -199,7 +271,7 @@ describe("Mocked logins", () => {
     cy.get("div.card-header h4").contains("Provide the verification cod");
     cy.get("button").contains("Authorize").click();
 
-    // fill the form!
+    // fill the form! Not yet (re)implemented
   });
 
   it("Login - Unknown action", () => {
