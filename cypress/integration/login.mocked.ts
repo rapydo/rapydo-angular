@@ -34,7 +34,7 @@ describe("Mocked logins", () => {
     cy.get("div.card-block").contains("Didn't receive an activation link?");
   });
 
-  it("Login - Missing actions", () => {
+  it("Login - Missing or empty actions", () => {
     cy.route({
       method: "POST",
       url: "/auth/login",
@@ -51,9 +51,7 @@ describe("Mocked logins", () => {
     });
 
     cy.checkalert("Unrecognized response from server");
-  });
 
-  it("Login - Empty actions", () => {
     cy.route({
       method: "POST",
       url: "/auth/login",
@@ -71,6 +69,25 @@ describe("Mocked logins", () => {
     });
 
     cy.checkalert("Unrecognized response from server");
+
+    cy.route({
+      method: "POST",
+      url: "/auth/login",
+      status: 403,
+      response: {
+        errors: ["Extra error1", "Extra error2"],
+      },
+    });
+
+    cy.get("button").contains("Login").click();
+
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/login");
+    });
+
+    cy.checkalert("Unrecognized response from server");
+    cy.checkalert("Extra error1");
+    cy.checkalert("Extra error2");
   });
 
   it("Login - FIRST LOGIN", () => {
@@ -90,9 +107,13 @@ describe("Mocked logins", () => {
       expect(location.pathname).to.eq("/app/login");
     });
 
-    // verify something
+    cy.checkalert("Please change your temporary password");
+    cy.get("div.card-header h4").contains(
+      "Please change your temporary password"
+    );
+    cy.get("button").contains("Change").click();
 
-    // fill form!
+    // fill the form!
   });
 
   it("Login - PASSWORD EXPIRED", () => {
@@ -112,9 +133,13 @@ describe("Mocked logins", () => {
       expect(location.pathname).to.eq("/app/login");
     });
 
-    // verify something
+    cy.checkalert("Your password is expired, please change it");
+    cy.get("div.card-header h4").contains(
+      "Your password is expired, please change it"
+    );
+    cy.get("button").contains("Change").click();
 
-    // fill form!
+    // fill the form!
   });
 
   it("Login - TOTP", () => {
@@ -134,7 +159,11 @@ describe("Mocked logins", () => {
       expect(location.pathname).to.eq("/app/login");
     });
 
-    // verify something
+    cy.checkalert("You do not provided a valid second factor");
+    cy.get("div.card-header h4").contains("Provide the verification cod");
+    cy.get("button").contains("Authorize").click();
+
+    // fill the form!
   });
 
   it("Login - Unknown action", () => {

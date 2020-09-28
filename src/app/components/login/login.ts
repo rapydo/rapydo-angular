@@ -179,7 +179,9 @@ export class LoginComponent implements OnInit {
               this.accountNotActive = true;
             } else if (!body.actions || body.actions.length === 0) {
               this.notify.showError("Unrecognized response from server");
-              this.notify.showError(body.errors);
+              if (body.errors) {
+                this.notify.showError(body.errors);
+              }
             } else {
               for (let action of body.actions) {
                 if (action === "FIRST LOGIN") {
