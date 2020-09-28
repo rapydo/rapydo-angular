@@ -113,7 +113,24 @@ describe("Mocked logins", () => {
     );
     cy.get("button").contains("Change").click();
 
-    // fill the form!
+    cy.get("formly-validation-message")
+      .eq(0)
+      .contains("This field is required");
+    cy.get("formly-validation-message")
+      .eq(1)
+      .contains("This field is required");
+
+    cy.get("input[placeholder='Your new password']").as("new_pwd");
+    cy.get("input[placeholder='Confirm your new password']").as("pwd_confirm");
+
+    // cy.get("@new_pwd").type("too short");
+
+    cy.get("@new_pwd").type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
+    // cy.get("@pwd_confirm").type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
+    cy.get("@pwd_confirm").type("invalid");
+
+    cy.get("button").contains("Change").click();
+    // test the form!
   });
 
   it("Login - PASSWORD EXPIRED", () => {
@@ -139,7 +156,7 @@ describe("Mocked logins", () => {
     );
     cy.get("button").contains("Change").click();
 
-    // fill the form!
+    // test the form, copy the previous tests
   });
 
   it("Login - TOTP", () => {

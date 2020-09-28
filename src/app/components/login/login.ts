@@ -113,6 +113,7 @@ export class LoginComponent implements OnInit {
         templateOptions: {
           type: "password",
           label: "New password",
+          placeholder: "Your new password",
           addonLeft: {
             class: "fas fa-key",
           },
@@ -126,6 +127,7 @@ export class LoginComponent implements OnInit {
         templateOptions: {
           type: "password",
           label: "Password confirmation",
+          placeholder: "Confirm your new password",
           addonLeft: {
             class: "fas fa-key",
           },
