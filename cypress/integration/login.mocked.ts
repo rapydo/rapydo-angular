@@ -123,7 +123,7 @@ describe("Mocked logins", () => {
     cy.get("input[placeholder='Your new password']").as("new_pwd");
     cy.get("input[placeholder='Confirm your new password']").as("pwd_confirm");
 
-    cy.get("@new_pwd").type("too short");
+    cy.get("@new_pwd").type("short");
     cy.get("formly-validation-message")
       .eq(0)
       .contains("Should have at least 8 characters");
