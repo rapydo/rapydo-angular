@@ -125,26 +125,26 @@ describe("Mocked logins", () => {
     cy.get("input[placeholder='Your new password']").as("new_pwd");
     cy.get("input[placeholder='Confirm your new password']").as("pwd_confirm");
 
-    cy.get("@new_pwd").type("short");
+    cy.get("@new_pwd").clear().type("short");
     cy.get("formly-validation-message")
       .eq(0)
       .contains("Should have at least 8 characters");
     cy.get("button").contains("Change").click();
 
-    cy.get("@new_pwd").type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
-    cy.get("@pwd_confirm").type("invalid");
+    cy.get("@new_pwd").clear().type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
+    cy.get("@pwd_confirm").clear().type("invalid");
 
     cy.get("formly-validation-message")
       .eq(0)
       .contains("The password does not match");
     cy.get("button").contains("Change").click();
 
-    cy.get("@pwd_confirm").type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
+    cy.get("@pwd_confirm").clear().type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
     cy.get("button").contains("Change").click();
     cy.checkalert("The new password cannot match the previous password");
 
-    cy.get("@new_pwd").type("loooooooong");
-    cy.get("@pwd_confirm").type("loooooooong");
+    cy.get("@new_pwd").clear().type("loooooooong");
+    cy.get("@pwd_confirm").clear().type("loooooooong");
     cy.get("button").contains("Change").click();
     cy.checkalert("Password is too weak, missing upper case letters");
 
@@ -163,8 +163,12 @@ describe("Mocked logins", () => {
     cy.get("button").contains("Change").click();
     cy.checkalert("Password is too weak, missing special characters");
 
-    cy.get("@new_pwd").type(Cypress.env("AUTH_DEFAULT_PASSWORD") + "!");
-    cy.get("@pwd_confirm").type(Cypress.env("AUTH_DEFAULT_PASSWORD") + "!");
+    cy.get("@new_pwd")
+      .clear()
+      .type(Cypress.env("AUTH_DEFAULT_PASSWORD") + "!");
+    cy.get("@pwd_confirm")
+      .clear()
+      .type(Cypress.env("AUTH_DEFAULT_PASSWORD") + "!");
     cy.get("button").contains("Change").click();
 
     // test the form!
@@ -205,26 +209,26 @@ describe("Mocked logins", () => {
     cy.get("input[placeholder='Your new password']").as("new_pwd");
     cy.get("input[placeholder='Confirm your new password']").as("pwd_confirm");
 
-    cy.get("@new_pwd").type("short");
+    cy.get("@new_pwd").clear().type("short");
     cy.get("formly-validation-message")
       .eq(0)
       .contains("Should have at least 8 characters");
     cy.get("button").contains("Change").click();
 
-    cy.get("@new_pwd").type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
-    cy.get("@pwd_confirm").type("invalid");
+    cy.get("@new_pwd").clear().type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
+    cy.get("@pwd_confirm").clear().type("invalid");
 
     cy.get("formly-validation-message")
       .eq(0)
       .contains("The password does not match");
     cy.get("button").contains("Change").click();
 
-    cy.get("@pwd_confirm").type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
+    cy.get("@pwd_confirm").clear().type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
     cy.get("button").contains("Change").click();
     cy.checkalert("The new password cannot match the previous password");
 
-    cy.get("@new_pwd").type("loooooooong");
-    cy.get("@pwd_confirm").type("loooooooong");
+    cy.get("@new_pwd").clear().type("loooooooong");
+    cy.get("@pwd_confirm").clear().type("loooooooong");
     cy.get("button").contains("Change").click();
     cy.checkalert("Password is too weak, missing upper case letters");
 
@@ -243,8 +247,12 @@ describe("Mocked logins", () => {
     cy.get("button").contains("Change").click();
     cy.checkalert("Password is too weak, missing special characters");
 
-    cy.get("@new_pwd").type(Cypress.env("AUTH_DEFAULT_PASSWORD") + "!");
-    cy.get("@pwd_confirm").type(Cypress.env("AUTH_DEFAULT_PASSWORD") + "!");
+    cy.get("@new_pwd")
+      .clear()
+      .type(Cypress.env("AUTH_DEFAULT_PASSWORD") + "!");
+    cy.get("@pwd_confirm")
+      .clear()
+      .type(Cypress.env("AUTH_DEFAULT_PASSWORD") + "!");
     cy.get("button").contains("Change").click();
 
     // test the form!
