@@ -123,11 +123,30 @@ describe("Mocked logins", () => {
     cy.get("input[placeholder='Your new password']").as("new_pwd");
     cy.get("input[placeholder='Confirm your new password']").as("pwd_confirm");
 
-    // cy.get("@new_pwd").type("too short");
+    cy.get("@new_pwd").type("too short");
+    cy.get("formly-validation-message")
+      .eq(0)
+      .contains("Should have at least 8 characters");
+    cy.get("button").contains("Change").click();
 
     cy.get("@new_pwd").type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
-    // cy.get("@pwd_confirm").type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
     cy.get("@pwd_confirm").type("invalid");
+
+    cy.get("formly-validation-message")
+      .eq(0)
+      .contains("The password does not match");
+    cy.get("button").contains("Change").click();
+
+    cy.get("@pwd_confirm").type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
+    cy.get("button").contains("Change").click();
+    // cy.checkalert("????????????????????");
+
+    cy.get("@new_pwd").type("loooooooong");
+    cy.get("@pwd_confirm").type("loooooooong");
+    cy.get("button").contains("Change").click();
+    // cy.checkalert("????????????????????");
+
+    // missing Upper, numbers, symbols
 
     cy.get("button").contains("Change").click();
     // test the form!
