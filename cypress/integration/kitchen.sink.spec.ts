@@ -41,8 +41,24 @@ describe("KitchenSink", () => {
         cy.get("@url").clear().type("invalid");
         cy.checkvalidation(0, "Invalid web address");
 
-        cy.get("@url").clear().type("wwwgoogle.com");
+        cy.get("@url").clear().type("www.google.");
         cy.checkvalidation(0, "Invalid web address");
+
+        cy.get("@url").clear().type("www.google.c");
+        cy.checkvalidation(0, "Invalid web address");
+
+        cy.get("@url").clear().type("www.google.co");
+        cy.get("formly-validation-message").should(
+          "not.contain",
+          "Invalid web address"
+        );
+
+        cy.get("@url").clear().type("wwwgoogle.com");
+        cy.get("formly-validation-message").should(
+          "not.contain",
+          "Invalid web address"
+        );
+
         // Not allowed in cypress...
         // cy.get('input[ngbdatepicker]').should('be.readonly')
 

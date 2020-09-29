@@ -294,6 +294,8 @@ describe("Mocked logins", () => {
       },
     });
 
+    cy.get("@user").type(Cypress.env("AUTH_DEFAULT_USERNAME"));
+    cy.get("@pwd").type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
     cy.get("button").contains("Login").click();
 
     cy.location().should((location) => {
