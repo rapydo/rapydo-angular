@@ -4,32 +4,39 @@
 
 import { environment as base } from "/tmp/environment.variables";
 
-export const environment = {
+interface Env {
+  production: boolean;
+  backendURI: string;
+  projectVersion: string;
+  rapydoVersion: string;
+  projectTitle: string;
+  projectDescription: string;
+  enableFooter: boolean;
+  allowRegistration: boolean;
+  allowPasswordReset: boolean;
+  allowTermsOfUse: boolean;
+  SENTRY_URL: string;
+  websocketsUrl: string;
+  GA_TRACKING_CODE: string;
+  CUSTOM: Record<string, any>;
+}
+export const environment: Env = {
   production: false,
   backendURI: base.backendURI,
   projectVersion: base.projectVersion,
   rapydoVersion: base.rapydoVersion,
   projectTitle: base.projectTitle,
   projectDescription: base.projectDescription,
-  enableFooter: base.enableFooter,
-  allowRegistration: base.allowRegistration,
-  allowPasswordReset: base.allowPasswordReset,
-  allowTermsOfUse: base.allowTermsOfUse,
+  enableFooter: base.enableFooter === "true",
+  allowRegistration: base.allowRegistration === "true",
+  allowPasswordReset: base.allowPasswordReset === "true",
+  allowTermsOfUse: base.allowTermsOfUse === "true",
   websocketsUrl: base.websocketsUrl,
   SENTRY_URL: base.SENTRY_URL,
   GA_TRACKING_CODE: base.GA_TRACKING_CODE,
-  ALL: {},
+  CUSTOM: {},
 };
 
 for (let key in base) {
-  environment["ALL"][key] = base[key];
+  environment.CUSTOM[key] = base[key];
 }
-
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.

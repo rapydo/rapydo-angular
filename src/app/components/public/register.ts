@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit {
     private authService: AuthService,
     private customization: ProjectOptions
   ) {
-    this.allowRegistration = customization.allowRegistration;
+    this.allowRegistration = environment.allowRegistration;
 
     this.route.params.subscribe((params) => {
       if (typeof params["token"] !== "undefined") {
@@ -154,7 +154,7 @@ export class RegisterComponent implements OnInit {
       }
     }
 
-    if (this.customization.allowTermsOfUse) {
+    if (environment.allowTermsOfUse) {
       const privacy = this.customization.privacy_statements();
 
       if (privacy) {

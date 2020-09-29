@@ -17,6 +17,6 @@ describe("Environment", () => {
     expect(environment.websocketsUrl).not.toBeUndefined();
     expect(environment.SENTRY_URL).not.toBeUndefined();
     expect(environment.GA_TRACKING_CODE).not.toBeUndefined();
-    expect(environment.ALL).not.toBeUndefined();
+    expect(environment.CUSTOM).not.toBeUndefined();
   });
 });

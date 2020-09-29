@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
     private notify: NotificationService,
     private deviceService: DeviceDetectorService
   ) {
-    this.enableFooter = this.customization.enableFooter;
+    this.enableFooter = environment.enableFooter;
     this.cookieLawText = this.customization.cookie_law_text();
     this.cookieLawButton = this.customization.cookie_law_button();
 

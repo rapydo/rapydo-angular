@@ -164,13 +164,6 @@ describe("Mocked logins", () => {
     cy.get("@pwd_confirm").clear().type(new_pwd);
 
     cy.get("button").contains("Change").click();
-
-    // // Restore the default password
-    // cy.pwdchange(
-    //   Cypress.env("AUTH_DEFAULT_USERNAME"),
-    //   new_pwd,
-    //   current_pwd
-    // );
   });
 
   it("Login - PASSWORD EXPIRED", () => {
@@ -184,7 +177,8 @@ describe("Mocked logins", () => {
       },
     });
 
-    // Password changed with the previous test (FIRST LOGIN)
+    // Password changed by the previous test (FIRST LOGIN)
+    // This test (PASSWORD EXPIRED) will restore the default password at the end
     const current_pwd = Cypress.env("AUTH_DEFAULT_PASSWORD") + "!";
     const new_pwd = Cypress.env("AUTH_DEFAULT_PASSWORD");
 
@@ -248,13 +242,6 @@ describe("Mocked logins", () => {
     cy.get("@new_pwd").clear().type(new_pwd);
     cy.get("@pwd_confirm").clear().type(new_pwd);
     cy.get("button").contains("Change").click();
-
-    // // Restore the default password
-    // cy.pwdchange(
-    //   Cypress.env("AUTH_DEFAULT_USERNAME"),
-    //   Cypress.env("AUTH_DEFAULT_PASSWORD") + "!",
-    //   Cypress.env("AUTH_DEFAULT_PASSWORD")
-    // );
   });
 
   it("Login - TOTP", () => {

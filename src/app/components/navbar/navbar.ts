@@ -1,6 +1,8 @@
 import { Component, ChangeDetectorRef, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
+import { environment } from "@rapydo/../environments/environment";
+
 import { ProjectOptions } from "@app/custom.project.options";
 import { ApiService } from "@rapydo/services/api";
 import { AuthService } from "@rapydo/services/auth";
@@ -26,7 +28,7 @@ export class NavbarComponent implements OnInit {
     private auth: AuthService,
     private ref: ChangeDetectorRef
   ) {
-    this.allowRegistration = customization.allowRegistration;
+    this.allowRegistration = environment.allowRegistration;
   }
 
   ngOnInit() {
