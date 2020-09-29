@@ -6,14 +6,10 @@ describe("Mocked logins", () => {
     cy.visit("/app/login");
     cy.closecookielaw();
 
-    cy.get("input[placeholder='Your password']").type(
-      Cypress.env("AUTH_DEFAULT_PASSWORD")
-    );
-    cy.get("input[placeholder='Your username (email)']").type(
-      Cypress.env("AUTH_DEFAULT_USERNAME")
-    );
-
     cy.server();
+
+    cy.get("input[placeholder='Your username (email)']").as("user");
+    cy.get("input[placeholder='Your password']").as("pwd");
   });
 
   it("Login - Account not active", () => {
@@ -24,6 +20,8 @@ describe("Mocked logins", () => {
       response: "Sorry, this account is not active",
     });
 
+    cy.get("@user").type(Cypress.env("AUTH_DEFAULT_USERNAME"));
+    cy.get("@pwd").type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
     cy.get("button").contains("Login").click();
 
     cy.location().should((location) => {
@@ -44,6 +42,8 @@ describe("Mocked logins", () => {
       },
     });
 
+    cy.get("@user").type(Cypress.env("AUTH_DEFAULT_USERNAME"));
+    cy.get("@pwd").type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
     cy.get("button").contains("Login").click();
 
     cy.location().should((location) => {
@@ -101,6 +101,11 @@ describe("Mocked logins", () => {
       },
     });
 
+    const current_pwd = Cypress.env("AUTH_DEFAULT_PASSWORD");
+    const new_pwd = Cypress.env("AUTH_DEFAULT_PASSWORD") + "!";
+
+    cy.get("@user").type(Cypress.env("AUTH_DEFAULT_USERNAME"));
+    cy.get("@pwd").type(current_pwd);
     cy.get("button").contains("Login").click();
 
     cy.location().should((location) => {
@@ -125,13 +130,13 @@ describe("Mocked logins", () => {
     cy.checkvalidation(0, "Should have at least 8 characters");
     cy.get("button").contains("Change").click();
 
-    cy.get("@new_pwd").clear().type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
+    cy.get("@new_pwd").clear().type(current_pwd);
     cy.get("@pwd_confirm").clear().type("invalid");
 
     cy.checkvalidation(0, "The password does not match");
     cy.get("button").contains("Change").click();
 
-    cy.get("@pwd_confirm").clear().type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
+    cy.get("@pwd_confirm").clear().type(current_pwd);
     cy.get("button").contains("Change").click();
     cy.checkalert("The new password cannot match the previous password");
 
@@ -155,22 +160,16 @@ describe("Mocked logins", () => {
     cy.get("button").contains("Change").click();
     cy.checkalert("Password is too weak, missing special characters");
 
-    cy.get("@new_pwd")
-      .clear()
-      .type(Cypress.env("AUTH_DEFAULT_PASSWORD") + "!");
-    cy.get("@pwd_confirm")
-      .clear()
-      .type(Cypress.env("AUTH_DEFAULT_PASSWORD") + "!");
+    cy.get("@new_pwd").clear().type(new_pwd);
+    cy.get("@pwd_confirm").clear().type(new_pwd);
 
-    // BEWARE: STILL NOT WORKING
-
-    // cy.get("button").contains("Change").click();
+    cy.get("button").contains("Change").click();
 
     // // Restore the default password
     // cy.pwdchange(
     //   Cypress.env("AUTH_DEFAULT_USERNAME"),
-    //   Cypress.env("AUTH_DEFAULT_PASSWORD") + "!",
-    //   Cypress.env("AUTH_DEFAULT_PASSWORD")
+    //   new_pwd,
+    //   current_pwd
     // );
   });
 
@@ -185,6 +184,12 @@ describe("Mocked logins", () => {
       },
     });
 
+    // Password changed with the previous test (FIRST LOGIN)
+    const current_pwd = Cypress.env("AUTH_DEFAULT_PASSWORD") + "!";
+    const new_pwd = Cypress.env("AUTH_DEFAULT_PASSWORD");
+
+    cy.get("@user").type(Cypress.env("AUTH_DEFAULT_USERNAME"));
+    cy.get("@pwd").type(current_pwd);
     cy.get("button").contains("Login").click();
 
     cy.location().should((location) => {
@@ -209,13 +214,13 @@ describe("Mocked logins", () => {
     cy.checkvalidation(0, "Should have at least 8 characters");
     cy.get("button").contains("Change").click();
 
-    cy.get("@new_pwd").clear().type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
+    cy.get("@new_pwd").clear().type(current_pwd);
     cy.get("@pwd_confirm").clear().type("invalid");
 
     cy.checkvalidation(0, "The password does not match");
     cy.get("button").contains("Change").click();
 
-    cy.get("@pwd_confirm").clear().type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
+    cy.get("@pwd_confirm").clear().type(current_pwd);
     cy.get("button").contains("Change").click();
     cy.checkalert("The new password cannot match the previous password");
 
@@ -239,15 +244,10 @@ describe("Mocked logins", () => {
     cy.get("button").contains("Change").click();
     cy.checkalert("Password is too weak, missing special characters");
 
-    cy.get("@new_pwd")
-      .clear()
-      .type(Cypress.env("AUTH_DEFAULT_PASSWORD") + "!");
-    cy.get("@pwd_confirm")
-      .clear()
-      .type(Cypress.env("AUTH_DEFAULT_PASSWORD") + "!");
-
-    // BEWARE: STILL NOT WORKING
-    // cy.get("button").contains("Change").click();
+    // This will restore the default password
+    cy.get("@new_pwd").clear().type(new_pwd);
+    cy.get("@pwd_confirm").clear().type(new_pwd);
+    cy.get("button").contains("Change").click();
 
     // // Restore the default password
     // cy.pwdchange(
@@ -268,6 +268,8 @@ describe("Mocked logins", () => {
       },
     });
 
+    cy.get("@user").type(Cypress.env("AUTH_DEFAULT_USERNAME"));
+    cy.get("@pwd").type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
     cy.get("button").contains("Login").click();
 
     cy.location().should((location) => {
