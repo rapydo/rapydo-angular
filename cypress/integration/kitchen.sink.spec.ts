@@ -84,7 +84,10 @@ describe("KitchenSink", () => {
         );
 
         cy.get("@url").clear().type("user@sample.org");
-        cy.checkvalidation(0, "Invalid web address");
+        cy.get("formly-validation-message").should(
+          "not.contain",
+          "Invalid web address"
+        );
 
         cy.get("@url").clear().type("www.google.com");
         cy.get("formly-validation-message").should(
