@@ -31,44 +31,24 @@ describe("AdminUsers", () => {
     cy.get('button:contains("Submit")').as("submit");
 
     cy.get("@submit").click({ force: true });
-    cy.get("formly-validation-message")
-      .eq(0)
-      .contains("This field is required");
-    cy.get("formly-validation-message")
-      .eq(1)
-      .contains("This field is required");
-    cy.get("formly-validation-message")
-      .eq(2)
-      .contains("This field is required");
-    cy.get("formly-validation-message")
-      .eq(3)
-      .contains("This field is required");
+    cy.checkvalidation(0, "This field is required");
+    cy.checkvalidation(1, "This field is required");
+    cy.checkvalidation(2, "This field is required");
+    cy.checkvalidation(3, "This field is required");
 
     cy.get("@email").clear().type("invalid");
     cy.get("@submit").click({ force: true });
-    cy.get("formly-validation-message").eq(0).contains("Invalid email address");
-    cy.get("formly-validation-message")
-      .eq(1)
-      .contains("This field is required");
-    cy.get("formly-validation-message")
-      .eq(2)
-      .contains("This field is required");
-    cy.get("formly-validation-message")
-      .eq(3)
-      .contains("This field is required");
+    cy.checkvalidation(0, "Invalid email address");
+    cy.checkvalidation(1, "This field is required");
+    cy.checkvalidation(2, "This field is required");
+    cy.checkvalidation(3, "This field is required");
 
     cy.get("@email").clear().type(Cypress.env("AUTH_DEFAULT_USERNAME"));
     cy.get("@password").clear().type("short");
     cy.get("@submit").click({ force: true });
-    cy.get("formly-validation-message")
-      .eq(0)
-      .contains("Should have at least 8 characters");
-    cy.get("formly-validation-message")
-      .eq(1)
-      .contains("This field is required");
-    cy.get("formly-validation-message")
-      .eq(2)
-      .contains("This field is required");
+    cy.checkvalidation(0, "Should have at least 8 characters");
+    cy.checkvalidation(1, "This field is required");
+    cy.checkvalidation(2, "This field is required");
 
     cy.get("@password").clear().type("looooong");
     cy.get("@name").clear().type("SampleName");

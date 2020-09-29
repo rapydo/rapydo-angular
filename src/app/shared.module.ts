@@ -61,7 +61,6 @@ export function emailValidator(control: FormControl): ValidationErrors {
     : { email: true };
 }
 
-/* istanbul ignore next */
 export function URLValidator(control: FormControl): ValidationErrors {
   if (control.value === null) {
     return null;
@@ -76,7 +75,7 @@ export function URLValidator(control: FormControl): ValidationErrors {
   /*
     Regular expression obtained from https://stackoverflow.com/questions/8667070/javascript-regular-expression-to-validate-url
 
-    Just adoded a '?' after protocols to make schema optional (i.e. www.google.com is valid)
+    Just added a '?' after protocols to make schema optional (i.e. www.google.com is valid)
 
     How it works
       // protocol identifier

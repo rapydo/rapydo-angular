@@ -59,10 +59,16 @@ Cypress.Commands.add("closecookielaw", () => {
     cy.get('button:contains("Ok, got it")').click();
   });
 });
+
 Cypress.Commands.add("checkalert", (msg) => {
   cy.wait(200);
   cy.get("div[role=alertdialog]").contains(msg).click({ force: true });
 });
+
+Cypress.Commands.add("checkvalidation", (index, msg) => {
+  cy.get("formly-validation-message").eq(index).contains(msg);
+});
+
 Cypress.Commands.add("getmail", () => {
   return cy.readFile("/logs/mock.mail.lastsent.body");
 });

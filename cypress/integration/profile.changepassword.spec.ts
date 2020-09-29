@@ -26,7 +26,7 @@ describe("ChangePassword", () => {
     });
 
     cy.get("button:contains('Submit')").click();
-    cy.get("formly-validation-message").contains("This field is required");
+    cy.checkvalidation(0, "This field is required");
 
     cy.get('input[placeholder="Type here your current password"]').as(
       "password"
@@ -40,12 +40,10 @@ describe("ChangePassword", () => {
 
     cy.get("@password").clear().type("wrong");
     cy.get("@new_password").clear().type("short");
-    cy.get("formly-validation-message").contains(
-      "Should have at least 8 characters"
-    );
+    cy.checkvalidation(0, "Should have at least 8 characters");
     cy.get("@new_password").clear().type("looooong");
     cy.get("@confirm_password").clear().type("short");
-    cy.get("formly-validation-message").contains("The password does not match");
+    cy.checkvalidation(0, "The password does not match");
     cy.get("@confirm_password").clear().type("looooong");
 
     cy.get("button:contains('Submit')").click();

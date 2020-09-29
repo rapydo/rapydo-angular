@@ -115,28 +115,20 @@ describe("Mocked logins", () => {
     );
     cy.get("button").contains("Change").click();
 
-    cy.get("formly-validation-message")
-      .eq(0)
-      .contains("This field is required");
-    cy.get("formly-validation-message")
-      .eq(1)
-      .contains("This field is required");
+    cy.checkvalidation(0, "This field is required");
+    cy.checkvalidation(1, "This field is required");
 
     cy.get("input[placeholder='Your new password']").as("new_pwd");
     cy.get("input[placeholder='Confirm your new password']").as("pwd_confirm");
 
     cy.get("@new_pwd").clear().type("short");
-    cy.get("formly-validation-message")
-      .eq(0)
-      .contains("Should have at least 8 characters");
+    cy.checkvalidation(0, "Should have at least 8 characters");
     cy.get("button").contains("Change").click();
 
     cy.get("@new_pwd").clear().type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
     cy.get("@pwd_confirm").clear().type("invalid");
 
-    cy.get("formly-validation-message")
-      .eq(0)
-      .contains("The password does not match");
+    cy.checkvalidation(0, "The password does not match");
     cy.get("button").contains("Change").click();
 
     cy.get("@pwd_confirm").clear().type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
@@ -207,28 +199,20 @@ describe("Mocked logins", () => {
     );
     cy.get("button").contains("Change").click();
 
-    cy.get("formly-validation-message")
-      .eq(0)
-      .contains("This field is required");
-    cy.get("formly-validation-message")
-      .eq(1)
-      .contains("This field is required");
+    cy.checkvalidation(0, "This field is required");
+    cy.checkvalidation(1, "This field is required");
 
     cy.get("input[placeholder='Your new password']").as("new_pwd");
     cy.get("input[placeholder='Confirm your new password']").as("pwd_confirm");
 
     cy.get("@new_pwd").clear().type("short");
-    cy.get("formly-validation-message")
-      .eq(0)
-      .contains("Should have at least 8 characters");
+    cy.checkvalidation(0, "Should have at least 8 characters");
     cy.get("button").contains("Change").click();
 
     cy.get("@new_pwd").clear().type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
     cy.get("@pwd_confirm").clear().type("invalid");
 
-    cy.get("formly-validation-message")
-      .eq(0)
-      .contains("The password does not match");
+    cy.checkvalidation(0, "The password does not match");
     cy.get("button").contains("Change").click();
 
     cy.get("@pwd_confirm").clear().type(Cypress.env("AUTH_DEFAULT_PASSWORD"));

@@ -15,7 +15,7 @@ describe("ResetPassword", () => {
       cy.get("div.card-header h4").contains("Reset your password");
 
       cy.get("button:contains('Submit request')").click();
-      cy.get("formly-validation-message").contains("This field is required");
+      cy.checkvalidation(0, "This field is required");
 
       cy.get(
         'input[placeholder="Type here your email address to receive the reset link"]'
@@ -23,7 +23,7 @@ describe("ResetPassword", () => {
 
       cy.get("@email").clear().type("invalid");
       cy.get("button:contains('Submit request')").click();
-      cy.get("formly-validation-message").contains("Invalid email address");
+      cy.checkvalidation(0, "Invalid email address");
 
       cy.get("@email").clear().type("invalid@sample.com");
       cy.get("button:contains('Submit request')").click();
@@ -59,12 +59,8 @@ describe("ResetPassword", () => {
 
         cy.get("button:contains('Submit')").click();
 
-        cy.get("formly-validation-message")
-          .eq(0)
-          .contains("This field is required");
-        cy.get("formly-validation-message")
-          .eq(1)
-          .contains("This field is required");
+        cy.checkvalidation(0, "This field is required");
+        cy.checkvalidation(1, "This field is required");
 
         cy.get('input[placeholder="Type here your new password"]').as(
           "new_password"
@@ -76,19 +72,13 @@ describe("ResetPassword", () => {
         cy.get("@new_password").clear().type("short");
         cy.get("button:contains('Submit')").click();
 
-        cy.get("formly-validation-message")
-          .eq(0)
-          .contains("Should have at least 8 characters");
-        cy.get("formly-validation-message")
-          .eq(1)
-          .contains("This field is required");
+        cy.checkvalidation(0, "Should have at least 8 characters");
+        cy.checkvalidation(1, "This field is required");
 
         cy.get("@new_password").clear().type("loooooong");
         cy.get("@confirm_password").clear().type("wrong");
 
-        cy.get("formly-validation-message")
-          .eq(0)
-          .contains("Password not matching");
+        cy.checkvalidation(0, "Password not matching");
 
         cy.get("@confirm_password").clear().type("loooooong");
         cy.get("button:contains('Submit')").click();

@@ -22,21 +22,21 @@ describe("FailedLogin", () => {
     cy.get("input[placeholder='Your username (email)']");
     cy.get("input[placeholder='Your password']");
     cy.get("button").contains("Login").click();
-    cy.get("formly-validation-message").contains("This field is required");
+    cy.checkvalidation(0, "This field is required");
 
     // Providing a non-email username
     cy.get("input[placeholder='Your username (email)']")
       .clear()
       .type("invalid");
     cy.get("button").contains("Login").click();
-    cy.get("formly-validation-message").contains("Invalid email address");
+    cy.checkvalidation(0, "Invalid email address");
 
     // Username is good, password is missing
     cy.get("input[placeholder='Your username (email)']")
       .clear()
       .type(Cypress.env("AUTH_DEFAULT_USERNAME"));
     cy.get("button").contains("Login").click();
-    cy.get("formly-validation-message").contains("This field is required");
+    cy.checkvalidation(0, "This field is required");
 
     // Username is good, password is wrong
     cy.get("input[placeholder='Your password']").clear().type("invalid");

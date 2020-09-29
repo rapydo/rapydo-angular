@@ -31,21 +31,11 @@ describe("Registration", () => {
       // Submit empty form (validations errors for all required fields are expected)
       cy.get("@submit").click({ force: true });
 
-      cy.get("formly-validation-message")
-        .eq(0)
-        .contains("This field is required");
-      cy.get("formly-validation-message")
-        .eq(1)
-        .contains("This field is required");
-      cy.get("formly-validation-message")
-        .eq(2)
-        .contains("This field is required");
-      cy.get("formly-validation-message")
-        .eq(3)
-        .contains("This field is required");
-      cy.get("formly-validation-message")
-        .eq(4)
-        .contains("This field is required");
+      cy.checkvalidation(0, "This field is required");
+      cy.checkvalidation(1, "This field is required");
+      cy.checkvalidation(2, "This field is required");
+      cy.checkvalidation(3, "This field is required");
+      cy.checkvalidation(4, "This field is required");
 
       // Submit short inputs (validation errors on email and password are expected)
       cy.get("@name").clear().type("a");
@@ -56,15 +46,9 @@ describe("Registration", () => {
 
       cy.get("@submit").click({ force: true });
 
-      cy.get("formly-validation-message")
-        .eq(0)
-        .contains("Invalid email address");
-      cy.get("formly-validation-message")
-        .eq(1)
-        .contains("Should have at least 8 characters");
-      cy.get("formly-validation-message")
-        .eq(2)
-        .contains("Password not matching");
+      cy.checkvalidation(0, "Invalid email address");
+      cy.checkvalidation(1, "Should have at least 8 characters");
+      cy.checkvalidation(2, "Password not matching");
 
       cy.get("@submit").click({ force: true });
 
