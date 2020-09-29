@@ -27,6 +27,7 @@ interface SimpleUserWithId extends SimpleUser {
 export interface SimpleGroup {
   readonly shortname: string;
   readonly fullname: string;
+  /** @nullable */
   readonly coordinator?: SimpleUserWithId;
 }
 
