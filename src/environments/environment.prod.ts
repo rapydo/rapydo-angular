@@ -38,5 +38,7 @@ export const environment: Env = {
 };
 
 for (let key in base) {
-  environment.CUSTOM[key] = base[key];
+  if (!(key in environment)) {
+    environment.CUSTOM[key] = base[key];
+  }
 }
