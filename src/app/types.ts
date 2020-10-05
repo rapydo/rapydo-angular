@@ -8,7 +8,7 @@ export type Number = number;
 // as returned by keyvalue pipe
 export interface KeyValue {
   readonly key: string;
-  readonly value: string;
+  readonly value: any;
 }
 
 // It is used in Sessions response
