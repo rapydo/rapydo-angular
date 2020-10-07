@@ -9,6 +9,7 @@ interface Env {
   backendURI: string;
   projectVersion: string;
   rapydoVersion: string;
+  projectName: string;
   projectTitle: string;
   projectDescription: string;
   enableFooter: boolean;
@@ -25,6 +26,7 @@ export const environment: Env = {
   backendURI: base.backendURI,
   projectVersion: base.projectVersion,
   rapydoVersion: base.rapydoVersion,
+  projectName: base.projectName,
   projectTitle: base.projectTitle,
   projectDescription: base.projectDescription,
   enableFooter: base.enableFooter === "true",
