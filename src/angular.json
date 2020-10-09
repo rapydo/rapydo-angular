@@ -20,7 +20,11 @@
             "tsConfig": "tsconfig.app.json",
             "extractCss": true,
             "aot": true,
-            "assets": ["./app/rapydo/assets", "./app/custom/assets"],
+            "assets": [
+              "./app/rapydo/assets",
+              "./app/custom/assets",
+              "./app/subproject/assets"
+            ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/ngx-toastr/toastr.css",
