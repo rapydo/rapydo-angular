@@ -2,5 +2,8 @@
   "baseUrl": "http://localhost:8080",
   "screenshotsFolder": "/cypress",
   "videosFolder": "/cypress",
-  "retries": { "openMode": 0, "runMode": 2 }
+  "retries": {
+    "openMode": 0,
+    "runMode": 2
+  }
 }

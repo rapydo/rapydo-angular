@@ -328,7 +328,6 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   public remove(uuid: string): Subscription {
     return this.api.delete(this.endpoint + "/" + uuid).subscribe(
       (response) => {
-        console.log(response);
         this.notify.showSuccess(
           "Confirmation: " + this.resource_name + " successfully deleted"
         );

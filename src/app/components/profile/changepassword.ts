@@ -141,7 +141,6 @@ export class ChangePasswordComponent {
         );
       },
       (error) => {
-        console.log(error);
         if (error.status === 401) {
           this.notify.showError(
             "Your request cannot be authorized, is current password wrong?"
