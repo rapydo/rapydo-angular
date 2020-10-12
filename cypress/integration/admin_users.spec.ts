@@ -65,16 +65,19 @@ describe("AdminUsers", () => {
         }
       }
     });
-    cy.find("select").each(($el, index, $list) => {
-      // This should pick the groups select, if enabled (e.g. in IMC)
-      if ($el.prop("required") && $el.val() === "") {
-        // select the first option
-        cy.wrap($el)
-          .get("option")
-          .eq(0)
-          .then((element) => cy.wrap($el).select(element.val()));
-      }
-    });
+
+    // This should pick the groups select, if enabled (e.g. in IMC)
+    if (Cypress.$("select").length > 0) {
+      cy.find("select").each(($el, index, $list) => {
+        if ($el.prop("required") && $el.val() === "") {
+          // select the first option
+          cy.wrap($el)
+            .get("option")
+            .eq(0)
+            .then((element) => cy.wrap($el).select(element.val()));
+        }
+      });
+    }
 
     cy.get("formly-validation-message").should("not.exist");
 
