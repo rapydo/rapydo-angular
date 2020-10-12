@@ -65,7 +65,7 @@ describe("AdminUsers", () => {
         }
       }
     });
-    cy.get("select").each(($el, index, $list) => {
+    cy.find("select").each(($el, index, $list) => {
       // This should pick the groups select, if enabled (e.g. in IMC)
       if ($el.prop("required") && $el.val() === "") {
         // select the first option
