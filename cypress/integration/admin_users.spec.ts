@@ -65,6 +65,16 @@ describe("AdminUsers", () => {
         }
       }
     });
+    cy.get("select").each(($el, index, $list) => {
+      // This should pick the groups select, if enabled (e.g. in IMC)
+      if ($el.prop("required") && $el.val() === "") {
+        // select the first option
+        cy.wrap($el)
+          .get("option")
+          .eq(0)
+          .then((element) => cy.wrap($el).select(element.val()));
+      }
+    });
 
     cy.get("formly-validation-message").should("not.exist");
 
