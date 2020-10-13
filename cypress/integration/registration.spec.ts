@@ -64,6 +64,33 @@ describe("Registration", () => {
           cy.wrap($el).click({ force: true });
         });
 
+      // File extra fields
+      // get custom fields added at project level:
+      // foreach element select required input text/number still empty and fill them
+      cy.get("input").each(($el, index, $list) => {
+        if ($el.prop("required") && $el.val() === "") {
+          if ($el.attr("type") === "text") {
+            cy.wrap($el).type("a");
+          } else if ($el.attr("type") === "number") {
+            cy.wrap($el).type("1");
+          }
+        }
+      });
+
+      // This should pick the groups select, if enabled (e.g. in IMC)
+      if (Cypress.$("select").length > 0) {
+        cy.find("select").each(($el, index, $list) => {
+          cy.wrap($el).click();
+          if ($el.prop("required")) {
+            // select the first option
+            cy.wrap($el)
+              .get("option")
+              .eq(0)
+              .then((element) => cy.wrap($el).select(element.val()));
+          }
+        });
+      }
+
       cy.get("@submit").click({ force: true });
 
       // Validation is now ok, but sending an already existing user as username
