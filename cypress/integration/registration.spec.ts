@@ -78,6 +78,7 @@ describe("Registration", () => {
       });
 
       // This should pick the groups select, if enabled (e.g. in IMC)
+      // IT DOES NOT WORK YET!
       if (Cypress.$("select").length > 0) {
         cy.find("select").each(($el, index, $list) => {
           cy.wrap($el).click();

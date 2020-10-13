@@ -51,6 +51,7 @@ describe("Mocked logins", () => {
     });
 
     cy.checkalert("Unrecognized response from server");
+    cy.checkalert("Please change your temporary password");
 
     cy.route({
       method: "POST",
