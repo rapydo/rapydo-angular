@@ -69,6 +69,7 @@ describe("AdminUsers", () => {
     // This should pick the groups select, if enabled (e.g. in IMC)
     if (Cypress.$("select").length > 0) {
       cy.find("select").each(($el, index, $list) => {
+        cy.wrap($el).click();
         if ($el.prop("required")) {
           // select the first option
           cy.wrap($el)
