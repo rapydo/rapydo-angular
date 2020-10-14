@@ -35,6 +35,10 @@ export class NotificationService {
       for (let k in msg) {
         this.showError(msg[k], title || k);
       }
+    } else if (Array.isArray(msg)) {
+      for (let m of msg) {
+        this.showError(m, title);
+      }
     } else {
       this.toastr.error(msg, title, {
         timeOut: 15000,
