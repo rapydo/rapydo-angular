@@ -107,7 +107,7 @@ export class FormlyService {
         }
 
         field["templateOptions"]["options"] = s.options;
-        if (!field["templateOptions"]["required"]) {
+        if (!s.multiple && !field["templateOptions"]["required"]) {
           if (Array.isArray(field["templateOptions"]["options"])) {
             field["templateOptions"]["options"].unshift({
               value: "",
@@ -115,7 +115,9 @@ export class FormlyService {
             });
           }
         }
-        // field["templateOptions"]["multiple"] = multiple;
+        if (s.multiple) {
+          field["templateOptions"]["multiple"] = s.multiple;
+        }
       } else if (stype === "checkbox" || stype === "boolean") {
         field_type = "checkbox";
         template_type = "checkbox";

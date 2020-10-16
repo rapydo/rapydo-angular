@@ -110,7 +110,9 @@ export interface Schema {
 
   readonly min?: number | Date;
   readonly max?: number | Date;
+  // these are used by select/array fields
   readonly enum?: Record<string, string>;
+  readonly multiple?: boolean;
 }
 
 interface CPUStats {
