@@ -183,7 +183,25 @@ export class FormlyService {
               default_data = this.formatNgbDatepicker(default_data);
             } else if (template_type === "date") {
               default_data = this.formatDate(default_data);
-            } else if (template_type === "select") {
+            } else if (template_type === "select" && s.multiple) {
+              if (!Array.isArray(default_data)) {
+                default_data = [default_data];
+              }
+              let default_data_list = [];
+
+              for (let d of default_data) {
+                if (typeof d["key"] !== "undefined") {
+                  d = d["key"].toString();
+                } else if (typeof d["uuid"] !== "undefined") {
+                  d = d["uuid"].toString();
+                } else if (typeof d["id"] !== "undefined") {
+                  d = d["id"].toString();
+                }
+                default_data_list.push(d);
+              }
+
+              default_data = default_data_list;
+            } else if (template_type === "select" && !s.multiple) {
               if (Array.isArray(default_data)) {
                 if (default_data.length === 1) {
                   default_data = default_data[0];
