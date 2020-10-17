@@ -1,6 +1,11 @@
 import { Injectable } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 
+interface Message {
+  text: string;
+  title: string;
+}
+
 @Injectable()
 export class NotificationService {
   readonly CRITICAL = 1;
@@ -14,69 +19,91 @@ export class NotificationService {
     return typeof dict === "object" && !Array.isArray(dict);
   }
 
-  public showCritical = function (msg: any, title: string = ""): void {
+  private extractMessages(msg, title: string): Message[] {
+    let messages: Message[] = [];
+
+    if (msg === null) {
+      messages.push(null);
+      return messages;
+    }
+
+    if (msg.error && msg.error instanceof ProgressEvent) {
+      messages.push({ text: msg.message, title: title });
+      return messages;
+    }
+
+    if (msg.error) {
+      messages.push({ text: msg.error, title: title });
+      return messages;
+    }
+
     if (this.isDict(msg)) {
       for (let k in msg) {
-        this.showCritical(msg[k], title || k);
+        messages.push({ text: msg[k], title: title || k });
       }
-    } else {
-      this.toastr.error(msg, title, {
+      return messages;
+    }
+
+    if (Array.isArray(msg)) {
+      for (let m of msg) {
+        messages.push({ text: m, title: title });
+      }
+      return messages;
+    }
+
+    messages.push({ text: msg, title: title });
+    return messages;
+  }
+  public showCritical = function (message: any, title: string = ""): void {
+    for (let msg of this.extractMessages(message, title)) {
+      if (msg === null) {
+        continue;
+      }
+      this.toastr.error(msg.text, msg.title, {
         timeOut: 0,
       });
     }
   };
 
-  public showError = function (msg: any, title: string = ""): void {
-    if (msg.error) {
-      msg = msg.error;
-    }
-
-    if (this.isDict(msg)) {
-      for (let k in msg) {
-        this.showError(msg[k], title || k);
+  public showError = function (message: any, title: string = ""): void {
+    for (let msg of this.extractMessages(message, title)) {
+      if (msg === null) {
+        continue;
       }
-    } else if (Array.isArray(msg)) {
-      for (let m of msg) {
-        this.showError(m, title);
-      }
-    } else {
-      this.toastr.error(msg, title, {
+      this.toastr.error(msg.text, msg.title, {
         timeOut: 15000,
       });
     }
   };
 
-  public showWarning = function (msg: any, title: string = ""): void {
-    if (this.isDict(msg)) {
-      for (let k in msg) {
-        this.showWarning(msg[k], title || k);
+  public showWarning = function (message: any, title: string = ""): void {
+    for (let msg of this.extractMessages(message, title)) {
+      if (msg === null) {
+        continue;
       }
-    } else {
-      this.toastr.warning(msg, title, {
+      this.toastr.warning(msg.text, msg.title, {
         timeOut: 10000,
       });
     }
   };
 
-  public showSuccess = function (msg: any, title: string = ""): void {
-    if (this.isDict(msg)) {
-      for (let k in msg) {
-        this.showSuccess(msg[k], title || k);
+  public showSuccess = function (message: any, title: string = ""): void {
+    for (let msg of this.extractMessages(message, title)) {
+      if (msg === null) {
+        continue;
       }
-    } else {
-      this.toastr.success(msg, title, {
+      this.toastr.success(msg.text, msg.title, {
         timeOut: 10000,
       });
     }
   };
 
-  public showInfo = function (msg: any, title: string = ""): void {
-    if (this.isDict(msg)) {
-      for (let k in msg) {
-        this.showInfo(msg[k], title || k);
+  public showInfo = function (message: any, title: string = ""): void {
+    for (let msg of this.extractMessages(message, title)) {
+      if (msg === null) {
+        continue;
       }
-    } else {
-      this.toastr.info(msg, title, {
+      this.toastr.info(msg.text, msg.title, {
         timeOut: 10000,
       });
     }
