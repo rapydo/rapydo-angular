@@ -33,8 +33,7 @@ export class NotificationService {
     }
 
     if (msg.error) {
-      messages.push({ text: msg.error, title: title });
-      return messages;
+      msg = msg.error;
     }
 
     if (this.isDict(msg)) {
