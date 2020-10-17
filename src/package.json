@@ -40,7 +40,7 @@
     "@ng-bootstrap/ng-bootstrap": "7.0.0",
     "ngx-clipboard": "13.0.1",
     "@ngx-formly/core": "5.10.1",
-    "@ngx-formly/bootstrap": "5.10.1",
+    "@ngx-formly/bootstrap": "5.10.2",
     "@swimlane/ngx-datatable": "17.1.0",
     "moment": "2.29.0",
     "ngx-moment": "5.0.0",
