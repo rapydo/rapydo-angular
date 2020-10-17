@@ -49,6 +49,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   public resource_name: string;
 
   private server_side_pagination: boolean = false;
+  private server_side_filtering: boolean = false;
 
   private endpoint: string;
   private data_type: string = null;
@@ -64,8 +65,9 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   public data: Array<T> = [];
 
   public columns: Array<any> = [];
-  // Only used by the filter function
-  protected data_filter: string;
+  // Used by the filter function
+  public data_filter: string;
+  public data_filters: Record<string, string | number>;
   public unfiltered_data: Array<T>;
 
   public deleteConfirmation: Confirmation;
@@ -163,10 +165,14 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
     if (ssp) {
       this.server_side_pagination = true;
+      this.server_side_filtering = true;
       // this.set_total_items();
     }
 
     return this.paging;
+  }
+  protected setServerSideFiltering() {
+    this.server_side_filtering = true;
   }
 
   private updatePaging(dataLen: number): Paging {
@@ -249,9 +255,15 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     let data = {
       get_total: true,
     };
+    if (this.data_filters) {
+      for (let k in this.data_filters) {
+        data[k] = this.data_filters[k];
+      }
+    }
     if (this.data_filter) {
       data["input_filter"] = this.data_filter;
     }
+
     this.api
       .get<Total>(this.endpoint, "", data, { validationSchema: "Total" })
       .subscribe(
@@ -293,6 +305,13 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       }
       if (this.sort_order) {
         data["sort_order"] = this.sort_order;
+      }
+    }
+    if (this.server_side_pagination || this.server_side_filtering) {
+      if (this.data_filters) {
+        for (let k in this.data_filters) {
+          data[k] = this.data_filters[k];
+        }
       }
       if (this.data_filter) {
         data["input_filter"] = this.data_filter;
