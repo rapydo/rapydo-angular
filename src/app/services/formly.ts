@@ -109,10 +109,20 @@ export class FormlyService {
         field["templateOptions"]["options"] = s.options;
         if (!s.multiple && !field["templateOptions"]["required"]) {
           if (Array.isArray(field["templateOptions"]["options"])) {
-            field["templateOptions"]["options"].unshift({
-              value: "",
-              label: "",
-            });
+            // prevent duplicated empty options if already provided as valid value
+            let empty_option_found = false;
+            for (let opt of field["templateOptions"]["options"]) {
+              if (opt.value == "") {
+                empty_option_found = true;
+                break;
+              }
+            }
+            if (!empty_option_found) {
+              field["templateOptions"]["options"].unshift({
+                value: "",
+                label: "",
+              });
+            }
           }
         }
         if (s.multiple) {

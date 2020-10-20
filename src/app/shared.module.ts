@@ -127,7 +127,7 @@ export function maxValidationError(error, field) {
 }
 
 // ngbDatepicker uses { year: 'yyyy', month: 'mm', day: 'dd'} as date format by default
-// this adpter allow ngbDatepicker to accept js native Dates
+// this adapter allow ngbDatepicker to accept js native Dates
 @Injectable()
 export class MomentDateFormatter extends NgbDateParserFormatter {
   // Convert a string formatted as 'DD/MM/YYYY' into {year: 'yyyy', month: 'mm', day:}

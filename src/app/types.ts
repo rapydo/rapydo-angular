@@ -95,11 +95,9 @@ export interface Confirmation {
   readonly message: string;
 }
 
-// key is optional only for back-compatibility
-// remove the ? once dropped all swagger compatibility rules
 export interface Schema {
-  readonly type: string;
   readonly key: string;
+  readonly type: string;
   readonly label?: string;
   readonly description?: string;
   readonly default?: any;
