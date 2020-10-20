@@ -29,14 +29,12 @@
     </li>
 
     <li class="nav-item" *ngIf="!user">
-      <a routerLink="/app/login" routerLinkActive="active">
-        Login
-      </a>
+      <a routerLink="/app/login" routerLinkActive="active"> Sign in </a>
     </li>
 
     <li class="nav-item" *ngIf="allowRegistration && !user">
       <a routerLink="/public/register" routerLinkActive="active">
-        &nbsp; Sign-in
+        &nbsp; Sign up
       </a>
     </li>
   </ul>
