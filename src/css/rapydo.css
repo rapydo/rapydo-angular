@@ -71,7 +71,7 @@ input.datepicker {
 }
 
 .vertical-center {
-  min-height: 100%; /* Fallback for browsers do NOT support vh unit */
+  min-height: 100%; /* Fallback for browsers that do NOT support vh unit */
   min-height: 100vh; /* These two lines are counted as one :-)       */
   display: flex;
   align-items: center;
@@ -87,6 +87,15 @@ input.datepicker {
   border: none !important;
 }
 
+/* FORMLY */
+
+formly-field-multicheckbox > div {
+  overflow-y: auto;
+  max-height: 12em;
+  border: 1px solid #ced4da;
+  padding: 0.3em;
+  border-radius: 0.3em;
+}
 /* FORMLY ERRORS */
 
 .error-messages {
