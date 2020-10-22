@@ -93,17 +93,19 @@ export class FormlyService {
         //   field["templateOptions"]["maxLength"] = s.max;
         // }
       } else if (stype === "select") {
-        field_type = "select";
-        template_type = "select";
+        if (s.multiple) {
+          field_type = "multicheckbox";
+          // will output as a list instead of an object)
+          template_type = "array";
+        } else {
+          field_type = "select";
+          template_type = "select";
+        }
 
-        if (s.enum) {
-          stype = "select";
-          s.options = [];
-
-          // { k1: v1, k2: v2}
-          for (let key in s.enum) {
-            s.options.push({ value: key, label: s.enum[key] });
-          }
+        s.options = [];
+        // { k1: v1, k2: v2}
+        for (let key in s.enum) {
+          s.options.push({ value: key, label: s.enum[key] });
         }
 
         field["templateOptions"]["options"] = s.options;
@@ -125,9 +127,9 @@ export class FormlyService {
             }
           }
         }
-        if (s.multiple) {
-          field["templateOptions"]["multiple"] = s.multiple;
-        }
+        // if (s.multiple) {
+        //   field["templateOptions"]["multiple"] = s.multiple;
+        // }
       } else if (stype === "checkbox" || stype === "boolean") {
         field_type = "checkbox";
         template_type = "checkbox";
@@ -193,12 +195,11 @@ export class FormlyService {
               default_data = this.formatNgbDatepicker(default_data);
             } else if (template_type === "date") {
               default_data = this.formatDate(default_data);
-            } else if (template_type === "select" && s.multiple) {
-              if (!Array.isArray(default_data)) {
-                default_data = [default_data];
-              }
+            } else if (field_type == "multicheckbox") {
               let default_data_list = [];
 
+              // This works because template_type = "array";
+              // Otherwise the model should be {key1: true, key2: true}
               for (let d of default_data) {
                 if (typeof d["key"] !== "undefined") {
                   d = d["key"].toString();
@@ -211,7 +212,27 @@ export class FormlyService {
               }
 
               default_data = default_data_list;
-            } else if (template_type === "select" && !s.multiple) {
+
+              // } else if (template_type === "select" && s.multiple) {
+              //   if (!Array.isArray(default_data)) {
+              //     default_data = [default_data];
+              //   }
+              //   let default_data_list = [];
+
+              //   for (let d of default_data) {
+              //     if (typeof d["key"] !== "undefined") {
+              //       d = d["key"].toString();
+              //     } else if (typeof d["uuid"] !== "undefined") {
+              //       d = d["uuid"].toString();
+              //     } else if (typeof d["id"] !== "undefined") {
+              //       d = d["id"].toString();
+              //     }
+              //     default_data_list.push(d);
+              //   }
+
+              //   default_data = default_data_list;
+              // } else if (template_type === "select" && !s.multiple) {
+            } else if (template_type === "select") {
               if (Array.isArray(default_data)) {
                 if (default_data.length === 1) {
                   default_data = default_data[0];

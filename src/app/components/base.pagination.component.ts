@@ -257,7 +257,9 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     };
     if (this.data_filters) {
       for (let k in this.data_filters) {
-        data[k] = this.data_filters[k];
+        if (this.data_filters[k] != null) {
+          data[k] = this.data_filters[k];
+        }
       }
     }
     if (this.data_filter) {
@@ -310,7 +312,9 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     if (this.server_side_pagination || this.server_side_filtering) {
       if (this.data_filters) {
         for (let k in this.data_filters) {
-          data[k] = this.data_filters[k];
+          if (this.data_filters[k] != null) {
+            data[k] = this.data_filters[k];
+          }
         }
       }
       if (this.data_filter) {
