@@ -141,6 +141,9 @@ formly-field-multicheckbox > div {
   top: -10px;
 }
 
+.clickable {
+  cursor: pointer;
+}
 .black {
   color: #333 !important;
 }
