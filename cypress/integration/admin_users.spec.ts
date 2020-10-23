@@ -46,9 +46,9 @@ describe("AdminUsers", () => {
     cy.get("@email").clear().type(Cypress.env("AUTH_DEFAULT_USERNAME"));
     cy.get("@password").clear().type("short");
     cy.get("@submit").click({ force: true });
-    cy.checkvalidation(0, "Should have at least 8 characters");
+    cy.checkvalidation(0, "This field is required");
     cy.checkvalidation(1, "This field is required");
-    cy.checkvalidation(2, "This field is required");
+    cy.checkvalidation(2, "Should have at least 8 characters");
 
     cy.get("@password").clear().type("looooong");
     cy.get("@name").clear().type("SampleName");
