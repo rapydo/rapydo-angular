@@ -1,16 +1,17 @@
 import { Injectable } from "@angular/core";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import { FormlyFieldConfig } from "@ngx-formly/core";
 import * as moment from "moment";
 
-import { Schema } from "@rapydo/types";
+import { Schema, SchemaType, JSON2Form } from "@rapydo/types";
 
 @Injectable()
 export class FormlyService {
   constructor() {}
 
-  public json2Form(schema: Schema[], data: Record<string, any>) {
-    let fields = [];
-    let model = {};
+  public json2Form(schema: Schema[], data: Record<string, any>): JSON2Form {
+    let fields: FormlyFieldConfig[] = [];
+    let model: Record<string, unknown> = {};
     if (schema === null || typeof schema === "undefined") {
       return { fields, model };
     }
@@ -25,9 +26,14 @@ export class FormlyService {
       field["templateOptions"] = {};
       field["validators"] = {};
 
-      if (s.enum) {
+      if (
+        s.options &&
+        stype !== "radio" &&
+        stype !== "radio_with_description"
+      ) {
         stype = "select";
       }
+
       if (stype === "string") {
         if (s.max && s.max > 256) {
           stype = "textarea";
@@ -94,13 +100,13 @@ export class FormlyService {
           template_type = "select";
         }
 
-        s.options = [];
+        let options = [];
         // { k1: v1, k2: v2}
-        for (let key in s.enum) {
-          s.options.push({ value: key, label: s.enum[key] });
+        for (let key in s.options) {
+          options.push({ value: key, label: s.options[key] });
         }
 
-        field["templateOptions"]["options"] = s.options;
+        field["templateOptions"]["options"] = options;
         if (!s.multiple && !field["templateOptions"]["required"]) {
           if (Array.isArray(field["templateOptions"]["options"])) {
             // prevent duplicated empty options if already provided as valid value
@@ -122,7 +128,7 @@ export class FormlyService {
         // if (s.multiple) {
         //   field["templateOptions"]["multiple"] = s.multiple;
         // }
-      } else if (stype === "checkbox" || stype === "boolean") {
+      } else if (stype === "boolean") {
         field_type = "checkbox";
         template_type = "checkbox";
 
@@ -133,10 +139,6 @@ export class FormlyService {
         field_type = stype;
         template_type = "radio";
         field["templateOptions"]["options"] = s.options;
-
-        // } else if (stype === "file") {
-        //   field_type = "file";
-        //   template_type = "file";
       }
 
       field["key"] = s.key;
@@ -254,7 +256,15 @@ export class FormlyService {
     return { fields, model };
   }
 
-  public getField(model, type, key, name, required, descr, options = null) {
+  public getField(
+    model,
+    type: SchemaType,
+    key,
+    name,
+    required,
+    descr,
+    options = null
+  ) {
     const field = {
       description: descr,
       key,
@@ -263,7 +273,7 @@ export class FormlyService {
       type,
     };
 
-    if (type === "checkbox" || type === "boolean") {
+    if (type === "boolean") {
       if (key in model) {
         const v = model[key];
 
@@ -276,7 +286,7 @@ export class FormlyService {
         }
         delete model[key];
       }
-    } else if (type === "select") {
+    } else if (options) {
       field["default"] = model[key];
     }
 

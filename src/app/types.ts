@@ -1,4 +1,5 @@
 import { CustomUser } from "@app/types";
+import { FormlyFieldConfig } from "@ngx-formly/core";
 
 export type UUID = string;
 export type String = string;
@@ -95,24 +96,39 @@ export interface Confirmation {
   readonly message: string;
 }
 
+export enum SchemaType {
+  STRING = "string",
+  INT = "int",
+  NUMBER = "number",
+  DATE = "date",
+  EMAIL = "email",
+  PASSWORD = "password",
+  BOOLEAN = "boolean",
+  RADIO = "radio",
+  // it is really needed??
+  RADIO_WITH_DESCRIPTION = "radio_with_description",
+}
+
 export interface Schema {
   readonly key: string;
-  readonly type: string;
+  readonly type: SchemaType;
   readonly label?: string;
   readonly description?: string;
   readonly default?: any;
-  readonly format?: string;
   readonly required?: string;
-  // this is initialized in formly service in case of type select
-  options?: any[];
 
   readonly min?: number | Date;
   readonly max?: number | Date;
   // these are used by select/array fields
-  readonly enum?: Record<string, string>;
+  readonly options?: Record<string, string>;
   readonly multiple?: boolean;
 }
 
+// output of json2form in FormlyService
+export interface JSON2Form {
+  readonly fields: FormlyFieldConfig[];
+  readonly model: Record<string, unknown>;
+}
 interface CPUStats {
   /** @minimum 1 */
   readonly count: number;
