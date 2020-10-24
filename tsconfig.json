@@ -37,7 +37,6 @@
     // "noImplicitAny": true,
 
     // Suppress --noImplicitAny errors for indexing objects lacking index signatures.
-    // enable in a near future
     // "suppressImplicitAnyIndexErrors": false,
 
     // Required to import Noty.js

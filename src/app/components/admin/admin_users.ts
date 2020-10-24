@@ -30,10 +30,11 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
     super(injector);
 
     let endpoint = "admin/users";
-    /* istanbul ignore next */
-    if (this.auth.getUser()?.isLocalAdmin && !this.auth.getUser()?.isAdmin) {
-      endpoint = "localadmin/users";
-    }
+
+    // let user = this.auth.getUser();
+    // if (user && user.isCoordinator && !user.isAdmin) {
+    //   endpoint = "group/users";
+    // }
 
     this.init("user", endpoint, "AdminUsers");
     this.initPaging();
@@ -58,14 +59,12 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
       cellTemplate: this.dataName,
     });
 
-    if (this.customization.show_groups()) {
-      this.columns.push({
-        name: "Group",
-        prop: "group",
-        cellTemplate: this.dataGroup,
-        flexGrow: 0.3,
-      });
-    }
+    this.columns.push({
+      name: "Group",
+      prop: "group",
+      cellTemplate: this.dataGroup,
+      flexGrow: 0.3,
+    });
 
     const custom = this.customization.custom_user_data();
     if (custom) {
@@ -108,16 +107,6 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
       flexGrow: 0.2,
       minWidth: 60,
     });
-  }
-
-  public update(row) {
-    if (row.roles) {
-      for (let i = 0; i < row.roles.length; i++) {
-        let n = row.roles[i].name;
-        row["roles_" + n] = true;
-      }
-    }
-    return super.update(row);
   }
 
   filter(data_filter) {

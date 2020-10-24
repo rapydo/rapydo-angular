@@ -27,23 +27,32 @@ interface SimpleUserWithId extends SimpleUser {
 export interface SimpleGroup {
   readonly shortname: string;
   readonly fullname: string;
-  /** @nullable */
-  readonly coordinator?: SimpleUserWithId;
 }
 
 export interface Group extends SimpleGroup {
   readonly uuid: string;
+
+  readonly members?: SimpleUserWithId[];
 }
 
 export interface Groups extends Array<Group> {}
 
 export interface User extends SimpleUserWithId, CustomUser {
   readonly isAdmin: boolean;
-  readonly isLocalAdmin: boolean;
+  readonly isStaff: boolean;
+  readonly isCoordinator: boolean;
   readonly is_active: boolean;
   readonly privacy_accepted: boolean;
-  readonly roles: any;
-  readonly group?: Group;
+  readonly roles: Record<string, string>;
+  /** @nullable */
+  readonly first_login: Date;
+  /** @nullable */
+  readonly last_login: Date;
+  /** @nullable */
+  readonly last_password_change: Date;
+  // "nullable" should be removed in a near future
+  /** @nullable */
+  readonly group: Group;
 }
 
 // It is used in AdminUsers response
@@ -51,14 +60,15 @@ export interface AdminUser extends SimpleUserWithId, CustomUser {
   readonly is_active: boolean;
   readonly privacy_accepted: boolean;
   /** @nullable */
-  readonly last_login: Date;
-  /** @nullable */
   readonly first_login: Date;
+  /** @nullable */
+  readonly last_login: Date;
   /** @nullable */
   readonly last_password_change: Date;
   readonly roles: any;
-  readonly group?: Group[];
-  readonly coordinator?: Group[];
+  // "nullable" should be removed in a near future
+  /** @nullable */
+  readonly group: Group;
 }
 export interface AdminUsers extends Array<AdminUser> {}
 
@@ -90,29 +100,54 @@ export interface Total {
   /** @minimum 0 */
   readonly total: number;
 }
-export interface Confirmation {
-  readonly title: string;
-  readonly message: string;
+
+export enum SchemaType {
+  STRING = "string",
+  INT = "int",
+  NUMBER = "number",
+  DATE = "date",
+  EMAIL = "email",
+  PASSWORD = "password",
+  BOOLEAN = "boolean",
+  RADIO = "radio",
+  // it is really needed??
+  RADIO_WITH_DESCRIPTION = "radio_with_description",
+  URL = "url",
 }
+
+export type SchemaOptions =
+  | Record<string, string>
+  | Record<"value" | "label", string>[]
+  | Record<"value" | "label" | "description", string>[];
 
 export interface Schema {
   readonly key: string;
-  readonly type: string;
+  readonly type: SchemaType;
   readonly label?: string;
   readonly description?: string;
   readonly default?: any;
-  readonly format?: string;
-  readonly required?: string;
-  // this is initialized in formly service in case of type select
-  options?: any[];
+  readonly required?: boolean;
 
   readonly min?: number | Date;
   readonly max?: number | Date;
-  // these are used by select/array fields
-  readonly enum?: Record<string, string>;
+  // these are used by select/array fields. The second one is used by RADIO and RADIO_WITH_DESCRIPTION
+  readonly options?: SchemaOptions;
   readonly multiple?: boolean;
 }
 
+// I would directly the type from ngx-formly
+// https://github.com/ngx-formly/ngx-formly/blob/min/src/core/src/lib/models/fieldconfig.ts
+// but it fails during the compilation with ts-json-schema-generator
+
+// output of json2form in FormlyService
+export interface JSON2Form {
+  readonly fields: any[];
+  readonly model: Record<string, unknown>;
+}
+
+interface SystemStats {
+  readonly boot_time: Date;
+}
 interface CPUStats {
   /** @minimum 1 */
   readonly count: number;
@@ -215,7 +250,7 @@ interface SwapStats {
 }
 
 export interface AdminStats {
-  readonly boot_time: Date;
+  readonly system: SystemStats;
   readonly cpu: CPUStats;
   readonly disk: DiskStats;
   readonly io: IOStats;
@@ -223,4 +258,13 @@ export interface AdminStats {
   readonly procs: ProcsStats;
   readonly ram: RAMStats;
   readonly swap: SwapStats;
+}
+
+export interface ConfirmationModalOptions {
+  readonly text: string;
+  readonly title?: string;
+  readonly disableSubText?: boolean;
+  readonly subText?: string;
+  readonly confirmButton?: string;
+  readonly cancelButton?: string;
 }

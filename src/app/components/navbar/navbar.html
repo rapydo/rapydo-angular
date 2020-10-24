@@ -1,41 +1,121 @@
-<nav class="navbar navbar-expand navbar-light sticky-top">
+<nav class="navbar navbar-expand-sm navbar-light sticky-top">
   <custombrand></custombrand>
-  <customlinks [user]="user" *ngIf="!loading"></customlinks>
 
-  <ul class="nav navbar-nav ml-auto navbar-right" *ngIf="!loading">
-    <li class="nav-item" *ngIf="user">
-      <a class="nav-link" routerLink="/app/profile" routerLinkActive="active">
-        <i
-          class="fas fa-user fa-lg"
-          ngbTooltip="Profile of {{user.email}}"
-          placement="left"
-        ></i>
-      </a>
-    </li>
+  <button
+    class="navbar-toggler"
+    type="button"
+    (click)="isMenuCollapsed = !isMenuCollapsed"
+  >
+    &#9776;
+  </button>
 
-    <li class="nav-item" *ngIf="user">
-      <a class="nav-link" href [routerLink]="">
-        <i
-          class="fas fa-sign-out-alt fa-lg"
-          ngbTooltip="Logout"
-          mwlConfirmationPopover
-          [popoverTitle]="logoutConfirmationTitle"
-          [popoverMessage]="logoutConfirmationMessage"
-          [appendToBody]="true"
-          placement="left"
-          (confirm)="do_logout()"
-        ></i>
-      </a>
-    </li>
+  <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
+    <!-- this class text-right allows the menu to show on the right when collapsed. It has no effect when the menu is expaded -->
+    <customlinks
+      [user]="user"
+      *ngIf="!loading"
+      class="text-right"
+      (onClick)="isMenuCollapsed = true"
+    ></customlinks>
 
-    <li class="nav-item" *ngIf="!user">
-      <a routerLink="/app/login" routerLinkActive="active"> Sign in </a>
-    </li>
+    <ul
+      class="navbar-nav text-right"
+      *ngIf="user && (user.isAdmin || user.isCoordinator)"
+    >
+      <li class="nav-item" ngbDropdown>
+        <a
+          class="nav-link clickable"
+          ngbDropdownToggle
+          id="navbarDropdownAdminLink"
+          role="button"
+        >
+          Admin
+        </a>
+        <div
+          ngbDropdownMenu
+          aria-labelledby="navbarDropdownAdminLink"
+          class="dropdown-menu"
+        >
+          <a
+            *ngIf="user.isAdmin || user.isCoordinator"
+            ngbDropdownItem
+            routerLink="/app/admin/users"
+            routerLinkActive="active"
+            (click)="isMenuCollapsed = true"
+            >Users</a
+          >
 
-    <li class="nav-item" *ngIf="allowRegistration && !user">
-      <a routerLink="/public/register" routerLinkActive="active">
-        &nbsp; Sign up
-      </a>
-    </li>
-  </ul>
+          <a
+            *ngIf="user.isAdmin"
+            ngbDropdownItem
+            routerLink="/app/admin/groups"
+            routerLinkActive="active"
+            (click)="isMenuCollapsed = true"
+            >Groups</a
+          >
+
+          <a
+            *ngIf="user.isAdmin"
+            ngbDropdownItem
+            routerLink="/app/admin/sessions"
+            routerLinkActive="active"
+            (click)="isMenuCollapsed = true"
+            >Sessions</a
+          >
+
+          <a
+            *ngIf="user.isAdmin"
+            ngbDropdownItem
+            routerLink="/app/admin/stats"
+            routerLinkActive="active"
+            (click)="isMenuCollapsed = true"
+            >Server Stats</a
+          >
+        </div>
+      </li>
+    </ul>
+
+    <ul class="nav navbar-nav ml-auto navbar-right text-right" *ngIf="!loading">
+      <li class="nav-item" *ngIf="user">
+        <a
+          class="nav-link"
+          routerLink="/app/profile"
+          routerLinkActive="active"
+          (click)="isMenuCollapsed = true"
+        >
+          <i
+            class="fas fa-user fa-lg"
+            ngbTooltip="Profile of {{user.email}}"
+            placement="left"
+          ></i>
+        </a>
+      </li>
+
+      <li class="nav-item" *ngIf="user">
+        <a class="nav-link" href [routerLink]="">
+          <i class="fas fa-sign-out-alt fa-lg" (click)="do_logout()"></i>
+        </a>
+      </li>
+
+      <li class="nav-item" *ngIf="!user">
+        <a
+          class="nav-link btn btn-sm btn-outline-secondary no-rounded"
+          routerLink="/app/login"
+          routerLinkActive="active"
+        >
+          Sign in
+        </a>
+      </li>
+
+      <li class="nav-item ml-1" *ngIf="allowRegistration && !user">
+        <a
+          class="nav-link btn btn-sm btn-outline-secondary no-rounded"
+          routerLink="/public/register"
+          routerLinkActive="active"
+        >
+          Sign up
+        </a>
+      </li>
+    </ul>
+  </div>
 </nav>

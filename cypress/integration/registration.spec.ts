@@ -1,6 +1,8 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
+import { getpassword } from "../../fixtures/utilities";
+
 describe("Registration", () => {
   if (Cypress.env("ALLOW_REGISTRATION")) {
     it("Registration", () => {
@@ -47,22 +49,32 @@ describe("Registration", () => {
       cy.get("@submit").click({ force: true });
 
       cy.checkvalidation(0, "Invalid email address");
-      cy.checkvalidation(1, "Should have at least 8 characters");
-      cy.checkvalidation(2, "Password not matching");
+      cy.checkvalidation(
+        1,
+        "Should have at least " +
+          Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
+          " characters"
+      );
+
+      cy.get("@password").clear().type(getpassword(4));
+      cy.get("@confirmation").clear().type(getpassword(4));
+      cy.checkvalidation(1, "Password not matching");
 
       cy.get("@submit").click({ force: true });
 
-      cy.contains("Acceptance is mandatory");
+      if (Cypress.env("ALLOW_TERMS_OF_USE")) {
+        cy.contains("Acceptance is mandatory");
 
-      cy.get("a").contains(" read)").click({ force: true });
-      cy.get("button").contains("I read it").click({ force: true });
+        cy.get("a").contains(" read)").click({ force: true });
+        cy.get("button").contains("I read it").click({ force: true });
 
-      // Accept all privacy boxes
-      cy.get("formly-field-terms_of_use_checkbox")
-        .get('input[type="checkbox"]')
-        .each(($el, index, $list) => {
-          cy.wrap($el).click({ force: true });
-        });
+        // Accept all privacy boxes
+        cy.get("formly-field-terms_of_use_checkbox")
+          .get('input[type="checkbox"]')
+          .each(($el, index, $list) => {
+            cy.wrap($el).click({ force: true });
+          });
+      }
 
       // File extra fields
       // get custom fields added at project level:
@@ -77,25 +89,26 @@ describe("Registration", () => {
         }
       });
 
-      // This should pick the groups select, if enabled (e.g. in IMC)
-      // IT DOES NOT WORK YET!
-      if (Cypress.$("select").length > 0) {
-        cy.find("select").each(($el, index, $list) => {
-          cy.wrap($el).click();
-          if ($el.prop("required")) {
-            // select the first option
-            cy.wrap($el)
-              .get("option")
-              .eq(0)
-              .then((element) => cy.wrap($el).select(element.val()));
-          }
-        });
+      // Pick all the selects, included Groups and any other custom fields (like in IMC)
+      if (Cypress.$("select").length) {
+        cy.get("form")
+          .find("select")
+          .each(($el, index, $list) => {
+            if ($el.prop("required")) {
+              cy.wrap($el)
+                .find("option")
+                .eq(1)
+                .then((element) => {
+                  cy.wrap($el).select(element.val());
+                });
+            }
+          });
       }
 
       cy.get("@submit").click({ force: true });
 
       // Validation is now ok, but sending an already existing user as username
-      let newPassword = "looooong";
+      let newPassword = getpassword(1);
       cy.get("@email").clear().type(Cypress.env("AUTH_DEFAULT_USERNAME"));
       cy.get("@password").clear().type(newPassword);
       cy.get("@confirmation").clear().type(newPassword);
@@ -113,28 +126,28 @@ describe("Registration", () => {
       cy.checkalert("Password is too weak, missing upper case letters");
 
       // Failures on password validation: missing lower case letters
-      newPassword = "LOOOOONG";
+      newPassword = newPassword.toUpperCase();
       cy.get("@password").clear().type(newPassword);
       cy.get("@confirmation").clear().type(newPassword);
       cy.get("@submit").click({ force: true });
       cy.checkalert("Password is too weak, missing lower case letters");
 
       // Failures on password validation: missing numbers
-      newPassword = "LoOoOoNg";
+      newPassword = getpassword(2);
       cy.get("@password").clear().type(newPassword);
       cy.get("@confirmation").clear().type(newPassword);
       cy.get("@submit").click({ force: true });
       cy.checkalert("Password is too weak, missing numbers");
 
       // Failures on password validation: missing numbers
-      newPassword = "LoO0OoNg";
+      newPassword = getpassword(3);
       cy.get("@password").clear().type(newPassword);
       cy.get("@confirmation").clear().type(newPassword);
       cy.get("@submit").click({ force: true });
       cy.checkalert("Password is too weak, missing special characters");
 
       // That's all ok, let's create the user!
-      newPassword = "LoO0OoNg!";
+      newPassword = getpassword(4);
       cy.get("@password").clear().type(newPassword);
       cy.get("@confirmation").clear().type(newPassword);
       cy.get("@submit").click({ force: true });
@@ -148,16 +161,20 @@ describe("Registration", () => {
 
       cy.visit("/app/login");
 
+      cy.intercept("POST", "/auth/login").as("login1");
+
       cy.get("input[placeholder='Your username (email)']")
         .clear()
         .type(newUser);
       cy.get("input[placeholder='Your password']")
         .clear()
         .type(newPassword + "{enter}");
-      // cy.get("button").contains("Login").click();
 
-      cy.wait(1000);
-      cy.get("div.card-header h4").contains("This account is not active");
+      cy.wait("@login1");
+
+      cy.get("div.card-header.bg-warning h4").contains(
+        "This account is not active"
+      );
       cy.get("div.card-block").contains("Didn't receive an activation link?");
 
       cy.get("a").contains("Click here to send again").click();
@@ -205,13 +222,37 @@ describe("Registration", () => {
 
       cy.visit("/app/login");
 
+      cy.intercept("POST", "/auth/login").as("login2");
+
       cy.get("input[placeholder='Your username (email)']")
         .clear()
         .type(newUser);
       cy.get("input[placeholder='Your password']")
         .clear()
         .type(newPassword + "{enter}");
-      // cy.get("button").contains("Login").click();
+
+      cy.wait("@login2");
+
+      if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === "True") {
+        cy.get("div.card-header")
+          .should("have.class", "bg-warning")
+          .find("h4")
+          .contains("Please change your temporary password");
+
+        cy.checkalert("Please change your temporary password");
+
+        cy.intercept("POST", "/auth/login").as("login3");
+
+        cy.get('input[placeholder="Your new password"]')
+          .clear()
+          .type(newPassword + "!");
+        cy.get('input[placeholder="Confirm your new password"]')
+          .clear()
+          .type(newPassword + "!");
+        cy.get('button:contains("Change")').click({ force: true });
+
+        cy.wait("@login3");
+      }
 
       cy.visit("/app/profile");
 
@@ -229,26 +270,12 @@ describe("Registration", () => {
         "Permission denied: you are not authorized to access this page"
       );
 
-      cy.get("a").find(".fa-sign-out-alt").parent().click();
-      cy.get("button").contains("Confirm").click();
-
-      cy.wait(2000);
+      cy.logout();
 
       // Login as admin to delete the user
       cy.login();
 
-      cy.visit("/app/admin/users");
-
-      cy.get('input[placeholder="Type to filter users"]').clear().type(newUser);
-
-      cy.get("datatable-body-row").first().find(".fa-trash").click();
-      cy.get("h3.popover-title").contains("Confirmation required");
-      cy.get("button").contains("Confirm").click();
-
-      cy.checkalert("Confirmation: user successfully deleted");
-
-      cy.get("a").find(".fa-sign-out-alt").parent().click();
-      cy.get("button").contains("Confirm").click();
+      cy.deleteuser(newUser);
 
       cy.visit("/app/login");
 

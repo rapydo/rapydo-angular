@@ -29,14 +29,53 @@ describe("KitchenSink", () => {
 
         cy.get('input[placeholder="email"]').as("email");
         cy.get('input[placeholder="password"]').as("pwd");
-        cy.get('input[placeholder="url"]').as("url");
         cy.get('input[placeholder="date"]').as("date");
+        cy.get('input[placeholder="url"]').as("url");
+        cy.get('input[placeholder="text"]').as("text");
+        cy.get('input[placeholder="number"]').as("number");
 
         cy.get("@email").clear().type("Invalid");
         cy.checkvalidation(0, "Invalid email address");
 
         cy.get("@email").clear().type("user@sample.org");
         cy.get("@pwd").clear().type("thisIsVeryS3cret!");
+
+        // to verify that the placeholder works
+        cy.get("@date").click();
+        // first click opens, second click closes
+        cy.get("@date").click();
+        // to verify that the type is ngbdatepicker
+        cy.get("input[ngbdatepicker]").click();
+
+        cy.get(
+          'ngb-datepicker-navigation-select select[title="Select year"]'
+        ).as("year");
+
+        const current_year = new Date().getFullYear();
+        // The year select you have 3 value:
+        cy.get("@year").find("option").should("have.length", 3);
+        // The first is curret year -1
+        cy.get("@year")
+          .find("option")
+          .eq(0)
+          .contains((current_year - 1).toString());
+        // The second is current year
+        cy.get("@year").find("option").eq(1).contains(current_year.toString());
+        // The third is curret year +1
+        cy.get("@year")
+          .find("option")
+          .eq(2)
+          .contains((current_year + 1).toString());
+        // Just to verify that the values are selectable
+        cy.get("@year").select(current_year.toString());
+        cy.get("@year").select((current_year - 1).toString());
+        cy.get("@year").select((current_year + 1).toString());
+
+        cy.get(
+          'ngb-datepicker-navigation-select select[title="Select month"]'
+        ).select("5");
+
+        cy.get("div.ngb-dp-day div").contains("19").click({ force: true });
 
         cy.get("@url").clear().type("invalid");
         cy.checkvalidation(0, "Invalid web address");
@@ -46,6 +85,12 @@ describe("KitchenSink", () => {
 
         cy.get("@url").clear().type("www.google.c");
         cy.checkvalidation(0, "Invalid web address");
+
+        // This is to force the existence of a validation message and let the
+        // cy.get("formly-validation-message").should("not.contain")
+        // to work. Otherwise the get will fail...
+        cy.get("@email").clear();
+        cy.checkvalidation(0, "This field is required");
 
         cy.get("@url").clear().type("www.google.co");
         cy.get("formly-validation-message").should(
@@ -75,7 +120,7 @@ describe("KitchenSink", () => {
         );
 
         cy.get("@url").clear().type("httpx://www.google.com");
-        cy.checkvalidation(0, "Invalid web address");
+        cy.checkvalidation(1, "Invalid web address");
 
         cy.get("@url").clear().type("ftp://www.google.com");
         cy.get("formly-validation-message").should(
@@ -95,20 +140,62 @@ describe("KitchenSink", () => {
           "Invalid web address"
         );
 
-        // to verify that the placeholder works
-        cy.get("@date").click();
-        // first click opens, second click closes
-        cy.get("@date").click();
-        // to verify that the type is ngbdatepicker
-        cy.get("input[ngbdatepicker]").click();
+        cy.get("@text").clear().type("123");
+        cy.checkvalidation(1, "Should have at least 4 characters");
+        cy.get("@text").clear().type("1234");
+        cy.get("formly-validation-message").should(
+          "not.contain",
+          "Should have at least 4 characters"
+        );
+        cy.get("@text").clear().type("12345678");
+        // due to max: 6 on field definition
+        cy.get("@text").should("have.value", "123456");
+        // this validation error is never shown because
+        // the input does not permit to include more than specified max
+        cy.get("formly-validation-message").should(
+          "not.contain",
+          "Should have no more than 6 characters"
+        );
 
-        cy.get(
-          'ngb-datepicker-navigation-select select[title="Select month"]'
-        ).select("5");
-        cy.get(
-          'ngb-datepicker-navigation-select select[title="Select year"]'
-        ).select("1981");
-        cy.get("div.ngb-dp-day div").contains("19").click({ force: true });
+        cy.get("@number").clear().type("0");
+        cy.checkvalidation(1, "Should be greater than 1");
+        cy.get("@number").clear().type("10");
+        cy.checkvalidation(1, "Should be lower than 9");
+        cy.get("@number").clear().type("5");
+        cy.get("formly-validation-message").should(
+          "not.contain",
+          "Should be greater than 1"
+        );
+        cy.get("formly-validation-message").should(
+          "not.contain",
+          "Should be lower than 9"
+        );
+
+        cy.get("@number").clear().type("2.5");
+        cy.get("formly-validation-message").should(
+          "not.contain",
+          "Should be greater than 1"
+        );
+        cy.get("formly-validation-message").should(
+          "not.contain",
+          "Should be lower than 9"
+        );
+
+        // 30e-1 == 3
+        cy.get("@number").clear().type("30e-1");
+        cy.get("formly-validation-message").should(
+          "not.contain",
+          "Should be greater than 1"
+        );
+        cy.get("formly-validation-message").should(
+          "not.contain",
+          "Should be lower than 9"
+        );
+
+        // Let's remove the validation error introduced to ease check of missing errors
+        cy.get("@email").clear().type("user@sample.org");
+
+        cy.get('input:checkbox[placeholder="boolean"]').check({ force: true });
 
         cy.contains("Option1");
         cy.contains("Option2");
@@ -121,7 +208,11 @@ describe("KitchenSink", () => {
 
         cy.contains('"email": "user@sample.org"');
         cy.contains('"password": "thisIsVeryS3cret!"');
-        cy.contains('"date": "1981-05-19T00:00:00.000Z"');
+        cy.contains('"url": "www.google.com"');
+        cy.contains('"text": "123456"');
+        cy.contains('"number": 3');
+        cy.contains('"boolean": true');
+        cy.contains('"date": "' + (current_year + 1) + '-05-19T00:00:00.000Z"');
 
         cy.get("button.btn-outline-danger").find("i.fa-times").parent().click();
         cy.get('button:contains("Submit")').click({ force: true });

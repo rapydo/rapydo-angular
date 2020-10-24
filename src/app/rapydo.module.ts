@@ -24,6 +24,7 @@ import { FormlyService } from "@rapydo/services/formly";
 import { NotificationService } from "@rapydo/services/notification";
 import { WebSocketsService } from "@rapydo/services/websockets";
 import { ExcelService } from "@rapydo/services/excel";
+import { ConfirmationModals } from "@rapydo/services/confirmation.modals";
 
 import { JwtInterceptor } from "@rapydo/jwt.interceptor";
 
@@ -31,7 +32,7 @@ import { CustomNavbarComponent } from "@app/custom.navbar";
 import { CustomBrandComponent } from "@app/custom.navbar";
 import { CustomFooterComponent } from "@app/custom.footer";
 import { BaseProjectOptions } from "@rapydo/base.project.options";
-import { ProjectOptions } from "@app/custom.project.options";
+import { ProjectOptions } from "@app/customization";
 
 import { environment } from "@rapydo/../environments/environment";
 
@@ -128,6 +129,7 @@ let module_providers: any = [
   FormlyService,
   NotificationService,
   BaseProjectOptions,
+  ConfirmationModals,
   ProjectOptions,
   { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
 ];

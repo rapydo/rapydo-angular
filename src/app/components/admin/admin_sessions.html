@@ -45,6 +45,7 @@
                 (page)="serverSidePagination($event)"
                 (sort)="updateSort($event)"
                 [rowHeight]="'auto'"
+                (activate)="onDatatableActivate($event)"
               >
               </ngx-datatable>
             </div>
@@ -71,11 +72,7 @@
             <span *ngIf="currentToken != row['token']; else activeCurrent">
               <i
                 class="fas fa-trash fa-lg red"
-                mwlConfirmationPopover
-                [popoverTitle]="'Confirmation required'"
-                [popoverMessage]="'Are you really sure you want to close this session?'"
-                placement="left"
-                (confirm)="remove(value)"
+                (click)="delete(value, 'Are you really sure you want to close this session?')"
               ></i>
             </span>
             <ng-template #activeCurrent>

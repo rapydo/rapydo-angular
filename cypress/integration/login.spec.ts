@@ -24,6 +24,19 @@ describe("SuccessfulLogin", () => {
     cy.get("input[placeholder='Your username (email)']").type(
       Cypress.env("AUTH_DEFAULT_USERNAME")
     );
+
+    // cy.get("input[placeholder='Your password'][type='password']").should('not.have.value',Cypress.env("AUTH_DEFAULT_PASSWORD"));
+
+    cy.get("i.clickable.toggle.fas.fa-eye-slash").click();
+
+    cy.get("i.clickable.toggle.fas.fa-eye-slash").trigger("mousedown");
+
+    // cy.get("input[placeholder='Your password']").should('have.value',Cypress.env("AUTH_DEFAULT_PASSWORD"));
+
+    cy.get("i.clickable.toggle.fas.fa-eye").click();
+
+    // cy.get("input[placeholder='Your password'][type='password']").should('not.have.value',Cypress.env("AUTH_DEFAULT_PASSWORD"));
+
     cy.get("button").contains("Login").click();
   });
 
@@ -53,14 +66,25 @@ describe("SuccessfulLogin", () => {
 
     cy.get("a").find(".fa-user");
     cy.get("table").find("td").contains(Cypress.env("AUTH_DEFAULT_USERNAME"));
-    cy.get("a").find(".fa-sign-out-alt").parent().click();
 
-    cy.get("button").contains("Confirm").click();
+    cy.logout();
 
     // After the logout you are automatically redirected to the default page...
     // more in generale not on the profile page
     cy.location().should((location) => {
       expect(location.pathname).to.not.eq("/app/profile");
+    });
+
+    // If you enter the login page and your are logged in,
+    // you will be automatically logged out
+
+    cy.visit("/app/login");
+    cy.visit("/app/profile");
+
+    // You are now logged out and Profile page is restricted
+    // => you are automatically redirected to login page
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/login");
     });
   });
 });

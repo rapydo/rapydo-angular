@@ -24,7 +24,6 @@ describe("AdminSessions", () => {
     cy.get("ul.pager li.pages").contains(" 1 ");
     cy.get("ul.pager li.pages").contains(" 2 ").click();
     cy.get("ul.pager li.pages").contains(" 1 ").click();
-    cy.wait(500);
     cy.scrollTo("top");
 
     cy.get("span.datatable-header-cell-label").contains("Expiration").click();
@@ -78,27 +77,23 @@ describe("AdminSessions", () => {
     // due to scroll not work we cannot visualize firt and last tokens...
     // let's click in the middle...
     cy.get("datatable-body-row").eq(15).find(".fa-trash").click();
-    cy.get("h3.popover-title").contains("Confirmation required");
-    cy.get("button").contains("Cancel").click();
+    cy.get("h5.modal-title").contains("Confirmation required");
+    cy.get("button").contains("No, cancel").click();
     cy.get("datatable-body-row").eq(15).find(".fa-trash").click();
-    cy.get("h3.popover-title").contains("Confirmation required");
-    cy.get("button").contains("Confirm").click();
+    cy.get("h5.modal-title").contains("Confirmation required");
+    cy.get("button").contains("Yes, delete").click();
 
     cy.checkalert("Confirmation: token successfully deleted");
   });
 
   it("Backend errors", () => {
-    cy.server();
-
-    cy.route({
-      method: "GET",
-      url: "/api/admin/tokens?*",
-      status: 500,
-      response: "Stubbed get error",
-    });
+    cy.intercept("GET", /\/api\/admin\/tokens\?*/, {
+      statusCode: 500,
+      body: "Stubbed get error",
+    }).as("get");
 
     cy.visit("/app/admin/sessions");
+    cy.wait("@get");
     cy.checkalert("Stubbed get error");
-    cy.server({ enable: false });
   });
 });

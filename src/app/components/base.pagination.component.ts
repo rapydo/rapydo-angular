@@ -17,12 +17,13 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { ApiService } from "@rapydo/services/api";
 import { AuthService } from "@rapydo/services/auth";
 import { NotificationService } from "@rapydo/services/notification";
+import { ConfirmationModals } from "@rapydo/services/confirmation.modals";
 import { FormlyService } from "@rapydo/services/formly";
-import { Schema, Paging, Total, Confirmation } from "@rapydo/types";
+import { Schema, Paging, Total } from "@rapydo/types";
 import { FormModal } from "@rapydo/components/forms/form_modal";
 import { UUID } from "@rapydo/types";
 
-import { ProjectOptions } from "@app/custom.project.options";
+import { ProjectOptions } from "@app/customization";
 
 // === @swimlane/ngx-datatable/src/types/column-mode.type
 enum ColumnMode {
@@ -38,6 +39,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   protected api: ApiService;
   protected auth: AuthService;
   protected notify: NotificationService;
+  protected confirmationModals: ConfirmationModals;
   protected modalService: NgbModal;
   protected formly: FormlyService;
   protected changeDetectorRef: ChangeDetectorRef;
@@ -67,10 +69,8 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   public columns: Array<any> = [];
   // Used by the filter function
   public data_filter: string;
-  public data_filters: Record<string, string | number>;
+  public data_filters: Record<string, unknown>;
   public unfiltered_data: Array<T>;
-
-  public deleteConfirmation: Confirmation;
 
   public paging: Paging;
 
@@ -86,6 +86,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     this.api = injector.get(ApiService);
     this.auth = injector.get(AuthService);
     this.notify = injector.get(NotificationService);
+    this.confirmationModals = injector.get(ConfirmationModals);
     this.modalService = injector.get(NgbModal);
     this.formly = injector.get(FormlyService);
     this.changeDetectorRef = injector.get(ChangeDetectorRef);
@@ -96,7 +97,6 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     this.resource_name = res_name;
     this.endpoint = endpoint;
     this.data_type = data_type;
-    this.deleteConfirmation = this.getDeleteConfirmation(this.resource_name);
   }
 
   public ngOnInit(): void {}
@@ -113,22 +113,6 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       this.table.recalculate();
       this.changeDetectorRef.detectChanges();
     }
-  }
-
-  /** DELETE MODAL WITH MESSAGE CONFIRMATION **/
-  public getDeleteConfirmation(name): Confirmation {
-    return {
-      title: "Confirmation required",
-      message:
-        `<div class='card text-center'>
-          <div class='card-body'>
-          <h4 class='card-title'>Are you really sure you want to delete this ` +
-        name +
-        `?</h4>
-          <p class='card-text'>This operation cannot be undone.</p>
-          </div>
-          </div>`,
-    };
   }
 
   public updateFilter(event): void {
@@ -348,18 +332,37 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     );
   }
 
-  public remove(uuid: string): Subscription {
-    return this.api.delete(this.endpoint + "/" + uuid).subscribe(
-      (response) => {
-        this.notify.showSuccess(
-          "Confirmation: " + this.resource_name + " successfully deleted"
-        );
-        this.list();
-      },
-      (error) => {
-        this.notify.showError(error);
-      }
-    );
+  public delete(
+    uuid: string,
+    text: string = null,
+    title: string = null,
+    subText: string = null
+  ): Subscription {
+    if (text == null) {
+      text = `Are you really sure you want to delete this ${this.resource_name}?`;
+    }
+
+    let retPromise: Subscription = null;
+    this.confirmationModals
+      .open({ text: text, title: title, subText: subText })
+      .then(
+        (result) => {
+          retPromise = this.api.delete(this.endpoint + "/" + uuid).subscribe(
+            (response) => {
+              this.notify.showSuccess(
+                "Confirmation: " + this.resource_name + " successfully deleted"
+              );
+              this.list();
+            },
+            (error) => {
+              this.notify.showError(error);
+            }
+          );
+        },
+        (reason) => {}
+      );
+
+    return retPromise;
   }
 
   public create() {

@@ -21,9 +21,9 @@
                 <th>Server startup</th>
                 <td>
                   <span
-                    ngbTooltip="{{stats.boot_time | amFromUtc | date : 'dd MMM yyyy HH:mm:ss' }}"
+                    ngbTooltip="{{stats.system.boot_time | amFromUtc | date : 'dd MMM yyyy HH:mm:ss' }}"
                   >
-                    {{stats.boot_time | amTimeAgo:false}}
+                    {{stats.system.boot_time | amTimeAgo:false}}
                   </span>
                 </td>
               </tr>

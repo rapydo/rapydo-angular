@@ -8,15 +8,13 @@ import "zone.js/dist/zone";
 import "zone.js/dist/long-stack-trace-zone";
 import "reflect-metadata/Reflect";
 
-let opts: any = {};
 if (environment.production) {
   enableProdMode();
-  opts.preserveWhitespaces = false;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   platformBrowserDynamic()
-    .bootstrapModule(AppModule, opts)
+    .bootstrapModule(AppModule)
     .then((ref) => {
       // Ensure Angular destroys itself on hot reloads.
       if (window["ngRef"]) {

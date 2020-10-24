@@ -1,7 +1,13 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
+import { getpassword } from "../../fixtures/utilities";
+
 describe("AdminUsers", () => {
+  // with this email the user should be the first when sorted by email
+  // username will be created without roles
+  const username = "a000000000000@sample.org";
+
   beforeEach(() => {
     cy.login();
 
@@ -15,10 +21,6 @@ describe("AdminUsers", () => {
   });
 
   it("Create new user", () => {
-    // with this email the user should be the first when sorted by email
-    // username will be created without roles
-    const username = "aaa0000000000000@sample.org";
-
     cy.get('button:contains("new user")').click({ force: true });
     cy.get('button:contains("Close")').click({ force: true });
 
@@ -48,9 +50,14 @@ describe("AdminUsers", () => {
     cy.get("@submit").click({ force: true });
     cy.checkvalidation(0, "This field is required");
     cy.checkvalidation(1, "This field is required");
-    cy.checkvalidation(2, "Should have at least 8 characters");
+    cy.checkvalidation(
+      2,
+      "Should have at least " +
+        Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
+        " characters"
+    );
 
-    cy.get("@password").clear().type("looooong");
+    cy.get("@password").clear().type(getpassword(4));
     cy.get("@name").clear().type("SampleName");
     cy.get("@surname").clear().type("SampleSurname");
 
@@ -66,28 +73,29 @@ describe("AdminUsers", () => {
       }
     });
 
-    // This should pick the groups select, if enabled (e.g. in IMC)
-    // IT DOES NOT WORK YET!
-    if (Cypress.$("select").length > 0) {
-      cy.find("select").each(($el, index, $list) => {
-        cy.wrap($el).click();
+    // Pick all the selects, included Groups and any other custom fields (like in IMC)
+    cy.get("form")
+      .find("select")
+      .each(($el, index, $list) => {
         if ($el.prop("required")) {
-          // select the first option
           cy.wrap($el)
-            .get("option")
-            .eq(0)
-            .then((element) => cy.wrap($el).select(element.val()));
+            .find("option")
+            .eq(1)
+            .then((element) => {
+              cy.wrap($el).select(element.val());
+            });
         }
       });
-    }
 
     cy.get("formly-validation-message").should("not.exist");
 
     cy.get("@submit").click({ force: true });
 
     cy.checkalert(
-      "Email already exists with value: " + Cypress.env("AUTH_DEFAULT_USERNAME")
+      "A User already exists with email: " +
+        Cypress.env("AUTH_DEFAULT_USERNAME")
     );
+
     cy.get("@email").clear().type(username);
     cy.get("@submit").click({ force: true });
 
@@ -99,35 +107,27 @@ describe("AdminUsers", () => {
   });
 
   it("Search and sort user", () => {
-    const username = "aaa0000000000000@sample.org";
+    cy.get('input[placeholder="Type to filter users"]').as("search");
 
     cy.get("datatable-body-row").its("length").should("be.gt", 1);
 
     // search by email
-    cy.get('input[placeholder="Type to filter users"]')
-      .clear()
-      .type("thisisinvalidforsure");
+    cy.get("@search").clear().type("thisisinvalidforsure");
     cy.get("datatable-body-row").should("have.length", 0);
-    cy.get('input[placeholder="Type to filter users"]')
-      .clear()
-      .type(Cypress.env("AUTH_DEFAULT_USERNAME"));
+    cy.get("@search").clear().type(Cypress.env("AUTH_DEFAULT_USERNAME"));
     cy.get("datatable-body-row").should("have.length", 1);
-    cy.get('input[placeholder="Type to filter users"]').clear().type(username);
+    cy.get("@search").clear().type(username);
     cy.get("datatable-body-row").should("have.length", 1);
 
     // search by name
-    cy.get('input[placeholder="Type to filter users"]')
-      .clear()
-      .type("SampleName");
+    cy.get("@search").clear().type("SampleName");
     cy.get("datatable-body-row").should("have.length", 1);
 
     // search by surname
-    cy.get('input[placeholder="Type to filter users"]')
-      .clear()
-      .type("SampleSurname");
+    cy.get("@search").clear().type("SampleSurname");
     cy.get("datatable-body-row").should("have.length", 1);
 
-    cy.get('input[placeholder="Type to filter users"]').clear();
+    cy.get("@search").clear();
 
     // Sort by email, username is now the first
     cy.get("span.datatable-header-cell-label")
@@ -154,14 +154,12 @@ describe("AdminUsers", () => {
     cy.get("datatable-body-row")
       .last()
       .contains("datatable-body-cell", username);
-
-    cy.wait(1000);
   });
 
   it("Modify user", () => {
-    const username = "aaa0000000000000@sample.org";
+    cy.get('input[placeholder="Type to filter users"]').as("search");
 
-    cy.get('input[placeholder="Type to filter users"]').clear().type(username);
+    cy.get("@search").clear().type(username);
     cy.get("datatable-body-row")
       .eq(0)
       .contains("datatable-body-cell", username);
@@ -176,16 +174,17 @@ describe("AdminUsers", () => {
     cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
     cy.get('input[placeholder="Email"]').should("not.exist");
     cy.get('input[placeholder="Name"]').clear().type("NewName");
-    cy.get('input:checkbox[placeholder="User"]').uncheck({ force: true });
+    cy.get('input:checkbox[value="normal_user"]').uncheck({ force: true });
     cy.get('button:contains("Submit")').click({ force: true });
     cy.checkalert("Confirmation: user successfully update");
 
-    cy.get('input[placeholder="Type to filter users"]').clear().type(username);
+    cy.get("@search").clear().type(username);
     cy.get("datatable-body-row")
       .eq(0)
       .contains("datatable-body-cell", "NewName");
     // The role is still there... because it is the default
-    cy.get("datatable-body-row").eq(0).contains("datatable-body-cell", "User");
+    // This can't work because "User" label can be changed at project level
+    // cy.get("datatable-body-row").eq(0).contains("datatable-body-cell", "User");
 
     // Restore previous value
     cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
@@ -195,24 +194,25 @@ describe("AdminUsers", () => {
   });
 
   it("Delete user", () => {
-    const username = "aaa0000000000000@sample.org";
-    cy.get('input[placeholder="Type to filter users"]').clear().type(username);
+    cy.get('input[placeholder="Type to filter users"]').as("search");
+
+    cy.get("@search").clear().type(username);
     cy.get("datatable-body-row")
       .eq(0)
       .contains("datatable-body-cell", username);
     cy.get("datatable-body-row").eq(0).find(".fa-trash").click({ force: true });
-    cy.get("h3.popover-title").contains("Confirmation required");
-    cy.get("button").contains("Cancel").click({ force: true });
+    cy.get("h5.modal-title").contains("Confirmation required");
+    cy.get("button").contains("No, cancel").click({ force: true });
     cy.get("datatable-body-row")
       .eq(0)
       .contains("datatable-body-cell", username);
     cy.get("datatable-body-row").eq(0).find(".fa-trash").click({ force: true });
-    cy.get("h3.popover-title").contains("Confirmation required");
-    cy.get("button").contains("Confirm").click({ force: true });
+    cy.get("h5.modal-title").contains("Confirmation required");
+    cy.get("button").contains("Yes, delete").click({ force: true });
 
     cy.checkalert("Confirmation: user successfully deleted");
 
-    cy.get('input[placeholder="Type to filter users"]').clear().type(username);
+    cy.get("@search").clear().type(username);
 
     cy.get("datatable-body-row").should("not.exist");
 
@@ -222,28 +222,23 @@ describe("AdminUsers", () => {
   });
 
   it("Backend errors", () => {
-    cy.server();
-
-    cy.route({
-      method: "DELETE",
-      url: "/api/admin/users/*",
-      status: 500,
-      response: "Stubbed delete error",
-    });
+    cy.intercept("DELETE", /\/api\/admin\/users\/*/, {
+      statusCode: 500,
+      body: "Stubbed delete error",
+    }).as("delete");
 
     cy.get("datatable-body-row").eq(0).find(".fa-trash").click({ force: true });
-    cy.get("button").contains("Confirm").click({ force: true });
+    cy.get("button").contains("Yes, delete").click({ force: true });
+    cy.wait("@delete");
     cy.checkalert("Stubbed delete error");
 
-    cy.route({
-      method: "GET",
-      url: "/api/admin/users",
-      status: 500,
-      response: "Stubbed get error",
-    });
+    cy.intercept("GET", "/api/admin/users", {
+      statusCode: 500,
+      body: "Stubbed get error",
+    }).as("get");
 
     cy.visit("/app/admin/users");
+    cy.wait("@get");
     cy.checkalert("Stubbed get error");
-    cy.server({ enable: false });
   });
 });

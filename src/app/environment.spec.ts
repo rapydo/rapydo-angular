@@ -15,6 +15,7 @@ describe("Environment", () => {
     expect(environment.allowRegistration).not.toBeUndefined();
     expect(environment.allowPasswordReset).not.toBeUndefined();
     expect(environment.allowTermsOfUse).not.toBeUndefined();
+    expect(environment.minPasswordLength).not.toBeUndefined();
     expect(environment.websocketsUrl).not.toBeUndefined();
     expect(environment.SENTRY_URL).not.toBeUndefined();
     expect(environment.GA_TRACKING_CODE).not.toBeUndefined();

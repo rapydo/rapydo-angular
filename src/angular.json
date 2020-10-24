@@ -20,6 +20,7 @@
             "tsConfig": "tsconfig.app.json",
             "extractCss": true,
             "aot": true,
+            "forkTypeChecker": false,
             "assets": [
               "./app/rapydo/assets",
               "./app/custom/assets",
@@ -37,7 +38,7 @@
               "./app/custom/css/style.css"
             ],
             "scripts": [],
-            "allowedCommonJsDependencies": ["file-saver", "rxjs", "ajv", "xlsx"]
+            "allowedCommonJsDependencies": ["ajv", "xlsx", "file-saver"]
           },
           "configurations": {
             "production": {

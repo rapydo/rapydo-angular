@@ -10,7 +10,7 @@ import { ApiService } from "@rapydo/services/api";
 import { AuthService } from "@rapydo/services/auth";
 import { User } from "@rapydo/types";
 import { NotificationService } from "@rapydo/services/notification";
-import { ProjectOptions } from "@app/custom.project.options";
+import { ProjectOptions } from "@app/customization";
 
 @Component({
   templateUrl: "login.html",
@@ -50,15 +50,20 @@ export class LoginComponent implements OnInit {
     private modalService: NgbModal,
     private customization: ProjectOptions,
     private api: ApiService,
-    private authService: AuthService
+    private auth: AuthService
   ) {
     this.allowRegistration = environment.allowRegistration;
     this.allowPasswordReset = environment.allowPasswordReset;
+
+    const user = this.auth.getUser();
+    if (user != null) {
+      this.auth.logout().subscribe((response) => {
+        console.log("Forced logout");
+      });
+    }
   }
 
   ngOnInit() {
-    // reset login status
-    this.authService.logout();
     this.set_form();
 
     // get return url from route parameters or default to '/'
@@ -72,6 +77,17 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  private goto_url(raw_url: string) {
+    // this.router.parseUrl(this.returnUrl).queryParams[key] || '';
+    // this will convert the url string into an UrlTree
+    // This conversion allows for redirect to urls with query parameters
+    // e.g. /app/myroute?param1=val1
+    const url = this.router.parseUrl(raw_url);
+    this.router.navigateByUrl(url);
+
+    // This is the previous version queryParameters non-aware
+    // this.router.navigate([raw_url]);
+  }
   private set_form() {
     this.fields = [];
 
@@ -95,9 +111,9 @@ export class LoginComponent implements OnInit {
     if (this.askPassword) {
       this.fields.push({
         key: "password",
-        type: "input",
+        type: "password",
         templateOptions: {
-          type: "password",
+          // type: "password",
           label: "Password",
           placeholder: "Your password",
           addonLeft: {
@@ -111,23 +127,23 @@ export class LoginComponent implements OnInit {
     if (this.askNewPassword) {
       this.fields.push({
         key: "new_password",
-        type: "input",
+        type: "password",
         templateOptions: {
-          type: "password",
+          // type: "password",
           label: "New password",
           placeholder: "Your new password",
           addonLeft: {
             class: "fas fa-key",
           },
           required: true,
-          minLength: 8,
+          minLength: environment.minPasswordLength,
         },
       });
       this.fields.push({
         key: "password_confirm",
-        type: "input",
+        type: "password",
         templateOptions: {
-          type: "password",
+          // type: "password",
           label: "Password confirmation",
           placeholder: "Confirm your new password",
           addonLeft: {
@@ -149,7 +165,7 @@ export class LoginComponent implements OnInit {
       return false;
     }
     this.loading = true;
-    this.authService
+    this.auth
       .login(
         this.model.username,
         this.model.password,
@@ -158,13 +174,13 @@ export class LoginComponent implements OnInit {
       )
       .subscribe(
         (data) => {
-          this.authService.loadUser().subscribe(
+          this.auth.loadUser().subscribe(
             (response) => {
               this.loading = false;
-              let u: User = this.authService.getUser();
+              let u: User = this.auth.getUser();
 
               if (u.privacy_accepted || !environment.allowTermsOfUse) {
-                this.router.navigate([this.returnUrl]);
+                this.goto_url(this.returnUrl);
               } else {
                 this.showTermsOfUse(u);
               }
@@ -254,8 +270,8 @@ export class LoginComponent implements OnInit {
           .patch("/auth/profile", "", { privacy_accepted: true })
           .subscribe(
             (data) => {
-              this.authService.loadUser();
-              this.router.navigate([this.returnUrl]);
+              this.auth.loadUser();
+              this.goto_url(this.returnUrl);
             },
             (error) => {
               this.notify.showError(error);
@@ -263,7 +279,7 @@ export class LoginComponent implements OnInit {
           );
       },
       (reason) => {
-        this.authService.logout().subscribe((response) => {
+        this.auth.logout().subscribe((response) => {
           this.notify.showError(
             "We apologize but you are not allowed to login, as you have not accepted our Terms of Use"
           );
@@ -274,7 +290,7 @@ export class LoginComponent implements OnInit {
   }
 
   ask_activation_link() {
-    this.authService.ask_activation_link(this.model.username).subscribe(
+    this.auth.ask_activation_link(this.model.username).subscribe(
       (response: any) => {
         this.accountNotActive = false;
         this.notify.showSuccess(response);

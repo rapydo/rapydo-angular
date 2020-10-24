@@ -7,10 +7,13 @@ import { NotificationService } from "@rapydo/services/notification";
 import { ApiService } from "@rapydo/services/api";
 import { AuthService } from "@rapydo/services/auth";
 
+import { environment } from "@rapydo/../environments/environment";
+
 @Component({
   templateUrl: "reset.html",
 })
 export class ResetPasswordComponent implements OnInit {
+  public resetForm: boolean;
   public token: string;
   public invalid_token: string;
   public reset_message: string;
@@ -31,7 +34,9 @@ export class ResetPasswordComponent implements OnInit {
     private authService: AuthService
   ) {
     this.route.params.subscribe((params) => {
-      if (typeof params["token"] !== "undefined") {
+      if (typeof params["token"] === "undefined") {
+        this.resetForm = true;
+      } else {
         this.api.put("/auth/reset/" + params["token"]).subscribe(
           (response) => {
             this.token = params["token"];
@@ -69,23 +74,23 @@ export class ResetPasswordComponent implements OnInit {
 
     this.step2_fields.push({
       key: "newPwd",
-      type: "input",
+      type: "password",
       templateOptions: {
-        type: "password",
+        // type: "password",
         label: "New password",
         placeholder: "Type here your new password",
         addonLeft: {
           class: "fas fa-key",
         },
         required: true,
-        minLength: 8,
+        minLength: environment.minPasswordLength,
       },
     });
     this.step2_fields.push({
       key: "confirmPwd",
-      type: "input",
+      type: "password",
       templateOptions: {
-        type: "password",
+        // type: "password",
         label: "Confirm password",
         placeholder: "Type again your new password for confirmation",
         addonLeft: {

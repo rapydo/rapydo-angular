@@ -1,6 +1,6 @@
 import { TestBed, getTestBed } from "@angular/core/testing";
 import { FormlyService } from "@rapydo/services/formly";
-import { Schema } from "@rapydo/types";
+import { Schema, SchemaType } from "@rapydo/types";
 
 describe("FormlyService", () => {
   let injector: TestBed;
@@ -10,32 +10,32 @@ describe("FormlyService", () => {
       label: "Text",
       description: "Text",
       key: "text",
-      required: "true",
-      type: "string",
+      required: true,
+      type: SchemaType.STRING,
     },
     {
       label: "List",
       description: "List",
-      enum: {
+      options: {
         k1: "val1",
         k2: "val2",
       },
       key: "list",
-      required: "true",
-      type: "string",
+      required: true,
+      type: SchemaType.STRING,
     },
     {
       label: "Checkbox",
       key: "checkbox",
-      required: "false",
-      type: "boolean",
+      required: false,
+      type: SchemaType.BOOLEAN,
     },
     {
       label: "Number",
       description: "number",
       key: "number",
-      required: "true",
-      type: "number",
+      required: true,
+      type: SchemaType.NUMBER,
     },
   ];
   const schema_with_defaults: Schema[] = [
@@ -44,35 +44,35 @@ describe("FormlyService", () => {
       description: "Text",
       key: "text",
       default: "default text",
-      required: "true",
-      type: "string",
+      required: true,
+      type: SchemaType.STRING,
     },
     {
       label: "List",
       description: "List",
-      enum: {
+      options: {
         k1: "val1",
         k2: "val2",
       },
       default: "k1",
       key: "list",
-      required: "true",
-      type: "string",
+      required: true,
+      type: SchemaType.STRING,
     },
     {
       label: "Checkbox",
-      default: "true",
+      default: true,
       key: "checkbox",
-      required: "false",
-      type: "boolean",
+      required: false,
+      type: SchemaType.BOOLEAN,
     },
     {
       label: "Number",
       description: "number",
       default: 42,
       key: "number",
-      required: "true",
-      type: "number",
+      required: true,
+      type: SchemaType.NUMBER,
     },
   ];
   const model = {
@@ -146,128 +146,6 @@ describe("FormlyService", () => {
     expect(form["model"]["checkbox"]).toEqual(true);
     expect(form["model"]["number"]).not.toBeUndefined();
     expect(form["model"]["number"]).toEqual(7);
-  });
-
-  it("getField", () => {
-    let form = service.getField(
-      { mykey: "myval" },
-      "string",
-      "mykey",
-      "My Field",
-      true,
-      "My descr"
-    );
-    expect(form).not.toBeUndefined();
-    expect(form["fields"]).not.toBeUndefined();
-    expect(form["model"]).not.toBeUndefined();
-    expect(form["fields"]).not.toEqual([]);
-    expect(form["model"]).not.toEqual({});
-    expect(form["fields"][0].key).toEqual("mykey");
-    expect(form["fields"][0].type).toEqual("input");
-    expect(form["fields"][0].templateOptions).not.toBeUndefined();
-    expect(form["fields"][0].templateOptions.label).toEqual("My Field");
-    expect(form["fields"][0].templateOptions.placeholder).toEqual("My descr");
-    expect(form["fields"][0].templateOptions.type).toEqual("text");
-    expect(form["fields"][0].templateOptions.required).toBeTruthy();
-    expect(form["model"]["mykey"]).not.toBeUndefined();
-    expect(form["model"]["mykey"]).toEqual("myval");
-
-    for (let d of ["0", "false", "False", "off"]) {
-      form = service.getField(
-        { mykey: d },
-        "checkbox",
-        "mykey",
-        "My Field",
-        true,
-        "My descr"
-      );
-      // checkbox is defaulted to FALSE
-      expect(form["fields"]).not.toEqual([]);
-      expect(form["fields"][0].key).toEqual("mykey");
-      expect(form["fields"][0].type).toEqual("checkbox");
-      expect(form["fields"][0].templateOptions).not.toBeUndefined();
-      expect(form["fields"][0].templateOptions.label).toEqual("My Field");
-      expect(form["fields"][0].templateOptions.placeholder).toEqual("My descr");
-      expect(form["fields"][0].templateOptions.type).toEqual("checkbox");
-      expect(form["fields"][0].templateOptions.required).toBeTruthy();
-      expect(form["fields"][0].defaultValue).toBeUndefined();
-    }
-
-    for (let d of ["1", "true", "True", "on"]) {
-      form = service.getField(
-        { mykey: d },
-        "checkbox",
-        "mykey",
-        "My Field",
-        true,
-        "My descr"
-      );
-      expect(form["fields"]).not.toEqual([]);
-      expect(form["fields"][0].key).toEqual("mykey");
-      expect(form["fields"][0].type).toEqual("checkbox");
-      expect(form["fields"][0].templateOptions).not.toBeUndefined();
-      expect(form["fields"][0].templateOptions.label).toEqual("My Field");
-      expect(form["fields"][0].templateOptions.placeholder).toEqual("My descr");
-      expect(form["fields"][0].templateOptions.type).toEqual("checkbox");
-      expect(form["fields"][0].templateOptions.required).toBeTruthy();
-      expect(form["fields"][0].defaultValue).toBeTruthy();
-    }
-
-    form = service.getField(
-      { mykey: "strange value" },
-      "checkbox",
-      "mykey",
-      "My Field",
-      true,
-      "My descr"
-    );
-    expect(form["fields"]).not.toEqual([]);
-    expect(form["fields"][0].key).toEqual("mykey");
-    expect(form["fields"][0].type).toEqual("checkbox");
-    expect(form["fields"][0].templateOptions).not.toBeUndefined();
-    expect(form["fields"][0].templateOptions.label).toEqual("My Field");
-    expect(form["fields"][0].templateOptions.placeholder).toEqual("My descr");
-    expect(form["fields"][0].templateOptions.type).toEqual("checkbox");
-    expect(form["fields"][0].templateOptions.required).toBeTruthy();
-    expect(form["fields"][0].defaultValue).toBeTruthy();
-
-    form = service.getField(
-      {},
-      "checkbox",
-      "mykey",
-      "My Field",
-      true,
-      "My descr"
-    );
-    expect(form["fields"]).not.toEqual([]);
-    expect(form["fields"][0].key).toEqual("mykey");
-    expect(form["fields"][0].type).toEqual("checkbox");
-    expect(form["fields"][0].templateOptions).not.toBeUndefined();
-    expect(form["fields"][0].templateOptions.label).toEqual("My Field");
-    expect(form["fields"][0].templateOptions.placeholder).toEqual("My descr");
-    expect(form["fields"][0].templateOptions.type).toEqual("checkbox");
-    expect(form["fields"][0].templateOptions.required).toBeTruthy();
-    expect(form["fields"][0].defaultValue).toBeFalsy();
-
-    form = service.getField(
-      { mykey: "a" },
-      "select",
-      "mykey",
-      "My Field",
-      true,
-      "My descr",
-      { a: "AAA", b: "BBB" }
-    );
-    expect(form["fields"]).not.toEqual([]);
-    expect(form["fields"][0].key).toEqual("mykey");
-    expect(form["fields"][0].type).toEqual("select");
-    expect(form["fields"][0].templateOptions).not.toBeUndefined();
-    expect(form["fields"][0].templateOptions.label).toEqual("My Field");
-    expect(form["fields"][0].templateOptions.description).toEqual("My descr");
-    expect(form["fields"][0].templateOptions.placeholder).toBeUndefined();
-    expect(form["fields"][0].templateOptions.type).toEqual("select");
-    expect(form["fields"][0].templateOptions.required).toBeTruthy();
-    expect(form["fields"][0].defaultValue).toBeTruthy();
   });
 
   it("formatDate", () => {

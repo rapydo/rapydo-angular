@@ -9,7 +9,6 @@ import { FormsModule, FormControl } from "@angular/forms";
 import { ReactiveFormsModule, ValidationErrors } from "@angular/forms";
 
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
-import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { UploadxModule } from "ngx-uploadx";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -32,6 +31,7 @@ import { FormlyHorizontalWrapper } from "@rapydo/components/forms/bootstrap.hori
 import { FormlyDescriptiveRadio } from "@rapydo/components/forms/radio-type.component";
 import { TermsOfUseCheckbox } from "@rapydo/components/forms/terms_of_use_checkbox";
 import { DatePickerComponent } from "@rapydo/components/forms/datepicker.component";
+import { PasswordComponent } from "@rapydo/components/forms/password.component";
 
 import { NgxSpinnerModule } from "ngx-spinner";
 
@@ -41,6 +41,7 @@ import { BooleanFlagPipe } from "@rapydo/pipes/boolean_flag";
 import { YesNoPipe } from "@rapydo/pipes/yes_or_no";
 
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
+import { DeleteModal } from "@rapydo/components/delete_modal";
 import { FormModal } from "@rapydo/components/forms/form_modal";
 
 export function emailValidator(control: FormControl): ValidationErrors {
@@ -114,6 +115,8 @@ export function minLengthValidationError(error, field) {
   return `Should have at least ${field.templateOptions.minLength} characters`;
 }
 
+// Can't be tested because inputs are prevented to add more characters then the maximum allowed
+/* istanbul ignore next */
 export function maxLengthValidationError(error, field) {
   return `Should have no more than ${field.templateOptions.maxLength} characters`;
 }
@@ -165,13 +168,6 @@ let module_imports: any = [
   FormsModule,
   ReactiveFormsModule,
   NgxDatatableModule,
-  ConfirmationPopoverModule.forRoot(
-    // set defaults here
-    {
-      confirmButtonType: "danger",
-      appendToBody: true,
-    }
-  ),
   UploadxModule,
   ClipboardModule,
   NgxSpinnerModule,
@@ -186,6 +182,12 @@ let module_imports: any = [
       {
         name: "datepicker",
         component: DatePickerComponent,
+        wrappers: ["form-field"],
+      },
+      {
+        // extend password field with visibility toggle
+        name: "password",
+        component: PasswordComponent,
         wrappers: ["form-field"],
       },
     ],
@@ -212,11 +214,13 @@ let module_declarations = [
   BooleanFlagPipe,
   YesNoPipe,
   BasePaginationComponent,
+  DeleteModal,
   FormModal,
   FormlyHorizontalWrapper,
   FormlyDescriptiveRadio,
   TermsOfUseCheckbox,
   DatePickerComponent,
+  PasswordComponent,
 ];
 
 let module_exports = [
@@ -226,9 +230,9 @@ let module_exports = [
   FormlyDescriptiveRadio,
   TermsOfUseCheckbox,
   DatePickerComponent,
+  PasswordComponent,
 
   NgxDatatableModule,
-  ConfirmationPopoverModule,
   NgbModule,
   MomentModule,
   FormsModule,
@@ -244,6 +248,7 @@ let module_exports = [
   BooleanFlagPipe,
   YesNoPipe,
   BasePaginationComponent,
+  DeleteModal,
   FormModal,
 ];
 

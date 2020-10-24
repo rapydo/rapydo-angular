@@ -1,16 +1,17 @@
 import { Injectable } from "@angular/core";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
+import { FormlyFieldConfig } from "@ngx-formly/core";
 import * as moment from "moment";
 
-import { Schema } from "@rapydo/types";
+import { Schema, JSON2Form } from "@rapydo/types";
 
 @Injectable()
 export class FormlyService {
   constructor() {}
 
-  public json2Form(schema: Schema[], data: Record<string, any>) {
-    let fields = [];
-    let model = {};
+  public json2Form(schema: Schema[], data: Record<string, any>): JSON2Form {
+    let fields: FormlyFieldConfig[] = [];
+    let model: Record<string, unknown> = {};
     if (schema === null || typeof schema === "undefined") {
       return { fields, model };
     }
@@ -25,17 +26,19 @@ export class FormlyService {
       field["templateOptions"] = {};
       field["validators"] = {};
 
-      if (s.enum) {
+      if (
+        s.options &&
+        stype !== "radio" &&
+        stype !== "radio_with_description"
+      ) {
         stype = "select";
       }
-      if (stype === "text" || stype === "string" || stype === "textarea") {
+
+      if (stype === "string") {
         if (s.max && s.max > 256) {
           stype = "textarea";
-        }
-
-        if (stype === "textarea") {
           field_type = "textarea";
-          // should be calculated from s.max, if provided
+          // should be calculated from s.max
           field["templateOptions"]["rows"] = 5;
         } else {
           field_type = "input";
@@ -43,22 +46,16 @@ export class FormlyService {
 
         template_type = "text";
 
-        if (s.min) {
-          field["templateOptions"]["minLength"] = s.min;
-        }
-        if (s.max) {
-          field["templateOptions"]["maxLength"] = s.max;
-        }
+        field["templateOptions"]["minLength"] = s.min;
+        field["templateOptions"]["maxLength"] = s.max;
+
+        // number is a float/decimal
       } else if (stype === "int" || stype === "number") {
         field_type = "input";
         template_type = "number";
 
-        if (typeof s.min !== "undefined") {
-          field["templateOptions"]["min"] = s.min;
-        }
-        if (typeof s.max !== "undefined") {
-          field["templateOptions"]["max"] = s.max;
-        }
+        field["templateOptions"]["min"] = s.min;
+        field["templateOptions"]["max"] = s.max;
       } else if (stype === "date") {
         field_type = "datepicker";
         // field_type = "input";
@@ -83,8 +80,8 @@ export class FormlyService {
         template_type = "email";
         field["validators"] = { validation: ["email"] };
       } else if (stype === "password") {
-        field_type = "input";
-        template_type = "password";
+        field_type = "password";
+        // template_type = "password";
 
         if (typeof s.min !== "undefined") {
           field["templateOptions"]["minLength"] = s.min;
@@ -102,19 +99,19 @@ export class FormlyService {
           template_type = "select";
         }
 
-        s.options = [];
+        let options = [];
         // { k1: v1, k2: v2}
-        for (let key in s.enum) {
-          s.options.push({ value: key, label: s.enum[key] });
+        for (let key in s.options) {
+          options.push({ value: key, label: s.options[key] });
         }
 
-        field["templateOptions"]["options"] = s.options;
+        field["templateOptions"]["options"] = options;
         if (!s.multiple && !field["templateOptions"]["required"]) {
           if (Array.isArray(field["templateOptions"]["options"])) {
             // prevent duplicated empty options if already provided as valid value
             let empty_option_found = false;
             for (let opt of field["templateOptions"]["options"]) {
-              if (opt.value == "") {
+              if (opt.value === "") {
                 empty_option_found = true;
                 break;
               }
@@ -130,7 +127,7 @@ export class FormlyService {
         // if (s.multiple) {
         //   field["templateOptions"]["multiple"] = s.multiple;
         // }
-      } else if (stype === "checkbox" || stype === "boolean") {
+      } else if (stype === "boolean") {
         field_type = "checkbox";
         template_type = "checkbox";
 
@@ -141,10 +138,10 @@ export class FormlyService {
         field_type = stype;
         template_type = "radio";
         field["templateOptions"]["options"] = s.options;
-
-        // } else if (stype === "file") {
-        //   field_type = "file";
-        //   template_type = "file";
+      } else if (stype === "url") {
+        field_type = "input";
+        template_type = "url";
+        field["validators"] = { validation: ["url"] };
       }
 
       field["key"] = s.key;
@@ -170,7 +167,7 @@ export class FormlyService {
         field["templateOptions"]["placeholder"] = s.description;
       }
       field["templateOptions"]["type"] = template_type;
-      field["templateOptions"]["required"] = s.required === "true";
+      field["templateOptions"]["required"] = s.required;
 
       // if (template_type === 'radio') {
       //   field['templateOptions']['labelProp'] = "value";
@@ -195,62 +192,27 @@ export class FormlyService {
               default_data = this.formatNgbDatepicker(default_data);
             } else if (template_type === "date") {
               default_data = this.formatDate(default_data);
-            } else if (field_type == "multicheckbox") {
-              let default_data_list = [];
-
+            } else if (field_type === "multicheckbox") {
               // This works because template_type = "array";
               // Otherwise the model should be {key1: true, key2: true}
+              let default_data_list = [];
               for (let d of default_data) {
-                if (typeof d["key"] !== "undefined") {
-                  d = d["key"].toString();
-                } else if (typeof d["uuid"] !== "undefined") {
-                  d = d["uuid"].toString();
-                } else if (typeof d["id"] !== "undefined") {
-                  d = d["id"].toString();
-                }
-                default_data_list.push(d);
+                default_data_list.push(this.getSelectIdFromObject(d));
               }
 
               default_data = default_data_list;
-
-              // } else if (template_type === "select" && s.multiple) {
-              //   if (!Array.isArray(default_data)) {
-              //     default_data = [default_data];
-              //   }
-              //   let default_data_list = [];
-
-              //   for (let d of default_data) {
-              //     if (typeof d["key"] !== "undefined") {
-              //       d = d["key"].toString();
-              //     } else if (typeof d["uuid"] !== "undefined") {
-              //       d = d["uuid"].toString();
-              //     } else if (typeof d["id"] !== "undefined") {
-              //       d = d["id"].toString();
-              //     }
-              //     default_data_list.push(d);
-              //   }
-
-              //   default_data = default_data_list;
-              // } else if (template_type === "select" && !s.multiple) {
             } else if (template_type === "select") {
-              if (Array.isArray(default_data)) {
-                if (default_data.length === 1) {
-                  default_data = default_data[0];
-                } else {
-                  console.warn(
-                    "Cannot determine default data from ",
-                    default_data
-                  );
-                }
-              }
-
-              if (typeof default_data["key"] !== "undefined") {
-                default_data = default_data["key"].toString();
-              } else if (typeof default_data["uuid"] !== "undefined") {
-                default_data = default_data["uuid"].toString();
-              } else if (typeof default_data["id"] !== "undefined") {
-                default_data = default_data["id"].toString();
-              }
+              // if (Array.isArray(default_data)) {
+              //   if (default_data.length === 1) {
+              //     default_data = default_data[0];
+              //   } else {
+              //     console.warn(
+              //       "Cannot determine default data from ",
+              //       default_data
+              //     );
+              //   }
+              // }
+              default_data = this.getSelectIdFromObject(default_data);
             }
 
             model[s.key] = default_data;
@@ -262,37 +224,28 @@ export class FormlyService {
     return { fields, model };
   }
 
-  public getField(model, type, key, name, required, descr, options = null) {
-    const field = {
-      description: descr,
-      key,
-      label: name,
-      required: required ? "true" : "false",
-      type,
-    };
-
-    if (type === "checkbox" || type === "boolean") {
-      if (key in model) {
-        const v = model[key];
-
-        if (v === "0" || v === "false" || v === "False" || v === "off") {
-          field["default"] = false;
-        } else if (v === "1" || v === "true" || v === "True" || v === "on") {
-          field["default"] = true;
-        } else {
-          field["default"] = v;
-        }
-        delete model[key];
-      }
-    } else if (type === "select") {
-      field["default"] = model[key];
+  public getSelectIdFromObject(
+    obj: string | Record<"key" | "uuid" | "id" | "name", string | number>
+  ): string {
+    if (typeof obj["key"] !== "undefined") {
+      return obj["key"].toString();
+    }
+    if (typeof obj["uuid"] !== "undefined") {
+      return obj["uuid"].toString();
+    }
+    if (typeof obj["id"] !== "undefined") {
+      return obj["id"].toString();
+    }
+    // it is used by Roles
+    if (typeof obj["name"] !== "undefined") {
+      return obj["name"].toString();
     }
 
-    if (options) {
-      field["options"] = options;
+    if (typeof obj == "string") {
+      return obj;
     }
 
-    return this.json2Form([field], model);
+    return obj.toString();
   }
 
   public formatNgbDatepicker(date_string: string): Date {

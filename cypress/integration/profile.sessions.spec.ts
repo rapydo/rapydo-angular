@@ -1,14 +1,12 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
-const path = require("path");
+// const path = require("path");
 
 describe("Sessions", () => {
   beforeEach(() => {
     cy.login();
 
     cy.visit("/app/profile/sessions");
-
-    cy.closecookielaw();
 
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/profile/sessions");
@@ -91,8 +89,8 @@ describe("Sessions", () => {
         .eq(num - 2)
         .find(".fa-trash")
         .click();
-      cy.get("h3.popover-title").contains("Confirmation required");
-      cy.get("button").contains("Cancel").click();
+      cy.get("h5.modal-title").contains("Confirmation required");
+      cy.get("button").contains("No, cancel").click();
       cy.contains("Confirmation required").should("not.exist");
 
       // Delete the second-last token
@@ -100,8 +98,8 @@ describe("Sessions", () => {
         .eq(num - 2)
         .find(".fa-trash")
         .click();
-      cy.get("h3.popover-title").contains("Confirmation required");
-      cy.get("button").contains("Confirm").click();
+      cy.get("h5.modal-title").contains("Confirmation required");
+      cy.get("button").contains("Yes, delete").click();
 
       cy.checkalert("Confirmation: token successfully deleted");
     });
@@ -116,8 +114,7 @@ describe("Sessions", () => {
     // // From Vivek Nayyar
     // // https://dev.to/viveknayyar/e2e-testing-of-excel-downloads-with-cypress-21fb
 
-    // // arbitrary wait so that the download can complete
-    // cy.wait(1000);
+    // cy.intercept / wait to wait for download completion
     // const header = [
     //   "IP",
     //   "Location",

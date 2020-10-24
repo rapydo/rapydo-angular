@@ -45,6 +45,7 @@
                 [footerHeight]="40"
                 [limit]="paging.itemsPerPage"
                 [rowHeight]="'auto'"
+                (activate)="onDatatableActivate($event)"
               >
               </ngx-datatable>
             </div>
@@ -64,14 +65,9 @@
           </ng-template>
 
           <ng-template #dataGroup let-row="row" let-value="value" let-i="index">
-            <span ngbTooltip="{{value[0].fullname}}" *ngIf="value[0]">
-              {{value[0].shortname}}
+            <span ngbTooltip="{{value.fullname}}" *ngIf="value">
+              {{value.shortname}}
             </span>
-            <i
-              class="fas fa-star yellow"
-              *ngIf="row.coordinator.length"
-              ngbTooltip="Group coordinator"
-            ></i>
           </ng-template>
 
           <ng-template #dataName let-row="row" let-value="value" let-i="index">
@@ -121,11 +117,7 @@
             ></i>
             <i
               class="fas fa-trash fa-lg red clickable"
-              mwlConfirmationPopover
-              [popoverTitle]="'Confirmation required'"
-              [popoverMessage]="'Are you really sure you want to delete this user?'"
-              placement="left"
-              (confirm)="remove(row.uuid)"
+              (click)="delete(row.uuid)"
             ></i>
           </ng-template>
         </div>

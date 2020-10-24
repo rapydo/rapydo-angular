@@ -50,7 +50,9 @@ export class ApiService {
     /* istanbul ignore next */
     if (id !== "") {
       // Deprecated since 0.8
-      console.warn("Deprecated use of id parameter in api.get");
+      console.error(
+        "Deprecated use of id parameter in api.get (will be dropped in the next version)"
+      );
       endpoint += "/" + id;
     }
     return this.call("GET", endpoint, data, options);
@@ -69,7 +71,9 @@ export class ApiService {
     /* istanbul ignore next */
     if (id !== "") {
       // Deprecated since 0.8
-      console.warn("Deprecated use of id parameter in api.get");
+      console.error(
+        "Deprecated use of id parameter in api.put (will be dropped in the next version)"
+      );
       endpoint += "/" + id;
     }
     return this.call("PUT", endpoint, data, options);
@@ -84,7 +88,9 @@ export class ApiService {
     /* istanbul ignore next */
     if (id !== "") {
       // Deprecated since 0.8
-      console.warn("Deprecated use of id parameter in api.get");
+      console.error(
+        "Deprecated use of id parameter in api.patch (will be dropped in the next version)"
+      );
       endpoint += "/" + id;
     }
     return this.call("PATCH", endpoint, data, options);
@@ -94,7 +100,9 @@ export class ApiService {
     /* istanbul ignore next */
     if (id !== "") {
       // Deprecated since 0.8
-      console.warn("Deprecated use of id parameter in api.get");
+      console.error(
+        "Deprecated use of id parameter in api.delete (will be dropped in the next version)"
+      );
       endpoint += "/" + id;
     }
     return this.call("DELETE", endpoint, {}, options);

@@ -46,6 +46,17 @@ div.initial_loading > h2 > div.spinner-grow {
 }
 
 /* Bootstrap v4 */
+
+.btn.btn-outline-secondary.active {
+  color: #f8f9fa !important;
+}
+
+.btn.no-rounded {
+  -webkit-border-radius: 0 !important;
+  -moz-border-radius: 0 !important;
+  border-radius: 0 !important;
+}
+
 .card-block {
   padding: 20px;
 }
@@ -96,6 +107,7 @@ formly-field-multicheckbox > div {
   padding: 0.3em;
   border-radius: 0.3em;
 }
+
 /* FORMLY ERRORS */
 
 .error-messages {
@@ -140,6 +152,8 @@ formly-field-multicheckbox > div {
   opacity: 0;
   top: -10px;
 }
+
+/* ICONS */
 
 .clickable {
   cursor: pointer;
