@@ -28,12 +28,10 @@ export class FormlyService {
       if (s.enum) {
         stype = "select";
       }
-      if (stype === "text" || stype === "string" || stype === "textarea") {
+      if (stype === "string") {
         if (s.max && s.max > 256) {
           stype = "textarea";
-        }
 
-        if (stype === "textarea") {
           field_type = "textarea";
           // should be calculated from s.max, if provided
           field["templateOptions"]["rows"] = 5;
@@ -43,22 +41,16 @@ export class FormlyService {
 
         template_type = "text";
 
-        if (s.min) {
-          field["templateOptions"]["minLength"] = s.min;
-        }
-        if (s.max) {
-          field["templateOptions"]["maxLength"] = s.max;
-        }
+        field["templateOptions"]["minLength"] = s.min;
+        field["templateOptions"]["maxLength"] = s.max;
+
+        // number is a float/decimal
       } else if (stype === "int" || stype === "number") {
         field_type = "input";
         template_type = "number";
 
-        if (typeof s.min !== "undefined") {
-          field["templateOptions"]["min"] = s.min;
-        }
-        if (typeof s.max !== "undefined") {
-          field["templateOptions"]["max"] = s.max;
-        }
+        field["templateOptions"]["min"] = s.min;
+        field["templateOptions"]["max"] = s.max;
       } else if (stype === "date") {
         field_type = "datepicker";
         // field_type = "input";
