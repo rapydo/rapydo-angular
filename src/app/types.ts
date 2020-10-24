@@ -1,5 +1,4 @@
 import { CustomUser } from "@app/types";
-import { FormlyFieldConfig } from "@ngx-formly/core";
 
 export type UUID = string;
 export type String = string;
@@ -124,9 +123,13 @@ export interface Schema {
   readonly multiple?: boolean;
 }
 
+// I would directly the type from ngx-formly
+// https://github.com/ngx-formly/ngx-formly/blob/min/src/core/src/lib/models/fieldconfig.ts
+// but it fails during the compilation with ts-json-schema-generator
+
 // output of json2form in FormlyService
 export interface JSON2Form {
-  readonly fields: FormlyFieldConfig[];
+  readonly fields: any[];
   readonly model: Record<string, unknown>;
 }
 interface CPUStats {
