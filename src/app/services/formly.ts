@@ -201,6 +201,9 @@ export class FormlyService {
                   d = d["uuid"].toString();
                 } else if (typeof d["id"] !== "undefined") {
                   d = d["id"].toString();
+                  // it is used by Roles
+                } else if (typeof d["name"] !== "undefined") {
+                  d = d["name"].toString();
                 }
                 default_data_list.push(d);
               }

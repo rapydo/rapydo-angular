@@ -110,16 +110,6 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
     });
   }
 
-  public update(row) {
-    if (row.roles) {
-      for (let i = 0; i < row.roles.length; i++) {
-        let n = row.roles[i].name;
-        row["roles_" + n] = true;
-      }
-    }
-    return super.update(row);
-  }
-
   filter(data_filter) {
     return this.unfiltered_data.filter(function (d) {
       if (d.email.toLowerCase().indexOf(data_filter) !== -1) {
