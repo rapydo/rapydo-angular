@@ -176,7 +176,7 @@ describe("AdminUsers", () => {
     cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
     cy.get('input[placeholder="Email"]').should("not.exist");
     cy.get('input[placeholder="Name"]').clear().type("NewName");
-    cy.get('input:checkbox[placeholder="User"]').uncheck({ force: true });
+    cy.get('input:checkbox[value="normal_user"]').uncheck({ force: true });
     cy.get('button:contains("Submit")').click({ force: true });
     cy.checkalert("Confirmation: user successfully update");
 
