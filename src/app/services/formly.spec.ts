@@ -1,6 +1,6 @@
 import { TestBed, getTestBed } from "@angular/core/testing";
 import { FormlyService } from "@rapydo/services/formly";
-import { Schema } from "@rapydo/types";
+import { Schema, SchemaType } from "@rapydo/types";
 
 describe("FormlyService", () => {
   let injector: TestBed;
@@ -10,32 +10,32 @@ describe("FormlyService", () => {
       label: "Text",
       description: "Text",
       key: "text",
-      required: "true",
-      type: "string",
+      required: true,
+      type: SchemaType.STRING,
     },
     {
       label: "List",
       description: "List",
-      enum: {
+      options: {
         k1: "val1",
         k2: "val2",
       },
       key: "list",
-      required: "true",
-      type: "string",
+      required: true,
+      type: SchemaType.STRING,
     },
     {
       label: "Checkbox",
       key: "checkbox",
       required: "false",
-      type: "boolean",
+      type: SchemaType.BOOLEAN,
     },
     {
       label: "Number",
       description: "number",
       key: "number",
-      required: "true",
-      type: "number",
+      required: true,
+      type: SchemaType.NUMBER,
     },
   ];
   const schema_with_defaults: Schema[] = [
@@ -44,35 +44,35 @@ describe("FormlyService", () => {
       description: "Text",
       key: "text",
       default: "default text",
-      required: "true",
-      type: "string",
+      required: true,
+      type: SchemaType.STRING,
     },
     {
       label: "List",
       description: "List",
-      enum: {
+      options: {
         k1: "val1",
         k2: "val2",
       },
       default: "k1",
       key: "list",
-      required: "true",
-      type: "string",
+      required: true,
+      type: SchemaType.STRING,
     },
     {
       label: "Checkbox",
-      default: "true",
+      default: true,
       key: "checkbox",
-      required: "false",
-      type: "boolean",
+      required: false,
+      type: SchemaType.BOOLEAN,
     },
     {
       label: "Number",
       description: "number",
       default: 42,
       key: "number",
-      required: "true",
-      type: "number",
+      required: true,
+      type: SchemaType.NUMBER,
     },
   ];
   const model = {

@@ -164,7 +164,7 @@ export class FormlyService {
         field["templateOptions"]["placeholder"] = s.description;
       }
       field["templateOptions"]["type"] = template_type;
-      field["templateOptions"]["required"] = s.required === "true";
+      field["templateOptions"]["required"] = s.required;
 
       // if (template_type === 'radio') {
       //   field['templateOptions']['labelProp'] = "value";
@@ -272,7 +272,7 @@ export class FormlyService {
       description: descr,
       key,
       label: name,
-      required: required ? "true" : "false",
+      required,
       type,
     };
 

@@ -114,7 +114,7 @@ export interface Schema {
   readonly label?: string;
   readonly description?: string;
   readonly default?: any;
-  readonly required?: string;
+  readonly required?: boolean;
 
   readonly min?: number | Date;
   readonly max?: number | Date;
