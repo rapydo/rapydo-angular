@@ -27,7 +27,7 @@ describe("FormlyService", () => {
     {
       label: "Checkbox",
       key: "checkbox",
-      required: "false",
+      required: false,
       type: SchemaType.BOOLEAN,
     },
     {
@@ -151,7 +151,7 @@ describe("FormlyService", () => {
   it("getField", () => {
     let form = service.getField(
       { mykey: "myval" },
-      "string",
+      SchemaType.STRING,
       "mykey",
       "My Field",
       true,
@@ -175,7 +175,7 @@ describe("FormlyService", () => {
     for (let d of ["0", "false", "False", "off"]) {
       form = service.getField(
         { mykey: d },
-        "checkbox",
+        SchemaType.BOOLEAN,
         "mykey",
         "My Field",
         true,
@@ -196,7 +196,7 @@ describe("FormlyService", () => {
     for (let d of ["1", "true", "True", "on"]) {
       form = service.getField(
         { mykey: d },
-        "checkbox",
+        SchemaType.BOOLEAN,
         "mykey",
         "My Field",
         true,
@@ -215,7 +215,7 @@ describe("FormlyService", () => {
 
     form = service.getField(
       { mykey: "strange value" },
-      "checkbox",
+      SchemaType.BOOLEAN,
       "mykey",
       "My Field",
       true,
@@ -233,7 +233,7 @@ describe("FormlyService", () => {
 
     form = service.getField(
       {},
-      "checkbox",
+      SchemaType.BOOLEAN,
       "mykey",
       "My Field",
       true,
@@ -251,7 +251,7 @@ describe("FormlyService", () => {
 
     form = service.getField(
       { mykey: "a" },
-      "select",
+      SchemaType.STRING,
       "mykey",
       "My Field",
       true,
