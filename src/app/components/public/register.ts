@@ -9,7 +9,7 @@ import { ApiService } from "@rapydo/services/api";
 import { AuthService } from "@rapydo/services/auth";
 import { NotificationService } from "@rapydo/services/notification";
 
-import { ProjectOptions } from "@app/custom.project.options";
+import { ProjectOptions } from "@app/customization";
 
 @Component({
   templateUrl: "register.html",

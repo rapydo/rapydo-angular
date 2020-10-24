@@ -22,7 +22,7 @@ import { Schema, Paging, Total, Confirmation } from "@rapydo/types";
 import { FormModal } from "@rapydo/components/forms/form_modal";
 import { UUID } from "@rapydo/types";
 
-import { ProjectOptions } from "@app/custom.project.options";
+import { ProjectOptions } from "@app/customization";
 
 // === @swimlane/ngx-datatable/src/types/column-mode.type
 enum ColumnMode {

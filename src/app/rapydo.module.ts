@@ -31,7 +31,7 @@ import { CustomNavbarComponent } from "@app/custom.navbar";
 import { CustomBrandComponent } from "@app/custom.navbar";
 import { CustomFooterComponent } from "@app/custom.footer";
 import { BaseProjectOptions } from "@rapydo/base.project.options";
-import { ProjectOptions } from "@app/custom.project.options";
+import { ProjectOptions } from "@app/customization";
 
 import { environment } from "@rapydo/../environments/environment";
 

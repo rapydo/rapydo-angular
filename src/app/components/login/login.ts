@@ -10,7 +10,7 @@ import { ApiService } from "@rapydo/services/api";
 import { AuthService } from "@rapydo/services/auth";
 import { User } from "@rapydo/types";
 import { NotificationService } from "@rapydo/services/notification";
-import { ProjectOptions } from "@app/custom.project.options";
+import { ProjectOptions } from "@app/customizations";
 
 @Component({
   templateUrl: "login.html",

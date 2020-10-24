@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 
 import { environment } from "@rapydo/../environments/environment";
 
-import { ProjectOptions } from "@app/custom.project.options";
+import { ProjectOptions } from "@app/customization";
 import { ApiService } from "@rapydo/services/api";
 import { AuthService } from "@rapydo/services/auth";
 import { User } from "@rapydo/types";
