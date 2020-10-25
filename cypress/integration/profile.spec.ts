@@ -17,6 +17,7 @@ describe("Profile", () => {
 
     cy.get("table").find("th").contains("Name");
     cy.get("table").find("th").contains("Email");
+    cy.get("table").find("th").contains("Group");
     cy.get("table").find("th").contains("Roles");
     cy.get("table").find("th").contains("Privacy Accepted");
     cy.get("table").find("th").contains("Password");

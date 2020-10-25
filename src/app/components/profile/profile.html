@@ -29,9 +29,9 @@
                 <td>{{user.email}}</td>
               </tr>
 
-              <tr *ngIf="user.group">
+              <tr>
                 <th>Group</th>
-                <td>{{user.group.fullname}}</td>
+                <td>{{user.group?.fullname}}</td>
               </tr>
 
               <tr>

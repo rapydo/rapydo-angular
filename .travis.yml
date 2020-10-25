@@ -27,6 +27,7 @@ script:
       rapydo -s frontend start;
       sleep 5;
       rapydo shell frontend "yarn install" || travis_terminate 1;
+      rapydo shell frontend "reload-types" || travis_terminate 1;
       rapydo shell frontend "yarn run test:single" || travis_terminate 1;
       cp data/prj/karma/lcov.info .;
       travis_retry bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular;
