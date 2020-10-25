@@ -42,7 +42,7 @@ describe("AuthService", () => {
         expect(result).toBeUndefined();
       },
       (error) => {
-        expect(error.error).toEqual("Invalid username or password");
+        expect(error).toEqual("Invalid username or password");
 
         service.isAuthenticated().subscribe((result) => {
           expect(result).toBeFalsy();
