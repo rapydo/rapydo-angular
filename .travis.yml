@@ -27,7 +27,6 @@ script:
       rapydo -s frontend start;
       sleep 5;
       rapydo shell frontend "yarn install" || travis_terminate 1;
-      rapydo shell frontend "reload-types" || travis_terminate 1;
       rapydo shell frontend "yarn run test:single" || travis_terminate 1;
       cp data/prj/karma/lcov.info .;
       travis_retry bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular;
@@ -52,7 +51,11 @@ script:
 
     elif [[ "$STAGE" == "cypress" ]]; then
 
-      rapydo --testing create prj --auth postgres --frontend angular --origin-url https://your_remote_git/your_project.git;
+      auth_services=(postgres mysql neo4j neo4j mongo);
+      AUTH=${auth_services[$(($RANDOM % ${#auth_services[@]}))]}
+      echo "Selected random authentication service = ${AUTH}"
+
+      rapydo --testing create prj --auth ${AUTH} --frontend angular --origin-url https://your_remote_git/your_project.git;
       rapydo --testing init;
       rapydo add component sink;
       cp submodules/do/controller/templates/testing_sink.html.j2 projects/prj/frontend/app/components/sink/sink.html;
@@ -72,7 +75,7 @@ script:
       cd -;
 
       rapydo pull;
-      rapydo start;
+      rapydo -e PROJECT_TITLE="Your ${AUTH} Project" start;
       rapydo shell backend 'restapi wait';
       rapydo shell backend --detach "restapi launch";
       rapydo shell frontend "yarn install" || travis_terminate 1;
