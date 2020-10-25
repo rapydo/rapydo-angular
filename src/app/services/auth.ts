@@ -38,13 +38,15 @@ export class AuthService {
       };
     }
 
-    return this.api.post<string>("/auth/login", data).pipe(
-      map((response) => {
-        this.clean_localstorage();
-        this.setToken(JSON.stringify(response));
-        return response;
-      })
-    );
+    return this.api
+      .post<string>("/auth/login", data, { rawError: true })
+      .pipe(
+        map((response) => {
+          this.clean_localstorage();
+          this.setToken(JSON.stringify(response));
+          return response;
+        })
+      );
   }
 
   public logout() {
@@ -56,7 +58,7 @@ export class AuthService {
   }
 
   public change_password(data) {
-    return this.api.put("/auth/profile", "", data).pipe(
+    return this.api.put("/auth/profile", "", data, { rawError: true }).pipe(
       map((response) => {
         this.removeToken();
 
