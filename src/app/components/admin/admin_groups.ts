@@ -29,12 +29,6 @@ export class AdminGroupsComponent extends BasePaginationComponent<Group> {
       { name: "Shortname", prop: "shortname", flexGrow: 0.5 },
       { name: "Fullname", prop: "fullname", flexGrow: 1.5 },
       {
-        name: "Coordinator",
-        prop: "coordinator",
-        cellTemplate: this.dataCoordinator,
-        flexGrow: 1.0,
-      },
-      {
         name: "controls",
         prop: "controls",
         cellTemplate: this.controlsCell,

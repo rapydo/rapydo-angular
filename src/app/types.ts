@@ -27,8 +27,6 @@ interface SimpleUserWithId extends SimpleUser {
 export interface SimpleGroup {
   readonly shortname: string;
   readonly fullname: string;
-  /** @nullable */
-  readonly coordinator?: SimpleUserWithId;
 }
 
 export interface Group extends SimpleGroup {
@@ -43,7 +41,9 @@ export interface User extends SimpleUserWithId, CustomUser {
   readonly is_active: boolean;
   readonly privacy_accepted: boolean;
   readonly roles: any;
-  readonly group?: Group;
+  // "nullable" should be removed in a near future
+  /** @nullable */
+  readonly group: Group;
 }
 
 // It is used in AdminUsers response
@@ -57,8 +57,9 @@ export interface AdminUser extends SimpleUserWithId, CustomUser {
   /** @nullable */
   readonly last_password_change: Date;
   readonly roles: any;
-  readonly group?: Group[];
-  readonly coordinator?: Group[];
+  // "nullable" should be removed in a near future
+  /** @nullable */
+  readonly group: Group;
 }
 export interface AdminUsers extends Array<AdminUser> {}
 

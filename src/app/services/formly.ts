@@ -37,9 +37,8 @@ export class FormlyService {
       if (stype === "string") {
         if (s.max && s.max > 256) {
           stype = "textarea";
-
           field_type = "textarea";
-          // should be calculated from s.max, if provided
+          // should be calculated from s.max
           field["templateOptions"]["rows"] = 5;
         } else {
           field_type = "input";
