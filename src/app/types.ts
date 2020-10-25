@@ -31,6 +31,8 @@ export interface SimpleGroup {
 
 export interface Group extends SimpleGroup {
   readonly uuid: string;
+
+  readonly members?: SimpleUserWithId[];
 }
 
 export interface Groups extends Array<Group> {}

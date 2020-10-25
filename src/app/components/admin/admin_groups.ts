@@ -8,10 +8,10 @@ import { BasePaginationComponent } from "@rapydo/components/base.pagination.comp
   templateUrl: "./admin_groups.html",
 })
 export class AdminGroupsComponent extends BasePaginationComponent<Group> {
-  @ViewChild("dataCoordinator", { static: false })
-  public dataCoordinator: TemplateRef<any>;
   @ViewChild("controlsCell", { static: false })
   public controlsCell: TemplateRef<any>;
+  @ViewChild("membersCell", { static: false })
+  public membersCell: TemplateRef<any>;
   @ViewChild("emptyHeader", { static: false }) public emptyHeader: TemplateRef<
     any
   >;
@@ -27,6 +27,12 @@ export class AdminGroupsComponent extends BasePaginationComponent<Group> {
   public ngAfterViewInit(): void {
     this.columns = [
       { name: "Shortname", prop: "shortname", flexGrow: 0.5 },
+      {
+        name: "Members",
+        prop: "members",
+        flexGrow: 0.3,
+        cellTemplate: this.membersCell,
+      },
       { name: "Fullname", prop: "fullname", flexGrow: 1.5 },
       {
         name: "controls",

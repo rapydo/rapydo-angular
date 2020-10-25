@@ -52,14 +52,15 @@
             </div>
           </div>
           <ng-template
-            #dataCoordinator
+            #membersCell
             let-row="row"
             let-value="value"
             let-i="index"
           >
-            <span ngbTooltip="{{value.name}} {{value.surname}}" *ngIf="value">
+            {{value?.length || 0}}
+            <!--             <span ngbTooltip="{{value.name}} {{value.surname}}" *ngIf="value">
               {{value.email}}
-            </span>
+            </span> -->
           </ng-template>
 
           <ng-template #emptyHeader let-column="column"> &nbsp; </ng-template>
