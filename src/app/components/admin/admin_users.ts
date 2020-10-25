@@ -30,8 +30,9 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
     super(injector);
 
     let endpoint = "admin/users";
-    /* istanbul ignore next */
-    if (this.auth.getUser()?.isLocalAdmin && !this.auth.getUser()?.isAdmin) {
+
+    let user = this.auth.getUser();
+    if (user && user.isCoordinator && !user.isAdmin) {
       endpoint = "localadmin/users";
     }
 

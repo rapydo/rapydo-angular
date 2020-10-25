@@ -15,14 +15,14 @@ const routes: Routes = [
     component: AdminUsersComponent,
     canActivate: [AuthGuard],
     runGuardsAndResolvers: "always",
-    data: { roles: ["admin_root", "local_admin"] },
+    data: { roles: ["admin_root", "group_coordinator"] },
   },
   {
     path: "groups",
     component: AdminGroupsComponent,
     canActivate: [AuthGuard],
     runGuardsAndResolvers: "always",
-    data: { roles: ["admin_root", "local_admin"] },
+    data: { roles: ["admin_root"] },
   },
   {
     path: "sessions",

@@ -40,9 +40,10 @@ export interface Groups extends Array<Group> {}
 export interface User extends SimpleUserWithId, CustomUser {
   readonly isAdmin: boolean;
   readonly isLocalAdmin: boolean;
+  readonly isCoordinator: boolean;
   readonly is_active: boolean;
   readonly privacy_accepted: boolean;
-  readonly roles: any;
+  readonly roles: Record<string, string>;
   // "nullable" should be removed in a near future
   /** @nullable */
   readonly group: Group;

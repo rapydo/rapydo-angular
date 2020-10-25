@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
 import { catchError, map, finalize } from "rxjs/operators";
 import { of, throwError } from "rxjs";
 import { Subject } from "rxjs";
@@ -11,16 +10,12 @@ import { NotificationService } from "@rapydo/services/notification";
 
 @Injectable()
 export class AuthService {
-  userChanged = new Subject<any>();
+  userChanged = new Subject<string>();
 
   readonly LOGGED_IN = "logged-in";
   readonly LOGGED_OUT = "logged-out";
 
-  constructor(
-    private http: HttpClient,
-    private api: ApiService,
-    private notify: NotificationService
-  ) {}
+  constructor(private api: ApiService, private notify: NotificationService) {}
 
   public login(
     username: string,
@@ -43,19 +38,17 @@ export class AuthService {
       };
     }
 
-    return this.http
-      .post<any>(environment.backendURI + "/auth/login", data)
-      .pipe(
-        map((response) => {
-          this.clean_localstorage();
-          this.setToken(JSON.stringify(response));
-          return response;
-        })
-      );
+    return this.api.post<string>("/auth/login", data).pipe(
+      map((response) => {
+        this.clean_localstorage();
+        this.setToken(JSON.stringify(response));
+        return response;
+      })
+    );
   }
 
   public logout() {
-    return this.http.get<any>(environment.backendURI + "/auth/logout").pipe(
+    return this.api.get<any>("/auth/logout").pipe(
       finalize(() => {
         this.removeToken();
       })
@@ -63,7 +56,7 @@ export class AuthService {
   }
 
   public change_password(data) {
-    return this.http.put(environment.backendURI + "/auth/profile", data).pipe(
+    return this.api.put("/auth/profile", "", data).pipe(
       map((response) => {
         this.removeToken();
 
@@ -74,24 +67,23 @@ export class AuthService {
 
   public ask_activation_link(username) {
     const data = { username };
-    return this.http.post(
-      environment.backendURI + "/auth/profile/activate",
-      data
-    );
+    return this.api.post("/auth/profile/activate", data);
   }
 
   public loadUser() {
-    return this.http.get<any>(environment.backendURI + "/auth/profile").pipe(
-      map((response) => {
-        this.setUser(JSON.stringify(response));
+    return this.api
+      .get<User>("/auth/profile", "", {}, { validationSchema: "User" })
+      .pipe(
+        map((response) => {
+          this.setUser(response);
 
-        return response;
-      }),
-      catchError((error) => {
-        this.notify.showError(error);
-        return null;
-      })
-    );
+          return response;
+        }),
+        catchError((error) => {
+          this.notify.showError(error);
+          return null;
+        })
+      );
   }
 
   public getUser(): User {
@@ -146,9 +138,9 @@ export class AuthService {
     return false;
   }
 
-  private setUser(user: any) {
-    localStorage.setItem("currentUser", user);
-    // this.userChanged.emit(this.LOGGED_IN);
+  private setUser(user: User) {
+    localStorage.setItem("currentUser", JSON.stringify(user));
+
     this.userChanged.next(this.LOGGED_IN);
   }
 
