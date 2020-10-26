@@ -18,6 +18,7 @@ script:
   - pip3 install --upgrade git+https://github.com/rapydo/do.git@${CURRENT_VERSION}
   - auth_services=(postgres mysql neo4j neo4j mongo)
   - AUTH=${auth_services[$(($RANDOM % ${#auth_services[@]}))]}
+  - AUTH=neo4j
   - echo "Selected random authentication service = ${AUTH}"
   - mkdir rapydo_tests
   - cd rapydo_tests
@@ -75,7 +76,7 @@ script:
       rapydo pull;
       rapydo -e PROJECT_TITLE="Your ${AUTH} Project" start;
       rapydo shell backend 'restapi wait';
-      rapydo shell backend --detach "restapi launch";
+      rapydo shell backend "restapi launch";
       rapydo shell frontend "yarn install" || travis_terminate 1;
       rapydo shell frontend "reload-types" || travis_terminate 1;
       rapydo logs;
