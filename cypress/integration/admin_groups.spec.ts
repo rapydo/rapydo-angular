@@ -32,7 +32,7 @@ describe("AdminUsers", () => {
 
     cy.get("@short")
       .clear()
-      .type("TestGroup-" + randval);
+      .type("_TestGroup-" + randval);
     cy.get("@full")
       .clear()
       .type("Long name for test Group " + randval);
@@ -45,12 +45,12 @@ describe("AdminUsers", () => {
 
     cy.get("datatable-body").contains(
       "datatable-body-cell",
-      "TestGroup-" + randval
+      "_TestGroup-" + randval
     );
 
     // Test duplications
     cy.get('button:contains("new group")').click({ force: true });
-    cy.get('input[placeholder="Short name"]').type("TestGroup-" + randval);
+    cy.get('input[placeholder="Short name"]').type("_TestGroup-" + randval);
     cy.get('input[placeholder="Full name"]').type(
       "Long name for test Group " + randval
     );
@@ -72,7 +72,7 @@ describe("AdminUsers", () => {
     cy.get("@search").clear().type("thisisinvalidforsure");
     cy.get("datatable-body-row").should("have.length", 0);
     // search by shortname
-    cy.get("@search").clear().type("TestGroup");
+    cy.get("@search").clear().type("_TestGroup");
     cy.get("datatable-body-row").should("have.length", 1);
     // search by fullname
     cy.get("@search").clear().type("Long name for ");
@@ -80,31 +80,31 @@ describe("AdminUsers", () => {
 
     cy.get("@search").clear();
 
-    // Sort by shortname, TestGroup is now the first
+    // Sort by shortname, _TestGroup is now the first
     cy.get("span.datatable-header-cell-label")
       .contains("Shortname")
       .click({ force: true });
 
     cy.get("datatable-body-row")
       .first()
-      .contains("datatable-body-cell", "TestGroup");
+      .contains("datatable-body-cell", "_TestGroup");
     cy.get("datatable-body-row")
       .last()
-      .contains("datatable-body-cell", "TestGroup")
+      .contains("datatable-body-cell", "_TestGroup")
       .should("not.exist");
 
-    // Sort by shortname again, TestGroup is now the last
+    // Sort by shortname again, _TestGroup is now the last
     cy.get("span.datatable-header-cell-label")
       .contains("Shortname")
       .click({ force: true });
     cy.get("datatable-body-row")
       .first()
-      .contains("datatable-body-cell", "TestGroup")
+      .contains("datatable-body-cell", "_TestGroup")
       .should("not.exist");
 
     cy.get("datatable-body-row")
       .last()
-      .contains("datatable-body-cell", "TestGroup");
+      .contains("datatable-body-cell", "_TestGroup");
 
     cy.wait(1000);
   });
@@ -114,17 +114,17 @@ describe("AdminUsers", () => {
 
     cy.get('input[placeholder="Type to filter groups"]').as("search");
 
-    cy.get("@search").clear().type("TestGroup");
+    cy.get("@search").clear().type("_TestGroup");
     cy.get("datatable-body-row")
       .eq(0)
-      .contains("datatable-body-cell", "TestGroup");
+      .contains("datatable-body-cell", "_TestGroup");
 
     cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
     cy.get('button:contains("Close")').click({ force: true });
 
     cy.get("datatable-body-row")
       .eq(0)
-      .contains("datatable-body-cell", "TestGroup");
+      .contains("datatable-body-cell", "_TestGroup");
 
     cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
     cy.get('input[placeholder="Shortname"]')
