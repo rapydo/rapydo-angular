@@ -15,8 +15,180 @@ describe("AdminUsers", () => {
   });
 
   it("Create new group", () => {
-    // Not implemented. Groups are optional (like in Mistral)
-    // Option 1: also make these tests optional
-    // Option 2: make groups enabled by default (alchemy and mongo implementation needed)
+    const randval = Math.floor(Math.random() * 1000000);
+
+    cy.get('button:contains("new group")').click({ force: true });
+    cy.get('button:contains("Close")').click({ force: true });
+
+    cy.get('button:contains("new group")').click({ force: true });
+
+    cy.get('input[placeholder="Short name"]').as("short");
+    cy.get('input[placeholder="Full name"]').as("full");
+
+    cy.get("@submit").click({ force: true });
+    cy.checkvalidation(0, "This field is required");
+    cy.checkvalidation(1, "This field is required");
+
+    cy.get("@short")
+      .clear()
+      .type("TestGroup-" + randval);
+    cy.get("@full")
+      .clear()
+      .type("Test Group " + randval);
+
+    cy.get("formly-validation-message").should("not.exist");
+
+    cy.get("@submit").click({ force: true });
+
+    cy.checkalert("Confirmation: group successfully created");
+
+    cy.get("datatable-body").contains(
+      "datatable-body-cell",
+      "TestGroup-" + randval
+    );
+
+    // Test duplications
+    cy.get('button:contains("new group")').click({ force: true });
+    cy.get('input[placeholder="Short name"]').type("TestGroup-" + randval);
+    cy.get('input[placeholder="Full name"]').type(
+      "Long name for test Group " + randval
+    );
+
+    cy.get("@submit").click({ force: true });
+
+    cy.checkalert(
+      "A Group already exists with shortname: TestGroup-" + randval
+    );
+
+    cy.get('button:contains("Close")').click({ force: true });
+  });
+
+  it("Search and sort group", () => {
+    cy.get('input[placeholder="Type to filter groups"]').as("search");
+
+    cy.get("datatable-body-row").its("length").should("be.gt", 1);
+
+    cy.get("@search").clear().type("thisisinvalidforsure");
+    cy.get("datatable-body-row").should("have.length", 0);
+    // search by shortname
+    cy.get("@search").clear().type("TestGroup");
+    cy.get("datatable-body-row").should("have.length", 1);
+    // search by fullname
+    cy.get("@search").clear().type("Long name for ");
+    cy.get("datatable-body-row").should("have.length", 1);
+
+    cy.get("@search").clear();
+
+    // Sort by shortname, TestGroup is now the first
+    cy.get("span.datatable-header-cell-label")
+      .contains("Shortname")
+      .click({ force: true });
+
+    cy.get("datatable-body-row")
+      .first()
+      .contains("datatable-body-cell", "TestGroup");
+    cy.get("datatable-body-row")
+      .last()
+      .contains("datatable-body-cell", "TestGroup")
+      .should("not.exist");
+
+    // Sort by shortname again, TestGroup is now the last
+    cy.get("span.datatable-header-cell-label")
+      .contains("Shortname")
+      .click({ force: true });
+    cy.get("datatable-body-row")
+      .first()
+      .contains("datatable-body-cell", "TestGroup")
+      .should("not.exist");
+
+    cy.get("datatable-body-row")
+      .last()
+      .contains("datatable-body-cell", "TestGroup");
+
+    cy.wait(1000);
+  });
+
+  it("Modify group", () => {
+    const randval = Math.floor(Math.random() * 1000000);
+
+    cy.get('input[placeholder="Type to filter groups"]').as("search");
+
+    cy.get("@search").clear().type("TestGroup");
+    cy.get("datatable-body-row")
+      .eq(0)
+      .contains("datatable-body-cell", "TestGroup");
+
+    cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
+    cy.get('button:contains("Close")').click({ force: true });
+
+    cy.get("datatable-body-row")
+      .eq(0)
+      .contains("datatable-body-cell", "TestGroup");
+
+    cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
+    cy.get('input[placeholder="Shortname"]')
+      .clear()
+      .type("NewName-" + randval);
+    cy.get('button:contains("Submit")').click({ force: true });
+    cy.checkalert("Confirmation: group successfully update");
+
+    // search by fulname and verify the new short name
+    cy.get("@search").clear().type("Long name for test Group");
+    cy.get("datatable-body-row")
+      .eq(0)
+      .contains("datatable-body-cell", "NewName-" + randval);
+  });
+
+  it("Delete group", () => {
+    cy.get('input[placeholder="Type to filter groups"]').as("search");
+    cy.get("@search").clear().type("NewName");
+    cy.get("datatable-body-row")
+      .eq(0)
+      .contains("datatable-body-cell", "NewName");
+    cy.get("datatable-body-row").eq(0).find(".fa-trash").click({ force: true });
+    cy.get("h3.popover-title").contains("Confirmation required");
+    cy.get("button").contains("Cancel").click({ force: true });
+    cy.get("datatable-body-row")
+      .eq(0)
+      .contains("datatable-body-cell", "NewName");
+    cy.get("datatable-body-row").eq(0).find(".fa-trash").click({ force: true });
+    cy.get("h3.popover-title").contains("Confirmation required");
+    cy.get("button").contains("Confirm").click({ force: true });
+
+    cy.checkalert("Confirmation: group successfully deleted");
+
+    cy.get("@search").clear().type("NewName");
+
+    cy.get("datatable-body-row").should("not.exist");
+
+    cy.get("@search").clear();
+
+    cy.get("datatable-body-row").its("length").should("be.gte", 1);
+  });
+
+  it("Backend errors", () => {
+    cy.server();
+
+    cy.route({
+      method: "DELETE",
+      url: "/api/admin/groups/*",
+      status: 500,
+      response: "Stubbed delete error",
+    });
+
+    cy.get("datatable-body-row").eq(0).find(".fa-trash").click({ force: true });
+    cy.get("button").contains("Confirm").click({ force: true });
+    cy.checkalert("Stubbed delete error");
+
+    cy.route({
+      method: "GET",
+      url: "/api/admin/groups",
+      status: 500,
+      response: "Stubbed get error",
+    });
+
+    cy.visit("/app/admin/groups");
+    cy.checkalert("Stubbed get error");
+    cy.server({ enable: false });
   });
 });

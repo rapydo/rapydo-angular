@@ -103,33 +103,27 @@ describe("AdminUsers", () => {
   it("Search and sort user", () => {
     const username = "aaa0000000000000@sample.org";
 
+    cy.get('input[placeholder="Type to filter users"]').as("search");
+
     cy.get("datatable-body-row").its("length").should("be.gt", 1);
 
     // search by email
-    cy.get('input[placeholder="Type to filter users"]')
-      .clear()
-      .type("thisisinvalidforsure");
+    cy.get("@search").clear().type("thisisinvalidforsure");
     cy.get("datatable-body-row").should("have.length", 0);
-    cy.get('input[placeholder="Type to filter users"]')
-      .clear()
-      .type(Cypress.env("AUTH_DEFAULT_USERNAME"));
+    cy.get("@search").clear().type(Cypress.env("AUTH_DEFAULT_USERNAME"));
     cy.get("datatable-body-row").should("have.length", 1);
-    cy.get('input[placeholder="Type to filter users"]').clear().type(username);
+    cy.get("@search").clear().type(username);
     cy.get("datatable-body-row").should("have.length", 1);
 
     // search by name
-    cy.get('input[placeholder="Type to filter users"]')
-      .clear()
-      .type("SampleName");
+    cy.get("@search").clear().type("SampleName");
     cy.get("datatable-body-row").should("have.length", 1);
 
     // search by surname
-    cy.get('input[placeholder="Type to filter users"]')
-      .clear()
-      .type("SampleSurname");
+    cy.get("@search").clear().type("SampleSurname");
     cy.get("datatable-body-row").should("have.length", 1);
 
-    cy.get('input[placeholder="Type to filter users"]').clear();
+    cy.get("@search").clear();
 
     // Sort by email, username is now the first
     cy.get("span.datatable-header-cell-label")
@@ -163,7 +157,9 @@ describe("AdminUsers", () => {
   it("Modify user", () => {
     const username = "aaa0000000000000@sample.org";
 
-    cy.get('input[placeholder="Type to filter users"]').clear().type(username);
+    cy.get('input[placeholder="Type to filter users"]').as("search");
+
+    cy.get("@search").clear().type(username);
     cy.get("datatable-body-row")
       .eq(0)
       .contains("datatable-body-cell", username);
@@ -182,7 +178,7 @@ describe("AdminUsers", () => {
     cy.get('button:contains("Submit")').click({ force: true });
     cy.checkalert("Confirmation: user successfully update");
 
-    cy.get('input[placeholder="Type to filter users"]').clear().type(username);
+    cy.get("@search").clear().type(username);
     cy.get("datatable-body-row")
       .eq(0)
       .contains("datatable-body-cell", "NewName");
@@ -198,7 +194,9 @@ describe("AdminUsers", () => {
 
   it("Delete user", () => {
     const username = "aaa0000000000000@sample.org";
-    cy.get('input[placeholder="Type to filter users"]').clear().type(username);
+    cy.get('input[placeholder="Type to filter users"]').as("search");
+
+    cy.get("@search").clear().type(username);
     cy.get("datatable-body-row")
       .eq(0)
       .contains("datatable-body-cell", username);
@@ -214,7 +212,7 @@ describe("AdminUsers", () => {
 
     cy.checkalert("Confirmation: user successfully deleted");
 
-    cy.get('input[placeholder="Type to filter users"]').clear().type(username);
+    cy.get("@search").clear().type(username);
 
     cy.get("datatable-body-row").should("not.exist");
 
