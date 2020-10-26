@@ -24,6 +24,7 @@ describe("AdminUsers", () => {
 
     cy.get('input[placeholder="Short name"]').as("short");
     cy.get('input[placeholder="Full name"]').as("full");
+    cy.get('button:contains("Submit")').as("submit");
 
     cy.get("@submit").click({ force: true });
     cy.checkvalidation(0, "This field is required");
