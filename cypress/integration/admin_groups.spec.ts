@@ -35,7 +35,7 @@ describe("AdminUsers", () => {
       .type("TestGroup-" + randval);
     cy.get("@full")
       .clear()
-      .type("Test Group " + randval);
+      .type("Long name for test Group " + randval);
 
     cy.get("formly-validation-message").should("not.exist");
 
