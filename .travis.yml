@@ -16,12 +16,15 @@ script:
   # version is "x.y.0", convert in x.y
   - export CURRENT_VERSION=$(grep '"version"' src/package.json | awk {'print $2'} | tr -d '", ' | awk -F. {'print $1 "." $2'})
   - pip3 install --upgrade git+https://github.com/rapydo/do.git@${CURRENT_VERSION}
+  - auth_services=(postgres mysql neo4j neo4j mongo)
+  - AUTH=${auth_services[$(($RANDOM % ${#auth_services[@]}))]}
+  - echo "Selected random authentication service = ${AUTH}"
   - mkdir rapydo_tests
   - cd rapydo_tests
+  - rapydo --testing create prj --auth ${AUTH} --frontend angular --origin-url https://your_remote_git/your_project.git
   - >
     if [[ "$STAGE" == "karma" ]]; then
 
-      rapydo create prj --auth postgres --frontend angular --origin-url https://your_remote_git/your_project.git;
       rapydo --testing init;
       rapydo -s frontend pull;
       rapydo -s frontend start;
@@ -34,7 +37,6 @@ script:
 
     elif [[ "$STAGE" == "prod" ]]; then
 
-      rapydo create prj --auth postgres --frontend angular --origin-url https://your_remote_git/your_project.git;
       rapydo --prod init;
       rapydo pull;
       rapydo -s frontend,proxy start;
@@ -52,11 +54,6 @@ script:
 
     elif [[ "$STAGE" == "cypress" ]]; then
 
-      auth_services=(postgres mysql neo4j neo4j mongo);
-      AUTH=${auth_services[$(($RANDOM % ${#auth_services[@]}))]}
-      echo "Selected random authentication service = ${AUTH}"
-
-      rapydo --testing create prj --auth ${AUTH} --frontend angular --origin-url https://your_remote_git/your_project.git;
       rapydo --testing init;
       rapydo add component sink;
       cp submodules/do/controller/templates/testing_sink.html.j2 projects/prj/frontend/app/components/sink/sink.html;
@@ -81,6 +78,7 @@ script:
       rapydo shell backend --detach "restapi launch";
       rapydo shell frontend "yarn install" || travis_terminate 1;
       rapydo shell frontend "reload-types" || travis_terminate 1;
+      rapydo logs;
       rapydo shell frontend "yarn run cypress:start" || travis_terminate 1;
       rapydo shell frontend "npx nyc --all report --reporter=lcov" || travis_terminate 1;
       cp data/prj/karma/lcov.info .;
