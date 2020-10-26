@@ -58,7 +58,7 @@ describe("AdminUsers", () => {
     cy.get("@submit").click({ force: true });
 
     cy.checkalert(
-      "A Group already exists with shortname: TestGroup-" + randval
+      "A Group already exists with shortname: _TestGroup-" + randval
     );
 
     cy.get('button:contains("Close")').click({ force: true });
