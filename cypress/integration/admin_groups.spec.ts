@@ -127,7 +127,7 @@ describe("AdminUsers", () => {
       .contains("datatable-body-cell", "_TestGroup");
 
     cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
-    cy.get('input[placeholder="Shortname"]')
+    cy.get('input[placeholder="Short name"]')
       .clear()
       .type("NewName-" + randval);
     cy.get('button:contains("Submit")').click({ force: true });
