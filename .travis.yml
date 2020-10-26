@@ -18,7 +18,6 @@ script:
   - pip3 install --upgrade git+https://github.com/rapydo/do.git@${CURRENT_VERSION}
   - auth_services=(postgres mysql neo4j neo4j mongo)
   - AUTH=${auth_services[$(($RANDOM % ${#auth_services[@]}))]}
-  - AUTH=neo4j
   - echo "Selected random authentication service = ${AUTH}"
   - mkdir rapydo_tests
   - cd rapydo_tests
