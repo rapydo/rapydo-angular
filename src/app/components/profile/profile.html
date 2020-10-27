@@ -4,7 +4,7 @@
       <div class="card">
         <div class="card-header">
           <h4>
-            <i class="fas fa-user-circle-o"></i> User profile
+            <i class="fas fa-user-circle fa-lg"></i> Your profile
             <span class="float-right">
               <i
                 class="fas fa-edit"
@@ -60,10 +60,16 @@
               </ng-container>
 
               <tr>
-                <th>Password</th>
+                <th>Last password change</th>
                 <td>
-                  <a routerLink="changepassword">
-                    <i>Change your password</i>
+                  <span
+                    ngbTooltip="{{ user.last_password_change || user.first_login | date : 'yyyy MMM dd HH:mm:ss' }}"
+                  >
+                    {{ user.last_password_change || user.first_login |
+                    amTimeAgo:false }}
+                  </span>
+                  <a routerLink="changepassword" class="btn btn-light btn-sm">
+                    CHANGE
                   </a>
                 </td>
               </tr>

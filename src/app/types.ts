@@ -44,6 +44,12 @@ export interface User extends SimpleUserWithId, CustomUser {
   readonly is_active: boolean;
   readonly privacy_accepted: boolean;
   readonly roles: Record<string, string>;
+  /** @nullable */
+  readonly first_login: Date;
+  /** @nullable */
+  readonly last_login: Date;
+  /** @nullable */
+  readonly last_password_change: Date;
   // "nullable" should be removed in a near future
   /** @nullable */
   readonly group: Group;
@@ -54,9 +60,9 @@ export interface AdminUser extends SimpleUserWithId, CustomUser {
   readonly is_active: boolean;
   readonly privacy_accepted: boolean;
   /** @nullable */
-  readonly last_login: Date;
-  /** @nullable */
   readonly first_login: Date;
+  /** @nullable */
+  readonly last_login: Date;
   /** @nullable */
   readonly last_password_change: Date;
   readonly roles: any;

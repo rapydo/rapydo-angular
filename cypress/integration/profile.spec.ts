@@ -13,14 +13,14 @@ describe("Profile", () => {
       expect(location.pathname).to.eq("/app/profile");
     });
 
-    cy.get("div.card-header h4").contains("User profile");
+    cy.get("div.card-header h4").contains("Your profile");
 
     cy.get("table").find("th").contains("Name");
     cy.get("table").find("th").contains("Email");
     cy.get("table").find("th").contains("Group");
     cy.get("table").find("th").contains("Roles");
     cy.get("table").find("th").contains("Privacy Accepted");
-    cy.get("table").find("th").contains("Password");
+    cy.get("table").find("th").contains("Last password change");
     cy.get("table").find("th").contains("Open Sessions");
 
     cy.get("table").find("td").contains(Cypress.env("AUTH_DEFAULT_USERNAME"));
