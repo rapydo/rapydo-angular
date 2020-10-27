@@ -29,8 +29,8 @@ describe("KitchenSink", () => {
 
         cy.get('input[placeholder="email"]').as("email");
         cy.get('input[placeholder="password"]').as("pwd");
-        cy.get('input[placeholder="url"]').as("url");
         cy.get('input[placeholder="date"]').as("date");
+        cy.get('input[placeholder="url"]').as("url");
         cy.get('input[placeholder="text"]').as("text");
         cy.get('input[placeholder="number"]').as("number");
 
@@ -164,8 +164,8 @@ describe("KitchenSink", () => {
           "not.contain",
           "Should be lower than 9"
         );
-        // 20e-1 == 2
-        cy.get("@number").clear().type("20e-1");
+
+        cy.get("@number").clear().type("2.5");
         cy.get("formly-validation-message").should(
           "not.contain",
           "Should be greater than 1"
@@ -175,7 +175,8 @@ describe("KitchenSink", () => {
           "Should be lower than 9"
         );
 
-        cy.get("@number").clear().type("2.5");
+        // 30e-1 == 3
+        cy.get("@number").clear().type("30e-1");
         cy.get("formly-validation-message").should(
           "not.contain",
           "Should be greater than 1"
@@ -198,7 +199,11 @@ describe("KitchenSink", () => {
 
         cy.contains('"email": "user@sample.org"');
         cy.contains('"password": "thisIsVeryS3cret!"');
-        cy.contains('"date": "1981-05-19T00:00:00.000Z"');
+        cy.contains('"date": "' + (current_year + 1) + '-05-19T00:00:00.000Z"');
+        cy.contains('"url": "www.google.com"');
+        cy.contains('"text": "123456"');
+        cy.contains('"number": "3"');
+        cy.contains('"boolean": "on"');
 
         cy.get("button.btn-outline-danger").find("i.fa-times").parent().click();
         cy.get('button:contains("Submit")').click({ force: true });
