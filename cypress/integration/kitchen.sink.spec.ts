@@ -111,19 +111,22 @@ describe("KitchenSink", () => {
         cy.get(
           'ngb-datepicker-navigation-select select[title="Select month"]'
         ).select("5");
+
+        // The year select you have 3 value:
+        cy.get("@year").get("option").should("have.length", 3);
+        // The first is curret year -1
         cy.get("@year")
           .get("option")
-          .to.not.contains(now.getFullYear() - 2);
-        cy.get("@year")
-          .get("option")
+          .eq(0)
           .contains(now.getFullYear() - 1);
-        cy.get("@year").get("option").contains(now.getFullYear());
+        // The second is current year
+        cy.get("@year").get("option").eq(1).contains(now.getFullYear());
+        // The third is curret year +1
         cy.get("@year")
           .get("option")
+          .eq(2)
           .contains(now.getFullYear() + 1);
-        cy.get("@year")
-          .get("option")
-          .to.not.contains(now.getFullYear() + 2);
+        // Just to verify that the values are selectable
         cy.get("@year").select(now.getFullYear());
         cy.get("@year").select(now.getFullYear() - 1);
         cy.get("@year").select(now.getFullYear() + 1);
