@@ -112,17 +112,17 @@ describe("KitchenSink", () => {
 
         const current_year = new Date().getFullYear();
         // The year select you have 3 value:
-        cy.get("@year").get("option").should("have.length", 3);
+        cy.get("@year").find("option").should("have.length", 3);
         // The first is curret year -1
         cy.get("@year")
-          .get("option")
+          .find("option")
           .eq(0)
           .contains(current_year - 1);
         // The second is current year
-        cy.get("@year").get("option").eq(1).contains(current_year);
+        cy.get("@year").find("option").eq(1).contains(current_year);
         // The third is curret year +1
         cy.get("@year")
-          .get("option")
+          .find("option")
           .eq(2)
           .contains(current_year + 1);
         // Just to verify that the values are selectable
