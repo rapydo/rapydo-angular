@@ -31,6 +31,8 @@ describe("KitchenSink", () => {
         cy.get('input[placeholder="password"]').as("pwd");
         cy.get('input[placeholder="url"]').as("url");
         cy.get('input[placeholder="date"]').as("date");
+        cy.get('input[placeholder="text"]').as("text");
+        cy.get('input[placeholder="number"]').as("number");
 
         cy.get("@email").clear().type("Invalid");
         cy.checkvalidation(0, "Invalid email address");
@@ -93,6 +95,57 @@ describe("KitchenSink", () => {
         cy.get("formly-validation-message").should(
           "not.contain",
           "Invalid web address"
+        );
+
+        cy.get("@text").clear().type("123");
+        cy.checkvalidation(0, "Should have at least 4 characters");
+        cy.get("@text").clear().type("1234");
+        cy.get("formly-validation-message").should(
+          "not.contain",
+          "Should have at least 4 characters"
+        );
+        cy.get("@text").clear().type("12345678");
+        // due to max: 6 on field definition
+        cy.get("@text").should("123456");
+        // this validation error is never shown because
+        // the input does not permit to include more than specified max
+        cy.get("formly-validation-message").should(
+          "not.contain",
+          "Should have no more than 6 characters"
+        );
+
+        cy.get("@number").clear().type("0");
+        cy.checkvalidation(0, "Should be greater than 1");
+        cy.get("@number").clear().type("10");
+        cy.checkvalidation(0, "Should be lower than 9");
+        cy.get("@number").clear().type("5");
+        cy.get("formly-validation-message").should(
+          "not.contain",
+          "Should be greater than 1"
+        );
+        cy.get("formly-validation-message").should(
+          "not.contain",
+          "Should be lower than 9"
+        );
+        // 20e-1 == 2
+        cy.get("@number").clear().type("20e-1");
+        cy.get("formly-validation-message").should(
+          "not.contain",
+          "Should be greater than 1"
+        );
+        cy.get("formly-validation-message").should(
+          "not.contain",
+          "Should be lower than 9"
+        );
+
+        cy.get("@number").clear().type("2.5");
+        cy.get("formly-validation-message").should(
+          "not.contain",
+          "Should be greater than 1"
+        );
+        cy.get("formly-validation-message").should(
+          "not.contain",
+          "Should be lower than 9"
         );
 
         // to verify that the placeholder works
