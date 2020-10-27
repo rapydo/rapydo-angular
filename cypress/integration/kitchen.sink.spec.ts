@@ -199,11 +199,11 @@ describe("KitchenSink", () => {
 
         cy.contains('"email": "user@sample.org"');
         cy.contains('"password": "thisIsVeryS3cret!"');
-        cy.contains('"date": "' + (current_year + 1) + '-05-19T00:00:00.000Z"');
         cy.contains('"url": "www.google.com"');
         cy.contains('"text": "123456"');
         cy.contains('"number": "3"');
         cy.contains('"boolean": "on"');
+        cy.contains('"date": "' + (current_year + 1) + '-05-19T00:00:00.000Z"');
 
         cy.get("button.btn-outline-danger").find("i.fa-times").parent().click();
         cy.get('button:contains("Submit")').click({ force: true });
