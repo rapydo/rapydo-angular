@@ -51,10 +51,6 @@ describe("KitchenSink", () => {
           'ngb-datepicker-navigation-select select[title="Select year"]'
         ).as("year");
 
-        cy.get(
-          'ngb-datepicker-navigation-select select[title="Select month"]'
-        ).select("5");
-
         const current_year = new Date().getFullYear();
         // The year select you have 3 value:
         cy.get("@year").find("option").should("have.length", 3);
@@ -74,6 +70,10 @@ describe("KitchenSink", () => {
         cy.get("@year").select(current_year.toString());
         cy.get("@year").select((current_year - 1).toString());
         cy.get("@year").select((current_year + 1).toString());
+
+        cy.get(
+          'ngb-datepicker-navigation-select select[title="Select month"]'
+        ).select("5");
 
         cy.get("div.ngb-dp-day div").contains("19").click({ force: true });
 
