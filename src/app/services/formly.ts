@@ -138,6 +138,10 @@ export class FormlyService {
         field_type = stype;
         template_type = "radio";
         field["templateOptions"]["options"] = s.options;
+      } else if (stype == "url") {
+        field_type = "input";
+        template_type = "url";
+        field["validators"] = { validation: ["url"] };
       }
 
       field["key"] = s.key;
