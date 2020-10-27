@@ -21,6 +21,11 @@ export class NavbarComponent implements OnInit {
   public logoutConfirmationMessage: string =
     "Do you really want to close this session?";
 
+  // This property tracks whether the menu is open.
+  // Start with the menu collapsed so that it does not
+  // appear initially when the page loads on a small screen
+  public isMenuCollapsed = true;
+
   constructor(
     private router: Router,
     private customization: ProjectOptions,
@@ -60,5 +65,10 @@ export class NavbarComponent implements OnInit {
     this.auth.logout().subscribe((response) => {
       this.router.navigate([""]);
     });
+  }
+
+  doNotCollapse(event) {
+    this.isMenuCollapsed = false;
+    event.stopPropagation();
   }
 }
