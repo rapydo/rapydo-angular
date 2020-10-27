@@ -40,6 +40,43 @@ describe("KitchenSink", () => {
         cy.get("@email").clear().type("user@sample.org");
         cy.get("@pwd").clear().type("thisIsVeryS3cret!");
 
+        // to verify that the placeholder works
+        cy.get("@date").click();
+        // first click opens, second click closes
+        cy.get("@date").click();
+        // to verify that the type is ngbdatepicker
+        cy.get("input[ngbdatepicker]").click();
+
+        cy.get(
+          'ngb-datepicker-navigation-select select[title="Select year"]'
+        ).as("year");
+
+        cy.get(
+          'ngb-datepicker-navigation-select select[title="Select month"]'
+        ).select("5");
+
+        const current_year = new Date().getFullYear();
+        // The year select you have 3 value:
+        cy.get("@year").find("option").should("have.length", 3);
+        // The first is curret year -1
+        cy.get("@year")
+          .find("option")
+          .eq(0)
+          .contains((current_year - 1).toString());
+        // The second is current year
+        cy.get("@year").find("option").eq(1).contains(current_year.toString());
+        // The third is curret year +1
+        cy.get("@year")
+          .find("option")
+          .eq(2)
+          .contains((current_year + 1).toString());
+        // Just to verify that the values are selectable
+        cy.get("@year").select(current_year.toString());
+        cy.get("@year").select((current_year - 1).toString());
+        cy.get("@year").select((current_year + 1).toString());
+
+        cy.get("div.ngb-dp-day div").contains("19").click({ force: true });
+
         cy.get("@url").clear().type("invalid");
         cy.checkvalidation(0, "Invalid web address");
 
@@ -148,44 +185,7 @@ describe("KitchenSink", () => {
           "Should be lower than 9"
         );
 
-        // to verify that the placeholder works
-        cy.get("@date").click();
-        // first click opens, second click closes
-        cy.get("@date").click();
-        // to verify that the type is ngbdatepicker
-        cy.get("input[ngbdatepicker]").click();
-
-        cy.get(
-          'ngb-datepicker-navigation-select select[title="Select year"]'
-        ).as("year");
-
-        cy.get(
-          'ngb-datepicker-navigation-select select[title="Select month"]'
-        ).select("5");
-
-        const current_year = new Date().getFullYear();
-        // The year select you have 3 value:
-        cy.get("@year").find("option").should("have.length", 3);
-        // The first is curret year -1
-        cy.get("@year")
-          .find("option")
-          .eq(0)
-          .contains((current_year - 1).toString());
-        // The second is current year
-        cy.get("@year").find("option").eq(1).contains(current_year.toString());
-        // The third is curret year +1
-        cy.get("@year")
-          .find("option")
-          .eq(2)
-          .contains((current_year + 1).toString());
-        // Just to verify that the values are selectable
-        cy.get("@year").select(current_year.toString());
-        cy.get("@year").select((current_year - 1).toString());
-        cy.get("@year").select((current_year + 1).toString());
-
-        cy.get("div.ngb-dp-day div").contains("19").click({ force: true });
-
-        cy.get('input:checkbox[value="boolean"]').check({ force: true });
+        cy.get('input:checkbox[placeholder="boolean"]').check({ force: true });
 
         cy.contains("Option1");
         cy.contains("Option2");
