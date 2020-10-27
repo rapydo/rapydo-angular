@@ -102,12 +102,32 @@ describe("KitchenSink", () => {
         // to verify that the type is ngbdatepicker
         cy.get("input[ngbdatepicker]").click();
 
+        const now = new Date();
+
+        cy.get(
+          'ngb-datepicker-navigation-select select[title="Select year"]'
+        ).as("year");
+
         cy.get(
           'ngb-datepicker-navigation-select select[title="Select month"]'
         ).select("5");
-        cy.get(
-          'ngb-datepicker-navigation-select select[title="Select year"]'
-        ).select("1981");
+        cy.get("@year")
+          .get("option")
+          .to.not.contains(now.getFullYear() - 2);
+        cy.get("@year")
+          .get("option")
+          .contains(now.getFullYear() - 1);
+        cy.get("@year").get("option").contains(now.getFullYear());
+        cy.get("@year")
+          .get("option")
+          .contains(now.getFullYear() + 1);
+        cy.get("@year")
+          .get("option")
+          .to.not.contains(now.getFullYear() + 2);
+        cy.get("@year").select(now.getFullYear());
+        cy.get("@year").select(now.getFullYear() - 1);
+        cy.get("@year").select(now.getFullYear() + 1);
+
         cy.get("div.ngb-dp-day div").contains("19").click({ force: true });
 
         cy.contains("Option1");
