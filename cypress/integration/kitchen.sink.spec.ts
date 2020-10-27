@@ -106,7 +106,7 @@ describe("KitchenSink", () => {
         );
         cy.get("@text").clear().type("12345678");
         // due to max: 6 on field definition
-        cy.get("@text").should("123456");
+        cy.get("@text").should("have.value", "123456");
         // this validation error is never shown because
         // the input does not permit to include more than specified max
         cy.get("formly-validation-message").should(
@@ -184,6 +184,8 @@ describe("KitchenSink", () => {
         cy.get("@year").select(current_year + 1);
 
         cy.get("div.ngb-dp-day div").contains("19").click({ force: true });
+
+        cy.get('input:checkbox[value="boolean"]').check({ force: true });
 
         cy.contains("Option1");
         cy.contains("Option2");
