@@ -19,7 +19,7 @@ describe("ChangePassword", () => {
       expect(location.pathname).to.eq("/app/profile");
     });
 
-    cy.get("button:contains('CHANGE')").click();
+    cy.get("a:contains('CHANGE')").click();
 
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/profile/changepassword");
