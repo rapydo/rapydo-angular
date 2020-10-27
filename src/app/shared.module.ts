@@ -114,6 +114,8 @@ export function minLengthValidationError(error, field) {
   return `Should have at least ${field.templateOptions.minLength} characters`;
 }
 
+// Can't be tested because inputs are prevented to add more characters then the maximum allowed
+/* istanbul ignore next */
 export function maxLengthValidationError(error, field) {
   return `Should have no more than ${field.templateOptions.maxLength} characters`;
 }

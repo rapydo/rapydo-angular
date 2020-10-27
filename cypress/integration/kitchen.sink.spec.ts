@@ -170,18 +170,18 @@ describe("KitchenSink", () => {
         cy.get("@year")
           .find("option")
           .eq(0)
-          .contains(current_year - 1);
+          .contains((current_year - 1).toString());
         // The second is current year
-        cy.get("@year").find("option").eq(1).contains(current_year);
+        cy.get("@year").find("option").eq(1).contains(current_year.toString());
         // The third is curret year +1
         cy.get("@year")
           .find("option")
           .eq(2)
-          .contains(current_year + 1);
+          .contains((current_year + 1).toString());
         // Just to verify that the values are selectable
-        cy.get("@year").select(current_year);
-        cy.get("@year").select(current_year - 1);
-        cy.get("@year").select(current_year + 1);
+        cy.get("@year").select(current_year.toString());
+        cy.get("@year").select((current_year - 1).toString());
+        cy.get("@year").select((current_year + 1).toString());
 
         cy.get("div.ngb-dp-day div").contains("19").click({ force: true });
 
