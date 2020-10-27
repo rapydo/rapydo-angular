@@ -102,8 +102,6 @@ describe("KitchenSink", () => {
         // to verify that the type is ngbdatepicker
         cy.get("input[ngbdatepicker]").click();
 
-        const now = new Date();
-
         cy.get(
           'ngb-datepicker-navigation-select select[title="Select year"]'
         ).as("year");
@@ -112,24 +110,25 @@ describe("KitchenSink", () => {
           'ngb-datepicker-navigation-select select[title="Select month"]'
         ).select("5");
 
+        const current_year = new Date().getFullYear();
         // The year select you have 3 value:
         cy.get("@year").get("option").should("have.length", 3);
         // The first is curret year -1
         cy.get("@year")
           .get("option")
           .eq(0)
-          .contains(now.getFullYear() - 1);
+          .contains(current_year - 1);
         // The second is current year
-        cy.get("@year").get("option").eq(1).contains(now.getFullYear());
+        cy.get("@year").get("option").eq(1).contains(current_year);
         // The third is curret year +1
         cy.get("@year")
           .get("option")
           .eq(2)
-          .contains(now.getFullYear() + 1);
+          .contains(current_year + 1);
         // Just to verify that the values are selectable
-        cy.get("@year").select(now.getFullYear());
-        cy.get("@year").select(now.getFullYear() - 1);
-        cy.get("@year").select(now.getFullYear() + 1);
+        cy.get("@year").select(current_year);
+        cy.get("@year").select(current_year - 1);
+        cy.get("@year").select(current_year + 1);
 
         cy.get("div.ngb-dp-day div").contains("19").click({ force: true });
 
