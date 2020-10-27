@@ -201,7 +201,7 @@ describe("KitchenSink", () => {
         cy.contains('"password": "thisIsVeryS3cret!"');
         cy.contains('"url": "www.google.com"');
         cy.contains('"text": "123456"');
-        cy.contains('"number": "3"');
+        cy.contains('"number": 3');
         cy.contains('"boolean": "on"');
         cy.contains('"date": "' + (current_year + 1) + '-05-19T00:00:00.000Z"');
 
