@@ -67,7 +67,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   public columns: Array<any> = [];
   // Used by the filter function
   public data_filter: string;
-  public data_filters: Record<string, string | number>;
+  public data_filters: Record<string, unknown>;
   public unfiltered_data: Array<T>;
 
   public deleteConfirmation: Confirmation;
