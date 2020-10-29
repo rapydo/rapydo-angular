@@ -7,14 +7,14 @@ Based on:
 - Angular 10.2.1 with typescript 3.9.7
 - bootstrap 4.5.3 with @ng-bootstrap 7.0.0
 - @ngx-formly 5.10.5
-- ngx-datatable 17.1.0
+- ngx-datatable 18.0.0
 - ngx-uploadx 3.5.2
 - file-saver 2.0.2
 - ngx-toastr 13.1.0
 - moment 2.29.1 with ngx-moment 5.0.0
 - font-awesome 5.15.1
 - angular-confirmation-popover 6.0.0
-- ngx-clipboard 13.0.1
+- ngx-clipboard 14.0.1
 - angular2-cookie-law 7.0.1
 - ngx-spinner 10.0.1
 
