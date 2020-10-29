@@ -37,7 +37,7 @@
               "./app/custom/css/style.css"
             ],
             "scripts": [],
-            "allowedCommonJsDependencies": ["file-saver", "rxjs", "ajv", "xlsx"]
+            "allowedCommonJsDependencies": ["ajv", "xlsx"]
           },
           "configurations": {
             "production": {
