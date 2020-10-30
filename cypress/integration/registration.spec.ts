@@ -48,7 +48,10 @@ describe("Registration", () => {
 
       cy.checkvalidation(0, "Invalid email address");
       cy.checkvalidation(1, "Should have at least 8 characters");
-      cy.checkvalidation(2, "Password not matching");
+
+      cy.get("@email").clear().type("12345678");
+      cy.get("@confirmation").clear().type("123");
+      cy.checkvalidation(1, "Password not matching");
 
       cy.get("@submit").click({ force: true });
 

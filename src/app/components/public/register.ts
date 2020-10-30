@@ -92,19 +92,19 @@ export class RegisterComponent {
     this.model = data.model;
 
     for (let f of this.fields) {
-      if (f.key == "name") {
+      if (f.key === "name") {
         f.templateOptions.placeholder = "Type here your name";
         f.templateOptions.addonLeft = { class: "fas fa-user" };
-      } else if (f.key == "surname") {
+      } else if (f.key === "surname") {
         f.templateOptions.placeholder = "Type here your surname";
         f.templateOptions.addonLeft = { class: "fas fa-user" };
-      } else if (f.key == "email") {
+      } else if (f.key === "email") {
         f.templateOptions.placeholder = "Type here your email address";
         f.templateOptions.addonLeft = { class: "fas fa-envelope" };
-      } else if (f.key == "password") {
+      } else if (f.key === "password") {
         f.templateOptions.addonLeft = { class: "fas fa-key" };
         f.templateOptions.placeholder = "Type here the desidered password";
-      } else if (f.key == "password_confirm") {
+      } else if (f.key === "password_confirm") {
         f.templateOptions.addonLeft = { class: "fas fa-key" };
         f.templateOptions.placeholder =
           "Type again the desidered password for confirmation";
