@@ -31,10 +31,10 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
 
     let endpoint = "admin/users";
 
-    let user = this.auth.getUser();
-    if (user && user.isCoordinator && !user.isAdmin) {
-      endpoint = "localadmin/users";
-    }
+    // let user = this.auth.getUser();
+    // if (user && user.isCoordinator && !user.isAdmin) {
+    //   endpoint = "group/users";
+    // }
 
     this.init("user", endpoint, "AdminUsers");
     this.initPaging();
