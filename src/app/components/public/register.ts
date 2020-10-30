@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { FormGroup } from "@angular/forms";
 import { FormlyFieldConfig } from "@ngx-formly/core";
@@ -8,13 +8,16 @@ import { environment } from "@rapydo/../environments/environment";
 import { ApiService } from "@rapydo/services/api";
 import { AuthService } from "@rapydo/services/auth";
 import { NotificationService } from "@rapydo/services/notification";
+import { FormlyService } from "@rapydo/services/formly";
+import { NgxSpinnerService } from "ngx-spinner";
 
 import { ProjectOptions } from "@app/customization";
+import { Schema } from "@rapydo/types";
 
 @Component({
   templateUrl: "register.html",
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
   public allowRegistration: boolean = false;
 
   public registration_title: string;
@@ -32,9 +35,11 @@ export class RegisterComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private spinner: NgxSpinnerService,
     private notify: NotificationService,
     private api: ApiService,
     private authService: AuthService,
+    private formly: FormlyService,
     private customization: ProjectOptions
   ) {
     this.allowRegistration = environment.allowRegistration;
@@ -62,97 +67,59 @@ export class RegisterComponent implements OnInit {
       } else {
         this.showRegistrationForm = this.allowRegistration;
         this.registration_title = "Register a new account";
+
+        this.spinner.show();
+        this.api
+          .post<Schema[]>("/auth/profile", { get_schema: true })
+          .subscribe(
+            (response) => {
+              this.createRegistrationForm(response);
+              this.spinner.hide();
+            },
+            (error) => {
+              this.notify.showError(error);
+              this.spinner.hide();
+            }
+          );
       }
     });
   }
 
-  ngOnInit() {
-    this.disclaimer = this.customization.registration_disclaimer();
+  private createRegistrationForm(response) {
+    let data = this.formly.json2Form(response, {});
 
-    this.fields.push({
-      key: "name",
-      type: "input",
-      templateOptions: {
-        type: "text",
-        label: "Name",
-        placeholder: "Type here your name",
-        addonLeft: {
-          class: "fas fa-user",
-        },
-        required: true,
-      },
-    });
+    this.fields = data.fields;
+    this.model = data.model;
 
-    this.fields.push({
-      key: "surname",
-      type: "input",
-      templateOptions: {
-        type: "text",
-        label: "Surname",
-        placeholder: "Type here your surname",
-        addonLeft: {
-          class: "fas fa-user",
-        },
-        required: true,
-      },
-    });
+    for (let f of this.fields) {
+      if (f.key == "name") {
+        f.templateOptions.placeholder = "Type here your name";
+        f.templateOptions.addonLeft = { class: "fas fa-user" };
+      } else if (f.key == "surname") {
+        f.templateOptions.placeholder = "Type here your surname";
+        f.templateOptions.addonLeft = { class: "fas fa-user" };
+      } else if (f.key == "email") {
+        f.templateOptions.placeholder = "Type here your email address";
+        f.templateOptions.addonLeft = { class: "fas fa-envelope" };
+      } else if (f.key == "password") {
+        f.templateOptions.addonLeft = { class: "fas fa-key" };
+        f.templateOptions.placeholder = "Type here the desidered password";
+      } else if (f.key == "password_confirm") {
+        f.templateOptions.addonLeft = { class: "fas fa-key" };
+        f.templateOptions.placeholder =
+          "Type again the desidered password for confirmation";
 
-    this.fields.push({
-      key: "email",
-      type: "input",
-      templateOptions: {
-        type: "email",
-        label: "Username (email address)",
-        placeholder: "Type here your email address",
-        addonLeft: {
-          class: "fas fa-envelope",
-        },
-        required: true,
-      },
-      validators: { validation: ["email"] },
-    });
-
-    this.fields.push({
-      key: "password",
-      type: "input",
-      templateOptions: {
-        type: "password",
-        label: "Password",
-        placeholder: "Type here the desidered password",
-        addonLeft: {
-          class: "fas fa-key",
-        },
-        required: true,
-        minLength: 8,
-      },
-    });
-
-    this.fields.push({
-      key: "password_confirm",
-      type: "input",
-      templateOptions: {
-        type: "password",
-        label: "Password confirmation",
-        placeholder: "Type again the desidered password for confirmation",
-        addonLeft: {
-          class: "fas fa-key",
-        },
-        required: true,
-      },
-      validators: {
-        fieldMatch: {
-          expression: (control) => control.value === this.model.password,
-          message: "Password not matching",
-        },
-      },
-    });
-
-    const custom = this.customization.custom_registration_options();
-    if (custom) {
-      for (let field of custom) {
-        this.fields.push(field);
+        f.validators = {
+          fieldMatch: {
+            expression: (control) => control.value === this.model.password,
+            message: "Password not matching",
+          },
+        };
+      } else {
+        f.templateOptions.addonLeft = { class: "fas fa-asterisk" };
       }
     }
+    this.disclaimer = this.customization.registration_disclaimer();
 
     if (environment.allowTermsOfUse) {
       const privacy = this.customization.privacy_statements();
