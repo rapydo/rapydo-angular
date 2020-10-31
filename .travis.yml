@@ -125,7 +125,7 @@ script:
       curl $opt/app/custom/assets/favicon/favicon.ico  --header 'accept-encoding: gzip' | grep "content-encoding: gzip" || travis_terminate 1;
 
       # asset names are dinamically generated at build type... extract it from the index.html..
-      asset=`curl --silent --insecure -X GET https://covid-miner.ifo.gov.it | grep '<link rel="stylesheet" href="' | sed 's/  <link rel="stylesheet" href="//' | sed 's/"><\/head>//'` || travis_terminate 1;
+      asset=`curl --silent --insecure -X GET https://localhost | grep '<link rel="stylesheet" href="' | sed 's/  <link rel="stylesheet" href="//' | sed 's/"><\/head>//'` || travis_terminate 1;
 
       # assets are expected to be found with proper content-type and CSP Enabled
       # cache is expected to be set a 1 year (31557600)
