@@ -48,7 +48,7 @@ script:
       npm install -g seespee cypress;
       seespee --level 1 --validate https://localhost;
 
-      opt="--silent --head --insecure --header 'accept-encoding: gzip' -X GET https://localhost";
+      opt="--silent --head --insecure --header \'accept-encoding: gzip\' -X GET https://localhost";
 
       # A lot of urls serve the index.html, so that the expected response is:
       # 200 OK, content-type html, no-cache and CSP enabled
