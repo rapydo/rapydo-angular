@@ -48,7 +48,7 @@ script:
       npm install -g seespee cypress;
       seespee --level 1 --validate https://localhost;
 
-      opt="--silent --head --insecure --header \'accept-encoding: gzip\' -X GET https://localhost";
+      opt="--silent --head --insecure -X GET https://localhost";
 
       # A lot of urls serve the index.html, so that the expected response is:
       # 200 OK, content-type html, no-cache and CSP enabled
@@ -101,17 +101,17 @@ script:
       curl $opt/public/index.html | grep -i "Content-Type: text/html";
       curl $opt/public/anything | grep -i "Content-Type: text/html";
 
-      curl $opt | grep "content-encoding: gzip";
-      curl $opt/ | grep "content-encoding: gzip";
-      curl $opt/index.html | grep "content-encoding: gzip";
-      curl $opt/app | grep "content-encoding: gzip";
-      curl $opt/app/ | grep "content-encoding: gzip";
-      curl $opt/app/index.html | grep "content-encoding: gzip";
-      curl $opt/app/anything | grep "content-encoding: gzip";
-      curl $opt/public | grep "content-encoding: gzip";
-      curl $opt/public/ | grep "content-encoding: gzip";
-      curl $opt/public/index.html | grep "content-encoding: gzip";
-      curl $opt/public/anything | grep "content-encoding: gzip";
+      curl $opt --header 'accept-encoding: gzip' | grep "content-encoding: gzip";
+      curl $opt/ --header 'accept-encoding: gzip'  | grep "content-encoding: gzip";
+      curl $opt/index.html --header 'accept-encoding: gzip'  | grep "content-encoding: gzip";
+      curl $opt/app --header 'accept-encoding: gzip'  | grep "content-encoding: gzip";
+      curl $opt/app/ --header 'accept-encoding: gzip'  | grep "content-encoding: gzip";
+      curl $opt/app/index.html --header 'accept-encoding: gzip'  | grep "content-encoding: gzip";
+      curl $opt/app/anything --header 'accept-encoding: gzip'  | grep "content-encoding: gzip";
+      curl $opt/public --header 'accept-encoding: gzip'  | grep "content-encoding: gzip";
+      curl $opt/public/ --header 'accept-encoding: gzip'  | grep "content-encoding: gzip";
+      curl $opt/public/index.html --header 'accept-encoding: gzip'  | grep "content-encoding: gzip";
+      curl $opt/public/anything --header 'accept-encoding: gzip'  | grep "content-encoding: gzip";
 
       # unrecognized patterns have to respond with a 404
       curl $opt/anything | grep -E "^HTTP/.+ 404";
@@ -122,7 +122,7 @@ script:
       curl $opt/app/custom/assets/favicon/favicon.ico | grep "cache-control: max-age=2592000";
       curl $opt/app/custom/assets/favicon/favicon.ico | grep -i "Content-Security-Policy: frame-ancestors";
       curl $opt/app/custom/assets/favicon/favicon.ico | grep -i "Content-Type: image/x-icon";
-      curl $opt/app/custom/assets/favicon/favicon.ico | grep "content-encoding: gzip";
+      curl $opt/app/custom/assets/favicon/favicon.ico  --header 'accept-encoding: gzip' | grep "content-encoding: gzip";
 
       # asset names are dinamically generated at build type... extract it from the index.html..
       asset=`curl --silent --insecure -X GET https://covid-miner.ifo.gov.it | grep '<link rel="stylesheet" href="' | sed 's/  <link rel="stylesheet" href="//' | sed 's/"><\/head>//'`;
@@ -133,7 +133,7 @@ script:
       curl $opt/$asset | grep "cache-control: max-age=31557600";
       curl $opt/$asset | grep -i "Content-Security-Policy: frame-ancestors";
       curl $opt/$asset | grep -i "Content-Type: text/css";
-      curl $opt/$asset | grep "content-encoding: gzip";
+      curl $opt/$asset --header 'accept-encoding: gzip'  | grep "content-encoding: gzip";
 
       echo "{}" > cypress.json
       cypress run --browser chrome --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
