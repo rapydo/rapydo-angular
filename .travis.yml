@@ -48,8 +48,8 @@ script:
       npm install -g seespee cypress;
       seespee --level 1 --validate https://localhost || travis_terminate 1;
 
-      # Print command traces before executing command (this will echo all the commands)
-      set -x;
+      # Print commands before executing them
+      set -v;
 
       opt="--silent --head --insecure -X GET https://localhost";
 
@@ -138,8 +138,8 @@ script:
       curl $opt/$asset | grep -i "Content-Type: text/css" || travis_terminate 1;
       curl $opt/$asset --header 'accept-encoding: gzip' | grep "content-encoding: gzip || travis_terminate 1";
 
-      # Undo -x
-      set +x;
+      # Undo -v
+      set +v;
 
       echo "{}" > cypress.json
       cypress run --browser chrome --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
