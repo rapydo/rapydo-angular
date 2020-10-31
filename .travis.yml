@@ -48,10 +48,10 @@ script:
       npm install -g seespee cypress;
       seespee --level 1 --validate https://localhost;
 
-      opt="--silent --head --insecure -X GET https://localhost"
+      opt="--silent --head --insecure -X GET https://localhost";
 
-      // A lot of urls serve the index.html, so that the expected response is:
-      // 200 OK, content-type html, no-cache and CSP enabled
+      # A lot of urls serve the index.html, so that the expected response is:
+      # 200 OK, content-type html, no-cache and CSP enabled
 
       curl $opt | grep "cache-control: no-store";
       curl $opt/ | grep "cache-control: no-store";
@@ -101,20 +101,20 @@ script:
       curl $opt/public/index.html | grep -i "Content-Type: text/html";
       curl $opt/public/anything | grep -i "Content-Type: text/html";
        
-      // unrecognized patterns have to respond with a 404
+      # unrecognized patterns have to respond with a 404
       curl $opt/anything | grep -E "^HTTP/.+ 404";
 
-      // favicon is expected to be found with content-type image/x-icon and CSP Enabled
-      // cache is expected to be set a 1 month (2592000)
+      # favicon is expected to be found with content-type image/x-icon and CSP Enabled
+      # cache is expected to be set a 1 month (2592000)
       curl $opt/app/custom/assets/favicon/favicon.ico | grep -E "^HTTP/.+ 200";
       curl $opt/app/custom/assets/favicon/favicon.ico | grep "cache-control: max-age=2592000";
       curl $opt/app/custom/assets/favicon/favicon.ico | grep -i "Content-Security-Policy: frame-ancestors";
       curl $opt/app/custom/assets/favicon/favicon.ico | grep -i "Content-Type: image/x-icon";
 
-      // assets are expected to be found with proper content-type and CSP Enabled
-      // cache is expected to be set a 1 year (31557600)
+      # assets are expected to be found with proper content-type and CSP Enabled
+      # cache is expected to be set a 1 year (31557600)
 
-      // asset names are dinamically generated at build type... extract it from the index.html..
+      # asset names are dinamically generated at build type... extract it from the index.html..
       asset=`curl --silent --insecure -X GET https://covid-miner.ifo.gov.it | grep '<link rel="stylesheet" href="' | sed 's/  <link rel="stylesheet" href="//' | sed 's/"><\/head>//'`;
 
       curl $opt/$asset | grep -E "^HTTP/.+ 200";
