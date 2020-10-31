@@ -111,12 +111,12 @@ script:
       curl $opt/app/custom/assets/favicon/favicon.ico | grep -i "Content-Security-Policy: frame-ancestors";
       curl $opt/app/custom/assets/favicon/favicon.ico | grep -i "Content-Type: image/x-icon";
 
-      # assets are expected to be found with proper content-type and CSP Enabled
-      # cache is expected to be set a 1 year (31557600)
-
       # asset names are dinamically generated at build type... extract it from the index.html..
       asset=`curl --silent --insecure -X GET https://covid-miner.ifo.gov.it | grep '<link rel="stylesheet" href="' | sed 's/  <link rel="stylesheet" href="//' | sed 's/"><\/head>//'`;
 
+
+      # assets are expected to be found with proper content-type and CSP Enabled
+      # cache is expected to be set a 1 year (31557600)
       curl $opt/$asset | grep -E "^HTTP/.+ 200";
       curl $opt/$asset | grep "cache-control: max-age=31557600";
       curl $opt/$asset | grep -i "Content-Security-Policy: frame-ancestors";
