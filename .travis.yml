@@ -47,7 +47,80 @@ script:
       curl --insecure -X GET https://localhost;
       npm install -g seespee cypress;
       seespee --level 1 --validate https://localhost;
-      curl --silent --head --insecure -X GET https://localhost/app/index.html | grep "cache-control: no-store";
+
+      opt="--silent --head --insecure -X GET https://localhost"
+
+      // A lot of urls serve the index.html, so that the expected response is:
+      // 200 OK, content-type html, no-cache and CSP enabled
+
+      curl $opt | grep "cache-control: no-store";
+      curl $opt/ | grep "cache-control: no-store";
+      curl $opt/index.html | grep "cache-control: no-store";
+      curl $opt/app | grep "cache-control: no-store";
+      curl $opt/app/ | grep "cache-control: no-store";
+      curl $opt/app/index.html | grep "cache-control: no-store";
+      curl $opt/app/anything | grep "cache-control: no-store";
+      curl $opt/public | grep "cache-control: no-store";
+      curl $opt/public/ | grep "cache-control: no-store";
+      curl $opt/public/index.html | grep "cache-control: no-store";
+      curl $opt/public/anything | grep "cache-control: no-store";
+
+      curl $opt | grep -E "^HTTP/.+ 200";
+      curl $opt/ | grep -E "^HTTP/.+ 200";
+      curl $opt/index.html | grep -E "^HTTP/.+ 200";
+      curl $opt/app | grep -E "^HTTP/.+ 200";
+      curl $opt/app/ | grep -E "^HTTP/.+ 200";
+      curl $opt/app/index.html | grep -E "^HTTP/.+ 200";
+      curl $opt/app/anything | grep -E "^HTTP/.+ 200";
+      curl $opt/public | grep -E "^HTTP/.+ 200";
+      curl $opt/public/ | grep -E "^HTTP/.+ 200";
+      curl $opt/public/index.html | grep -E "^HTTP/.+ 200";
+      curl $opt/public/anything | grep -E "^HTTP/.+ 200";
+
+      curl $opt | grep -i "Content-Security-Policy: frame-ancestors";
+      curl $opt/ | grep -i "Content-Security-Policy: frame-ancestors";
+      curl $opt/index.html | grep -i "Content-Security-Policy: frame-ancestors";
+      curl $opt/app | grep -i "Content-Security-Policy: frame-ancestors";
+      curl $opt/app/ | grep -i "Content-Security-Policy: frame-ancestors";
+      curl $opt/app/index.html | grep -i "Content-Security-Policy: frame-ancestors";
+      curl $opt/app/anything | grep -i "Content-Security-Policy: frame-ancestors";
+      curl $opt/public | grep -i "Content-Security-Policy: frame-ancestors";
+      curl $opt/public/ | grep -i "Content-Security-Policy: frame-ancestors";
+      curl $opt/public/index.html | grep -i "Content-Security-Policy: frame-ancestors";
+      curl $opt/public/anything | grep -i "Content-Security-Policy: frame-ancestors";
+
+      curl $opt | grep -i "Content-Type: text/html";
+      curl $opt/ | grep -i "Content-Type: text/html";
+      curl $opt/index.html | grep -i "Content-Type: text/html";
+      curl $opt/app | grep -i "Content-Type: text/html";
+      curl $opt/app/ | grep -i "Content-Type: text/html";
+      curl $opt/app/index.html | grep -i "Content-Type: text/html";
+      curl $opt/app/anything | grep -i "Content-Type: text/html";
+      curl $opt/public | grep -i "Content-Type: text/html";
+      curl $opt/public/ | grep -i "Content-Type: text/html";
+      curl $opt/public/index.html | grep -i "Content-Type: text/html";
+      curl $opt/public/anything | grep -i "Content-Type: text/html";
+       
+      // unrecognized patterns have to respond with a 404
+      curl $opt/anything | grep -E "^HTTP/.+ 404";
+
+      // favicon is expected to be found with content-type image/x-icon and CSP Enabled
+      // cache is expected to be set a 1 month (2592000)
+      curl $opt/app/custom/assets/favicon/favicon.ico | grep -E "^HTTP/.+ 200";
+      curl $opt/app/custom/assets/favicon/favicon.ico | grep "cache-control: max-age=2592000";
+      curl $opt/app/custom/assets/favicon/favicon.ico | grep -i "Content-Security-Policy: frame-ancestors";
+      curl $opt/app/custom/assets/favicon/favicon.ico | grep -i "Content-Type: image/x-icon";
+
+      // assets are expected to be found with proper content-type and CSP Enabled
+      // cache is expected to be set a 1 year (31557600)
+
+      // asset names are dinamically generated at build type... extract it from the index.html..
+      asset=`curl --silent --insecure -X GET https://covid-miner.ifo.gov.it | grep '<link rel="stylesheet" href="' | sed 's/  <link rel="stylesheet" href="//' | sed 's/"><\/head>//'`;
+
+      curl $opt/$asset | grep -E "^HTTP/.+ 200";
+      curl $opt/$asset | grep "cache-control: max-age=31557600";
+      curl $opt/$asset | grep -i "Content-Security-Policy: frame-ancestors";
+      curl $opt/$asset | grep -i "Content-Type: text/css";
 
       echo "{}" > cypress.json
       cypress run --browser chrome --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
