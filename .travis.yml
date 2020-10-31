@@ -48,26 +48,12 @@ script:
       npm install -g seespee cypress;
       seespee --level 1 --validate https://localhost || travis_terminate 1;
 
-      # Print commands before executing them
-      set -v;
-
       opt="--silent --head --insecure -X GET https://localhost";
 
       # A lot of urls serve the index.html, so that the expected response is:
       # 200 OK, content-type html, no-cache and CSP enabled
 
-      curl $opt | grep "cache-control: no-store" || travis_terminate 1;
-      curl $opt/ | grep "cache-control: no-store" || travis_terminate 1;
-      curl $opt/index.html | grep "cache-control: no-store" || travis_terminate 1;
-      curl $opt/app | grep "cache-control: no-store" || travis_terminate 1;
-      curl $opt/app/ | grep "cache-control: no-store" || travis_terminate 1;
-      curl $opt/app/index.html | grep "cache-control: no-store" || travis_terminate 1;
-      curl $opt/app/anything | grep "cache-control: no-store" || travis_terminate 1;
-      curl $opt/public | grep "cache-control: no-store" || travis_terminate 1;
-      curl $opt/public/ | grep "cache-control: no-store" || travis_terminate 1;
-      curl $opt/public/index.html | grep "cache-control: no-store" || travis_terminate 1;
-      curl $opt/public/anything | grep "cache-control: no-store" || travis_terminate 1;
-
+      echo "Testing index.html HTTP response";
       curl $opt | grep -E "^HTTP/.+ 200" || travis_terminate 1;
       curl $opt/ | grep -E "^HTTP/.+ 200" || travis_terminate 1;
       curl $opt/index.html | grep -E "^HTTP/.+ 200" || travis_terminate 1;
@@ -80,6 +66,20 @@ script:
       curl $opt/public/index.html | grep -E "^HTTP/.+ 200" || travis_terminate 1;
       curl $opt/public/anything | grep -E "^HTTP/.+ 200" || travis_terminate 1;
 
+      echo "Testing index.html cache-control";
+      curl $opt | grep "cache-control: no-store" || travis_terminate 1;
+      curl $opt/ | grep "cache-control: no-store" || travis_terminate 1;
+      curl $opt/index.html | grep "cache-control: no-store" || travis_terminate 1;
+      curl $opt/app | grep "cache-control: no-store" || travis_terminate 1;
+      curl $opt/app/ | grep "cache-control: no-store" || travis_terminate 1;
+      curl $opt/app/index.html | grep "cache-control: no-store" || travis_terminate 1;
+      curl $opt/app/anything | grep "cache-control: no-store" || travis_terminate 1;
+      curl $opt/public | grep "cache-control: no-store" || travis_terminate 1;
+      curl $opt/public/ | grep "cache-control: no-store" || travis_terminate 1;
+      curl $opt/public/index.html | grep "cache-control: no-store" || travis_terminate 1;
+      curl $opt/public/anything | grep "cache-control: no-store" || travis_terminate 1;
+
+      echo "Testing index.html CSP header";
       curl $opt | grep -i "Content-Security-Policy: frame-ancestors" || travis_terminate 1;
       curl $opt/ | grep -i "Content-Security-Policy: frame-ancestors" || travis_terminate 1;
       curl $opt/index.html | grep -i "Content-Security-Policy: frame-ancestors" || travis_terminate 1;
@@ -92,6 +92,7 @@ script:
       curl $opt/public/index.html | grep -i "Content-Security-Policy: frame-ancestors" || travis_terminate 1;
       curl $opt/public/anything | grep -i "Content-Security-Policy: frame-ancestors" || travis_terminate 1;
 
+      echo "Testing index.html Content-Type";
       curl $opt | grep -i "Content-Type: text/html" || travis_terminate 1;
       curl $opt/ | grep -i "Content-Type: text/html" || travis_terminate 1;
       curl $opt/index.html | grep -i "Content-Type: text/html" || travis_terminate 1;
@@ -104,6 +105,7 @@ script:
       curl $opt/public/index.html | grep -i "Content-Type: text/html" || travis_terminate 1;
       curl $opt/public/anything | grep -i "Content-Type: text/html" || travis_terminate 1;
 
+      echo "Testing index.html gzip encoding";
       curl $opt --header 'accept-encoding: gzip' | grep "content-encoding: gzip" || travis_terminate 1;
       curl $opt/ --header 'accept-encoding: gzip' | grep "content-encoding: gzip" || travis_terminate 1;
       curl $opt/index.html --header 'accept-encoding: gzip' | grep "content-encoding: gzip" || travis_terminate 1;
@@ -117,10 +119,12 @@ script:
       curl $opt/public/anything --header 'accept-encoding: gzip' | grep "content-encoding: gzip" || travis_terminate 1;
 
       # unrecognized patterns have to respond with a 404
+      echo "Testing invalid path";
       curl $opt/anything | grep -E "^HTTP/.+ 404";
 
       # favicon is expected to be found with content-type image/x-icon and CSP Enabled
       # cache is expected to be set a 1 month (2592000)
+      echo "Testing favicon.ico";
       curl $opt/app/custom/assets/favicon/favicon.ico | grep -E "^HTTP/.+ 200" || travis_terminate 1;
       curl $opt/app/custom/assets/favicon/favicon.ico | grep "cache-control: max-age=2592000" || travis_terminate 1;
       curl $opt/app/custom/assets/favicon/favicon.ico | grep -i "Content-Security-Policy: frame-ancestors" || travis_terminate 1;
@@ -130,6 +134,7 @@ script:
       # asset names are dinamically generated at build type... extract it from the index.html..
       asset=`curl --silent --insecure -X GET https://localhost | grep -o "styles\..*.css"` || travis_terminate 1;
 
+      echo "Testing ${asset}";
       # assets are expected to be found with proper content-type and CSP Enabled
       # cache is expected to be set a 1 year (31557600)
       curl $opt/$asset | grep -E "^HTTP/.+ 200" || travis_terminate 1;
@@ -137,9 +142,6 @@ script:
       curl $opt/$asset | grep -i "Content-Security-Policy: frame-ancestors" || travis_terminate 1;
       curl $opt/$asset | grep -i "Content-Type: text/css" || travis_terminate 1;
       curl $opt/$asset --header 'accept-encoding: gzip' | grep "content-encoding: gzip || travis_terminate 1";
-
-      # Undo -v
-      set +v;
 
       echo "{}" > cypress.json
       cypress run --browser chrome --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
