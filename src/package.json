@@ -58,7 +58,7 @@
     "xlsx": "0.16.8",
     "ajv": "6.12.6",
     "angular-polyfills": "1.0.1",
-    "gzipper": "4.1.0",
+    "gzipper": "4.3.0",
     "rimraf": "3.0.2",
     "copyfiles": "2.4.0"
   },

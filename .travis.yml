@@ -143,6 +143,8 @@ script:
       curl $opt/$asset | grep -i "Content-Type: text/css" || travis_terminate 1;
       curl $opt/$asset --header 'accept-encoding: gzip' | grep "content-encoding: gzip || travis_terminate 1";
 
+      echo -e "\n";
+
       echo "{}" > cypress.json
       cypress run --browser chrome --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
 
