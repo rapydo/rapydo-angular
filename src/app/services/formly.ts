@@ -3,7 +3,7 @@ import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { FormlyFieldConfig } from "@ngx-formly/core";
 import * as moment from "moment";
 
-import { Schema, SchemaType, JSON2Form } from "@rapydo/types";
+import { Schema, JSON2Form } from "@rapydo/types";
 
 @Injectable()
 export class FormlyService {
@@ -222,47 +222,6 @@ export class FormlyService {
     }
 
     return { fields, model };
-  }
-
-  public getField(
-    model: Record<string, any>,
-    type: SchemaType,
-    key: string,
-    name: string,
-    required: boolean,
-    descr: string,
-    options: Record<string, string> = null
-  ): JSON2Form {
-    const field = {
-      description: descr,
-      key,
-      label: name,
-      required,
-      type,
-    };
-
-    if (type === "boolean") {
-      if (key in model) {
-        const v = model[key];
-
-        if (v === "0" || v === "false" || v === "False" || v === "off") {
-          field["default"] = false;
-        } else if (v === "1" || v === "true" || v === "True" || v === "on") {
-          field["default"] = true;
-        } else {
-          field["default"] = v;
-        }
-        delete model[key];
-      }
-    } else if (options) {
-      field["default"] = model[key];
-    }
-
-    if (options) {
-      field["options"] = options;
-    }
-
-    return this.json2Form([field], model);
   }
 
   public getSelectIdFromObject(

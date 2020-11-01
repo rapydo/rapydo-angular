@@ -119,6 +119,11 @@ export enum SchemaType {
   URL = "url",
 }
 
+export type SchemaOptions =
+  | Record<string, string>
+  | Record<"value" | "label", string>[]
+  | Record<"value" | "label" | "description", string>[];
+
 export interface Schema {
   readonly key: string;
   readonly type: SchemaType;
@@ -130,10 +135,7 @@ export interface Schema {
   readonly min?: number | Date;
   readonly max?: number | Date;
   // these are used by select/array fields. The second one is used by RADIO and RADIO_WITH_DESCRIPTION
-  readonly options?:
-    | Record<string, string>
-    | Record<"value" | "label", string>[]
-    | Record<"value" | "label" | "description", string>[];
+  readonly options?: SchemaOptions;
   readonly multiple?: boolean;
 }
 
