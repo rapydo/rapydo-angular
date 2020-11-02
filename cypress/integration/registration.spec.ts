@@ -81,18 +81,20 @@ describe("Registration", () => {
       });
 
       // Pick all the selects, included Groups and any other custom fields (like in IMC)
-      cy.get("form")
-        .find("select")
-        .each(($el, index, $list) => {
-          if ($el.prop("required")) {
-            cy.wrap($el)
-              .find("option")
-              .eq(1)
-              .then((element) => {
-                cy.wrap($el).select(element.val());
-              });
-          }
-        });
+      if (Cypress.$("select").length) {
+        cy.get("form")
+          .find("select")
+          .each(($el, index, $list) => {
+            if ($el.prop("required")) {
+              cy.wrap($el)
+                .find("option")
+                .eq(1)
+                .then((element) => {
+                  cy.wrap($el).select(element.val());
+                });
+            }
+          });
+      }
 
       cy.get("@submit").click({ force: true });
 
