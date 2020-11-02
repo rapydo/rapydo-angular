@@ -80,20 +80,19 @@ describe("Registration", () => {
         }
       });
 
-      // This should pick the groups select, if enabled (e.g. in IMC)
-      // IT DOES NOT WORK YET!
-      if (Cypress.$("select").length > 0) {
-        cy.find("select").each(($el, index, $list) => {
-          cy.wrap($el).click();
+      // Pick all the selects, included Groups and any other custom fields (like in IMC)
+      cy.get("form")
+        .find("select")
+        .each(($el, index, $list) => {
           if ($el.prop("required")) {
-            // select the first option
             cy.wrap($el)
-              .get("option")
-              .eq(0)
-              .then((element) => cy.wrap($el).select(element.val()));
+              .find("option")
+              .eq(1)
+              .then((element) => {
+                cy.wrap($el).select(element.val());
+              });
           }
         });
-      }
 
       cy.get("@submit").click({ force: true });
 
