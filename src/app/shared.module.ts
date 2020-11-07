@@ -32,6 +32,7 @@ import { FormlyHorizontalWrapper } from "@rapydo/components/forms/bootstrap.hori
 import { FormlyDescriptiveRadio } from "@rapydo/components/forms/radio-type.component";
 import { TermsOfUseCheckbox } from "@rapydo/components/forms/terms_of_use_checkbox";
 import { DatePickerComponent } from "@rapydo/components/forms/datepicker.component";
+import { PasswordComponent } from "@rapydo/components/forms/password.component";
 
 import { NgxSpinnerModule } from "ngx-spinner";
 
@@ -190,6 +191,12 @@ let module_imports: any = [
         component: DatePickerComponent,
         wrappers: ["form-field"],
       },
+      {
+        // extend password field with visibility toggle
+        name: "password",
+        component: PasswordComponent,
+        wrappers: ["form-field"],
+      },
     ],
     validationMessages: [
       { name: "required", message: "This field is required" },
@@ -219,6 +226,7 @@ let module_declarations = [
   FormlyDescriptiveRadio,
   TermsOfUseCheckbox,
   DatePickerComponent,
+  PasswordComponent,
 ];
 
 let module_exports = [
@@ -228,6 +236,7 @@ let module_exports = [
   FormlyDescriptiveRadio,
   TermsOfUseCheckbox,
   DatePickerComponent,
+  PasswordComponent,
 
   NgxDatatableModule,
   ConfirmationPopoverModule,
