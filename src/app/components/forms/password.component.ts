@@ -37,6 +37,7 @@ import { FieldType } from "@ngx-formly/core";
     />
 
     <i
+      *ngIf="!showError"
       class="toggle fas "
       [ngClass]="{ 'fa-eye': show, 'fa-eye-slash': !show }"
       (mousedown)="show_password()"
@@ -46,7 +47,7 @@ import { FieldType } from "@ngx-formly/core";
   `,
 })
 export class PasswordComponent extends FieldType {
-  private show: boolean = false;
+  public show: boolean = false;
   public show_password() {
     this.show = true;
   }

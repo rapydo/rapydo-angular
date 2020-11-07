@@ -100,9 +100,9 @@ export class LoginComponent implements OnInit {
     if (this.askPassword) {
       this.fields.push({
         key: "password",
-        type: "input",
+        type: "password",
         templateOptions: {
-          type: "password",
+          // type: "password",
           label: "Password",
           placeholder: "Your password",
           addonLeft: {
@@ -116,9 +116,9 @@ export class LoginComponent implements OnInit {
     if (this.askNewPassword) {
       this.fields.push({
         key: "new_password",
-        type: "input",
+        type: "password",
         templateOptions: {
-          type: "password",
+          // type: "password",
           label: "New password",
           placeholder: "Your new password",
           addonLeft: {
@@ -130,9 +130,9 @@ export class LoginComponent implements OnInit {
       });
       this.fields.push({
         key: "password_confirm",
-        type: "input",
+        type: "password",
         templateOptions: {
-          type: "password",
+          // type: "password",
           label: "Password confirmation",
           placeholder: "Confirm your new password",
           addonLeft: {

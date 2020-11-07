@@ -69,9 +69,9 @@ export class ResetPasswordComponent implements OnInit {
 
     this.step2_fields.push({
       key: "newPwd",
-      type: "input",
+      type: "password",
       templateOptions: {
-        type: "password",
+        // type: "password",
         label: "New password",
         placeholder: "Type here your new password",
         addonLeft: {
@@ -83,9 +83,9 @@ export class ResetPasswordComponent implements OnInit {
     });
     this.step2_fields.push({
       key: "confirmPwd",
-      type: "input",
+      type: "password",
       templateOptions: {
-        type: "password",
+        // type: "password",
         label: "Confirm password",
         placeholder: "Type again your new password for confirmation",
         addonLeft: {

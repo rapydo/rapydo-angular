@@ -80,8 +80,8 @@ export class FormlyService {
         template_type = "email";
         field["validators"] = { validation: ["email"] };
       } else if (stype === "password") {
-        field_type = "input";
-        template_type = "password";
+        field_type = "password";
+        // template_type = "password";
 
         if (typeof s.min !== "undefined") {
           field["templateOptions"]["minLength"] = s.min;

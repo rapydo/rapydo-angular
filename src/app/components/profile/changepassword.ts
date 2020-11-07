@@ -47,9 +47,9 @@ export class ChangePasswordComponent {
     } else {
       this.fields.push({
         key: "currentPwd",
-        type: "input",
+        type: "password",
         templateOptions: {
-          type: "password",
+          // type: "password",
           label: "Current password",
           placeholder: "Type here your current password",
           addonLeft: {
@@ -62,9 +62,9 @@ export class ChangePasswordComponent {
 
     this.fields.push({
       key: "newPwd",
-      type: "input",
+      type: "password",
       templateOptions: {
-        type: "password",
+        // type: "password",
         label: "New password",
         placeholder: "Type here the desidered new password",
         addonLeft: {
@@ -76,9 +76,9 @@ export class ChangePasswordComponent {
     });
     this.fields.push({
       key: "confirmPwd",
-      type: "input",
+      type: "password",
       templateOptions: {
-        type: "password",
+        // type: "password",
         label: "Confirm password",
         placeholder:
           "Type here again the desidered new password for confirmation",
