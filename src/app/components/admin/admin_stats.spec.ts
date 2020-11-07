@@ -23,7 +23,9 @@ describe("AdminStatsComponent", () => {
   let component: AdminStatsComponent;
 
   const stats = {
-    boot_time: "2020-08-11T08:08:05",
+    system: {
+      boot_time: "2020-08-11T08:08:05",
+    },
     cpu: {
       count: 8,
       idle: 83,

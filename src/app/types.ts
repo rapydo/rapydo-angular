@@ -148,6 +148,10 @@ export interface JSON2Form {
   readonly fields: any[];
   readonly model: Record<string, unknown>;
 }
+
+interface SystemStats {
+  readonly boot_time: Date;
+}
 interface CPUStats {
   /** @minimum 1 */
   readonly count: number;
@@ -250,7 +254,7 @@ interface SwapStats {
 }
 
 export interface AdminStats {
-  readonly boot_time: Date;
+  readonly system: SystemStats;
   readonly cpu: CPUStats;
   readonly disk: DiskStats;
   readonly io: IOStats;
