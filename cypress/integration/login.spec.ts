@@ -62,5 +62,17 @@ describe("SuccessfulLogin", () => {
     cy.location().should((location) => {
       expect(location.pathname).to.not.eq("/app/profile");
     });
+
+    // If you enter the login page and your are logged in,
+    // you will be automatically logged out
+
+    cy.visit("/app/login");
+    cy.visit("/app/profile");
+
+    // You are now logged out and Profile page is restricted
+    // => you are automatically redirected to login page
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/login");
+    });
   });
 });

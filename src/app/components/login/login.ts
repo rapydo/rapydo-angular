@@ -50,15 +50,20 @@ export class LoginComponent implements OnInit {
     private modalService: NgbModal,
     private customization: ProjectOptions,
     private api: ApiService,
-    private authService: AuthService
+    private auth: AuthService
   ) {
     this.allowRegistration = environment.allowRegistration;
     this.allowPasswordReset = environment.allowPasswordReset;
+
+    const user = this.auth.getUser();
+    if (user != null) {
+      this.auth.logout().subscribe((response) => {
+        console.log("Forced logout");
+      });
+    }
   }
 
   ngOnInit() {
-    // reset login status
-    this.authService.logout();
     this.set_form();
 
     // get return url from route parameters or default to '/'
@@ -149,7 +154,7 @@ export class LoginComponent implements OnInit {
       return false;
     }
     this.loading = true;
-    this.authService
+    this.auth
       .login(
         this.model.username,
         this.model.password,
@@ -158,10 +163,10 @@ export class LoginComponent implements OnInit {
       )
       .subscribe(
         (data) => {
-          this.authService.loadUser().subscribe(
+          this.auth.loadUser().subscribe(
             (response) => {
               this.loading = false;
-              let u: User = this.authService.getUser();
+              let u: User = this.auth.getUser();
 
               if (u.privacy_accepted || !environment.allowTermsOfUse) {
                 this.router.navigate([this.returnUrl]);
@@ -254,7 +259,7 @@ export class LoginComponent implements OnInit {
           .patch("/auth/profile", "", { privacy_accepted: true })
           .subscribe(
             (data) => {
-              this.authService.loadUser();
+              this.auth.loadUser();
               this.router.navigate([this.returnUrl]);
             },
             (error) => {
@@ -263,7 +268,7 @@ export class LoginComponent implements OnInit {
           );
       },
       (reason) => {
-        this.authService.logout().subscribe((response) => {
+        this.auth.logout().subscribe((response) => {
           this.notify.showError(
             "We apologize but you are not allowed to login, as you have not accepted our Terms of Use"
           );
@@ -274,7 +279,7 @@ export class LoginComponent implements OnInit {
   }
 
   ask_activation_link() {
-    this.authService.ask_activation_link(this.model.username).subscribe(
+    this.auth.ask_activation_link(this.model.username).subscribe(
       (response: any) => {
         this.accountNotActive = false;
         this.notify.showSuccess(response);
