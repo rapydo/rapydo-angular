@@ -31,11 +31,11 @@ describe("ChangePassword", () => {
     cy.get('input[placeholder="Type here your current password"]').as(
       "password"
     );
-    cy.get('input[placeholder="Type here the desidered new password"]').as(
+    cy.get('input[placeholder="Type the desidered new password"]').as(
       "new_password"
     );
     cy.get(
-      'input[placeholder="Type here again the desidered new password for confirmation"]'
+      'input[placeholder="Type again the new password for confirmation"]'
     ).as("confirm_password");
 
     cy.get("@password").clear().type("wrong");

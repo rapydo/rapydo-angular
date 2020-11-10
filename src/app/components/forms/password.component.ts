@@ -19,10 +19,13 @@ import { FieldType } from "@ngx-formly/core";
         float: right;
         // margin-left: 10px;
         margin-right: 10px;
-        margin-top: -26px;
+        margin-top: -27px;
         position: relative;
         z-index: 2;
         color: gray;
+      }
+      .toggle-shift {
+        margin-right: 30px;
       }
     `,
   ],
@@ -37,9 +40,12 @@ import { FieldType } from "@ngx-formly/core";
     />
 
     <i
-      *ngIf="!showError"
-      class="toggle fas "
-      [ngClass]="{ 'fa-eye': show, 'fa-eye-slash': !show }"
+      class="clickable toggle fas "
+      [ngClass]="{
+        'fa-eye': show,
+        'fa-eye-slash': !show,
+        'toggle-shift': showError
+      }"
       (mousedown)="show_password()"
       (mouseup)="hide_password()"
       (mouseleave)="hide_password()"

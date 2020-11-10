@@ -66,7 +66,7 @@ export class ChangePasswordComponent {
       templateOptions: {
         // type: "password",
         label: "New password",
-        placeholder: "Type here the desidered new password",
+        placeholder: "Type the desidered new password",
         addonLeft: {
           class: "fas fa-key",
         },
@@ -80,8 +80,7 @@ export class ChangePasswordComponent {
       templateOptions: {
         // type: "password",
         label: "Confirm password",
-        placeholder:
-          "Type here again the desidered new password for confirmation",
+        placeholder: "Type again the new password for confirmation",
         addonLeft: {
           class: "fas fa-key",
         },
