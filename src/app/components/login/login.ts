@@ -77,6 +77,17 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  private goto_url(raw_url: string) {
+    // this.router.parseUrl(this.returnUrl).queryParams[key] || '';
+    // this will convert the url string into an UrlTree
+    // This conversion allows for redirect to urls with query parameters
+    // e.g. /app/myroute?param1=val1
+    const url = this.router.parseUrl(raw_url);
+    this.router.navigateByUrl(url);
+
+    // This is the previous version queryParameters non-aware
+    // this.router.navigate([raw_url]);
+  }
   private set_form() {
     this.fields = [];
 
@@ -169,7 +180,7 @@ export class LoginComponent implements OnInit {
               let u: User = this.auth.getUser();
 
               if (u.privacy_accepted || !environment.allowTermsOfUse) {
-                this.router.navigate([this.returnUrl]);
+                this.goto_url(this.returnUrl);
               } else {
                 this.showTermsOfUse(u);
               }
@@ -260,7 +271,7 @@ export class LoginComponent implements OnInit {
           .subscribe(
             (data) => {
               this.auth.loadUser();
-              this.router.navigate([this.returnUrl]);
+              this.goto_url(this.returnUrl);
             },
             (error) => {
               this.notify.showError(error);
