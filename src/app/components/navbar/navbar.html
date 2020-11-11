@@ -45,7 +45,7 @@
             [popoverTitle]="logoutConfirmationTitle"
             [popoverMessage]="logoutConfirmationMessage"
             [appendToBody]="true"
-            placement="left"
+            placement="bottom-right"
             (confirm)="do_logout()"
           ></i>
         </a>
@@ -53,7 +53,7 @@
 
       <li class="nav-item" *ngIf="!user">
         <a
-          class="nav-link btn btn-light btn-sm"
+          class="nav-link btn btn-sm btn-outline-secondary no-rounded"
           routerLink="/app/login"
           routerLinkActive="active"
         >
@@ -63,7 +63,7 @@
 
       <li class="nav-item" *ngIf="allowRegistration && !user">
         <a
-          class="nav-link btn btn-light btn-sm"
+          class="nav-link btn btn-sm btn-outline-secondary no-rounded"
           routerLink="/public/register"
           routerLinkActive="active"
         >
