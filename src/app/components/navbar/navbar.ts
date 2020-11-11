@@ -66,9 +66,4 @@ export class NavbarComponent implements OnInit {
       this.router.navigate([""]);
     });
   }
-
-  doNotCollapse(event) {
-    this.isMenuCollapsed = false;
-    event.stopPropagation();
-  }
 }

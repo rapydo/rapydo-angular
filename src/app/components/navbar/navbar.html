@@ -9,21 +9,23 @@
     &#9776;
   </button>
 
-  <div
-    [ngbCollapse]="isMenuCollapsed"
-    class="collapse navbar-collapse"
-    (click)="isMenuCollapsed = true"
-  >
+  <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
     <!-- this class text-right allows the menu to show on the right when collapsed. It has no effect when the menu is expaded -->
     <customlinks
       [user]="user"
       *ngIf="!loading"
       class="text-right"
+      (onClick)="isMenuCollapsed = true"
     ></customlinks>
 
     <ul class="nav navbar-nav ml-auto navbar-right text-right" *ngIf="!loading">
       <li class="nav-item" *ngIf="user">
-        <a class="nav-link" routerLink="/app/profile" routerLinkActive="active">
+        <a
+          class="nav-link"
+          routerLink="/app/profile"
+          routerLinkActive="active"
+          (click)="isMenuCollapsed = true"
+        >
           <i
             class="fas fa-user fa-lg"
             ngbTooltip="Profile of {{user.email}}"
@@ -33,12 +35,7 @@
       </li>
 
       <li class="nav-item" *ngIf="user">
-        <a
-          class="nav-link"
-          href
-          [routerLink]=""
-          (click)="doNotCollapse($event);"
-        >
+        <a class="nav-link" href [routerLink]="">
           <i
             class="fas fa-sign-out-alt fa-lg"
             mwlConfirmationPopover
