@@ -18,6 +18,60 @@
       (onClick)="isMenuCollapsed = true"
     ></customlinks>
 
+    <ul class="navbar-nav" *ngIf="user && (user.isAdmin || user.isCoordinator)">
+      <li class="nav-item" ngbDropdown>
+        <a
+          class="nav-link clickable"
+          ngbDropdownToggle
+          id="navbarDropdownAdminLink"
+          role="button"
+        >
+          Admin
+        </a>
+        <div
+          ngbDropdownMenu
+          aria-labelledby="navbarDropdownAdminLink"
+          class="dropdown-menu"
+        >
+          <a
+            *ngIf="user.isAdmin || user.isCoordinator"
+            ngbDropdownItem
+            routerLink="/app/admin/users"
+            routerLinkActive="active"
+            (onClick)="isMenuCollapsed = true"
+            >Users</a
+          >
+
+          <a
+            *ngIf="user.isAdmin"
+            ngbDropdownItem
+            routerLink="/app/admin/groups"
+            routerLinkActive="active"
+            (onClick)="isMenuCollapsed = true"
+            >Groups</a
+          >
+
+          <a
+            *ngIf="user.isAdmin"
+            ngbDropdownItem
+            routerLink="/app/admin/sessions"
+            routerLinkActive="active"
+            (onClick)="isMenuCollapsed = true"
+            >Sessions</a
+          >
+
+          <a
+            *ngIf="user.isAdmin"
+            ngbDropdownItem
+            routerLink="/app/admin/stats"
+            routerLinkActive="active"
+            (onClick)="isMenuCollapsed = true"
+            >Server Stats</a
+          >
+        </div>
+      </li>
+    </ul>
+
     <ul class="nav navbar-nav ml-auto navbar-right text-right" *ngIf="!loading">
       <li class="nav-item" *ngIf="user">
         <a
