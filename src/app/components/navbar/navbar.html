@@ -18,7 +18,10 @@
       (onClick)="isMenuCollapsed = true"
     ></customlinks>
 
-    <ul class="navbar-nav" *ngIf="user && (user.isAdmin || user.isCoordinator)">
+    <ul
+      class="navbar-nav text-right"
+      *ngIf="user && (user.isAdmin || user.isCoordinator)"
+    >
       <li class="nav-item" ngbDropdown>
         <a
           class="nav-link clickable"
@@ -38,7 +41,7 @@
             ngbDropdownItem
             routerLink="/app/admin/users"
             routerLinkActive="active"
-            (onClick)="isMenuCollapsed = true"
+            (click)="isMenuCollapsed = true"
             >Users</a
           >
 
@@ -47,7 +50,7 @@
             ngbDropdownItem
             routerLink="/app/admin/groups"
             routerLinkActive="active"
-            (onClick)="isMenuCollapsed = true"
+            (click)="isMenuCollapsed = true"
             >Groups</a
           >
 
@@ -56,7 +59,7 @@
             ngbDropdownItem
             routerLink="/app/admin/sessions"
             routerLinkActive="active"
-            (onClick)="isMenuCollapsed = true"
+            (click)="isMenuCollapsed = true"
             >Sessions</a
           >
 
@@ -65,7 +68,7 @@
             ngbDropdownItem
             routerLink="/app/admin/stats"
             routerLinkActive="active"
-            (onClick)="isMenuCollapsed = true"
+            (click)="isMenuCollapsed = true"
             >Server Stats</a
           >
         </div>
