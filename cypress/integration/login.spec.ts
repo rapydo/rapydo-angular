@@ -24,6 +24,12 @@ describe("SuccessfulLogin", () => {
     cy.get("input[placeholder='Your username (email)']").type(
       Cypress.env("AUTH_DEFAULT_USERNAME")
     );
+
+    cy.get("input[placeholder='Your username (email)']").should(
+      "have.type",
+      "password"
+    );
+
     cy.get("button").contains("Login").click();
   });
 
