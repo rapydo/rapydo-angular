@@ -6,6 +6,10 @@ import { Injectable, Pipe } from "@angular/core";
 @Injectable()
 export class YesNoPipe {
   transform(str): string {
+    if (str === null) {
+      return "NO";
+    }
+
     if (str === true) {
       return "YES";
     }
