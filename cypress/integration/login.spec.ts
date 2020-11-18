@@ -25,7 +25,7 @@ describe("SuccessfulLogin", () => {
       Cypress.env("AUTH_DEFAULT_USERNAME")
     );
 
-    cy.get("input[placeholder='Your username (email)']").should(
+    cy.get("input[placeholder='Your password']").should(
       "have.type",
       "password"
     );
