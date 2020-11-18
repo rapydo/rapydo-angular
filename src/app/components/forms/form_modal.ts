@@ -16,7 +16,7 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
         type="button"
         class="close"
         aria-label="Close"
-        (click)="activeModal.dismiss('Cross click')"
+        (click)="modal.dismiss('Cross click')"
       >
         <span aria-hidden="true">&times;</span>
       </button>
@@ -33,7 +33,7 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
           <button
             type="button"
             class="btn btn-outline-secondary"
-            (click)="activeModal.close('Close click')"
+            (click)="modal.close('Close click')"
           >
             <h5>Close</h5>
           </button>
@@ -56,7 +56,7 @@ export class FormModal implements OnInit {
   @Input() public fields;
   @Input() public model;
 
-  constructor(public activeModal: NgbActiveModal) {}
+  constructor(public modal: NgbActiveModal) {}
   public ngOnInit(): void {
     if (this.fields.length > 0) {
       this.fields[0].focus = true;
