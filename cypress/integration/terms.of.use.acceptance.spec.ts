@@ -136,8 +136,8 @@ describe("Terms of use", () => {
       .eq(0)
       .contains("datatable-body-cell", username);
     cy.get("datatable-body-row").eq(0).find(".fa-trash").click();
-    cy.get("h3.popover-title").contains("Confirmation required");
-    cy.get("button").contains("Confirm").click();
+    cy.get("h5.modal-title").contains("Confirmation required");
+    cy.get("button").contains("Yes, delete").click();
 
     cy.checkalert("Confirmation: user successfully deleted");
   });

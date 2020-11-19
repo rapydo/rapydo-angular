@@ -91,8 +91,8 @@ describe("Sessions", () => {
         .eq(num - 2)
         .find(".fa-trash")
         .click();
-      cy.get("h3.popover-title").contains("Confirmation required");
-      cy.get("button").contains("Cancel").click();
+      cy.get("h5.modal-title").contains("Confirmation required");
+      cy.get("button").contains("No, cancel").click();
       cy.contains("Confirmation required").should("not.exist");
 
       // Delete the second-last token
@@ -100,8 +100,8 @@ describe("Sessions", () => {
         .eq(num - 2)
         .find(".fa-trash")
         .click();
-      cy.get("h3.popover-title").contains("Confirmation required");
-      cy.get("button").contains("Confirm").click();
+      cy.get("h5.modal-title").contains("Confirmation required");
+      cy.get("button").contains("Yes, delete").click();
 
       cy.checkalert("Confirmation: token successfully deleted");
     });

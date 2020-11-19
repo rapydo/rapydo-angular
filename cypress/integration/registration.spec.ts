@@ -246,8 +246,8 @@ describe("Registration", () => {
       cy.get('input[placeholder="Type to filter users"]').clear().type(newUser);
 
       cy.get("datatable-body-row").first().find(".fa-trash").click();
-      cy.get("h3.popover-title").contains("Confirmation required");
-      cy.get("button").contains("Confirm").click();
+      cy.get("h5.modal-title").contains("Confirmation required");
+      cy.get("button").contains("Yes, delete").click();
 
       cy.checkalert("Confirmation: user successfully deleted");
 
