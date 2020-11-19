@@ -13,7 +13,6 @@ Based on:
 - ngx-toastr 13.1.0
 - moment 2.29.1 with ngx-moment 5.0.0
 - font-awesome 5.15.1
-- angular-confirmation-popover 6.0.0
 - ngx-clipboard 14.0.1
 - angular2-cookie-law 7.0.1
 - ngx-spinner 10.0.1

@@ -100,10 +100,6 @@ export interface Total {
   /** @minimum 0 */
   readonly total: number;
 }
-export interface Confirmation {
-  readonly title: string;
-  readonly message: string;
-}
 
 export enum SchemaType {
   STRING = "string",
@@ -262,4 +258,13 @@ export interface AdminStats {
   readonly procs: ProcsStats;
   readonly ram: RAMStats;
   readonly swap: SwapStats;
+}
+
+export interface ConfirmationModalOptions {
+  readonly text: string;
+  readonly title?: string;
+  readonly disableSubText?: boolean;
+  readonly subText?: string;
+  readonly confirmButton?: string;
+  readonly cancelButton?: string;
 }

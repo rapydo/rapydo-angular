@@ -9,7 +9,6 @@ import { FormsModule, FormControl } from "@angular/forms";
 import { ReactiveFormsModule, ValidationErrors } from "@angular/forms";
 
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
-import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { UploadxModule } from "ngx-uploadx";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -42,6 +41,7 @@ import { BooleanFlagPipe } from "@rapydo/pipes/boolean_flag";
 import { YesNoPipe } from "@rapydo/pipes/yes_or_no";
 
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
+import { DeleteModal } from "@rapydo/components/delete_modal";
 import { FormModal } from "@rapydo/components/forms/form_modal";
 
 export function emailValidator(control: FormControl): ValidationErrors {
@@ -168,13 +168,6 @@ let module_imports: any = [
   FormsModule,
   ReactiveFormsModule,
   NgxDatatableModule,
-  ConfirmationPopoverModule.forRoot(
-    // set defaults here
-    {
-      confirmButtonType: "danger",
-      appendToBody: true,
-    }
-  ),
   UploadxModule,
   ClipboardModule,
   NgxSpinnerModule,
@@ -221,6 +214,7 @@ let module_declarations = [
   BooleanFlagPipe,
   YesNoPipe,
   BasePaginationComponent,
+  DeleteModal,
   FormModal,
   FormlyHorizontalWrapper,
   FormlyDescriptiveRadio,
@@ -239,7 +233,6 @@ let module_exports = [
   PasswordComponent,
 
   NgxDatatableModule,
-  ConfirmationPopoverModule,
   NgbModule,
   MomentModule,
   FormsModule,
@@ -255,6 +248,7 @@ let module_exports = [
   BooleanFlagPipe,
   YesNoPipe,
   BasePaginationComponent,
+  DeleteModal,
   FormModal,
 ];
 
