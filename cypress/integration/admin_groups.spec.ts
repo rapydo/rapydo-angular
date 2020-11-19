@@ -178,7 +178,7 @@ describe("AdminUsers", () => {
     });
 
     cy.get("datatable-body-row").eq(0).find(".fa-trash").click({ force: true });
-    cy.get("button").contains("Confirm").click({ force: true });
+    cy.get("button").contains("Yes, delete").click({ force: true });
     cy.checkalert("Stubbed delete error");
 
     cy.route({
