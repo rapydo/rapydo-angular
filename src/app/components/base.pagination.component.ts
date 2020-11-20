@@ -332,28 +332,35 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     );
   }
 
-  public delete(uuid: string, text: string = null): Subscription {
+  public delete(
+    uuid: string,
+    text: string = null,
+    title: string = null,
+    subText: string = null
+  ): Subscription {
     if (text == null) {
       text = `Are you really sure you want to delete this ${this.resource_name}?`;
     }
 
     let retPromise: Subscription = null;
-    this.confirmationModals.open({ text: text }).then(
-      (result) => {
-        retPromise = this.api.delete(this.endpoint + "/" + uuid).subscribe(
-          (response) => {
-            this.notify.showSuccess(
-              "Confirmation: " + this.resource_name + " successfully deleted"
-            );
-            this.list();
-          },
-          (error) => {
-            this.notify.showError(error);
-          }
-        );
-      },
-      (reason) => {}
-    );
+    this.confirmationModals
+      .open({ text: text, title: title, subText: subText })
+      .then(
+        (result) => {
+          retPromise = this.api.delete(this.endpoint + "/" + uuid).subscribe(
+            (response) => {
+              this.notify.showSuccess(
+                "Confirmation: " + this.resource_name + " successfully deleted"
+              );
+              this.list();
+            },
+            (error) => {
+              this.notify.showError(error);
+            }
+          );
+        },
+        (reason) => {}
+      );
 
     return retPromise;
   }
