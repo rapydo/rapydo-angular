@@ -19,7 +19,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           CURRENT_VERSION=$(grep __version__ restapi/__init__.py | sed 's/__version__ = //' | tr -d '"')
-          pip install --upgrade --no-cache-dir git+https://github.com/rapydo/do.git@${CURRENT_VERSION} || travis_terminate 1;
+          pip install --upgrade --no-cache-dir git+https://github.com/rapydo/do.git@${CURRENT_VERSION}
           rapydo --version
       - name: Run Tests
         run: not implemented yet

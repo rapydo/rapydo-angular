@@ -88,3 +88,5 @@ import "@angular/localize/init";
 
 // required by exceljs (no longer used)
 // import "regenerator-runtime/runtime";
+
+var exports = { __esModule: true };
