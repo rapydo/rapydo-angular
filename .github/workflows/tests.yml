@@ -92,6 +92,13 @@ jobs:
           cp data/prj/karma/lcov.info .
           bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular
 
+      - name: Save Video Artifact
+        uses: actions/upload-artifact@v1
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: data/prj/cypress
+
       - name: Run Prod Tests
         if: ${{ matrix.stage == 'prod' }}
         run: |
