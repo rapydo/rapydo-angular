@@ -60,8 +60,6 @@ jobs:
 
           rapydo --testing init
           rapydo add --force component sink
-          cp submodules/do/controller/templates/sink.html.j2 projects/prj/frontend/app/components/sink/sink.html
-          cp submodules/do/controller/templates/sink.ts.j2 projects/prj/frontend/app/components/sink/sink.ts
 
           cd submodules/rapydo-angular
           export COMMIT_INFO_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
@@ -95,8 +93,6 @@ jobs:
           rapydo --prod init
 
           rapydo add --force component sink
-          cp submodules/do/controller/templates/sink.html.j2 projects/prj/frontend/app/components/sink/sink.html
-          cp submodules/do/controller/templates/sink.ts.j2 projects/prj/frontend/app/components/sink/sink.ts
 
           rapydo pull
           rapydo -s frontend,proxy start
