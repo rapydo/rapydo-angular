@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        stage: [prod, karma, cypress]
+        stage: [karma, cypress, prod]
 
     steps:
       - uses: actions/checkout@v2
@@ -33,8 +33,57 @@ jobs:
           mkdir rapydo_tests
           cd rapydo_tests
           rapydo --testing create prj --auth ${AUTH} --frontend angular --origin-url https://your_remote_git/your_project.git
+      - name: Run Karma
+        if: ${{ matrix.stage == 'karma' }}
+        run: |
+          cd rapydo_tests
+          rapydo --testing init
+          rapydo -s frontend pull
+          rapydo -s frontend start
+          sleep 5
+          rapydo shell frontend "yarn install"
+          rapydo shell frontend "reload-types"
+          rapydo shell frontend "yarn run test:single"
+          cp data/prj/karma/lcov.info .
+          bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular;
+
+      - name: Run Cypress
+        if: ${{ matrix.stage == 'cypress' }}
+        run: |
+          cd rapydo_tests
+
+          rapydo --testing init
+          rapydo add component sink
+          cp submodules/do/controller/templates/testing_sink.html.j2 projects/prj/frontend/app/components/sink/sink.html
+          cp submodules/do/controller/templates/testing_sink.ts.j2 projects/prj/frontend/app/components/sink/sink.ts
+
+          cd submodules/rapydo-angular
+          export COMMIT_INFO_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+          export COMMIT_INFO_MESSAGE="$(git show -s --pretty=%B)"
+          export COMMIT_INFO_SUBJECT="$(git show -s --pretty=%s)"
+          export COMMIT_INFO_BODY="$(git show -s --pretty=%b)"
+          export COMMIT_INFO_EMAIL="$(git show -s --pretty=%ae)"
+          export COMMIT_INFO_AUTHOR="$(git show -s --pretty=%an)"
+          export COMMIT_INFO_SHA="$(git show -s --pretty=%H)"
+          export COMMIT_INFO_TIMESTAMP="$(git show -s --pretty=%ct)"
+          export COMMIT_INFO_REMOTE="$(git config --get remote.origin.url)"
+          export CYPRESS_GROUP="$(git show -s --pretty=%H)"
+          cd -
+
+          rapydo pull
+          rapydo -e PROJECT_TITLE="Your ${AUTH} Project" start
+          rapydo shell backend 'restapi wait' && sleep 20
+          rapydo shell backend --detach "restapi launch"
+          rapydo shell frontend "yarn install"
+          rapydo shell frontend "reload-types"
+          rapydo logs
+          rapydo shell frontend "yarn run cypress:start"
+          rapydo shell frontend "npx nyc --all report --reporter=lcov"
+          cp data/prj/karma/lcov.info .
+          bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular
+
       - name: Run Prod Tests
-        if: ${{ matrix.template == 'prod' }}
+        if: ${{ matrix.stage == 'prod' }}
         run: |
           cd rapydo_tests
           rapydo --prod init
@@ -147,52 +196,3 @@ jobs:
 
           echo "{}" > cypress.json
           cypress run --browser chrome --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
-
-      - name: Run Karma
-        if: ${{ matrix.template == 'karma' }}
-        run: |
-          cd rapydo_tests
-          rapydo --testing init
-          rapydo -s frontend pull
-          rapydo -s frontend start
-          sleep 5
-          rapydo shell frontend "yarn install"
-          rapydo shell frontend "reload-types"
-          rapydo shell frontend "yarn run test:single"
-          cp data/prj/karma/lcov.info .
-          bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular;
-
-      - name: Run Cypress
-        if: ${{ matrix.template == 'cypress' }}
-        run: |
-          cd rapydo_tests
-
-          rapydo --testing init
-          rapydo add component sink
-          cp submodules/do/controller/templates/testing_sink.html.j2 projects/prj/frontend/app/components/sink/sink.html
-          cp submodules/do/controller/templates/testing_sink.ts.j2 projects/prj/frontend/app/components/sink/sink.ts
-
-          cd submodules/rapydo-angular
-          export COMMIT_INFO_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
-          export COMMIT_INFO_MESSAGE="$(git show -s --pretty=%B)"
-          export COMMIT_INFO_SUBJECT="$(git show -s --pretty=%s)"
-          export COMMIT_INFO_BODY="$(git show -s --pretty=%b)"
-          export COMMIT_INFO_EMAIL="$(git show -s --pretty=%ae)"
-          export COMMIT_INFO_AUTHOR="$(git show -s --pretty=%an)"
-          export COMMIT_INFO_SHA="$(git show -s --pretty=%H)"
-          export COMMIT_INFO_TIMESTAMP="$(git show -s --pretty=%ct)"
-          export COMMIT_INFO_REMOTE="$(git config --get remote.origin.url)"
-          export CYPRESS_GROUP="$(git show -s --pretty=%H)"
-          cd -
-
-          rapydo pull
-          rapydo -e PROJECT_TITLE="Your ${AUTH} Project" start
-          rapydo shell backend 'restapi wait' && sleep 20
-          rapydo shell backend --detach "restapi launch"
-          rapydo shell frontend "yarn install"
-          rapydo shell frontend "reload-types"
-          rapydo logs
-          rapydo shell frontend "yarn run cypress:start"
-          rapydo shell frontend "npx nyc --all report --reporter=lcov"
-          cp data/prj/karma/lcov.info .
-          bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular
