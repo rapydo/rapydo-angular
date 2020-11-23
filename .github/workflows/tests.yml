@@ -88,6 +88,9 @@ jobs:
 
       - name: Run Prod Tests
         if: ${{ matrix.stage == 'prod' }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
         run: |
           cd rapydo_tests
           rapydo --prod init
