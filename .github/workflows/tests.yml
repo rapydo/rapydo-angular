@@ -41,9 +41,9 @@ jobs:
           rapydo -s frontend pull
           rapydo -s frontend start
           sleep 5
-          rapydo shell frontend "yarn install"
-          rapydo shell frontend "reload-types"
-          rapydo shell frontend "yarn run test:single"
+          rapydo shell --no-tty frontend "yarn install"
+          rapydo shell --no-tty frontend "reload-types"
+          rapydo shell --no-tty frontend "yarn run test:single"
           cp data/prj/karma/lcov.info .
           bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular;
 
@@ -70,13 +70,13 @@ jobs:
 
           rapydo pull
           rapydo -e PROJECT_TITLE="Your ${AUTH} Project" start
-          rapydo shell backend 'restapi wait' && sleep 20
-          rapydo shell backend --detach "restapi launch"
-          rapydo shell frontend "yarn install"
-          rapydo shell frontend "reload-types"
+          rapydo shell --no-tty backend 'restapi wait' && sleep 20
+          rapydo shell --no-tty backend --detach "restapi launch"
+          rapydo shell --no-tty frontend "yarn install"
+          rapydo shell --no-tty frontend "reload-types"
           rapydo logs
-          rapydo shell frontend "yarn run cypress:start"
-          rapydo shell frontend "npx nyc --all report --reporter=lcov"
+          rapydo shell --no-tty frontend "yarn run cypress:start"
+          rapydo shell --no-tty frontend "npx nyc --all report --reporter=lcov"
           cp data/prj/karma/lcov.info .
           bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular
 
