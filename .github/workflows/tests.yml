@@ -53,9 +53,7 @@ jobs:
           cd rapydo_tests
 
           rapydo --testing init
-          rapydo add component sink
-          cp submodules/do/controller/templates/testing_sink.html.j2 projects/prj/frontend/app/components/sink/sink.html
-          cp submodules/do/controller/templates/testing_sink.ts.j2 projects/prj/frontend/app/components/sink/sink.ts
+          rapydo add --force component sink
 
           cd submodules/rapydo-angular
           export COMMIT_INFO_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
