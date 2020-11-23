@@ -9,6 +9,10 @@ jobs:
   build:
     runs-on: ubuntu-20.04
 
+    strategy:
+      matrix:
+        stage: [prod, karma, cypress]
+
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -18,8 +22,177 @@ jobs:
       - name: Install
         run: |
           python -m pip install --upgrade pip
-          CURRENT_VERSION=$(grep __version__ restapi/__init__.py | sed 's/__version__ = //' | tr -d '"')
+          # version is "x.y.0", convert in x.y
+          export CURRENT_VERSION=$(grep '"version"' src/package.json | awk {'print $2'} | tr -d '", ' | awk -F. {'print $1 "." $2'})
           pip install --upgrade --no-cache-dir git+https://github.com/rapydo/do.git@${CURRENT_VERSION}
-          rapydo --version
-      - name: Run Tests
-        run: not implemented yet
+          auth_services=(postgres mysql neo4j neo4j mongo)
+          AUTH=${auth_services[$(($RANDOM % ${#auth_services[@]}))]}
+          echo "Selected random authentication service = ${AUTH}"
+          # Inject environment variable into next steps
+          echo "::set-env name=AUTH::$AUTH"
+          mkdir rapydo_tests
+          cd rapydo_tests
+          rapydo --testing create prj --auth ${AUTH} --frontend angular --origin-url https://your_remote_git/your_project.git
+      - name: Run Prod Tests
+        if: ${{ matrix.template == 'prod' }}
+        run: |
+          cd rapydo_tests
+          rapydo --prod init
+          rapydo pull
+          rapydo -s frontend,proxy start
+          rapydo dump
+          rapydo -s frontend logs --follow
+          docker-compose logs --tail 2 frontend 2>&1 | grep "files have been compressed."
+          docker-compose logs --tail 20 proxy
+          curl --insecure -X GET https://localhost
+          npm install -g seespee cypress
+          seespee --level 1 --validate https://localhost
+
+          opt="--silent --head --insecure -X GET https://localhost"
+
+          # A lot of urls serve the index.html, so that the expected response is:
+          # 200 OK, content-type html, no-cache and CSP enabled
+
+          echo -e "\n**** Testing index.html HTTP response ****"
+          curl $opt | grep -E "^HTTP/.+ 200"
+          curl $opt/ | grep -E "^HTTP/.+ 200"
+          curl $opt/index.html | grep -E "^HTTP/.+ 200"
+          curl $opt/app | grep -E "^HTTP/.+ 200"
+          curl $opt/app/ | grep -E "^HTTP/.+ 200"
+          curl $opt/app/index.html | grep -E "^HTTP/.+ 200"
+          curl $opt/app/anything | grep -E "^HTTP/.+ 200"
+          curl $opt/public | grep -E "^HTTP/.+ 200"
+          curl $opt/public/ | grep -E "^HTTP/.+ 200"
+          curl $opt/public/index.html | grep -E "^HTTP/.+ 200"
+          curl $opt/public/anything | grep -E "^HTTP/.+ 200"
+
+          echo -e "\n**** Testing index.html cache-control ****"
+          curl $opt | grep "cache-control: no-store"
+          curl $opt/ | grep "cache-control: no-store"
+          curl $opt/index.html | grep "cache-control: no-store"
+          curl $opt/app | grep "cache-control: no-store"
+          curl $opt/app/ | grep "cache-control: no-store"
+          curl $opt/app/index.html | grep "cache-control: no-store"
+          curl $opt/app/anything | grep "cache-control: no-store"
+          curl $opt/public | grep "cache-control: no-store"
+          curl $opt/public/ | grep "cache-control: no-store"
+          curl $opt/public/index.html | grep "cache-control: no-store"
+          curl $opt/public/anything | grep "cache-control: no-store"
+
+          echo -e "\n**** Testing index.html CSP header ****"
+          curl $opt | grep -i "Content-Security-Policy: frame-ancestors"
+          curl $opt/ | grep -i "Content-Security-Policy: frame-ancestors"
+          curl $opt/index.html | grep -i "Content-Security-Policy: frame-ancestors"
+          curl $opt/app | grep -i "Content-Security-Policy: frame-ancestors"
+          curl $opt/app/ | grep -i "Content-Security-Policy: frame-ancestors"
+          curl $opt/app/index.html | grep -i "Content-Security-Policy: frame-ancestors"
+          curl $opt/app/anything | grep -i "Content-Security-Policy: frame-ancestors"
+          curl $opt/public | grep -i "Content-Security-Policy: frame-ancestors"
+          curl $opt/public/ | grep -i "Content-Security-Policy: frame-ancestors"
+          curl $opt/public/index.html | grep -i "Content-Security-Policy: frame-ancestors"
+          curl $opt/public/anything | grep -i "Content-Security-Policy: frame-ancestors"
+
+          echo -e "\n**** Testing index.html Content-Type ****"
+          curl $opt | grep -i "Content-Type: text/html"
+          curl $opt/ | grep -i "Content-Type: text/html"
+          curl $opt/index.html | grep -i "Content-Type: text/html"
+          curl $opt/app | grep -i "Content-Type: text/html"
+          curl $opt/app/ | grep -i "Content-Type: text/html"
+          curl $opt/app/index.html | grep -i "Content-Type: text/html"
+          curl $opt/app/anything | grep -i "Content-Type: text/html"
+          curl $opt/public | grep -i "Content-Type: text/html"
+          curl $opt/public/ | grep -i "Content-Type: text/html"
+          curl $opt/public/index.html | grep -i "Content-Type: text/html"
+          curl $opt/public/anything | grep -i "Content-Type: text/html"
+
+          echo -e "\n**** Testing index.html gzip encoding ****"
+          curl $opt --header 'accept-encoding: gzip' | grep "content-encoding: gzip"
+          curl $opt/ --header 'accept-encoding: gzip' | grep "content-encoding: gzip"
+          curl $opt/index.html --header 'accept-encoding: gzip' | grep "content-encoding: gzip"
+          curl $opt/app --header 'accept-encoding: gzip' | grep "content-encoding: gzip"
+          curl $opt/app/ --header 'accept-encoding: gzip' | grep "content-encoding: gzip"
+          curl $opt/app/index.html --header 'accept-encoding: gzip' | grep "content-encoding: gzip"
+          curl $opt/app/anything --header 'accept-encoding: gzip' | grep "content-encoding: gzip"
+          curl $opt/public --header 'accept-encoding: gzip' | grep "content-encoding: gzip"
+          curl $opt/public/ --header 'accept-encoding: gzip' | grep "content-encoding: gzip"
+          curl $opt/public/index.html --header 'accept-encoding: gzip' | grep "content-encoding: gzip"
+          curl $opt/public/anything --header 'accept-encoding: gzip' | grep "content-encoding: gzip"
+
+          # unrecognized patterns have to respond with a 404
+          echo -e "\n**** Testing invalid path ****"
+          curl $opt/anything | grep -E "^HTTP/.+ 404"
+
+          # favicon is expected to be found with content-type image/x-icon and CSP Enabled
+          # cache is expected to be set a 1 month (2592000)
+          echo -e "\n**** Testing favicon.ico ****"
+          curl $opt/app/custom/assets/favicon/favicon.ico | grep -E "^HTTP/.+ 200"
+          curl $opt/app/custom/assets/favicon/favicon.ico | grep "cache-control: max-age=2592000"
+          curl $opt/app/custom/assets/favicon/favicon.ico | grep -i "Content-Security-Policy: frame-ancestors"
+          curl $opt/app/custom/assets/favicon/favicon.ico | grep -i "Content-Type: image/x-icon"
+          curl $opt/app/custom/assets/favicon/favicon.ico  --header 'accept-encoding: gzip' | grep "content-encoding: gzip"
+
+          # asset names are dinamically generated at build type... extract it from the index.html..
+          asset=`curl --silent --insecure -X GET https://localhost | grep -o "styles\..*.css"`
+
+          echo -e "\n**** Testing ${asset} ****"
+          # assets are expected to be found with proper content-type and CSP Enabled
+          # cache is expected to be set a 1 year (31557600)
+          curl $opt/$asset | grep -E "^HTTP/.+ 200"
+          curl $opt/$asset | grep "cache-control: max-age=31557600"
+          curl $opt/$asset | grep -i "Content-Security-Policy: frame-ancestors"
+          curl $opt/$asset | grep -i "Content-Type: text/css"
+          curl $opt/$asset --header 'accept-encoding: gzip' | grep "content-encoding: gzip"
+
+          echo -e "\n"
+
+          echo "{}" > cypress.json
+          cypress run --browser chrome --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
+
+      - name: Run Karma
+        if: ${{ matrix.template == 'karma' }}
+        run: |
+          cd rapydo_tests
+          rapydo --testing init
+          rapydo -s frontend pull
+          rapydo -s frontend start
+          sleep 5
+          rapydo shell frontend "yarn install"
+          rapydo shell frontend "reload-types"
+          rapydo shell frontend "yarn run test:single"
+          cp data/prj/karma/lcov.info .
+          bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular;
+
+      - name: Run Cypress
+        if: ${{ matrix.template == 'cypress' }}
+        run: |
+          cd rapydo_tests
+
+          rapydo --testing init
+          rapydo add component sink
+          cp submodules/do/controller/templates/testing_sink.html.j2 projects/prj/frontend/app/components/sink/sink.html
+          cp submodules/do/controller/templates/testing_sink.ts.j2 projects/prj/frontend/app/components/sink/sink.ts
+
+          cd submodules/rapydo-angular
+          export COMMIT_INFO_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+          export COMMIT_INFO_MESSAGE="$(git show -s --pretty=%B)"
+          export COMMIT_INFO_SUBJECT="$(git show -s --pretty=%s)"
+          export COMMIT_INFO_BODY="$(git show -s --pretty=%b)"
+          export COMMIT_INFO_EMAIL="$(git show -s --pretty=%ae)"
+          export COMMIT_INFO_AUTHOR="$(git show -s --pretty=%an)"
+          export COMMIT_INFO_SHA="$(git show -s --pretty=%H)"
+          export COMMIT_INFO_TIMESTAMP="$(git show -s --pretty=%ct)"
+          export COMMIT_INFO_REMOTE="$(git config --get remote.origin.url)"
+          export CYPRESS_GROUP="$(git show -s --pretty=%H)"
+          cd -
+
+          rapydo pull
+          rapydo -e PROJECT_TITLE="Your ${AUTH} Project" start
+          rapydo shell backend 'restapi wait' && sleep 20
+          rapydo shell backend --detach "restapi launch"
+          rapydo shell frontend "yarn install"
+          rapydo shell frontend "reload-types"
+          rapydo logs
+          rapydo shell frontend "yarn run cypress:start"
+          rapydo shell frontend "npx nyc --all report --reporter=lcov"
+          cp data/prj/karma/lcov.info .
+          bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular
