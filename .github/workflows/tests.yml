@@ -28,8 +28,8 @@ jobs:
           auth_services=(postgres mysql neo4j neo4j mongo)
           AUTH=${auth_services[$(($RANDOM % ${#auth_services[@]}))]}
           echo "Selected random authentication service = ${AUTH}"
-          # Inject environment variable into next steps
-          echo "::set-env name=AUTH::$AUTH"
+          # Make the environment variable available to next steps
+          echo "AUTH=${AUTH}" >> $GITHUB_ENV
           mkdir rapydo_tests
           cd rapydo_tests
           rapydo --testing create prj --auth ${AUTH} --frontend angular --origin-url https://your_remote_git/your_project.git
