@@ -64,6 +64,8 @@ Cypress.Commands.add("getmail", () => {
   return cy.readFile("/logs/mock.mail.lastsent.body");
 });
 Cypress.Commands.add("createuser", (email, pwd) => {
+  cy.visit("/app/admin/users");
+
   // Mostly copied from admin_users.spec.ts
 
   cy.get('button:contains("new user")').click();
