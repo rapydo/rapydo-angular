@@ -89,19 +89,23 @@ jobs:
           rapydo logs
           rapydo shell --no-tty frontend "yarn run cypress:start"
           rapydo shell --no-tty frontend "npx nyc --all report --reporter=lcov"
+          ls -l data
+          ls -l data/prj
+          ls -l data/prj/karma
+
           cp data/prj/karma/lcov.info .
           bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular
 
-      - name: Save Video Artifact
-        uses: actions/upload-artifact@v1
-        if: ${{ failure() && matrix.stage == 'cypress' }}
-        with:
-          name: cypress-recordings
-          path: rapydo_tests/data/prj/cypress
+      # - name: Save Video Artifact
+      #   uses: actions/upload-artifact@v1
+      #   if: ${{ failure() && matrix.stage == 'cypress' }}
+      #   with:
+      #     name: cypress-recordings
+      #     path: rapydo_tests/data/prj/cypress
 
-      - name: Print backend logs on failure
-        if: ${{ failure() && matrix.stage == 'cypress' }}
-        run: cat rapydo_tests/data/logs/backend-server.log
+      # - name: Print backend logs on failure
+      #   if: ${{ failure() && matrix.stage == 'cypress' }}
+      #   run: cat rapydo_tests/data/logs/backend-server.log
 
       - name: Run Prod Tests
         if: ${{ matrix.stage == 'prod' }}
