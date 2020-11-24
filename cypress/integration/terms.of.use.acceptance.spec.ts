@@ -86,6 +86,6 @@ describe("Terms of use", () => {
 
     const username = "bbb000@sample.org";
 
-    cy.deleteuer(username);
+    cy.deleteuser(username);
   });
 });
