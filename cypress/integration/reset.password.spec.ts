@@ -149,7 +149,7 @@ describe("ResetPassword", () => {
 
         // After the notification an asynchronous call is executed to login with the new credentials
         // Let's wait a bit to prevent to continue before the call is executed
-        cy.wait(500);
+        cy.wait(1000);
 
         cy.visit("/app/profile");
         cy.location().should((location) => {
