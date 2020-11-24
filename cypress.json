@@ -4,6 +4,6 @@
   "videosFolder": "/cypress",
   "retries": {
     "openMode": 0,
-    "runMode": 2
+    "runMode": 0
   }
 }
