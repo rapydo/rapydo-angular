@@ -160,7 +160,7 @@ describe("Registration", () => {
         .type(newPassword + "{enter}");
       // cy.get("button").contains("Login").click();
 
-      cy.wait(1000);
+      cy.wait(1500);
       cy.get("div.card-header h4").contains("This account is not active");
       cy.get("div.card-block").contains("Didn't receive an activation link?");
 
