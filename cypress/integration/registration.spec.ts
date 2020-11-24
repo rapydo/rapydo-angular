@@ -215,7 +215,10 @@ describe("Registration", () => {
       cy.get("input[placeholder='Your password']")
         .clear()
         .type(newPassword + "{enter}");
-      // cy.get("button").contains("Login").click();
+
+      // Prevent the login call to be cancelled
+      // if response arrives too late and visit already changed the page
+      cy.wait(1000);
 
       cy.visit("/app/profile");
 
