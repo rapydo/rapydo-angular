@@ -241,18 +241,7 @@ describe("Registration", () => {
       // Login as admin to delete the user
       cy.login();
 
-      cy.visit("/app/admin/users");
-
-      cy.get('input[placeholder="Type to filter users"]').clear().type(newUser);
-
-      cy.get("datatable-body-row").first().find(".fa-trash").click();
-      cy.get("h5.modal-title").contains("Confirmation required");
-      cy.get("button").contains("Yes, delete").click();
-
-      cy.checkalert("Confirmation: user successfully deleted");
-
-      cy.get("a").find(".fa-sign-out-alt").parent().click();
-      cy.get("button").contains("Confirm").click();
+      cy.deleteuser(newUser);
 
       cy.visit("/app/login");
 
