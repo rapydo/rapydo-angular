@@ -96,7 +96,7 @@ jobs:
         uses: actions/upload-artifact@v1
         if: ${{ failure() && matrix.stage == 'cypress' }}
         with:
-          name: cypress-screenshots
+          name: cypress-recordings
           path: rapydo_tests/data/prj/cypress
 
       - name: Print backend logs on failure

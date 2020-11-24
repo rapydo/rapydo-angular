@@ -1,6 +1,6 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
-const path = require("path");
+// const path = require("path");
 
 describe("Sessions", () => {
   beforeEach(() => {
