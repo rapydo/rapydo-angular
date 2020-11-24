@@ -3,11 +3,23 @@
 
 describe("ResetPassword", () => {
   if (Cypress.env("ALLOW_PASSWORD_RESET")) {
-    // beforeEach(() => {
-    //   cy.login();
-    // });
+    beforeEach(() => {
+      cy.closecookielaw();
+
+      cy.login();
+
+      const email = "aaaaaaaaaa000222@sample.org";
+      const pwd = "Looooong!";
+
+      cy.createuser(email, pwd);
+
+      cy.logout();
+    });
 
     it("Reset", () => {
+      const email = "aaaaaaaaaa000222@sample.org";
+      const pwd = "Looooong!";
+
       cy.visit("/app/login");
 
       cy.get('a:contains("Click here")').click();
@@ -36,7 +48,7 @@ describe("ResetPassword", () => {
         "Sorry, invalid@sample.com is not recognized as a valid username"
       );
 
-      cy.get("@email").clear().type(Cypress.env("AUTH_DEFAULT_USERNAME"));
+      cy.get("@email").clear().type(email);
       cy.get("button:contains('Submit request')").click();
 
       // APIs can respond in a long time (receive the request, validate the email, create the token, send the email...)
@@ -103,12 +115,8 @@ describe("ResetPassword", () => {
         cy.get("button:contains('Submit')").click();
         cy.checkalert("Password is too weak, missing special characters");
 
-        cy.get("@new_password")
-          .clear()
-          .type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
-        cy.get("@confirm_password")
-          .clear()
-          .type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
+        cy.get("@new_password").clear().type(pwd);
+        cy.get("@confirm_password").clear().type(pwd);
         cy.get("button:contains('Submit')").click();
         cy.checkalert("The new password cannot match the previous password");
 
@@ -135,7 +143,7 @@ describe("ResetPassword", () => {
         cy.visit("/app/login");
         cy.get("input[placeholder='Your username (email)']")
           .clear()
-          .type(Cypress.env("AUTH_DEFAULT_USERNAME"));
+          .type(email);
         cy.get("input[placeholder='Your password']")
           .clear()
           .type(newPassword + "{enter}");
@@ -147,17 +155,22 @@ describe("ResetPassword", () => {
           expect(location.pathname).to.eq("/app/profile");
         });
 
-        cy.get("table")
-          .find("td")
-          .contains(Cypress.env("AUTH_DEFAULT_USERNAME"));
-
-        // Restore the default password
-        cy.pwdchange(
-          Cypress.env("AUTH_DEFAULT_USERNAME"),
-          newPassword,
-          Cypress.env("AUTH_DEFAULT_PASSWORD")
-        );
+        cy.get("table").find("td").contains(email);
       });
+    });
+
+    afterEach(() => {
+      // Restore the default password
+      // cy.pwdchange(
+      //   Cypress.env("AUTH_DEFAULT_USERNAME"),
+      //   newPassword,
+      //   Cypress.env("AUTH_DEFAULT_PASSWORD")
+      // );
+
+      cy.logout();
+
+      cy.login();
+      cy.deleteuser("aaaaaaaaaa000111@sample.org");
     });
   }
 });

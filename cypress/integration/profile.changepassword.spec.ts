@@ -3,14 +3,24 @@
 
 describe("ChangePassword", () => {
   beforeEach(() => {
-    cy.login();
-
     cy.closecookielaw();
 
-    cy.createuser("aaaaaaaaaa000111@sample.org", "Looooong!");
+    cy.login();
+
+    const email = "aaaaaaaaaa000111@sample.org";
+    const pwd = "Looooong!";
+
+    cy.createuser(email, pwd);
+
+    cy.logout();
+
+    cy.login(email, pwd);
   });
 
   it("ChangePassword", () => {
+    const email = "aaaaaaaaaa000111@sample.org";
+    const pwd = "Looooong!";
+
     cy.visit("/app/profile/changepassword");
     cy.closecookielaw();
 
@@ -61,7 +71,7 @@ describe("ChangePassword", () => {
       "Your request cannot be authorized, is current password wrong?"
     );
 
-    cy.get("@password").clear().type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
+    cy.get("@password").clear().type(pwd);
     cy.get("button:contains('Submit')").click();
     cy.checkalert("Password is too weak, missing upper case letters");
 
@@ -80,10 +90,8 @@ describe("ChangePassword", () => {
     cy.get("button:contains('Submit')").click();
     cy.checkalert("Password is too weak, missing special characters");
 
-    cy.get("@new_password").clear().type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
-    cy.get("@confirm_password")
-      .clear()
-      .type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
+    cy.get("@new_password").clear().type(pwd);
+    cy.get("@confirm_password").clear().type(pwd);
     cy.get("button:contains('Submit')").click();
     cy.checkalert("The new password cannot match the previous password");
 
@@ -111,12 +119,19 @@ describe("ChangePassword", () => {
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/profile");
     });
+  });
 
+  afterEach(() => {
     // Restore the default password
-    cy.pwdchange(
-      Cypress.env("AUTH_DEFAULT_USERNAME"),
-      newPassword,
-      Cypress.env("AUTH_DEFAULT_PASSWORD")
-    );
+    // cy.pwdchange(
+    //   Cypress.env("AUTH_DEFAULT_USERNAME"),
+    //   newPassword,
+    //   Cypress.env("AUTH_DEFAULT_PASSWORD")
+    // );
+
+    cy.logout();
+
+    cy.login();
+    cy.deleteuser("aaaaaaaaaa000111@sample.org");
   });
 });
