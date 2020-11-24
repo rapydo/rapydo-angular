@@ -170,7 +170,7 @@ describe("ResetPassword", () => {
       cy.logout();
 
       cy.login();
-      cy.deleteuser("aaaaaaaaaa000111@sample.org");
+      cy.deleteuser("aaaaaaaaaa000222@sample.org");
     });
   }
 });
