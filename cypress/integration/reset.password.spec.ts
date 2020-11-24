@@ -4,8 +4,6 @@
 describe("ResetPassword", () => {
   if (Cypress.env("ALLOW_PASSWORD_RESET")) {
     beforeEach(() => {
-      cy.closecookielaw();
-
       cy.login();
 
       const email = "aaaaaaaaaa000222@sample.org";
@@ -21,6 +19,7 @@ describe("ResetPassword", () => {
       const pwd = "Looooong!";
 
       cy.visit("/app/login");
+      cy.closecookielaw();
 
       cy.get('a:contains("Click here")').click();
       cy.wait(200);
@@ -160,13 +159,6 @@ describe("ResetPassword", () => {
     });
 
     afterEach(() => {
-      // Restore the default password
-      // cy.pwdchange(
-      //   Cypress.env("AUTH_DEFAULT_USERNAME"),
-      //   newPassword,
-      //   Cypress.env("AUTH_DEFAULT_PASSWORD")
-      // );
-
       cy.logout();
 
       cy.login();

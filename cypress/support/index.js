@@ -39,26 +39,6 @@ Cypress.Commands.add("logout", () => {
   cy.get("button").contains("Confirm").click();
 });
 
-Cypress.Commands.add("pwdchange", (username, password, new_password) => {
-  const password_confirm = new_password;
-  cy.request("POST", Cypress.env("API_URL") + "auth/login", {
-    // This is ES6 Literal Shorthand Syntax
-    username,
-    password,
-  })
-    .its("body")
-    .then((token) => {
-      const options = {
-        method: "PUT",
-        url: Cypress.env("API_URL") + "auth/profile",
-        headers: { Authorization: `Bearer ${token}` },
-        body: { password, new_password, password_confirm },
-      };
-      cy.request(options).then((response) => {
-        cy.log("Password changed");
-      });
-    });
-});
 Cypress.Commands.add("closecookielaw", () => {
   cy.get("cookie-law").within((el) => {
     cy.root().should("have.attr", "seen", "false");

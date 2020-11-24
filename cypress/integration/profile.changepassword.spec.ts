@@ -3,8 +3,6 @@
 
 describe("ChangePassword", () => {
   beforeEach(() => {
-    cy.closecookielaw();
-
     cy.login();
 
     const email = "aaaaaaaaaa000111@sample.org";
@@ -122,13 +120,6 @@ describe("ChangePassword", () => {
   });
 
   afterEach(() => {
-    // Restore the default password
-    // cy.pwdchange(
-    //   Cypress.env("AUTH_DEFAULT_USERNAME"),
-    //   newPassword,
-    //   Cypress.env("AUTH_DEFAULT_PASSWORD")
-    // );
-
     cy.logout();
 
     cy.login();
