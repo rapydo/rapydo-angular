@@ -59,9 +59,8 @@ describe("SuccessfulLogin", () => {
 
     cy.get("a").find(".fa-user");
     cy.get("table").find("td").contains(Cypress.env("AUTH_DEFAULT_USERNAME"));
-    cy.get("a").find(".fa-sign-out-alt").parent().click();
 
-    cy.get("button").contains("Confirm").click();
+    cy.logout();
 
     // After the logout you are automatically redirected to the default page...
     // more in generale not on the profile page

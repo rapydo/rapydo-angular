@@ -4,6 +4,10 @@
 describe("ChangePassword", () => {
   beforeEach(() => {
     cy.login();
+
+    cy.closecookielaw();
+
+    cy.createuser("aaaaaaaaaa000111@sample.org", "Looooong!");
   });
 
   it("ChangePassword", () => {

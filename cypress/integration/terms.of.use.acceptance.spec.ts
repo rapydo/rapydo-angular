@@ -3,17 +3,15 @@
 
 describe("Terms of use", () => {
   before(() => {
-    const username = "bbb000@sample.org";
     cy.login();
 
     cy.visit("/app/admin/users");
 
     cy.closecookielaw();
 
-    cy.createuser(username);
+    cy.createuser("bbb000@sample.org", "looooong");
 
-    cy.get("a").find(".fa-sign-out-alt").parent().click();
-    cy.get("button").contains("Confirm").click();
+    cy.logout();
   });
 
   beforeEach(() => {
@@ -80,8 +78,7 @@ describe("Terms of use", () => {
   }
 
   after(() => {
-    cy.get("a").find(".fa-sign-out-alt").parent().click();
-    cy.get("button").contains("Confirm").click();
+    cy.logout();
 
     cy.login();
 

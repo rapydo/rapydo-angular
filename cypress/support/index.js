@@ -4,14 +4,19 @@ import "cypress-localstorage-commands";
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-Cypress.Commands.add("login", () => {
+Cypress.Commands.add("login", (email = null, pwd = null) => {
+  if (email === null) {
+    email = Cypress.env("AUTH_DEFAULT_USERNAME");
+  }
+
+  if (pwd === null) {
+    pwd = Cypress.env("AUTH_DEFAULT_PASSWORD");
+  }
+
   cy.request({
     method: "POST",
     url: Cypress.env("API_URL") + "auth/login",
-    body: {
-      username: Cypress.env("AUTH_DEFAULT_USERNAME"),
-      password: Cypress.env("AUTH_DEFAULT_PASSWORD"),
-    },
+    body: { username: email, password: pwd },
   }).then((response) => {
     cy.setLocalStorage("token", JSON.stringify(response.body));
 
@@ -28,6 +33,12 @@ Cypress.Commands.add("login", () => {
     });
   });
 });
+
+Cypress.Commands.add("logout", () => {
+  cy.get("a").find(".fa-sign-out-alt").parent().click();
+  cy.get("button").contains("Confirm").click();
+});
+
 Cypress.Commands.add("pwdchange", (username, password, new_password) => {
   const password_confirm = new_password;
   cy.request("POST", Cypress.env("API_URL") + "auth/login", {
@@ -72,14 +83,13 @@ Cypress.Commands.add("checkvalidation", (index, msg) => {
 Cypress.Commands.add("getmail", () => {
   return cy.readFile("/logs/mock.mail.lastsent.body");
 });
-
-Cypress.Commands.add("createuser", (emailAddress) => {
+Cypress.Commands.add("createuser", (email, pwd) => {
   // Mostly copied from admin_users.spec.ts
 
   cy.get('button:contains("new user")').click();
 
-  cy.get('input[placeholder="Email"]').clear().type(emailAddress);
-  cy.get('input[placeholder="Password"]').clear().type("looooong");
+  cy.get('input[placeholder="Email"]').clear().type(email);
+  cy.get('input[placeholder="Password"]').clear().type(pwd);
   cy.get('input[placeholder="Name"]').clear().type("SampleName");
   cy.get('input[placeholder="Surname"]').clear().type("SampleSurname");
 
@@ -114,12 +124,10 @@ Cypress.Commands.add("createuser", (emailAddress) => {
   cy.checkalert("Confirmation: user successfully created");
 });
 
-Cypress.Commands.add("deleteuser", (emailAddress) => {
+Cypress.Commands.add("deleteuser", (email) => {
   cy.visit("/app/admin/users");
 
-  cy.get('input[placeholder="Type to filter users"]')
-    .clear()
-    .type(emailAddress);
+  cy.get('input[placeholder="Type to filter users"]').clear().type(email);
 
   cy.get("datatable-body-row").first().find(".fa-trash").click();
   cy.get("h5.modal-title").contains("Confirmation required");

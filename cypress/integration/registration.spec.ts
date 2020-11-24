@@ -233,8 +233,7 @@ describe("Registration", () => {
         "Permission denied: you are not authorized to access this page"
       );
 
-      cy.get("a").find(".fa-sign-out-alt").parent().click();
-      cy.get("button").contains("Confirm").click();
+      cy.logout();
 
       cy.wait(2000);
 
