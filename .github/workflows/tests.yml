@@ -99,9 +99,9 @@ jobs:
           name: cypress-recordings
           path: rapydo_tests/data/prj/cypress
 
-      # - name: Print backend logs on failure
-      #   if: ${{ failure() && matrix.stage == 'cypress' }}
-      #   run: cat rapydo_tests/data/logs/backend-server.log
+      - name: Print backend logs on failure
+        if: ${{ failure() && matrix.stage == 'cypress' }}
+        run: cat rapydo_tests/data/logs/backend-server.log
 
       - name: Run Prod Tests
         if: ${{ matrix.stage == 'prod' }}
