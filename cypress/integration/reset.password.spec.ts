@@ -146,19 +146,21 @@ describe("ResetPassword", () => {
         cy.get("input[placeholder='Your password']")
           .clear()
           .type(newPassword + "{enter}");
-        // cy.get("button").contains("Login").click();
 
-        // This should work... but during tests fails:
-        // cy.visit("/app/profile");
-        // cy.location().should((location) => {
-        //   expect(location.pathname).to.eq("/app/profile");
-        // });
-        // cy.get("table").find("td").contains(email);
+        // After the notification an asynchronous call is executed to login with the new credentials
+        // Let's wait a bit to prevent to continue before the call is executed
+        cy.wait(500);
 
-        // Replaced with this other test:
-        cy.logout();
+        cy.visit("/app/profile");
+        cy.location().should((location) => {
+          expect(location.pathname).to.eq("/app/profile");
+        });
+        cy.get("table").find("td").contains(email);
 
-        cy.login(email, newPassword);
+        // // Replaced with this other test:
+        // cy.logout();
+
+        // cy.login(email, newPassword);
       });
     });
 
