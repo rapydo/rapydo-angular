@@ -2,9 +2,11 @@
 /*global cy, Cypress*/
 
 describe("ChangePassword", () => {
-  it("ChangePassword", () => {
+  beforeEach(() => {
     cy.login();
+  });
 
+  it("ChangePassword", () => {
     cy.visit("/app/profile/changepassword");
     cy.closecookielaw();
 

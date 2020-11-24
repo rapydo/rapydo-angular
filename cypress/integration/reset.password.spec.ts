@@ -3,6 +3,10 @@
 
 describe("ResetPassword", () => {
   if (Cypress.env("ALLOW_PASSWORD_RESET")) {
+    // beforeEach(() => {
+    //   cy.login();
+    // });
+
     it("Reset", () => {
       cy.visit("/app/login");
 
