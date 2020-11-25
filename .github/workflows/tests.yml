@@ -51,32 +51,20 @@ jobs:
           cp data/prj/karma/lcov.info .
           bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular;
 
+      - uses: rapydo/actions/setup-cypress@v1
+        if: ${{ matrix.stage == 'cypress' }}
+        with:
+          id: ${{ secrets.CYPRESS_PROJECT_ID }}
+          key: ${{ secrets.CYPRESS_RECORD_KEY }}
+          folder: submodules/rapydo-angular
+
       - name: Run Cypress
         if: ${{ matrix.stage == 'cypress' }}
-        env:
-          CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
         run: |
-          # Without this, envs will not be available to python... uhm... ugly!
-          export CYPRESS_PROJECT_ID=${CYPRESS_PROJECT_ID}
-          export CYPRESS_RECORD_KEY=${CYPRESS_RECORD_KEY}
           cd rapydo_tests
 
           rapydo --testing init
           rapydo add --force component sink
-
-          cd submodules/rapydo-angular
-          export COMMIT_INFO_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
-          export COMMIT_INFO_MESSAGE="$(git show -s --pretty=%B)"
-          export COMMIT_INFO_SUBJECT="$(git show -s --pretty=%s)"
-          export COMMIT_INFO_BODY="$(git show -s --pretty=%b)"
-          export COMMIT_INFO_EMAIL="$(git show -s --pretty=%ae)"
-          export COMMIT_INFO_AUTHOR="$(git show -s --pretty=%an)"
-          export COMMIT_INFO_SHA="$(git show -s --pretty=%H)"
-          export COMMIT_INFO_TIMESTAMP="$(git show -s --pretty=%ct)"
-          export COMMIT_INFO_REMOTE="$(git config --get remote.origin.url)"
-          export CYPRESS_GROUP="$(git show -s --pretty=%H)"
-          cd -
 
           rapydo pull
           rapydo -e PROJECT_TITLE="Your ${AUTH} Project" start
