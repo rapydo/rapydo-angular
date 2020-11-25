@@ -56,7 +56,7 @@ jobs:
         with:
           id: ${{ secrets.CYPRESS_PROJECT_ID }}
           key: ${{ secrets.CYPRESS_RECORD_KEY }}
-          folder: rapydo_tests/submodules/rapydo-angular
+          folder: $(pwd)/rapydo_tests/submodules/rapydo-angular
 
       - name: Run Cypress
         if: ${{ matrix.stage == 'cypress' }}
@@ -69,6 +69,7 @@ jobs:
           rapydo pull
           rapydo -e PROJECT_TITLE="Your ${AUTH} Project" start
           rapydo shell --no-tty backend 'restapi wait'
+          # To be removed?
           sleep 20
           rapydo logs
           rapydo shell --no-tty backend --detach "restapi launch"
