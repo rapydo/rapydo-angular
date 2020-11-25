@@ -56,7 +56,7 @@ jobs:
         with:
           id: ${{ secrets.CYPRESS_PROJECT_ID }}
           key: ${{ secrets.CYPRESS_RECORD_KEY }}
-          folder: submodules/rapydo-angular
+          folder: rapydo_tests/submodules/rapydo-angular
 
       - name: Run Cypress
         if: ${{ matrix.stage == 'cypress' }}
