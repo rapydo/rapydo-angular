@@ -6,18 +6,14 @@ describe("Mocked logins", () => {
     cy.visit("/app/login");
     cy.closecookielaw();
 
-    cy.server();
-
     cy.get("input[placeholder='Your username (email)']").as("user");
     cy.get("input[placeholder='Your password']").as("pwd");
   });
 
   it("Login - Account not active", () => {
-    cy.route({
-      method: "POST",
-      url: "/auth/login",
-      status: 403,
-      response: "Sorry, this account is not active",
+    cy.intercept("POST", "/auth/login", {
+      statusCode: 403,
+      body: "Sorry, this account is not active",
     });
 
     cy.get("@user").type(Cypress.env("AUTH_DEFAULT_USERNAME"));
@@ -33,11 +29,9 @@ describe("Mocked logins", () => {
   });
 
   it("Login - Missing or empty actions", () => {
-    cy.route({
-      method: "POST",
-      url: "/auth/login",
-      status: 403,
-      response: {
+    cy.intercept("POST", "/auth/login", {
+      statusCode: 403,
+      body: {
         errors: ["Please change your temporary password"],
       },
     });
@@ -53,11 +47,9 @@ describe("Mocked logins", () => {
     cy.checkalert("Unrecognized response from server");
     cy.checkalert("Please change your temporary password");
 
-    cy.route({
-      method: "POST",
-      url: "/auth/login",
-      status: 403,
-      response: {
+    cy.intercept("POST", "/auth/login", {
+      statusCode: 403,
+      body: {
         actions: [],
         errors: [],
       },
@@ -71,11 +63,9 @@ describe("Mocked logins", () => {
 
     cy.checkalert("Unrecognized response from server");
 
-    cy.route({
-      method: "POST",
-      url: "/auth/login",
-      status: 403,
-      response: {
+    cy.intercept("POST", "/auth/login", {
+      statusCode: 403,
+      body: {
         errors: ["Extra error1", "Extra error2"],
       },
     });
@@ -92,11 +82,9 @@ describe("Mocked logins", () => {
   });
 
   it("Login - FIRST LOGIN", () => {
-    cy.route({
-      method: "POST",
-      url: "/auth/login",
-      status: 403,
-      response: {
+    cy.intercept("POST", "/auth/login", {
+      statusCode: 403,
+      body: {
         actions: ["FIRST LOGIN"],
         errors: ["Please change your temporary password"],
       },
@@ -112,8 +100,6 @@ describe("Mocked logins", () => {
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/login");
     });
-
-    cy.server({ enable: false });
 
     cy.checkalert("Please change your temporary password");
     cy.get("div.card-header h4").contains(
@@ -168,11 +154,9 @@ describe("Mocked logins", () => {
   });
 
   it("Login - PASSWORD EXPIRED", () => {
-    cy.route({
-      method: "POST",
-      url: "/auth/login",
-      status: 403,
-      response: {
+    cy.intercept("POST", "/auth/login", {
+      statusCode: 403,
+      body: {
         actions: ["PASSWORD EXPIRED"],
         errors: ["Your password is expired, please change it"],
       },
@@ -190,8 +174,6 @@ describe("Mocked logins", () => {
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/login");
     });
-
-    cy.server({ enable: false });
 
     cy.checkalert("Your password is expired, please change it");
     cy.get("div.card-header h4").contains(
@@ -246,11 +228,9 @@ describe("Mocked logins", () => {
   });
 
   it("Login - TOTP", () => {
-    cy.route({
-      method: "POST",
-      url: "/auth/login",
-      status: 403,
-      response: {
+    cy.intercept("POST", "/auth/login", {
+      statusCode: 403,
+      body: {
         actions: ["TOTP"],
         errors: ["You do not provided a valid second factor"],
       },
@@ -272,11 +252,9 @@ describe("Mocked logins", () => {
   });
 
   it("Login - Unknown action", () => {
-    cy.route({
-      method: "POST",
-      url: "/auth/login",
-      status: 403,
-      response: {
+    cy.intercept("POST", "/auth/login", {
+      statusCode: 403,
+      body: {
         actions: ["invalid"],
         errors: ["invalid"],
       },
@@ -291,10 +269,5 @@ describe("Mocked logins", () => {
     });
 
     cy.checkalert("Unrecognized response from server");
-  });
-
-  afterEach(() => {
-    cy.server({ enable: false });
-    // restore default password and logout? Only for successful logins
   });
 });

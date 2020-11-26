@@ -168,28 +168,21 @@ describe("AdminUsers", () => {
   });
 
   it("Backend errors", () => {
-    cy.server();
-
-    cy.route({
-      method: "DELETE",
-      url: "/api/admin/groups/*",
-      status: 500,
-      response: "Stubbed delete error",
+    cy.intercept("DELETE", "/api/admin/groups/*", {
+      statusCode: 500,
+      body: "Stubbed delete error",
     });
 
     cy.get("datatable-body-row").eq(0).find(".fa-trash").click({ force: true });
     cy.get("button").contains("Yes, delete").click({ force: true });
     cy.checkalert("Stubbed delete error");
 
-    cy.route({
-      method: "GET",
-      url: "/api/admin/groups",
-      status: 500,
-      response: "Stubbed get error",
+    cy.intercept("GET", "/api/admin/groups", {
+      statusCode: 500,
+      body: "Stubbed get error",
     });
 
     cy.visit("/app/admin/groups");
     cy.checkalert("Stubbed get error");
-    cy.server({ enable: false });
   });
 });
