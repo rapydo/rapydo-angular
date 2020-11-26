@@ -171,7 +171,8 @@ describe("AdminUsers", () => {
     cy.intercept("DELETE", "/api/admin/groups/*", {
       statusCode: 500,
       body: "Stubbed delete error",
-    });
+    }).as("stub");
+    cy.wait("@stub");
 
     cy.get("datatable-body-row").eq(0).find(".fa-trash").click({ force: true });
     cy.get("button").contains("Yes, delete").click({ force: true });
