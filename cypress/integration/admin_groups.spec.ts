@@ -168,7 +168,7 @@ describe("AdminUsers", () => {
   });
 
   it("Backend errors", () => {
-    cy.intercept("DELETE", "/api/admin/groups/*", {
+    cy.intercept("DELETE", /\/api\/admin\/groups\//, {
       statusCode: 500,
       body: "Stubbed delete error",
     }).as("stub");
