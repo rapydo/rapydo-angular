@@ -98,13 +98,17 @@ describe("ChangePassword", () => {
     cy.get("@confirm_password").clear().type(newPassword);
 
     // Check backend errors
-    cy.intercept("PUT", "/auth/profile", {
-      statusCode: 500,
-      body: "Stubbed change password error",
+    cy.server();
+    cy.route({
+      method: "PUT",
+      url: "/auth/profile",
+      status: 500,
+      response: "Stubbed change password error",
     });
 
     cy.get("button:contains('Submit')").click();
     cy.checkalert("Stubbed change password error");
+    cy.server({ enable: false });
 
     cy.get("button:contains('Submit')").click();
     cy.checkalert("Password successfully changed");

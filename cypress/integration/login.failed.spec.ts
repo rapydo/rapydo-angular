@@ -62,9 +62,13 @@ describe("FailedLogin", () => {
       .clear()
       .type("invalid-password");
 
-    cy.intercept("POST", "/auth/login", {
-      statusCode: 404,
-      body: "Stubbed login error",
+    cy.server();
+
+    cy.route({
+      method: "POST",
+      url: "/auth/login",
+      status: 404,
+      response: "Stubbed login error",
     });
 
     cy.get("button").contains("Login").click();
@@ -72,13 +76,16 @@ describe("FailedLogin", () => {
       "Unable to login due to a server error. If this error persists please contact system administrators"
     );
 
-    cy.intercept("POST", "/auth/login", {
-      statusCode: 409,
-      body: "Stubbed login error",
+    cy.route({
+      method: "POST",
+      url: "/auth/login",
+      status: 409,
+      response: "Stubbed login error",
     });
 
     cy.get("button").contains("Login").click();
     cy.checkalert("Stubbed login error");
+    cy.server({ enable: false });
   });
 
   afterEach(() => {
