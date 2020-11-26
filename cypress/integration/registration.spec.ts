@@ -218,7 +218,7 @@ describe("Registration", () => {
 
       // Prevent the login call to be cancelled
       // if response arrives too late and visit already changed the page
-      cy.wait(1000);
+      cy.wait(1500);
 
       cy.visit("/app/profile");
 

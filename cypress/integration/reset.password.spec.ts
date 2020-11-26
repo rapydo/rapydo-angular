@@ -69,7 +69,7 @@ describe("ResetPassword", () => {
         var token = body.match(re);
         cy.visit("/public/reset/" + token[1]);
 
-        cy.wait(500);
+        cy.wait(1000);
         cy.get("div.card-header h4").contains("Change your password");
 
         cy.get("button:contains('Submit')").click();
