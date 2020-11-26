@@ -172,18 +172,21 @@ describe("AdminUsers", () => {
       statusCode: 500,
       body: "Stubbed delete error",
     }).as("stub");
-    cy.wait("@stub");
 
     cy.get("datatable-body-row").eq(0).find(".fa-trash").click({ force: true });
     cy.get("button").contains("Yes, delete").click({ force: true });
+
+    cy.wait("@stub");
     cy.checkalert("Stubbed delete error");
 
     cy.intercept("GET", "/api/admin/groups", {
       statusCode: 500,
       body: "Stubbed get error",
-    });
+    }).as("stub");
 
     cy.visit("/app/admin/groups");
+
+    cy.wait("@stub");
     cy.checkalert("Stubbed get error");
   });
 });
