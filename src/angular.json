@@ -20,6 +20,7 @@
             "tsConfig": "tsconfig.app.json",
             "extractCss": true,
             "aot": true,
+            "forkTypeChecker": false,
             "assets": [
               "./app/rapydo/assets",
               "./app/custom/assets",
