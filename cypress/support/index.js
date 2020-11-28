@@ -1,5 +1,6 @@
 import "@cypress/code-coverage/support";
 import "cypress-localstorage-commands";
+import "cypress-fail-fast";
 
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
