@@ -13,8 +13,8 @@
     "test": "ng test --code-coverage",
     "test:single": "ng test --code-coverage --watch=false",
     "cypress": "cypress run",
-    "cypress:start": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --record --group all --browser chrome'",
-    "cypress:start:norecord": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --browser chrome'"
+    "cypress:start": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --record --group all'",
+    "cypress:start:norecord": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run'"
   },
   "license": "MIT",
   "dependencies": {
@@ -72,7 +72,7 @@
     "jasmine-spec-reporter": "6.0.0",
     "@types/jasmine": "3.6.0",
     "@types/jasminewd2": "2.0.8",
-    "cypress": "6.0.0",
+    "cypress": "5.6.0",
     "cypress-localstorage-commands": "1.2.4",
     "@cypress/code-coverage": "3.8.2",
     "istanbul-instrumenter-loader": "3.0.1",
