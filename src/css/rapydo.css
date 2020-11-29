@@ -52,10 +52,6 @@ div.initial_loading > h2 > div.spinner-grow {
 }
 
 .btn.no-rounded {
-  border-radius: 0 !important;
-}
-
-.btn.no-rounded {
   -webkit-border-radius: 0 !important;
   -moz-border-radius: 0 !important;
   border-radius: 0 !important;
@@ -111,6 +107,7 @@ formly-field-multicheckbox > div {
   padding: 0.3em;
   border-radius: 0.3em;
 }
+
 /* FORMLY ERRORS */
 
 .error-messages {

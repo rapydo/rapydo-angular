@@ -111,7 +111,7 @@ export class FormlyService {
             // prevent duplicated empty options if already provided as valid value
             let empty_option_found = false;
             for (let opt of field["templateOptions"]["options"]) {
-              if (opt.value == "") {
+              if (opt.value === "") {
                 empty_option_found = true;
                 break;
               }
@@ -138,7 +138,7 @@ export class FormlyService {
         field_type = stype;
         template_type = "radio";
         field["templateOptions"]["options"] = s.options;
-      } else if (stype == "url") {
+      } else if (stype === "url") {
         field_type = "input";
         template_type = "url";
         field["validators"] = { validation: ["url"] };
@@ -192,7 +192,7 @@ export class FormlyService {
               default_data = this.formatNgbDatepicker(default_data);
             } else if (template_type === "date") {
               default_data = this.formatDate(default_data);
-            } else if (field_type == "multicheckbox") {
+            } else if (field_type === "multicheckbox") {
               // This works because template_type = "array";
               // Otherwise the model should be {key1: true, key2: true}
               let default_data_list = [];
