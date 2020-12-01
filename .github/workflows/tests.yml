@@ -38,11 +38,8 @@ jobs:
           echo "AUTH=${AUTH}" >> $GITHUB_ENV
           mkdir rapydo_tests
           cd rapydo_tests
-          if [[ "${{ matrix.stage }}" == "cypress-full" ]]; then
-            rapydo --testing create prj --auth ${AUTH} --frontend angular --origin-url https://your_remote_git/your_project.git
-          else:
-            rapydo --testing create prj --auth ${AUTH} --frontend angular --origin-url https://your_remote_git/your_project.git
-          fi
+          rapydo --testing create prj --auth ${AUTH} --frontend angular --origin-url https://your_remote_git/your_project.git
+
       - name: Run Karma
         if: ${{ matrix.stage == 'karma' }}
         run: |
@@ -72,7 +69,13 @@ jobs:
           rapydo add --force component sink
 
           rapydo pull
-          rapydo -e PROJECT_TITLE="Your ${AUTH} Project" start
+
+          if [[ "${{ matrix.stage }}" == "cypress-full" ]]; then
+            rapydo -e PROJECT_TITLE="Your ${AUTH} Full Project" -e ALLOW_TERMS_OF_USE=true start
+          else
+            rapydo -e PROJECT_TITLE="Your ${AUTH} Project" start
+          fi
+
           rapydo shell --no-tty backend 'restapi wait'
           # To be removed?
           sleep 20
