@@ -86,6 +86,12 @@ describe("KitchenSink", () => {
         cy.get("@url").clear().type("www.google.c");
         cy.checkvalidation(0, "Invalid web address");
 
+        // This is to force the existence of a validation message and let the
+        // cy.get("formly-validation-message").should("not.contain")
+        // to work. Otherwise the get will fail...
+        cy.get("@email").clear();
+        cy.checkvalidation(0, "Invalid email address");
+
         cy.get("@url").clear().type("www.google.co");
         cy.get("formly-validation-message").should(
           "not.contain",
@@ -114,7 +120,7 @@ describe("KitchenSink", () => {
         );
 
         cy.get("@url").clear().type("httpx://www.google.com");
-        cy.checkvalidation(0, "Invalid web address");
+        cy.checkvalidation(1, "Invalid web address");
 
         cy.get("@url").clear().type("ftp://www.google.com");
         cy.get("formly-validation-message").should(
@@ -133,6 +139,9 @@ describe("KitchenSink", () => {
           "not.contain",
           "Invalid web address"
         );
+
+        // Let's remove the validation error introduced to ease @url tests
+        cy.get("@email").clear().type("user@sample.org");
 
         cy.get("@text").clear().type("123");
         cy.checkvalidation(0, "Should have at least 4 characters");
