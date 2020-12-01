@@ -43,6 +43,10 @@ describe("AdminUsers", () => {
 
     cy.checkalert("Confirmation: group successfully created");
 
+    cy.get('input[placeholder="Type to filter groups"]')
+      .clear()
+      .type("_TestGroup-" + randval);
+
     cy.get("datatable-body").contains(
       "datatable-body-cell",
       "_TestGroup-" + randval
