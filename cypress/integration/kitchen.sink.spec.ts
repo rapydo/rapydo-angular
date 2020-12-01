@@ -140,9 +140,6 @@ describe("KitchenSink", () => {
           "Invalid web address"
         );
 
-        // Let's remove the validation error introduced to ease @url tests
-        cy.get("@email").clear().type("user@sample.org");
-
         cy.get("@text").clear().type("123");
         cy.checkvalidation(0, "Should have at least 4 characters");
         cy.get("@text").clear().type("1234");
@@ -194,6 +191,9 @@ describe("KitchenSink", () => {
           "not.contain",
           "Should be lower than 9"
         );
+
+        // Let's remove the validation error introduced to ease check of missing errors
+        cy.get("@email").clear().type("user@sample.org");
 
         cy.get('input:checkbox[placeholder="boolean"]').check({ force: true });
 
