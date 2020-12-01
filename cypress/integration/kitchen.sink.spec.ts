@@ -90,7 +90,7 @@ describe("KitchenSink", () => {
         // cy.get("formly-validation-message").should("not.contain")
         // to work. Otherwise the get will fail...
         cy.get("@email").clear();
-        cy.checkvalidation(0, "Invalid email address");
+        cy.checkvalidation(0, "This field is required");
 
         cy.get("@url").clear().type("www.google.co");
         cy.get("formly-validation-message").should(
