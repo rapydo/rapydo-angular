@@ -141,7 +141,7 @@ describe("KitchenSink", () => {
         );
 
         cy.get("@text").clear().type("123");
-        cy.checkvalidation(0, "Should have at least 4 characters");
+        cy.checkvalidation(1, "Should have at least 4 characters");
         cy.get("@text").clear().type("1234");
         cy.get("formly-validation-message").should(
           "not.contain",
@@ -158,9 +158,9 @@ describe("KitchenSink", () => {
         );
 
         cy.get("@number").clear().type("0");
-        cy.checkvalidation(0, "Should be greater than 1");
+        cy.checkvalidation(1, "Should be greater than 1");
         cy.get("@number").clear().type("10");
-        cy.checkvalidation(0, "Should be lower than 9");
+        cy.checkvalidation(1, "Should be lower than 9");
         cy.get("@number").clear().type("5");
         cy.get("formly-validation-message").should(
           "not.contain",
