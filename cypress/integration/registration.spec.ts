@@ -223,6 +223,8 @@ describe("Registration", () => {
           .find("h4")
           .contains("Please change your temporary password");
 
+        cy.checkalert("Please change your temporary password");
+
         cy.get('input[placeholder="Your new password"]')
           .clear()
           .type(newPassword + "!");

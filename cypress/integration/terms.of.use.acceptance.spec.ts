@@ -34,6 +34,8 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
           .find("h4")
           .contains("Please change your temporary password");
 
+        cy.checkalert("Please change your temporary password");
+
         pwd = pwd + "!";
 
         cy.get('input[placeholder="Your new password"]').clear().type(pwd);

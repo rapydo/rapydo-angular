@@ -17,12 +17,13 @@ describe("ChangePassword", () => {
     cy.visit("/app/login");
     cy.closecookielaw();
 
+    cy.intercept("POST", "/auth/login").as("login");
+
     cy.get("input[placeholder='Your username (email)']").clear().type(email);
     cy.get("input[placeholder='Your password']").clear().type(pwd);
     cy.get("button").contains("Login").click();
 
     // Wait login to complete
-    cy.intercept("POST", "/auth/login").as("login");
     cy.wait("@login");
 
     if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === "True") {
@@ -30,6 +31,8 @@ describe("ChangePassword", () => {
         .should("have.class", "bg-warning")
         .find("h4")
         .contains("Please change your temporary password");
+
+      cy.checkalert("Please change your temporary password");
 
       pwd = pwd + "!";
 
@@ -41,7 +44,6 @@ describe("ChangePassword", () => {
     }
 
     cy.visit("/app/profile/changepassword");
-    cy.closecookielaw();
 
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/profile/changepassword");
