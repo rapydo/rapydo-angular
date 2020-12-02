@@ -147,8 +147,6 @@ describe("AdminUsers", () => {
     cy.get("datatable-body-row")
       .last()
       .contains("datatable-body-cell", username);
-
-    cy.wait(1000);
   });
 
   it("Modify user", () => {

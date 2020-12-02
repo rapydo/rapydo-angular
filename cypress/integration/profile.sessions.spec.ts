@@ -116,8 +116,7 @@ describe("Sessions", () => {
     // // From Vivek Nayyar
     // // https://dev.to/viveknayyar/e2e-testing-of-excel-downloads-with-cypress-21fb
 
-    // // arbitrary wait so that the download can complete
-    // cy.wait(1000);
+    // cy.intercept / wait to wait for download completion
     // const header = [
     //   "IP",
     //   "Location",

@@ -64,6 +64,8 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === "True") {
       cy.get("@change").click({ force: true });
       cy.checkalert("Password is too weak, missing special characters");
 
+      cy.intercept("POST", "/auth/login").as("changed");
+
       cy.get("@newpwd")
         .clear()
         .type(pwd + "!");
@@ -71,6 +73,8 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === "True") {
         .clear()
         .type(pwd + "!");
       cy.get("@change").click({ force: true });
+
+      cy.wait("@changed");
 
       cy.visit("/app/profile");
       cy.location().should((location) => {

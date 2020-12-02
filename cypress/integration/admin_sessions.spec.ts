@@ -24,7 +24,6 @@ describe("AdminSessions", () => {
     cy.get("ul.pager li.pages").contains(" 1 ");
     cy.get("ul.pager li.pages").contains(" 2 ").click();
     cy.get("ul.pager li.pages").contains(" 1 ").click();
-    cy.wait(500);
     cy.scrollTo("top");
 
     cy.get("span.datatable-header-cell-label").contains("Expiration").click();

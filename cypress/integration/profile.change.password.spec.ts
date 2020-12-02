@@ -36,11 +36,15 @@ describe("ChangePassword", () => {
 
       pwd = pwd + "!";
 
+      cy.intercept("POST", "/auth/login").as("changed");
+
       cy.get('input[placeholder="Your new password"]').clear().type(pwd);
       cy.get('input[placeholder="Confirm your new password"]')
         .clear()
         .type(pwd);
       cy.get('button:contains("Change")').click({ force: true });
+
+      cy.wait("@changed");
     }
 
     cy.visit("/app/profile/changepassword");
@@ -133,12 +137,12 @@ describe("ChangePassword", () => {
     cy.checkalert("Stubbed change password error");
     cy.server({ enable: false });
 
+    cy.intercept("PUT", "/auth/profile").as("changed");
+
     cy.get("button:contains('Submit')").click();
     cy.checkalert("Password successfully changed");
 
-    // After the notification an asynchronous call is executed to login with the new credentials
-    // Let's wait a bit to prevent to continue before the call is executed
-    cy.wait(500);
+    cy.wait("@changed");
 
     cy.visit("/app/profile");
     cy.location().should((location) => {

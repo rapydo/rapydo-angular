@@ -109,8 +109,6 @@ describe("AdminUsers", () => {
     cy.get("datatable-body-row")
       .last()
       .contains("datatable-body-cell", "_TestGroup");
-
-    cy.wait(1000);
   });
 
   it("Modify group", () => {

@@ -4,7 +4,7 @@
 if (Cypress.env("ALLOW_TERMS_OF_USE")) {
   describe("Terms of use", () => {
     const username = "bbb000@sample.org";
-    let pwd = "looooong";
+    let pwd = "Looooong1!";
 
     before(() => {
       cy.login();
