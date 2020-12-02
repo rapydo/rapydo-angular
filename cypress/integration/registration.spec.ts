@@ -55,17 +55,19 @@ describe("Registration", () => {
 
       cy.get("@submit").click({ force: true });
 
-      cy.contains("Acceptance is mandatory");
+      if (Cypress.env("ALLOW_TERMS_OF_USE")) {
+        cy.contains("Acceptance is mandatory");
 
-      cy.get("a").contains(" read)").click({ force: true });
-      cy.get("button").contains("I read it").click({ force: true });
+        cy.get("a").contains(" read)").click({ force: true });
+        cy.get("button").contains("I read it").click({ force: true });
 
-      // Accept all privacy boxes
-      cy.get("formly-field-terms_of_use_checkbox")
-        .get('input[type="checkbox"]')
-        .each(($el, index, $list) => {
-          cy.wrap($el).click({ force: true });
-        });
+        // Accept all privacy boxes
+        cy.get("formly-field-terms_of_use_checkbox")
+          .get('input[type="checkbox"]')
+          .each(($el, index, $list) => {
+            cy.wrap($el).click({ force: true });
+          });
+      }
 
       // File extra fields
       // get custom fields added at project level:
@@ -158,7 +160,6 @@ describe("Registration", () => {
       cy.get("input[placeholder='Your password']")
         .clear()
         .type(newPassword + "{enter}");
-      // cy.get("button").contains("Login").click();
 
       cy.wait(1500);
       cy.get("div.card-header h4").contains("This account is not active");
@@ -217,7 +218,7 @@ describe("Registration", () => {
         .type(newPassword + "{enter}");
 
       if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE")) {
-        cy.get(".card-header h4").contains(
+        cy.get("div.card-header h4").contains(
           "Please change your temporary password"
         );
 

@@ -11,13 +11,32 @@ describe("ChangePassword", () => {
     cy.createuser(email, pwd);
 
     cy.logout();
-
-    cy.login(email, pwd);
   });
 
   it("ChangePassword", () => {
     const email = "aaaaaaaaaa000111@sample.org";
-    const pwd = "Looooong!";
+    let pwd = "Looooong!";
+
+    cy.visit("/app/login");
+
+    cy.get("input[placeholder='Your username (email)']").clear().type(username);
+    cy.get("input[placeholder='Your password']")
+      .clear()
+      .type(pwd + "{enter}");
+
+    if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE")) {
+      cy.get(".card-header h4").contains(
+        "Please change your temporary password"
+      );
+
+      pwd = pwd + "!";
+
+      cy.get('input[placeholder="Your new password"]').clear().type(pwd);
+      cy.get('input[placeholder="Confirm your new password"]')
+        .clear()
+        .type(pwd);
+      cy.get('button:contains("Change")').click({ force: true });
+    }
 
     cy.visit("/app/profile/changepassword");
     cy.closecookielaw();
@@ -122,11 +141,6 @@ describe("ChangePassword", () => {
       expect(location.pathname).to.eq("/app/profile");
     });
     cy.get("table").find("td").contains(email);
-
-    // // Replaced with this other test:
-    // cy.logout();
-
-    // cy.login(email, newPassword);
   });
 
   afterEach(() => {

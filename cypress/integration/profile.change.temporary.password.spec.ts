@@ -18,7 +18,10 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE")) {
       const email = "aaaaaaaaaa000112@sample.org";
       const pwd = "Looooong!";
 
-      cy.login(email, pwd);
+      cy.get("input[placeholder='Your username (email)']").clear().type(email);
+      cy.get("input[placeholder='Your password']")
+        .clear()
+        .type(pwd + "{enter}");
 
       cy.get(".card-header h4").contains(
         "Please change your temporary password"
