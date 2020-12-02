@@ -80,14 +80,23 @@ describe("ChangePassword", () => {
 
     cy.get("@password").clear().type("wrong");
     cy.get("@new_password").clear().type("short");
-    cy.checkvalidation(0, "Should have at least 8 characters");
+    cy.checkvalidation(
+      0,
+      "Should have at least " +
+        Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
+        " characters"
+    );
     cy.get("@new_password").clear().type("looooong");
     cy.get("@confirm_password").clear().type("short");
     cy.checkvalidation(0, "The password does not match");
     cy.get("@confirm_password").clear().type("looooong");
 
     cy.get("button:contains('Submit')").click();
-    cy.checkalert("Shorter than minimum length 8.");
+    cy.checkalert(
+      "Shorter than minimum length " +
+        Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
+        "."
+    );
     cy.get("@password").clear().type("wrong-password");
 
     cy.get("button:contains('Submit')").click();

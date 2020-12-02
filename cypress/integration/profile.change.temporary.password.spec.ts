@@ -39,7 +39,12 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === "True") {
       cy.checkvalidation(1, "This field is required");
 
       cy.get("@newpwd").clear().type("a");
-      cy.checkvalidation(0, "Should have at least 8 characters");
+      cy.checkvalidation(
+        0,
+        "Should have at least " +
+          Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
+          " characters"
+      );
 
       cy.get("@newpwd").clear().type("aaaaaaaa");
       cy.get("@confirm").clear().type("a");

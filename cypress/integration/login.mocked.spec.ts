@@ -133,7 +133,12 @@ describe("Mocked logins", () => {
     cy.get("input[placeholder='Confirm your new password']").as("pwd_confirm");
 
     cy.get("@new_pwd").clear().type("short");
-    cy.checkvalidation(0, "Should have at least 8 characters");
+    cy.checkvalidation(
+      0,
+      "Should have at least " +
+        Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
+        " characters"
+    );
     cy.get("button").contains("Change").click();
 
     cy.get("@new_pwd").clear().type(current_pwd);
@@ -211,7 +216,12 @@ describe("Mocked logins", () => {
     cy.get("input[placeholder='Confirm your new password']").as("pwd_confirm");
 
     cy.get("@new_pwd").clear().type("short");
-    cy.checkvalidation(0, "Should have at least 8 characters");
+    cy.checkvalidation(
+      0,
+      "Should have at least " +
+        Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
+        " characters"
+    );
     cy.get("button").contains("Change").click();
 
     cy.get("@new_pwd").clear().type(current_pwd);

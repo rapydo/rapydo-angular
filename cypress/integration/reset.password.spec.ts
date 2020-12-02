@@ -4,12 +4,11 @@
 describe("ResetPassword", () => {
   if (Cypress.env("ALLOW_PASSWORD_RESET")) {
     const email = "aaaaaaaaaa000222@sample.org";
-    const pwd = "Looooong!";
 
     beforeEach(() => {
       cy.login();
 
-      cy.createuser(email, pwd);
+      cy.createuser(email, "Looooong!");
 
       cy.logout();
     });
@@ -98,7 +97,12 @@ describe("ResetPassword", () => {
         cy.get("@new_password").clear().type("short");
         cy.get("button:contains('Submit')").click();
 
-        cy.checkvalidation(0, "Should have at least 8 characters");
+        cy.checkvalidation(
+          0,
+          "Should have at least " +
+            Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
+            " characters"
+        );
         cy.checkvalidation(1, "This field is required");
 
         cy.get("@new_password").clear().type("loooooong");
@@ -125,8 +129,8 @@ describe("ResetPassword", () => {
         cy.get("button:contains('Submit')").click();
         cy.checkalert("Password is too weak, missing special characters");
 
-        cy.get("@new_password").clear().type(pwd);
-        cy.get("@confirm_password").clear().type(pwd);
+        cy.get("@new_password").clear().type("Looooong!");
+        cy.get("@confirm_password").clear().type("Looooong!");
         cy.get("button:contains('Submit')").click();
         cy.checkalert("The new password cannot match the previous password");
 

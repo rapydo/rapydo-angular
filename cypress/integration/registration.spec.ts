@@ -47,7 +47,12 @@ describe("Registration", () => {
       cy.get("@submit").click({ force: true });
 
       cy.checkvalidation(0, "Invalid email address");
-      cy.checkvalidation(1, "Should have at least 8 characters");
+      cy.checkvalidation(
+        1,
+        "Should have at least " +
+          Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
+          " characters"
+      );
 
       cy.get("@password").clear().type("12345678");
       cy.get("@confirmation").clear().type("23456789");

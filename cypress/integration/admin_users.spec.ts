@@ -48,7 +48,12 @@ describe("AdminUsers", () => {
     cy.get("@submit").click({ force: true });
     cy.checkvalidation(0, "This field is required");
     cy.checkvalidation(1, "This field is required");
-    cy.checkvalidation(2, "Should have at least 8 characters");
+    cy.checkvalidation(
+      2,
+      "Should have at least " +
+        Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
+        " characters"
+    );
 
     cy.get("@password").clear().type("looooong");
     cy.get("@name").clear().type("SampleName");
