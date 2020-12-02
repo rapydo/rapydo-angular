@@ -212,6 +212,12 @@ describe("Registration", () => {
 
       cy.get("input[placeholder='Your username (email)']")
         .clear()
+        .type(Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE"));
+
+      cy.wait(2000);
+
+      cy.get("input[placeholder='Your username (email)']")
+        .clear()
         .type(newUser);
       cy.get("input[placeholder='Your password']")
         .clear()

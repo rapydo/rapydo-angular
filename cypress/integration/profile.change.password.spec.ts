@@ -6,9 +6,6 @@ describe("ChangePassword", () => {
   let pwd = "Looooong!";
 
   beforeEach(() => {
-    cy.visit("/app/login");
-    cy.closecookielaw();
-
     cy.login();
 
     cy.createuser(email, pwd);
@@ -18,10 +15,15 @@ describe("ChangePassword", () => {
 
   it("ChangePassword", () => {
     cy.visit("/app/login");
+    cy.closecookielaw();
 
     cy.get("input[placeholder='Your username (email)']").clear().type(email);
     cy.get("input[placeholder='Your password']").clear().type(pwd);
     cy.get("button").contains("Login").click();
+
+    // Wait login to complete
+    cy.intercept("POST", "/auth/login").as("login");
+    cy.wait("@login");
 
     if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === "True") {
       cy.get("div.card-header")
