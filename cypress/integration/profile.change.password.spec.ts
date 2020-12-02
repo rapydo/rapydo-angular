@@ -10,6 +10,8 @@ describe("ChangePassword", () => {
 
     cy.createuser(email, pwd);
 
+    cy.closecookielaw();
+
     cy.logout();
   });
 
@@ -25,7 +27,7 @@ describe("ChangePassword", () => {
       .type(pwd + "{enter}");
 
     if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE")) {
-      cy.get(".card-header h4").contains(
+      cy.get("div.card-header h4").contains(
         "Please change your temporary password"
       );
 

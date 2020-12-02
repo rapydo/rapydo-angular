@@ -23,7 +23,7 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE")) {
         .clear()
         .type(pwd + "{enter}");
 
-      cy.get(".card-header h4").contains(
+      cy.get("div.card-header h4").contains(
         "Please change your temporary password"
       );
 

@@ -29,7 +29,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
         .type(pwd + "{enter}");
 
       if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE")) {
-        cy.get(".card-header h4").contains(
+        cy.get("div.card-header h4").contains(
           "Please change your temporary password"
         );
 
