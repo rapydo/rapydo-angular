@@ -6,11 +6,12 @@ import { getpassword } from "../../fixtures/utilities";
 describe("ResetPassword", () => {
   if (Cypress.env("ALLOW_PASSWORD_RESET")) {
     const email = "aaaaaaaaaa000222@sample.org";
+    const pwd = getpassword(4);
 
     beforeEach(() => {
       cy.login();
 
-      cy.createuser(email, getpassword(4));
+      cy.createuser(email, pwd);
 
       cy.logout();
     });
@@ -107,36 +108,39 @@ describe("ResetPassword", () => {
         );
         cy.checkvalidation(1, "This field is required");
 
-        cy.get("@new_password").clear().type("loooooong");
-        cy.get("@confirm_password").clear().type("wrong");
+        let newPassword = getpassword(1);
+        cy.get("@new_password").clear().type(newPassword);
+        cy.get("@confirm_password").clear().type(getpassword(1));
 
         cy.checkvalidation(0, "Password not matching");
 
-        cy.get("@confirm_password").clear().type("loooooong");
+        cy.get("@confirm_password").clear().type(newPassword);
         cy.get("button:contains('Submit')").click();
         cy.checkalert("Password is too weak, missing upper case letters");
 
-        cy.get("@new_password").clear().type("LOOOOONG");
-        cy.get("@confirm_password").clear().type("LOOOOONG");
+        cy.get("@new_password").clear().type(newPassword.toUpperCase());
+        cy.get("@confirm_password").clear().type(newPassword.toUpperCase());
         cy.get("button:contains('Submit')").click();
         cy.checkalert("Password is too weak, missing lower case letters");
 
-        cy.get("@new_password").clear().type("LoOoOoNg");
-        cy.get("@confirm_password").clear().type("LoOoOoNg");
+        newPassword = getpassword(2);
+        cy.get("@new_password").clear().type(newPassword);
+        cy.get("@confirm_password").clear().type(newPassword);
         cy.get("button:contains('Submit')").click();
         cy.checkalert("Password is too weak, missing numbers");
 
-        cy.get("@new_password").clear().type("LoO0OoNg");
-        cy.get("@confirm_password").clear().type("LoO0OoNg");
+        newPassword = getpassword(3);
+        cy.get("@new_password").clear().type(newPassword);
+        cy.get("@confirm_password").clear().type(newPassword);
         cy.get("button:contains('Submit')").click();
         cy.checkalert("Password is too weak, missing special characters");
 
-        cy.get("@new_password").clear().type("Looooong!");
-        cy.get("@confirm_password").clear().type("Looooong!");
+        cy.get("@new_password").clear().type(pwd);
+        cy.get("@confirm_password").clear().type(pwd);
         cy.get("button:contains('Submit')").click();
         cy.checkalert("The new password cannot match the previous password");
 
-        const newPassword = "LoO0OoNg!";
+        newPassword = getpassword(4);
         cy.get("@new_password").clear().type(newPassword);
         cy.get("@confirm_password").clear().type(newPassword);
         cy.get("button:contains('Submit')").click();
@@ -176,11 +180,6 @@ describe("ResetPassword", () => {
           expect(location.pathname).to.eq("/app/profile");
         });
         cy.get("table").find("td").contains(email);
-
-        // // Replaced with this other test:
-        // cy.logout();
-
-        // cy.login(email, newPassword);
       });
     });
 

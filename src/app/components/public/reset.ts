@@ -7,6 +7,8 @@ import { NotificationService } from "@rapydo/services/notification";
 import { ApiService } from "@rapydo/services/api";
 import { AuthService } from "@rapydo/services/auth";
 
+import { environment } from "@rapydo/../environments/environment";
+
 @Component({
   templateUrl: "reset.html",
 })
@@ -78,7 +80,7 @@ export class ResetPasswordComponent implements OnInit {
           class: "fas fa-key",
         },
         required: true,
-        minLength: 8,
+        minLength: environment.minPasswordLength,
       },
     });
     this.step2_fields.push({

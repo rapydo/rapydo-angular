@@ -7,6 +7,8 @@ import { ApiService } from "@rapydo/services/api";
 import { AuthService } from "@rapydo/services/auth";
 import { NotificationService } from "@rapydo/services/notification";
 
+import { environment } from "@rapydo/../environments/environment";
+
 @Component({
   templateUrl: "changepassword.html",
 })
@@ -71,7 +73,7 @@ export class ChangePasswordComponent {
           class: "fas fa-key",
         },
         required: true,
-        minLength: 8,
+        minLength: environment.minPasswordLength,
       },
     });
     this.fields.push({

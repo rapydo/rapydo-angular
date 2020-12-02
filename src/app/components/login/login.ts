@@ -136,7 +136,7 @@ export class LoginComponent implements OnInit {
             class: "fas fa-key",
           },
           required: true,
-          minLength: 8,
+          minLength: environment.minPasswordLength,
         },
       });
       this.fields.push({
