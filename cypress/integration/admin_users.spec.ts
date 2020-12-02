@@ -55,7 +55,7 @@ describe("AdminUsers", () => {
         " characters"
     );
 
-    cy.get("@password").clear().type("looooong");
+    cy.get("@password").clear().type(cy.getpassword(4));
     cy.get("@name").clear().type("SampleName");
     cy.get("@surname").clear().type("SampleSurname");
 

@@ -92,12 +92,8 @@ describe("AdminUsers", () => {
     cy.get("datatable-body-row")
       .first()
       .contains("datatable-body-cell", "_TestGroup");
-    cy.get("datatable-body-row")
-      .last()
-      .contains("datatable-body-cell", "_TestGroup")
-      .should("not.exist");
 
-    // Sort by shortname again, _TestGroup is now the last
+    // Sort by shortname again, _TestGroup is no longer the first
     cy.get("span.datatable-header-cell-label")
       .contains("Shortname")
       .click({ force: true });
@@ -105,10 +101,6 @@ describe("AdminUsers", () => {
       .first()
       .contains("datatable-body-cell", "_TestGroup")
       .should("not.exist");
-
-    cy.get("datatable-body-row")
-      .last()
-      .contains("datatable-body-cell", "_TestGroup");
   });
 
   it("Modify group", () => {

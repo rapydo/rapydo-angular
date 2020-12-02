@@ -54,8 +54,8 @@ describe("Registration", () => {
           " characters"
       );
 
-      cy.get("@password").clear().type("12345678");
-      cy.get("@confirmation").clear().type("23456789");
+      cy.get("@password").clear().type(cy.getpassword(4));
+      cy.get("@confirmation").clear().type(cy.getpassword(4));
       cy.checkvalidation(1, "Password not matching");
 
       cy.get("@submit").click({ force: true });
@@ -106,7 +106,7 @@ describe("Registration", () => {
       cy.get("@submit").click({ force: true });
 
       // Validation is now ok, but sending an already existing user as username
-      let newPassword = "looooong";
+      let newPassword = cy.getpassword(1);
       cy.get("@email").clear().type(Cypress.env("AUTH_DEFAULT_USERNAME"));
       cy.get("@password").clear().type(newPassword);
       cy.get("@confirmation").clear().type(newPassword);
@@ -124,28 +124,28 @@ describe("Registration", () => {
       cy.checkalert("Password is too weak, missing upper case letters");
 
       // Failures on password validation: missing lower case letters
-      newPassword = "LOOOOONG";
+      newPassword = newPassword.toUpperCase();
       cy.get("@password").clear().type(newPassword);
       cy.get("@confirmation").clear().type(newPassword);
       cy.get("@submit").click({ force: true });
       cy.checkalert("Password is too weak, missing lower case letters");
 
       // Failures on password validation: missing numbers
-      newPassword = "LoOoOoNg";
+      newPassword = cy.getpassword(2);
       cy.get("@password").clear().type(newPassword);
       cy.get("@confirmation").clear().type(newPassword);
       cy.get("@submit").click({ force: true });
       cy.checkalert("Password is too weak, missing numbers");
 
       // Failures on password validation: missing numbers
-      newPassword = "LoO0OoNg";
+      newPassword = cy.getpassword(3);
       cy.get("@password").clear().type(newPassword);
       cy.get("@confirmation").clear().type(newPassword);
       cy.get("@submit").click({ force: true });
       cy.checkalert("Password is too weak, missing special characters");
 
       // That's all ok, let's create the user!
-      newPassword = "LoO0OoNg!";
+      newPassword = cy.getpassword(4);
       cy.get("@password").clear().type(newPassword);
       cy.get("@confirmation").clear().type(newPassword);
       cy.get("@submit").click({ force: true });

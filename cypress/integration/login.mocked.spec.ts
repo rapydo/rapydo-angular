@@ -151,23 +151,26 @@ describe("Mocked logins", () => {
     cy.get("button").contains("Change").click();
     cy.checkalert("The new password cannot match the previous password");
 
-    cy.get("@new_pwd").clear().type("loooooooong");
-    cy.get("@pwd_confirm").clear().type("loooooooong");
+    let pwd = cy.getpassword(1);
+    cy.get("@new_pwd").clear().type(pwd);
+    cy.get("@pwd_confirm").clear().type(pwd);
     cy.get("button").contains("Change").click();
     cy.checkalert("Password is too weak, missing upper case letters");
 
-    cy.get("@new_pwd").clear().type("LOOOOONG");
-    cy.get("@pwd_confirm").clear().type("LOOOOONG");
+    cy.get("@new_pwd").clear().type(pwd.toUpperCase());
+    cy.get("@pwd_confirm").clear().type(pwd.toUpperCase());
     cy.get("button").contains("Change").click();
     cy.checkalert("Password is too weak, missing lower case letters");
 
-    cy.get("@new_pwd").clear().type("LoOoOoNg");
-    cy.get("@pwd_confirm").clear().type("LoOoOoNg");
+    pwd = cy.getpassword(2);
+    cy.get("@new_pwd").clear().type(pwd);
+    cy.get("@pwd_confirm").clear().type(pwd);
     cy.get("button").contains("Change").click();
     cy.checkalert("Password is too weak, missing numbers");
 
-    cy.get("@new_pwd").clear().type("LoO0OoNg");
-    cy.get("@pwd_confirm").clear().type("LoO0OoNg");
+    pwd = cy.getpassword(3);
+    cy.get("@new_pwd").clear().type(pwd);
+    cy.get("@pwd_confirm").clear().type(pwd);
     cy.get("button").contains("Change").click();
     cy.checkalert("Password is too weak, missing special characters");
 
@@ -234,23 +237,26 @@ describe("Mocked logins", () => {
     cy.get("button").contains("Change").click();
     cy.checkalert("The new password cannot match the previous password");
 
-    cy.get("@new_pwd").clear().type("loooooooong");
-    cy.get("@pwd_confirm").clear().type("loooooooong");
+    let pwd = cy.getpassword(1);
+    cy.get("@new_pwd").clear().type(pwd);
+    cy.get("@pwd_confirm").clear().type(pwd);
     cy.get("button").contains("Change").click();
     cy.checkalert("Password is too weak, missing upper case letters");
 
-    cy.get("@new_pwd").clear().type("LOOOOONG");
-    cy.get("@pwd_confirm").clear().type("LOOOOONG");
+    cy.get("@new_pwd").clear().type(pwd.toUpperCase());
+    cy.get("@pwd_confirm").clear().type(pwd.toUpperCase());
     cy.get("button").contains("Change").click();
     cy.checkalert("Password is too weak, missing lower case letters");
 
-    cy.get("@new_pwd").clear().type("LoOoOoNg");
-    cy.get("@pwd_confirm").clear().type("LoOoOoNg");
+    pwd = cy.getpassword(2);
+    cy.get("@new_pwd").clear().type(pwd);
+    cy.get("@pwd_confirm").clear().type(pwd);
     cy.get("button").contains("Change").click();
     cy.checkalert("Password is too weak, missing numbers");
 
-    cy.get("@new_pwd").clear().type("LoO0OoNg");
-    cy.get("@pwd_confirm").clear().type("LoO0OoNg");
+    pwd = cy.getpassword(3);
+    cy.get("@new_pwd").clear().type(pwd);
+    cy.get("@pwd_confirm").clear().type(pwd);
     cy.get("button").contains("Change").click();
     cy.checkalert("Password is too weak, missing special characters");
 

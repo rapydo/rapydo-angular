@@ -3,7 +3,7 @@
 
 describe("ChangePassword", () => {
   const email = "aaaaaaaaaa000111@sample.org";
-  let pwd = "Looooong1!";
+  let pwd = cy.getpassword(4);
 
   beforeEach(() => {
     cy.login();
