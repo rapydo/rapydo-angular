@@ -227,6 +227,8 @@ describe("Registration", () => {
         .clear()
         .type(newPassword + "{enter}");
 
+      cy.wait("@login2");
+
       if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === "True") {
         cy.get("div.card-header")
           .should("have.class", "bg-warning")
@@ -235,6 +237,8 @@ describe("Registration", () => {
 
         cy.checkalert("Please change your temporary password");
 
+        cy.intercept("POST", "/auth/login").as("login3");
+
         cy.get('input[placeholder="Your new password"]')
           .clear()
           .type(newPassword + "!");
@@ -242,9 +246,9 @@ describe("Registration", () => {
           .clear()
           .type(newPassword + "!");
         cy.get('button:contains("Change")').click({ force: true });
-      }
 
-      cy.wait("@login2");
+        cy.wait("@login3");
+      }
 
       cy.visit("/app/profile");
 

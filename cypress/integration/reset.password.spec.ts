@@ -75,9 +75,7 @@ describe("ResetPassword", () => {
         let re = /.*https?:\/\/.*\/reset\/(.*)$/;
         var token = body.match(re);
 
-        cy.intercept("PUT", /\/auth\/reset\/.*/).as("validate2");
         cy.visit("/public/reset/" + token[1]);
-        cy.wait("@validate2");
 
         cy.get("div.card-header h4").contains("Change your password");
 
@@ -142,9 +140,9 @@ describe("ResetPassword", () => {
         cy.get("div.card-header h4").contains("Login");
 
         // then test again the reset link to confirm the invalidation
-        cy.intercept("PUT", "/auth/reset/" + token[1]).as("validate3");
+        cy.intercept("PUT", "/auth/reset/" + token[1]).as("validate2");
         cy.visit("/public/reset/" + token[1]);
-        cy.wait("@validate3");
+        cy.wait("@validate2");
 
         cy.get("div.card-header h4").contains("Invalid request");
         cy.get("div.card-block").contains("Invalid reset token");
