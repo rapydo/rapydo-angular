@@ -79,7 +79,7 @@ describe("ResetPassword", () => {
 
         // h4 is changed after a while. Without a wait the check will get the default
         // should be solved by setting a spinner before deciding which h4 to show on the page
-        cy.wait(300);
+        cy.wait(400);
 
         cy.get("div.card-header h4").contains("Change your password");
 
@@ -148,7 +148,7 @@ describe("ResetPassword", () => {
 
         // h4 is changed after a while. Without a wait the check will get the default
         // should be solved by setting a spinner before deciding which h4 to show on the page
-        cy.wait(300);
+        cy.wait(400);
 
         cy.get("div.card-header h4").contains("Invalid request");
         cy.get("div.card-block").contains("Invalid reset token");
