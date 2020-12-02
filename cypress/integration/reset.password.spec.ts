@@ -19,7 +19,11 @@ describe("ResetPassword", () => {
       cy.closecookielaw();
 
       cy.get('a:contains("Click here")').click();
-      cy.wait(200);
+
+      cy.location().should((location) => {
+        expect(location.pathname).to.eq("/public/reset");
+      });
+
       cy.get("div.card-header h4").contains("Reset your password");
 
       cy.visit("/public/reset");
@@ -44,29 +48,35 @@ describe("ResetPassword", () => {
         "Sorry, invalid@sample.com is not recognized as a valid username"
       );
 
+      cy.intercept("POST", "/auth/reset").as("reset");
+
       cy.get("@email").clear().type(email);
       cy.get("button:contains('Submit request')").click();
 
-      // APIs can respond in a long time (receive the request, validate the email, create the token, send the email...)
-      cy.wait(1000);
+      cy.wait("@reset");
 
       cy.get("div.card-header h4").contains("Reset your password");
       cy.get("div.card-block").contains(
         "We'll send instructions to the email provided if it's associated with an account. Please check your spam/junk folder."
       );
 
+      cy.intercept("PUT", "/auth/reset/token-received-by-email").as("validate");
+
       cy.visit("/public/reset/token-received-by-email");
-      // The page is modified after a short time, after the token is validated
-      cy.wait(500);
+
+      cy.wait("@validate");
+
       cy.get("div.card-header h4").contains("Invalid request");
       cy.get("div.card-block").contains("Invalid reset token");
 
       cy.getmail().then((body) => {
         let re = /.*https?:\/\/.*\/reset\/(.*)$/;
         var token = body.match(re);
-        cy.visit("/public/reset/" + token[1]);
 
-        cy.wait(1000);
+        cy.intercept("PUT", "/auth/reset/" + token[1]).as("validate");
+        cy.visit("/public/reset/" + token[1]);
+        cy.wait("@validate");
+
         cy.get("div.card-header h4").contains("Change your password");
 
         cy.get("button:contains('Submit')").click();
@@ -130,13 +140,16 @@ describe("ResetPassword", () => {
         cy.get("div.card-header h4").contains("Login");
 
         // then test again the reset link to confirm the invalidation
+        cy.intercept("PUT", "/auth/reset/" + token[1]).as("validate");
         cy.visit("/public/reset/" + token[1]);
-        cy.wait(1000);
+        cy.wait("@validate");
+
         cy.get("div.card-header h4").contains("Invalid request");
         cy.get("div.card-block").contains("Invalid reset token");
         cy.checkalert("Invalid reset token");
 
         cy.visit("/app/login");
+        cy.intercept("POST", "/auth/login").as("login");
         cy.get("input[placeholder='Your username (email)']")
           .clear()
           .type(email);
@@ -144,9 +157,7 @@ describe("ResetPassword", () => {
           .clear()
           .type(newPassword + "{enter}");
 
-        // After the notification an asynchronous call is executed to login with the new credentials
-        // Let's wait a bit to prevent to continue before the call is executed
-        cy.wait(1000);
+        cy.wait("@login");
 
         cy.visit("/app/profile");
         cy.location().should((location) => {

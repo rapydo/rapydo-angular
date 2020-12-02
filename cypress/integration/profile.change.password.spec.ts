@@ -3,7 +3,7 @@
 
 describe("ChangePassword", () => {
   const email = "aaaaaaaaaa000111@sample.org";
-  let pwd = "Looooong!";
+  let pwd = "Looooong1!";
 
   beforeEach(() => {
     cy.login();
@@ -23,7 +23,6 @@ describe("ChangePassword", () => {
     cy.get("input[placeholder='Your password']").clear().type(pwd);
     cy.get("button").contains("Login").click();
 
-    // Wait login to complete
     cy.wait("@login");
 
     if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === "True") {
@@ -140,9 +139,9 @@ describe("ChangePassword", () => {
     cy.intercept("PUT", "/auth/profile").as("changed");
 
     cy.get("button:contains('Submit')").click();
-    cy.checkalert("Password successfully changed");
 
     cy.wait("@changed");
+    cy.checkalert("Password successfully changed");
 
     cy.visit("/app/profile");
     cy.location().should((location) => {

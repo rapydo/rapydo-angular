@@ -154,6 +154,8 @@ describe("Registration", () => {
 
       cy.visit("/app/login");
 
+      cy.intercept("POST", "/auth/login").as("login");
+
       cy.get("input[placeholder='Your username (email)']")
         .clear()
         .type(newUser);
@@ -161,7 +163,8 @@ describe("Registration", () => {
         .clear()
         .type(newPassword + "{enter}");
 
-      cy.wait(1500);
+      cy.wait("@login");
+
       cy.get("div.card-header h4").contains("This account is not active");
       cy.get("div.card-block").contains("Didn't receive an activation link?");
 
@@ -210,6 +213,8 @@ describe("Registration", () => {
 
       cy.visit("/app/login");
 
+      cy.intercept("POST", "/auth/login").as("login");
+
       cy.get("input[placeholder='Your username (email)']")
         .clear()
         .type(newUser);
@@ -234,9 +239,7 @@ describe("Registration", () => {
         cy.get('button:contains("Change")').click({ force: true });
       }
 
-      // Prevent the login call to be cancelled
-      // if response arrives too late and visit already changed the page
-      cy.wait(1500);
+      cy.wait("@login");
 
       cy.visit("/app/profile");
 
@@ -254,9 +257,11 @@ describe("Registration", () => {
         "Permission denied: you are not authorized to access this page"
       );
 
+      cy.intercept("GET", "/auth/logout").as("logout");
+
       cy.logout();
 
-      cy.wait(2000);
+      cy.wait("@logout");
 
       // Login as admin to delete the user
       cy.login();

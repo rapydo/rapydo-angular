@@ -43,16 +43,12 @@ Cypress.Commands.add("closecookielaw", () => {
   cy.get("cookie-law").within((el) => {
     cy.root().should("have.attr", "seen", "false");
 
-    cy.contains(
-      "We uses cookies to ensure you get the best experience on our website"
-    );
-    // Close the cookie law banner
-    cy.get('button:contains("Ok, got it")').click();
+    cy.get("div.cookie-law-wrapper").find("button").click();
   });
 });
 
 Cypress.Commands.add("checkalert", (msg) => {
-  cy.wait(200);
+  // cy.wait(200);
   cy.get("div[role=alertdialog]").contains(msg).click({ force: true });
 });
 

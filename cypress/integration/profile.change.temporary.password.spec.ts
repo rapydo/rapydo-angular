@@ -3,7 +3,7 @@
 
 if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === "True") {
   const email = "aaaaaaaaaa000112@sample.org";
-  const pwd = "Looooong!";
+  const pwd = "Looooong1!";
 
   describe("ChangeTemporaryPassword", () => {
     beforeEach(() => {
