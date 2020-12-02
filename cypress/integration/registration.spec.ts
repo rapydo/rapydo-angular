@@ -154,7 +154,7 @@ describe("Registration", () => {
 
       cy.visit("/app/login");
 
-      cy.intercept("POST", "/auth/login").as("login");
+      cy.intercept("POST", "/auth/login").as("login1");
 
       cy.get("input[placeholder='Your username (email)']")
         .clear()
@@ -163,7 +163,7 @@ describe("Registration", () => {
         .clear()
         .type(newPassword + "{enter}");
 
-      cy.wait("@login");
+      cy.wait("@login1");
 
       // h4 is changed after a while. Without a wait the check will get the previous
       // div.card-header h4 == Login
@@ -218,7 +218,7 @@ describe("Registration", () => {
 
       cy.visit("/app/login");
 
-      cy.intercept("POST", "/auth/login").as("login");
+      cy.intercept("POST", "/auth/login").as("login2");
 
       cy.get("input[placeholder='Your username (email)']")
         .clear()
@@ -244,7 +244,7 @@ describe("Registration", () => {
         cy.get('button:contains("Change")').click({ force: true });
       }
 
-      cy.wait("@login");
+      cy.wait("@login2");
 
       cy.visit("/app/profile");
 
@@ -262,11 +262,7 @@ describe("Registration", () => {
         "Permission denied: you are not authorized to access this page"
       );
 
-      cy.intercept("GET", "/auth/logout").as("logout");
-
       cy.logout();
-
-      cy.wait("@logout");
 
       // Login as admin to delete the user
       cy.login();

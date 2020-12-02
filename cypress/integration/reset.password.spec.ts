@@ -75,7 +75,7 @@ describe("ResetPassword", () => {
         let re = /.*https?:\/\/.*\/reset\/(.*)$/;
         var token = body.match(re);
 
-        cy.intercept("PUT", "/auth/reset/" + token[1]).as("validate2");
+        cy.intercept("PUT", /\/auth\/reset\/.*/).as("validate2");
         cy.visit("/public/reset/" + token[1]);
         cy.wait("@validate2");
 
