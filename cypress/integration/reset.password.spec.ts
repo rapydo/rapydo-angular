@@ -1,6 +1,8 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
+import { getpassword } from "../utilities";
+
 describe("ResetPassword", () => {
   if (Cypress.env("ALLOW_PASSWORD_RESET")) {
     const email = "aaaaaaaaaa000222@sample.org";
@@ -8,7 +10,7 @@ describe("ResetPassword", () => {
     beforeEach(() => {
       cy.login();
 
-      cy.createuser(email, "Looooong!");
+      cy.createuser(email, getpassword(4));
 
       cy.logout();
     });
