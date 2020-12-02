@@ -51,7 +51,7 @@ let allowRegistration = process.env.ALLOW_REGISTRATION.toLowerCase() === "true";
 let allowPasswordReset =
   process.env.ALLOW_PASSWORD_RESET.toLowerCase() === "true";
 let allowTermsOfUse = process.env.ALLOW_TERMS_OF_USE.toLowerCase() === "true";
-let minPasswordLength = parseInt(process.env.AUTH_MIN_PASSWORD_LENGTH);
+let minPasswordLength = process.env.AUTH_MIN_PASSWORD_LENGTH;
 let SENTRY_URL = process.env.SENTRY_URL;
 let GA_TRACKING_CODE = process.env.GA_TRACKING_CODE;
 
