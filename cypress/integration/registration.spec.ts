@@ -217,7 +217,7 @@ describe("Registration", () => {
         .clear()
         .type(newPassword + "{enter}");
 
-      if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE")) {
+      if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") == "True") {
         cy.get("div.card-header")
           .should("have.class", "bg-warning")
           .find("h4")

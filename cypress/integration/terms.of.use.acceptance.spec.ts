@@ -28,7 +28,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
         .clear()
         .type(pwd + "{enter}");
 
-      if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE")) {
+      if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") == "True") {
         cy.get("div.card-header")
           .should("have.class", "bg-warning")
           .find("h4")
@@ -111,8 +111,6 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
       cy.login();
 
       cy.visit("/app/admin/users");
-
-      const username = "bbb000@sample.org";
 
       cy.deleteuser(username);
     });

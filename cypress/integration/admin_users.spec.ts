@@ -2,6 +2,10 @@
 /*global cy, Cypress*/
 
 describe("AdminUsers", () => {
+  // with this email the user should be the first when sorted by email
+  // username will be created without roles
+  const username = "a000000000000@sample.org";
+
   beforeEach(() => {
     cy.login();
 
@@ -15,10 +19,6 @@ describe("AdminUsers", () => {
   });
 
   it("Create new user", () => {
-    // with this email the user should be the first when sorted by email
-    // username will be created without roles
-    const username = "a000000000000@sample.org";
-
     cy.get('button:contains("new user")').click({ force: true });
     cy.get('button:contains("Close")').click({ force: true });
 
@@ -100,8 +100,6 @@ describe("AdminUsers", () => {
   });
 
   it("Search and sort user", () => {
-    const username = "a000000000000@sample.org";
-
     cy.get('input[placeholder="Type to filter users"]').as("search");
 
     cy.get("datatable-body-row").its("length").should("be.gt", 1);
@@ -154,8 +152,6 @@ describe("AdminUsers", () => {
   });
 
   it("Modify user", () => {
-    const username = "a000000000000@sample.org";
-
     cy.get('input[placeholder="Type to filter users"]').as("search");
 
     cy.get("@search").clear().type(username);
@@ -192,7 +188,6 @@ describe("AdminUsers", () => {
   });
 
   it("Delete user", () => {
-    const username = "a000000000000@sample.org";
     cy.get('input[placeholder="Type to filter users"]').as("search");
 
     cy.get("@search").clear().type(username);

@@ -1,13 +1,13 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE")) {
+if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") == "True") {
+  const email = "aaaaaaaaaa000112@sample.org";
+  const pwd = "Looooong!";
+
   describe("ChangeTemporaryPassword", () => {
     beforeEach(() => {
       cy.login();
-
-      const email = "aaaaaaaaaa000112@sample.org";
-      const pwd = "Looooong!";
 
       cy.createuser(email, pwd);
 
@@ -15,9 +15,6 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE")) {
     });
 
     it("ChangeTemporaryPassword", () => {
-      const email = "aaaaaaaaaa000112@sample.org";
-      const pwd = "Looooong!";
-
       cy.get("input[placeholder='Your username (email)']").clear().type(email);
       cy.get("input[placeholder='Your password']")
         .clear()
@@ -91,7 +88,7 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE")) {
       cy.logout();
 
       cy.login();
-      cy.deleteuser("aaaaaaaaaa000112@sample.org");
+      cy.deleteuser(email);
     });
   });
 }

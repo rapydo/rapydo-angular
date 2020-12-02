@@ -3,11 +3,11 @@
 
 describe("ResetPassword", () => {
   if (Cypress.env("ALLOW_PASSWORD_RESET")) {
+    const email = "aaaaaaaaaa000222@sample.org";
+    const pwd = "Looooong!";
+
     beforeEach(() => {
       cy.login();
-
-      const email = "aaaaaaaaaa000222@sample.org";
-      const pwd = "Looooong!";
 
       cy.createuser(email, pwd);
 
@@ -15,9 +15,6 @@ describe("ResetPassword", () => {
     });
 
     it("Reset", () => {
-      const email = "aaaaaaaaaa000222@sample.org";
-      const pwd = "Looooong!";
-
       cy.visit("/app/login");
       cy.closecookielaw();
 
@@ -168,7 +165,7 @@ describe("ResetPassword", () => {
       cy.logout();
 
       cy.login();
-      cy.deleteuser("aaaaaaaaaa000222@sample.org");
+      cy.deleteuser(email);
     });
   }
 });

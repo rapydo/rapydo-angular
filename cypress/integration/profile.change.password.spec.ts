@@ -2,14 +2,14 @@
 /*global cy, Cypress*/
 
 describe("ChangePassword", () => {
+  const email = "aaaaaaaaaa000111@sample.org";
+  let pwd = "Looooong!";
+
   beforeEach(() => {
-    cy.login();
-
-    const email = "aaaaaaaaaa000111@sample.org";
-    const pwd = "Looooong!";
-
     cy.visit("/app/login");
     cy.closecookielaw();
+
+    cy.login();
 
     cy.createuser(email, pwd);
 
@@ -17,16 +17,13 @@ describe("ChangePassword", () => {
   });
 
   it("ChangePassword", () => {
-    const email = "aaaaaaaaaa000111@sample.org";
-    let pwd = "Looooong!";
-
     cy.visit("/app/login");
 
     cy.get("input[placeholder='Your username (email)']").clear().type(username);
     cy.get("input[placeholder='Your password']").clear().type(pwd);
     cy.get("button").contains("Login").click();
 
-    if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE")) {
+    if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") == "True") {
       cy.get("div.card-header")
         .should("have.class", "bg-warning")
         .find("h4")
@@ -150,6 +147,6 @@ describe("ChangePassword", () => {
     cy.logout();
 
     cy.login();
-    cy.deleteuser("aaaaaaaaaa000111@sample.org");
+    cy.deleteuser(email);
   });
 });
