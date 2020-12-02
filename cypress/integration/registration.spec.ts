@@ -1,6 +1,8 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
+import { getpassword } from "../utilities";
+
 describe("Registration", () => {
   if (Cypress.env("ALLOW_REGISTRATION")) {
     it("Registration", () => {
@@ -54,8 +56,8 @@ describe("Registration", () => {
           " characters"
       );
 
-      cy.get("@password").clear().type(cy.getpassword(4));
-      cy.get("@confirmation").clear().type(cy.getpassword(4));
+      cy.get("@password").clear().type(getpassword(4));
+      cy.get("@confirmation").clear().type(getpassword(4));
       cy.checkvalidation(1, "Password not matching");
 
       cy.get("@submit").click({ force: true });
@@ -106,7 +108,7 @@ describe("Registration", () => {
       cy.get("@submit").click({ force: true });
 
       // Validation is now ok, but sending an already existing user as username
-      let newPassword = cy.getpassword(1);
+      let newPassword = getpassword(1);
       cy.get("@email").clear().type(Cypress.env("AUTH_DEFAULT_USERNAME"));
       cy.get("@password").clear().type(newPassword);
       cy.get("@confirmation").clear().type(newPassword);
@@ -131,21 +133,21 @@ describe("Registration", () => {
       cy.checkalert("Password is too weak, missing lower case letters");
 
       // Failures on password validation: missing numbers
-      newPassword = cy.getpassword(2);
+      newPassword = getpassword(2);
       cy.get("@password").clear().type(newPassword);
       cy.get("@confirmation").clear().type(newPassword);
       cy.get("@submit").click({ force: true });
       cy.checkalert("Password is too weak, missing numbers");
 
       // Failures on password validation: missing numbers
-      newPassword = cy.getpassword(3);
+      newPassword = getpassword(3);
       cy.get("@password").clear().type(newPassword);
       cy.get("@confirmation").clear().type(newPassword);
       cy.get("@submit").click({ force: true });
       cy.checkalert("Password is too weak, missing special characters");
 
       // That's all ok, let's create the user!
-      newPassword = cy.getpassword(4);
+      newPassword = getpassword(4);
       cy.get("@password").clear().type(newPassword);
       cy.get("@confirmation").clear().type(newPassword);
       cy.get("@submit").click({ force: true });

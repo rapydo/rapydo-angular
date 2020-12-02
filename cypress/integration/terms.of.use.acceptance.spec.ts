@@ -1,10 +1,12 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
+import { getpassword } from "../utilities";
+
 if (Cypress.env("ALLOW_TERMS_OF_USE")) {
   describe("Terms of use", () => {
     const username = "bbb000@sample.org";
-    let pwd = cy.getpassword(4);
+    let pwd = getpassword(4);
 
     before(() => {
       cy.login();

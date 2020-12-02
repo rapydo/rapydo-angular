@@ -1,6 +1,8 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
+import { getpassword } from "../utilities";
+
 describe("Mocked logins", () => {
   beforeEach(() => {
     cy.visit("/app/login");
@@ -151,7 +153,7 @@ describe("Mocked logins", () => {
     cy.get("button").contains("Change").click();
     cy.checkalert("The new password cannot match the previous password");
 
-    let pwd = cy.getpassword(1);
+    let pwd = getpassword(1);
     cy.get("@new_pwd").clear().type(pwd);
     cy.get("@pwd_confirm").clear().type(pwd);
     cy.get("button").contains("Change").click();
@@ -162,13 +164,13 @@ describe("Mocked logins", () => {
     cy.get("button").contains("Change").click();
     cy.checkalert("Password is too weak, missing lower case letters");
 
-    pwd = cy.getpassword(2);
+    pwd = getpassword(2);
     cy.get("@new_pwd").clear().type(pwd);
     cy.get("@pwd_confirm").clear().type(pwd);
     cy.get("button").contains("Change").click();
     cy.checkalert("Password is too weak, missing numbers");
 
-    pwd = cy.getpassword(3);
+    pwd = getpassword(3);
     cy.get("@new_pwd").clear().type(pwd);
     cy.get("@pwd_confirm").clear().type(pwd);
     cy.get("button").contains("Change").click();
@@ -237,7 +239,7 @@ describe("Mocked logins", () => {
     cy.get("button").contains("Change").click();
     cy.checkalert("The new password cannot match the previous password");
 
-    let pwd = cy.getpassword(1);
+    let pwd = getpassword(1);
     cy.get("@new_pwd").clear().type(pwd);
     cy.get("@pwd_confirm").clear().type(pwd);
     cy.get("button").contains("Change").click();
@@ -248,13 +250,13 @@ describe("Mocked logins", () => {
     cy.get("button").contains("Change").click();
     cy.checkalert("Password is too weak, missing lower case letters");
 
-    pwd = cy.getpassword(2);
+    pwd = getpassword(2);
     cy.get("@new_pwd").clear().type(pwd);
     cy.get("@pwd_confirm").clear().type(pwd);
     cy.get("button").contains("Change").click();
     cy.checkalert("Password is too weak, missing numbers");
 
-    pwd = cy.getpassword(3);
+    pwd = getpassword(3);
     cy.get("@new_pwd").clear().type(pwd);
     cy.get("@pwd_confirm").clear().type(pwd);
     cy.get("button").contains("Change").click();

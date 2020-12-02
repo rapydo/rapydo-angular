@@ -1,9 +1,11 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
+import { getpassword } from "../utilities";
+
 describe("ChangePassword", () => {
   const email = "aaaaaaaaaa000111@sample.org";
-  let pwd = cy.getpassword(4);
+  let pwd = getpassword(4);
 
   beforeEach(() => {
     cy.login();

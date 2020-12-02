@@ -1,6 +1,8 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
+import { getpassword } from "../utilities";
+
 describe("AdminUsers", () => {
   // with this email the user should be the first when sorted by email
   // username will be created without roles
@@ -55,7 +57,7 @@ describe("AdminUsers", () => {
         " characters"
     );
 
-    cy.get("@password").clear().type(cy.getpassword(4));
+    cy.get("@password").clear().type(getpassword(4));
     cy.get("@name").clear().type("SampleName");
     cy.get("@surname").clear().type("SampleSurname");
 
