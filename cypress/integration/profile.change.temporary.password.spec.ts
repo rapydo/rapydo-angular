@@ -1,7 +1,7 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") == "True") {
+if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === "True") {
   const email = "aaaaaaaaaa000112@sample.org";
   const pwd = "Looooong!";
 

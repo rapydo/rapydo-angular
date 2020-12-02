@@ -19,11 +19,11 @@ describe("ChangePassword", () => {
   it("ChangePassword", () => {
     cy.visit("/app/login");
 
-    cy.get("input[placeholder='Your username (email)']").clear().type(username);
+    cy.get("input[placeholder='Your username (email)']").clear().type(email);
     cy.get("input[placeholder='Your password']").clear().type(pwd);
     cy.get("button").contains("Login").click();
 
-    if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") == "True") {
+    if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === "True") {
       cy.get("div.card-header")
         .should("have.class", "bg-warning")
         .find("h4")

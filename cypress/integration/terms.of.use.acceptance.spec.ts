@@ -28,7 +28,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
         .clear()
         .type(pwd + "{enter}");
 
-      if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") == "True") {
+      if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === "True") {
         cy.get("div.card-header")
           .should("have.class", "bg-warning")
           .find("h4")
