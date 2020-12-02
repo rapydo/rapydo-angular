@@ -8,9 +8,10 @@ describe("ChangePassword", () => {
     const email = "aaaaaaaaaa000111@sample.org";
     const pwd = "Looooong!";
 
-    cy.createuser(email, pwd);
-
+    cy.visit("/app/login");
     cy.closecookielaw();
+
+    cy.createuser(email, pwd);
 
     cy.logout();
   });
@@ -22,14 +23,14 @@ describe("ChangePassword", () => {
     cy.visit("/app/login");
 
     cy.get("input[placeholder='Your username (email)']").clear().type(username);
-    cy.get("input[placeholder='Your password']")
-      .clear()
-      .type(pwd + "{enter}");
+    cy.get("input[placeholder='Your password']").clear().type(pwd);
+    cy.get("button").contains("Login").click();
 
     if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE")) {
-      cy.get("div.card-header h4").contains(
-        "Please change your temporary password"
-      );
+      cy.get("div.card-header")
+        .should("have.class", "bg-warning")
+        .find("h4")
+        .contains("Please change your temporary password");
 
       pwd = pwd + "!";
 

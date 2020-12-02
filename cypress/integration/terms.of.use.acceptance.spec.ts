@@ -29,9 +29,10 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
         .type(pwd + "{enter}");
 
       if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE")) {
-        cy.get("div.card-header h4").contains(
-          "Please change your temporary password"
-        );
+        cy.get("div.card-header")
+          .should("have.class", "bg-warning")
+          .find("h4")
+          .contains("Please change your temporary password");
 
         pwd = pwd + "!";
 
