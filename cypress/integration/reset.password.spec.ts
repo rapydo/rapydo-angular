@@ -77,6 +77,10 @@ describe("ResetPassword", () => {
 
         cy.visit("/public/reset/" + token[1]);
 
+        // h4 is changed after a while. Without a wait the check will get the default
+        // should be solved by setting a spinner before deciding which h4 to show on the page
+        cy.wait(300);
+
         cy.get("div.card-header h4").contains("Change your password");
 
         cy.get("button:contains('Submit')").click();
@@ -140,9 +144,11 @@ describe("ResetPassword", () => {
         cy.get("div.card-header h4").contains("Login");
 
         // then test again the reset link to confirm the invalidation
-        cy.intercept("PUT", "/auth/reset/" + token[1]).as("validate2");
         cy.visit("/public/reset/" + token[1]);
-        cy.wait("@validate2");
+
+        // h4 is changed after a while. Without a wait the check will get the default
+        // should be solved by setting a spinner before deciding which h4 to show on the page
+        cy.wait(300);
 
         cy.get("div.card-header h4").contains("Invalid request");
         cy.get("div.card-block").contains("Invalid reset token");

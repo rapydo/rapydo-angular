@@ -176,7 +176,8 @@ describe("AdminUsers", () => {
       .eq(0)
       .contains("datatable-body-cell", "NewName");
     // The role is still there... because it is the default
-    cy.get("datatable-body-row").eq(0).contains("datatable-body-cell", "User");
+    // This can't work because "User" label can be changed at project level
+    // cy.get("datatable-body-row").eq(0).contains("datatable-body-cell", "User");
 
     // Restore previous value
     cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
