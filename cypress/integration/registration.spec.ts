@@ -1,7 +1,7 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword } from "../utilities";
+import { getpassword } from "../../utilities";
 
 describe("Registration", () => {
   if (Cypress.env("ALLOW_REGISTRATION")) {
