@@ -1,31 +1,47 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-describe("Terms of use", () => {
-  before(() => {
-    cy.login();
-
-    cy.visit("/app/admin/users");
-
-    cy.closecookielaw();
-
-    cy.createuser("bbb000@sample.org", "looooong");
-
-    cy.logout();
-  });
-
-  beforeEach(() => {
+if (Cypress.env("ALLOW_TERMS_OF_USE")) {
+  describe("Terms of use", () => {
     const username = "bbb000@sample.org";
-    cy.visit("/app/login");
+    let pwd = "looooong";
 
-    cy.get("input[placeholder='Your username (email)']").clear().type(username);
-    cy.get("input[placeholder='Your password']")
-      .clear()
-      .type("looooong{enter}");
-  });
+    before(() => {
+      cy.login();
 
-  if (Cypress.env("ALLOW_TERMS_OF_USE")) {
+      cy.visit("/app/admin/users");
+
+      cy.closecookielaw();
+
+      cy.createuser(username, pwd);
+
+      cy.logout();
+    });
+
     it("Terms of Use - not accepted", () => {
+      cy.visit("/app/login");
+
+      cy.get("input[placeholder='Your username (email)']")
+        .clear()
+        .type(username);
+      cy.get("input[placeholder='Your password']")
+        .clear()
+        .type(pwd + "{enter}");
+
+      if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE")) {
+        cy.get(".card-header h4").contains(
+          "Please change your temporary password"
+        );
+
+        pwd = pwd + "!";
+
+        cy.get('input[placeholder="Your new password"]').clear().type(pwd);
+        cy.get('input[placeholder="Confirm your new password"]')
+          .clear()
+          .type(pwd);
+        cy.get('button:contains("Change")').click({ force: true });
+      }
+
       cy.get("div.modal-header h4.modal-title").contains("Terms of use");
 
       cy.get("div.modal-footer h4").contains(
@@ -41,6 +57,15 @@ describe("Terms of use", () => {
     });
 
     it("Terms of Use - accepted", () => {
+      cy.visit("/app/login");
+
+      cy.get("input[placeholder='Your username (email)']")
+        .clear()
+        .type(username);
+      cy.get("input[placeholder='Your password']")
+        .clear()
+        .type(pwd + "{enter}");
+
       cy.get("div.modal-header h4.modal-title").contains("Terms of use");
 
       cy.get("div.modal-footer h4").contains(
@@ -57,6 +82,15 @@ describe("Terms of use", () => {
     });
 
     it("Terms of Use - already accepted", () => {
+      cy.visit("/app/login");
+
+      cy.get("input[placeholder='Your username (email)']")
+        .clear()
+        .type(username);
+      cy.get("input[placeholder='Your password']")
+        .clear()
+        .type(pwd + "{enter}");
+
       cy.location().should((location) => {
         expect(location.pathname).to.not.equal("/app/login");
       });
@@ -69,23 +103,17 @@ describe("Terms of use", () => {
         .parent()
         .find(".fa-check");
     });
-  } else {
-    it("Terms of Use not enabled", () => {
-      cy.location().should((location) => {
-        expect(location.pathname).to.not.equal("/app/login");
-      });
+
+    after(() => {
+      cy.logout();
+
+      cy.login();
+
+      cy.visit("/app/admin/users");
+
+      const username = "bbb000@sample.org";
+
+      cy.deleteuser(username);
     });
-  }
-
-  after(() => {
-    cy.logout();
-
-    cy.login();
-
-    cy.visit("/app/admin/users");
-
-    const username = "bbb000@sample.org";
-
-    cy.deleteuser(username);
   });
-});
+}

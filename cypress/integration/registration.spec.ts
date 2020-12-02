@@ -216,6 +216,20 @@ describe("Registration", () => {
         .clear()
         .type(newPassword + "{enter}");
 
+      if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE")) {
+        cy.get(".card-header h4").contains(
+          "Please change your temporary password"
+        );
+
+        cy.get('input[placeholder="Your new password"]')
+          .clear()
+          .type(newPassword + "!");
+        cy.get('input[placeholder="Confirm your new password"]')
+          .clear()
+          .type(newPassword + "!");
+        cy.get('button:contains("Change")').click({ force: true });
+      }
+
       // Prevent the login call to be cancelled
       // if response arrives too late and visit already changed the page
       cy.wait(1500);
