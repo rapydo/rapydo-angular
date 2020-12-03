@@ -1,3 +1,6 @@
+// This is to silence ESLint about undefined Cypress
+/*global Cypress*/
+
 // type can be:
 //  0 = a super simple password with only a repeated len times
 //  1 = only lower case letters

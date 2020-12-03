@@ -155,6 +155,9 @@ describe("ChangePassword", () => {
 
     cy.get("button:contains('Submit')").click();
 
+    // this is needed to completely removed from the DOM the previous stubbed alert
+    // Otherwise the check will fail because it will refer to the previous one
+    cy.wait(200);
     cy.checkalert("Password successfully changed");
 
     cy.visit("/app/profile");
