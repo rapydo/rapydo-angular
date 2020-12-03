@@ -2,16 +2,20 @@
 /*global cy, Cypress*/
 
 describe("Responsive tests", () => {
+  let expected_collapsed_navbar = false;
   it("iphone-4 portrait", () => {
     cy.viewport(320, 480);
+    expected_collapsed_navbar = true;
   });
 
   it("iphone-4 landscape", () => {
     cy.viewport(480, 320);
+    expected_collapsed_navbar = true;
   });
 
   it("iphone-6 portrait", () => {
     cy.viewport(375, 667);
+    expected_collapsed_navbar = true;
   });
 
   it("iphone-6 landscape", () => {
@@ -105,6 +109,6 @@ describe("Responsive tests", () => {
 
     // search link to access the profile on the navbar
 
-    cy.logout();
+    cy.logout(expected_collapsed_navbar);
   });
 });

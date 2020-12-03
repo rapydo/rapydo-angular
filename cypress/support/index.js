@@ -34,7 +34,10 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
   });
 });
 
-Cypress.Commands.add("logout", () => {
+Cypress.Commands.add("logout", (collapsed = false) => {
+  if (collapsed) {
+    cy.get("button.navbar-toggler").click();
+  }
   cy.get("a").find(".fa-sign-out-alt").parent().click();
   cy.get("button").contains("Confirm").click();
 });
