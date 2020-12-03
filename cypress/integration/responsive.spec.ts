@@ -8,10 +8,10 @@ describe("Responsive tests", () => {
     expected_collapsed_navbar = true;
   });
 
-  it("iphone-4 landscape", () => {
-    cy.viewport(480, 320);
-    expected_collapsed_navbar = true;
-  });
+  // it("iphone-4 landscape", () => {
+  //   cy.viewport(480, 320);
+  //   expected_collapsed_navbar = true;
+  // });
 
   it("iphone-6 portrait", () => {
     cy.viewport(375, 667);
@@ -114,6 +114,8 @@ describe("Responsive tests", () => {
     cy.visit("/app/profile");
     cy.get("div.card-header h4").contains("Your profile");
     // search link to access the profile on the navbar
+
+    cy.scrollTo("top");
 
     cy.logout(expected_collapsed_navbar);
   });
