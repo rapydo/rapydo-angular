@@ -105,8 +105,14 @@ describe("Responsive tests", () => {
     cy.get("input[placeholder='Your password']").type(
       Cypress.env("AUTH_DEFAULT_PASSWORD")
     );
+
+    cy.intercept("POST", "/auth/login").as("login");
     cy.get("button").contains("Login").click();
 
+    cy.wait("@login");
+
+    cy.visit("/app/profile");
+    cy.get("div.card-header h4").contains("Your profile");
     // search link to access the profile on the navbar
 
     cy.logout(expected_collapsed_navbar);
