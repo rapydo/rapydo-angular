@@ -1,9 +1,13 @@
 <div class="container-fluid">
+  <ngx-spinner [fullScreen]="false"></ngx-spinner>
   <div class="row justify-content-md-center">
     <div class="col-12 col-md-8 col-lg-6">
       <!-- 1 -->
 
-      <div class="card" *ngIf="!token && !invalid_token && !reset_message">
+      <div
+        class="card"
+        *ngIf="resetForm && !token && !invalid_token && !reset_message"
+      >
         <div class="card-header">
           <h4>Reset your password</h4>
         </div>
@@ -29,9 +33,7 @@
           <h4>Reset your password</h4>
         </div>
 
-        <div class="card-block">
-          {{reset_message}}
-        </div>
+        <div class="card-block">{{reset_message}}</div>
       </div>
 
       <!-- 3 -->
@@ -41,9 +43,7 @@
           <h4>Invalid request</h4>
         </div>
 
-        <div class="card-block">
-          {{invalid_token}}
-        </div>
+        <div class="card-block">{{invalid_token}}</div>
       </div>
 
       <!-- 4 -->

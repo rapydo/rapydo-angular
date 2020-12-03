@@ -172,12 +172,9 @@ describe("Registration", () => {
 
       cy.wait("@login1");
 
-      // h4 is changed after a while. Without a wait the check will get the previous
-      // div.card-header h4 == Login
-      // should be solved by setting a spinner before deciding which h4 to show on the page
-      cy.wait(400);
-
-      cy.get("div.card-header h4").contains("This account is not active");
+      cy.get("div.card-header.bg-warning h4").contains(
+        "This account is not active"
+      );
       cy.get("div.card-block").contains("Didn't receive an activation link?");
 
       cy.get("a").contains("Click here to send again").click();

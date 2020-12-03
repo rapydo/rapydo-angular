@@ -2,7 +2,7 @@
   <div class="row justify-content-md-center">
     <div class="col-12 col-md-8 col-lg-6">
       <div class="card" *ngIf="accountNotActive">
-        <div class="card-header">
+        <div class="card-header bg-warning">
           <h4>This account is not active</h4>
         </div>
 
@@ -78,9 +78,7 @@
   <div class="modal-body">
     <ngb-accordion [closeOthers]="true">
       <ngb-panel *ngFor="let group of terms_of_use">
-        <ng-template ngbPanelTitle>
-          {{group['label']}}
-        </ng-template>
+        <ng-template ngbPanelTitle> {{group['label']}} </ng-template>
         <ng-template ngbPanelContent>
           <div [innerHTML]="group['text']"></div>
         </ng-template>

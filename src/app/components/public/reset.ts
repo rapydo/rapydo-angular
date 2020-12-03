@@ -13,6 +13,7 @@ import { environment } from "@rapydo/../environments/environment";
   templateUrl: "reset.html",
 })
 export class ResetPasswordComponent implements OnInit {
+  public resetForm: boolean;
   public token: string;
   public invalid_token: string;
   public reset_message: string;
@@ -33,7 +34,9 @@ export class ResetPasswordComponent implements OnInit {
     private authService: AuthService
   ) {
     this.route.params.subscribe((params) => {
-      if (typeof params["token"] !== "undefined") {
+      if (typeof params["token"] === "undefined") {
+        this.resetForm = true;
+      } else {
         this.api.put("/auth/reset/" + params["token"]).subscribe(
           (response) => {
             this.token = params["token"];
