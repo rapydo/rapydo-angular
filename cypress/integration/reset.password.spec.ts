@@ -70,6 +70,10 @@ describe("ResetPassword", () => {
 
       cy.wait("@validate1");
 
+      // h4 is changed after a while. Without a wait the check will get the previous default
+      // should be solved by setting a spinner before deciding which h4 to show on the page
+      cy.wait(400);
+
       cy.get("div.card-header h4").contains("Invalid request");
       cy.get("div.card-block").contains("Invalid reset token");
 

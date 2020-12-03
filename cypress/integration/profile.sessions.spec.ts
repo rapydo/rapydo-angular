@@ -8,8 +8,6 @@ describe("Sessions", () => {
 
     cy.visit("/app/profile/sessions");
 
-    cy.closecookielaw();
-
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/profile/sessions");
     });

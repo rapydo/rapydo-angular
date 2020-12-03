@@ -153,11 +153,8 @@ describe("ChangePassword", () => {
     cy.checkalert("Stubbed change password error");
     cy.server({ enable: false });
 
-    cy.intercept("PUT", "/auth/profile").as("changed");
-
     cy.get("button:contains('Submit')").click();
 
-    cy.wait("@changed");
     cy.checkalert("Password successfully changed");
 
     cy.visit("/app/profile");

@@ -59,6 +59,7 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === "True") {
 
       cy.get("@newpwd").clear().type(newPassword.toUpperCase());
       cy.get("@confirm").clear().type(newPassword.toUpperCase());
+      cy.get("@change").click({ force: true });
       cy.checkalert("Password is too weak, missing lower case letters");
 
       cy.get("@newpwd").clear().type(pwd);
