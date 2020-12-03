@@ -41,7 +41,7 @@ Cypress.Commands.add("logout", (collapsed = false) => {
     cy.scrollTo("top");
   }
   cy.get("a").find(".fa-sign-out-alt").parent().click();
-  cy.get("button").contains("Confirm").click();
+  cy.get("div.modal-footer").find("button").contains("Confirm").click();
 });
 
 Cypress.Commands.add("closecookielaw", () => {

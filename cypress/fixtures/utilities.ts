@@ -62,7 +62,7 @@ export function getpassword(type, len = 0) {
 
   // Some type of characters is missing in the generated password
   // Let's resample it again
-  if (missing_symbols || missing_upper || missing_numbers || missing_symbols) {
+  if (missing_lower || missing_upper || missing_numbers || missing_symbols) {
     return getpassword(type, len);
   }
   return pwd;
