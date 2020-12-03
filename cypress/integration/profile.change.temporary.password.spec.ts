@@ -48,26 +48,33 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === "True") {
           " characters"
       );
 
-      cy.get("@newpwd").clear().type("aaaaaaaa");
-      cy.get("@confirm").clear().type("a");
+      let newPassword = getpassword(1);
+      cy.get("@newpwd").clear().type(newPassword);
+      cy.get("@confirm").clear().type(getpassword(4));
       cy.checkvalidation(0, "The password does not match");
 
-      cy.get("@confirm").clear().type("aaaaaaaa");
+      cy.get("@confirm").clear().type(newPassword);
       cy.get("@change").click({ force: true });
       cy.checkalert("Password is too weak, missing upper case letters");
+
+      cy.get("@newpwd").clear().type(newPassword.toUpperCase());
+      cy.get("@confirm").clear().type(newPassword.toUpperCase());
+      cy.checkalert("Password is too weak, missing lower case letters");
 
       cy.get("@newpwd").clear().type(pwd);
       cy.get("@confirm").clear().type(pwd);
       cy.get("@change").click({ force: true });
       cy.checkalert("The new password cannot match the previous password");
 
-      cy.get("@newpwd").clear().type("aaaaAAAA");
-      cy.get("@confirm").clear().type("aaaaAAAA");
+      newPassword = getpassword(2);
+      cy.get("@newpwd").clear().type(newPassword);
+      cy.get("@confirm").clear().type(newPassword);
       cy.get("@change").click({ force: true });
       cy.checkalert("Password is too weak, missing numbers");
 
-      cy.get("@newpwd").clear().type("aaaAAA12");
-      cy.get("@confirm").clear().type("aaaAAA12");
+      newPassword = getpassword(3);
+      cy.get("@newpwd").clear().type(newPassword);
+      cy.get("@confirm").clear().type(newPassword);
       cy.get("@change").click({ force: true });
       cy.checkalert("Password is too weak, missing special characters");
 

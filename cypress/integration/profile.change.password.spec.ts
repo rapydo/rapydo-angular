@@ -82,16 +82,20 @@ describe("ChangePassword", () => {
 
     cy.get("@password").clear().type("wrong");
     cy.get("@new_password").clear().type("short");
+    cy.get("@confirm_password").clear().type("short");
     cy.checkvalidation(
       0,
       "Should have at least " +
         Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
         " characters"
     );
-    cy.get("@new_password").clear().type("looooong");
-    cy.get("@confirm_password").clear().type("short");
+
+    let newPassword = getpassword(1);
+    cy.get("@password").clear().type("short");
+    cy.get("@new_password").clear().type(newPassword);
+    cy.get("@confirm_password").clear().type(getpassword(1));
     cy.checkvalidation(0, "The password does not match");
-    cy.get("@confirm_password").clear().type("looooong");
+    cy.get("@confirm_password").clear().type(newPassword);
 
     cy.get("button:contains('Submit')").click();
     cy.checkalert(
@@ -99,7 +103,7 @@ describe("ChangePassword", () => {
         Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
         "."
     );
-    cy.get("@password").clear().type("wrong-password");
+    cy.get("@password").clear().type(getpassword(4));
 
     cy.get("button:contains('Submit')").click();
     cy.checkalert(
@@ -110,18 +114,20 @@ describe("ChangePassword", () => {
     cy.get("button:contains('Submit')").click();
     cy.checkalert("Password is too weak, missing upper case letters");
 
-    cy.get("@new_password").clear().type("LOOOOONG");
-    cy.get("@confirm_password").clear().type("LOOOOONG");
+    cy.get("@new_password").clear().type(newPassword.toUpperCase());
+    cy.get("@confirm_password").clear().type(newPassword.toUpperCase());
     cy.get("button:contains('Submit')").click();
     cy.checkalert("Password is too weak, missing lower case letters");
 
-    cy.get("@new_password").clear().type("LoOoOoNg");
-    cy.get("@confirm_password").clear().type("LoOoOoNg");
+    newPassword = getpassword(2);
+    cy.get("@new_password").clear().type(newPassword);
+    cy.get("@confirm_password").clear().type(newPassword);
     cy.get("button:contains('Submit')").click();
     cy.checkalert("Password is too weak, missing numbers");
 
-    cy.get("@new_password").clear().type("LoO0OoNg");
-    cy.get("@confirm_password").clear().type("LoO0OoNg");
+    newPassword = getpassword(3);
+    cy.get("@new_password").clear().type(newPassword);
+    cy.get("@confirm_password").clear().type(newPassword);
     cy.get("button:contains('Submit')").click();
     cy.checkalert("Password is too weak, missing special characters");
 
@@ -130,7 +136,7 @@ describe("ChangePassword", () => {
     cy.get("button:contains('Submit')").click();
     cy.checkalert("The new password cannot match the previous password");
 
-    const newPassword = "LoO0OoNg!";
+    newPassword = getpassword(4);
     cy.get("@new_password").clear().type(newPassword);
     cy.get("@confirm_password").clear().type(newPassword);
 
