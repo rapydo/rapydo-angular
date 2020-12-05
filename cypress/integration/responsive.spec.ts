@@ -35,30 +35,6 @@ describe("Responsive tests", () => {
     cy.viewport(1024, 768);
   });
 
-  it("macbook-13 portrait", () => {
-    cy.viewport(800, 1280);
-  });
-
-  it("macbook-13 landscape", () => {
-    cy.viewport(1280, 800);
-  });
-
-  it("macbook-15 portrait", () => {
-    cy.viewport(900, 1440);
-  });
-
-  it("macbook-15 landscape", () => {
-    cy.viewport(1440, 900);
-  });
-
-  it("macbook-16 portrait", () => {
-    cy.viewport(960, 1536);
-  });
-
-  it("macbook-16 landscape", () => {
-    cy.viewport(1536, 960);
-  });
-
   it("HD Ready portrait", () => {
     cy.viewport(720, 1280);
   });
@@ -75,27 +51,15 @@ describe("Responsive tests", () => {
     cy.viewport(1920, 1080);
   });
 
-  it("Quad HD resolution portrait", () => {
-    cy.viewport(1440, 2560);
-  });
-
-  it("Quad HD resolution landscape", () => {
+  it("Quad HD resolution", () => {
     cy.viewport(2560, 1440);
   });
 
-  it("4K Ultra HD resolution portrait", () => {
-    cy.viewport(2160, 3840);
-  });
-
-  it("4K Ultra HD resolution landscape", () => {
+  it("4K Ultra HD resolution", () => {
     cy.viewport(3840, 2160);
   });
 
-  it("8K portrait", () => {
-    cy.viewport(4320, 7680);
-  });
-
-  it("8K landscape", () => {
+  it("8K", () => {
     cy.viewport(7680, 4320);
   });
 
@@ -111,14 +75,16 @@ describe("Responsive tests", () => {
       Cypress.env("AUTH_DEFAULT_PASSWORD")
     );
 
-    cy.intercept("POST", "/auth/login").as("login");
     cy.get("button").contains("Login").click();
 
-    cy.wait("@login");
+    cy.get("input[placeholder='Your password']").should("not.exist");
 
-    cy.visit("/app/profile");
+    if (expected_collapsed_navbar) {
+      cy.get("button.navbar-toggler").click();
+    }
+    cy.get("a").find(".fas.fa-user.fa-lg").parent().click();
+    // cy.visit("/app/profile");
     cy.get("div.card-header h4").contains("Your profile");
-    // search link to access the profile on the navbar
 
     cy.logout(expected_collapsed_navbar);
   });

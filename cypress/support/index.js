@@ -35,18 +35,22 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
 });
 
 Cypress.Commands.add("logout", (collapsed = false) => {
-  // if (collapsed) {
-  //   cy.get("button.navbar-toggler").click();
+  if (collapsed) {
+    cy.get("button.navbar-toggler").click();
 
-  //   cy.scrollTo("top");
-  // }
-  // cy.get("a").find(".fa-sign-out-alt").parent().click({ force: true });
-  // cy.get("div.modal-footer")
-  //   .find("button")
-  //   .contains("Confirm")
-  //   .click({ force: true });
-  cy.get("a").find(".fa-sign-out-alt").parent().click();
-  cy.get("button").contains("Confirm").click();
+    // cy.get("a").find(".fa-sign-out-alt").parent().click({ force: true });
+    // cy.get("div.modal-footer")
+    //   .find("button")
+    //   .contains("Confirm")
+    //   .click({ force: true });
+
+    cy.get("a").find(".fa-sign-out-alt").parent().click();
+    cy.scrollTo("top");
+    cy.get("button").contains("Confirm").click();
+  } else {
+    cy.get("a").find(".fa-sign-out-alt").parent().click();
+    cy.get("button").contains("Confirm").click();
+  }
 });
 
 Cypress.Commands.add("closecookielaw", () => {
