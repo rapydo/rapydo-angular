@@ -25,10 +25,17 @@ describe("SuccessfulLogin", () => {
       Cypress.env("AUTH_DEFAULT_USERNAME")
     );
 
-    // cy.get("input[placeholder='Your password']").should(
-    //   "have.type",
-    //   "password"
-    // );
+    // cy.get("input[placeholder='Your password'][type='password']").should('not.have.value',Cypress.env("AUTH_DEFAULT_PASSWORD"));
+
+    cy.get("i.clickable.toggle.fas.fa-eye-slash").click();
+
+    cy.get("i.clickable.toggle.fas.fa-eye-slash").trigger("mousedown");
+
+    // cy.get("input[placeholder='Your password']").should('have.value',Cypress.env("AUTH_DEFAULT_PASSWORD"));
+
+    cy.get("i.clickable.toggle.fas.fa-eye").click();
+
+    // cy.get("input[placeholder='Your password'][type='password']").should('not.have.value',Cypress.env("AUTH_DEFAULT_PASSWORD"));
 
     cy.get("button").contains("Login").click();
   });
