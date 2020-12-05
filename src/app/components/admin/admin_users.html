@@ -45,6 +45,7 @@
                 [footerHeight]="40"
                 [limit]="paging.itemsPerPage"
                 [rowHeight]="'auto'"
+                (activate)="onDatatableActivate($event)"
               >
               </ngx-datatable>
             </div>

@@ -45,6 +45,7 @@
                 (page)="serverSidePagination($event)"
                 (sort)="updateSort($event)"
                 [rowHeight]="'auto'"
+                (activate)="onDatatableActivate($event)"
               >
               </ngx-datatable>
             </div>
