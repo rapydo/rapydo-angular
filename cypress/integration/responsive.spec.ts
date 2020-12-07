@@ -83,10 +83,14 @@ describe("Responsive tests", () => {
       cy.get("button.navbar-toggler").click();
     }
     cy.get("a").find(".fas.fa-user.fa-lg").parent().click();
-    // cy.visit("/app/profile");
+
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/profile");
+    });
+
     cy.get("div.card-header h4").contains("Your profile");
 
-    // Confirm modal is not opened on Cypress when navbar is collapsed...
+    // Logout Confirmation modal is not opened on Cypress when navbar is collapsed...
     // cy.logout(expected_collapsed_navbar);
   });
 });
