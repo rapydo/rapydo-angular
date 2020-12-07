@@ -214,7 +214,6 @@ jobs:
           curl $opt/app/custom/assets/favicon/favicon.ico | grep "cache-control: max-age=2592000"
           curl $opt/app/custom/assets/favicon/favicon.ico | grep -i "Content-Security-Policy: frame-ancestors"
           curl $opt/app/custom/assets/favicon/favicon.ico | grep -i "Content-Type: image/x-icon"
-          curl $opt/app/custom/assets/favicon/favicon.ico  --header 'accept-encoding: gzip' | grep "content-encoding: gzip"
 
           # asset names are dinamically generated at build type... extract it from the index.html..
           asset=`curl --silent --insecure -X GET https://localhost | grep -o "styles\..*.css"`
