@@ -72,7 +72,6 @@ jobs:
 
           if [[ "${{ matrix.stage }}" == "cypress-full" ]]; then
 
-            # : 8
             # AUTH_MAX_PASSWORD_VALIDITY: 0
             # AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER: 0
             # AUTH_SECOND_FACTOR_AUTHENTICATION: None
