@@ -72,26 +72,26 @@ describe("Login", () => {
     cy.get("button").contains("Change").click();
     cy.checkalert("The new password cannot match the previous password");
 
-    let pwd = getpassword(1);
-    cy.get("@new_pwd").clear().type(pwd);
-    cy.get("@pwd_confirm").clear().type(pwd);
+    const new_pwd1 = getpassword(1);
+    cy.get("@new_pwd").clear().type(new_pwd1);
+    cy.get("@pwd_confirm").clear().type(new_pwd1);
     cy.get("button").contains("Change").click();
     cy.checkalert("Password is too weak, missing upper case letters");
 
-    cy.get("@new_pwd").clear().type(pwd.toUpperCase());
-    cy.get("@pwd_confirm").clear().type(pwd.toUpperCase());
+    cy.get("@new_pwd").clear().type(new_pwd1.toUpperCase());
+    cy.get("@pwd_confirm").clear().type(new_pwd1.toUpperCase());
     cy.get("button").contains("Change").click();
     cy.checkalert("Password is too weak, missing lower case letters");
 
-    pwd = getpassword(2);
-    cy.get("@new_pwd").clear().type(pwd);
-    cy.get("@pwd_confirm").clear().type(pwd);
+    const new_pwd2 = getpassword(2);
+    cy.get("@new_pwd").clear().type(new_pwd2);
+    cy.get("@pwd_confirm").clear().type(new_pwd2);
     cy.get("button").contains("Change").click();
     cy.checkalert("Password is too weak, missing numbers");
 
-    pwd = getpassword(3);
-    cy.get("@new_pwd").clear().type(pwd);
-    cy.get("@pwd_confirm").clear().type(pwd);
+    const new_pwd3 = getpassword(3);
+    cy.get("@new_pwd").clear().type(new_pwd3);
+    cy.get("@pwd_confirm").clear().type(new_pwd3);
     cy.get("button").contains("Change").click();
     cy.checkalert("Password is too weak, missing special characters");
 
