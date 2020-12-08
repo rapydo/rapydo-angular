@@ -73,7 +73,7 @@
     "jasmine-spec-reporter": "6.0.0",
     "@types/jasmine": "3.6.0",
     "@types/jasminewd2": "2.0.8",
-    "cypress": "6.0.1",
+    "cypress": "6.1.0",
     "cypress-localstorage-commands": "1.2.4",
     "@cypress/code-coverage": "3.8.2",
     "istanbul-instrumenter-loader": "3.0.1",
