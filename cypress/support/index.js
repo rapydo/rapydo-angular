@@ -44,11 +44,11 @@ Cypress.Commands.add("logout", (collapsed = false) => {
     //   .contains("Confirm")
     //   .click({ force: true });
 
-    cy.get("a").find(".fa-sign-out-alt").parent().click();
+    cy.get("i.fa-sign-out-alt").parent().click();
     cy.scrollTo("top");
     cy.get("button").contains("Confirm").click();
   } else {
-    cy.get("a").find(".fa-sign-out-alt").parent().click();
+    cy.get("i.fa-sign-out-alt").parent().click();
     cy.get("button").contains("Confirm").click();
   }
 });
