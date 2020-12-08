@@ -8,35 +8,38 @@ describe("Mocked logins", () => {
     cy.visit("/app/login");
     cy.closecookielaw();
 
-    cy.server();
-
     cy.get("input[placeholder='Your username (email)']").as("user");
     cy.get("input[placeholder='Your password']").as("pwd");
   });
 
-  it("Login - Account not active", () => {
-    cy.route({
-      method: "POST",
-      url: "/auth/login",
-      status: 403,
-      response: "Sorry, this account is not active",
-    });
+  // it("Login - Account not active", () => {
 
-    cy.get("@user").type(Cypress.env("AUTH_DEFAULT_USERNAME"));
-    cy.get("@pwd").type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
-    cy.get("button").contains("Login").click();
+  //   cy.intercept("POST", "/auth/login", {
+  //     statusCode: 403,
+  //     body: "Sorry, this account is not active",
+  //   }).as("post");
 
-    cy.location().should((location) => {
-      expect(location.pathname).to.eq("/app/login");
-    });
+  //   cy.get("@user").type(Cypress.env("AUTH_DEFAULT_USERNAME"));
+  //   cy.get("@pwd").type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
+  //   cy.get("button").contains("Login").click();
 
-    cy.get("div.card-header.bg-warning h4").contains(
-      "This account is not active"
-    );
-    cy.get("div.card-block").contains("Didn't receive an activation link?");
-  });
+  //   cy.wait("@post");
+
+  //   cy.location().should((location) => {
+  //     expect(location.pathname).to.eq("/app/login");
+  //   });
+
+  //   cy.get("div.card-header.bg-warning h4").contains(
+  //     "This account is not active"
+  //   );
+  //   cy.get("div.card-block").contains("Didn't receive an activation link?");
+
+  // });
 
   it("Login - Missing or empty actions", () => {
+    // Cypress is still not able to override intercept..
+    // Cannot set two or more intercepts on the same endpoint :-(
+    cy.server();
     cy.route({
       method: "POST",
       url: "/auth/login",
@@ -93,93 +96,13 @@ describe("Mocked logins", () => {
     cy.checkalert("Unrecognized response from server");
     cy.checkalert("Extra error1");
     cy.checkalert("Extra error2");
-  });
-
-  it("Login - FIRST LOGIN", () => {
-    cy.route({
-      method: "POST",
-      url: "/auth/login",
-      status: 403,
-      response: {
-        actions: ["FIRST LOGIN"],
-        errors: ["Please change your temporary password"],
-      },
-    });
-
-    const current_pwd = Cypress.env("AUTH_DEFAULT_PASSWORD");
-    const new_pwd = Cypress.env("AUTH_DEFAULT_PASSWORD") + "!";
-
-    cy.get("@user").type(Cypress.env("AUTH_DEFAULT_USERNAME"));
-    cy.get("@pwd").type(current_pwd);
-    cy.get("button").contains("Login").click();
-
-    cy.location().should((location) => {
-      expect(location.pathname).to.eq("/app/login");
-    });
-
     cy.server({ enable: false });
-
-    cy.checkalert("Please change your temporary password");
-    cy.get("div.card-header h4").contains(
-      "Please change your temporary password"
-    );
-    cy.get("button").contains("Change").click();
-
-    cy.checkvalidation(0, "This field is required");
-    cy.checkvalidation(1, "This field is required");
-
-    cy.get("input[placeholder='Your new password']").as("new_pwd");
-    cy.get("input[placeholder='Confirm your new password']").as("pwd_confirm");
-
-    cy.get("@new_pwd").clear().type("short");
-    cy.checkvalidation(
-      0,
-      "Should have at least " +
-        Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
-        " characters"
-    );
-    cy.get("button").contains("Change").click();
-
-    cy.get("@new_pwd").clear().type(current_pwd);
-    cy.get("@pwd_confirm").clear().type("invalid");
-
-    cy.checkvalidation(0, "The password does not match");
-    cy.get("button").contains("Change").click();
-
-    cy.get("@pwd_confirm").clear().type(current_pwd);
-    cy.get("button").contains("Change").click();
-    cy.checkalert("The new password cannot match the previous password");
-
-    let pwd = getpassword(1);
-    cy.get("@new_pwd").clear().type(pwd);
-    cy.get("@pwd_confirm").clear().type(pwd);
-    cy.get("button").contains("Change").click();
-    cy.checkalert("Password is too weak, missing upper case letters");
-
-    cy.get("@new_pwd").clear().type(pwd.toUpperCase());
-    cy.get("@pwd_confirm").clear().type(pwd.toUpperCase());
-    cy.get("button").contains("Change").click();
-    cy.checkalert("Password is too weak, missing lower case letters");
-
-    pwd = getpassword(2);
-    cy.get("@new_pwd").clear().type(pwd);
-    cy.get("@pwd_confirm").clear().type(pwd);
-    cy.get("button").contains("Change").click();
-    cy.checkalert("Password is too weak, missing numbers");
-
-    pwd = getpassword(3);
-    cy.get("@new_pwd").clear().type(pwd);
-    cy.get("@pwd_confirm").clear().type(pwd);
-    cy.get("button").contains("Change").click();
-    cy.checkalert("Password is too weak, missing special characters");
-
-    cy.get("@new_pwd").clear().type(new_pwd);
-    cy.get("@pwd_confirm").clear().type(new_pwd);
-
-    cy.get("button").contains("Change").click();
   });
 
   it("Login - PASSWORD EXPIRED", () => {
+    // Cypress is still not able to override intercept..
+    // Cannot set two or more intercepts on the same endpoint :-(
+    cy.server();
     cy.route({
       method: "POST",
       url: "/auth/login",
@@ -266,19 +189,19 @@ describe("Mocked logins", () => {
   });
 
   it("Login - TOTP", () => {
-    cy.route({
-      method: "POST",
-      url: "/auth/login",
-      status: 403,
-      response: {
+    cy.intercept("POST", "/auth/login", {
+      statusCode: 403,
+      body: {
         actions: ["TOTP"],
         errors: ["You do not provided a valid second factor"],
       },
-    });
+    }).as("post");
 
     cy.get("@user").type(Cypress.env("AUTH_DEFAULT_USERNAME"));
     cy.get("@pwd").type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
     cy.get("button").contains("Login").click();
+
+    cy.wait("@post");
 
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/login");
@@ -288,33 +211,28 @@ describe("Mocked logins", () => {
     cy.get("div.card-header h4").contains("Provide the verification cod");
     cy.get("button").contains("Authorize").click();
 
-    // fill the form! Not yet (re)implemented
+    // fill the form! Not yet implemented
   });
 
   it("Login - Unknown action", () => {
-    cy.route({
-      method: "POST",
-      url: "/auth/login",
-      status: 403,
-      response: {
+    cy.intercept("POST", "/auth/login", {
+      statusCode: 403,
+      body: {
         actions: ["invalid"],
         errors: ["invalid"],
       },
-    });
+    }).as("post");
 
     cy.get("@user").type(Cypress.env("AUTH_DEFAULT_USERNAME"));
     cy.get("@pwd").type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
     cy.get("button").contains("Login").click();
+
+    cy.wait("@post");
 
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/login");
     });
 
     cy.checkalert("Unrecognized response from server");
-  });
-
-  afterEach(() => {
-    cy.server({ enable: false });
-    // restore default password and logout? Only for successful logins
   });
 });

@@ -67,6 +67,8 @@ describe("FailedLogin", () => {
     //   body: "Stubbed login error",
     // }).as("login1");
 
+    // Cypress is still not able to override intercept..
+    // Cannot set two intercepts on the same endpoint :-(
     cy.server();
 
     cy.route({
