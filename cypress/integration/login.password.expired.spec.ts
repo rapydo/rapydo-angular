@@ -100,6 +100,10 @@ describe("Login", () => {
     cy.get("@pwd_confirm").clear().type(new_pwd);
     cy.get("button").contains("Change").click();
 
+    if (Cypress.env("ALLOW_TERMS_OF_USE")) {
+      cy.get("div.modal-footer button").first().contains("YES").click();
+    }
+
     cy.logout();
 
     cy.login();
