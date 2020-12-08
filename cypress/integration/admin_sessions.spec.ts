@@ -87,17 +87,13 @@ describe("AdminSessions", () => {
   });
 
   it("Backend errors", () => {
-    cy.server();
-
-    cy.route({
-      method: "GET",
-      url: "/api/admin/tokens?*",
-      status: 500,
-      response: "Stubbed get error",
-    });
+    cy.intercept("GET", /\/api\/admin\/tokens\?*/, {
+      statusCode: 500,
+      body: "Stubbed get error",
+    }).as("get");
 
     cy.visit("/app/admin/sessions");
+    cy.wait("@get");
     cy.checkalert("Stubbed get error");
-    cy.server({ enable: false });
   });
 });
