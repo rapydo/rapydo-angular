@@ -89,7 +89,7 @@ describe("ApiService", () => {
       expect(result).not.toBeUndefined();
     });
 
-    const req = httpMock.expectOne(environment.backendURI + "/api/xyz");
+    const req = httpMock.expectOne(environment.backendURI + "/api/xyz/id");
     expect(req.request.method).toEqual("DELETE");
     req.flush("");
 
@@ -104,7 +104,7 @@ describe("ApiService", () => {
       }
     );
 
-    const req = httpMock.expectOne(environment.backendURI + "/api/xyz");
+    const req = httpMock.expectOne(environment.backendURI + "/api/xyz/id");
     expect(req.request.method).toEqual("DELETE");
     req.flush("FAILED", mock401Response);
 
