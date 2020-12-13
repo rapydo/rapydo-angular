@@ -41,20 +41,7 @@ export class ApiService {
     }
   }
 
-  public get<T>(
-    endpoint: string,
-    id = "",
-    data = {},
-    options = {}
-  ): Observable<T> {
-    /* istanbul ignore next */
-    if (id !== "") {
-      // Deprecated since 0.8
-      console.error(
-        "Deprecated use of id parameter in api.get (will be dropped in the next version)"
-      );
-      endpoint += "/" + id;
-    }
+  public get<T>(endpoint: string, data = {}, options = {}): Observable<T> {
     return this.call("GET", endpoint, data, options);
   }
 
@@ -62,49 +49,15 @@ export class ApiService {
     return this.call("POST", endpoint, data, options);
   }
 
-  public put<T>(
-    endpoint: string,
-    id = "",
-    data = {},
-    options = {}
-  ): Observable<T> {
-    /* istanbul ignore next */
-    if (id !== "") {
-      // Deprecated since 0.8
-      console.error(
-        "Deprecated use of id parameter in api.put (will be dropped in the next version)"
-      );
-      endpoint += "/" + id;
-    }
+  public put<T>(endpoint: string, data = {}, options = {}): Observable<T> {
     return this.call("PUT", endpoint, data, options);
   }
 
-  public patch<T>(
-    endpoint: string,
-    id = "",
-    data = {},
-    options = {}
-  ): Observable<T> {
-    /* istanbul ignore next */
-    if (id !== "") {
-      // Deprecated since 0.8
-      console.error(
-        "Deprecated use of id parameter in api.patch (will be dropped in the next version)"
-      );
-      endpoint += "/" + id;
-    }
+  public patch<T>(endpoint: string, data = {}, options = {}): Observable<T> {
     return this.call("PATCH", endpoint, data, options);
   }
 
-  public delete<T>(endpoint: string, id = "", options = {}): Observable<T> {
-    /* istanbul ignore next */
-    if (id !== "") {
-      // Deprecated since 0.8
-      console.error(
-        "Deprecated use of id parameter in api.delete (will be dropped in the next version)"
-      );
-      endpoint += "/" + id;
-    }
+  public delete<T>(endpoint: string, options = {}): Observable<T> {
     return this.call("DELETE", endpoint, {}, options);
   }
 
