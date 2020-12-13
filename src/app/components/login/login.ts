@@ -266,17 +266,15 @@ export class LoginComponent implements OnInit {
 
     this.modalRef.result.then(
       (result) => {
-        this.api
-          .patch("/auth/profile", "", { privacy_accepted: true })
-          .subscribe(
-            (data) => {
-              this.auth.loadUser();
-              this.goto_url(this.returnUrl);
-            },
-            (error) => {
-              this.notify.showError(error);
-            }
-          );
+        this.api.patch("/auth/profile", { privacy_accepted: true }).subscribe(
+          (data) => {
+            this.auth.loadUser();
+            this.goto_url(this.returnUrl);
+          },
+          (error) => {
+            this.notify.showError(error);
+          }
+        );
       },
       (reason) => {
         this.auth.logout().subscribe((response) => {

@@ -48,7 +48,7 @@ export class ProfileComponent {
   }
   public edit_profile(): void {
     this.api
-      .patch<Schema[]>("/auth/profile", "", { get_schema: true })
+      .patch<Schema[]>("/auth/profile", { get_schema: true })
       .subscribe(
         (response) => {
           response.some((value, index) => {
