@@ -251,7 +251,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     }
 
     this.api
-      .get<Total>(this.endpoint, "", data, { validationSchema: "Total" })
+      .get<Total>(this.endpoint, data, { validationSchema: "Total" })
       .subscribe(
         (response) => {
           const t = response.total;

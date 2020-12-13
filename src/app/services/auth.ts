@@ -74,7 +74,7 @@ export class AuthService {
 
   public loadUser() {
     return this.api
-      .get<User>("/auth/profile", "", {}, { validationSchema: "User" })
+      .get<User>("/auth/profile", {}, { validationSchema: "User" })
       .pipe(
         map((response) => {
           this.setUser(response);
