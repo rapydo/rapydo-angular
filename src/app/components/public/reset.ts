@@ -37,7 +37,7 @@ export class ResetPasswordComponent implements OnInit {
       if (typeof params["token"] === "undefined") {
         this.resetForm = true;
       } else {
-        this.api.put("/auth/reset/" + params["token"]).subscribe(
+        this.api.put(`/auth/reset/${params["token"]}`).subscribe(
           (response) => {
             this.token = params["token"];
             return true;
@@ -135,7 +135,7 @@ export class ResetPasswordComponent implements OnInit {
     data["new_password"] = this.model["newPwd"];
     data["password_confirm"] = this.model["confirmPwd"];
 
-    this.api.put("/auth/reset/" + this.token, "", data).subscribe(
+    this.api.put(`/auth/reset/${this.token}`, data).subscribe(
       (response) => {
         this.notify.showSuccess(
           "Password successfully changed. Please login with your new password"

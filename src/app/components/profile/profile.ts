@@ -92,7 +92,7 @@ export class ProfileComponent {
   public submit(): void {
     if (this.form.valid) {
       this.spinner.show();
-      this.api.patch("/auth/profile", "", this.model).subscribe(
+      this.api.patch("/auth/profile", this.model).subscribe(
         (response) => {
           this.modalRef.close("");
           this.notify.showSuccess("Confirmation: Profile successfully updated");

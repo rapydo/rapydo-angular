@@ -58,7 +58,7 @@ export class AuthService {
   }
 
   public change_password(data) {
-    return this.api.put("/auth/profile", "", data, { rawError: true }).pipe(
+    return this.api.put("/auth/profile", data, { rawError: true }).pipe(
       map((response) => {
         this.removeToken();
 
