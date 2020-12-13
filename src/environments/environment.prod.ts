@@ -30,10 +30,14 @@ export const environment: Env = {
   projectName: base.projectName,
   projectTitle: base.projectTitle,
   projectDescription: base.projectDescription,
-  enableFooter: base.enableFooter === "true",
-  allowRegistration: base.allowRegistration === "true",
-  allowPasswordReset: base.allowPasswordReset === "true",
-  allowTermsOfUse: base.allowTermsOfUse === "true",
+  // Temporary Compatibility fix, remove === "true" in a near future
+  enableFooter: base.enableFooter === "1" || base.enableFooter === "true",
+  allowRegistration:
+    base.allowRegistration === "1" || base.allowRegistration === "true",
+  allowPasswordReset:
+    base.allowPasswordReset === "1" || base.allowPasswordReset === "true",
+  allowTermsOfUse:
+    base.allowTermsOfUse === "1" || base.allowTermsOfUse === "true",
   minPasswordLength: parseInt(base.minPasswordLength),
   websocketsUrl: base.websocketsUrl,
   SENTRY_URL: base.SENTRY_URL,

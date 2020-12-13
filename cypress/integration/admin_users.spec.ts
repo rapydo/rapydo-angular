@@ -13,8 +13,6 @@ describe("AdminUsers", () => {
 
     cy.visit("/app/admin/users");
 
-    cy.closecookielaw();
-
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/admin/users");
     });
@@ -176,7 +174,7 @@ describe("AdminUsers", () => {
     cy.get('input[placeholder="Name"]').clear().type("NewName");
     cy.get('input:checkbox[value="normal_user"]').uncheck({ force: true });
     cy.get('button:contains("Submit")').click({ force: true });
-    cy.checkalert("Confirmation: user successfully update");
+    cy.checkalert("Confirmation: user successfully updated");
 
     cy.get("@search").clear().type(username);
     cy.get("datatable-body-row")
@@ -190,7 +188,7 @@ describe("AdminUsers", () => {
     cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
     cy.get('input[placeholder="Name"]').clear().type("SampleName");
     cy.get('button:contains("Submit")').click({ force: true });
-    cy.checkalert("Confirmation: user successfully update");
+    cy.checkalert("Confirmation: user successfully updated");
   });
 
   it("Delete user", () => {

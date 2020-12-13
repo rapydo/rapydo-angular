@@ -1,37 +1,39 @@
-<div *ngIf="!api.is_online()">
-  <br /><br /><br />
+<navbar></navbar>
 
-  <div class="row">
-    <div class="col-6 offset-3">
-      <div class="card">
-        <div class="card-header bg-warning text-center">
-          <h6>
-            Server temporarily unreachable
-          </h6>
-        </div>
+<div *ngIf="!api.is_online() && isBrowser">
+  <div class="container-fluid">
+    <div class="row p-5 text-center">
+      <!-- Normal warning browser side when APIs are offline -->
+      <div class="col-6 offset-3">
+        <div class="card">
+          <div class="card-header bg-warning">
+            <h6>Server temporarily unreachable</h6>
+          </div>
 
-        <div class="card-body text-center">
-          <p>
-            This server is temporarily not reachable.<br />
-            We apologize for any inconvenience this may cause.
+          <div class="card-body">
+            <p>
+              This server is temporarily not reachable.<br />
+              We apologize for any inconvenience this may cause.
 
-            <br /><br />
+              <br /><br />
 
-            <a [routerLink]="" (click)="refresh()">
-              <i class="fas fa-sync-alt"></i>
-              <br />
-              Reload
-            </a>
-          </p>
+              <a [routerLink]="" (click)="refresh()">
+                <i class="fas fa-sync-alt"></i>
+                <br />
+                Reload
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<navbar *ngIf="api.is_online()"></navbar>
+<router-outlet *ngIf="api.is_online() || isServer"></router-outlet>
 
-<router-outlet *ngIf="api.is_online()"></router-outlet>
+<!-- Used to create a separation beetween router-outlet and footer -->
+<div class="spacer"></div>
 
 <footer class="footer mt-auto" *ngIf="enableFooter">
   <customfooter></customfooter>
@@ -54,8 +56,6 @@
     <ng-container *ngIf="cookieLawButton; else defaultButton">
       {{ cookieLawButton }}
     </ng-container>
-    <ng-template #defaultButton>
-      Ok, got it
-    </ng-template>
+    <ng-template #defaultButton> Ok, got it </ng-template>
   </button>
 </cookie-law>

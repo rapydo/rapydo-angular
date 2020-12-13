@@ -1,59 +1,27 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword } from "../../fixtures/utilities";
+import { getpassword, get_totp } from "../../fixtures/utilities";
 
 describe("ChangePassword", () => {
-  const email = "aaaaaaaaaa000111@sample.org";
-  let pwd = getpassword(4);
+  const email = "aaaaaaaaaa000111" + Math.random() + "@sample.org";
+  const pwd = getpassword(4);
 
-  beforeEach(() => {
-    cy.login();
-
+  before(() => {
     cy.createuser(email, pwd);
-
-    cy.logout();
   });
 
-  it("ChangePassword", () => {
-    cy.visit("/app/login");
-    cy.closecookielaw();
-
-    cy.intercept("POST", "/auth/login").as("login");
-
-    cy.get("input[placeholder='Your username (email)']").clear().type(email);
-    cy.get("input[placeholder='Your password']").clear().type(pwd);
-    cy.get("button").contains("Login").click();
-
-    cy.wait("@login");
-
-    if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === "True") {
-      cy.get("div.card-header")
-        .should("have.class", "bg-warning")
-        .find("h4")
-        .contains("Please change your temporary password");
-
-      cy.checkalert("Please change your temporary password");
-
-      pwd = pwd + "!";
-
-      cy.intercept("POST", "/auth/login").as("changed");
-
-      cy.get('input[placeholder="Your new password"]').clear().type(pwd);
-      cy.get('input[placeholder="Confirm your new password"]')
-        .clear()
-        .type(pwd);
-      cy.get('button:contains("Change")').click({ force: true });
-
-      cy.wait("@changed");
-    }
+  beforeEach(() => {
+    cy.login(email, pwd);
 
     cy.visit("/app/profile/changepassword");
 
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/profile/changepassword");
     });
+  });
 
+  it("ChangePasswordFailures", () => {
     // Go back
     cy.get("button:contains('Cancel')").click();
 
@@ -67,12 +35,11 @@ describe("ChangePassword", () => {
       expect(location.pathname).to.eq("/app/profile/changepassword");
     });
 
+    cy.get("div.card-header h4").contains("Change your password");
+
     cy.get("button:contains('Submit')").click();
     cy.checkvalidation(0, "This field is required");
 
-    cy.get('input[placeholder="Type here your current password"]').as(
-      "password"
-    );
     cy.get('input[placeholder="Type the desidered new password"]').as(
       "new_password"
     );
@@ -80,9 +47,20 @@ describe("ChangePassword", () => {
       'input[placeholder="Type again the new password for confirmation"]'
     ).as("confirm_password");
 
-    cy.get("@password").clear().type("wrong");
     cy.get("@new_password").clear().type("short");
     cy.get("@confirm_password").clear().type("short");
+
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.get('input[placeholder="TOTP verification code"]')
+        .clear()
+        .type("111111");
+    }
+
+    // Set a wrong password for the current password
+    cy.get('input[placeholder="Type here your current password"]')
+      .clear()
+      .type(getpassword(4));
+
     cy.checkvalidation(
       0,
       "Should have at least " +
@@ -91,26 +69,24 @@ describe("ChangePassword", () => {
     );
 
     let newPassword = getpassword(1);
-    cy.get("@password").clear().type("short");
     cy.get("@new_password").clear().type(newPassword);
     cy.get("@confirm_password").clear().type(getpassword(1));
     cy.checkvalidation(0, "The password does not match");
     cy.get("@confirm_password").clear().type(newPassword);
 
-    cy.get("button:contains('Submit')").click();
-    cy.checkalert(
-      "Shorter than minimum length " +
-        Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
-        "."
-    );
-    cy.get("@password").clear().type(getpassword(4));
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.get('input[placeholder="TOTP verification code"]')
+        .clear()
+        .type(get_totp());
+    }
 
     cy.get("button:contains('Submit')").click();
-    cy.checkalert(
-      "Your request cannot be authorized, is current password wrong?"
-    );
 
-    cy.get("@password").clear().type(pwd);
+    cy.checkalert("Invalid access credentials");
+    cy.get('input[placeholder="Type here your current password"]')
+      .clear()
+      .type(pwd);
+
     cy.get("button:contains('Submit')").click();
     cy.checkalert("Password is too weak, missing upper case letters");
 
@@ -135,43 +111,63 @@ describe("ChangePassword", () => {
     cy.get("@confirm_password").clear().type(pwd);
     cy.get("button:contains('Submit')").click();
     cy.checkalert("The new password cannot match the previous password");
+  });
 
-    newPassword = getpassword(4);
-    cy.get("@new_password").clear().type(newPassword);
-    cy.get("@confirm_password").clear().type(newPassword);
+  it("ChangePassword", () => {
+    cy.get("div.card-header h4").contains("Change your password");
 
-    // Check backend errors
+    const newPassword = getpassword(4);
 
-    // How to only execute this intercept once?
-    // After this the normal workflow should continue...
-    // cy.intercept("PUT", "/auth/profile", {
-    //   statusCode: 500,
-    //   body: "Stubbed change password error",
-    // }).as("put");
+    cy.get('input[placeholder="Type here your current password"]')
+      .clear()
+      .type(pwd);
+    cy.get('input[placeholder="Type the desidered new password"]')
+      .clear()
+      .type(newPassword);
+    cy.get('input[placeholder="Type again the new password for confirmation"]')
+      .clear()
+      .type(newPassword);
 
-    // cy.get("button:contains('Submit')").click();
-    // cy.wait("@put");
-    // cy.checkalert("Stubbed change password error");
-    // this is needed to completely removed from the DOM the previous stubbed alert
-    // Otherwise the check will fail because it will refer to the previous one
-    // cy.wait(200);
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.get('input[placeholder="TOTP verification code"]')
+        .clear()
+        .type(get_totp());
+    }
 
-    cy.intercept("POST", "/auth/login").as("login2");
+    cy.intercept("PUT", "/auth/profile").as("changed");
 
     cy.get("button:contains('Submit')").click();
 
-    cy.wait("@login2");
+    cy.wait("@changed");
 
     cy.checkalert("Password successfully changed");
 
-    cy.visit("/app/profile");
-    cy.location().should((location) => {
-      expect(location.pathname).to.eq("/app/profile");
-    });
+    // if TOTP is enabled the automatic re-login is not possible
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.get("div.card-header h4").contains("Login");
+
+      cy.get("input[placeholder='Your username (email)']").type(email);
+      cy.get("input[placeholder='Your password']").type(newPassword);
+
+      cy.intercept("POST", "/auth/login").as("login");
+      cy.get("button").contains("Login").click();
+      cy.wait("@login");
+
+      cy.get("input[placeholder='Your password']").should("not.exist");
+
+      cy.get("div.card-header h4").contains("Provide the verification code");
+      cy.get("input[placeholder='TOTP verification code']").type(get_totp());
+
+      cy.get("button").contains("Authorize").click();
+      cy.get("input[placeholder='TOTP verification code']").should("not.exist");
+    }
+
+    cy.goto_profile();
+
     cy.get("table").find("td").contains(email);
   });
 
-  afterEach(() => {
+  after(() => {
     cy.logout();
 
     cy.login();

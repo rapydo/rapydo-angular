@@ -7,8 +7,6 @@ describe("AdminUsers", () => {
 
     cy.visit("/app/admin/groups");
 
-    cy.closecookielaw();
-
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/admin/groups");
     });
@@ -125,7 +123,7 @@ describe("AdminUsers", () => {
       .clear()
       .type("NewName-" + randval);
     cy.get('button:contains("Submit")').click({ force: true });
-    cy.checkalert("Confirmation: group successfully update");
+    cy.checkalert("Confirmation: group successfully updated");
 
     // search by fulname and verify the new short name
     cy.get("@search").clear().type("Long name for test Group");

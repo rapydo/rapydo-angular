@@ -1,19 +1,18 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword } from "../../fixtures/utilities";
+import { getpassword, get_totp } from "../../fixtures/utilities";
 
 describe("Login", () => {
-  it("PASSWORD EXPIRED", () => {
-    const email = "aaaaaaaaaa000333@sample.org";
-    const pwd = getpassword(4);
+  const email = "aaaaaaaaaa000333@sample.org";
+  let pwd = getpassword(4);
 
-    cy.login();
+  before(() => {
     cy.createuser(email, pwd);
-    cy.logout();
+  });
 
+  it("PASSWORD EXPIRED", () => {
     cy.visit("/app/login");
-    cy.closecookielaw();
 
     cy.get("input[placeholder='Your username (email)']").as("user");
     cy.get("input[placeholder='Your password']").as("pwd");
@@ -70,42 +69,82 @@ describe("Login", () => {
 
     cy.get("@pwd_confirm").clear().type(pwd);
     cy.get("button").contains("Change").click();
+
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.get("input[placeholder='TOTP verification code']")
+        .clear()
+        .type(get_totp());
+      cy.get("button").contains("Authorize").click();
+    }
     cy.checkalert("The new password cannot match the previous password");
 
     const new_pwd1 = getpassword(1);
     cy.get("@new_pwd").clear().type(new_pwd1);
     cy.get("@pwd_confirm").clear().type(new_pwd1);
-    cy.get("button").contains("Change").click();
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.get("input[placeholder='TOTP verification code']")
+        .clear()
+        .type(get_totp());
+      cy.get("button").contains("Authorize").click();
+    } else {
+      cy.get("button").contains("Change").click();
+    }
     cy.checkalert("Password is too weak, missing upper case letters");
 
     cy.get("@new_pwd").clear().type(new_pwd1.toUpperCase());
     cy.get("@pwd_confirm").clear().type(new_pwd1.toUpperCase());
-    cy.get("button").contains("Change").click();
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.get("input[placeholder='TOTP verification code']")
+        .clear()
+        .type(get_totp());
+      cy.get("button").contains("Authorize").click();
+    } else {
+      cy.get("button").contains("Change").click();
+    }
     cy.checkalert("Password is too weak, missing lower case letters");
 
     const new_pwd2 = getpassword(2);
     cy.get("@new_pwd").clear().type(new_pwd2);
     cy.get("@pwd_confirm").clear().type(new_pwd2);
-    cy.get("button").contains("Change").click();
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.get("input[placeholder='TOTP verification code']")
+        .clear()
+        .type(get_totp());
+      cy.get("button").contains("Authorize").click();
+    } else {
+      cy.get("button").contains("Change").click();
+    }
     cy.checkalert("Password is too weak, missing numbers");
 
     const new_pwd3 = getpassword(3);
     cy.get("@new_pwd").clear().type(new_pwd3);
     cy.get("@pwd_confirm").clear().type(new_pwd3);
-    cy.get("button").contains("Change").click();
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.get("input[placeholder='TOTP verification code']")
+        .clear()
+        .type(get_totp());
+      cy.get("button").contains("Authorize").click();
+    } else {
+      cy.get("button").contains("Change").click();
+    }
     cy.checkalert("Password is too weak, missing special characters");
 
     const new_pwd = getpassword(4);
     cy.get("@new_pwd").clear().type(new_pwd);
     cy.get("@pwd_confirm").clear().type(new_pwd);
-    cy.get("button").contains("Change").click();
-
-    if (Cypress.env("ALLOW_TERMS_OF_USE")) {
-      cy.get("div.modal-footer button").first().contains("YES").click();
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.get("input[placeholder='TOTP verification code']")
+        .clear()
+        .type(get_totp());
+      cy.get("button").contains("Authorize").click();
+    } else {
+      cy.get("button").contains("Change").click();
     }
 
     cy.logout();
+  });
 
+  after(() => {
     cy.login();
     cy.deleteuser(email);
   });

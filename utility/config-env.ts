@@ -35,39 +35,27 @@ if (
   backendURI += process.env.BACKEND_PREFIX;
 }
 
-let websocketsURI = "";
-websocketsURI += process.env.PUSHPIN_HOST;
-websocketsURI += ":";
-websocketsURI += process.env.PUSHPIN_PORT;
-
-let projectVersion = process.env.VERSION;
-let rapydoVersion = process.env.RAPYDO_VERSION;
-let projectName = process.env.VANILLA_PACKAGE;
-let projectTitle = process.env.PROJECT_TITLE;
-let projectDescription = process.env.PROJECT_DESCRIPTION;
-
-let enableFooter = process.env.ENABLE_FOOTER.toLowerCase() === "true";
-let allowRegistration = process.env.ALLOW_REGISTRATION.toLowerCase() === "true";
-let allowPasswordReset =
-  process.env.ALLOW_PASSWORD_RESET.toLowerCase() === "true";
-let allowTermsOfUse = process.env.ALLOW_TERMS_OF_USE.toLowerCase() === "true";
-let minPasswordLength = process.env.AUTH_MIN_PASSWORD_LENGTH;
-let SENTRY_URL = process.env.SENTRY_URL;
-let GA_TRACKING_CODE = process.env.GA_TRACKING_CODE;
-
 // Trimming ' character from title and description
+let projectTitle = process.env.PROJECT_TITLE;
 if (projectTitle.charAt(0) === "'") {
   projectTitle = projectTitle.substr(1);
-}
-if (projectDescription.charAt(0) === "'") {
-  projectDescription = projectDescription.substr(1);
 }
 if (projectTitle.slice(projectTitle.length - 1) === "'") {
   projectTitle = projectTitle.slice(0, -1);
 }
+
+let projectDescription = process.env.PROJECT_DESCRIPTION;
+if (projectDescription.charAt(0) === "'") {
+  projectDescription = projectDescription.substr(1);
+}
 if (projectDescription.slice(projectDescription.length - 1) === "'") {
   projectDescription = projectDescription.slice(0, -1);
 }
+
+let websocketsURI = "";
+websocketsURI += process.env.PUSHPIN_HOST;
+websocketsURI += ":";
+websocketsURI += process.env.PUSHPIN_PORT;
 
 const targetPath = `/tmp/environment.variables.ts`;
 const INJECT_KEY = "INJECT_";
@@ -75,16 +63,16 @@ const INJECT_KEY = "INJECT_";
 let envConfigFile = `
 export const environment = { 
     backendURI: '${backendURI}',
-    projectVersion: '${projectVersion}',
-    rapydoVersion: '${rapydoVersion}',
-    projectName: '${projectName}',
+    projectVersion: '${process.env.VERSION}',
+    rapydoVersion: '${process.env.RAPYDO_VERSION}',
+    projectName: '${process.env.VANILLA_PACKAGE}',
     projectTitle: '${projectTitle}',
     projectDescription: '${projectDescription}',
-    enableFooter: '${enableFooter}',
-    allowRegistration: '${allowRegistration}',
-    allowPasswordReset: '${allowPasswordReset}',
-    allowTermsOfUse: '${allowTermsOfUse}',
-    minPasswordLength: '${minPasswordLength}',
+    enableFooter: '${process.env.ENABLE_FOOTER}',
+    allowRegistration: '${process.env.ALLOW_REGISTRATION}',
+    allowPasswordReset: '${process.env.ALLOW_PASSWORD_RESET}',
+    allowTermsOfUse: '${process.env.ALLOW_TERMS_OF_USE}',
+    minPasswordLength: '${process.env.AUTH_MIN_PASSWORD_LENGTH}',
     websocketsUrl: '${websocketsURI}',`;
 for (let key in process.env) {
   if (key.startsWith(INJECT_KEY)) {
@@ -94,8 +82,8 @@ for (let key in process.env) {
   }
 }
 envConfigFile += `  
-    SENTRY_URL: '${SENTRY_URL}',
-    GA_TRACKING_CODE: '${GA_TRACKING_CODE}'
+    SENTRY_URL: '${process.env.SENTRY_URL}',
+    GA_TRACKING_CODE: '${process.env.GA_TRACKING_CODE}'
 };
 `;
 fs.writeFile(targetPath, envConfigFile, function (err) {

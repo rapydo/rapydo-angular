@@ -1,10 +1,25 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword } from "../../fixtures/utilities";
+import { getpassword, get_totp } from "../../fixtures/utilities";
 
 describe("Registration", () => {
-  if (Cypress.env("ALLOW_REGISTRATION")) {
+  if (!Cypress.env("ALLOW_REGISTRATION")) {
+    it("Registration not allowed", () => {
+      cy.visit("/public/register");
+      cy.location().should((location) => {
+        expect(location.pathname).to.eq("/public/register");
+      });
+
+      cy.get("div.card-header h4").contains("Register a new account");
+
+      cy.contains("Account registration is not allowed");
+    });
+  } else {
+    const newUser =
+      "testuser" + Math.floor(Math.random() * 1000000) + "@sample.org";
+    let newPassword = "to-be-generated";
+
     it("Registration", () => {
       cy.visit("/app/login");
       cy.closecookielaw();
@@ -108,7 +123,7 @@ describe("Registration", () => {
       cy.get("@submit").click({ force: true });
 
       // Validation is now ok, but sending an already existing user as username
-      let newPassword = getpassword(1);
+      newPassword = getpassword(1);
       cy.get("@email").clear().type(Cypress.env("AUTH_DEFAULT_USERNAME"));
       cy.get("@password").clear().type(newPassword);
       cy.get("@confirmation").clear().type(newPassword);
@@ -119,8 +134,7 @@ describe("Registration", () => {
       );
 
       // Failures on password validation: missing upper case letters
-      const newUser =
-        "testuser" + Math.floor(Math.random() * 1000000) + "@sample.org";
+
       cy.get("@email").clear().type(newUser);
       cy.get("@submit").click({ force: true });
       cy.checkalert("Password is too weak, missing upper case letters");
@@ -158,10 +172,12 @@ describe("Registration", () => {
       cy.contains(
         "User successfully registered. You will receive an email to confirm your registraton and activate your account"
       );
+    });
 
+    it("Activation", () => {
       cy.visit("/app/login");
 
-      cy.intercept("POST", "/auth/login").as("login1");
+      cy.intercept("POST", "/auth/login").as("login");
 
       cy.get("input[placeholder='Your username (email)']")
         .clear()
@@ -170,14 +186,14 @@ describe("Registration", () => {
         .clear()
         .type(newPassword + "{enter}");
 
-      cy.wait("@login1");
+      cy.wait("@login");
 
       cy.get("div.card-header.bg-warning h4").contains(
         "This account is not active"
       );
       cy.get("div.card-block").contains("Didn't receive an activation link?");
 
-      cy.get("a").contains("Click here to send again").click();
+      cy.get("a").contains("Click here to send again").click({ force: true });
 
       cy.checkalert(
         "We are sending an email to your email address where you will find the link to activate your account"
@@ -219,7 +235,8 @@ describe("Registration", () => {
           "This activation token is not valid and your request can not be satisfied."
         );
       });
-
+    });
+    it("Access", () => {
       cy.visit("/app/login");
 
       cy.intercept("POST", "/auth/login").as("login2");
@@ -233,15 +250,26 @@ describe("Registration", () => {
 
       cy.wait("@login2");
 
-      if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === "True") {
-        cy.get("div.card-header")
-          .should("have.class", "bg-warning")
-          .find("h4")
-          .contains("Please change your temporary password");
+      if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+        cy.get("div.card-header h4").contains(
+          "Configure Two-Factor with Google Auth"
+        );
+
+        cy.get("input[placeholder='Your new password']").type(
+          newPassword + "!"
+        );
+        cy.get("input[placeholder='Confirm your new password']").type(
+          newPassword + "!"
+        );
+        cy.get("input[placeholder='TOTP verification code']").type(get_totp());
+
+        cy.get("button").contains("Authorize").click();
+      } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
+        cy.get("div.card-header.bg-warning h4").contains(
+          "Please change your temporary password"
+        );
 
         cy.checkalert("Please change your temporary password");
-
-        cy.intercept("POST", "/auth/login").as("login3");
 
         cy.get('input[placeholder="Your new password"]')
           .clear()
@@ -250,11 +278,9 @@ describe("Registration", () => {
           .clear()
           .type(newPassword + "!");
         cy.get('button:contains("Change")').click({ force: true });
-
-        cy.wait("@login3");
       }
 
-      cy.visit("/app/profile");
+      cy.goto_profile();
 
       cy.get("table").find("td").contains(newUser);
 
@@ -271,34 +297,12 @@ describe("Registration", () => {
       );
 
       cy.logout();
+    });
 
-      // Login as admin to delete the user
+    after(() => {
       cy.login();
 
       cy.deleteuser(newUser);
-
-      cy.visit("/app/login");
-
-      cy.get("input[placeholder='Your username (email)']")
-        .clear()
-        .type(newUser);
-      cy.get("input[placeholder='Your password']")
-        .clear()
-        .type("looooong{enter}");
-      // cy.get("button").contains("Login").click();
-
-      cy.checkalert("Invalid username or password");
-    });
-  } else {
-    it("Registration not allowed", () => {
-      cy.visit("/public/register");
-      cy.location().should((location) => {
-        expect(location.pathname).to.eq("/public/register");
-      });
-
-      cy.get("div.card-header h4").contains("Register a new account");
-
-      cy.contains("Account registration is not allowed");
     });
   }
 });

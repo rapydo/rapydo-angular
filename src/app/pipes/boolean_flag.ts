@@ -5,7 +5,7 @@ import { Injectable, Pipe } from "@angular/core";
 })
 @Injectable()
 export class BooleanFlagPipe {
-  transform(str): string {
+  transform(str: boolean | string): string {
     if (str === true) {
       return "<i class='fas fa-check fa-lg green'></i>";
     }

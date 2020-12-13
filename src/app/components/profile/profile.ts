@@ -36,7 +36,7 @@ export class ProfileComponent {
   private reloadUser() {
     this.spinner.show();
     this.auth.loadUser().subscribe(
-      (response: User) => {
+      (response) => {
         this.user = response;
         this.spinner.hide();
       },
@@ -48,7 +48,7 @@ export class ProfileComponent {
   }
   public edit_profile(): void {
     this.api
-      .patch<Schema[]>("/auth/profile", "", { get_schema: true })
+      .patch<Schema[]>("/auth/profile", { get_schema: true })
       .subscribe(
         (response) => {
           response.some((value, index) => {
@@ -92,7 +92,7 @@ export class ProfileComponent {
   public submit(): void {
     if (this.form.valid) {
       this.spinner.show();
-      this.api.patch("/auth/profile", "", this.model).subscribe(
+      this.api.patch("/auth/profile", this.model).subscribe(
         (response) => {
           this.modalRef.close("");
           this.notify.showSuccess("Confirmation: Profile successfully updated");

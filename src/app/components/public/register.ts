@@ -47,7 +47,7 @@ export class RegisterComponent {
     this.route.params.subscribe((params) => {
       if (typeof params["token"] !== "undefined") {
         this.registration_title = "Validating activation token...";
-        this.api.put("/auth/profile/activate/" + params["token"]).subscribe(
+        this.api.put(`/auth/profile/activate/${params["token"]}`).subscribe(
           (response) => {
             this.invalid_token = false;
             this.showRegistrationForm = false;

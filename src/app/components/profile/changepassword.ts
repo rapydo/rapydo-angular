@@ -26,41 +26,35 @@ export class ChangePasswordComponent {
   ) {
     this.user = auth.getUser();
 
-    if (
-      this.user &&
-      this.user["SECOND_FACTOR"] &&
-      this.user["SECOND_FACTOR"] === "TOTP"
-    ) {
+    if (this.user && this.user.two_factor_enabled) {
       this.fields.push({
         key: "totp_code",
         type: "input",
         templateOptions: {
-          type: "number",
+          type: "string",
           label: "Verification code",
           placeholder: "TOTP verification code",
           addonLeft: {
             class: "fas fa-shield-alt",
           },
           required: true,
-          min: 100000,
-          max: 999999,
         },
-      });
-    } else {
-      this.fields.push({
-        key: "currentPwd",
-        type: "password",
-        templateOptions: {
-          // type: "password",
-          label: "Current password",
-          placeholder: "Type here your current password",
-          addonLeft: {
-            class: "fas fa-key",
-          },
-          required: true,
-        },
+        validators: { validation: ["totp"] },
       });
     }
+    this.fields.push({
+      key: "currentPwd",
+      type: "password",
+      templateOptions: {
+        // type: "password",
+        label: "Current password",
+        placeholder: "Type here your current password",
+        addonLeft: {
+          class: "fas fa-key",
+        },
+        required: true,
+      },
+    });
 
     this.fields.push({
       key: "newPwd",
@@ -102,16 +96,14 @@ export class ChangePasswordComponent {
       return false;
     }
 
-    let data = {};
-    data["new_password"] = this.model["newPwd"];
-    data["password_confirm"] = this.model["confirmPwd"];
-
-    if (this.model["currentPwd"]) {
-      data["password"] = this.model["currentPwd"];
-    }
+    let data = {
+      new_password: this.model["newPwd"],
+      password_confirm: this.model["confirmPwd"],
+      password: this.model["currentPwd"],
+    };
 
     if (this.model["totp_code"]) {
-      data["password"] = this.model["totp_code"];
+      data["totp_code"] = this.model["totp_code"];
     }
 
     if (this.auth.getUser() === null) {
@@ -125,30 +117,29 @@ export class ChangePasswordComponent {
         this.model["confirmPwd"] = "";
         this.notify.showSuccess("Password successfully changed");
 
-        this.auth.login(username, data["new_password"]).subscribe(
-          (data) => {
-            this.auth.loadUser().subscribe(
-              (response) => {
-                this.router.navigate([""]);
-              },
-              (error) => {
-                this.notify.showError(error);
-              }
-            );
-          },
-          (error) => {
-            this.notify.showError(error);
-          }
-        );
+        // With TOTP enabled the automatic login is not allowed due to the TOTP request
+        if (this.user && this.user.two_factor_enabled) {
+          this.router.navigate(["/app/login"]);
+        } else {
+          this.auth.login(username, data["new_password"]).subscribe(
+            (data) => {
+              this.auth.loadUser().subscribe(
+                (response) => {
+                  this.router.navigate([""]);
+                },
+                (error) => {
+                  this.notify.showError(error);
+                }
+              );
+            },
+            (error) => {
+              this.notify.showError(error);
+            }
+          );
+        }
       },
       (error) => {
-        if (error.status === 401) {
-          this.notify.showError(
-            "Your request cannot be authorized, is current password wrong?"
-          );
-        } else {
-          this.notify.showError(error);
-        }
+        this.notify.showError(error);
       }
     );
   }

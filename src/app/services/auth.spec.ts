@@ -42,7 +42,7 @@ describe("AuthService", () => {
         expect(result).toBeUndefined();
       },
       (error) => {
-        expect(error.error).toEqual("Invalid username or password");
+        expect(error.error).toEqual("Invalid access credentials");
 
         service.isAuthenticated().subscribe((result) => {
           expect(result).toBeFalsy();
@@ -53,7 +53,7 @@ describe("AuthService", () => {
     const req = httpMock.expectOne(environment.backendURI + "/auth/login");
 
     expect(req.request.method).toEqual("POST");
-    req.flush("Invalid username or password", mock401Response);
+    req.flush("Invalid access credentials", mock401Response);
 
     httpMock.verify();
   });

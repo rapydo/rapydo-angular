@@ -42,6 +42,8 @@ export interface User extends SimpleUserWithId, CustomUser {
   readonly isStaff: boolean;
   readonly isCoordinator: boolean;
   readonly is_active: boolean;
+  /** @nullable */
+  readonly expiration: Date;
   readonly privacy_accepted: boolean;
   readonly roles: Record<string, string>;
   /** @nullable */
@@ -53,6 +55,7 @@ export interface User extends SimpleUserWithId, CustomUser {
   // "nullable" should be removed in a near future
   /** @nullable */
   readonly group: Group;
+  readonly two_factor_enabled: boolean;
 }
 
 // It is used in AdminUsers response
@@ -66,6 +69,10 @@ export interface AdminUser extends SimpleUserWithId, CustomUser {
   /** @nullable */
   readonly last_password_change: Date;
   readonly roles: any;
+  /** @nullable */
+  readonly expiration: Date;
+  // Added by AdminUsersComponent
+  expired?: boolean;
   // "nullable" should be removed in a near future
   /** @nullable */
   readonly group: Group;
@@ -152,7 +159,7 @@ interface CPUStats {
   /** @minimum 1 */
   readonly count: number;
   /** @minimum 0 */
-  readonly load: number;
+  readonly load_percentage: number;
   /**
    * @minimum 0
    * @maximum 100
@@ -267,4 +274,10 @@ export interface ConfirmationModalOptions {
   readonly subText?: string;
   readonly confirmButton?: string;
   readonly cancelButton?: string;
+}
+
+export interface AdminMenu {
+  label: string;
+  router_link: string;
+  enabled: boolean;
 }

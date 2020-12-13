@@ -36,41 +36,17 @@
           aria-labelledby="navbarDropdownAdminLink"
           class="dropdown-menu"
         >
-          <a
-            *ngIf="user.isAdmin || user.isCoordinator"
-            ngbDropdownItem
-            routerLink="/app/admin/users"
-            routerLinkActive="active"
-            (click)="isMenuCollapsed = true"
-            >Users</a
-          >
-
-          <a
-            *ngIf="user.isAdmin"
-            ngbDropdownItem
-            routerLink="/app/admin/groups"
-            routerLinkActive="active"
-            (click)="isMenuCollapsed = true"
-            >Groups</a
-          >
-
-          <a
-            *ngIf="user.isAdmin"
-            ngbDropdownItem
-            routerLink="/app/admin/sessions"
-            routerLinkActive="active"
-            (click)="isMenuCollapsed = true"
-            >Sessions</a
-          >
-
-          <a
-            *ngIf="user.isAdmin"
-            ngbDropdownItem
-            routerLink="/app/admin/stats"
-            routerLinkActive="active"
-            (click)="isMenuCollapsed = true"
-            >Server Stats</a
-          >
+          <ng-container *ngFor="let menu of admin_entries">
+            <a
+              *ngIf="menu.enabled"
+              ngbDropdownItem
+              routerLink="{{menu.router_link}}"
+              routerLinkActive="active"
+              (click)="isMenuCollapsed = true"
+            >
+              {{menu.label}}
+            </a>
+          </ng-container>
         </div>
       </li>
     </ul>
@@ -97,7 +73,7 @@
         </a>
       </li>
 
-      <li class="nav-item" *ngIf="!user">
+      <li class="nav-item" *ngIf="!user && api.is_online() && isBrowser">
         <a
           class="nav-link btn btn-sm btn-outline-secondary no-rounded"
           routerLink="/app/login"

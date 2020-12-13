@@ -1,7 +1,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    // From default Angular CLI
     "baseUrl": "/app/node_modules/",
     "outDir": "/app/dist",
     "target": "es2015",
@@ -14,7 +13,6 @@
     "experimentalDecorators": true,
     "importHelpers": true,
 
-    // Addendum
     // Enable incremental compilation by reading/writing information from prior compilations to a file on disk.
     "incremental": true,
 
@@ -32,9 +30,36 @@
     // Needed to load json schemas from file (for aij validation)
     "resolveJsonModule": true,
 
+    // A set of cool rules
     // Raise error on expressions and declarations with an implied any type.
-    // enable in a near future
+
+    // Prevent TypeScript to fall back to a type of any
+    // for a variable when it cannot infer the type.
     // "noImplicitAny": true,
+
+    // Raise error on ‘this’ expressions with an implied ‘any’ type.
+    "noImplicitThis": false,
+
+    // When strictNullChecks is true, null and undefined have their own distinct types
+    // and you’ll get a type error if you try to use them where
+    // a concrete value is expected.
+    // Setting strictNullChecks to true will raise an error that you have not made
+    // a guarantee that the property/object exists before trying to use it.
+    // "strictNullChecks": true,
+
+    // When set to true, TypeScript will raise an error when
+    // a class property was declared but not set in the constructor.
+    // "strictPropertyInitialization": true,
+
+    // When set, TypeScript will check that the built-in methods of functions
+    // call, bind, and apply are invoked with correct argument for the underlying function
+    "strictBindCallApply": true,
+
+    // When enabled, this flag causes functions parameters to be checked more correctly.
+    "strictFunctionTypes": true,
+
+    // Or a shortcut enabling all 6 rules above
+    // "strict": true,
 
     // Suppress --noImplicitAny errors for indexing objects lacking index signatures.
     // "suppressImplicitAnyIndexErrors": false,

@@ -15,11 +15,11 @@ export class NotificationService {
 
   constructor(private toastr: ToastrService) {}
 
-  private isDict(dict) {
+  private isDict(dict: any): boolean {
     return typeof dict === "object" && !Array.isArray(dict);
   }
 
-  private extractMessages(msg, title: string): Message[] {
+  private extractMessages(msg: any, title: string): Message[] {
     let messages: Message[] = [];
 
     if (msg === null) {
@@ -53,7 +53,7 @@ export class NotificationService {
     messages.push({ text: msg, title: title });
     return messages;
   }
-  public showCritical = function (message: any, title: string = ""): void {
+  public showCritical(message: any, title: string = ""): void {
     for (let msg of this.extractMessages(message, title)) {
       if (msg === null) {
         continue;
@@ -62,9 +62,9 @@ export class NotificationService {
         timeOut: 0,
       });
     }
-  };
+  }
 
-  public showError = function (message: any, title: string = ""): void {
+  public showError(message: any, title: string = ""): void {
     for (let msg of this.extractMessages(message, title)) {
       if (msg === null) {
         continue;
@@ -73,9 +73,9 @@ export class NotificationService {
         timeOut: 15000,
       });
     }
-  };
+  }
 
-  public showWarning = function (message: any, title: string = ""): void {
+  public showWarning(message: any, title: string = ""): void {
     for (let msg of this.extractMessages(message, title)) {
       if (msg === null) {
         continue;
@@ -84,9 +84,9 @@ export class NotificationService {
         timeOut: 10000,
       });
     }
-  };
+  }
 
-  public showSuccess = function (message: any, title: string = ""): void {
+  public showSuccess(message: any, title: string = ""): void {
     for (let msg of this.extractMessages(message, title)) {
       if (msg === null) {
         continue;
@@ -95,9 +95,9 @@ export class NotificationService {
         timeOut: 10000,
       });
     }
-  };
+  }
 
-  public showInfo = function (message: any, title: string = ""): void {
+  public showInfo(message: any, title: string = ""): void {
     for (let msg of this.extractMessages(message, title)) {
       if (msg === null) {
         continue;
@@ -106,5 +106,5 @@ export class NotificationService {
         timeOut: 10000,
       });
     }
-  };
+  }
 }

@@ -1,4 +1,6 @@
-import { Injectable } from "@angular/core";
+import { Injectable, PLATFORM_ID, Inject } from "@angular/core";
+import { isPlatformBrowser } from "@angular/common";
+
 import { catchError, map } from "rxjs/operators";
 import { of, throwError, Observable } from "rxjs";
 import {
@@ -12,13 +14,15 @@ import { environment } from "@rapydo/../environments/environment";
 
 import { validate } from "@rapydo/validate";
 
-const reader: FileReader = new FileReader();
-
 @Injectable()
 export class ApiService {
   public static is_online: boolean = true;
 
-  constructor(private http: HttpClient, private notify: NotificationService) {}
+  constructor(
+    private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: any,
+    private notify: NotificationService
+  ) {}
 
   public is_online(): boolean {
     return ApiService.is_online;
@@ -43,76 +47,48 @@ export class ApiService {
 
   public get<T>(
     endpoint: string,
-    id = "",
-    data = {},
-    options = {}
+    data: Record<string, unknown> = {},
+    options: Record<string, unknown> = {}
   ): Observable<T> {
-    /* istanbul ignore next */
-    if (id !== "") {
-      // Deprecated since 0.8
-      console.error(
-        "Deprecated use of id parameter in api.get (will be dropped in the next version)"
-      );
-      endpoint += "/" + id;
-    }
-    return this.call("GET", endpoint, data, options);
+    return this.call<T>("GET", endpoint, data, options);
   }
 
-  public post<T>(endpoint: string, data = {}, options = {}): Observable<T> {
-    return this.call("POST", endpoint, data, options);
+  public post<T>(
+    endpoint: string,
+    data: Record<string, unknown> = {},
+    options: Record<string, unknown> = {}
+  ): Observable<T> {
+    return this.call<T>("POST", endpoint, data, options);
   }
 
   public put<T>(
     endpoint: string,
-    id = "",
-    data = {},
-    options = {}
+    data: Record<string, unknown> = {},
+    options: Record<string, unknown> = {}
   ): Observable<T> {
-    /* istanbul ignore next */
-    if (id !== "") {
-      // Deprecated since 0.8
-      console.error(
-        "Deprecated use of id parameter in api.put (will be dropped in the next version)"
-      );
-      endpoint += "/" + id;
-    }
-    return this.call("PUT", endpoint, data, options);
+    return this.call<T>("PUT", endpoint, data, options);
   }
 
   public patch<T>(
     endpoint: string,
-    id = "",
-    data = {},
-    options = {}
+    data: Record<string, unknown> = {},
+    options: Record<string, unknown> = {}
   ): Observable<T> {
-    /* istanbul ignore next */
-    if (id !== "") {
-      // Deprecated since 0.8
-      console.error(
-        "Deprecated use of id parameter in api.patch (will be dropped in the next version)"
-      );
-      endpoint += "/" + id;
-    }
-    return this.call("PATCH", endpoint, data, options);
+    return this.call<T>("PATCH", endpoint, data, options);
   }
 
-  public delete<T>(endpoint: string, id = "", options = {}): Observable<T> {
-    /* istanbul ignore next */
-    if (id !== "") {
-      // Deprecated since 0.8
-      console.error(
-        "Deprecated use of id parameter in api.delete (will be dropped in the next version)"
-      );
-      endpoint += "/" + id;
-    }
-    return this.call("DELETE", endpoint, {}, options);
+  public delete<T>(
+    endpoint: string,
+    options: Record<string, unknown> = {}
+  ): Observable<T> {
+    return this.call<T>("DELETE", endpoint, {}, options);
   }
 
   protected call<T>(
     method: string,
     endpoint: string,
-    data = {},
-    options = {}
+    data: Record<string, unknown> = {},
+    options: Record<string, unknown> = {}
   ): Observable<T> {
     let conf = this.opt(options, "conf");
     let rawError = this.opt(options, "rawError", false);
@@ -173,17 +149,22 @@ export class ApiService {
         this.set_online();
 
         if (validationSchema) {
-          const errors = validate(validationSchema, response);
+          try {
+            const errors = validate(validationSchema, response);
 
-          if (errors) {
-            for (let error of errors) {
-              this.notify.showError(error);
-              console.error(error);
+            if (errors) {
+              for (let error of errors) {
+                const message = {};
+                message["Invalid " + validationSchema + " response"] = error;
+                this.notify.showError(message);
+              }
+              throw new Error("Response validation error");
             }
-            throw new Error("Response validation error");
+          } catch (e) {
+            if (e instanceof TypeError) {
+              console.warn(e);
+            }
           }
-          // } else {
-          //   console.warn("Unvalidated response");
         }
         return response;
       }),
@@ -241,14 +222,18 @@ export class ApiService {
   /* istanbul ignore next */
   public parseErrorBlob(err: HttpErrorResponse): Observable<any> {
     if (err.error instanceof Blob) {
-      const obs = Observable.create((observer: any) => {
-        reader.onloadend = (e) => {
-          observer.error(JSON.parse(reader.result as string));
-          observer.complete();
-        };
-      });
-      reader.readAsText(err.error);
-      return obs;
+      // This is only executed from the browser and skipped during SSR
+      if (isPlatformBrowser(this.platformId)) {
+        const reader: FileReader = new FileReader();
+        const obs = Observable.create((observer: any) => {
+          reader.onloadend = (e) => {
+            observer.error(JSON.parse(reader.result as string));
+            observer.complete();
+          };
+        });
+        reader.readAsText(err.error);
+        return obs;
+      }
     }
 
     if (err.error instanceof ProgressEvent) {

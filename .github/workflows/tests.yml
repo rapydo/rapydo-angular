@@ -9,11 +9,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
-    timeout-minutes: 20
+    timeout-minutes: 45
 
     strategy:
       matrix:
-        stage: [karma, cypress-lite, cypress-full, prod]
+        stage: [karma, cypress-lite, cypress-full, cypress-totp, prod]
 
     steps:
       - uses: actions/checkout@v2
@@ -45,7 +45,7 @@ jobs:
         run: |
           cd rapydo_tests
           rapydo --testing init
-          rapydo -s frontend pull
+          rapydo -s frontend pull --quiet
           rapydo -s frontend start
           sleep 5
           rapydo shell --no-tty frontend "yarn install"
@@ -55,32 +55,33 @@ jobs:
           bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular;
 
       - uses: rapydo/actions/setup-cypress@v1
-        if: ${{ matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full'}}
+        if: ${{ matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full' || matrix.stage == 'cypress-totp' }}
         with:
           id: ${{ secrets.CYPRESS_PROJECT_ID }}
           key: ${{ secrets.CYPRESS_RECORD_KEY }}
 
       - name: Run Cypress
-        if: ${{ matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full'}}
+        if: ${{ matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full' || matrix.stage == 'cypress-totp' }}
         run: |
           cd rapydo_tests
 
           rapydo --testing init
           rapydo add --force component sink
 
-          rapydo pull
+          rapydo pull --quiet
 
           if [[ "${{ matrix.stage }}" == "cypress-full" ]]; then
 
-            # AUTH_MAX_PASSWORD_VALIDITY: 0
-            # AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER: 0
-            # AUTH_SECOND_FACTOR_AUTHENTICATION: None
-            # Please note some env as 'true' and others as 'True'
-            # The first are variable only used on the frontend and assigned with a javascript true
-            # The second are variable also used by the backend and assigned with a python True
-            rapydo -e PROJECT_TITLE="Your ${AUTH} Full Project" -e ALLOW_TERMS_OF_USE=true -e AUTH_FORCE_FIRST_PASSWORD_CHANGE=True -e AUTH_MIN_PASSWORD_LENGTH=12 start
+            rapydo -e PROJECT_TITLE="Your ${AUTH} Full Project" -e ALLOW_TERMS_OF_USE=1 -e AUTH_FORCE_FIRST_PASSWORD_CHANGE=1 -e AUTH_MIN_PASSWORD_LENGTH=10 -e AUTH_MAX_LOGIN_ATTEMPTS=10 -e AUTH_MAX_PASSWORD_VALIDITY=60 -e AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER=60 start
+
+          elif [[ "${{ matrix.stage }}" == "cypress-totp" ]]; then
+
+            rapydo -e PROJECT_TITLE="Your ${AUTH} TOTP Project" -e ALLOW_TERMS_OF_USE=1 -e AUTH_FORCE_FIRST_PASSWORD_CHANGE=1 -e AUTH_MIN_PASSWORD_LENGTH=12 -e AUTH_MAX_LOGIN_ATTEMPTS=10 -e AUTH_MAX_PASSWORD_VALIDITY=60 -e AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER=60 -e AUTH_SECOND_FACTOR_AUTHENTICATION=1 start
+
           else
+
             rapydo -e PROJECT_TITLE="Your ${AUTH} Project" start
+
           fi
 
           rapydo shell --no-tty backend 'restapi wait'
@@ -93,6 +94,9 @@ jobs:
           rapydo logs
           if [[ "${{ matrix.stage }}" == "cypress-full" ]]; then
             rapydo shell --no-tty frontend "yarn run cypress:start"
+          elif [[ "${{ matrix.stage }}" == "cypress-totp" ]]; then
+            # Only differs in --group option
+            rapydo shell --no-tty frontend "yarn run cypress:start:totp"
           else
             # Only differs in --group option
             rapydo shell --no-tty frontend "yarn run cypress:start:lite"
@@ -103,17 +107,6 @@ jobs:
           cp data/prj/karma/lcov.info .
           bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular
 
-      # - name: Save Video Artifact
-      #   uses: actions/upload-artifact@v1
-      #   if: ${{ matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full'}}
-      #   with:
-      #     name: cypress-recordings
-      #     path: rapydo_tests/data/prj/cypress
-
-      # - name: Print backend logs on failure
-      #   if: ${{ failure() && (matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full') }}
-      #   run: cat rapydo_tests/data/logs/backend-server.log
-
       - name: Run Prod Tests
         if: ${{ matrix.stage == 'prod' }}
         run: |
@@ -122,7 +115,7 @@ jobs:
 
           rapydo add --force component sink
 
-          rapydo pull
+          rapydo pull --quiet
           rapydo -s frontend,proxy start
           rapydo dump
           rapydo -s frontend logs --follow
@@ -226,7 +219,37 @@ jobs:
           curl $opt/$asset | grep -i "Content-Type: text/css"
           curl $opt/$asset --header 'accept-encoding: gzip' | grep "content-encoding: gzip"
 
+          echo -e "\n**** Testing Access-Control-Allow-Origin ****"
+          curl $opt | grep -i "Access-Control-Allow-Origin: localhost"
+          curl $opt/ | grep -i "Access-Control-Allow-Origin: localhost"
+          curl $opt/index.html | grep -i "Access-Control-Allow-Origin: localhost"
+          curl $opt/app | grep -i "Access-Control-Allow-Origin: localhost"
+          curl $opt/app/ | grep -i "Access-Control-Allow-Origin: localhost"
+          curl $opt/app/index.html | grep -i "Access-Control-Allow-Origin: localhost"
+          curl $opt/app/anything | grep -i "Access-Control-Allow-Origin: localhost"
+          curl $opt/public | grep -i "Access-Control-Allow-Origin: localhost"
+          curl $opt/public/ | grep -i "Access-Control-Allow-Origin: localhost"
+          curl $opt/public/index.html | grep -i "Access-Control-Allow-Origin: localhost"
+          curl $opt/public/anything | grep -i "Access-Control-Allow-Origin: localhost"
+
           echo -e "\n"
 
           echo "{}" > cypress.json
           cypress run --browser chrome --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
+
+      # - name: Save Video Artifact
+      #   uses: actions/upload-artifact@v1
+      #   if: ${{ matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full' || matrix.stage == 'cypress-totp' }}
+      #   with:
+      #     name: cypress-recordings
+      #     path: rapydo_tests/data/prj/cypress
+
+      - name: Print backend logs on failure
+        if: ${{ failure() && (matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full' || matrix.stage == 'cypress-totp') }}
+        run: cat rapydo_tests/data/logs/backend-server.log
+
+      - name: Docker logs
+        if: failure()
+        run: |
+          cd rapydo_tests
+          rapydo logs

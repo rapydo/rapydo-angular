@@ -29,7 +29,7 @@ describe("AdminStatsComponent", () => {
     cpu: {
       count: 8,
       idle: 83,
-      load: 22.62,
+      load_percentage: 22.62,
       stolen: 0,
       system: 0,
       user: 1,

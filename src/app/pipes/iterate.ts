@@ -9,7 +9,7 @@ import { KeyValue } from "@rapydo/types";
 export class IteratePipe {
   // Used to iterate over objects, as for user in profile
   // for any other use case use keyvalue pipe
-  transform(value): KeyValue[] {
+  transform(value: any): KeyValue[] {
     let keys = [];
 
     for (let key in value) {

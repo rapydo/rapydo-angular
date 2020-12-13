@@ -7,8 +7,6 @@ describe("KitchenSink", () => {
 
     cy.visit("/app/sink");
 
-    cy.closecookielaw();
-
     cy.location("pathname").then((pathname) => {
       if (pathname === "/app/sink") {
         // Kitchen Sink is enabled, add here all tests!
@@ -53,15 +51,20 @@ describe("KitchenSink", () => {
 
         const current_year = new Date().getFullYear();
         // The year select you have 3 value:
-        cy.get("@year").find("option").should("have.length", 3);
-        // The first is curret year -1
+        cy.get("@year").find("option").should("have.length", 4);
+        // The first is curret year - 1
         cy.get("@year")
           .find("option")
           .eq(0)
           .contains((current_year - 1).toString());
         // The second is current year
         cy.get("@year").find("option").eq(1).contains(current_year.toString());
-        // The third is curret year +1
+        // The third is curret year + 1
+        cy.get("@year")
+          .find("option")
+          .eq(2)
+          .contains((current_year + 1).toString());
+        // The fourth is current year + 2
         cy.get("@year")
           .find("option")
           .eq(2)
@@ -69,6 +72,9 @@ describe("KitchenSink", () => {
         // Just to verify that the values are selectable
         cy.get("@year").select(current_year.toString());
         cy.get("@year").select((current_year - 1).toString());
+        // Let's select the third year (current + 1)
+        // The fourth is incomplete and only selectable to current day, i.e.
+        // at 02 Jan 2021 only dates between 02 Jan 2020 and 02 Jan 2022 are enabled
         cy.get("@year").select((current_year + 1).toString());
 
         cy.get(

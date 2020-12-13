@@ -18,7 +18,6 @@
             "main": "app/rapydo/main.ts",
             "polyfills": "polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "extractCss": true,
             "aot": true,
             "forkTypeChecker": false,
             "assets": [
@@ -38,7 +37,11 @@
               "./app/custom/css/style.css"
             ],
             "scripts": [],
-            "allowedCommonJsDependencies": ["ajv", "xlsx", "file-saver"]
+            "allowedCommonJsDependencies": [
+              "xlsx",
+              "file-saver",
+              "@rapydo/../../validate.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -51,7 +54,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -70,6 +72,35 @@
                 }
               ]
             }
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "/app/dist-server",
+            "main": "app/rapydo/main.server.ts",
+            "tsConfig": "tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "app/rapydo/environments/environment.ts",
+                  "with": "app/rapydo/environments/environment.prod.ts"
+                }
+              ],
+              "sourceMap": false,
+              "optimization": true
+            }
+          }
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "browserTarget": "RAPyDo:build:production",
+            "serverTarget": "RAPyDo:server:production",
+            "routes": ["/"]
           }
         },
         "serve": {

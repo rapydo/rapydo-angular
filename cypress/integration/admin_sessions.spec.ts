@@ -4,13 +4,13 @@
 describe("AdminSessions", () => {
   beforeEach(() => {
     // A lot's of logins... to have some tokens to test with
-    for (let i = 0; i < 21; i++) {
-      cy.login();
-    }
+    // for (let i = 0; i < 21; i++) {
+    //   cy.login();
+    // }
+
+    cy.login();
 
     cy.visit("/app/admin/sessions");
-
-    cy.closecookielaw();
 
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/admin/sessions");

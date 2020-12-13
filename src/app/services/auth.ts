@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { catchError, map, finalize } from "rxjs/operators";
-import { of, throwError } from "rxjs";
-import { Subject } from "rxjs";
+import { of, throwError, Subject, Observable } from "rxjs";
 
 import { User, Session, Group } from "@rapydo/types";
 import { environment } from "@rapydo/../environments/environment";
@@ -21,7 +20,8 @@ export class AuthService {
     username: string,
     password: string,
     new_password: string = null,
-    password_confirm: string = null
+    password_confirm: string = null,
+    totp_code: string = null
   ) {
     let data;
     if (new_password !== null && password_confirm !== null) {
@@ -36,6 +36,9 @@ export class AuthService {
         username,
         password,
       };
+    }
+    if (totp_code !== null) {
+      data["totp_code"] = totp_code;
     }
 
     return this.api
@@ -58,7 +61,7 @@ export class AuthService {
   }
 
   public change_password(data) {
-    return this.api.put("/auth/profile", "", data, { rawError: true }).pipe(
+    return this.api.put("/auth/profile", data, { rawError: true }).pipe(
       map((response) => {
         this.removeToken();
 
@@ -72,18 +75,18 @@ export class AuthService {
     return this.api.post("/auth/profile/activate", data);
   }
 
-  public loadUser() {
+  public loadUser(): Observable<User> {
     return this.api
-      .get<User>("/auth/profile", "", {}, { validationSchema: "User" })
+      .get<User>("/auth/profile", {}, { validationSchema: "User" })
       .pipe(
-        map((response) => {
+        map((response: User) => {
           this.setUser(response);
 
           return response;
         }),
         catchError((error) => {
           this.notify.showError(error);
-          return null;
+          return throwError(error);
         })
       );
   }
@@ -97,8 +100,7 @@ export class AuthService {
   }
 
   public isAuthenticated() {
-    let token = this.getToken();
-    if (!token) {
+    if (!this.getToken()) {
       return of(false);
     }
 

@@ -1,4 +1,12 @@
-import { Component, OnInit, ViewChild, TemplateRef } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  PLATFORM_ID,
+  Inject,
+  ViewChild,
+  TemplateRef,
+} from "@angular/core";
+import { isPlatformBrowser, isPlatformServer } from "@angular/common";
 import { Router, ActivatedRoute } from "@angular/router";
 import { FormGroup } from "@angular/forms";
 import { FormlyFieldConfig } from "@ngx-formly/core";
@@ -11,6 +19,12 @@ import { AuthService } from "@rapydo/services/auth";
 import { User } from "@rapydo/types";
 import { NotificationService } from "@rapydo/services/notification";
 import { ProjectOptions } from "@app/customization";
+
+const ACCOUNT_NOT_ACTIVE = "Sorry, this account is not active";
+const ACCOUNT_INACTIVE = "Sorry, this account is blocked for inactivity";
+const ACCOUNT_EXPIRED = "Sorry, this account is expired";
+const ACCOUNT_BANNED =
+  "Sorry, this account is temporarily blocked due to the number of failed login attempts.";
 
 @Component({
   templateUrl: "login.html",
@@ -31,10 +45,10 @@ export class LoginComponent implements OnInit {
   public panelTitle: string = "Login";
   public buttonText: string = "Login";
 
-  public askUsername: boolean = true;
-  public askPassword: boolean = true;
-  public askNewPassword: boolean = false;
-  public askTOTP: boolean = false;
+  private askCredentials: boolean = true;
+  private askNewPassword: boolean = false;
+  private askTOTP: boolean = false;
+  public qr_code: string;
 
   public accountNotActive: boolean = false;
 
@@ -43,7 +57,11 @@ export class LoginComponent implements OnInit {
   public modalRef: NgbModalRef;
   public terms_of_use: any;
 
+  public isBrowser = isPlatformBrowser(this.platformId);
+  public isServer = isPlatformServer(this.platformId);
+
   constructor(
+    @Inject(PLATFORM_ID) private platformId: any,
     private route: ActivatedRoute,
     private router: Router,
     private notify: NotificationService,
@@ -58,7 +76,7 @@ export class LoginComponent implements OnInit {
     const user = this.auth.getUser();
     if (user != null) {
       this.auth.logout().subscribe((response) => {
-        console.log("Forced logout");
+        // console.log("Forced logout");
       });
     }
   }
@@ -91,10 +109,11 @@ export class LoginComponent implements OnInit {
   private set_form() {
     this.fields = [];
 
-    if (this.askUsername) {
+    if (this.askCredentials) {
       this.fields.push({
         key: "username",
         type: "input",
+        focus: true,
         templateOptions: {
           type: "email",
           label: "Username",
@@ -106,9 +125,7 @@ export class LoginComponent implements OnInit {
         },
         validators: { validation: ["email"] },
       });
-    }
 
-    if (this.askPassword) {
       this.fields.push({
         key: "password",
         type: "password",
@@ -159,6 +176,23 @@ export class LoginComponent implements OnInit {
         },
       });
     }
+    if (this.askTOTP) {
+      this.fields.push({
+        key: "totp_code",
+        type: "input",
+        focus: true,
+        templateOptions: {
+          type: "string",
+          label: "Verification code",
+          placeholder: "TOTP verification code",
+          addonLeft: {
+            class: "fas fa-shield-alt",
+          },
+          required: true,
+        },
+        validators: { validation: ["totp"] },
+      });
+    }
   }
   login() {
     if (!this.form.valid) {
@@ -170,7 +204,8 @@ export class LoginComponent implements OnInit {
         this.model.username,
         this.model.password,
         this.model.new_password,
-        this.model.password_confirm
+        this.model.password_confirm,
+        this.model.totp_code
       )
       .subscribe(
         (data) => {
@@ -195,8 +230,14 @@ export class LoginComponent implements OnInit {
           if (error.status === 403) {
             const body = error.error;
 
-            if (body === "Sorry, this account is not active") {
+            if (body === ACCOUNT_NOT_ACTIVE) {
               this.accountNotActive = true;
+            } else if (body === ACCOUNT_BANNED) {
+              this.notify.showError(error);
+            } else if (body === ACCOUNT_INACTIVE) {
+              this.notify.showError(error);
+            } else if (body === ACCOUNT_EXPIRED) {
+              this.notify.showError(error);
             } else if (!body.actions || body.actions.length === 0) {
               this.notify.showError("Unrecognized response from server");
               if (body.errors) {
@@ -208,8 +249,7 @@ export class LoginComponent implements OnInit {
                   this.panelTitle = "Please change your temporary password";
                   this.buttonText = "Change";
                   this.warningCard = true;
-                  this.askUsername = false;
-                  this.askPassword = false;
+                  this.askCredentials = false;
                   this.askNewPassword = true;
                   this.set_form();
                   this.notify.showWarning(body.errors);
@@ -218,21 +258,24 @@ export class LoginComponent implements OnInit {
                     "Your password is expired, please change it";
                   this.buttonText = "Change";
                   this.warningCard = true;
-                  this.askUsername = false;
-                  this.askPassword = false;
+                  this.askCredentials = false;
                   this.askNewPassword = true;
                   this.set_form();
                   this.notify.showWarning(body.errors);
                 } else if (action === "TOTP") {
-                  console.warn("2FA not yet implemented");
-                  this.panelTitle = "Provide the verification code";
+                  // This prevents to override previous messages like:
+                  // Please change your temporary password
+                  // Your password is expired, please change it
+                  // With Provide the verification code that is quite more generic
+                  if (this.panelTitle == "Login") {
+                    this.panelTitle = "Provide the verification code";
+                  }
                   this.buttonText = "Authorize";
                   this.warningCard = true;
-                  this.askUsername = false;
-                  this.askPassword = false;
+                  this.askCredentials = false;
                   this.askTOTP = true;
                   this.set_form();
-                  this.notify.showWarning(body.errors);
+                  // this.notify.showWarning(body.errors);
                 } else {
                   console.error("Unrecognized action: " + action);
                   this.notify.showError("Unrecognized response from server");
@@ -240,13 +283,17 @@ export class LoginComponent implements OnInit {
               }
 
               if (body.qr_code) {
-                console.warn("2FA not yet implemented");
-                // self.qr_code = body.qr_code;
+                this.qr_code = body.qr_code;
               }
             }
           } else if (error.status === 404) {
             this.notify.showError(
               "Unable to login due to a server error. If this error persists please contact system administrators"
+            );
+          } else if (error.status === 502) {
+            this.notify.showError(
+              "The page you are looking for is currently unreachable",
+              "Resource unavailable"
             );
           } else {
             this.notify.showError(error);
@@ -266,17 +313,15 @@ export class LoginComponent implements OnInit {
 
     this.modalRef.result.then(
       (result) => {
-        this.api
-          .patch("/auth/profile", "", { privacy_accepted: true })
-          .subscribe(
-            (data) => {
-              this.auth.loadUser();
-              this.goto_url(this.returnUrl);
-            },
-            (error) => {
-              this.notify.showError(error);
-            }
-          );
+        this.api.patch("/auth/profile", { privacy_accepted: true }).subscribe(
+          (data) => {
+            this.auth.loadUser();
+            this.goto_url(this.returnUrl);
+          },
+          (error) => {
+            this.notify.showError(error);
+          }
+        );
       },
       (reason) => {
         this.auth.logout().subscribe((response) => {
@@ -291,7 +336,7 @@ export class LoginComponent implements OnInit {
 
   ask_activation_link() {
     this.auth.ask_activation_link(this.model.username).subscribe(
-      (response: any) => {
+      (response) => {
         this.accountNotActive = false;
         this.notify.showSuccess(response);
       },

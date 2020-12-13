@@ -1,6 +1,8 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
+import { get_totp } from "../../fixtures/utilities";
+
 describe("Responsive tests", () => {
   let expected_collapsed_navbar = false;
 
@@ -64,20 +66,7 @@ describe("Responsive tests", () => {
   });
 
   afterEach(() => {
-    cy.visit("/app/login");
-
-    cy.closecookielaw();
-
-    cy.get("input[placeholder='Your username (email)']").type(
-      Cypress.env("AUTH_DEFAULT_USERNAME")
-    );
-    cy.get("input[placeholder='Your password']").type(
-      Cypress.env("AUTH_DEFAULT_PASSWORD")
-    );
-
-    cy.get("button").contains("Login").click();
-
-    cy.get("input[placeholder='Your password']").should("not.exist");
+    cy.login();
 
     if (expected_collapsed_navbar) {
       cy.get("button.navbar-toggler").click();

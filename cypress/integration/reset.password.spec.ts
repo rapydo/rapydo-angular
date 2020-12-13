@@ -1,7 +1,7 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword } from "../../fixtures/utilities";
+import { getpassword, get_totp } from "../../fixtures/utilities";
 
 describe("ResetPassword", () => {
   if (Cypress.env("ALLOW_PASSWORD_RESET")) {
@@ -9,18 +9,13 @@ describe("ResetPassword", () => {
     const pwd = getpassword(4);
 
     beforeEach(() => {
-      cy.login();
-
       cy.createuser(email, pwd);
-
-      cy.logout();
     });
 
     it("Reset", () => {
       cy.visit("/app/login");
-      cy.closecookielaw();
 
-      cy.get('a:contains("Click here")').click();
+      cy.get('a:contains("Reset your password")').click({ force: true });
 
       cy.location().should((location) => {
         expect(location.pathname).to.eq("/public/reset");
@@ -29,7 +24,6 @@ describe("ResetPassword", () => {
       cy.get("div.card-header h4").contains("Reset your password");
 
       cy.visit("/public/reset");
-      cy.closecookielaw();
       cy.get("div.card-header h4").contains("Reset your password");
 
       cy.get("button:contains('Submit request')").click();
@@ -157,7 +151,6 @@ describe("ResetPassword", () => {
         cy.checkalert("Invalid reset token");
 
         cy.visit("/app/login");
-        cy.intercept("POST", "/auth/login").as("login");
         cy.get("input[placeholder='Your username (email)']")
           .clear()
           .type(email);
@@ -165,12 +158,18 @@ describe("ResetPassword", () => {
           .clear()
           .type(newPassword + "{enter}");
 
-        cy.wait("@login");
+        if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+          cy.get("input[placeholder='Your password']").should("not.exist");
+          cy.get("div.card-header h4").contains(
+            "Provide the verification code"
+          );
+          cy.get("input[placeholder='TOTP verification code']")
+            .clear()
+            .type(get_totp());
+          cy.get("button").contains("Authorize").click();
+        }
 
-        cy.visit("/app/profile");
-        cy.location().should((location) => {
-          expect(location.pathname).to.eq("/app/profile");
-        });
+        cy.goto_profile();
         cy.get("table").find("td").contains(email);
       });
     });

@@ -41,7 +41,7 @@ describe("FailedLogin", () => {
     // Username is good, password is wrong
     cy.get("input[placeholder='Your password']").clear().type("invalid");
     cy.get("button").contains("Login").click();
-    cy.checkalert("Invalid username or password");
+    cy.checkalert("Invalid access credentials");
 
     // Password is good, username is wrong
     cy.get("input[placeholder='Your username (email)']")
@@ -51,7 +51,7 @@ describe("FailedLogin", () => {
       .clear()
       .type(Cypress.env("AUTH_DEFAULT_PASSWORD"));
     cy.get("button").contains("Login").click();
-    cy.checkalert("Invalid username or password");
+    cy.checkalert("Invalid access credentials");
   });
 
   it("Backend errors", () => {

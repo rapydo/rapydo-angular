@@ -1,6 +1,13 @@
 <div class="container-fluid">
   <div class="row justify-content-md-center">
-    <div class="col-12 col-md-8 col-lg-6">
+    <!-- A splash screen to be used during SSR loadings -->
+    <div class="col-12 p-5 text-center" *ngIf="isServer">
+      <div class="spinner-grow" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-8 col-lg-6" *ngIf="isBrowser">
       <div class="card" *ngIf="accountNotActive">
         <div class="card-header bg-warning">
           <h4>This account is not active</h4>
@@ -15,6 +22,18 @@
       </div>
 
       <br /><br />
+
+      <div class="card" *ngIf="qr_code">
+        <div class="card-header">
+          <h4>Configure Two-Factor with Google Auth</h4>
+        </div>
+
+        <div class="card-block text-center">
+          After installing the Google Authenticator app,<br />
+          scan the QR code below<br />
+          <img src="data:image/png;base64,{{qr_code}}" />
+        </div>
+      </div>
 
       <div class="card" *ngIf="!accountNotActive">
         <div class="card-header" *ngIf="!warningCard">
@@ -46,16 +65,16 @@
             <i *ngIf="loading" class="fas fa-spinner fa-spin"></i>
           </form>
 
-          <div class="text-left" *ngIf="allowRegistration">
-            <br />
-            You don't have an account yet?
-            <a href="#" routerLink="/public/register">Register here</a>.
-          </div>
-
           <div class="text-left" *ngIf="allowPasswordReset">
             <br />
             Forgot your password?
-            <a href="#" routerLink="/public/reset">Click here</a>.
+            <a href="#" routerLink="/public/reset">Reset your password</a>
+          </div>
+
+          <div class="text-left" *ngIf="allowRegistration">
+            <br />
+            You don't have an account yet?
+            <a href="#" routerLink="/public/register">Register here</a>
           </div>
         </div>
       </div>
@@ -86,7 +105,7 @@
     </ngb-accordion>
   </div>
   <div class="modal-footer">
-    <h4>Do you accept all our Terms of Use?</h4>
+    <h4>Do you accept our Terms of Use?</h4>
     <button
       type="button"
       class="btn btn-outline-dark"

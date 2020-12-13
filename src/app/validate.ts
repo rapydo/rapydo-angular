@@ -1,23 +1,5 @@
-import * as Ajv from "ajv";
-import * as schema from "@rapydo/../../types.json";
+import * as schemas from "@rapydo/../../validate.js";
 import { environment } from "@rapydo/../environments/environment";
-
-const ajv = Ajv({
-  allErrors: true,
-  strictDefaults: true,
-  strictKeywords: true,
-  strictNumbers: true,
-});
-
-// Validation is currently not enabled in production due to limitations with CSP
-/* istanbul ignore else */
-if (!environment.production) {
-  for (let definition in schema["definitions"]) {
-    const def = schema["definitions"][definition];
-    const ref = "#/definitions/" + definition;
-    ajv.addSchema(def, ref);
-  }
-}
 
 // https://stackoverflow.com/questions/6491463/accessing-nested-javascript-objects-and-arays-by-string-path
 function get_value(obj: any, data_path: string): any {
@@ -25,7 +7,12 @@ function get_value(obj: any, data_path: string): any {
   data_path = data_path.replace(/\[(\w+)\]/g, ".$1");
   // strip a leading dot
   data_path = data_path.replace(/^\./, "");
-  const a = data_path.split(".");
+  // strip a leading /
+  data_path = data_path.replace(/^\//, "");
+
+  // split on dots or slashes
+  const a = data_path.split(/\.|\//);
+
   for (let i = 0, n = a.length; i < n; ++i) {
     let k = a[i];
     /* istanbul ignore else */
@@ -45,7 +32,7 @@ export function validate(ref, data) {
     return null;
   }
 
-  const validator = ajv.getSchema("#/definitions/" + ref);
+  const validator = schemas[ref];
   if (!validator) {
     console.warn("Validation function " + ref + " not found");
     return null;

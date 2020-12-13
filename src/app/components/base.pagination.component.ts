@@ -251,7 +251,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     }
 
     this.api
-      .get<Total>(this.endpoint, "", data, { validationSchema: "Total" })
+      .get<Total>(this.endpoint, data, { validationSchema: "Total" })
       .subscribe(
         (response) => {
           const t = response.total;
@@ -307,7 +307,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     }
 
     this.set_loading();
-    return this.api.get<T[]>(this.endpoint, "", data, opt).subscribe(
+    return this.api.get<T[]>(this.endpoint, data, opt).subscribe(
       (response) => {
         this.data = response;
         this.unfiltered_data = this.data;
@@ -347,7 +347,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       .open({ text: text, title: title, subText: subText })
       .then(
         (result) => {
-          retPromise = this.api.delete(this.endpoint + "/" + uuid).subscribe(
+          retPromise = this.api.delete(`${this.endpoint}/${uuid}`).subscribe(
             (response) => {
               this.notify.showSuccess(
                 "Confirmation: " + this.resource_name + " successfully deleted"
@@ -391,7 +391,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         this.notify.showError("Malformed request: ID not found");
         return false;
       }
-      apiCall = this.api.put<Schema[]>(this.endpoint + "/" + model_id, "", {
+      apiCall = this.api.put<Schema[]>(`${this.endpoint}/${model_id}`, {
         get_schema: true,
       });
     }
@@ -446,9 +446,9 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     let type = "";
 
     if (this.model["_id"]) {
-      let m = { ...this.model };
-      delete m["_id"];
-      apiCall = this.api.put(this.endpoint + "/" + this.model["_id"], "", m);
+      let model = { ...this.model };
+      delete model["_id"];
+      apiCall = this.api.put(`${this.endpoint}/${this.model["_id"]}`, model);
       type = "updated";
     } else {
       apiCall = this.api.post<UUID>(this.endpoint, this.model);

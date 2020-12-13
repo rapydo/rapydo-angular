@@ -5,7 +5,7 @@ import {
   CUSTOM_ELEMENTS_SCHEMA,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormsModule, FormControl } from "@angular/forms";
+import { FormsModule, AbstractControl } from "@angular/forms";
 import { ReactiveFormsModule, ValidationErrors } from "@angular/forms";
 
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
@@ -26,6 +26,7 @@ import { ClipboardModule } from "ngx-clipboard";
 
 import { FormlyModule } from "@ngx-formly/core";
 import { FormlyBootstrapModule } from "@ngx-formly/bootstrap";
+import { FormlyFieldConfig } from "@ngx-formly/core/lib/components/formly.field.config";
 
 import { FormlyHorizontalWrapper } from "@rapydo/components/forms/bootstrap.horizontal.wrapper";
 import { FormlyDescriptiveRadio } from "@rapydo/components/forms/radio-type.component";
@@ -44,7 +45,10 @@ import { BasePaginationComponent } from "@rapydo/components/base.pagination.comp
 import { DeleteModal } from "@rapydo/components/delete_modal";
 import { FormModal } from "@rapydo/components/forms/form_modal";
 
-export function emailValidator(control: FormControl): ValidationErrors {
+export function emailValidator(
+  control: AbstractControl,
+  fieldConfig: FormlyFieldConfig
+): ValidationErrors {
   /*
     - first chr of name is a letter
     - other chr allowed in name after the first: letters, number, . _ -
@@ -62,7 +66,16 @@ export function emailValidator(control: FormControl): ValidationErrors {
     : { email: true };
 }
 
-export function URLValidator(control: FormControl): ValidationErrors {
+export function TOTPValidator(
+  control: AbstractControl,
+  fieldConfig: FormlyFieldConfig
+): ValidationErrors {
+  return /^[0-9]{6}$/.test(control.value) ? null : { totp: true };
+}
+export function URLValidator(
+  control: AbstractControl,
+  fieldConfig: FormlyFieldConfig
+): ValidationErrors {
   if (control.value === null) {
     return null;
   }
@@ -198,11 +211,16 @@ let module_imports: any = [
       { name: "min", message: minValidationError },
       { name: "max", message: maxValidationError },
       { name: "email", message: "Invalid email address" },
+      {
+        name: "totp",
+        message: "Invalid verification code (expected 6 digits)",
+      },
       { name: "url", message: "Invalid web address" },
       { name: "ngbDate", message: "Invalid date, expected format: dd/mm/yyyy" },
     ],
     validators: [
       { name: "email", validation: emailValidator },
+      { name: "totp", validation: TOTPValidator },
       { name: "url", validation: URLValidator },
     ],
   }),

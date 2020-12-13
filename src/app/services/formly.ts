@@ -184,7 +184,9 @@ export class FormlyService {
           let default_data = data[model_key];
 
           if (default_data === null || default_data === "") {
-            model[s.key] = "";
+            if (field_type !== "datepicker") {
+              model[s.key] = "";
+            }
           } else {
             if (template_type === "number") {
               default_data = parseInt(default_data);
