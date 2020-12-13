@@ -41,23 +41,42 @@ export class ApiService {
     }
   }
 
-  public get<T>(endpoint: string, data = {}, options = {}): Observable<T> {
+  public get<T>(
+    endpoint: string,
+    data: Record<str, unknown> = {},
+    options: Record<str, unknown> = {}
+  ): Observable<T> {
     return this.call("GET", endpoint, data, options);
   }
 
-  public post<T>(endpoint: string, data = {}, options = {}): Observable<T> {
+  public post<T>(
+    endpoint: string,
+    data: Record<str, unknown> = {},
+    options: Record<str, unknown> = {}
+  ): Observable<T> {
     return this.call("POST", endpoint, data, options);
   }
 
-  public put<T>(endpoint: string, data = {}, options = {}): Observable<T> {
+  public put<T>(
+    endpoint: string,
+    data: Record<str, unknown> = {},
+    options: Record<str, unknown> = {}
+  ): Observable<T> {
     return this.call("PUT", endpoint, data, options);
   }
 
-  public patch<T>(endpoint: string, data = {}, options = {}): Observable<T> {
+  public patch<T>(
+    endpoint: string,
+    data: Record<str, unknown> = {},
+    options: Record<str, unknown> = {}
+  ): Observable<T> {
     return this.call("PATCH", endpoint, data, options);
   }
 
-  public delete<T>(endpoint: string, options = {}): Observable<T> {
+  public delete<T>(
+    endpoint: string,
+    options: Record<str, unknown> = {}
+  ): Observable<T> {
     return this.call("DELETE", endpoint, {}, options);
   }
 
