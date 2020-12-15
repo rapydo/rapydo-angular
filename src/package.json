@@ -60,7 +60,7 @@
     "angular-polyfills": "1.0.1",
     "gzipper": "4.3.0",
     "rimraf": "3.0.2",
-    "copyfiles": "2.4.0"
+    "copyfiles": "2.4.1"
   },
   "devDependencies": {
     "karma": "5.2.3",
