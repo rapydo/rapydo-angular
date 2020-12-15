@@ -45,7 +45,7 @@ jobs:
         run: |
           cd rapydo_tests
           rapydo --testing init
-          rapydo -s frontend pull
+          rapydo -s frontend pull --quiet
           rapydo -s frontend start
           sleep 5
           rapydo shell --no-tty frontend "yarn install"
@@ -68,7 +68,7 @@ jobs:
           rapydo --testing init
           rapydo add --force component sink
 
-          rapydo pull
+          rapydo pull --quiet
 
           if [[ "${{ matrix.stage }}" == "cypress-full" ]]; then
 
@@ -122,7 +122,7 @@ jobs:
 
           rapydo add --force component sink
 
-          rapydo pull
+          rapydo pull --quiet
           rapydo -s frontend,proxy start
           rapydo dump
           rapydo -s frontend logs --follow
