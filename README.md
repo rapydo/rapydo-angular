@@ -8,8 +8,8 @@ Based on:
 - bootstrap 4.5.3 with @ng-bootstrap 7.0.0
 - @ngx-formly 5.10.6
 - ngx-datatable 18.0.0
-- ngx-uploadx 3.5.2
-- file-saver 2.0.2
+- ngx-uploadx 4.0.1
+- file-saver 2.0.5
 - ngx-toastr 13.1.0
 - moment 2.29.1 with ngx-moment 5.0.0
 - font-awesome 5.15.1
