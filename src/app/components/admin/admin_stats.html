@@ -39,13 +39,13 @@
 
               <tr
                 [ngClass]="{
-                'text-success': stats.cpu.load <= 75,
-                'text-warning': stats.cpu.load >= 75 && stats.cpu.load < 110,
-                'text-danger': stats.cpu.load >= 110
+                'text-success': stats.cpu.load_percentage <= 75,
+                'text-warning': stats.cpu.load_percentage >= 75 && stats.cpu.load_percentage < 110,
+                'text-danger': stats.cpu.load_percentage >= 110
               }"
               >
                 <th>Load</th>
-                <td>{{ stats.cpu.load}}%</td>
+                <td>{{ stats.cpu.load_percentage}}%</td>
               </tr>
 
               <tr class="table-primary">

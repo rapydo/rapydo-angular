@@ -152,7 +152,7 @@ interface CPUStats {
   /** @minimum 1 */
   readonly count: number;
   /** @minimum 0 */
-  readonly load: number;
+  readonly load_percentage: number;
   /**
    * @minimum 0
    * @maximum 100
