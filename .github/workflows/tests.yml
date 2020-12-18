@@ -230,3 +230,9 @@ jobs:
 
           echo "{}" > cypress.json
           cypress run --browser chrome --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
+
+      - name: Docker logs
+        if: failure()
+        run: |
+          cd rapydo_tests
+          rapydo logs
