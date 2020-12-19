@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        stage: [karma, cypress-lite, cypress-full, prod]
+        stage: [cypress-lite, cypress-full, prod]
 
     steps:
       - uses: actions/checkout@v2
