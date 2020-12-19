@@ -9,7 +9,7 @@ module.exports = function (config) {
       require("karma-jasmine"),
       require("karma-chrome-launcher"),
       require("karma-jasmine-html-reporter"),
-      require("karma-coverage-istanbul-reporter"),
+      require("karma-coverage"),
       require("karma-spec-reporter"),
       require("@angular-devkit/build-angular/plugins/karma"),
     ],
@@ -22,7 +22,7 @@ module.exports = function (config) {
         random: false,
       },
     },
-    coverageIstanbulReporter: {
+    coverageReporter: {
       dir: require("path").join("/coverage"),
       reports: ["html", "lcovonly", "text-summary"],
       // Combines coverage information from multiple browsers into one report rather than outputting a report for each browser.
@@ -32,7 +32,7 @@ module.exports = function (config) {
       // Omit files with no statements, no functions and no branches from the report
       skipFilesWithNoCoverage: true,
     },
-    reporters: ["spec", "kjhtml", "coverage-istanbul"],
+    reporters: ["spec", "kjhtml", "coverage"],
     hostname: "0.0.0.0",
     port: 9876,
     colors: true,

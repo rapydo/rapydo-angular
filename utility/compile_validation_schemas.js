@@ -13,7 +13,7 @@ for (let definition in schema["definitions"]) {
   const def = schema["definitions"][definition];
   const ref = "#/definitions/" + definition;
 
-  console.log("Adding " + ref);
+  console.log("    Adding " + ref);
   ajv.addSchema(def, ref);
 }
 
