@@ -70,6 +70,7 @@ describe("Validate", () => {
       {
         shortname: "Name",
         fullname: "Fullname",
+        uuid: "invalid",
         extra: "invalid",
       },
     ]);
