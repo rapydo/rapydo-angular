@@ -53,7 +53,7 @@ describe("Validate", () => {
 
     expect(errors).not.toBeNull();
     expect(errors[0]).not.toBeUndefined();
-    expect(errors[0]).toBe("Response.surname = 42 should be string");
+    expect(errors[0]).toBe("Response/surname = 42 should be string");
 
     errors = validate("Groups", [
       {
@@ -64,7 +64,7 @@ describe("Validate", () => {
 
     expect(errors).not.toBeNull();
     expect(errors[0]).not.toBeUndefined();
-    expect(errors[0]).toBe("Response[0] should have required property 'uuid'");
+    expect(errors[0]).toBe("Response/0 should have required property 'uuid'");
 
     errors = validate("Groups", [
       {
@@ -77,7 +77,7 @@ describe("Validate", () => {
     expect(errors).not.toBeNull();
     expect(errors[0]).not.toBeUndefined();
     expect(errors[0]).toBe(
-      "Response contains unknown property: [0].extra = invalid"
+      "Response contains unknown property: /0.extra = invalid"
     );
 
     errors = validate("Groups", [
@@ -90,6 +90,6 @@ describe("Validate", () => {
 
     expect(errors).not.toBeNull();
     expect(errors[0]).not.toBeUndefined();
-    expect(errors[0]).toBe("Response[0].uuid = 42 should be string");
+    expect(errors[0]).toBe("Response/0/uuid = 42 should be string");
   });
 });

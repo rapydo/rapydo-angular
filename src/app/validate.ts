@@ -7,7 +7,12 @@ function get_value(obj: any, data_path: string): any {
   data_path = data_path.replace(/\[(\w+)\]/g, ".$1");
   // strip a leading dot
   data_path = data_path.replace(/^\./, "");
-  const a = data_path.split(".");
+  // strip a leading /
+  data_path = data_path.replace(/^\//, "");
+
+  // split on dots or slashes
+  const a = data_path.split(/\.|\//);
+
   for (let i = 0, n = a.length; i < n; ++i) {
     let k = a[i];
     /* istanbul ignore else */
