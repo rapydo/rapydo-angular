@@ -15,7 +15,7 @@ for (let definition in schema["definitions"]) {
 
 ajv.addSchema(schema);
 
-let moduleCode = standaloneCode.default(ajv, mapping);
+const moduleCode = standaloneCode.default(ajv, mapping);
 
 const fs = require("fs");
 const path = require("path");
