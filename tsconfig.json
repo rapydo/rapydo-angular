@@ -40,7 +40,7 @@
     // "noImplicitAny": true,
 
     // Raise error on ‘this’ expressions with an implied ‘any’ type.
-    // "noImplicitThis": true,
+    "noImplicitThis": true,
 
     // When strictNullChecks is true, null and undefined have their own distinct types
     // and you’ll get a type error if you try to use them where
