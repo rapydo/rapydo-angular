@@ -7,17 +7,15 @@ const standaloneCode = require("/app/node_modules/ajv/dist/standalone");
 const ajv = new Ajv.default({ code: { source: true } });
 addFormats(ajv);
 
-const validate = ajv.compile(schema);
-
+const mapping = {};
 for (let definition in schema["definitions"]) {
-  const def = schema["definitions"][definition];
-  const ref = "#/definitions/" + definition;
-
-  console.log("    Adding " + ref);
-  ajv.addSchema(def, ref);
+  mapping[definition] = "#/definitions/" + definition;
+  console.log("    Adding " + definition);
 }
 
-let moduleCode = standaloneCode.default(ajv);
+ajv.addSchema(schema);
+
+let moduleCode = standaloneCode.default(ajv, mapping);
 
 const fs = require("fs");
 const path = require("path");

@@ -32,12 +32,11 @@ export function validate(ref, data) {
     return null;
   }
 
-  const def = "#/definitions/" + ref;
-  if (!schemas[def]) {
+  const validator = schemas[ref];
+  if (!validator) {
     console.warn("Validation function " + ref + " not found");
     return null;
   }
-  const validator = schemas[def];
 
   const valid = validator(data);
   if (valid) {
