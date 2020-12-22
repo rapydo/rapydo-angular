@@ -10,6 +10,7 @@ import "reflect-metadata/Reflect";
 
 if (environment.production) {
   enableProdMode();
+  window.console.log = function () {};
 }
 
 document.addEventListener("DOMContentLoaded", () => {
