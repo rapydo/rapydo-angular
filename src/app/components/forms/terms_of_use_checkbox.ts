@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormlyFieldCheckbox } from "@ngx-formly/bootstrap";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "formly-field-terms_of_use_checkbox",
@@ -58,8 +58,10 @@ export class TermsOfUseCheckbox extends FormlyFieldCheckbox implements OnInit {
 
   public ngOnInit(): void {}
 
-  open(content) {
-    this.modalService.open(content, {
+  // NgbModal.open is annotated as:
+  // (content: any, options: NgbModalOptions = {}): NgbModalRef {
+  open(content: any): NgbModalRef {
+    return this.modalService.open(content, {
       size: "lg",
       backdrop: "static",
       keyboard: false,
