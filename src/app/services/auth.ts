@@ -78,7 +78,7 @@ export class AuthService {
         map((response: User) => {
           this.setUser(response);
 
-          return of(response);
+          return response;
         }),
         catchError((error) => {
           this.notify.showError(error);
