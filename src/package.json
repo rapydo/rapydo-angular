@@ -84,5 +84,12 @@
     "ngx-build-plus": "10.1.1",
     "start-server-and-test": "1.11.6",
     "raw-loader": "4.0.2"
-  }
+  },
+  "browserslist": [
+    "> 0.2%",
+    "last 2 versions",
+    "Firefox ESR",
+    "not dead",
+    "cover 99%"
+  ]
 }
