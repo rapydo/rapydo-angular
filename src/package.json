@@ -86,10 +86,7 @@
     "raw-loader": "4.0.2"
   },
   "browserslist": [
-    "> 0.2%",
-    "last 2 versions",
-    "Firefox ESR",
-    "not dead",
+    "defaults",
     "cover 99%"
   ]
 }
