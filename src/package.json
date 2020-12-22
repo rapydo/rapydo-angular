@@ -9,7 +9,7 @@
     "start:for-cypress": "ng serve --configuration cypress --host 0.0.0.0 --port 8080 --aot --disableHostCheck",
     "courtesy": "rimraf dist/* && copyfiles --flat /app/courtesy/index.html /app/dist",
     "build": "ng build --prod --optimization=true --buildOptimizer=true --extractLicenses=true --progress=true",
-    "gzip": "gzipper compress --verbose --level 9 --threshold 256 --remove-larger --exclude png,jpeg,jpg,svg,ico,woff,woff2,gif,webp /app/dist",
+    "gzip": "gzipper compress --verbose --level 9 --threshold 512 --remove-larger --exclude png,jpeg,jpg,svg,ico,woff,woff2,gif,webp /app/dist",
     "test": "ng test --code-coverage",
     "test:single": "ng test --code-coverage --watch=false",
     "cypress": "cypress run",

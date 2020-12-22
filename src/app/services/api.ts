@@ -46,7 +46,7 @@ export class ApiService {
     data: Record<string, unknown> = {},
     options: Record<string, unknown> = {}
   ): Observable<T> {
-    return this.call("GET", endpoint, data, options);
+    return this.call<T>("GET", endpoint, data, options);
   }
 
   public post<T>(
@@ -54,7 +54,7 @@ export class ApiService {
     data: Record<string, unknown> = {},
     options: Record<string, unknown> = {}
   ): Observable<T> {
-    return this.call("POST", endpoint, data, options);
+    return this.call<T>("POST", endpoint, data, options);
   }
 
   public put<T>(
@@ -62,7 +62,7 @@ export class ApiService {
     data: Record<string, unknown> = {},
     options: Record<string, unknown> = {}
   ): Observable<T> {
-    return this.call("PUT", endpoint, data, options);
+    return this.call<T>("PUT", endpoint, data, options);
   }
 
   public patch<T>(
@@ -70,14 +70,14 @@ export class ApiService {
     data: Record<string, unknown> = {},
     options: Record<string, unknown> = {}
   ): Observable<T> {
-    return this.call("PATCH", endpoint, data, options);
+    return this.call<T>("PATCH", endpoint, data, options);
   }
 
   public delete<T>(
     endpoint: string,
     options: Record<string, unknown> = {}
   ): Observable<T> {
-    return this.call("DELETE", endpoint, {}, options);
+    return this.call<T>("DELETE", endpoint, {}, options);
   }
 
   protected call<T>(

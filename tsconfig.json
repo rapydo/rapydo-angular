@@ -46,7 +46,7 @@
     // and you’ll get a type error if you try to use them where
     // a concrete value is expected.
     // Setting strictNullChecks to true will raise an error that you have not made
-    // a guarantee that the loggedInUser exists before trying to use it.
+    // a guarantee that the property/object exists before trying to use it.
     // "strictNullChecks": true,
 
     // When set to true, TypeScript will raise an error when
@@ -58,7 +58,7 @@
     "strictBindCallApply": true,
 
     // When enabled, this flag causes functions parameters to be checked more correctly.
-    // "strictFunctionTypes": true,
+    "strictFunctionTypes": true,
 
     // Or a shortcut enabling all 6 rules above
     // "strict": true,

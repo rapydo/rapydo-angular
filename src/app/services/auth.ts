@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { catchError, map, finalize } from "rxjs/operators";
-import { of, throwError } from "rxjs";
-import { Subject } from "rxjs";
+import { of, throwError, Subject, Observable } from "rxjs";
 
 import { User, Session, Group } from "@rapydo/types";
 import { environment } from "@rapydo/../environments/environment";
@@ -72,18 +71,18 @@ export class AuthService {
     return this.api.post("/auth/profile/activate", data);
   }
 
-  public loadUser() {
+  public loadUser(): Observable<User> {
     return this.api
       .get<User>("/auth/profile", {}, { validationSchema: "User" })
       .pipe(
-        map((response) => {
+        map((response: User) => {
           this.setUser(response);
 
-          return response;
+          return of(response);
         }),
         catchError((error) => {
           this.notify.showError(error);
-          return null;
+          return of(null);
         })
       );
   }

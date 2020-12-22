@@ -289,7 +289,7 @@ export class LoginComponent implements OnInit {
 
   ask_activation_link() {
     this.auth.ask_activation_link(this.model.username).subscribe(
-      (response: any) => {
+      (response) => {
         this.accountNotActive = false;
         this.notify.showSuccess(response);
       },

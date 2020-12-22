@@ -36,7 +36,7 @@ export class ProfileComponent {
   private reloadUser() {
     this.spinner.show();
     this.auth.loadUser().subscribe(
-      (response: User) => {
+      (response) => {
         this.user = response;
         this.spinner.hide();
       },
