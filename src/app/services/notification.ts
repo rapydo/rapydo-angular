@@ -15,11 +15,11 @@ export class NotificationService {
 
   constructor(private toastr: ToastrService) {}
 
-  private isDict(dict) {
+  private isDict(dict: any): boolean {
     return typeof dict === "object" && !Array.isArray(dict);
   }
 
-  private extractMessages(msg, title: string): Message[] {
+  private extractMessages(msg: any, title: string): Message[] {
     let messages: Message[] = [];
 
     if (msg === null) {
