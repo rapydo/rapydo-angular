@@ -27,7 +27,7 @@ describe("ChangePassword", () => {
 
     cy.wait("@login");
 
-    if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === "1") {
+    if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
       cy.get("div.card-header")
         .should("have.class", "bg-warning")
         .find("h4")
