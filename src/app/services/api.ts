@@ -1,4 +1,6 @@
-import { Injectable } from "@angular/core";
+import { Injectable, PLATFORM_ID, Inject } from "@angular/core";
+import { isPlatformBrowser } from "@angular/common";
+
 import { catchError, map } from "rxjs/operators";
 import { of, throwError, Observable } from "rxjs";
 import {
@@ -12,13 +14,15 @@ import { environment } from "@rapydo/../environments/environment";
 
 import { validate } from "@rapydo/validate";
 
-const reader: FileReader = new FileReader();
-
 @Injectable()
 export class ApiService {
   public static is_online: boolean = true;
 
-  constructor(private http: HttpClient, private notify: NotificationService) {}
+  constructor(
+    private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: any,
+    private notify: NotificationService
+  ) {}
 
   public is_online(): boolean {
     return ApiService.is_online;
@@ -213,14 +217,18 @@ export class ApiService {
   /* istanbul ignore next */
   public parseErrorBlob(err: HttpErrorResponse): Observable<any> {
     if (err.error instanceof Blob) {
-      const obs = Observable.create((observer: any) => {
-        reader.onloadend = (e) => {
-          observer.error(JSON.parse(reader.result as string));
-          observer.complete();
-        };
-      });
-      reader.readAsText(err.error);
-      return obs;
+      // This is only executed from the browser and skipped during SSR
+      if (isPlatformBrowser(this.platformId)) {
+        const reader: FileReader = new FileReader();
+        const obs = Observable.create((observer: any) => {
+          reader.onloadend = (e) => {
+            observer.error(JSON.parse(reader.result as string));
+            observer.complete();
+          };
+        });
+        reader.readAsText(err.error);
+        return obs;
+      }
     }
 
     if (err.error instanceof ProgressEvent) {
