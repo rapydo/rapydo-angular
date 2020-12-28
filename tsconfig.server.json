@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/server",
+    "target": "es2016",
+    "types": ["node"],
+    "typeRoots": ["node_modules/@types"]
+  },
+  "files": ["app/rapydo/main.server.ts"],
+  "angularCompilerOptions": {
+    "entryModule": "./app/rapydo/app/app.server.module#AppServerModule"
+  }
+}

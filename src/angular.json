@@ -74,6 +74,35 @@
             }
           }
         },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "/app/dist-server",
+            "main": "app/rapydo/main.server.ts",
+            "tsConfig": "tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "app/rapydo/environments/environment.ts",
+                  "with": "app/rapydo/environments/environment.prod.ts"
+                }
+              ],
+              "sourceMap": false,
+              "optimization": true
+            }
+          }
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "browserTarget": "RAPyDo:build:production",
+            "serverTarget": "RAPyDo:server:production",
+            "routes": ["/"]
+          }
+        },
         "serve": {
           "builder": "ngx-build-plus:dev-server",
           "options": {
