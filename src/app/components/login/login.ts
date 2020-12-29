@@ -260,6 +260,11 @@ export class LoginComponent implements OnInit {
             this.notify.showError(
               "Unable to login due to a server error. If this error persists please contact system administrators"
             );
+          } else if (error.status === 502) {
+            this.notify.showError(
+              "The page you are looking for is currently unreachable",
+              "Resource unavailable"
+            );
           } else {
             this.notify.showError(error);
           }
