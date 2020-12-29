@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  PLATFORM_ID,
+  Inject,
+  ViewChild,
+} from "@angular/core";
+import { isPlatformBrowser, isPlatformServer } from "@angular/common";
 import { Title } from "@angular/platform-browser";
 import { DeviceDetectorService } from "ngx-device-detector";
 
@@ -21,7 +28,11 @@ export class AppComponent implements OnInit {
   public cookieLawButton: string;
   public enableFooter: boolean = false;
 
+  public isBrowser = isPlatformBrowser(this.platformId);
+  public isServer = isPlatformServer(this.platformId);
+
   constructor(
+    @Inject(PLATFORM_ID) private platformId: any,
     public api: ApiService,
     private auth: AuthService,
     private titleService: Title,

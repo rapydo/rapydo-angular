@@ -97,7 +97,7 @@
         </a>
       </li>
 
-      <li class="nav-item" *ngIf="!user">
+      <li class="nav-item" *ngIf="!user && api.is_online() && isBrowser">
         <a
           class="nav-link btn btn-sm btn-outline-secondary no-rounded"
           routerLink="/app/login"

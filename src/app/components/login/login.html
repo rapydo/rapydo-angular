@@ -1,6 +1,13 @@
 <div class="container-fluid">
   <div class="row justify-content-md-center">
-    <div class="col-12 col-md-8 col-lg-6">
+    <!-- A splash screen to be used during SSR loadings -->
+    <div class="col-12 p-5 text-center" *ngIf="isServer">
+      <div class="spinner-grow" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-8 col-lg-6" *ngIf="isBrowser">
       <div class="card" *ngIf="accountNotActive">
         <div class="card-header bg-warning">
           <h4>This account is not active</h4>

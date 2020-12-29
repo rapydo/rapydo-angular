@@ -1,4 +1,12 @@
-import { Component, OnInit, ViewChild, TemplateRef } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  PLATFORM_ID,
+  Inject,
+  ViewChild,
+  TemplateRef,
+} from "@angular/core";
+import { isPlatformBrowser, isPlatformServer } from "@angular/common";
 import { Router, ActivatedRoute } from "@angular/router";
 import { FormGroup } from "@angular/forms";
 import { FormlyFieldConfig } from "@ngx-formly/core";
@@ -43,7 +51,11 @@ export class LoginComponent implements OnInit {
   public modalRef: NgbModalRef;
   public terms_of_use: any;
 
+  public isBrowser = isPlatformBrowser(this.platformId);
+  public isServer = isPlatformServer(this.platformId);
+
   constructor(
+    @Inject(PLATFORM_ID) private platformId: any,
     private route: ActivatedRoute,
     private router: Router,
     private notify: NotificationService,

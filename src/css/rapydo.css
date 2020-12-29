@@ -8,7 +8,8 @@ body {
   padding-top: 1rem;
 }
 
-.navbar .sticky-top {
+.navbar {
+  background-color: #f8f8f8 !important;
   /* margin-bottom: 0px */
 }
 
