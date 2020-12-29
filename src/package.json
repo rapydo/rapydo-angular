@@ -87,7 +87,7 @@
     "@istanbuljs/nyc-config-typescript": "1.0.1",
     "source-map-support": "0.5.19",
     "ngx-build-plus": "10.1.1",
-    "start-server-and-test": "1.11.6",
+    "start-server-and-test": "1.11.7",
     "raw-loader": "4.0.2"
   },
   "browserslist": [
