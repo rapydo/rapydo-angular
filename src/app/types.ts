@@ -268,3 +268,9 @@ export interface ConfirmationModalOptions {
   readonly confirmButton?: string;
   readonly cancelButton?: string;
 }
+
+export interface AdminMenu {
+  label: string;
+  router_link: string;
+  enabled: boolean;
+}

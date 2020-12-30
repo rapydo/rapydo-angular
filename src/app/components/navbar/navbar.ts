@@ -15,7 +15,7 @@ import { ProjectOptions } from "@app/customization";
 import { ApiService } from "@rapydo/services/api";
 import { AuthService } from "@rapydo/services/auth";
 import { ConfirmationModals } from "@rapydo/services/confirmation.modals";
-import { User, ConfirmationModalOptions } from "@rapydo/types";
+import { User, ConfirmationModalOptions, AdminMenu } from "@rapydo/types";
 
 @Component({
   selector: "navbar",
@@ -35,6 +35,8 @@ export class NavbarComponent implements OnInit {
   public isBrowser = isPlatformBrowser(this.platformId);
   public isServer = isPlatformServer(this.platformId);
 
+  public admin_entries: AdminMenu[];
+
   constructor(
     @Inject(PLATFORM_ID) private platformId: any,
     private router: Router,
@@ -53,6 +55,7 @@ export class NavbarComponent implements OnInit {
     this.auth.isAuthenticated().subscribe((is_auth) => {
       if (is_auth) {
         this.user = this.auth.getUser();
+        this.fill_admin_menu(this.user);
       } else {
         this.user = null;
       }
@@ -68,9 +71,44 @@ export class NavbarComponent implements OnInit {
       this.ref.detectChanges();
     } else if (user === this.auth.LOGGED_IN) {
       this.user = this.auth.getUser();
+      this.fill_admin_menu(this.user);
       // } else {
       //   console.warn("Received unknown user event: <" + user + ">");
     }
+  }
+
+  private fill_admin_menu(user: User): void {
+    this.admin_entries = [];
+
+    this.admin_entries.push({
+      enabled: user.isAdmin || user.isCoordinator,
+      label: "Users",
+      router_link: "/app/admin/users",
+    });
+
+    this.admin_entries.push({
+      enabled: user.isAdmin,
+      label: "Groups",
+      router_link: "/app/admin/groups",
+    });
+
+    this.admin_entries.push({
+      enabled: user.isAdmin,
+      label: "Sessions",
+      router_link: "/app/admin/sessions",
+    });
+
+    this.admin_entries.push({
+      enabled: user.isAdmin,
+      label: "Server Stats",
+      router_link: "/app/admin/stats",
+    });
+
+    const custom_entries: AdminMenu[] = this.customization.admin_menu_entries(
+      user
+    );
+
+    this.admin_entries.push(...custom_entries);
   }
 
   do_logout(): void {
