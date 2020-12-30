@@ -8,6 +8,22 @@ body {
   padding-top: 1rem;
 }
 
+/*
+  Used to separate container and footer
+  margin-bottom or padding-bottom does not work well on container fluid
+  when a bg image is set.
+  Margin-top can't be set to footer due to mt-auto
+  (required to stick the footer on the bottom)
+  => added an additional hidden element to separate the two elements
+*/
+.spacer {
+  min-height: 1rem;
+  height: 1rem;
+  margin: 0px;
+  padding: 0px;
+  background-color: transparent;
+}
+
 .navbar {
   background-color: #f8f8f8 !important;
   /* margin-bottom: 0px */
@@ -15,7 +31,6 @@ body {
 
 .footer {
   background-color: #f8f8f8 !important;
-  margin-top: 10px;
   border-top: 1px solid rgba(0, 0, 0, 0.125);
   line-height: 3em;
   padding-right: 4em;
