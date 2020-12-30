@@ -87,8 +87,8 @@ export class ApiService {
   protected call<T>(
     method: string,
     endpoint: string,
-    data = {},
-    options = {}
+    data: Record<string, unknown> = {},
+    options: Record<string, unknown> = {}
   ): Observable<T> {
     let conf = this.opt(options, "conf");
     let rawError = this.opt(options, "rawError", false);
