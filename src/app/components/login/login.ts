@@ -209,6 +209,11 @@ export class LoginComponent implements OnInit {
 
             if (body === "Sorry, this account is not active") {
               this.accountNotActive = true;
+            } else if (
+              body ==
+              "Sorry, this account is temporarily blocked due to the number of failed login attempts."
+            ) {
+              this.notify.showError(error);
             } else if (!body.actions || body.actions.length === 0) {
               this.notify.showError("Unrecognized response from server");
               if (body.errors) {

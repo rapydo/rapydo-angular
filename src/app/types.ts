@@ -66,6 +66,8 @@ export interface AdminUser extends SimpleUserWithId, CustomUser {
   /** @nullable */
   readonly last_password_change: Date;
   readonly roles: any;
+  /** @nullable */
+  readonly expiration: Date;
   // "nullable" should be removed in a near future
   /** @nullable */
   readonly group: Group;
