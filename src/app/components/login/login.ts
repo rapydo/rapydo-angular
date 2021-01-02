@@ -210,7 +210,7 @@ export class LoginComponent implements OnInit {
             if (body === "Sorry, this account is not active") {
               this.accountNotActive = true;
             } else if (
-              body ==
+              body ===
               "Sorry, this account is temporarily blocked due to the number of failed login attempts."
             ) {
               this.notify.showError(error);
