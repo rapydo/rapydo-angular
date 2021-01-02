@@ -53,7 +53,7 @@ describe("KitchenSink", () => {
 
         const current_year = new Date().getFullYear();
         // The year select you have 3 value:
-        cy.get("@year").find("option").should("have.length", 3);
+        cy.get("@year").find("option").should("have.length", 4);
         // The first is curret year -1
         cy.get("@year")
           .find("option")
