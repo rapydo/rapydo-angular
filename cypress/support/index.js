@@ -74,7 +74,7 @@ Cypress.Commands.add("getmail", () => {
   return cy.readFile("/logs/mock.mail.lastsent.body");
 });
 
-Cypress.Commands.add("createuser", (email, pwd) => {
+Cypress.Commands.add("createuser", (email, pwd, expired = false) => {
   cy.visit("/app/admin/users");
 
   // Mostly copied from admin_users.spec.ts
@@ -112,6 +112,20 @@ Cypress.Commands.add("createuser", (email, pwd) => {
       }
     });
 
+  if (expired) {
+    cy.get(
+      'input[placeholder="This user will be blocked after this date"]'
+    ).click();
+    cy.get(
+      'ngb-datepicker-navigation-select select[title="Select year"]'
+    ).select("2020");
+
+    cy.get(
+      'ngb-datepicker-navigation-select select[title="Select month"]'
+    ).select("12");
+
+    cy.get("div.ngb-dp-day div").contains("31").click({ force: true });
+  }
   cy.get('button:contains("Submit")').click({ force: true });
 
   cy.checkalert("Confirmation: user successfully created");
