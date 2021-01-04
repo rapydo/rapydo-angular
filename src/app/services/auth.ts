@@ -96,8 +96,11 @@ export class AuthService {
   }
 
   public isAuthenticated() {
-    let token = this.getToken();
-    if (!token) {
+    if (!this.getToken()) {
+      return of(false);
+    }
+
+    if (!this.getUser()) {
       return of(false);
     }
 

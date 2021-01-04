@@ -71,9 +71,7 @@ export class NavbarComponent implements OnInit {
       this.ref.detectChanges();
     } else if (user === this.auth.LOGGED_IN) {
       this.user = this.auth.getUser();
-      if (this.user) {
-        this.fill_admin_menu(this.user);
-      }
+      this.fill_admin_menu(this.user);
       // } else {
       //   console.warn("Received unknown user event: <" + user + ">");
     }

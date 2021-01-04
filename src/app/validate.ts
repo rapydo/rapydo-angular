@@ -38,10 +38,7 @@ export function validate(ref, data) {
     return null;
   }
 
-  console.warn("Validating against " + ref);
-  console.warn(validator);
   const valid = validator(data);
-  console.warn(valid);
   if (valid) {
     console.info("Response validated against " + ref + " schema");
     return null;
