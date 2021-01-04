@@ -26,7 +26,7 @@ describe("AccountExpired", () => {
       expect(location.pathname).to.eq("/app/login");
     });
 
-    cy.checkalert("Sorry, this account expired on 31 December 2020");
+    cy.checkalert("Sorry, this account is expired");
 
     cy.visit("/public/reset");
     cy.get("div.card-header h4").contains("Reset your password");
@@ -42,7 +42,7 @@ describe("AccountExpired", () => {
 
     cy.wait("@reset");
 
-    cy.checkalert("Sorry, this account expired on 31 December 2020");
+    cy.checkalert("Sorry, this account is expired");
 
     cy.login();
     cy.deleteuser(email);

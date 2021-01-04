@@ -214,7 +214,7 @@ export class LoginComponent implements OnInit {
               "Sorry, this account is temporarily blocked due to the number of failed login attempts."
             ) {
               this.notify.showError(error);
-            } else if (body.startsWith("Sorry, this account expired on")) {
+            } else if (body === "Sorry, this account is expired") {
               this.notify.showError(error);
             } else if (!body.actions || body.actions.length === 0) {
               this.notify.showError("Unrecognized response from server");
