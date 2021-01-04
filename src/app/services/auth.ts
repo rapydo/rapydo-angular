@@ -100,9 +100,9 @@ export class AuthService {
       return of(false);
     }
 
-    if (!this.getUser()) {
-      return of(false);
-    }
+    // if (!this.getUser()) {
+    //   return of(false);
+    // }
 
     // {validationSchema: "Boolean"}
     return this.api.get<boolean>("/auth/status").pipe(
