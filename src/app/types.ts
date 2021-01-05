@@ -68,6 +68,8 @@ export interface AdminUser extends SimpleUserWithId, CustomUser {
   readonly roles: any;
   /** @nullable */
   readonly expiration: Date;
+  // Added by AdminUsersComponent
+  expired?: boolean;
   // "nullable" should be removed in a near future
   /** @nullable */
   readonly group: Group;

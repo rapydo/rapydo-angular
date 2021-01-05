@@ -6,6 +6,7 @@ import {
   Injector,
 } from "@angular/core";
 
+import { Subscription } from "rxjs";
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
 import { AdminUser } from "@rapydo/types";
 
@@ -41,6 +42,16 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
     this.list();
   }
 
+  public list(): Subscription {
+    return super.list().add((response) => {
+      const now: Date = new Date();
+      for (let user of this.data) {
+        if (user.expiration) {
+          user.expired = new Date(user.expiration) <= now;
+        }
+      }
+    });
+  }
   public ngAfterViewInit(): void {
     this.columns = [];
     this.columns.push({

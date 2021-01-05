@@ -91,14 +91,25 @@
             let-i="index"
           >
             <i
+              class="fas fa-ban orange"
+              *ngIf="!value"
+              ngbTooltip="This user is not active yet"
+            ></i>
+            <i
               class="fas fa-check green"
-              *ngIf="value"
+              *ngIf="value && !row.expiration"
               ngbTooltip="This user is active"
             ></i>
             <i
-              class="fas fa-ban orange"
-              *ngIf="!value"
-              ngbTooltip="This user is inactive"
+              class="fas fa-hourglass-start orange"
+              *ngIf="value && row.expiration && row.expiration && !row.expired"
+              ngbTooltip="This user will expire on {{ row.expiration | amDateFormat: 'Do of MMMM YYYY'}} ({{ row.expiration | amTimeAgo}})"
+            ></i>
+
+            <i
+              class="fas fa-hourglass-end red"
+              *ngIf="value && row.expiration && row.expiration && row.expired"
+              ngbTooltip="This user is expired since {{ row.expiration | amDateFormat: 'Do of MMMM YYYY'}} ({{ row.expiration | amTimeAgo}})"
             ></i>
           </ng-template>
 
