@@ -1,17 +1,10 @@
 <navbar></navbar>
 
-<div *ngIf="!api.is_online()">
+<div *ngIf="!api.is_online() && isBrowser">
   <div class="container-fluid">
     <div class="row p-5 text-center">
-      <!-- A splash screen to be used during SSR loadings -->
-      <div class="col-12" *ngIf="isServer">
-        <div class="spinner-grow" role="status">
-          <span class="sr-only">Loading...</span>
-        </div>
-      </div>
-
       <!-- Normal warning browser side when APIs are offline -->
-      <div class="col-6 offset-3" *ngIf="isBrowser">
+      <div class="col-6 offset-3">
         <div class="card">
           <div class="card-header bg-warning">
             <h6>Server temporarily unreachable</h6>
