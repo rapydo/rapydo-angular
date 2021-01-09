@@ -91,19 +91,12 @@ describe("ChangePassword", () => {
     );
 
     let newPassword = getpassword(1);
-    cy.get("@password").clear().type("short");
+    // Set a wrong password for the current password
+    cy.get("@password").clear().type(getpassword(4));
     cy.get("@new_password").clear().type(newPassword);
     cy.get("@confirm_password").clear().type(getpassword(1));
     cy.checkvalidation(0, "The password does not match");
     cy.get("@confirm_password").clear().type(newPassword);
-
-    cy.get("button:contains('Submit')").click();
-    cy.checkalert(
-      "Shorter than minimum length " +
-        Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
-        "."
-    );
-    cy.get("@password").clear().type(getpassword(4));
 
     cy.get("button:contains('Submit')").click();
     cy.checkalert(

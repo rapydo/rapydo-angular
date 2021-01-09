@@ -1,7 +1,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    // From default Angular CLI
     "baseUrl": "/app/node_modules/",
     "outDir": "/app/dist",
     "target": "es2015",
@@ -14,7 +13,6 @@
     "experimentalDecorators": true,
     "importHelpers": true,
 
-    // Addendum
     // Enable incremental compilation by reading/writing information from prior compilations to a file on disk.
     "incremental": true,
 
@@ -50,7 +48,7 @@
     // "strictNullChecks": true,
 
     // When set to true, TypeScript will raise an error when
-    // a class propertywas declared but not set in the constructor.
+    // a class property was declared but not set in the constructor.
     // "strictPropertyInitialization": true,
 
     // When set, TypeScript will check that the built-in methods of functions
