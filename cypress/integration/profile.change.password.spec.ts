@@ -80,7 +80,8 @@ describe("ChangePassword", () => {
       'input[placeholder="Type again the new password for confirmation"]'
     ).as("confirm_password");
 
-    cy.get("@password").clear().type("wrong");
+    // Set a wrong password for the current password
+    cy.get("@password").clear().type(getpassword(4));
     cy.get("@new_password").clear().type("short");
     cy.get("@confirm_password").clear().type("short");
     cy.checkvalidation(
@@ -91,8 +92,6 @@ describe("ChangePassword", () => {
     );
 
     let newPassword = getpassword(1);
-    // Set a wrong password for the current password
-    cy.get("@password").clear().type(getpassword(4));
     cy.get("@new_password").clear().type(newPassword);
     cy.get("@confirm_password").clear().type(getpassword(1));
     cy.checkvalidation(0, "The password does not match");
