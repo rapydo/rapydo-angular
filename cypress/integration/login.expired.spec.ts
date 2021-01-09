@@ -55,7 +55,10 @@ describe("AccountExpired", () => {
     cy.get("datatable-body-row").first().contains("datatable-body-cell", email);
 
     // The user is already expired
-    cy.get("datatable-body-row").first().get(".fa-hourglass-end .red");
+    cy.get("datatable-body-row")
+      .first()
+      .find(".fa-hourglass-end")
+      .should("have.class", "red");
 
     // Edit the user
     cy.get("datatable-body-row")
@@ -84,7 +87,10 @@ describe("AccountExpired", () => {
     cy.get("datatable-body-row").first().contains("datatable-body-cell", email);
 
     // The user is no longer expired
-    cy.get("datatable-body-row").first().get(".fa-hourglass-start .orange");
+    cy.get("datatable-body-row")
+      .first()
+      .find(".fa-hourglass-start")
+      .should("have.class", "orange");
 
     // Let's remove the expiration date
     cy.get("datatable-body-row")
@@ -105,7 +111,10 @@ describe("AccountExpired", () => {
     cy.get("datatable-body-row").first().contains("datatable-body-cell", email);
 
     // The user is no longer expired
-    cy.get("datatable-body-row").first().get(".fa-check .green");
+    cy.get("datatable-body-row")
+      .first()
+      .find(".fa-check")
+      .should("have.class", "green");
 
     // Ok, that's all... bye bye
     cy.deleteuser(email);
