@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit {
     const user = this.auth.getUser();
     if (user != null) {
       this.auth.logout().subscribe((response) => {
-        console.log("Forced logout");
+        // console.log("Forced logout");
       });
     }
   }

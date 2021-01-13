@@ -149,17 +149,21 @@ export class ApiService {
         this.set_online();
 
         if (validationSchema) {
-          const errors = validate(validationSchema, response);
+          try {
+            const errors = validate(validationSchema, response);
 
-          if (errors) {
-            for (let error of errors) {
-              this.notify.showError(error);
-              console.error(error);
+            if (errors) {
+              for (let error of errors) {
+                this.notify.showError(error);
+                console.error(error);
+              }
+              throw new Error("Response validation error");
             }
-            throw new Error("Response validation error");
+          } catch (e) {
+            if (e instanceof TypeError) {
+              console.warn(e);
+            }
           }
-          // } else {
-          //   console.warn("Unvalidated response");
         }
         return response;
       }),
