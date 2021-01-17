@@ -54,7 +54,7 @@
     "file-saver": "2.0.5",
     "@types/file-saver": "2.0.1",
     "angular2-cookie-law": "7.0.1",
-    "@fortawesome/fontawesome-free": "5.15.1",
+    "@fortawesome/fontawesome-free": "5.15.2",
     "ngx-toastr": "13.2.0",
     "ngx-google-analytics": "11.1.0",
     "@sentry/browser": "5.30.0",
