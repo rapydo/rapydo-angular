@@ -47,7 +47,7 @@
     "ngx-clipboard": "14.0.1",
     "@ngx-formly/core": "5.10.11",
     "@ngx-formly/bootstrap": "5.10.11",
-    "@swimlane/ngx-datatable": "18.0.0",
+    "@swimlane/ngx-datatable": "19.0.0",
     "moment": "2.29.1",
     "ngx-moment": "5.0.0",
     "ngx-uploadx": "4.0.1",
