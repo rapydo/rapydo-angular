@@ -54,6 +54,14 @@
                 <td [innerHTML]="user.privacy_accepted | boolean_flag"></td>
               </tr>
 
+              <tr *ngIf="user.expiration">
+                <th>Validity</th>
+                <td>
+                  Your account will expire on {{ user.expiration | amDateFormat:
+                  'Do of MMMM YYYY' }} ({{ user.expiration | amTimeAgo }})
+                </td>
+              </tr>
+
               <!-- here | keyvalue does not work -->
               <ng-container *ngFor="let row of user | iterate">
                 <tr my-profile-row [row]="row"></tr>

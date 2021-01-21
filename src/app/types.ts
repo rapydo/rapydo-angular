@@ -42,6 +42,8 @@ export interface User extends SimpleUserWithId, CustomUser {
   readonly isStaff: boolean;
   readonly isCoordinator: boolean;
   readonly is_active: boolean;
+  /** @nullable */
+  readonly expiration: Date;
   readonly privacy_accepted: boolean;
   readonly roles: Record<string, string>;
   /** @nullable */
