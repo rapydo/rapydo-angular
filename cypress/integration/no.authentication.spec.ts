@@ -41,7 +41,7 @@ describe("NoAuthentication", () => {
   it("AdminGroups", () => {
     cy.visit("/app/admin/groups");
 
-    // AdminUsers page is restricted and you are automatically redirected to login page
+    // AdminGroups page is restricted and you are automatically redirected to login page
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/login");
     });
@@ -51,6 +51,15 @@ describe("NoAuthentication", () => {
     cy.visit("/app/admin/sessions");
 
     // AdminSessions page is restricted and you are automatically redirected to login page
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/login");
+    });
+  });
+
+  it("AdminStats", () => {
+    cy.visit("/app/admin/stats");
+
+    // AdminStats page is restricted and you are automatically redirected to login page
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/login");
     });
