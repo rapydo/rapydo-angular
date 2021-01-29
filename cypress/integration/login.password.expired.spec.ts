@@ -101,6 +101,9 @@ describe("Login", () => {
     cy.get("button").contains("Change").click();
 
     if (Cypress.env("ALLOW_TERMS_OF_USE")) {
+      cy.get("div.modal-footer h4").contains(
+        "Do you accept all our Terms of Use?"
+      );
       cy.get("div.modal-footer button").first().contains("YES").click();
     }
 

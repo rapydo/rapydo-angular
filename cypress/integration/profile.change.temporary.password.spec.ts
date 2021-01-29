@@ -91,6 +91,15 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
       cy.get("@change").click({ force: true });
 
       cy.wait("@changed");
+
+      if (Cypress.env("ALLOW_TERMS_OF_USE")) {
+        cy.get("div.modal-footer h4").contains(
+          "Do you accept all our Terms of Use?"
+        );
+        cy.get("div.modal-footer button").first().contains("YES").click();
+      }
+      s;
+
       cy.wait("@profile");
 
       cy.visit("/app/profile");
