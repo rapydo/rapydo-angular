@@ -100,7 +100,6 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
         );
         cy.get("div.modal-footer button").first().contains("YES").click();
       }
-      s;
 
       cy.wait("@profile");
 
@@ -121,10 +120,7 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
     });
 
     afterEach(() => {
-      // There is something strange with this test... the body is not execute!?
-      // It seems that it is directly executed the afterEach and the following logou
-      // fails... how is that possible !??
-      // cy.logout();
+      cy.logout();
 
       cy.login();
       cy.deleteuser(email);
