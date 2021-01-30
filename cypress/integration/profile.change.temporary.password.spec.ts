@@ -82,7 +82,6 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
       cy.checkalert("Password is too weak, missing special characters");
 
       cy.intercept("POST", "/auth/login").as("changed");
-      cy.intercept("GET", "/auth/login").as("profile");
 
       cy.get("@newpwd")
         .clear()
@@ -100,8 +99,6 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
         );
         cy.get("div.modal-footer button").first().contains("YES").click();
       }
-
-      cy.wait("@profile");
 
       cy.visit("/app/profile");
       cy.location().should((location) => {
