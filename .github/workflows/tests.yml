@@ -55,13 +55,13 @@ jobs:
           bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular;
 
       - uses: rapydo/actions/setup-cypress@v1
-        if: ${{ matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full'}}
+        if: ${{ matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full' }}
         with:
           id: ${{ secrets.CYPRESS_PROJECT_ID }}
           key: ${{ secrets.CYPRESS_RECORD_KEY }}
 
       - name: Run Cypress
-        if: ${{ matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full'}}
+        if: ${{ matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full' }}
         run: |
           cd rapydo_tests
 
@@ -102,14 +102,14 @@ jobs:
 
       # - name: Save Video Artifact
       #   uses: actions/upload-artifact@v1
-      #   if: ${{ matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full'}}
+      #   if: ${{ matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full' }}
       #   with:
       #     name: cypress-recordings
       #     path: rapydo_tests/data/prj/cypress
 
-      # - name: Print backend logs on failure
-      #   if: ${{ failure() && (matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full') }}
-      #   run: cat rapydo_tests/data/logs/backend-server.log
+      - name: Print backend logs on failure
+        if: ${{ failure() && (matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full') }}
+        run: cat rapydo_tests/data/logs/backend-server.log
 
       - name: Run Prod Tests
         if: ${{ matrix.stage == 'prod' }}
