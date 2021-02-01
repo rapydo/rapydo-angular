@@ -74,7 +74,7 @@ jobs:
 
             # AUTH_MAX_PASSWORD_VALIDITY: 0
             # AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER: 0
-            # AUTH_SECOND_FACTOR_AUTHENTICATION: None
+            # AUTH_SECOND_FACTOR_AUTHENTICATION: 0
             rapydo -e PROJECT_TITLE="Your ${AUTH} Full Project" -e ALLOW_TERMS_OF_USE=1 -e AUTH_FORCE_FIRST_PASSWORD_CHANGE=1 -e AUTH_MIN_PASSWORD_LENGTH=12 start
           else
             rapydo -e PROJECT_TITLE="Your ${AUTH} Project" start
