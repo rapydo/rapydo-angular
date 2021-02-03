@@ -20,7 +20,8 @@ export class AuthService {
     username: string,
     password: string,
     new_password: string = null,
-    password_confirm: string = null
+    password_confirm: string = null,
+    totp_code: string = null
   ) {
     let data;
     if (new_password !== null && password_confirm !== null) {
@@ -35,6 +36,9 @@ export class AuthService {
         username,
         password,
       };
+    }
+    if (totp_code !== null) {
+      data["totp_code"] = totp_code;
     }
 
     return this.api

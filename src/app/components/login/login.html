@@ -23,6 +23,18 @@
 
       <br /><br />
 
+      <div class="card" *ngIf="qr_code">
+        <div class="card-header">
+          <h4>Configure Two-Factor with Google Auth</h4>
+        </div>
+
+        <div class="card-block text-center">
+          After installing the Google Authenticator app,<br />
+          scan the QR code below<br />
+          <img src="data:image/png;base64,{{qr_code}}" />
+        </div>
+      </div>
+
       <div class="card" *ngIf="!accountNotActive">
         <div class="card-header" *ngIf="!warningCard">
           <h4>{{panelTitle}}</h4>

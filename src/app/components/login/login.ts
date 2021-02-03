@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
   public askPassword: boolean = true;
   public askNewPassword: boolean = false;
   public askTOTP: boolean = false;
+  public qr_code: string;
 
   public accountNotActive: boolean = false;
 
@@ -171,6 +172,21 @@ export class LoginComponent implements OnInit {
         },
       });
     }
+    if (this.askTOTP) {
+      this.fields.push({
+        key: "totp_code",
+        type: "input",
+        templateOptions: {
+          type: "string",
+          label: "Verification code",
+          placeholder: "Generated TOTP",
+          addonLeft: {
+            class: "fas fa-shield-alt",
+          },
+          required: true,
+        },
+      });
+    }
   }
   login() {
     if (!this.form.valid) {
@@ -182,7 +198,8 @@ export class LoginComponent implements OnInit {
         this.model.username,
         this.model.password,
         this.model.new_password,
-        this.model.password_confirm
+        this.model.password_confirm,
+        this.model.totp_code
       )
       .subscribe(
         (data) => {
@@ -243,7 +260,6 @@ export class LoginComponent implements OnInit {
                   this.set_form();
                   this.notify.showWarning(body.errors);
                 } else if (action === "TOTP") {
-                  console.warn("2FA not yet implemented");
                   this.panelTitle = "Provide the verification code";
                   this.buttonText = "Authorize";
                   this.warningCard = true;
@@ -251,7 +267,7 @@ export class LoginComponent implements OnInit {
                   this.askPassword = false;
                   this.askTOTP = true;
                   this.set_form();
-                  this.notify.showWarning(body.errors);
+                  // this.notify.showWarning(body.errors);
                 } else {
                   console.error("Unrecognized action: " + action);
                   this.notify.showError("Unrecognized response from server");
@@ -259,8 +275,7 @@ export class LoginComponent implements OnInit {
               }
 
               if (body.qr_code) {
-                console.warn("2FA not yet implemented");
-                // self.qr_code = body.qr_code;
+                this.qr_code = body.qr_code;
               }
             }
           } else if (error.status === 404) {
