@@ -16,7 +16,7 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
 
   let body = { username: email, password: pwd };
   if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-    const secret = "KVKFKRCPNZQUYMLXOVYDSQKJKZDTSRLD";
+    const secret = Cypress.env("TESTING_TOTP_HASH");
     const token = totp.generate(secret);
 
     body["totp_code"] = token;
