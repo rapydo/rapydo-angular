@@ -55,8 +55,7 @@ export interface User extends SimpleUserWithId, CustomUser {
   // "nullable" should be removed in a near future
   /** @nullable */
   readonly group: Group;
-  /** @nullable */
-  readonly SECOND_FACTOR: "TOTP";
+  readonly two_factor_enabled: boolean;
 }
 
 // It is used in AdminUsers response

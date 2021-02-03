@@ -26,11 +26,7 @@ export class ChangePasswordComponent {
   ) {
     this.user = auth.getUser();
 
-    if (
-      this.user &&
-      this.user["SECOND_FACTOR"] &&
-      this.user["SECOND_FACTOR"] === "TOTP"
-    ) {
+    if (this.user && this.user.two_factor_enabled) {
       this.fields.push({
         key: "totp_code",
         type: "input",
