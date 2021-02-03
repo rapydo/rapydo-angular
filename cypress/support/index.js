@@ -13,10 +13,14 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
     pwd = Cypress.env("AUTH_DEFAULT_PASSWORD");
   }
 
+  let body = { username: email, password: pwd };
+  if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+    body["totp_code"] = "000000";
+  }
   cy.request({
     method: "POST",
     url: Cypress.env("API_URL") + "auth/login",
-    body: { username: email, password: pwd },
+    body: body,
   }).then((response) => {
     cy.setLocalStorage("token", JSON.stringify(response.body));
 
