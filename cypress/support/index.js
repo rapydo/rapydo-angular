@@ -1,5 +1,6 @@
 import "@cypress/code-coverage/support";
 import "cypress-localstorage-commands";
+import { totp } from "otplib";
 
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
@@ -15,12 +16,15 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
 
   let body = { username: email, password: pwd };
   if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-    body["totp_code"] = "000000";
+    const secret = "KVKFKRCPNZQUYMLXOVYDSQKJKZDTSRLD";
+    const token = totp.generate(secret);
+
+    body["totp_code"] = token;
   }
   cy.request({
     method: "POST",
     url: Cypress.env("API_URL") + "auth/login",
-    body: body,
+    body,
   }).then((response) => {
     cy.setLocalStorage("token", JSON.stringify(response.body));
 
