@@ -1,6 +1,6 @@
 import "@cypress/code-coverage/support";
 import "cypress-localstorage-commands";
-import { totp } from "otplib";
+import * as OTPAuth from "otpauth";
 
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
@@ -16,10 +16,9 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
 
   let body = { username: email, password: pwd };
   if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-    const secret = Cypress.env("TESTING_TOTP_HASH");
-    const token = totp.generate(secret);
+    const totp = new OTPAuth.TOTP({ secret: Cypress.env("TESTING_TOTP_HASH") });
 
-    body["totp_code"] = token;
+    body["totp_code"] = totp.generate();
   }
   cy.request({
     method: "POST",
