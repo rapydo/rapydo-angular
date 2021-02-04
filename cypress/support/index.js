@@ -158,7 +158,7 @@ Cypress.Commands.add(
     cy.logout();
 
     if (init_user) {
-      cy.closecookielaw();
+      // cy.closecookielaw();
       cy.intercept("POST", "/auth/login").as("login");
 
       cy.get("input[placeholder='Your username (email)']").type(email);
