@@ -54,9 +54,6 @@ describe("ChangePassword", () => {
     cy.get("button:contains('Submit')").click();
     cy.checkvalidation(0, "This field is required");
 
-    cy.get('input[placeholder="Type here your current password"]').as(
-      "password"
-    );
     cy.get('input[placeholder="Type the desidered new password"]').as(
       "new_password"
     );
@@ -64,8 +61,17 @@ describe("ChangePassword", () => {
       'input[placeholder="Type again the new password for confirmation"]'
     ).as("confirm_password");
 
-    // Set a wrong password for the current password
-    cy.get("@password").clear().type(getpassword(4));
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      // Set a wrong code
+      cy.get('input[placeholder="TOTP verification code"]')
+        .clear()
+        .type("000000");
+    } else {
+      // Set a wrong password for the current password
+      cy.get('input[placeholder="Type here your current password"]')
+        .clear()
+        .type(getpassword(4));
+    }
     cy.get("@new_password").clear().type("short");
     cy.get("@confirm_password").clear().type("short");
     cy.checkvalidation(
@@ -82,11 +88,21 @@ describe("ChangePassword", () => {
     cy.get("@confirm_password").clear().type(newPassword);
 
     cy.get("button:contains('Submit')").click();
-    cy.checkalert(
-      "Your request cannot be authorized, is current password wrong?"
-    );
 
-    cy.get("@password").clear().type(pwd);
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.checkalert("Invalid verification code");
+      cy.get('input[placeholder="TOTP verification code"]')
+        .clear()
+        .type(get_totp());
+    } else {
+      cy.checkalert(
+        "Your request cannot be authorized, is current password wrong?"
+      );
+      cy.get('input[placeholder="Type here your current password"]')
+        .clear()
+        .type(pwd);
+    }
+
     cy.get("button:contains('Submit')").click();
     cy.checkalert("Password is too weak, missing upper case letters");
 
