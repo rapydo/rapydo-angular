@@ -1,7 +1,7 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword } from "../../fixtures/utilities";
+import { getpassword, get_totp } from "../../fixtures/utilities";
 
 describe("Registration", () => {
   if (Cypress.env("ALLOW_REGISTRATION")) {
@@ -233,15 +233,28 @@ describe("Registration", () => {
 
       cy.wait("@login2");
 
-      if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
+      cy.intercept("POST", "/auth/login").as("login3");
+      if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+        cy.get("div.card-header h4").contains(
+          "Configure Two-Factor with Google Auth"
+        );
+
+        cy.get("input[placeholder='Your new password']").type(
+          newPassword + "!"
+        );
+        cy.get("input[placeholder='Confirm your new password']").type(
+          newPassword + "!"
+        );
+        cy.get("input[placeholder='Generated TOTP']").type(get_totp());
+
+        cy.get("button").contains("Authorize").click();
+      } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
         cy.get("div.card-header")
           .should("have.class", "bg-warning")
           .find("h4")
           .contains("Please change your temporary password");
 
         cy.checkalert("Please change your temporary password");
-
-        cy.intercept("POST", "/auth/login").as("login3");
 
         cy.get('input[placeholder="Your new password"]')
           .clear()
@@ -250,9 +263,8 @@ describe("Registration", () => {
           .clear()
           .type(newPassword + "!");
         cy.get('button:contains("Change")').click({ force: true });
-
-        cy.wait("@login3");
       }
+      cy.wait("@login3");
 
       cy.visit("/app/profile");
 

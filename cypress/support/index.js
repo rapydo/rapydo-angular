@@ -172,6 +172,8 @@ Cypress.Commands.add(
 
       cy.wait("@login");
 
+      cy.wait(300);
+
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
         cy.get("div.card-header h4").contains(
           "Configure Two-Factor with Google Auth"
