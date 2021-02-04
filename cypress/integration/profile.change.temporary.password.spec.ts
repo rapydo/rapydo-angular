@@ -24,11 +24,9 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
         .clear()
         .type(pwd + "{enter}");
 
-      if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-        cy.get("div.card-header h4").contains("Provide the verification code");
-        cy.get("input[placeholder='Generated TOTP']").type(get_totp());
-        cy.get("button").contains("Authorize").click();
-      }
+      cy.wait("@login");
+
+      cy.wait(300);
 
       cy.get("div.card-header")
         .should("have.class", "bg-warning")
@@ -37,9 +35,16 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
 
       cy.checkalert("Please change your temporary password");
 
-      cy.get('button:contains("Change")').as("change");
       cy.get('input[placeholder="Your new password"]').as("newpwd");
       cy.get('input[placeholder="Confirm your new password"]').as("confirm");
+
+      if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+        cy.get("input[placeholder='Generated TOTP']").type(get_totp());
+
+        cy.get("button").contains("Authorize").as("change");
+      } else {
+        cy.get('button:contains("Change")').as("change");
+      }
 
       cy.get("@change").click({ force: true });
 

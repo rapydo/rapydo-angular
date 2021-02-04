@@ -21,10 +21,13 @@ describe("ChangePassword", () => {
     cy.get("input[placeholder='Your password']").clear().type(pwd);
     cy.get("button").contains("Login").click();
 
+    cy.get("input[placeholder='Your password']").should("not.exist");
+
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       cy.get("div.card-header h4").contains("Provide the verification code");
       cy.get("input[placeholder='Generated TOTP']").type(get_totp());
       cy.get("button").contains("Authorize").click();
+      cy.get("input[placeholder='Generated TOTP']").should("not.exist");
     }
 
     cy.wait("@login");
