@@ -9,7 +9,9 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
     let pwd = getpassword(4);
 
     before(() => {
-      cy.createuser(username, pwd);
+      // expired = false
+      // init_user = false
+      cy.createuser(username, pwd, false, false);
     });
 
     it("Terms of Use - not accepted", () => {

@@ -1,6 +1,8 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
+import { get_totp } from "../../fixtures/utilities";
+
 describe("Responsive tests", () => {
   let expected_collapsed_navbar = false;
 
@@ -78,6 +80,12 @@ describe("Responsive tests", () => {
     cy.get("button").contains("Login").click();
 
     cy.get("input[placeholder='Your password']").should("not.exist");
+
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.get("div.card-header h4").contains("Provide the verification code");
+      cy.get("input[placeholder='Generated TOTP']").type(get_totp());
+      cy.get("button").contains("Authorize").click();
+    }
 
     if (expected_collapsed_navbar) {
       cy.get("button.navbar-toggler").click();

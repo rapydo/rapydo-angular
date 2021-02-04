@@ -4,7 +4,7 @@
 import { getpassword } from "../../fixtures/utilities";
 
 if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
-  const email = "aaaaaaaaaa000112@sample.org";
+  const email = "aaaaaaaaaa000112" + Math.random() + "@sample.org";
   const pwd = getpassword(4);
 
   describe("ChangeTemporaryPassword", () => {
