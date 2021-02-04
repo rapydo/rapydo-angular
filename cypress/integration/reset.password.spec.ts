@@ -1,7 +1,7 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword } from "../../fixtures/utilities";
+import { getpassword, get_totp } from "../../fixtures/utilities";
 
 describe("ResetPassword", () => {
   if (Cypress.env("ALLOW_PASSWORD_RESET")) {
@@ -160,6 +160,14 @@ describe("ResetPassword", () => {
         cy.get("input[placeholder='Your password']")
           .clear()
           .type(newPassword + "{enter}");
+
+        if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+          cy.get("div.card-header h4").contains(
+            "Provide the verification code"
+          );
+          cy.get("input[placeholder='Generated TOTP']").type(get_totp());
+          cy.get("button").contains("Authorize").click();
+        }
 
         cy.wait("@login");
 

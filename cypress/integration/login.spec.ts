@@ -44,8 +44,7 @@ describe("SuccessfulLogin", () => {
 
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       cy.get("div.card-header h4").contains("Provide the verification code");
-      const token = get_totp();
-      cy.get("input[placeholder='Generated TOTP']").type(token);
+      cy.get("input[placeholder='Generated TOTP']").type(get_totp());
       cy.get("button").contains("Authorize").click();
     }
   });
@@ -63,8 +62,7 @@ describe("SuccessfulLogin", () => {
     cy.wait("@login");
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       cy.get("div.card-header h4").contains("Provide the verification code");
-      const token = get_totp();
-      cy.get("input[placeholder='Generated TOTP']").type(token);
+      cy.get("input[placeholder='Generated TOTP']").type(get_totp());
       cy.get("button").contains("Authorize").click();
     }
   });

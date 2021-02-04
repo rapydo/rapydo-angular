@@ -85,6 +85,8 @@ describe("Responsive tests", () => {
       cy.get("div.card-header h4").contains("Provide the verification code");
       cy.get("input[placeholder='Generated TOTP']").type(get_totp());
       cy.get("button").contains("Authorize").click();
+
+      cy.get("input[placeholder='Generated TOTP']").should("not.exist");
     }
 
     if (expected_collapsed_navbar) {

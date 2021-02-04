@@ -1,7 +1,7 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword } from "../../fixtures/utilities";
+import { getpassword, get_totp } from "../../fixtures/utilities";
 
 describe("ChangePassword", () => {
   const email = "aaaaaaaaaa000111@sample.org";
@@ -20,6 +20,12 @@ describe("ChangePassword", () => {
     cy.get("input[placeholder='Your username (email)']").clear().type(email);
     cy.get("input[placeholder='Your password']").clear().type(pwd);
     cy.get("button").contains("Login").click();
+
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.get("div.card-header h4").contains("Provide the verification code");
+      cy.get("input[placeholder='Generated TOTP']").type(get_totp());
+      cy.get("button").contains("Authorize").click();
+    }
 
     cy.wait("@login");
 
