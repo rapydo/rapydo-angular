@@ -9,7 +9,9 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
 
   describe("ChangeTemporaryPassword", () => {
     beforeEach(() => {
-      cy.createuser(email, pwd);
+      // expired = false
+      // init_user = false
+      cy.createuser(email, pwd, false, false);
     });
 
     it("ChangeTemporaryPassword", () => {

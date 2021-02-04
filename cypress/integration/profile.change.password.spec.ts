@@ -23,27 +23,6 @@ describe("ChangePassword", () => {
 
     cy.wait("@login");
 
-    if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
-      cy.get("div.card-header")
-        .should("have.class", "bg-warning")
-        .find("h4")
-        .contains("Please change your temporary password");
-
-      cy.checkalert("Please change your temporary password");
-
-      pwd = pwd + "!";
-
-      cy.intercept("POST", "/auth/login").as("changed");
-
-      cy.get('input[placeholder="Your new password"]').clear().type(pwd);
-      cy.get('input[placeholder="Confirm your new password"]')
-        .clear()
-        .type(pwd);
-      cy.get('button:contains("Change")').click({ force: true });
-
-      cy.wait("@changed");
-    }
-
     cy.visit("/app/profile/changepassword");
 
     cy.location().should((location) => {

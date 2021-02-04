@@ -233,8 +233,8 @@ describe("Registration", () => {
 
       cy.wait("@login2");
 
-      cy.intercept("POST", "/auth/login").as("login3");
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+        cy.intercept("POST", "/auth/login").as("login3");
         cy.get("div.card-header h4").contains(
           "Configure Two-Factor with Google Auth"
         );
@@ -248,7 +248,9 @@ describe("Registration", () => {
         cy.get("input[placeholder='Generated TOTP']").type(get_totp());
 
         cy.get("button").contains("Authorize").click();
+        cy.wait("@login3");
       } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
+        cy.intercept("POST", "/auth/login").as("login3");
         cy.get("div.card-header")
           .should("have.class", "bg-warning")
           .find("h4")
@@ -263,8 +265,8 @@ describe("Registration", () => {
           .clear()
           .type(newPassword + "!");
         cy.get('button:contains("Change")').click({ force: true });
+        cy.wait("@login3");
       }
-      cy.wait("@login3");
 
       cy.visit("/app/profile");
 
