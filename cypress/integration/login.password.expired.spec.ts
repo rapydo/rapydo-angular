@@ -22,9 +22,13 @@ describe("Login", () => {
       // A first login is needed because when TOTP is enabled a request cannot
       // start with a password expired error, but first password has to be changed
 
+      cy.intercept("POST", "/auth/login").as("login");
+
       cy.get("@user").type(email);
       cy.get("@pwd").type(pwd);
       cy.get("button").contains("Login").click();
+
+      cy.wait("@login");
 
       cy.get("div.card-header h4").contains(
         "Configure Two-Factor with Google Auth"

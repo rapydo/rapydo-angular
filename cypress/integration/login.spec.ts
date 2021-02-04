@@ -41,9 +41,7 @@ describe("SuccessfulLogin", () => {
     cy.get("button").contains("Login").click();
 
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      cy.get("div.card-header h4").contains(
-        "Configure Two-Factor with Google Auth"
-      );
+      cy.get("div.card-header h4").contains("Provide the verification code");
       const token = get_totp();
       cy.get("input[placeholder='Generated TOTP']").type(token);
       cy.get("button").contains("Verify").click();
