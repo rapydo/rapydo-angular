@@ -1,12 +1,12 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword } from "../../fixtures/utilities";
+import { getpassword, get_totp } from "../../fixtures/utilities";
 
 describe("Login", () => {
   it("PASSWORD EXPIRED", () => {
     const email = "aaaaaaaaaa000333@sample.org";
-    const pwd = getpassword(4);
+    let pwd = getpassword(4);
 
     cy.login();
     cy.createuser(email, pwd);
@@ -17,6 +17,28 @@ describe("Login", () => {
 
     cy.get("input[placeholder='Your username (email)']").as("user");
     cy.get("input[placeholder='Your password']").as("pwd");
+
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      // A first login is needed because when TOTP is enabled a request cannot
+      // start with a password expired error, but first password has to be changed
+
+      cy.get("@user").type(email);
+      cy.get("@pwd").type(pwd);
+      cy.get("button").contains("Login").click();
+
+      cy.get("div.card-header h4").contains(
+        "Configure Two-Factor with Google Auth"
+      );
+
+      pwd += "!";
+      token = get_totp();
+      cy.get("input[placeholder='Your new password']").type(pwd);
+      cy.get("input[placeholder='Confirm your new password']").type(pwd);
+      cy.get("input[placeholder='Generated TOTP']").type(token);
+      cy.get("button").contains("Change").click();
+
+      cy.visit("/app/login");
+    }
 
     // Cypress is still not able to override intercept..
     // A single intercept is needed, that the test should continue will normal responses

@@ -1,6 +1,8 @@
 // This is to silence ESLint about undefined Cypress
 /*global Cypress*/
 
+import * as OTPAuth from "otpauth";
+
 // type can be:
 //  0 = a super simple password with only a repeated len times
 //  1 = only lower case letters
@@ -66,4 +68,10 @@ export function getpassword(type, len = 0) {
     return getpassword(type, len);
   }
   return pwd;
+}
+
+export function get_totp() {
+  const totp = new OTPAuth.TOTP({ secret: Cypress.env("TESTING_TOTP_HASH") });
+
+  return totp.generate();
 }
