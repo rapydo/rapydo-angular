@@ -2,6 +2,8 @@ import "@cypress/code-coverage/support";
 import "cypress-localstorage-commands";
 import * as OTPAuth from "otpauth";
 
+import { get_totp } from "../../fixtures/utilities";
+
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
@@ -89,7 +91,13 @@ Cypress.Commands.add("createuser", (email, pwd, expired = false) => {
   cy.get('button:contains("new user")').click();
 
   cy.get('input[placeholder="Email"]').clear().type(email);
-  cy.get('input[placeholder="Password"]').clear().type(pwd);
+  if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+    cy.get('input[placeholder="Password"]').clear().type(pwd);
+  } else {
+    cy.get('input[placeholder="Password"]')
+      .clear()
+      .type(pwd + "!");
+  }
   cy.get('input[placeholder="Name"]').clear().type("SampleName");
   cy.get('input[placeholder="Surname"]').clear().type("SampleSurname");
 
@@ -136,6 +144,33 @@ Cypress.Commands.add("createuser", (email, pwd, expired = false) => {
   cy.get('button:contains("Submit")').click({ force: true });
 
   cy.checkalert("Confirmation: user successfully created");
+
+  if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+    // A first login is needed because when TOTP is enabled a request cannot
+    // start with a password expired error, but first password has to be changed
+
+    cy.intercept("POST", "/auth/login").as("login");
+
+    cy.get("@user").type(email);
+    cy.get("@pwd").type(pwd + "!");
+    cy.get("button").contains("Login").click();
+
+    cy.wait("@login");
+
+    cy.get("div.card-header h4").contains(
+      "Configure Two-Factor with Google Auth"
+    );
+
+    cy.get("input[placeholder='Your new password']").type(pwd);
+    cy.get("input[placeholder='Confirm your new password']").type(pwd);
+    cy.get("input[placeholder='Generated TOTP']").type(get_totp());
+
+    cy.intercept("POST", "/auth/login").as("login");
+    cy.get("button").contains("Authorize").click();
+    cy.wait("@login");
+
+    cy.logout();
+  }
 });
 
 Cypress.Commands.add("deleteuser", (email) => {
