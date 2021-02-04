@@ -9,15 +9,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
     let pwd = getpassword(4);
 
     before(() => {
-      cy.login();
-
-      cy.visit("/app/admin/users");
-
-      cy.closecookielaw();
-
       cy.createuser(username, pwd);
-
-      cy.logout();
     });
 
     it("Terms of Use - not accepted", () => {

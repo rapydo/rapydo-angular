@@ -9,11 +9,7 @@ describe("ResetPassword", () => {
     const pwd = getpassword(4);
 
     beforeEach(() => {
-      cy.login();
-
       cy.createuser(email, pwd);
-
-      cy.logout();
     });
 
     it("Reset", () => {

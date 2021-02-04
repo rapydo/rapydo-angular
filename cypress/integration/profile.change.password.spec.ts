@@ -8,11 +8,7 @@ describe("ChangePassword", () => {
   let pwd = getpassword(4);
 
   beforeEach(() => {
-    cy.login();
-
     cy.createuser(email, pwd);
-
-    cy.logout();
   });
 
   it("ChangePassword", () => {

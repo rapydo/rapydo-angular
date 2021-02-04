@@ -8,9 +8,7 @@ describe("Login", () => {
     const email = "aaaaaaaaaa000333@sample.org";
     let pwd = getpassword(4);
 
-    cy.login();
     cy.createuser(email, pwd);
-    cy.logout();
 
     cy.visit("/app/login");
     cy.closecookielaw();

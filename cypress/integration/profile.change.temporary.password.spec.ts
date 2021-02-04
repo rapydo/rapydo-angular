@@ -9,11 +9,7 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
 
   describe("ChangeTemporaryPassword", () => {
     beforeEach(() => {
-      cy.login();
-
       cy.createuser(email, pwd);
-
-      cy.logout();
     });
 
     it("ChangeTemporaryPassword", () => {

@@ -86,6 +86,8 @@ Cypress.Commands.add("getmail", () => {
 Cypress.Commands.add(
   "createuser",
   (email, pwd, expired = false, init_totp = true) => {
+    cy.login();
+
     cy.visit("/app/admin/users");
 
     // Mostly copied from admin_users.spec.ts
@@ -147,14 +149,17 @@ Cypress.Commands.add(
 
     cy.checkalert("Confirmation: user successfully created");
 
+    cy.logout();
+
     if (init_totp && Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       // A first login is needed because when TOTP is enabled a request cannot
       // start with a password expired error, but first password has to be changed
 
       cy.intercept("POST", "/auth/login").as("login");
 
-      cy.get("@user").type(email);
-      cy.get("@pwd").type(pwd + "!");
+      cy.get("input[placeholder='Your username (email)']").type(email);
+      cy.get("input[placeholder='Your password']").type(pwd + "!");
+
       cy.get("button").contains("Login").click();
 
       cy.wait("@login");

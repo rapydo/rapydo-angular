@@ -8,9 +8,7 @@ describe("AccountExpired", () => {
     const email = "aaaaaaaaaa000444" + Math.random() + "@sample.org";
     const pwd = getpassword(4);
 
-    cy.login();
     cy.createuser(email, pwd, true);
-    cy.logout();
 
     cy.visit("/app/login");
     cy.closecookielaw();
