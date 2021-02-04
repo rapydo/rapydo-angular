@@ -85,7 +85,13 @@ Cypress.Commands.add("getmail", () => {
 
 Cypress.Commands.add(
   "createuser",
-  (email, pwd, expired = false, init_totp = true) => {
+  (email, pwd, expired = false, init_user = true) => {
+    // init_user = change first password and accept terms of use
+
+    // If expired do not init the user
+    if (expired) {
+      init_user = false;
+    }
     cy.login();
 
     cy.visit("/app/admin/users");
@@ -95,7 +101,7 @@ Cypress.Commands.add(
     cy.get('button:contains("new user")').click();
 
     cy.get('input[placeholder="Email"]').clear().type(email);
-    if (init_totp && Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+    if (init_user && Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       cy.get('input[placeholder="Password"]')
         .clear()
         .type(pwd + "!");
@@ -151,32 +157,41 @@ Cypress.Commands.add(
 
     cy.logout();
 
-    if (init_totp && Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      // A first login is needed because when TOTP is enabled a request cannot
-      // start with a password expired error, but first password has to be changed
-
+    if (init_user) {
       cy.closecookielaw();
-
       cy.intercept("POST", "/auth/login").as("login");
 
       cy.get("input[placeholder='Your username (email)']").type(email);
-      cy.get("input[placeholder='Your password']").type(pwd + "!");
+      if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+        cy.get("input[placeholder='Your password']").type(pwd + "!");
+      } else {
+        cy.get("input[placeholder='Your password']").type(pwd);
+      }
 
       cy.get("button").contains("Login").click();
 
       cy.wait("@login");
 
-      cy.get("div.card-header h4").contains(
-        "Configure Two-Factor with Google Auth"
-      );
+      if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+        cy.get("div.card-header h4").contains(
+          "Configure Two-Factor with Google Auth"
+        );
 
-      cy.get("input[placeholder='Your new password']").type(pwd);
-      cy.get("input[placeholder='Confirm your new password']").type(pwd);
-      cy.get("input[placeholder='Generated TOTP']").type(get_totp());
+        cy.get("input[placeholder='Your new password']").type(pwd);
+        cy.get("input[placeholder='Confirm your new password']").type(pwd);
+        cy.get("input[placeholder='Generated TOTP']").type(get_totp());
 
-      cy.intercept("POST", "/auth/login").as("login");
-      cy.get("button").contains("Authorize").click();
-      cy.wait("@login");
+        cy.intercept("POST", "/auth/login").as("login");
+        cy.get("button").contains("Authorize").click();
+        cy.wait("@login");
+      }
+
+      if (Cypress.env("ALLOW_TERMS_OF_USE")) {
+        cy.get("div.modal-footer h4").contains(
+          "Do you accept all our Terms of Use?"
+        );
+        cy.get("div.modal-footer button").first().contains("YES").click();
+      }
 
       cy.logout();
     }
