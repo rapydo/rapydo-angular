@@ -155,6 +155,8 @@ Cypress.Commands.add(
       // A first login is needed because when TOTP is enabled a request cannot
       // start with a password expired error, but first password has to be changed
 
+      cy.closecookielaw();
+
       cy.intercept("POST", "/auth/login").as("login");
 
       cy.get("input[placeholder='Your username (email)']").type(email);
