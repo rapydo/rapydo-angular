@@ -19,6 +19,8 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
 
       cy.closecookielaw();
 
+      cy.intercept("POST", "/auth/login").as("login");
+
       cy.get("input[placeholder='Your username (email)']").clear().type(email);
       cy.get("input[placeholder='Your password']")
         .clear()

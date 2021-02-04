@@ -161,6 +161,8 @@ describe("ResetPassword", () => {
           .clear()
           .type(newPassword + "{enter}");
 
+        cy.get("input[placeholder='Your password']").should("not.exist");
+
         if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
           cy.get("div.card-header h4").contains(
             "Provide the verification code"

@@ -61,25 +61,27 @@ describe("ChangePassword", () => {
       'input[placeholder="Type again the new password for confirmation"]'
     ).as("confirm_password");
 
+    cy.get("@new_password").clear().type("short");
+    cy.get("@confirm_password").clear().type("short");
+
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       // Set a wrong code
       cy.get('input[placeholder="TOTP verification code"]')
         .clear()
-        .type("000000");
+        .type("100000");
     } else {
       // Set a wrong password for the current password
       cy.get('input[placeholder="Type here your current password"]')
         .clear()
         .type(getpassword(4));
+
+      cy.checkvalidation(
+        0,
+        "Should have at least " +
+          Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
+          " characters"
+      );
     }
-    cy.get("@new_password").clear().type("short");
-    cy.get("@confirm_password").clear().type("short");
-    cy.checkvalidation(
-      0,
-      "Should have at least " +
-        Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
-        " characters"
-    );
 
     let newPassword = getpassword(1);
     cy.get("@new_password").clear().type(newPassword);

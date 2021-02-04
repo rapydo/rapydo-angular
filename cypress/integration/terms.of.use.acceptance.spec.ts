@@ -24,7 +24,21 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
         .clear()
         .type(pwd + "{enter}");
 
-      if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
+      if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+        cy.get("div.card-header h4").contains(
+          "Configure Two-Factor with Google Auth"
+        );
+
+        cy.get("input[placeholder='Your new password']").clear().type(pwd);
+        cy.get("input[placeholder='Confirm your new password']")
+          .clear()
+          .type(pwd);
+        cy.get("input[placeholder='Generated TOTP']").clear().type(get_totp());
+
+        cy.intercept("POST", "/auth/login").as("login");
+        cy.get("button").contains("Authorize").click();
+        cy.wait("@login");
+      } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
         cy.get("div.card-header")
           .should("have.class", "bg-warning")
           .find("h4")
