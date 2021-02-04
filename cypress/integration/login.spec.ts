@@ -46,7 +46,7 @@ describe("SuccessfulLogin", () => {
       cy.get("div.card-header h4").contains("Provide the verification code");
       const token = get_totp();
       cy.get("input[placeholder='Generated TOTP']").type(token);
-      cy.get("button").contains("Verify").click();
+      cy.get("button").contains("Authorize").click();
     }
   });
 
