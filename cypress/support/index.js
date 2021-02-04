@@ -2,7 +2,7 @@ import "@cypress/code-coverage/support";
 import "cypress-localstorage-commands";
 import * as OTPAuth from "otpauth";
 
-import { get_totp } from "../../fixtures/utilities";
+import { get_totp } from "../fixtures/utilities";
 
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
@@ -83,95 +83,98 @@ Cypress.Commands.add("getmail", () => {
   return cy.readFile("/logs/mock.mail.lastsent.body");
 });
 
-Cypress.Commands.add("createuser", (email, pwd, expired = false) => {
-  cy.visit("/app/admin/users");
+Cypress.Commands.add(
+  "createuser",
+  (email, pwd, expired = false, init_totp = true) => {
+    cy.visit("/app/admin/users");
 
-  // Mostly copied from admin_users.spec.ts
+    // Mostly copied from admin_users.spec.ts
 
-  cy.get('button:contains("new user")').click();
+    cy.get('button:contains("new user")').click();
 
-  cy.get('input[placeholder="Email"]').clear().type(email);
-  if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-    cy.get('input[placeholder="Password"]').clear().type(pwd);
-  } else {
-    cy.get('input[placeholder="Password"]')
-      .clear()
-      .type(pwd + "!");
-  }
-  cy.get('input[placeholder="Name"]').clear().type("SampleName");
-  cy.get('input[placeholder="Surname"]').clear().type("SampleSurname");
-
-  // get custom fields added at project level:
-  // foreach element select required input text/number still empty and fill them
-  cy.get("input").each(($el, index, $list) => {
-    if ($el.prop("required") && $el.val() === "") {
-      if ($el.attr("type") === "text") {
-        cy.wrap($el).type("a");
-      } else if ($el.attr("type") === "number") {
-        cy.wrap($el).type("1");
-      }
+    cy.get('input[placeholder="Email"]').clear().type(email);
+    if (init_totp && Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.get('input[placeholder="Password"]').clear().type(pwd);
+    } else {
+      cy.get('input[placeholder="Password"]')
+        .clear()
+        .type(pwd + "!");
     }
-  });
+    cy.get('input[placeholder="Name"]').clear().type("SampleName");
+    cy.get('input[placeholder="Surname"]').clear().type("SampleSurname");
 
-  // Pick all the selects, included Groups and any other custom fields (like in IMC)
-  cy.get("form")
-    .find("select")
-    .each(($el, index, $list) => {
-      if ($el.prop("required")) {
-        cy.wrap($el)
-          .find("option")
-          .eq(1)
-          .then((element) => {
-            cy.wrap($el).select(element.val());
-          });
+    // get custom fields added at project level:
+    // foreach element select required input text/number still empty and fill them
+    cy.get("input").each(($el, index, $list) => {
+      if ($el.prop("required") && $el.val() === "") {
+        if ($el.attr("type") === "text") {
+          cy.wrap($el).type("a");
+        } else if ($el.attr("type") === "number") {
+          cy.wrap($el).type("1");
+        }
       }
     });
 
-  if (expired) {
-    cy.get(
-      'input[placeholder="This user will be blocked after this date"]'
-    ).click();
-    cy.get(
-      'ngb-datepicker-navigation-select select[title="Select year"]'
-    ).select("2020");
+    // Pick all the selects, included Groups and any other custom fields (like in IMC)
+    cy.get("form")
+      .find("select")
+      .each(($el, index, $list) => {
+        if ($el.prop("required")) {
+          cy.wrap($el)
+            .find("option")
+            .eq(1)
+            .then((element) => {
+              cy.wrap($el).select(element.val());
+            });
+        }
+      });
 
-    cy.get(
-      'ngb-datepicker-navigation-select select[title="Select month"]'
-    ).select("12");
+    if (expired) {
+      cy.get(
+        'input[placeholder="This user will be blocked after this date"]'
+      ).click();
+      cy.get(
+        'ngb-datepicker-navigation-select select[title="Select year"]'
+      ).select("2020");
 
-    cy.get("div.ngb-dp-day div").contains("31").click({ force: true });
+      cy.get(
+        'ngb-datepicker-navigation-select select[title="Select month"]'
+      ).select("12");
+
+      cy.get("div.ngb-dp-day div").contains("31").click({ force: true });
+    }
+    cy.get('button:contains("Submit")').click({ force: true });
+
+    cy.checkalert("Confirmation: user successfully created");
+
+    if (init_totp && Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      // A first login is needed because when TOTP is enabled a request cannot
+      // start with a password expired error, but first password has to be changed
+
+      cy.intercept("POST", "/auth/login").as("login");
+
+      cy.get("@user").type(email);
+      cy.get("@pwd").type(pwd + "!");
+      cy.get("button").contains("Login").click();
+
+      cy.wait("@login");
+
+      cy.get("div.card-header h4").contains(
+        "Configure Two-Factor with Google Auth"
+      );
+
+      cy.get("input[placeholder='Your new password']").type(pwd);
+      cy.get("input[placeholder='Confirm your new password']").type(pwd);
+      cy.get("input[placeholder='Generated TOTP']").type(get_totp());
+
+      cy.intercept("POST", "/auth/login").as("login");
+      cy.get("button").contains("Authorize").click();
+      cy.wait("@login");
+
+      cy.logout();
+    }
   }
-  cy.get('button:contains("Submit")').click({ force: true });
-
-  cy.checkalert("Confirmation: user successfully created");
-
-  if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-    // A first login is needed because when TOTP is enabled a request cannot
-    // start with a password expired error, but first password has to be changed
-
-    cy.intercept("POST", "/auth/login").as("login");
-
-    cy.get("@user").type(email);
-    cy.get("@pwd").type(pwd + "!");
-    cy.get("button").contains("Login").click();
-
-    cy.wait("@login");
-
-    cy.get("div.card-header h4").contains(
-      "Configure Two-Factor with Google Auth"
-    );
-
-    cy.get("input[placeholder='Your new password']").type(pwd);
-    cy.get("input[placeholder='Confirm your new password']").type(pwd);
-    cy.get("input[placeholder='Generated TOTP']").type(get_totp());
-
-    cy.intercept("POST", "/auth/login").as("login");
-    cy.get("button").contains("Authorize").click();
-    cy.wait("@login");
-
-    cy.logout();
-  }
-});
+);
 
 Cypress.Commands.add("deleteuser", (email) => {
   cy.visit("/app/admin/users");
