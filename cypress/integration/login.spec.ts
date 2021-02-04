@@ -1,5 +1,6 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
+import { get_totp } from "../../fixtures/utilities";
 
 describe("SuccessfulLogin", () => {
   beforeEach(() => {
@@ -38,6 +39,15 @@ describe("SuccessfulLogin", () => {
     // cy.get("input[placeholder='Your password'][type='password']").should('not.have.value',Cypress.env("AUTH_DEFAULT_PASSWORD"));
 
     cy.get("button").contains("Login").click();
+
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.get("div.card-header h4").contains(
+        "Configure Two-Factor with Google Auth"
+      );
+      const token = get_totp();
+      cy.get("input[placeholder='Generated TOTP']").type(token);
+      cy.get("button").contains("Verify").click();
+    }
   });
 
   it("Login - enter on password field", () => {
