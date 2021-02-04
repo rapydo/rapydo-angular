@@ -39,7 +39,7 @@ describe("Login", () => {
       cy.get("input[placeholder='Your new password']").type(pwd);
       cy.get("input[placeholder='Confirm your new password']").type(pwd);
       cy.get("input[placeholder='Generated TOTP']").type(token);
-      cy.get("button").contains("Change").click();
+      cy.get("button").contains("Authorize").click();
 
       // This will also force the logout to prepare the page for the next check
       cy.visit("/app/login");

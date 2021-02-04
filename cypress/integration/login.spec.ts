@@ -38,7 +38,9 @@ describe("SuccessfulLogin", () => {
 
     // cy.get("input[placeholder='Your password'][type='password']").should('not.have.value',Cypress.env("AUTH_DEFAULT_PASSWORD"));
 
+    cy.intercept("POST", "/auth/login").as("login");
     cy.get("button").contains("Login").click();
+    cy.wait("@login");
 
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       cy.get("div.card-header h4").contains("Provide the verification code");
