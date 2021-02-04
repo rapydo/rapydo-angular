@@ -51,21 +51,40 @@ describe("SuccessfulLogin", () => {
   });
 
   it("Login - enter on password field", () => {
+    cy.intercept("POST", "/auth/login").as("login");
+
     cy.get("input[placeholder='Your username (email)']").type(
       Cypress.env("AUTH_DEFAULT_USERNAME")
     );
     cy.get("input[placeholder='Your password']").type(
       Cypress.env("AUTH_DEFAULT_PASSWORD") + "{enter}"
     );
+
+    cy.wait("@login");
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.get("div.card-header h4").contains("Provide the verification code");
+      const token = get_totp();
+      cy.get("input[placeholder='Generated TOTP']").type(token);
+      cy.get("button").contains("Authorize").click();
+    }
   });
 
   it("Login - enter on username field", () => {
+    cy.intercept("POST", "/auth/login").as("login");
     cy.get("input[placeholder='Your password']").type(
       Cypress.env("AUTH_DEFAULT_PASSWORD")
     );
     cy.get("input[placeholder='Your username (email)']").type(
       Cypress.env("AUTH_DEFAULT_USERNAME") + "{enter}"
     );
+
+    cy.wait("@login");
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.get("div.card-header h4").contains("Provide the verification code");
+      const token = get_totp();
+      cy.get("input[placeholder='Generated TOTP']").type(token);
+      cy.get("button").contains("Authorize").click();
+    }
   });
 
   afterEach(() => {

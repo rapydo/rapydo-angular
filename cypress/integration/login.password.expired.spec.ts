@@ -35,10 +35,9 @@ describe("Login", () => {
       );
 
       pwd += "!";
-      const token = get_totp();
       cy.get("input[placeholder='Your new password']").type(pwd);
       cy.get("input[placeholder='Confirm your new password']").type(pwd);
-      cy.get("input[placeholder='Generated TOTP']").type(token);
+      cy.get("input[placeholder='Generated TOTP']").type(get_totp());
 
       cy.intercept("POST", "/auth/login").as("login");
       cy.get("button").contains("Authorize").click();
@@ -100,6 +99,11 @@ describe("Login", () => {
 
     cy.get("@pwd_confirm").clear().type(pwd);
     cy.get("button").contains("Change").click();
+
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.get("input[placeholder='Generated TOTP']").type(get_totp());
+      cy.get("button").contains("Authorize").click();
+    }
     cy.checkalert("The new password cannot match the previous password");
 
     const new_pwd1 = getpassword(1);
