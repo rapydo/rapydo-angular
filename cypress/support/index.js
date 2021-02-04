@@ -96,11 +96,11 @@ Cypress.Commands.add(
 
     cy.get('input[placeholder="Email"]').clear().type(email);
     if (init_totp && Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      cy.get('input[placeholder="Password"]').clear().type(pwd);
-    } else {
       cy.get('input[placeholder="Password"]')
         .clear()
         .type(pwd + "!");
+    } else {
+      cy.get('input[placeholder="Password"]').clear().type(pwd);
     }
     cy.get('input[placeholder="Name"]').clear().type("SampleName");
     cy.get('input[placeholder="Surname"]').clear().type("SampleSurname");
