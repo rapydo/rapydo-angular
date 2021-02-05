@@ -251,10 +251,9 @@ describe("Registration", () => {
         cy.wait("@login3");
       } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
         cy.intercept("POST", "/auth/login").as("login3");
-        cy.get("div.card-header")
-          .should("have.class", "bg-warning")
-          .find("h4")
-          .contains("Please change your temporary password");
+        cy.get("div.card-header.bg-warning h4").contains(
+          "Please change your temporary password"
+        );
 
         cy.checkalert("Please change your temporary password");
 

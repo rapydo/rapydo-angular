@@ -1,7 +1,7 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword } from "../../fixtures/utilities";
+import { getpassword, get_totp } from "../../fixtures/utilities";
 
 if (Cypress.env("ALLOW_TERMS_OF_USE")) {
   describe("Terms of use", () => {
@@ -39,10 +39,9 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
         cy.get("button").contains("Authorize").click();
         cy.wait("@login");
       } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
-        cy.get("div.card-header")
-          .should("have.class", "bg-warning")
-          .find("h4")
-          .contains("Please change your temporary password");
+        cy.get("div.card-header.bg-warning h4").contains(
+          "Please change your temporary password"
+        );
 
         cy.checkalert("Please change your temporary password");
 
@@ -79,6 +78,14 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
         .clear()
         .type(pwd + "{enter}");
 
+      cy.get("input[placeholder='Your password']").should("not.exist");
+
+      if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+        cy.get("div.card-header h4").contains("Provide the verification code");
+        cy.get("input[placeholder='Generated TOTP']").type(get_totp());
+        cy.get("button").contains("Authorize").click();
+      }
+
       cy.get("div.modal-header h4.modal-title").contains("Terms of use");
 
       cy.get("div.modal-footer h4").contains(
@@ -103,6 +110,14 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
       cy.get("input[placeholder='Your password']")
         .clear()
         .type(pwd + "{enter}");
+
+      cy.get("input[placeholder='Your password']").should("not.exist");
+
+      if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+        cy.get("div.card-header h4").contains("Provide the verification code");
+        cy.get("input[placeholder='Generated TOTP']").type(get_totp());
+        cy.get("button").contains("Authorize").click();
+      }
 
       cy.location().should((location) => {
         expect(location.pathname).to.not.equal("/app/login");
