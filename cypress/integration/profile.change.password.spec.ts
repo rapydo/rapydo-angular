@@ -69,7 +69,7 @@ describe("ChangePassword", () => {
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       cy.get('input[placeholder="TOTP verification code"]')
         .clear()
-        .type(get_totp());
+        .type("111111");
     }
 
     // Set a wrong password for the current password
@@ -90,19 +90,18 @@ describe("ChangePassword", () => {
     cy.checkvalidation(0, "The password does not match");
     cy.get("@confirm_password").clear().type(newPassword);
 
-    cy.get("button:contains('Submit')").click();
-
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      cy.checkalert("Invalid verification code");
       cy.get('input[placeholder="TOTP verification code"]')
         .clear()
         .type(get_totp());
-    } else {
-      cy.checkalert("Invalid access credentials");
-      cy.get('input[placeholder="Type here your current password"]')
-        .clear()
-        .type(pwd);
     }
+
+    cy.get("button:contains('Submit')").click();
+
+    cy.checkalert("Invalid access credentials");
+    cy.get('input[placeholder="Type here your current password"]')
+      .clear()
+      .type(pwd);
 
     cy.get("button:contains('Submit')").click();
     cy.checkalert("Password is too weak, missing upper case letters");
