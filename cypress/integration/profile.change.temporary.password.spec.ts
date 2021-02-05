@@ -43,6 +43,7 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
         cy.get("div.card-header.bg-warning h4").contains(
           "Provide the verification code"
         );
+        cy.checkalert("You do not provided a valid verification code");
       } else {
         cy.get("div.card-header.bg-warning h4").contains(
           "Please change your temporary password"
