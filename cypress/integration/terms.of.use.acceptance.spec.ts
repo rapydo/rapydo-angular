@@ -17,12 +17,16 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
     it("Terms of Use - not accepted", () => {
       cy.visit("/app/login");
 
+      cy.intercept("POST", "/auth/login").as("login");
       cy.get("input[placeholder='Your username (email)']")
         .clear()
         .type(username);
       cy.get("input[placeholder='Your password']")
         .clear()
         .type(pwd + "{enter}");
+
+      cy.wait("@login");
+      // cy.get("input[placeholder='Your password']").should("not.exist");
 
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
         cy.get("div.card-header h4").contains(
@@ -71,6 +75,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
     it("Terms of Use - accepted", () => {
       cy.visit("/app/login");
 
+      cy.intercept("POST", "/auth/login").as("login");
       cy.get("input[placeholder='Your username (email)']")
         .clear()
         .type(username);
@@ -78,7 +83,8 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
         .clear()
         .type(pwd + "{enter}");
 
-      cy.get("input[placeholder='Your password']").should("not.exist");
+      cy.wait("@login");
+      // cy.get("input[placeholder='Your password']").should("not.exist");
 
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
         cy.get("div.card-header h4").contains("Provide the verification code");
@@ -104,6 +110,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
     it("Terms of Use - already accepted", () => {
       cy.visit("/app/login");
 
+      cy.intercept("POST", "/auth/login").as("login");
       cy.get("input[placeholder='Your username (email)']")
         .clear()
         .type(username);
@@ -111,7 +118,8 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
         .clear()
         .type(pwd + "{enter}");
 
-      cy.get("input[placeholder='Your password']").should("not.exist");
+      cy.wait("@login");
+      // cy.get("input[placeholder='Your password']").should("not.exist");
 
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
         cy.get("div.card-header h4").contains("Provide the verification code");

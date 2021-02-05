@@ -173,6 +173,9 @@ describe("ResetPassword", () => {
 
         cy.wait("@login");
 
+        // needed to let the page to fully load before jumping to app profile
+        cy.wait(100);
+
         cy.visit("/app/profile");
         cy.location().should((location) => {
           expect(location.pathname).to.eq("/app/profile");
