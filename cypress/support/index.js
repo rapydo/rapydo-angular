@@ -162,7 +162,10 @@ Cypress.Commands.add(
       cy.intercept("POST", "/auth/login").as("login");
 
       cy.get("input[placeholder='Your username (email)']").type(email);
-      if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      if (
+        Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1 ||
+        Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")
+      ) {
         cy.get("input[placeholder='Your password']").type(pwd + "!");
       } else {
         cy.get("input[placeholder='Your password']").type(pwd);
@@ -185,6 +188,21 @@ Cypress.Commands.add(
 
         cy.intercept("POST", "/auth/login").as("login");
         cy.get("button").contains("Authorize").click();
+        cy.wait("@login");
+      } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
+        cy.get("div.card-header.bg-warning h4").contains(
+          "Please change your temporary password"
+        );
+
+        cy.checkalert("Please change your temporary password");
+
+        cy.get('input[placeholder="Your new password"]').clear().type(pwd);
+        cy.get('input[placeholder="Confirm your new password"]')
+          .clear()
+          .type(pwd);
+
+        cy.intercept("POST", "/auth/login").as("login");
+        cy.get('button:contains("Change")').click({ force: true });
         cy.wait("@login");
       }
 

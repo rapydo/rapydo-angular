@@ -76,7 +76,7 @@ jobs:
 
           elif [[ "${{ matrix.stage }}" == "cypress-totp" ]]; then
 
-            rapydo -e PROJECT_TITLE="Your ${AUTH} Full Project" -e ALLOW_TERMS_OF_USE=1 -e AUTH_FORCE_FIRST_PASSWORD_CHANGE=1 -e AUTH_MIN_PASSWORD_LENGTH=12 -e AUTH_SECOND_FACTOR_AUTHENTICATION=1 start
+            rapydo -e PROJECT_TITLE="Your ${AUTH} TOTP Project" -e ALLOW_TERMS_OF_USE=1 -e AUTH_FORCE_FIRST_PASSWORD_CHANGE=1 -e AUTH_MIN_PASSWORD_LENGTH=12 -e AUTH_SECOND_FACTOR_AUTHENTICATION=1 start
 
           else
 

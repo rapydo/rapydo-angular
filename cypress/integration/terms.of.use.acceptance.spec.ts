@@ -33,6 +33,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
           "Configure Two-Factor with Google Auth"
         );
 
+        cy.checkalert("You do not provided a valid verification code");
         cy.get("input[placeholder='Your new password']").clear().type(pwd);
         cy.get("input[placeholder='Confirm your new password']")
           .clear()
