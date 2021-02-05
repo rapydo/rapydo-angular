@@ -33,7 +33,7 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
       cy.checkalert("Please change your temporary password");
 
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-        cy.get("input[placeholder='Generated TOTP']").type(get_totp());
+        cy.get("input[placeholder='TOTP verification code']").type(get_totp());
 
         cy.get("button").contains("Authorize").as("submit");
 

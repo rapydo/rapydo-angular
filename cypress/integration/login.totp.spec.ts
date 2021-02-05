@@ -32,7 +32,8 @@ describe("Login", () => {
 
       // Check forms:
       // - login
-      // - change password
+      // - change first password
+      // - profile -> change password
       // - reset password
 
       // cy.logout();

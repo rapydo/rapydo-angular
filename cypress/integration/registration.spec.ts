@@ -245,7 +245,7 @@ describe("Registration", () => {
         cy.get("input[placeholder='Confirm your new password']").type(
           newPassword + "!"
         );
-        cy.get("input[placeholder='Generated TOTP']").type(get_totp());
+        cy.get("input[placeholder='TOTP verification code']").type(get_totp());
 
         cy.get("button").contains("Authorize").click();
         cy.wait("@login3");
@@ -300,7 +300,7 @@ describe("Registration", () => {
         .type("looooong{enter}");
       // cy.get("button").contains("Login").click();
 
-      cy.checkalert("Invalid username or password");
+      cy.checkalert("Invalid access credentials");
     });
   } else {
     it("Registration not allowed", () => {

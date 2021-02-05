@@ -179,7 +179,7 @@ export class LoginComponent implements OnInit {
         templateOptions: {
           type: "string",
           label: "Verification code",
-          placeholder: "Generated TOTP",
+          placeholder: "TOTP verification code",
           addonLeft: {
             class: "fas fa-shield-alt",
           },

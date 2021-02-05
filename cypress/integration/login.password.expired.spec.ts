@@ -70,7 +70,9 @@ describe("Login", () => {
     cy.get("button").contains("Change").click();
 
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      cy.get("input[placeholder='Generated TOTP']").clear().type(get_totp());
+      cy.get("input[placeholder='TOTP verification code']")
+        .clear()
+        .type(get_totp());
       cy.get("button").contains("Authorize").click();
     }
     cy.checkalert("The new password cannot match the previous password");
@@ -79,7 +81,9 @@ describe("Login", () => {
     cy.get("@new_pwd").clear().type(new_pwd1);
     cy.get("@pwd_confirm").clear().type(new_pwd1);
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      cy.get("input[placeholder='Generated TOTP']").clear().type(get_totp());
+      cy.get("input[placeholder='TOTP verification code']")
+        .clear()
+        .type(get_totp());
       cy.get("button").contains("Authorize").click();
     } else {
       cy.get("button").contains("Change").click();
@@ -89,7 +93,9 @@ describe("Login", () => {
     cy.get("@new_pwd").clear().type(new_pwd1.toUpperCase());
     cy.get("@pwd_confirm").clear().type(new_pwd1.toUpperCase());
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      cy.get("input[placeholder='Generated TOTP']").clear().type(get_totp());
+      cy.get("input[placeholder='TOTP verification code']")
+        .clear()
+        .type(get_totp());
       cy.get("button").contains("Authorize").click();
     } else {
       cy.get("button").contains("Change").click();
@@ -100,7 +106,9 @@ describe("Login", () => {
     cy.get("@new_pwd").clear().type(new_pwd2);
     cy.get("@pwd_confirm").clear().type(new_pwd2);
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      cy.get("input[placeholder='Generated TOTP']").clear().type(get_totp());
+      cy.get("input[placeholder='TOTP verification code']")
+        .clear()
+        .type(get_totp());
       cy.get("button").contains("Authorize").click();
     } else {
       cy.get("button").contains("Change").click();
@@ -111,7 +119,9 @@ describe("Login", () => {
     cy.get("@new_pwd").clear().type(new_pwd3);
     cy.get("@pwd_confirm").clear().type(new_pwd3);
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      cy.get("input[placeholder='Generated TOTP']").clear().type(get_totp());
+      cy.get("input[placeholder='TOTP verification code']")
+        .clear()
+        .type(get_totp());
       cy.get("button").contains("Authorize").click();
     } else {
       cy.get("button").contains("Change").click();
@@ -122,7 +132,9 @@ describe("Login", () => {
     cy.get("@new_pwd").clear().type(new_pwd);
     cy.get("@pwd_confirm").clear().type(new_pwd);
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      cy.get("input[placeholder='Generated TOTP']").clear().type(get_totp());
+      cy.get("input[placeholder='TOTP verification code']")
+        .clear()
+        .type(get_totp());
       cy.get("button").contains("Authorize").click();
     } else {
       cy.get("button").contains("Change").click();

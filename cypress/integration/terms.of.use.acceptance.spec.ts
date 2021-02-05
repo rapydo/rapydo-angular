@@ -40,7 +40,9 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
         cy.get("input[placeholder='Confirm your new password']")
           .clear()
           .type(pwd);
-        cy.get("input[placeholder='Generated TOTP']").clear().type(get_totp());
+        cy.get("input[placeholder='TOTP verification code']")
+          .clear()
+          .type(get_totp());
 
         cy.intercept("POST", "/auth/login").as("login");
         cy.get("button").contains("Authorize").click();
@@ -91,7 +93,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
 
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
         cy.get("div.card-header h4").contains("Provide the verification code");
-        cy.get("input[placeholder='Generated TOTP']").type(get_totp());
+        cy.get("input[placeholder='TOTP verification code']").type(get_totp());
         cy.get("button").contains("Authorize").click();
       }
 
@@ -126,7 +128,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
 
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
         cy.get("div.card-header h4").contains("Provide the verification code");
-        cy.get("input[placeholder='Generated TOTP']").type(get_totp());
+        cy.get("input[placeholder='TOTP verification code']").type(get_totp());
         cy.get("button").contains("Authorize").click();
       }
 

@@ -167,7 +167,9 @@ describe("ResetPassword", () => {
           cy.get("div.card-header h4").contains(
             "Provide the verification code"
           );
-          cy.get("input[placeholder='Generated TOTP']").type(get_totp());
+          cy.get("input[placeholder='TOTP verification code']").type(
+            get_totp()
+          );
           cy.get("button").contains("Authorize").click();
         }
 

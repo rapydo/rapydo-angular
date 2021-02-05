@@ -25,9 +25,9 @@ describe("ChangePassword", () => {
 
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       cy.get("div.card-header h4").contains("Provide the verification code");
-      cy.get("input[placeholder='Generated TOTP']").type(get_totp());
+      cy.get("input[placeholder='TOTP verification code']").type(get_totp());
       cy.get("button").contains("Authorize").click();
-      cy.get("input[placeholder='Generated TOTP']").should("not.exist");
+      cy.get("input[placeholder='TOTP verification code']").should("not.exist");
     }
 
     cy.wait("@login");
@@ -51,6 +51,8 @@ describe("ChangePassword", () => {
       expect(location.pathname).to.eq("/app/profile/changepassword");
     });
 
+    cy.get("div.card-header h4").contains("Change your password");
+
     cy.get("button:contains('Submit')").click();
     cy.checkvalidation(0, "This field is required");
 
@@ -65,23 +67,22 @@ describe("ChangePassword", () => {
     cy.get("@confirm_password").clear().type("short");
 
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      // Set a wrong code
       cy.get('input[placeholder="TOTP verification code"]')
         .clear()
-        .type("100000");
-    } else {
-      // Set a wrong password for the current password
-      cy.get('input[placeholder="Type here your current password"]')
-        .clear()
-        .type(getpassword(4));
-
-      cy.checkvalidation(
-        0,
-        "Should have at least " +
-          Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
-          " characters"
-      );
+        .type(get_totp());
     }
+
+    // Set a wrong password for the current password
+    cy.get('input[placeholder="Type here your current password"]')
+      .clear()
+      .type(getpassword(4));
+
+    cy.checkvalidation(
+      0,
+      "Should have at least " +
+        Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
+        " characters"
+    );
 
     let newPassword = getpassword(1);
     cy.get("@new_password").clear().type(newPassword);
@@ -97,9 +98,7 @@ describe("ChangePassword", () => {
         .clear()
         .type(get_totp());
     } else {
-      cy.checkalert(
-        "Your request cannot be authorized, is current password wrong?"
-      );
+      cy.checkalert("Invalid access credentials");
       cy.get('input[placeholder="Type here your current password"]')
         .clear()
         .type(pwd);

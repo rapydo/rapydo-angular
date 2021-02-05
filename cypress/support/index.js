@@ -188,7 +188,7 @@ Cypress.Commands.add(
 
         cy.get("input[placeholder='Your new password']").type(pwd);
         cy.get("input[placeholder='Confirm your new password']").type(pwd);
-        cy.get("input[placeholder='Generated TOTP']").type(get_totp());
+        cy.get("input[placeholder='TOTP verification code']").type(get_totp());
 
         cy.intercept("POST", "/auth/login").as("login");
         cy.get("button").contains("Authorize").click();

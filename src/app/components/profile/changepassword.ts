@@ -31,32 +31,32 @@ export class ChangePasswordComponent {
         key: "totp_code",
         type: "input",
         templateOptions: {
-          type: "number",
+          // type: "number",
+          type: "string",
           label: "Verification code",
           placeholder: "TOTP verification code",
           addonLeft: {
             class: "fas fa-shield-alt",
           },
           required: true,
-          min: 100000,
-          max: 999999,
-        },
-      });
-    } else {
-      this.fields.push({
-        key: "currentPwd",
-        type: "password",
-        templateOptions: {
-          // type: "password",
-          label: "Current password",
-          placeholder: "Type here your current password",
-          addonLeft: {
-            class: "fas fa-key",
-          },
-          required: true,
+          // min: 100000,
+          // max: 999999,
         },
       });
     }
+    this.fields.push({
+      key: "currentPwd",
+      type: "password",
+      templateOptions: {
+        // type: "password",
+        label: "Current password",
+        placeholder: "Type here your current password",
+        addonLeft: {
+          class: "fas fa-key",
+        },
+        required: true,
+      },
+    });
 
     this.fields.push({
       key: "newPwd",
@@ -98,16 +98,14 @@ export class ChangePasswordComponent {
       return false;
     }
 
-    let data = {};
-    data["new_password"] = this.model["newPwd"];
-    data["password_confirm"] = this.model["confirmPwd"];
-
-    if (this.model["currentPwd"]) {
-      data["password"] = this.model["currentPwd"];
-    }
+    let data = {
+      new_password: this.model["newPwd"],
+      password_confirm: this.model["confirmPwd"],
+      password: this.model["currentPwd"],
+    };
 
     if (this.model["totp_code"]) {
-      data["password"] = this.model["totp_code"];
+      data["totp_code"] = this.model["totp_code"];
     }
 
     if (this.auth.getUser() === null) {
@@ -138,13 +136,7 @@ export class ChangePasswordComponent {
         );
       },
       (error) => {
-        if (error.status === 401) {
-          this.notify.showError(
-            "Your request cannot be authorized, is current password wrong?"
-          );
-        } else {
-          this.notify.showError(error);
-        }
+        this.notify.showError(error);
       }
     );
   }
