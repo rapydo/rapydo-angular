@@ -4,7 +4,7 @@
 import { getpassword, get_totp } from "../../fixtures/utilities";
 
 describe("ChangePassword", () => {
-  const email = "aaaaaaaaaa000111@sample.org";
+  const email = "aaaaaaaaaa000111" + Math.random() + "@sample.org";
   let pwd = getpassword(4);
 
   beforeEach(() => {

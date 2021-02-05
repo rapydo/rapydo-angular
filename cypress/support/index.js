@@ -101,7 +101,11 @@ Cypress.Commands.add(
     cy.get('button:contains("new user")').click();
 
     cy.get('input[placeholder="Email"]').clear().type(email);
-    if (init_user && Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+    if (
+      init_user &&
+      (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1 ||
+        Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION"))
+    ) {
       cy.get('input[placeholder="Password"]')
         .clear()
         .type(pwd + "!");
