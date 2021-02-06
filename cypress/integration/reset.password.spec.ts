@@ -14,7 +14,6 @@ describe("ResetPassword", () => {
 
     it("Reset", () => {
       cy.visit("/app/login");
-      cy.closecookielaw();
 
       cy.get('a:contains("Click here")').click();
 

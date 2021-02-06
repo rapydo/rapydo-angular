@@ -11,7 +11,6 @@ describe("Login", () => {
     cy.createuser(email, pwd);
 
     cy.visit("/app/login");
-    cy.closecookielaw();
 
     cy.get("input[placeholder='Your username (email)']").as("user");
     cy.get("input[placeholder='Your password']").as("pwd");

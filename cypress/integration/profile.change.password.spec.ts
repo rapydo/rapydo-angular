@@ -13,7 +13,6 @@ describe("ChangePassword", () => {
 
   it("ChangePassword", () => {
     cy.visit("/app/login");
-    cy.closecookielaw();
 
     cy.intercept("POST", "/auth/login").as("login");
 
