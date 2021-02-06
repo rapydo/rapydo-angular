@@ -151,7 +151,6 @@ describe("ResetPassword", () => {
         cy.checkalert("Invalid reset token");
 
         cy.visit("/app/login");
-        cy.intercept("POST", "/auth/login").as("login");
         cy.get("input[placeholder='Your username (email)']")
           .clear()
           .type(email);
@@ -165,16 +164,13 @@ describe("ResetPassword", () => {
           cy.get("div.card-header h4").contains(
             "Provide the verification code"
           );
-          cy.get("input[placeholder='TOTP verification code']").type(
-            get_totp()
-          );
+          cy.get("input[placeholder='TOTP verification code']")
+            .clear()
+            .type(get_totp());
+          cy.intercept("POST", "/auth/login").as("login");
           cy.get("button").contains("Authorize").click();
+          cy.wait("@login");
         }
-
-        cy.wait("@login");
-
-        // needed to let the page to fully load before jumping to app profile
-        cy.wait(100);
 
         cy.visit("/app/profile");
         cy.location().should((location) => {
