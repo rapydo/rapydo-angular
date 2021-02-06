@@ -77,9 +77,9 @@ export function get_totp() {
   // const totp = new OTPAuth.TOTP({ secret: Cypress.env("TESTING_TOTP_HASH") });
   // return totp.generate();
 
-  return authenticator.generate(secret);
+  return authenticator.generate(Cypress.env("TESTING_TOTP_HASH"));
 
-  // return totp.generate(secret);
+  // return totp.generate(Cypress.env("TESTING_TOTP_HASH"));
 
-  // return totp(secret);
+  // return totp(Cypress.env("TESTING_TOTP_HASH"));
 }
