@@ -156,6 +156,24 @@ describe("ChangePassword", () => {
 
     cy.checkalert("Password successfully changed");
 
+    // if TOTP is enabled the automatic re-login is not possible
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.get("div.card-header h4").contains("Login");
+
+      cy.get("input[placeholder='Your password']").type(email);
+      cy.get("input[placeholder='Your username (email)']").type(newPassword);
+
+      cy.intercept("POST", "/auth/login").as("login");
+      cy.get("button").contains("Login").click();
+      cy.wait("@login");
+
+      cy.get("div.card-header h4").contains("Provide the verification code");
+      cy.get("input[placeholder='TOTP verification code']").type(get_totp());
+
+      cy.intercept("POST", "/auth/login").as("login");
+      cy.get("button").contains("Authorize").click();
+      cy.wait("@login");
+    }
     cy.visit("/app/profile");
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/profile");

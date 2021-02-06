@@ -62,11 +62,23 @@ Cypress.Commands.add("logout", (collapsed = false) => {
   }
 });
 
-Cypress.Commands.add("closecookielaw", () => {
+Cypress.Commands.add("closecookielaw", (quiet = false) => {
   cy.get("cookie-law").within((el) => {
-    cy.root().should("have.attr", "seen", "false");
+    if (quiet) {
+      // no assumptions on the banner, if open will be closed, otherwise ignored
+      cy.root()
+        .should("have.attr", "seen")
+        .then((seen) => {
+          if (seen == "false") {
+            cy.get("div.cookie-law-wrapper").find("button").click();
+          }
+        });
+    } else {
+      // assume the banner is open and has to be closed
+      cy.root().should("have.attr", "seen", "false");
 
-    cy.get("div.cookie-law-wrapper").find("button").click();
+      cy.get("div.cookie-law-wrapper").find("button").click();
+    }
   });
 });
 
@@ -162,7 +174,7 @@ Cypress.Commands.add(
     cy.logout();
 
     if (init_user) {
-      // cy.closecookielaw();
+      cy.closecookielaw(true);
       cy.intercept("POST", "/auth/login").as("login");
 
       cy.get("input[placeholder='Your username (email)']").type(email);
