@@ -39,10 +39,9 @@ export class LoginComponent implements OnInit {
   public panelTitle: string = "Login";
   public buttonText: string = "Login";
 
-  public askCredentials: boolean = true;
-  public askPassword: boolean = true;
-  public askNewPassword: boolean = false;
-  public askTOTP: boolean = false;
+  private askCredentials: boolean = true;
+  private askNewPassword: boolean = false;
+  private askTOTP: boolean = false;
   public qr_code: string;
 
   public accountNotActive: boolean = false;
@@ -247,7 +246,6 @@ export class LoginComponent implements OnInit {
                   this.warningCard = true;
                   this.askCredentials = false;
                   this.askNewPassword = true;
-                  this.askTOTP = false;
                   this.set_form();
                   this.notify.showWarning(body.errors);
                 } else if (action === "PASSWORD EXPIRED") {
@@ -257,7 +255,6 @@ export class LoginComponent implements OnInit {
                   this.warningCard = true;
                   this.askCredentials = false;
                   this.askNewPassword = true;
-                  this.askTOTP = false;
                   this.set_form();
                   this.notify.showWarning(body.errors);
                 } else if (action === "TOTP") {
@@ -265,7 +262,6 @@ export class LoginComponent implements OnInit {
                   this.buttonText = "Authorize";
                   this.warningCard = true;
                   this.askCredentials = false;
-                  this.askNewPassword = false;
                   this.askTOTP = true;
                   this.set_form();
                   // this.notify.showWarning(body.errors);
