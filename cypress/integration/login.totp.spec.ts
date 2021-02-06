@@ -101,7 +101,7 @@ describe("Login", () => {
       cy.get("button").contains("Login").click();
       cy.wait("@login");
 
-      cy.checkalert("You do not provided a valid verification code");
+      cy.get("input[placeholder='Your password']").should("not.exist");
 
       cy.get("div.card-header.bg-warning h4").contains(
         "Provide the verification code"

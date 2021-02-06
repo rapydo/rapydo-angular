@@ -157,6 +157,7 @@ describe("ChangePassword", () => {
 
       cy.intercept("POST", "/auth/login").as("login");
       cy.get("button").contains("Authorize").click();
+      cy.get("input[placeholder='TOTP verification code']").should("not.exist");
       cy.wait("@login");
     }
     cy.visit("/app/profile");
