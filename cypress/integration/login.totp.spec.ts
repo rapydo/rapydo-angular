@@ -1,7 +1,7 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword } from "../../fixtures/utilities";
+import { getpassword, get_totp } from "../../fixtures/utilities";
 
 describe("Login", () => {
   if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
@@ -203,9 +203,9 @@ describe("Login", () => {
 
       // Code is now correct
       cy.get("input[placeholder='TOTP verification code']").type(get_totp());
-      cy.intercept("POST", "/auth/login").as("change");
+      cy.intercept("PUT", "/auth/profile").as("changed");
       cy.get("button:contains('Submit')").click();
-      cy.wait("@change");
+      cy.wait("@changed");
       cy.checkalert("Password successfully changed");
 
       pwd += "!!";

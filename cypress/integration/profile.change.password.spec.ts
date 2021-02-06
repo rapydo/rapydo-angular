@@ -131,27 +131,11 @@ describe("ChangePassword", () => {
     cy.get("@new_password").clear().type(newPassword);
     cy.get("@confirm_password").clear().type(newPassword);
 
-    // Check backend errors
-
-    // How to only execute this intercept once?
-    // After this the normal workflow should continue...
-    // cy.intercept("PUT", "/auth/profile", {
-    //   statusCode: 500,
-    //   body: "Stubbed change password error",
-    // }).as("put");
-
-    // cy.get("button:contains('Submit')").click();
-    // cy.wait("@put");
-    // cy.checkalert("Stubbed change password error");
-    // this is needed to completely removed from the DOM the previous stubbed alert
-    // Otherwise the check will fail because it will refer to the previous one
-    // cy.wait(200);
-
-    cy.intercept("POST", "/auth/login").as("login2");
+    cy.intercept("PUT", "/auth/profile").as("changed");
 
     cy.get("button:contains('Submit')").click();
 
-    cy.wait("@login2");
+    cy.wait("@changed");
 
     cy.checkalert("Password successfully changed");
 
