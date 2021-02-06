@@ -185,6 +185,7 @@ export class LoginComponent implements OnInit {
           },
           required: true,
         },
+        validators: { validation: ["totp"] },
       });
     }
   }

@@ -66,6 +66,12 @@ export function emailValidator(
     : { email: true };
 }
 
+export function TOTPValidator(
+  control: AbstractControl,
+  fieldConfig: FormlyFieldConfig
+): ValidationErrors {
+  return /^[0-9]{6}$/.test(control.value) ? null : { totp: true };
+}
 export function URLValidator(
   control: AbstractControl,
   fieldConfig: FormlyFieldConfig
@@ -205,11 +211,16 @@ let module_imports: any = [
       { name: "min", message: minValidationError },
       { name: "max", message: maxValidationError },
       { name: "email", message: "Invalid email address" },
+      {
+        name: "totp",
+        message: "Invalid verification code (expected 6 digits)",
+      },
       { name: "url", message: "Invalid web address" },
       { name: "ngbDate", message: "Invalid date, expected format: dd/mm/yyyy" },
     ],
     validators: [
       { name: "email", validation: emailValidator },
+      { name: "totp", validation: TOTPValidator },
       { name: "url", validation: URLValidator },
     ],
   }),

@@ -24,7 +24,6 @@ describe("ResetPassword", () => {
       cy.get("div.card-header h4").contains("Reset your password");
 
       cy.visit("/public/reset");
-      cy.closecookielaw();
       cy.get("div.card-header h4").contains("Reset your password");
 
       cy.get("button:contains('Submit request')").click();

@@ -45,26 +45,26 @@ describe("Login", () => {
       // Not a code, test with a short string
       cy.get("input[placeholder='TOTP verification code']").clear().type("a");
       cy.get("button").contains("Authorize").click();
-      cy.checkalert("Length must be between 6 and 6.");
+      cy.checkvalidation(0, "Invalid verification code (expected 6 digits)");
 
       // Not a code, test with a short number
       cy.get("input[placeholder='TOTP verification code']").clear().type("0");
       cy.get("button").contains("Authorize").click();
-      cy.checkalert("Length must be between 6 and 6.");
+      cy.checkvalidation(0, "Invalid verification code (expected 6 digits)");
 
       // Not a code, test with a long string
       cy.get("input[placeholder='TOTP verification code']")
         .clear()
         .type("aaaaaaa");
       cy.get("button").contains("Authorize").click();
-      cy.checkalert("Length must be between 6 and 6.");
+      cy.checkvalidation(0, "Invalid verification code (expected 6 digits)");
 
       // Not a code, test with a long number
       cy.get("input[placeholder='TOTP verification code']")
         .clear()
         .type("9999999");
       cy.get("button").contains("Authorize").click();
-      cy.checkalert("Length must be between 6 and 6.");
+      cy.checkvalidation(0, "Invalid verification code (expected 6 digits)");
 
       // Test a wrong code
       cy.get("input[placeholder='TOTP verification code']")
@@ -110,26 +110,26 @@ describe("Login", () => {
       // Not a code, test with a short string
       cy.get("input[placeholder='TOTP verification code']").clear().type("a");
       cy.get("button").contains("Authorize").click();
-      cy.checkalert("Length must be between 6 and 6.");
+      cy.checkvalidation(0, "Invalid verification code (expected 6 digits)");
 
       // Not a code, test with a short number
       cy.get("input[placeholder='TOTP verification code']").clear().type("0");
       cy.get("button").contains("Authorize").click();
-      cy.checkalert("Length must be between 6 and 6.");
+      cy.checkvalidation(0, "Invalid verification code (expected 6 digits)");
 
       // Not a code, test with a long string
       cy.get("input[placeholder='TOTP verification code']")
         .clear()
         .type("aaaaaaa");
       cy.get("button").contains("Authorize").click();
-      cy.checkalert("Length must be between 6 and 6.");
+      cy.checkvalidation(0, "Invalid verification code (expected 6 digits)");
 
       // Not a code, test with a long number
       cy.get("input[placeholder='TOTP verification code']")
         .clear()
         .type("9999999");
       cy.get("button").contains("Authorize").click();
-      cy.checkalert("Length must be between 6 and 6.");
+      cy.checkvalidation(0, "Invalid verification code (expected 6 digits)");
 
       // Test a wrong code
       cy.get("input[placeholder='TOTP verification code']")
@@ -173,26 +173,26 @@ describe("Login", () => {
       // Not a code, test with a short string
       cy.get("input[placeholder='TOTP verification code']").clear().type("a");
       cy.get("button:contains('Submit')").click();
-      cy.checkalert("Length must be between 6 and 6.");
+      cy.checkvalidation(0, "Invalid verification code (expected 6 digits)");
 
       // Not a code, test with a short number
       cy.get("input[placeholder='TOTP verification code']").clear().type("0");
       cy.get("button:contains('Submit')").click();
-      cy.checkalert("Length must be between 6 and 6.");
+      cy.checkvalidation(0, "Invalid verification code (expected 6 digits)");
 
       // Not a code, test with a long string
       cy.get("input[placeholder='TOTP verification code']")
         .clear()
         .type("aaaaaaa");
       cy.get("button:contains('Submit')").click();
-      cy.checkalert("Length must be between 6 and 6.");
+      cy.checkvalidation(0, "Invalid verification code (expected 6 digits)");
 
       // Not a code, test with a long number
       cy.get("input[placeholder='TOTP verification code']")
         .clear()
         .type("9999999");
       cy.get("button:contains('Submit')").click();
-      cy.checkalert("Length must be between 6 and 6.");
+      cy.checkvalidation(0, "Invalid verification code (expected 6 digits)");
 
       // Test a wrong code
       cy.get("input[placeholder='TOTP verification code']")

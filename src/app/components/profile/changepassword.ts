@@ -31,7 +31,6 @@ export class ChangePasswordComponent {
         key: "totp_code",
         type: "input",
         templateOptions: {
-          // type: "number",
           type: "string",
           label: "Verification code",
           placeholder: "TOTP verification code",
@@ -39,9 +38,8 @@ export class ChangePasswordComponent {
             class: "fas fa-shield-alt",
           },
           required: true,
-          // min: 100000,
-          // max: 999999,
         },
+        validators: { validation: ["totp"] },
       });
     }
     this.fields.push({
@@ -119,21 +117,26 @@ export class ChangePasswordComponent {
         this.model["confirmPwd"] = "";
         this.notify.showSuccess("Password successfully changed");
 
-        this.auth.login(username, data["new_password"]).subscribe(
-          (data) => {
-            this.auth.loadUser().subscribe(
-              (response) => {
-                this.router.navigate([""]);
-              },
-              (error) => {
-                this.notify.showError(error);
-              }
-            );
-          },
-          (error) => {
-            this.notify.showError(error);
-          }
-        );
+        // With TOTP enabled the automatic login is not allowed due to the TOTP request
+        if (this.user && this.user.two_factor_enabled) {
+          this.router.navigate(["/app/login"]);
+        } else {
+          this.auth.login(username, data["new_password"]).subscribe(
+            (data) => {
+              this.auth.loadUser().subscribe(
+                (response) => {
+                  this.router.navigate([""]);
+                },
+                (error) => {
+                  this.notify.showError(error);
+                }
+              );
+            },
+            (error) => {
+              this.notify.showError(error);
+            }
+          );
+        }
       },
       (error) => {
         this.notify.showError(error);
