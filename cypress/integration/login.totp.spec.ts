@@ -222,8 +222,8 @@ describe("Login", () => {
       // Automatic login with new password is not possible due to the TOTP request
       cy.get("div.card-header h4").contains("Login");
 
-      cy.get("input[placeholder='Your password']").type(email);
-      cy.get("input[placeholder='Your username (email)']").type(pwd);
+      cy.get("input[placeholder='Your username (email)']").type(email);
+      cy.get("input[placeholder='Your password']").type(pwd);
 
       cy.intercept("POST", "/auth/login").as("login");
       cy.get("button").contains("Login").click();
