@@ -170,6 +170,10 @@ describe("ResetPassword", () => {
           cy.intercept("POST", "/auth/login").as("login");
           cy.get("button").contains("Authorize").click();
           cy.wait("@login");
+
+          // I don't exactly know why but in this case the @login is not enough...
+          // Let's add a very ugly additional wait...
+          cy.wait(300);
         }
 
         cy.visit("/app/profile");

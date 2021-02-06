@@ -208,7 +208,9 @@ describe("Login", () => {
       cy.checkalert("Invalid verification code");
 
       // Code is now correct
-      cy.get("input[placeholder='TOTP verification code']").type(get_totp());
+      cy.get("input[placeholder='TOTP verification code']")
+        .clear()
+        .type(get_totp());
       cy.intercept("PUT", "/auth/profile").as("changed");
       cy.get("button:contains('Submit')").click();
       cy.wait("@changed");
@@ -228,7 +230,9 @@ describe("Login", () => {
       cy.wait("@login");
 
       cy.get("div.card-header h4").contains("Provide the verification code");
-      cy.get("input[placeholder='TOTP verification code']").type(get_totp());
+      cy.get("input[placeholder='TOTP verification code']")
+        .clear()
+        .type(get_totp());
 
       cy.intercept("POST", "/auth/login").as("login");
       cy.get("button").contains("Authorize").click();
