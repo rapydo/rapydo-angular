@@ -1,5 +1,5 @@
 // This is to silence ESLint about undefined Cypress
-/*global Cypress*/
+/*global cy, Cypress*/
 
 // import * as OTPAuth from "otpauth";
 import { authenticator } from "otplib";
@@ -77,6 +77,11 @@ export function get_totp() {
   // const totp = new OTPAuth.TOTP({ secret: Cypress.env("TESTING_TOTP_HASH") });
   // return totp.generate();
 
+  // TOTP period is expiring, let's wait for the next
+  if (authenticator.timeRemaining() < 1) {
+    console.warn("TOTP period is expiring, waiting for the next");
+    cy.wait(1000);
+  }
   return authenticator.generate(Cypress.env("TESTING_TOTP_HASH"));
 
   // return totp.generate(Cypress.env("TESTING_TOTP_HASH"));

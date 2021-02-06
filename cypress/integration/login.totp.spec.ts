@@ -73,7 +73,7 @@ describe("Login", () => {
         .clear()
         .type("000000");
       cy.get("button").contains("Authorize").click();
-      cy.checkalert("Invalid verification code");
+      cy.checkalert("Verification code is not valid");
 
       // Code is now correct
       cy.get("input[placeholder='TOTP verification code']")
@@ -140,7 +140,7 @@ describe("Login", () => {
         .clear()
         .type("000000");
       cy.get("button").contains("Authorize").click();
-      cy.checkalert("Invalid verification code");
+      cy.checkalert("Verification code is not valid");
 
       // Code is now correct
       cy.get("input[placeholder='TOTP verification code']")
@@ -205,7 +205,7 @@ describe("Login", () => {
         .clear()
         .type("000000");
       cy.get("button:contains('Submit')").click();
-      cy.checkalert("Invalid verification code");
+      cy.checkalert("Verification code is not valid");
 
       // Code is now correct
       cy.get("input[placeholder='TOTP verification code']")

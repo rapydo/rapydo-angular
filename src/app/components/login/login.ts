@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
   public panelTitle: string = "Login";
   public buttonText: string = "Login";
 
-  public askUsername: boolean = true;
+  public askCredentials: boolean = true;
   public askPassword: boolean = true;
   public askNewPassword: boolean = false;
   public askTOTP: boolean = false;
@@ -104,10 +104,11 @@ export class LoginComponent implements OnInit {
   private set_form() {
     this.fields = [];
 
-    if (this.askUsername) {
+    if (this.askCredentials) {
       this.fields.push({
         key: "username",
         type: "input",
+        focus: true,
         templateOptions: {
           type: "email",
           label: "Username",
@@ -119,9 +120,7 @@ export class LoginComponent implements OnInit {
         },
         validators: { validation: ["email"] },
       });
-    }
 
-    if (this.askPassword) {
       this.fields.push({
         key: "password",
         type: "password",
@@ -176,6 +175,7 @@ export class LoginComponent implements OnInit {
       this.fields.push({
         key: "totp_code",
         type: "input",
+        focus: true,
         templateOptions: {
           type: "string",
           label: "Verification code",
@@ -245,9 +245,9 @@ export class LoginComponent implements OnInit {
                   this.panelTitle = "Please change your temporary password";
                   this.buttonText = "Change";
                   this.warningCard = true;
-                  this.askUsername = false;
-                  this.askPassword = false;
+                  this.askCredentials = false;
                   this.askNewPassword = true;
+                  this.askTOTP = false;
                   this.set_form();
                   this.notify.showWarning(body.errors);
                 } else if (action === "PASSWORD EXPIRED") {
@@ -255,17 +255,17 @@ export class LoginComponent implements OnInit {
                     "Your password is expired, please change it";
                   this.buttonText = "Change";
                   this.warningCard = true;
-                  this.askUsername = false;
-                  this.askPassword = false;
+                  this.askCredentials = false;
                   this.askNewPassword = true;
+                  this.askTOTP = false;
                   this.set_form();
                   this.notify.showWarning(body.errors);
                 } else if (action === "TOTP") {
                   this.panelTitle = "Provide the verification code";
                   this.buttonText = "Authorize";
                   this.warningCard = true;
-                  this.askUsername = false;
-                  this.askPassword = false;
+                  this.askCredentials = false;
+                  this.askNewPassword = false;
                   this.askTOTP = true;
                   this.set_form();
                   // this.notify.showWarning(body.errors);
