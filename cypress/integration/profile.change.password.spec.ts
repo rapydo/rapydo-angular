@@ -143,8 +143,8 @@ describe("ChangePassword", () => {
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       cy.get("div.card-header h4").contains("Login");
 
-      cy.get("input[placeholder='Your password']").type(email);
-      cy.get("input[placeholder='Your username (email)']").type(newPassword);
+      cy.get("input[placeholder='Your username (email)']").type(email);
+      cy.get("input[placeholder='Your password']").type(newPassword);
 
       cy.intercept("POST", "/auth/login").as("login");
       cy.get("button").contains("Login").click();

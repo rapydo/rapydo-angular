@@ -33,6 +33,8 @@ describe("Login", () => {
         "Provide the verification code"
       );
 
+      cy.checkalert("Please change your temporary password");
+
       pwd += "!";
 
       cy.get('input[placeholder="Your new password"]').type(pwd);

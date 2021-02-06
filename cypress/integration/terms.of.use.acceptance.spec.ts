@@ -26,7 +26,8 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
         .type(pwd + "{enter}");
 
       cy.wait("@login");
-      // cy.get("input[placeholder='Your password']").should("not.exist");
+
+      cy.checkalert("You do not provided a valid verification code");
 
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
         cy.get("div.card-header h4").contains(
