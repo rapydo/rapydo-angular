@@ -76,7 +76,9 @@ describe("Login", () => {
       cy.checkalert("Invalid verification code");
 
       // Code is now correct
-      cy.get("input[placeholder='TOTP verification code']").type(get_totp());
+      cy.get("input[placeholder='TOTP verification code']")
+        .clear()
+        .type(get_totp());
       cy.intercept("POST", "/auth/login").as("login");
       cy.get("button").contains("Authorize").click();
       cy.wait("@login");

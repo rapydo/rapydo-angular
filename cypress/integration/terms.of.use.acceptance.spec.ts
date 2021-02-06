@@ -16,6 +16,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
 
     it("Terms of Use - not accepted", () => {
       cy.visit("/app/login");
+      cy.closecookielaw();
 
       cy.intercept("POST", "/auth/login").as("login");
       cy.get("input[placeholder='Your username (email)']")
@@ -27,9 +28,9 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
 
       cy.wait("@login");
 
-      cy.checkalert("You do not provided a valid verification code");
-
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+        cy.checkalert("You do not provided a valid verification code");
+
         cy.get("div.card-header h4").contains(
           "Configure Two-Factor with Google Auth"
         );

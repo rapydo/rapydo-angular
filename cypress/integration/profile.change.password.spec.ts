@@ -150,6 +150,8 @@ describe("ChangePassword", () => {
       cy.get("button").contains("Login").click();
       cy.wait("@login");
 
+      cy.get("input[placeholder='Your password']").should("not.exist");
+
       cy.get("div.card-header h4").contains("Provide the verification code");
       cy.get("input[placeholder='TOTP verification code']").type(get_totp());
 
