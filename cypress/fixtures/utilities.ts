@@ -69,21 +69,25 @@ export function getpassword(type, len = 0) {
 }
 
 // Version with otpauth
-// import * as OTPAuth from "otpauth";
+import * as OTPAuth from "otpauth";
+
+const totp = new OTPAuth.TOTP({
+  secret: Cypress.env("TESTING_TOTP_HASH"),
+  digits: 6,
+  period: 30,
+});
+export function get_totp() {
+  return totp.generate();
+}
+
+// // Version with otplib
+// import { authenticator } from "otplib";
 
 // export function get_totp() {
-//   const totp = new OTPAuth.TOTP({ secret: Cypress.env("TESTING_TOTP_HASH") });
-//   return totp.generate();
+//   // TOTP period is expiring, let's wait for the next
+//   // if (authenticator.timeRemaining() < 1) {
+//   //   console.warn("TOTP period is expiring, waiting for the next");
+//   //   cy.wait(1000);
+//   // }
+//   return authenticator.generate(Cypress.env("TESTING_TOTP_HASH"));
 // }
-
-// Version with otplib
-import { authenticator } from "otplib";
-
-export function get_totp() {
-  // TOTP period is expiring, let's wait for the next
-  // if (authenticator.timeRemaining() < 1) {
-  //   console.warn("TOTP period is expiring, waiting for the next");
-  //   cy.wait(1000);
-  // }
-  return authenticator.generate(Cypress.env("TESTING_TOTP_HASH"));
-}

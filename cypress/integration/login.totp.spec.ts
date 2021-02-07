@@ -5,7 +5,7 @@ import { getpassword, get_totp } from "../../fixtures/utilities";
 
 describe("Login", () => {
   if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-    it("TOTP", () => {
+    it.only("TOTP", () => {
       const email = "aaaaaaaaaa000555" + Math.random() + "@sample.org";
       const pwd = getpassword(4);
 
@@ -207,7 +207,6 @@ describe("Login", () => {
       cy.get("button:contains('Submit')").click();
       cy.checkalert("Verification code is not valid");
 
-      cy.wait(30000);
       // Code is now correct
       cy.get("input[placeholder='TOTP verification code']")
         .clear()

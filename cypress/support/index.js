@@ -174,6 +174,12 @@ Cypress.Commands.add(
     cy.logout();
 
     if (init_user) {
+      cy.visit("/app/login");
+
+      cy.location().should((location) => {
+        expect(location.pathname).to.eq("/app/login");
+      });
+
       cy.closecookielaw(true);
       cy.intercept("POST", "/auth/login").as("login");
 
