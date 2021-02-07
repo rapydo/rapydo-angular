@@ -158,28 +158,18 @@ describe("ResetPassword", () => {
           .clear()
           .type(newPassword + "{enter}");
 
-        cy.get("input[placeholder='Your password']").should("not.exist");
-
         if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+          cy.get("input[placeholder='Your password']").should("not.exist");
           cy.get("div.card-header h4").contains(
             "Provide the verification code"
           );
           cy.get("input[placeholder='TOTP verification code']")
             .clear()
             .type(get_totp());
-          cy.intercept("POST", "/auth/login").as("login");
           cy.get("button").contains("Authorize").click();
-          cy.wait("@login");
-
-          // I don't exactly know why but in this case the @login is not enough...
-          // Let's add a very ugly additional wait...
-          cy.wait(300);
         }
 
-        cy.visit("/app/profile");
-        cy.location().should((location) => {
-          expect(location.pathname).to.eq("/app/profile");
-        });
+        cy.goto_profile();
         cy.get("table").find("td").contains(email);
       });
     });

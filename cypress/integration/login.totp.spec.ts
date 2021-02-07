@@ -81,15 +81,11 @@ describe("Login", () => {
       cy.get("input[placeholder='TOTP verification code']")
         .clear()
         .type(get_totp());
-      cy.intercept("POST", "/auth/login").as("login");
       cy.get("button").contains("Authorize").click();
-      cy.wait("@login");
 
       // Verify the login by checking the profile
-      cy.visit("/app/profile");
-      cy.location().should((location) => {
-        expect(location.pathname).to.eq("/app/profile");
-      });
+      cy.goto_profile();
+
       cy.get("table").find("td").contains(email);
 
       cy.logout();
@@ -151,20 +147,10 @@ describe("Login", () => {
         .clear()
         .type(get_totp());
 
-      // I don't exactly know why but in this case the intercept/wait always
-      // arrive to late... let's wait in another way
-      // cy.intercept("POST", "/auth/login").as("login");
       cy.get("button").contains("Authorize").click();
-      // cy.wait("@login");
 
-      cy.get("input[placeholder='Your password']").should("not.exist");
-      cy.wait(300);
+      cy.goto_profile();
 
-      // Verify the login by checking the profile
-      cy.visit("/app/profile");
-      cy.location().should((location) => {
-        expect(location.pathname).to.eq("/app/profile");
-      });
       cy.get("table").find("td").contains(email);
     });
 
@@ -268,19 +254,10 @@ describe("Login", () => {
         .clear()
         .type(get_totp());
 
-      // I don't exactly know why but in this case the intercept/wait always
-      // arrive to late... let's wait in another way
-      // cy.intercept("POST", "/auth/login").as("login");
       cy.get("button").contains("Authorize").click();
-      // cy.wait("@login");
 
-      cy.get("input[placeholder='Your password']").should("not.exist");
-      cy.wait(300);
+      cy.goto_profile();
 
-      cy.visit("/app/profile");
-      cy.location().should((location) => {
-        expect(location.pathname).to.eq("/app/profile");
-      });
       cy.get("table").find("td").contains(email);
     });
 

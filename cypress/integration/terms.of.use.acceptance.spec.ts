@@ -139,7 +139,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
         expect(location.pathname).to.not.equal("/app/login");
       });
 
-      cy.visit("/app/profile");
+      cy.goto_profile();
 
       cy.get("table")
         .find("th")

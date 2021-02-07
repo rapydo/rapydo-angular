@@ -62,6 +62,19 @@ Cypress.Commands.add("logout", (collapsed = false) => {
   }
 });
 
+// Replaces cy.visit("/app/profile") to introduces automatic waits on DOM elements
+// instead of requiring waits on the http call
+Cypress.Commands.add("goto_profile", (collapsed = false) => {
+  if (collapsed) {
+    cy.get("button.navbar-toggler").click();
+  }
+  cy.get("i.fa-user").parent().click();
+
+  cy.location().should((location) => {
+    expect(location.pathname).to.eq("/app/profile");
+  });
+});
+
 Cypress.Commands.add("closecookielaw", (quiet = false) => {
   cy.get("cookie-law").within((el) => {
     if (quiet) {

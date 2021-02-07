@@ -118,20 +118,14 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
         cy.get("div.modal-footer button").first().contains("YES").click();
       }
 
-      cy.visit("/app/profile");
-      cy.location().should((location) => {
-        expect(location.pathname).to.eq("/app/profile");
-      });
+      cy.goto_profile();
       cy.get("table").find("td").contains(email);
 
       cy.logout();
 
       cy.login(email, pwd + "!");
 
-      cy.visit("/app/profile");
-      cy.location().should((location) => {
-        expect(location.pathname).to.eq("/app/profile");
-      });
+      cy.goto_profile();
     });
 
     afterEach(() => {

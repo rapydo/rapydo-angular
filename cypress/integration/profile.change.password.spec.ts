@@ -155,20 +155,12 @@ describe("ChangePassword", () => {
       cy.get("div.card-header h4").contains("Provide the verification code");
       cy.get("input[placeholder='TOTP verification code']").type(get_totp());
 
-      cy.intercept("POST", "/auth/login").as("login");
       cy.get("button").contains("Authorize").click();
       cy.get("input[placeholder='TOTP verification code']").should("not.exist");
-      cy.wait("@login");
     }
 
-    // I don't exactly know why but in this case the @login is not enough...
-    // Let's add a very ugly additional wait...
-    cy.wait(300);
+    cy.goto_profile();
 
-    cy.visit("/app/profile");
-    cy.location().should((location) => {
-      expect(location.pathname).to.eq("/app/profile");
-    });
     cy.get("table").find("td").contains(email);
   });
 
