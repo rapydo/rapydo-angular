@@ -65,16 +65,16 @@
             <i *ngIf="loading" class="fas fa-spinner fa-spin"></i>
           </form>
 
-          <div class="text-left" *ngIf="allowRegistration">
-            <br />
-            You don't have an account yet?
-            <a href="#" routerLink="/public/register">Register here</a>.
-          </div>
-
           <div class="text-left" *ngIf="allowPasswordReset">
             <br />
             Forgot your password?
-            <a href="#" routerLink="/public/reset">Click here</a>.
+            <a href="#" routerLink="/public/reset">Reset your password</a>
+          </div>
+
+          <div class="text-left" *ngIf="allowRegistration">
+            <br />
+            You don't have an account yet?
+            <a href="#" routerLink="/public/register">Register here</a>
           </div>
         </div>
       </div>
