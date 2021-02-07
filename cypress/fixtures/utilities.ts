@@ -1,11 +1,6 @@
 // This is to silence ESLint about undefined Cypress
 /*global cy, Cypress*/
 
-// import * as OTPAuth from "otpauth";
-import { authenticator } from "otplib";
-// import { totp } from 'otplib';
-// import { totp } from 'totp-generator';
-
 // type can be:
 //  0 = a super simple password with only a repeated len times
 //  1 = only lower case letters
@@ -73,18 +68,22 @@ export function getpassword(type, len = 0) {
   return pwd;
 }
 
+// Version with otpauth
+// import * as OTPAuth from "otpauth";
+
+// export function get_totp() {
+//   const totp = new OTPAuth.TOTP({ secret: Cypress.env("TESTING_TOTP_HASH") });
+//   return totp.generate();
+// }
+
+// Version with otplib
+import { authenticator } from "otplib";
+
 export function get_totp() {
-  // const totp = new OTPAuth.TOTP({ secret: Cypress.env("TESTING_TOTP_HASH") });
-  // return totp.generate();
-
   // TOTP period is expiring, let's wait for the next
-  if (authenticator.timeRemaining() < 1) {
-    console.warn("TOTP period is expiring, waiting for the next");
-    cy.wait(1000);
-  }
+  // if (authenticator.timeRemaining() < 1) {
+  //   console.warn("TOTP period is expiring, waiting for the next");
+  //   cy.wait(1000);
+  // }
   return authenticator.generate(Cypress.env("TESTING_TOTP_HASH"));
-
-  // return totp.generate(Cypress.env("TESTING_TOTP_HASH"));
-
-  // return totp(Cypress.env("TESTING_TOTP_HASH"));
 }

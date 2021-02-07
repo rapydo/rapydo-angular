@@ -207,6 +207,7 @@ describe("Login", () => {
       cy.get("button:contains('Submit')").click();
       cy.checkalert("Verification code is not valid");
 
+      cy.wait(30000);
       // Code is now correct
       cy.get("input[placeholder='TOTP verification code']")
         .clear()

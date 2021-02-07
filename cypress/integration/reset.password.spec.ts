@@ -15,7 +15,7 @@ describe("ResetPassword", () => {
     it("Reset", () => {
       cy.visit("/app/login");
 
-      cy.get('a:contains("Click here")').click();
+      cy.get('a:contains("Click here")').click({ force: true });
 
       cy.location().should((location) => {
         expect(location.pathname).to.eq("/public/reset");

@@ -177,7 +177,7 @@ describe("Registration", () => {
       );
       cy.get("div.card-block").contains("Didn't receive an activation link?");
 
-      cy.get("a").contains("Click here to send again").click();
+      cy.get("a").contains("Click here to send again").click({ force: true });
 
       cy.checkalert(
         "We are sending an email to your email address where you will find the link to activate your account"
