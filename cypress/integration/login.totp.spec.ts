@@ -169,6 +169,25 @@ describe("Login", () => {
     });
 
     it("TOTP - change password", () => {
+      cy.visit("/app/login");
+
+      cy.get("input[placeholder='Your username (email)']").type(email);
+      cy.get("input[placeholder='Your password']").type(pwd);
+      cy.intercept("POST", "/auth/login").as("login");
+      cy.get("button").contains("Login").click();
+      cy.wait("@login");
+
+      cy.get("input[placeholder='Your password']").should("not.exist");
+
+      cy.get("div.card-header h4").contains("Provide the verification code");
+      cy.get("input[placeholder='TOTP verification code']")
+        .clear()
+        .type(get_totp());
+
+      cy.intercept("POST", "/auth/login").as("login");
+      cy.get("button").contains("Authorize").click();
+      cy.wait("@login");
+
       // Let's test the password change
       cy.visit("/app/profile/changepassword");
 
