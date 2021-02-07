@@ -44,7 +44,7 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
   });
 
   // Wait until the user is loaded
-  cy.get("a").contains("Sign in").should("not.exist");
+  cy.get("i.fa-user");
 });
 
 Cypress.Commands.add("logout", (collapsed = false) => {
