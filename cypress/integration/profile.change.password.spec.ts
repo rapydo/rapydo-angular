@@ -159,6 +159,9 @@ describe("ChangePassword", () => {
       cy.get("button").contains("Authorize").click();
       cy.get("input[placeholder='TOTP verification code']").should("not.exist");
       cy.wait("@login");
+      // I don't exactly know why but in this case the @login is not enough...
+      // Let's add a very ugly additional wait...
+      cy.wait(300);
     }
     cy.visit("/app/profile");
     cy.location().should((location) => {
