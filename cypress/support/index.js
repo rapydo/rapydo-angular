@@ -27,9 +27,7 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
     method: "POST",
     url: Cypress.env("API_URL") + "auth/login",
     body,
-  }).as("login");
-
-  cy.get("@login").then((response) => {
+  }).then((response) => {
     cy.setLocalStorage("token", JSON.stringify(response.body));
 
     const options = {
@@ -45,7 +43,8 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
     });
   });
 
-  cy.wait("@login");
+  // Wait until the user is loaded
+  cy.get("a").contains("Sign in").should("not.exist");
 });
 
 Cypress.Commands.add("logout", (collapsed = false) => {
