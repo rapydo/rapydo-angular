@@ -84,10 +84,5 @@ export function get_totp() {
 // import { authenticator } from "otplib";
 
 // export function get_totp() {
-//   // TOTP period is expiring, let's wait for the next
-//   // if (authenticator.timeRemaining() < 1) {
-//   //   console.warn("TOTP period is expiring, waiting for the next");
-//   //   cy.wait(1000);
-//   // }
 //   return authenticator.generate(Cypress.env("TESTING_TOTP_HASH"));
 // }

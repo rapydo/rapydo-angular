@@ -170,15 +170,11 @@ describe("Login", () => {
         .clear()
         .type(get_totp());
 
-      cy.intercept("POST", "/auth/login").as("login");
       cy.get("button").contains("Authorize").click();
-      cy.wait("@login");
 
-      // I don't exactly know why but in this case the @login is not enough...
-      // Let's add a very ugly additional wait...
-      cy.wait(300);
+      cy.goto_profile();
       // Let's test the password change
-      cy.visit("/app/profile/changepassword");
+      cy.get("a:contains('CHANGE')").click();
 
       cy.get('input[placeholder="Type here your current password"]')
         .clear()

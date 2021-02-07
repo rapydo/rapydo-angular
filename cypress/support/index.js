@@ -68,6 +68,13 @@ Cypress.Commands.add("goto_profile", (collapsed = false) => {
   if (collapsed) {
     cy.get("button.navbar-toggler").click();
   }
+
+  // Why this wait?
+  // Cypress does not offer a way to automatically wait for all pending XHR requests and
+  // often some requests e.g. GET /auth/status, are still under the hook when this click
+  // arrives causing the request interruption and inconsistences and make the tests fail
+  cy.wait(300);
+
   cy.get("i.fa-user").parent().click();
 
   cy.location().should((location) => {
@@ -96,7 +103,6 @@ Cypress.Commands.add("closecookielaw", (quiet = false) => {
 });
 
 Cypress.Commands.add("checkalert", (msg) => {
-  // cy.wait(200);
   cy.get("div[role=alertdialog]").contains(msg).click({ force: true });
 });
 
@@ -194,7 +200,6 @@ Cypress.Commands.add(
       });
 
       cy.closecookielaw(true);
-      cy.intercept("POST", "/auth/login").as("login");
 
       cy.get("input[placeholder='Your username (email)']").type(email);
       if (
@@ -208,11 +213,9 @@ Cypress.Commands.add(
 
       cy.get("button").contains("Login").click();
 
-      cy.wait("@login");
-
-      cy.wait(300);
-
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+        cy.get("input[placeholder='Your password']").should("not.exist");
+
         cy.get("div.card-header h4").contains(
           "Configure Two-Factor with Google Auth"
         );
@@ -225,6 +228,7 @@ Cypress.Commands.add(
         cy.get("button").contains("Authorize").click();
         cy.wait("@login");
       } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
+        cy.get("input[placeholder='Your password']").should("not.exist");
         cy.get("div.card-header.bg-warning h4").contains(
           "Please change your temporary password"
         );
