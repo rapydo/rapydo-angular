@@ -3,8 +3,6 @@
 
 describe("AdminUsers", () => {
   beforeEach(() => {
-    // Visit needed before login to loadi DOM and be able to wait for some element
-    cy.visit("");
     cy.login();
 
     cy.visit("/app/admin/groups");

@@ -42,9 +42,6 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
       cy.setLocalStorage("currentUser", JSON.stringify(response.body));
     });
   });
-
-  // Wait until the user is loaded
-  cy.get("i.fa-user");
 });
 
 Cypress.Commands.add("logout", (collapsed = false) => {
