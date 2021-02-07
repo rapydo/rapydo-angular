@@ -252,7 +252,9 @@ describe("Login", () => {
       cy.get("button").contains("Login").click();
       cy.wait("@login");
 
-      cy.get("div.card-header h4").contains("Provide the verification code");
+      cy.get("div.card-header.bg-warning h4").contains(
+        "Provide the verification code"
+      );
       cy.get("input[placeholder='TOTP verification code']")
         .clear()
         .type(get_totp());

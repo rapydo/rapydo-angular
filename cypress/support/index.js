@@ -74,7 +74,7 @@ Cypress.Commands.add("goto_profile", (collapsed = false) => {
   // Cypress does not offer a way to automatically wait for all pending XHR requests and
   // often some requests e.g. GET /auth/status, are still under the hook when this click
   // arrives causing the request interruption and inconsistences and make the tests fail
-  cy.wait(300);
+  cy.wait(500);
 
   cy.get("i.fa-user").parent().click();
 
