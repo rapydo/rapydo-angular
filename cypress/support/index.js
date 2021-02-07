@@ -22,6 +22,8 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
 
     body["totp_code"] = totp.generate();
   }
+
+  cy.intercept("POST", "/auth/login").as("login");
   cy.request({
     method: "POST",
     url: Cypress.env("API_URL") + "auth/login",
@@ -41,6 +43,7 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
       cy.setLocalStorage("currentUser", JSON.stringify(response.body));
     });
   });
+  cy.wait("@login");
 });
 
 Cypress.Commands.add("logout", (collapsed = false) => {
@@ -247,7 +250,7 @@ Cypress.Commands.add(
 
       if (Cypress.env("ALLOW_TERMS_OF_USE")) {
         cy.get("div.modal-footer h4").contains(
-          "Do you accept all our Terms of Use?"
+          "Do you accept our Terms of Use?"
         );
         cy.get("div.modal-footer button").first().contains("YES").click();
       }

@@ -83,6 +83,13 @@ describe("Login", () => {
         .type(get_totp());
       cy.get("button").contains("Authorize").click();
 
+      if (Cypress.env("ALLOW_TERMS_OF_USE")) {
+        cy.get("div.modal-footer h4").contains(
+          "Do you accept our Terms of Use?"
+        );
+        cy.get("div.modal-footer button").first().contains("YES").click();
+      }
+
       // Verify the login by checking the profile
       cy.goto_profile();
 

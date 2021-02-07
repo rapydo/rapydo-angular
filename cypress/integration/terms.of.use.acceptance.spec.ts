@@ -68,9 +68,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
 
       cy.get("div.modal-header h4.modal-title").contains("Terms of use");
 
-      cy.get("div.modal-footer h4").contains(
-        "Do you accept all our Terms of Use?"
-      );
+      cy.get("div.modal-footer h4").contains("Do you accept our Terms of Use?");
 
       cy.get("div.modal-footer button").first().contains("YES");
       cy.get("div.modal-footer button").last().contains("NO").click();
@@ -102,9 +100,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
 
       cy.get("div.modal-header h4.modal-title").contains("Terms of use");
 
-      cy.get("div.modal-footer h4").contains(
-        "Do you accept all our Terms of Use?"
-      );
+      cy.get("div.modal-footer h4").contains("Do you accept our Terms of Use?");
 
       cy.get("div.modal-footer button").last().contains("NO");
 

@@ -107,7 +107,7 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
 
       if (Cypress.env("ALLOW_TERMS_OF_USE")) {
         cy.get("div.modal-footer h4").contains(
-          "Do you accept all our Terms of Use?"
+          "Do you accept our Terms of Use?"
         );
         cy.get("div.modal-footer button").first().contains("YES").click();
       }
@@ -120,6 +120,7 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
       cy.login(email, pwd + "!");
 
       cy.goto_profile();
+      cy.get("table").find("td").contains(email);
     });
 
     afterEach(() => {
