@@ -250,7 +250,7 @@ describe("Login", () => {
       cy.wait("@changed");
       cy.checkalert("Password successfully changed");
 
-      pwd += "!!";
+      pwd += "!";
 
       // With TOTP after password change the user has to login again
       // Automatic login with new password is not possible due to the TOTP request
