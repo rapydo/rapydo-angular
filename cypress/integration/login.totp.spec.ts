@@ -5,14 +5,16 @@ import { getpassword, get_totp } from "../../fixtures/utilities";
 
 describe("Login", () => {
   if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-    it.only("TOTP", () => {
-      const email = "aaaaaaaaaa000555" + Math.random() + "@sample.org";
-      const pwd = getpassword(4);
+    const email = "aaaaaaaaaa000555" + Math.random() + "@sample.org";
+    const pwd = getpassword(4);
 
+    before(() => {
       // expired = false
       // init_user = false
       cy.createuser(email, pwd, false, false);
+    });
 
+    it("TOTP - change temporary password", () => {
       cy.visit("/app/login");
       cy.closecookielaw();
 
@@ -91,7 +93,9 @@ describe("Login", () => {
       cy.get("table").find("td").contains(email);
 
       cy.logout();
+    });
 
+    it("TOTP - login", () => {
       // Let's test the second login (temporary password already changed)
       cy.visit("/app/login");
 
@@ -156,7 +160,9 @@ describe("Login", () => {
         expect(location.pathname).to.eq("/app/profile");
       });
       cy.get("table").find("td").contains(email);
+    });
 
+    it("TOTP - change password", () => {
       // Let's test the password change
       cy.visit("/app/profile/changepassword");
 
@@ -243,7 +249,9 @@ describe("Login", () => {
         expect(location.pathname).to.eq("/app/profile");
       });
       cy.get("table").find("td").contains(email);
+    });
 
+    after(() => {
       cy.logout();
 
       cy.login();
