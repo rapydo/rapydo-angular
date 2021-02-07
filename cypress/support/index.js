@@ -7,7 +7,7 @@ import { get_totp } from "../fixtures/utilities";
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-Cypress.Commands.add("login", (email = null, pwd = null) => {
+Cypress.Commands.add("login", (email = null, pwd = null, via_form = false) => {
   if (email === null) {
     email = Cypress.env("AUTH_DEFAULT_USERNAME");
   }
@@ -16,32 +16,57 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
     pwd = Cypress.env("AUTH_DEFAULT_PASSWORD");
   }
 
-  let body = { username: email, password: pwd };
-  if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-    const totp = new OTPAuth.TOTP({ secret: Cypress.env("TESTING_TOTP_HASH") });
+  if (via_form) {
+    cy.visit("/app/login");
 
-    body["totp_code"] = totp.generate();
-  }
+    cy.get("input[placeholder='Your username (email)']").clear().type(email);
+    cy.get("input[placeholder='Your password']").clear().type(pwd);
+    cy.intercept("POST", "/auth/login").as("login");
+    cy.get("button").contains("Login").click();
+    cy.wait("@login");
+    cy.get("input[placeholder='Your password']").should("not.exist");
 
-  cy.request({
-    method: "POST",
-    url: Cypress.env("API_URL") + "auth/login",
-    body,
-  }).then((response) => {
-    cy.setLocalStorage("token", JSON.stringify(response.body));
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.get("div.card-header.bg-warning h4").contains(
+        "Provide the verification code"
+      );
+      cy.get("input[placeholder='TOTP verification code']")
+        .clear()
+        .type(get_totp());
 
-    const options = {
-      method: "GET",
-      url: Cypress.env("API_URL") + "auth/profile",
-      headers: {
-        Authorization: `Bearer ${response.body}`,
-      },
-    };
+      cy.get("button").contains("Authorize").click();
+      cy.get("input[placeholder='TOTP verification code']").should("not.exist");
+    }
+  } else {
+    let body = { username: email, password: pwd };
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      const totp = new OTPAuth.TOTP({
+        secret: Cypress.env("TESTING_TOTP_HASH"),
+      });
 
-    cy.request(options).then((response) => {
-      cy.setLocalStorage("currentUser", JSON.stringify(response.body));
+      body["totp_code"] = totp.generate();
+    }
+
+    cy.request({
+      method: "POST",
+      url: Cypress.env("API_URL") + "auth/login",
+      body,
+    }).then((response) => {
+      cy.setLocalStorage("token", JSON.stringify(response.body));
+
+      const options = {
+        method: "GET",
+        url: Cypress.env("API_URL") + "auth/profile",
+        headers: {
+          Authorization: `Bearer ${response.body}`,
+        },
+      };
+
+      cy.request(options).then((response) => {
+        cy.setLocalStorage("currentUser", JSON.stringify(response.body));
+      });
     });
-  });
+  }
 });
 
 Cypress.Commands.add("logout", (collapsed = false) => {
@@ -74,7 +99,7 @@ Cypress.Commands.add("goto_profile", (collapsed = false) => {
   // Cypress does not offer a way to automatically wait for all pending XHR requests and
   // often some requests e.g. GET /auth/status, are still under the hook when this click
   // arrives causing the request interruption and inconsistences and make the tests fail
-  cy.wait(500);
+  cy.wait(300);
 
   cy.get("i.fa-user").parent().click();
 

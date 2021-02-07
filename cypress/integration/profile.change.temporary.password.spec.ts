@@ -117,7 +117,8 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
 
       cy.logout();
 
-      cy.login(email, pwd + "!");
+      // true = via form
+      cy.login(email, pwd + "!", true);
 
       cy.goto_profile();
       cy.get("table").find("td").contains(email);
