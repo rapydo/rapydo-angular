@@ -23,12 +23,13 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
     body["totp_code"] = totp.generate();
   }
 
-  cy.intercept("POST", "/auth/login").as("login");
   cy.request({
     method: "POST",
     url: Cypress.env("API_URL") + "auth/login",
     body,
-  }).then((response) => {
+  }).as("login");
+
+  cy.get("@login").then((response) => {
     cy.setLocalStorage("token", JSON.stringify(response.body));
 
     const options = {
@@ -43,6 +44,7 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
       cy.setLocalStorage("currentUser", JSON.stringify(response.body));
     });
   });
+
   cy.wait("@login");
 });
 
