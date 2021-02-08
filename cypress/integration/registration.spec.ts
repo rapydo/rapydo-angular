@@ -4,7 +4,18 @@
 import { getpassword, get_totp } from "../../fixtures/utilities";
 
 describe("Registration", () => {
-  if (Cypress.env("ALLOW_REGISTRATION")) {
+  if (!Cypress.env("ALLOW_REGISTRATION")) {
+    it("Registration not allowed", () => {
+      cy.visit("/public/register");
+      cy.location().should((location) => {
+        expect(location.pathname).to.eq("/public/register");
+      });
+
+      cy.get("div.card-header h4").contains("Register a new account");
+
+      cy.contains("Account registration is not allowed");
+    });
+  } else {
     it("Registration", () => {
       cy.visit("/app/login");
       cy.closecookielaw();
@@ -158,10 +169,12 @@ describe("Registration", () => {
       cy.contains(
         "User successfully registered. You will receive an email to confirm your registraton and activate your account"
       );
+    });
 
+    it("Activation", () => {
       cy.visit("/app/login");
 
-      cy.intercept("POST", "/auth/login").as("login1");
+      cy.intercept("POST", "/auth/login").as("login");
 
       cy.get("input[placeholder='Your username (email)']")
         .clear()
@@ -170,7 +183,7 @@ describe("Registration", () => {
         .clear()
         .type(newPassword + "{enter}");
 
-      cy.wait("@login1");
+      cy.wait("@login");
 
       cy.get("div.card-header.bg-warning h4").contains(
         "This account is not active"
@@ -266,7 +279,9 @@ describe("Registration", () => {
       cy.goto_profile();
 
       cy.get("table").find("td").contains(newUser);
+    });
 
+    it("Verify that user is not admin", () => {
       cy.visit("/app/admin/users");
 
       cy.checkalert(
@@ -280,34 +295,12 @@ describe("Registration", () => {
       );
 
       cy.logout();
+    });
 
-      // Login as admin to delete the user
+    after(() => {
       cy.login();
 
       cy.deleteuser(newUser);
-
-      cy.visit("/app/login");
-
-      cy.get("input[placeholder='Your username (email)']")
-        .clear()
-        .type(newUser);
-      cy.get("input[placeholder='Your password']")
-        .clear()
-        .type("looooong{enter}");
-      // cy.get("button").contains("Login").click();
-
-      cy.checkalert("Invalid access credentials");
-    });
-  } else {
-    it("Registration not allowed", () => {
-      cy.visit("/public/register");
-      cy.location().should((location) => {
-        expect(location.pathname).to.eq("/public/register");
-      });
-
-      cy.get("div.card-header h4").contains("Register a new account");
-
-      cy.contains("Account registration is not allowed");
     });
   }
 });
