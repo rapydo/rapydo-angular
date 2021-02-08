@@ -16,6 +16,10 @@ describe("Registration", () => {
       cy.contains("Account registration is not allowed");
     });
   } else {
+    const newUser =
+      "testuser" + Math.floor(Math.random() * 1000000) + "@sample.org";
+    let newPassword = "to-be-generated";
+
     it("Registration", () => {
       cy.visit("/app/login");
       cy.closecookielaw();
@@ -119,7 +123,7 @@ describe("Registration", () => {
       cy.get("@submit").click({ force: true });
 
       // Validation is now ok, but sending an already existing user as username
-      let newPassword = getpassword(1);
+      newPassword = getpassword(1);
       cy.get("@email").clear().type(Cypress.env("AUTH_DEFAULT_USERNAME"));
       cy.get("@password").clear().type(newPassword);
       cy.get("@confirmation").clear().type(newPassword);
@@ -130,8 +134,7 @@ describe("Registration", () => {
       );
 
       // Failures on password validation: missing upper case letters
-      const newUser =
-        "testuser" + Math.floor(Math.random() * 1000000) + "@sample.org";
+
       cy.get("@email").clear().type(newUser);
       cy.get("@submit").click({ force: true });
       cy.checkalert("Password is too weak, missing upper case letters");
