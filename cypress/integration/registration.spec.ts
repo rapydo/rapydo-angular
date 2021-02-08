@@ -235,7 +235,8 @@ describe("Registration", () => {
           "This activation token is not valid and your request can not be satisfied."
         );
       });
-
+    });
+    it("Access", () => {
       cy.visit("/app/login");
 
       cy.intercept("POST", "/auth/login").as("login2");
@@ -282,9 +283,7 @@ describe("Registration", () => {
       cy.goto_profile();
 
       cy.get("table").find("td").contains(newUser);
-    });
 
-    it("Verify that user is not admin", () => {
       cy.visit("/app/admin/users");
 
       cy.checkalert(
