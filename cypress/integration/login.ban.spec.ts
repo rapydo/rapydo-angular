@@ -59,12 +59,16 @@ describe("Login Ban", () => {
         cy.get("div.card-header h4").contains("Provide the verification code");
 
         for (let i = 0; i < max_failures; i++) {
-          cy.get("input[placeholder='TOTP verification code']").type("000000");
+          cy.get("input[placeholder='TOTP verification code']")
+            .clear()
+            .type("000000");
           cy.get("button").contains("Authorize").click();
           cy.checkalert("Verification code is not valid");
         }
 
-        cy.get("input[placeholder='TOTP verification code']").type(get_totp());
+        cy.get("input[placeholder='TOTP verification code']")
+          .clear()
+          .type(get_totp());
         cy.get("button").contains("Authorize").click();
         cy.checkalert(
           "Sorry, this account is temporarily blocked due to the number of failed login attempts."
