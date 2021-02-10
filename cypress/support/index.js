@@ -61,6 +61,11 @@ Cypress.Commands.add("login", (email = null, pwd = null, via_form = false) => {
       cy.get('button:contains("Change")').click({ force: true });
       cy.wait("@login");
     }
+    // Why this wait?
+    // Cypress does not offer a way to automatically wait for all pending XHR requests and
+    // often some requests e.g. GET /auth/status, are still under the hook when this click
+    // arrives causing the request interruption and inconsistences and make the tests fail
+    cy.wait(300);
   } else {
     let body = { username: email, password: pwd };
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
