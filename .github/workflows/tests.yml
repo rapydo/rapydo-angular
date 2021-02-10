@@ -107,17 +107,6 @@ jobs:
           cp data/prj/karma/lcov.info .
           bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular
 
-      # - name: Save Video Artifact
-      #   uses: actions/upload-artifact@v1
-      #   if: ${{ matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full' || matrix.stage == 'cypress-totp' }}
-      #   with:
-      #     name: cypress-recordings
-      #     path: rapydo_tests/data/prj/cypress
-
-      - name: Print backend logs on failure
-        if: ${{ failure() && (matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full' || matrix.stage == 'cypress-totp') }}
-        run: cat rapydo_tests/data/logs/backend-server.log
-
       - name: Run Prod Tests
         if: ${{ matrix.stage == 'prod' }}
         run: |
@@ -247,6 +236,17 @@ jobs:
 
           echo "{}" > cypress.json
           cypress run --browser chrome --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
+
+      # - name: Save Video Artifact
+      #   uses: actions/upload-artifact@v1
+      #   if: ${{ matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full' || matrix.stage == 'cypress-totp' }}
+      #   with:
+      #     name: cypress-recordings
+      #     path: rapydo_tests/data/prj/cypress
+
+      - name: Print backend logs on failure
+        if: ${{ failure() && (matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full' || matrix.stage == 'cypress-totp') }}
+        run: cat rapydo_tests/data/logs/backend-server.log
 
       - name: Docker logs
         if: failure()

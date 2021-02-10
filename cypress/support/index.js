@@ -49,8 +49,8 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
             }
             cy.wait("@login");
             cy.wait(200);
-          } else if ($title.text() == "Please change your temporary password") {
-            cy.get("?????");
+            // } else if ($title.text() == "Please change your temporary password") {
+            //   cy.get("?????");
           } else if ($title.text() == "Provide the verification code") {
             cy.get("input[placeholder='TOTP verification code']")
               .clear()
