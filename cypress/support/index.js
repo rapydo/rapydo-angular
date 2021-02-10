@@ -45,6 +45,7 @@ Cypress.Commands.add(
         cy.intercept("POST", "/auth/login").as("login");
         cy.get("button").contains("Authorize").click();
         cy.wait("@login");
+        cy.wait(200);
       } else if (
         init_user &&
         Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1
@@ -65,6 +66,7 @@ Cypress.Commands.add(
         cy.intercept("POST", "/auth/login").as("login");
         cy.get('button:contains("Change")').click({ force: true });
         cy.wait("@login");
+        cy.wait(200);
       }
       // Why this wait?
       // Cypress does not offer a way to automatically wait for all pending XHR requests and
