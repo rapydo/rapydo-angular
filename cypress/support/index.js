@@ -21,21 +21,45 @@ Cypress.Commands.add("login", (email = null, pwd = null, via_form = false) => {
 
     cy.get("input[placeholder='Your username (email)']").clear().type(email);
     cy.get("input[placeholder='Your password']").clear().type(pwd);
-    cy.intercept("POST", "/auth/login").as("login");
     cy.get("button").contains("Login").click();
-    cy.wait("@login");
     cy.get("input[placeholder='Your password']").should("not.exist");
 
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      cy.get("div.card-header.bg-warning h4").contains(
-        "Provide the verification code"
+      cy.get("div.card-header h4").contains(
+        "Configure Two-Factor with Google Auth"
       );
-      cy.get("input[placeholder='TOTP verification code']")
-        .clear()
-        .type(get_totp());
 
+      cy.checkalert("Please change your temporary password");
+      cy.checkalert("You do not provided a valid verification code");
+
+      cy.get("input[placeholder='Your new password']")
+        .clear()
+        .type(pwd + "!");
+      cy.get("input[placeholder='Confirm your new password']")
+        .clear()
+        .type(pwd + "!");
+      cy.get("input[placeholder='TOTP verification code']").type(get_totp());
+
+      cy.intercept("POST", "/auth/login").as("login");
       cy.get("button").contains("Authorize").click();
-      cy.get("input[placeholder='TOTP verification code']").should("not.exist");
+      cy.wait("@login");
+    } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
+      cy.get("div.card-header.bg-warning h4").contains(
+        "Please change your temporary password"
+      );
+
+      cy.checkalert("Please change your temporary password");
+
+      cy.get('input[placeholder="Your new password"]')
+        .clear()
+        .type(pwd + "!");
+      cy.get('input[placeholder="Confirm your new password"]')
+        .clear()
+        .type(pwd + "!");
+
+      cy.intercept("POST", "/auth/login").as("login");
+      cy.get('button:contains("Change")').click({ force: true });
+      cy.wait("@login");
     }
   } else {
     let body = { username: email, password: pwd };
@@ -246,9 +270,13 @@ Cypress.Commands.add(
           "Configure Two-Factor with Google Auth"
         );
 
-        cy.get("input[placeholder='Your new password']").type(pwd);
-        cy.get("input[placeholder='Confirm your new password']").type(pwd);
-        cy.get("input[placeholder='TOTP verification code']").type(get_totp());
+        cy.get("input[placeholder='Your new password']").clear().type(pwd);
+        cy.get("input[placeholder='Confirm your new password']")
+          .clear()
+          .type(pwd);
+        cy.get("input[placeholder='TOTP verification code']")
+          .clear()
+          .type(get_totp());
 
         cy.intercept("POST", "/auth/login").as("login");
         cy.get("button").contains("Authorize").click();
