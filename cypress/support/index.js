@@ -65,13 +65,27 @@ Cypress.Commands.add(
         cy.wait(200);
       }
     } else {
-      if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-        cy.get("input[placeholder='TOTP verification code']").type(get_totp());
-        cy.intercept("POST", "/auth/login").as("login");
-        cy.get("button").contains("Authorize").click();
-        cy.wait("@login");
-        cy.wait(200);
-      }
+      // Is password expired? => fill in new password and password confirm + totp if enabled
+      cy.get("div.card-header h4").then(($title) => {
+        if ($title.contains("Provide the verification code")) {
+          cy.get("input[placeholder='TOTP verification code']").type(
+            "DEBUG CODE!"
+          );
+          cy.intercept("POST", "/auth/login").as("login");
+          cy.get("button").contains("Authorize").click();
+          cy.wait("@login");
+          cy.wait(200);
+          // otherwise totp only
+        } else if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+          cy.get("input[placeholder='TOTP verification code']").type(
+            get_totp()
+          );
+          cy.intercept("POST", "/auth/login").as("login");
+          cy.get("button").contains("Authorize").click();
+          cy.wait("@login");
+          cy.wait(200);
+        }
+      });
     }
     // Why this wait?
     // Cypress does not offer a way to automatically wait for all pending XHR requests and
