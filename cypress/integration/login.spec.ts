@@ -1,8 +1,15 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
-import { get_totp } from "../../fixtures/utilities";
+import { getpassword, get_totp } from "../../fixtures/utilities";
 
 describe("SuccessfulLogin", () => {
+  const email = "bbbbbb000333@sample.org";
+  let pwd = getpassword(4);
+
+  before(() => {
+    cy.createuser(email, pwd);
+  });
+
   beforeEach(() => {
     cy.visit("/app/profile");
     cy.closecookielaw();
@@ -19,24 +26,20 @@ describe("SuccessfulLogin", () => {
   });
 
   it("Login - click on submit button", () => {
-    cy.get("input[placeholder='Your password']").type(
-      Cypress.env("AUTH_DEFAULT_PASSWORD")
-    );
-    cy.get("input[placeholder='Your username (email)']").type(
-      Cypress.env("AUTH_DEFAULT_USERNAME")
-    );
+    cy.get("input[placeholder='Your password']").type(pwd);
+    cy.get("input[placeholder='Your username (email)']").type(email);
 
-    // cy.get("input[placeholder='Your password'][type='password']").should('not.have.value',Cypress.env("AUTH_DEFAULT_PASSWORD"));
+    // cy.get("input[placeholder='Your password'][type='password']").should('not.have.value', pwd);
 
     cy.get("i.clickable.toggle.fas.fa-eye-slash").click();
 
     cy.get("i.clickable.toggle.fas.fa-eye-slash").trigger("mousedown");
 
-    // cy.get("input[placeholder='Your password']").should('have.value',Cypress.env("AUTH_DEFAULT_PASSWORD"));
+    // cy.get("input[placeholder='Your password']").should('have.value',pwd);
 
     cy.get("i.clickable.toggle.fas.fa-eye").click();
 
-    // cy.get("input[placeholder='Your password'][type='password']").should('not.have.value',Cypress.env("AUTH_DEFAULT_PASSWORD"));
+    // cy.get("input[placeholder='Your password'][type='password']").should('not.have.value', pwd);
 
     cy.intercept("POST", "/auth/login").as("login");
     cy.get("button").contains("Login").click();
@@ -52,12 +55,8 @@ describe("SuccessfulLogin", () => {
   it("Login - enter on password field", () => {
     cy.intercept("POST", "/auth/login").as("login");
 
-    cy.get("input[placeholder='Your username (email)']").type(
-      Cypress.env("AUTH_DEFAULT_USERNAME")
-    );
-    cy.get("input[placeholder='Your password']").type(
-      Cypress.env("AUTH_DEFAULT_PASSWORD") + "{enter}"
-    );
+    cy.get("input[placeholder='Your username (email)']").type(email);
+    cy.get("input[placeholder='Your password']").type(pwd + "{enter}");
 
     cy.wait("@login");
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
@@ -69,11 +68,9 @@ describe("SuccessfulLogin", () => {
 
   it("Login - enter on username field", () => {
     cy.intercept("POST", "/auth/login").as("login");
-    cy.get("input[placeholder='Your password']").type(
-      Cypress.env("AUTH_DEFAULT_PASSWORD")
-    );
+    cy.get("input[placeholder='Your password']").type(pwd);
     cy.get("input[placeholder='Your username (email)']").type(
-      Cypress.env("AUTH_DEFAULT_USERNAME") + "{enter}"
+      email + "{enter}"
     );
 
     cy.wait("@login");
@@ -92,7 +89,7 @@ describe("SuccessfulLogin", () => {
     });
 
     cy.get("a").find(".fa-user");
-    cy.get("table").find("td").contains(Cypress.env("AUTH_DEFAULT_USERNAME"));
+    cy.get("table").find("td").contains(email);
 
     cy.logout();
 
@@ -113,5 +110,10 @@ describe("SuccessfulLogin", () => {
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/login");
     });
+  });
+
+  after(() => {
+    cy.login();
+    cy.deleteuser(email);
   });
 });
