@@ -15,9 +15,9 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
     pwd = Cypress.env("AUTH_DEFAULT_PASSWORD");
   }
 
-  cy.closecookielaw(true);
-
   cy.visit("/app/login");
+
+  cy.closecookielaw(true);
 
   cy.get("input[placeholder='Your username (email)']").clear().type(email);
   cy.get("input[placeholder='Your password']").clear().type(pwd);
