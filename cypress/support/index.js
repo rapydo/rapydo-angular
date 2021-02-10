@@ -1,6 +1,5 @@
 import "@cypress/code-coverage/support";
 import "cypress-localstorage-commands";
-import * as OTPAuth from "otpauth";
 
 import { get_totp } from "../fixtures/utilities";
 
@@ -87,31 +86,60 @@ Cypress.Commands.add(
     } else {
       let body = { username: email, password: pwd };
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-        const totp = new OTPAuth.TOTP({
-          secret: Cypress.env("TESTING_TOTP_HASH"),
-        });
-
-        body["totp_code"] = totp.generate();
+        body["totp_code"] = get_totp();
       }
 
       cy.request({
         method: "POST",
         url: Cypress.env("API_URL") + "auth/login",
+        failOnStatusCode: false,
         body,
       }).then((response) => {
-        cy.setLocalStorage("token", JSON.stringify(response.body));
+        if (response.status == 200) {
+          cy.setLocalStorage("token", JSON.stringify(response.body));
 
-        const options = {
-          method: "GET",
-          url: Cypress.env("API_URL") + "auth/profile",
-          headers: {
-            Authorization: `Bearer ${response.body}`,
-          },
-        };
+          const options = {
+            method: "GET",
+            url: Cypress.env("API_URL") + "auth/profile",
+            headers: {
+              Authorization: `Bearer ${response.body}`,
+            },
+          };
 
-        cy.request(options).then((response) => {
-          cy.setLocalStorage("currentUser", JSON.stringify(response.body));
-        });
+          cy.request(options).then((response) => {
+            cy.setLocalStorage("currentUser", JSON.stringify(response.body));
+          });
+        } else if (response.status == 403) {
+          // Are the credentials blocked for inactivity?
+          if (
+            response.body == "Sorry, this account is blocked for inactivity"
+          ) {
+            // Or the password expired?
+          } else if (
+            response.body["actions"] &&
+            response.body["actions"].length > 0
+          ) {
+            if (response.body["actions"][0] == "PASSWORD EXPIRED") {
+              let changepasswordbody = {
+                password: pwd,
+                new_password: pwd + "!",
+                password_confirm: pwd + "!",
+              };
+              if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+                changepasswordbody["totp_code"] = get_totp();
+              }
+
+              cy.request({
+                method: "PUT",
+                url: Cypress.env("API_URL") + "auth/profile",
+                failOnStatusCode: false,
+                changepasswordbody,
+              }).then((response) => {
+                cy.login(null, pwd + "!");
+              });
+            }
+          }
+        }
       });
     }
   }
