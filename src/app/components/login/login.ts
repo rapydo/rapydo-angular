@@ -36,8 +36,7 @@ export class LoginComponent implements OnInit {
   public loading = false;
 
   public warningCard: boolean = false;
-  private defaultPanelTitle: string = "Login";
-  public panelTitle: string = defaultPanelTitle;
+  public panelTitle: string = "Login";
   public buttonText: string = "Login";
 
   private askCredentials: boolean = true;
@@ -263,7 +262,7 @@ export class LoginComponent implements OnInit {
                   // Please change your temporary password
                   // Your password is expired, please change it
                   // With Provide the verification code that is quite more generic
-                  if (this.panelTitle == this.defaultPanelTitle) {
+                  if (this.panelTitle == "Login") {
                     this.panelTitle = "Provide the verification code";
                   }
                   this.buttonText = "Authorize";
