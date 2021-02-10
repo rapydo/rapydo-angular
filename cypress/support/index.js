@@ -27,7 +27,17 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
       cy.wrap(body)
         .get("h4")
         .then(($title) => {
-          if ($title.text() == "Your password is expired, please change it") {
+          if ($title.text() == "Provide the verification code") {
+            cy.get("input[placeholder='TOTP verification code']")
+              .clear()
+              .type(get_totp());
+            cy.intercept("POST", "/auth/login").as("login");
+            cy.get("button").contains("Authorize").click();
+            cy.wait("@login");
+            cy.wait(200);
+          } else if (
+            $title.text() == "Your password is expired, please change it"
+          ) {
             cy.checkalert("Your password is expired, please change it");
 
             cy.get("input[placeholder='Your new password']")
@@ -49,17 +59,61 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
             }
             cy.wait("@login");
             cy.wait(200);
-            // } else if ($title.text() == "Please change your temporary password") {
-            //   cy.get("?????");
-          } else if ($title.text() == "Provide the verification code") {
-            cy.get("input[placeholder='TOTP verification code']")
+
+            cy.visit("/app/profile/changepassword");
+
+            cy.location().should((location) => {
+              expect(location.pathname).to.eq("/app/profile/changepassword");
+            });
+
+            cy.get("div.card-header h4").contains("Change your password");
+
+            cy.get('input[placeholder="Type here your current password"]')
               .clear()
-              .type(get_totp());
-            cy.intercept("POST", "/auth/login").as("login");
-            cy.get("button").contains("Authorize").click();
-            cy.wait("@login");
-            cy.wait(200);
+              .type(pwd + "!");
+            cy.get('input[placeholder="Type the desidered new password"]')
+              .clear()
+              .type(pwd);
+            cy.get(
+              'input[placeholder="Type again the new password for confirmation"]'
+            )
+              .clear()
+              .type(pwd);
+
+            if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+              cy.get('input[placeholder="TOTP verification code"]')
+                .clear()
+                .type(get_totp());
+            }
+
+            cy.intercept("PUT", "/auth/profile").as("changed");
+            cy.get("button:contains('Submit')").click();
+            cy.wait("@changed");
+
+            // With TOTP after password change the user has to login again
+            // Automatic login with new password is not possible due to the TOTP request
+            if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+              cy.get("div.card-header h4").contains("Login");
+
+              cy.get("input[placeholder='Your username (email)']").type(email);
+              cy.get("input[placeholder='Your password']").type(pwd);
+
+              cy.intercept("POST", "/auth/login").as("login");
+              cy.get("button").contains("Login").click();
+              cy.wait("@login");
+
+              cy.get("div.card-header.bg-warning h4").contains(
+                "Provide the verification code"
+              );
+              cy.get("input[placeholder='TOTP verification code']")
+                .clear()
+                .type(get_totp());
+
+              cy.get("button").contains("Authorize").click();
+            }
           }
+          // } else if ($title.text() == "Please change your temporary password") {
+          //    cy.get("?????");
         });
     }
   });
