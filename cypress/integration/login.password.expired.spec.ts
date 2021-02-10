@@ -4,12 +4,14 @@
 import { getpassword, get_totp } from "../../fixtures/utilities";
 
 describe("Login", () => {
-  it("PASSWORD EXPIRED", () => {
-    const email = "aaaaaaaaaa000333@sample.org";
-    let pwd = getpassword(4);
+  const email = "aaaaaaaaaa000333@sample.org";
+  let pwd = getpassword(4);
 
+  before(() => {
     cy.createuser(email, pwd);
+  });
 
+  it("PASSWORD EXPIRED", () => {
     cy.visit("/app/login");
 
     cy.get("input[placeholder='Your username (email)']").as("user");
@@ -140,7 +142,9 @@ describe("Login", () => {
     }
 
     cy.logout();
+  });
 
+  after(() => {
     cy.login();
     cy.deleteuser(email);
   });
