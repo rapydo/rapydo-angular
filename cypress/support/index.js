@@ -7,96 +7,102 @@ import { get_totp } from "../fixtures/utilities";
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-Cypress.Commands.add("login", (email = null, pwd = null, via_form = false) => {
-  if (email === null) {
-    email = Cypress.env("AUTH_DEFAULT_USERNAME");
-  }
-
-  if (pwd === null) {
-    pwd = Cypress.env("AUTH_DEFAULT_PASSWORD");
-  }
-
-  if (via_form) {
-    cy.visit("/app/login");
-
-    cy.get("input[placeholder='Your username (email)']").clear().type(email);
-    cy.get("input[placeholder='Your password']").clear().type(pwd);
-    cy.get("button").contains("Login").click();
-    cy.get("input[placeholder='Your password']").should("not.exist");
-
-    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      cy.get("div.card-header h4").contains(
-        "Configure Two-Factor with Google Auth"
-      );
-
-      cy.checkalert("Please change your temporary password");
-      cy.checkalert("You do not provided a valid verification code");
-
-      cy.get("input[placeholder='Your new password']")
-        .clear()
-        .type(pwd + "!");
-      cy.get("input[placeholder='Confirm your new password']")
-        .clear()
-        .type(pwd + "!");
-      cy.get("input[placeholder='TOTP verification code']").type(get_totp());
-
-      cy.intercept("POST", "/auth/login").as("login");
-      cy.get("button").contains("Authorize").click();
-      cy.wait("@login");
-    } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
-      cy.get("div.card-header.bg-warning h4").contains(
-        "Please change your temporary password"
-      );
-
-      cy.checkalert("Please change your temporary password");
-
-      cy.get('input[placeholder="Your new password"]')
-        .clear()
-        .type(pwd + "!");
-      cy.get('input[placeholder="Confirm your new password"]')
-        .clear()
-        .type(pwd + "!");
-
-      cy.intercept("POST", "/auth/login").as("login");
-      cy.get('button:contains("Change")').click({ force: true });
-      cy.wait("@login");
-    }
-    // Why this wait?
-    // Cypress does not offer a way to automatically wait for all pending XHR requests and
-    // often some requests e.g. GET /auth/status, are still under the hook when this click
-    // arrives causing the request interruption and inconsistences and make the tests fail
-    cy.wait(300);
-  } else {
-    let body = { username: email, password: pwd };
-    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      const totp = new OTPAuth.TOTP({
-        secret: Cypress.env("TESTING_TOTP_HASH"),
-      });
-
-      body["totp_code"] = totp.generate();
+Cypress.Commands.add(
+  "login",
+  (email = null, pwd = null, via_form = false, init_user = false) => {
+    if (email === null) {
+      email = Cypress.env("AUTH_DEFAULT_USERNAME");
     }
 
-    cy.request({
-      method: "POST",
-      url: Cypress.env("API_URL") + "auth/login",
-      body,
-    }).then((response) => {
-      cy.setLocalStorage("token", JSON.stringify(response.body));
+    if (pwd === null) {
+      pwd = Cypress.env("AUTH_DEFAULT_PASSWORD");
+    }
 
-      const options = {
-        method: "GET",
-        url: Cypress.env("API_URL") + "auth/profile",
-        headers: {
-          Authorization: `Bearer ${response.body}`,
-        },
-      };
+    if (via_form) {
+      cy.visit("/app/login");
 
-      cy.request(options).then((response) => {
-        cy.setLocalStorage("currentUser", JSON.stringify(response.body));
+      cy.get("input[placeholder='Your username (email)']").clear().type(email);
+      cy.get("input[placeholder='Your password']").clear().type(pwd);
+      cy.get("button").contains("Login").click();
+      cy.get("input[placeholder='Your password']").should("not.exist");
+
+      if (init_user && Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+        cy.get("div.card-header h4").contains(
+          "Configure Two-Factor with Google Auth"
+        );
+
+        cy.checkalert("Please change your temporary password");
+        cy.checkalert("You do not provided a valid verification code");
+
+        cy.get("input[placeholder='Your new password']")
+          .clear()
+          .type(pwd + "!");
+        cy.get("input[placeholder='Confirm your new password']")
+          .clear()
+          .type(pwd + "!");
+        cy.get("input[placeholder='TOTP verification code']").type(get_totp());
+
+        cy.intercept("POST", "/auth/login").as("login");
+        cy.get("button").contains("Authorize").click();
+        cy.wait("@login");
+      } else if (
+        init_user &&
+        Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1
+      ) {
+        cy.get("div.card-header.bg-warning h4").contains(
+          "Please change your temporary password"
+        );
+
+        cy.checkalert("Please change your temporary password");
+
+        cy.get('input[placeholder="Your new password"]')
+          .clear()
+          .type(pwd + "!");
+        cy.get('input[placeholder="Confirm your new password"]')
+          .clear()
+          .type(pwd + "!");
+
+        cy.intercept("POST", "/auth/login").as("login");
+        cy.get('button:contains("Change")').click({ force: true });
+        cy.wait("@login");
+      }
+      // Why this wait?
+      // Cypress does not offer a way to automatically wait for all pending XHR requests and
+      // often some requests e.g. GET /auth/status, are still under the hook when this click
+      // arrives causing the request interruption and inconsistences and make the tests fail
+      cy.wait(300);
+    } else {
+      let body = { username: email, password: pwd };
+      if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+        const totp = new OTPAuth.TOTP({
+          secret: Cypress.env("TESTING_TOTP_HASH"),
+        });
+
+        body["totp_code"] = totp.generate();
+      }
+
+      cy.request({
+        method: "POST",
+        url: Cypress.env("API_URL") + "auth/login",
+        body,
+      }).then((response) => {
+        cy.setLocalStorage("token", JSON.stringify(response.body));
+
+        const options = {
+          method: "GET",
+          url: Cypress.env("API_URL") + "auth/profile",
+          headers: {
+            Authorization: `Bearer ${response.body}`,
+          },
+        };
+
+        cy.request(options).then((response) => {
+          cy.setLocalStorage("currentUser", JSON.stringify(response.body));
+        });
       });
-    });
+    }
   }
-});
+);
 
 Cypress.Commands.add("logout", (collapsed = false) => {
   if (collapsed) {

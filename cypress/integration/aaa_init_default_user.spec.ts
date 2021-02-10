@@ -10,7 +10,10 @@ describe("Init user", () => {
     cy.get("div.card-header h4").contains("Login");
     cy.closecookielaw();
 
-    cy.login(null, null, true);
+    // default credentials (null, null)
+    // login via form (true)
+    // init user (true)
+    cy.login(null, null, true, true);
 
     // Change back to the default password
     if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
