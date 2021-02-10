@@ -22,6 +22,10 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
   cy.get("button").contains("Login").click();
   cy.get("input[placeholder='Your password']").should("not.exist");
 
+  // const title = Cypress.$("div.card-header h4");
+  // if (title.length) {
+  //     if (!nonExistent.length) {
+
   // Is password expired? => fill in new password and password confirm + totp if enabled
   // cy.get("div.card-header h4").then(($title) => {
   cy.get("div").then(($title) => {
