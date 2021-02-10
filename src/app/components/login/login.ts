@@ -36,7 +36,8 @@ export class LoginComponent implements OnInit {
   public loading = false;
 
   public warningCard: boolean = false;
-  public panelTitle: string = "Login";
+  private defaultPanelTitle: string = "Login";
+  public panelTitle: string = defaultPanelTitle;
   public buttonText: string = "Login";
 
   private askCredentials: boolean = true;
@@ -258,7 +259,13 @@ export class LoginComponent implements OnInit {
                   this.set_form();
                   this.notify.showWarning(body.errors);
                 } else if (action === "TOTP") {
-                  this.panelTitle = "Provide the verification code";
+                  // This prevents to override previous messages like:
+                  // Please change your temporary password
+                  // Your password is expired, please change it
+                  // With Provide the verification code that is quite more generic
+                  if (this.panelTitle == this.defaultPanelTitle) {
+                    this.panelTitle = "Provide the verification code";
+                  }
                   this.buttonText = "Authorize";
                   this.warningCard = true;
                   this.askCredentials = false;

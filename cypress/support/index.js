@@ -6,94 +6,131 @@ import { get_totp } from "../fixtures/utilities";
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-Cypress.Commands.add(
-  "login",
-  (email = null, pwd = null, via_form = false, init_user = false) => {
-    if (email === null) {
-      email = Cypress.env("AUTH_DEFAULT_USERNAME");
-    }
-
-    if (pwd === null) {
-      pwd = Cypress.env("AUTH_DEFAULT_PASSWORD");
-    }
-
-    cy.visit("/app/login");
-
-    cy.get("input[placeholder='Your username (email)']").clear().type(email);
-    cy.get("input[placeholder='Your password']").clear().type(pwd);
-    cy.get("button").contains("Login").click();
-    cy.get("input[placeholder='Your password']").should("not.exist");
-
-    if (init_user) {
-      if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-        cy.get("div.card-header h4").contains(
-          "Configure Two-Factor with Google Auth"
-        );
-
-        cy.checkalert("Please change your temporary password");
-        cy.checkalert("You do not provided a valid verification code");
-
-        cy.get("input[placeholder='Your new password']")
-          .clear()
-          .type(pwd + "!");
-        cy.get("input[placeholder='Confirm your new password']")
-          .clear()
-          .type(pwd + "!");
-        cy.get("input[placeholder='TOTP verification code']").type(get_totp());
-
-        cy.intercept("POST", "/auth/login").as("login");
-        cy.get("button").contains("Authorize").click();
-        cy.wait("@login");
-        cy.wait(200);
-      } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
-        cy.get("div.card-header.bg-warning h4").contains(
-          "Please change your temporary password"
-        );
-
-        cy.checkalert("Please change your temporary password");
-
-        cy.get('input[placeholder="Your new password"]')
-          .clear()
-          .type(pwd + "!");
-        cy.get('input[placeholder="Confirm your new password"]')
-          .clear()
-          .type(pwd + "!");
-
-        cy.intercept("POST", "/auth/login").as("login");
-        cy.get('button:contains("Change")').click({ force: true });
-        cy.wait("@login");
-        cy.wait(200);
-      }
-    } else {
-      // Is password expired? => fill in new password and password confirm + totp if enabled
-      cy.get("div.card-header h4").then(($title) => {
-        if ($title.contains("Provide the verification code")) {
-          cy.get("input[placeholder='TOTP verification code']").type(
-            "DEBUG CODE!"
-          );
-          cy.intercept("POST", "/auth/login").as("login");
-          cy.get("button").contains("Authorize").click();
-          cy.wait("@login");
-          cy.wait(200);
-          // otherwise totp only
-        } else if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-          cy.get("input[placeholder='TOTP verification code']").type(
-            get_totp()
-          );
-          cy.intercept("POST", "/auth/login").as("login");
-          cy.get("button").contains("Authorize").click();
-          cy.wait("@login");
-          cy.wait(200);
-        }
-      });
-    }
-    // Why this wait?
-    // Cypress does not offer a way to automatically wait for all pending XHR requests and
-    // often some requests e.g. GET /auth/status, are still under the hook when this click
-    // arrives causing the request interruption and inconsistences and make the tests fail
-    cy.wait(300);
+Cypress.Commands.add("login", (email = null, pwd = null) => {
+  if (email === null) {
+    email = Cypress.env("AUTH_DEFAULT_USERNAME");
   }
-);
+
+  if (pwd === null) {
+    pwd = Cypress.env("AUTH_DEFAULT_PASSWORD");
+  }
+
+  cy.visit("/app/login");
+
+  cy.get("input[placeholder='Your username (email)']").clear().type(email);
+  cy.get("input[placeholder='Your password']").clear().type(pwd);
+  cy.get("button").contains("Login").click();
+  cy.get("input[placeholder='Your password']").should("not.exist");
+
+  // Is password expired? => fill in new password and password confirm + totp if enabled
+  // cy.get("div.card-header h4").then(($title) => {
+  cy.get("div").then(($title) => {
+    if ($title.contains("Your password is expired, please change it")) {
+      cy.checkalert("Your password is expired, please change it");
+
+      cy.get("input[placeholder='Your new password']")
+        .clear()
+        .type(pwd + "!");
+      cy.get("input[placeholder='Confirm your new password']")
+        .clear()
+        .type(pwd + "!");
+
+      cy.intercept("POST", "/auth/login").as("login");
+      if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+        cy.checkalert("You do not provided a valid verification code");
+        cy.get("input[placeholder='TOTP verification code']")
+          .clear()
+          .type(get_totp());
+        cy.get("button").contains("Authorize").click();
+      } else {
+        cy.get("button").contains("Change").click();
+      }
+      cy.wait("@login");
+      cy.wait(200);
+    } else if ($title.contains("Please change your temporary password")) {
+      cy.get("?????");
+      // otherwise totp only
+      // } else if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+    } else if ($title.contains("Provide the verification code")) {
+      cy.get("input[placeholder='TOTP verification code']")
+        .clear()
+        .type(get_totp());
+      cy.intercept("POST", "/auth/login").as("login");
+      cy.get("button").contains("Authorize").click();
+      cy.wait("@login");
+      cy.wait(200);
+    }
+  });
+
+  // Why this wait?
+  // Cypress does not offer a way to automatically wait for all pending XHR requests and
+  // often some requests e.g. GET /auth/status, are still under the hook when this click
+  // arrives causing the request interruption and inconsistences and make the tests fail
+  cy.wait(300);
+});
+
+// It is executed once by the first test to change the temporary password of the default user
+Cypress.Commands.add("login_and_init_user", (email = null, pwd = null) => {
+  if (email === null) {
+    email = Cypress.env("AUTH_DEFAULT_USERNAME");
+  }
+
+  if (pwd === null) {
+    pwd = Cypress.env("AUTH_DEFAULT_PASSWORD");
+  }
+
+  cy.visit("/app/login");
+
+  cy.get("input[placeholder='Your username (email)']").clear().type(email);
+  cy.get("input[placeholder='Your password']").clear().type(pwd);
+  cy.get("button").contains("Login").click();
+  cy.get("input[placeholder='Your password']").should("not.exist");
+
+  if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+    cy.get("div.card-header h4").contains(
+      "Configure Two-Factor with Google Auth"
+    );
+
+    cy.checkalert("Please change your temporary password");
+    cy.checkalert("You do not provided a valid verification code");
+
+    cy.get("input[placeholder='Your new password']")
+      .clear()
+      .type(pwd + "!");
+    cy.get("input[placeholder='Confirm your new password']")
+      .clear()
+      .type(pwd + "!");
+    cy.get("input[placeholder='TOTP verification code']").type(get_totp());
+
+    cy.intercept("POST", "/auth/login").as("login");
+    cy.get("button").contains("Authorize").click();
+    cy.wait("@login");
+    cy.wait(200);
+  } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
+    cy.get("div.card-header.bg-warning h4").contains(
+      "Please change your temporary password"
+    );
+
+    cy.checkalert("Please change your temporary password");
+
+    cy.get('input[placeholder="Your new password"]')
+      .clear()
+      .type(pwd + "!");
+    cy.get('input[placeholder="Confirm your new password"]')
+      .clear()
+      .type(pwd + "!");
+
+    cy.intercept("POST", "/auth/login").as("login");
+    cy.get('button:contains("Change")').click({ force: true });
+    cy.wait("@login");
+    cy.wait(200);
+  }
+  // Why this wait?
+  // Cypress does not offer a way to automatically wait for all pending XHR requests and
+  // often some requests e.g. GET /auth/status, are still under the hook when this click
+  // arrives causing the request interruption and inconsistences and make the tests fail
+  cy.wait(300);
+});
 
 // Login Via Request:
 //       let body = { username: email, password: pwd };

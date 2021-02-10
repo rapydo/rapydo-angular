@@ -11,9 +11,8 @@ describe("Init user", () => {
     cy.closecookielaw();
 
     // default credentials (null, null)
-    // login via form (true)
     // init user (true)
-    cy.login(null, null, true, true);
+    cy.login(null, null, true);
 
     // Change back to the default password
     if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
