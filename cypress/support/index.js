@@ -26,47 +26,58 @@ Cypress.Commands.add(
       cy.get("button").contains("Login").click();
       cy.get("input[placeholder='Your password']").should("not.exist");
 
-      if (init_user && Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-        cy.get("div.card-header h4").contains(
-          "Configure Two-Factor with Google Auth"
-        );
+      if (init_user) {
+        if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+          cy.get("div.card-header h4").contains(
+            "Configure Two-Factor with Google Auth"
+          );
 
-        cy.checkalert("Please change your temporary password");
-        cy.checkalert("You do not provided a valid verification code");
+          cy.checkalert("Please change your temporary password");
+          cy.checkalert("You do not provided a valid verification code");
 
-        cy.get("input[placeholder='Your new password']")
-          .clear()
-          .type(pwd + "!");
-        cy.get("input[placeholder='Confirm your new password']")
-          .clear()
-          .type(pwd + "!");
-        cy.get("input[placeholder='TOTP verification code']").type(get_totp());
+          cy.get("input[placeholder='Your new password']")
+            .clear()
+            .type(pwd + "!");
+          cy.get("input[placeholder='Confirm your new password']")
+            .clear()
+            .type(pwd + "!");
+          cy.get("input[placeholder='TOTP verification code']").type(
+            get_totp()
+          );
 
-        cy.intercept("POST", "/auth/login").as("login");
-        cy.get("button").contains("Authorize").click();
-        cy.wait("@login");
-        cy.wait(200);
-      } else if (
-        init_user &&
-        Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1
-      ) {
-        cy.get("div.card-header.bg-warning h4").contains(
-          "Please change your temporary password"
-        );
+          cy.intercept("POST", "/auth/login").as("login");
+          cy.get("button").contains("Authorize").click();
+          cy.wait("@login");
+          cy.wait(200);
+        } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
+          cy.get("div.card-header.bg-warning h4").contains(
+            "Please change your temporary password"
+          );
 
-        cy.checkalert("Please change your temporary password");
+          cy.checkalert("Please change your temporary password");
 
-        cy.get('input[placeholder="Your new password"]')
-          .clear()
-          .type(pwd + "!");
-        cy.get('input[placeholder="Confirm your new password"]')
-          .clear()
-          .type(pwd + "!");
+          cy.get('input[placeholder="Your new password"]')
+            .clear()
+            .type(pwd + "!");
+          cy.get('input[placeholder="Confirm your new password"]')
+            .clear()
+            .type(pwd + "!");
 
-        cy.intercept("POST", "/auth/login").as("login");
-        cy.get('button:contains("Change")').click({ force: true });
-        cy.wait("@login");
-        cy.wait(200);
+          cy.intercept("POST", "/auth/login").as("login");
+          cy.get('button:contains("Change")').click({ force: true });
+          cy.wait("@login");
+          cy.wait(200);
+        }
+      } else {
+        if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+          cy.get("input[placeholder='TOTP verification code']").type(
+            get_totp()
+          );
+          cy.intercept("POST", "/auth/login").as("login");
+          cy.get("button").contains("Authorize").click();
+          cy.wait("@login");
+          cy.wait(200);
+        }
       }
       // Why this wait?
       // Cypress does not offer a way to automatically wait for all pending XHR requests and

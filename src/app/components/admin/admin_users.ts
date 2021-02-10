@@ -74,7 +74,7 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
       name: "Group",
       prop: "group",
       cellTemplate: this.dataGroup,
-      flexGrow: 0.3,
+      flexGrow: 0.35,
     });
 
     const custom = this.customization.custom_user_data();
@@ -89,7 +89,7 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
       prop: "roles",
       cellTemplate: this.dataRoles,
       sortable: false,
-      flexGrow: 0.9,
+      flexGrow: 0.5,
     });
     this.columns.push({
       name: "First<br>Login",
