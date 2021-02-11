@@ -33,10 +33,11 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
             cy.get("input[placeholder='TOTP verification code']")
               .clear()
               .type(get_totp());
-            cy.intercept("POST", "/auth/login").as("login");
             cy.get("button").contains("Authorize").click();
-            cy.wait("@login");
-            cy.wait(200);
+            cy.get("input[placeholder='TOTP verification code']").should(
+              "not.exist"
+            );
+            cy.wait(300);
           } else if (
             $title.text() == "Your password is expired, please change it"
           ) {
@@ -49,7 +50,6 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
               .clear()
               .type(pwd + "!");
 
-            cy.intercept("POST", "/auth/login").as("login");
             if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
               cy.checkalert("You do not provided a valid verification code");
               cy.get("input[placeholder='TOTP verification code']")
@@ -59,7 +59,9 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
             } else {
               cy.get("button").contains("Change").click();
             }
-            cy.wait("@login");
+            cy.get("input[placeholder='Your new password']").should(
+              "not.exist"
+            );
             cy.wait(300);
 
             cy.visit("/app/profile/changepassword");
@@ -100,9 +102,9 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
               cy.get("input[placeholder='Your username (email)']").type(email);
               cy.get("input[placeholder='Your password']").type(pwd);
 
-              cy.intercept("POST", "/auth/login").as("login");
               cy.get("button").contains("Login").click();
-              cy.wait("@login");
+
+              cy.get("input[placeholder='Your password']").should("not.exist");
 
               cy.get("div.card-header.bg-warning h4").contains(
                 "Provide the verification code"

@@ -44,5 +44,14 @@ describe("Init user", () => {
 
       cy.get("button:contains('Submit')").click();
     }
+
+    if (Cypress.env("AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER")) {
+      // Create a user to test inactivity ban
+
+      const email = "iwillremaininactive@sample.org";
+      const pwd = getpassword(4);
+
+      cy.createuser(email, pwd);
+    }
   });
 });
