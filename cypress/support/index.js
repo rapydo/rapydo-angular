@@ -118,6 +118,10 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
                 .type(get_totp());
 
               cy.get("button").contains("Authorize").click();
+
+              cy.location().should((location) => {
+                expect(location.pathname).to.not.eq("/app/login");
+              });
             }
           }
           // } else if ($title.text() == "Please change your temporary password") {
