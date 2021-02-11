@@ -31,6 +31,13 @@ describe("Login Ban", () => {
         "Sorry, this account is temporarily blocked due to the number of failed login attempts."
       );
 
+      cy.visit("/public/reset");
+      cy.get("input[id=formly_1_input_reset_email_0]").clear().type(email);
+      cy.get("button:contains('Submit request')").click();
+      cy.checkalert(
+        "Sorry, this account is temporarily blocked due to the number of failed login attempts."
+      );
+
       cy.login();
       cy.deleteuser(email);
     });
@@ -70,6 +77,13 @@ describe("Login Ban", () => {
           .clear()
           .type(get_totp());
         cy.get("button").contains("Authorize").click();
+        cy.checkalert(
+          "Sorry, this account is temporarily blocked due to the number of failed login attempts."
+        );
+
+        cy.visit("/public/reset");
+        cy.get("input[id=formly_1_input_reset_email_0]").clear().type(email);
+        cy.get("button:contains('Submit request')").click();
         cy.checkalert(
           "Sorry, this account is temporarily blocked due to the number of failed login attempts."
         );
