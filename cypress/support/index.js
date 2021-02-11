@@ -330,8 +330,8 @@ Cypress.Commands.add(
     } else {
       cy.get('input[placeholder="Password"]').clear().type(pwd);
     }
-    cy.get('input[placeholder="Name"]').clear().type("SampleName");
-    cy.get('input[placeholder="Surname"]').clear().type("SampleSurname");
+    cy.get('input[placeholder="Name"]').clear().type("PlaceholderName");
+    cy.get('input[placeholder="Surname"]').clear().type("PlaceholderSurname");
 
     // get custom fields added at project level:
     // foreach element select required input text/number still empty and fill them
