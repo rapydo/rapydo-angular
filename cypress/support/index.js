@@ -90,9 +90,13 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
                 .type(get_totp());
             }
 
-            cy.intercept("PUT", "/auth/profile").as("changed");
             cy.get("button:contains('Submit')").click();
-            cy.wait("@changed");
+
+            cy.location().should((location) => {
+              expect(location.pathname).to.not.eq(
+                "/app/profile/changepassword"
+              );
+            });
 
             // With TOTP after password change the user has to login again
             // Automatic login with new password is not possible due to the TOTP request
