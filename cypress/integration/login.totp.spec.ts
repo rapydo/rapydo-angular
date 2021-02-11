@@ -31,7 +31,7 @@ describe("Login with TOTP", () => {
         "Configure Two-Factor with Google Auth"
       );
       cy.get("div.card-header.bg-warning h4").contains(
-        "Provide the verification code"
+        "Please change your temporary password"
       );
 
       cy.checkalert("Please change your temporary password");

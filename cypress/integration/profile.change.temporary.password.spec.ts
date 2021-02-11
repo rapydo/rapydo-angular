@@ -33,7 +33,7 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
           "Configure Two-Factor with Google Auth"
         );
         cy.get("div.card-header.bg-warning h4").contains(
-          "Provide the verification code"
+          "Please change your temporary password"
         );
         cy.checkalert("You do not provided a valid verification code");
       } else {
