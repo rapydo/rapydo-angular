@@ -16,7 +16,6 @@ describe("Login with TOTP", () => {
 
     it("TOTP - change temporary password", () => {
       cy.visit("/app/login");
-      cy.closecookielaw();
 
       cy.get("input[placeholder='Your username (email)']").type(email);
       cy.get("input[placeholder='Your password']").type(pwd);

@@ -16,7 +16,6 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
 
     it("Terms of Use - not accepted", () => {
       cy.visit("/app/login");
-      cy.closecookielaw();
 
       cy.intercept("POST", "/auth/login").as("login");
       cy.get("input[placeholder='Your username (email)']")

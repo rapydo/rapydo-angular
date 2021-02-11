@@ -12,7 +12,6 @@ describe("SuccessfulLogin", () => {
 
   beforeEach(() => {
     cy.visit("/app/profile");
-    cy.closecookielaw();
 
     // Profile page is restricted and you are automatically redirected to login page
     cy.location().should((location) => {
