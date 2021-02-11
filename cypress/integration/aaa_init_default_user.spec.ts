@@ -49,7 +49,7 @@ describe("Init user", () => {
       // Create a user to test inactivity ban
 
       const email = "iwillremaininactive@sample.org";
-      const pwd = getpassword(4);
+      const pwd = "Just1Password!";
 
       cy.createuser(email, pwd);
     }

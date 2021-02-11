@@ -8,8 +8,7 @@ if (Cypress.env("AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER")) {
     it("Login to verify the account is banned for inactivity", () => {
       // Account created in aaa_init_default_user
       const email = "iwillremaininactive@sample.org";
-      // A random password can be used because the inactivity check is executed before the password verification
-      const pwd = getpassword(4);
+      const pwd = "Just1Password!";
 
       // default username/password and via_form = true
       cy.visit("/app/login");
@@ -17,9 +16,12 @@ if (Cypress.env("AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER")) {
       cy.closecookielaw();
 
       cy.get("input[placeholder='Your username (email)']").clear().type(email);
+      cy.get("input[placeholder='Your password']").clear().type(getpassword(4));
+      cy.get("button").contains("Login").click();
+      cy.checkalert("Invalid access credentials");
+
       cy.get("input[placeholder='Your password']").clear().type(pwd);
       cy.get("button").contains("Login").click();
-
       cy.checkalert("Sorry, this account is blocked for inactivity");
     });
   });
