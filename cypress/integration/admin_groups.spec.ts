@@ -7,8 +7,6 @@ describe("AdminUsers", () => {
 
     cy.visit("/app/admin/groups");
 
-    cy.closecookielaw();
-
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/admin/groups");
     });

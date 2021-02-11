@@ -11,7 +11,6 @@ describe("AccountExpired", () => {
     cy.createuser(email, pwd, true);
 
     cy.visit("/app/login");
-    cy.closecookielaw();
 
     cy.get("input[placeholder='Your username (email)']").as("user");
     cy.get("input[placeholder='Your password']").as("pwd");

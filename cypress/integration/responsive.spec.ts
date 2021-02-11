@@ -66,28 +66,7 @@ describe("Responsive tests", () => {
   });
 
   afterEach(() => {
-    cy.visit("/app/login");
-
-    cy.closecookielaw();
-
-    cy.get("input[placeholder='Your username (email)']").type(
-      Cypress.env("AUTH_DEFAULT_USERNAME")
-    );
-    cy.get("input[placeholder='Your password']").type(
-      Cypress.env("AUTH_DEFAULT_PASSWORD")
-    );
-
-    cy.get("button").contains("Login").click();
-
-    cy.get("input[placeholder='Your password']").should("not.exist");
-
-    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      cy.get("div.card-header h4").contains("Provide the verification code");
-      cy.get("input[placeholder='TOTP verification code']").type(get_totp());
-      cy.get("button").contains("Authorize").click();
-
-      cy.get("input[placeholder='TOTP verification code']").should("not.exist");
-    }
+    cy.login();
 
     if (expected_collapsed_navbar) {
       cy.get("button.navbar-toggler").click();

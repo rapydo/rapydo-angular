@@ -13,8 +13,6 @@ describe("AdminUsers", () => {
 
     cy.visit("/app/admin/users");
 
-    cy.closecookielaw();
-
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/admin/users");
     });

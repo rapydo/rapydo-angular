@@ -12,8 +12,6 @@ if (false) {
 
       cy.visit("/app/admin/sessions");
 
-      cy.closecookielaw();
-
       cy.location().should((location) => {
         expect(location.pathname).to.eq("/app/admin/sessions");
       });

@@ -7,8 +7,6 @@ describe("AdminStats", () => {
 
     cy.visit("/app/admin/stats");
 
-    cy.closecookielaw();
-
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/admin/stats");
     });

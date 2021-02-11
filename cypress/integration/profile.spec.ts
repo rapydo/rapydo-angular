@@ -7,8 +7,6 @@ describe("Profile", () => {
 
     cy.visit("/app/profile");
 
-    cy.closecookielaw();
-
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/profile");
     });

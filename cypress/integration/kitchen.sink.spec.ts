@@ -7,8 +7,6 @@ describe("KitchenSink", () => {
 
     cy.visit("/app/sink");
 
-    cy.closecookielaw();
-
     cy.location("pathname").then((pathname) => {
       if (pathname === "/app/sink") {
         // Kitchen Sink is enabled, add here all tests!
