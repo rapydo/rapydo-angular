@@ -433,6 +433,7 @@ Cypress.Commands.add(
           "Do you accept our Terms of Use?"
         );
         cy.get("div.modal-footer button").first().contains("YES").click();
+        cy.wait(300);
       }
 
       cy.logout();
