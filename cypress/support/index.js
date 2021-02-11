@@ -60,7 +60,7 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
               cy.get("button").contains("Change").click();
             }
             cy.wait("@login");
-            cy.wait(200);
+            cy.wait(300);
 
             cy.visit("/app/profile/changepassword");
 
