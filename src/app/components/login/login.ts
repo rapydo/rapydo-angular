@@ -20,6 +20,12 @@ import { User } from "@rapydo/types";
 import { NotificationService } from "@rapydo/services/notification";
 import { ProjectOptions } from "@app/customization";
 
+const ACCOUNT_NOT_ACTIVE = "Sorry, this account is not active";
+const ACCOUNT_INACTIVE = "Sorry, this account is blocked for inactivity";
+const ACCOUNT_EXPIRED = "Sorry, this account is expired";
+const ACCOUNT_BANNED =
+  "Sorry, this account is temporarily blocked due to the number of failed login attempts.";
+
 @Component({
   templateUrl: "login.html",
 })
@@ -224,14 +230,13 @@ export class LoginComponent implements OnInit {
           if (error.status === 403) {
             const body = error.error;
 
-            if (body === "Sorry, this account is not active") {
+            if (body === ACCOUNT_NOT_ACTIVE) {
               this.accountNotActive = true;
-            } else if (
-              body ===
-              "Sorry, this account is temporarily blocked due to the number of failed login attempts."
-            ) {
+            } else if (body === ACCOUNT_BANNED) {
               this.notify.showError(error);
-            } else if (body === "Sorry, this account is expired") {
+            } else if (body === ACCOUNT_INACTIVE) {
+              this.notify.showError(error);
+            } else if (body === ACCOUNT_EXPIRED) {
               this.notify.showError(error);
             } else if (!body.actions || body.actions.length === 0) {
               this.notify.showError("Unrecognized response from server");
