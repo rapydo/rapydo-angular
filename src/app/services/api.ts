@@ -154,7 +154,7 @@ export class ApiService {
 
             if (errors) {
               for (let error of errors) {
-                this.notify.showError(error);
+                this.notify.showError({ validationSchema: error });
                 console.error(error);
               }
               throw new Error("Response validation error");
