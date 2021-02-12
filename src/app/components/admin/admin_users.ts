@@ -38,7 +38,7 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
     // }
 
     this.init("user", endpoint, "AdminUsers");
-    this.initPaging();
+    this.initPaging(20, true);
     this.list();
   }
 
