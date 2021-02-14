@@ -8,6 +8,8 @@ describe("AdminSessions", () => {
     //   cy.login();
     // }
 
+    cy.login();
+
     cy.visit("/app/admin/sessions");
 
     cy.location().should((location) => {
