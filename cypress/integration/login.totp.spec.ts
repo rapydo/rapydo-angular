@@ -6,7 +6,7 @@ import { getpassword, get_totp } from "../../fixtures/utilities";
 describe("Login with TOTP", () => {
   if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
     const email = "aaaaaaaaaa000555" + Math.random() + "@sample.org";
-    const pwd = getpassword(4);
+    let pwd = getpassword(4);
 
     before(() => {
       // expired = false
