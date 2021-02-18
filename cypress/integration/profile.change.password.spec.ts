@@ -7,29 +7,12 @@ describe("ChangePassword", () => {
   const email = "aaaaaaaaaa000111" + Math.random() + "@sample.org";
   let pwd = getpassword(4);
 
-  beforeEach(() => {
+  before(() => {
     cy.createuser(email, pwd);
   });
 
-  it("ChangePassword", () => {
-    cy.visit("/app/login");
-
-    cy.intercept("POST", "/auth/login").as("login");
-
-    cy.get("input[placeholder='Your username (email)']").clear().type(email);
-    cy.get("input[placeholder='Your password']").clear().type(pwd);
-    cy.get("button").contains("Login").click();
-
-    cy.get("input[placeholder='Your password']").should("not.exist");
-
-    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      cy.get("div.card-header h4").contains("Provide the verification code");
-      cy.get("input[placeholder='TOTP verification code']").type(get_totp());
-      cy.get("button").contains("Authorize").click();
-      cy.get("input[placeholder='TOTP verification code']").should("not.exist");
-    }
-
-    cy.wait("@login");
+  it("ChangePasswordFailures", () => {
+    cy.login(email, pwd);
 
     cy.visit("/app/profile/changepassword");
 
@@ -126,10 +109,32 @@ describe("ChangePassword", () => {
     cy.get("@confirm_password").clear().type(pwd);
     cy.get("button:contains('Submit')").click();
     cy.checkalert("The new password cannot match the previous password");
+  });
 
-    newPassword = getpassword(4);
-    cy.get("@new_password").clear().type(newPassword);
-    cy.get("@confirm_password").clear().type(newPassword);
+  it("ChangePassword", () => {
+    // cy.login(email, pwd);
+
+    cy.visit("/app/profile/changepassword");
+
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/profile/changepassword");
+    });
+
+    cy.get("div.card-header h4").contains("Change your password");
+
+    const newPassword = getpassword(4);
+    cy.get('input[placeholder="Type the desidered new password"]')
+      .clear()
+      .type(newPassword);
+    cy.get('input[placeholder="Type again the new password for confirmation"]')
+      .clear()
+      .type(newPassword);
+
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.get('input[placeholder="TOTP verification code"]')
+        .clear()
+        .type(get_totp());
+    }
 
     cy.intercept("PUT", "/auth/profile").as("changed");
 
@@ -164,7 +169,7 @@ describe("ChangePassword", () => {
     cy.get("table").find("td").contains(email);
   });
 
-  afterEach(() => {
+  after(() => {
     cy.logout();
 
     cy.login();
