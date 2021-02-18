@@ -11,7 +11,7 @@ describe("ChangePassword", () => {
     cy.createuser(email, pwd);
   });
 
-  it("ChangePasswordFailures", () => {
+  beforeEach(() => {
     cy.login(email, pwd);
 
     cy.visit("/app/profile/changepassword");
@@ -19,7 +19,9 @@ describe("ChangePassword", () => {
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/profile/changepassword");
     });
+  });
 
+  it("ChangePasswordFailures", () => {
     // Go back
     cy.get("button:contains('Cancel')").click();
 
@@ -112,14 +114,6 @@ describe("ChangePassword", () => {
   });
 
   it("ChangePassword", () => {
-    // cy.login(email, pwd);
-
-    cy.visit("/app/profile/changepassword");
-
-    cy.location().should((location) => {
-      expect(location.pathname).to.eq("/app/profile/changepassword");
-    });
-
     cy.get("div.card-header h4").contains("Change your password");
 
     const newPassword = getpassword(4);
