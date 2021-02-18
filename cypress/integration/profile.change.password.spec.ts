@@ -5,7 +5,7 @@ import { getpassword, get_totp } from "../../fixtures/utilities";
 
 describe("ChangePassword", () => {
   const email = "aaaaaaaaaa000111" + Math.random() + "@sample.org";
-  let pwd = getpassword(4);
+  const pwd = getpassword(4);
 
   before(() => {
     cy.createuser(email, pwd);
@@ -117,6 +117,10 @@ describe("ChangePassword", () => {
     cy.get("div.card-header h4").contains("Change your password");
 
     const newPassword = getpassword(4);
+
+    cy.get('input[placeholder="Type here your current password"]')
+      .clear()
+      .type(pwd);
     cy.get('input[placeholder="Type the desidered new password"]')
       .clear()
       .type(newPassword);
