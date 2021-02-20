@@ -3,7 +3,7 @@
     <div class="col-12 col-lg-8">
       <div class="card">
         <div class="card-header">
-          <h4>
+          <h1>
             <i class="fas fa-user-circle fa-lg"></i> Your profile
             <span class="float-right">
               <i
@@ -12,12 +12,12 @@
                 (click)="edit_profile();"
               ></i>
             </span>
-          </h4>
+          </h1>
         </div>
 
-        <div class="card-block">
+        <div class="card-body">
           <div class="table-responsive">
-            <ngx-spinner [fullScreen]="false"></ngx-spinner>
+            <ngx-spinner [fullScreen]="true"></ngx-spinner>
             <table class="table">
               <tr>
                 <th>Name</th>
@@ -31,7 +31,14 @@
 
               <tr>
                 <th>Group</th>
-                <td>{{user.group.fullname}}</td>
+                <td>
+                  <i
+                    class="fas fa-star yellow"
+                    *ngIf="user.isCoordinator"
+                    ngbTooltip="You are a coordinator for this group"
+                  ></i>
+                  {{user.group.fullname}}
+                </td>
               </tr>
 
               <tr>

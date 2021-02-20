@@ -9,7 +9,7 @@ import { ApiService } from "@rapydo/services/api";
 import { NotificationService } from "@rapydo/services/notification";
 import { FormlyService } from "@rapydo/services/formly";
 import { Schema } from "@rapydo/types";
-import { FormModal } from "@rapydo/components/forms/form_modal";
+import { FormModal } from "@rapydo/components/forms/form.modal";
 
 @Component({
   templateUrl: "profile.html",

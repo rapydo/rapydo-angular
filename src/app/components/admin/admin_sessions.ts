@@ -25,6 +25,7 @@ export class AdminSessionsComponent extends BasePaginationComponent<Session> {
     super(injector);
     this.init("token", "admin/tokens", "Sessions");
     this.initPaging(20, true);
+    this.setServerSideFiltering();
     this.list();
 
     this.currentToken = this.auth.getToken();

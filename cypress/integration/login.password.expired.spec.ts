@@ -1,13 +1,23 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword, get_totp } from "../../fixtures/utilities";
+import {
+  getpassword,
+  get_random_username,
+  get_totp,
+} from "../../fixtures/utilities";
 
 describe("Login", () => {
-  const email = "aaaaaaaaaa000333@sample.org";
-  let pwd = getpassword(4);
+  // do not directly create the random values here,
+  // otherwise will be always the same on each test repetition!
+  // do not generate it in the before() block, or will be not re-created on repetitions
+  let email;
+  let pwd;
 
-  before(() => {
+  // it should be a before() ... but it is not random enough
+  it("Setup", () => {
+    email = get_random_username("testpwdexpiration");
+    pwd = getpassword(4);
     cy.createuser(email, pwd);
   });
 
@@ -18,7 +28,7 @@ describe("Login", () => {
     cy.get("input[placeholder='Your password']").as("pwd");
 
     // Cypress is still not able to override intercept..
-    // A single intercept is needed, that the test should continue will normal responses
+    // A single intercept is needed here, then the test should continue with normal responses
     cy.server();
     cy.route({
       method: "POST",
@@ -41,7 +51,7 @@ describe("Login", () => {
     cy.server({ enable: false });
 
     cy.checkalert("Your password is expired, please change it");
-    cy.get("div.card-header h4").contains(
+    cy.get("div.card-header h1").contains(
       "Your password is expired, please change it"
     );
     cy.get("button").contains("Change").click();
@@ -128,6 +138,20 @@ describe("Login", () => {
       cy.get("button").contains("Change").click();
     }
     cy.checkalert("Password is too weak, missing special characters");
+
+    const new_pwd4 = email + "AADwfef331!!";
+    cy.get("@new_pwd").clear().type(new_pwd4);
+    cy.get("@pwd_confirm").clear().type(new_pwd4);
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.get("input[placeholder='TOTP verification code']")
+        .clear()
+        .type(get_totp());
+      cy.get("button").contains("Authorize").click();
+    } else {
+      cy.get("button").contains("Change").click();
+    }
+
+    cy.checkalert("Password is too weak, can't contain your email address");
 
     const new_pwd = getpassword(4);
     cy.get("@new_pwd").clear().type(new_pwd);

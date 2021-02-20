@@ -1,0 +1,24 @@
+<div class="container-fluid">
+  <ngx-spinner [fullScreen]="true"></ngx-spinner>
+  <div class="row justify-content-md-center">
+    <div class="col-12 col-md-8 col-lg-6">
+      <br />
+
+      <div class="card" *ngIf="invalid_token">
+        <div class="card-header bg-warning">
+          <h1>{{ invalid_token }}</h1>
+        </div>
+        <div class="card-body">
+          <p class="lead">
+            The received token is not valid, if you copied the URL please verify
+            that you copied all parts of it.<br />
+            If the URL is correct the token could be invalid because your
+            credentials are already unlocked.<br />
+            To verify that you can try to
+            <a href="#" routerLink="/app/login">login</a>.<br />
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,9 +5,11 @@ import {
   Inject,
   ViewChild,
 } from "@angular/core";
+import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
 import { isPlatformBrowser, isPlatformServer } from "@angular/common";
-import { Title } from "@angular/platform-browser";
+import { Meta, Title } from "@angular/platform-browser";
 import { DeviceDetectorService } from "ngx-device-detector";
+import { filter, map, mergeMap } from "rxjs/operators";
 
 import { environment } from "@rapydo/../environments/environment";
 
@@ -35,10 +37,13 @@ export class AppComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: any,
     public api: ApiService,
     private auth: AuthService,
+    private metaService: Meta,
     private titleService: Title,
     private customization: ProjectOptions,
     private notify: NotificationService,
-    private deviceService: DeviceDetectorService
+    private deviceService: DeviceDetectorService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.enableFooter = environment.enableFooter;
     this.cookieLawText = this.customization.cookie_law_text();
@@ -116,10 +121,60 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    let t = environment.projectTitle;
-    t = t.replace(/^'/, "");
-    t = t.replace(/'$/, "");
-    this.titleService.setTitle(t);
+    // Set default title / description and keywords
+    let title = environment.projectTitle;
+    title = title.replace(/^'/, "");
+    title = title.replace(/'$/, "");
+    let description = environment.projectDescription;
+    description = description.replace(/^'/, "");
+    description = description.replace(/'$/, "");
+
+    const defaultFullTitle = `${title}: ${description}`;
+    const defaultKeywords = environment.projectKeywords;
+
+    this.titleService.setTitle(defaultFullTitle);
+    this.metaService.addTags([
+      { name: "keywords", content: defaultKeywords },
+      { name: "description", content: defaultFullTitle },
+      { name: "robots", content: "index, follow" },
+    ]);
+
+    // Set route specific title / description and keywords, if defined
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        map(() => this.route),
+        map((route) => {
+          while (route.firstChild) route = route.firstChild;
+          return route;
+        }),
+        filter((route) => route.outlet === "primary"),
+        mergeMap((route) => route.data)
+      )
+      .subscribe((event) => {
+        if (event["description"]) {
+          const t = event["title"] || title;
+          const fullTitle = `${t}: ${event["description"]}`;
+          this.titleService.setTitle(fullTitle);
+          this.metaService.addTags([
+            { name: "description", content: fullTitle },
+          ]);
+        } else {
+          this.titleService.setTitle(defaultFullTitle);
+          this.metaService.addTags([
+            { name: "description", content: defaultFullTitle },
+          ]);
+        }
+        if (event["keywords"]) {
+          this.metaService.addTags([
+            { name: "keywords", content: event["keywords"] },
+          ]);
+        } else {
+          this.metaService.addTags([
+            { name: "keywords", content: defaultKeywords },
+          ]);
+        }
+      });
   }
 
   public dismissCookieLaw(): void {

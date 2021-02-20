@@ -33,6 +33,7 @@ export interface Group extends SimpleGroup {
   readonly uuid: string;
 
   readonly members?: SimpleUserWithId[];
+  readonly coordinators?: SimpleUserWithId[];
 }
 
 export interface Groups extends Array<Group> {}
@@ -79,6 +80,12 @@ export interface AdminUser extends SimpleUserWithId, CustomUser {
 }
 export interface AdminUsers extends Array<AdminUser> {}
 
+// It is used in GroupUsers response
+export interface GroupUser extends SimpleUser, CustomUser {
+  readonly roles: any;
+}
+export interface GroupUsers extends Array<GroupUser> {}
+
 export interface Session {
   readonly id: string;
   readonly token: string;
@@ -110,6 +117,7 @@ export interface Total {
 
 export enum SchemaType {
   STRING = "string",
+  STRING_ARRAY = "string[]",
   INT = "int",
   NUMBER = "number",
   DATE = "date",
@@ -117,13 +125,13 @@ export enum SchemaType {
   PASSWORD = "password",
   BOOLEAN = "boolean",
   RADIO = "radio",
-  // it is really needed??
-  RADIO_WITH_DESCRIPTION = "radio_with_description",
   URL = "url",
 }
 
 export type SchemaOptions =
+  // select
   | Record<string, string>
+  // radio with/without description
   | Record<"value" | "label", string>[]
   | Record<"value" | "label" | "description", string>[];
 
@@ -137,12 +145,14 @@ export interface Schema {
 
   readonly min?: number | Date;
   readonly max?: number | Date;
-  // these are used by select/array fields. The second one is used by RADIO and RADIO_WITH_DESCRIPTION
   readonly options?: SchemaOptions;
-  readonly multiple?: boolean;
+  readonly autocomplete_endpoint?: string;
+  readonly autocomplete_id_bind?: string;
+  readonly autocomplete_label_bind?: string;
+  readonly autocomplete_show_id?: boolean;
 }
 
-// I would directly the type from ngx-formly
+// I would directly use the type from ngx-formly
 // https://github.com/ngx-formly/ngx-formly/blob/min/src/core/src/lib/models/fieldconfig.ts
 // but it fails during the compilation with ts-json-schema-generator
 
@@ -280,4 +290,16 @@ export interface AdminMenu {
   label: string;
   router_link: string;
   enabled: boolean;
+}
+
+export interface Email {
+  readonly html_body: string;
+  readonly plain_body: string;
+  readonly subject: string;
+  /** @format email */
+  readonly to: string;
+  /** @nullable */
+  readonly cc: string[];
+  /** @nullable */
+  readonly bcc: string[];
 }

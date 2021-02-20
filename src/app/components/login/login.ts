@@ -194,7 +194,7 @@ export class LoginComponent implements OnInit {
       });
     }
   }
-  login() {
+  login(): boolean {
     if (!this.form.valid) {
       return false;
     }
@@ -283,7 +283,7 @@ export class LoginComponent implements OnInit {
               }
 
               if (body.qr_code) {
-                this.qr_code = body.qr_code;
+                this.qr_code = body.qr_code[0];
               }
             }
           } else if (error.status === 404) {

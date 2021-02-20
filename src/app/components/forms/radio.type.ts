@@ -45,4 +45,4 @@ import { FieldType } from "@ngx-formly/core";
     </div>
   `,
 })
-export class FormlyDescriptiveRadio extends FieldType {}
+export class RadioTypeComponent extends FieldType {}

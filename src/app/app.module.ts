@@ -1,4 +1,5 @@
 import { NgModule, Injector } from "@angular/core";
+import { NgbConfig } from "@ng-bootstrap/ng-bootstrap";
 
 import { RapydoModule } from "@rapydo/rapydo.module";
 import { PageNotFoundModule } from "@rapydo/components/errors/404.module";
@@ -19,7 +20,8 @@ export class AppModule {
    * This is good to prevent injecting the service as constructor parameter.
    */
   static injector: Injector;
-  constructor(injector: Injector) {
+  constructor(injector: Injector, ngbConfig: NgbConfig) {
     AppModule.injector = injector;
+    ngbConfig.animation = false;
   }
 }

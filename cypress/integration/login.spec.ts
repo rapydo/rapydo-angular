@@ -1,16 +1,27 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
-import { getpassword, get_totp } from "../../fixtures/utilities";
+import {
+  getpassword,
+  get_random_username,
+  get_totp,
+} from "../../fixtures/utilities";
 
 describe("SuccessfulLogin", () => {
-  const email = "bbbbbb000333@sample.org";
-  let pwd = getpassword(4);
+  // do not directly create the random values here,
+  // otherwise will be always the same on each test repetition!
+  // do not generate it in the before() block, or will be not re-created on repetitions
+  let email;
+  let pwd;
 
-  before(() => {
-    cy.createuser(email, pwd);
-  });
+  let created = false;
 
   beforeEach(() => {
+    if (!created) {
+      email = get_random_username("testlogin");
+      pwd = getpassword(4);
+      cy.createuser(email, pwd);
+      created = true;
+    }
     cy.visit("/app/profile");
 
     // Profile page is restricted and you are automatically redirected to login page
@@ -18,13 +29,23 @@ describe("SuccessfulLogin", () => {
       expect(location.pathname).to.eq("/app/login");
     });
 
-    // The URL contain a reference to the previous page (/app/profile)
+    // The URL contains a reference to the previous page (/app/profile)
     cy.url().should("include", "/app/login");
     cy.url().should("include", "?returnUrl=%2Fapp%2Fprofile");
-    cy.get("div.card-header h4").contains("Login");
+    cy.get("div.card-header h1").contains("Login");
   });
 
-  it("Login - click on submit button", () => {
+  it.only("Login - click on Sign in button and submit button", () => {
+    if (Cypress.env("SHOW_LOGIN")) {
+      cy.get("a:contains('Sign in')").click();
+
+      cy.location().should((location) => {
+        expect(location.pathname).to.eq("/app/login");
+      });
+    } else {
+      cy.get("a:contains('Sign in')").should("not.exist");
+    }
+
     cy.get("input[placeholder='Your password']").type(pwd);
     cy.get("input[placeholder='Your username (email)']").type(email);
 
@@ -45,7 +66,7 @@ describe("SuccessfulLogin", () => {
     cy.wait("@login");
 
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      cy.get("div.card-header h4").contains("Provide the verification code");
+      cy.get("div.card-header h1").contains("Provide the verification code");
       cy.get("input[placeholder='TOTP verification code']").type(get_totp());
       cy.get("button").contains("Authorize").click();
     }
@@ -59,7 +80,7 @@ describe("SuccessfulLogin", () => {
 
     cy.wait("@login");
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      cy.get("div.card-header h4").contains("Provide the verification code");
+      cy.get("div.card-header h1").contains("Provide the verification code");
       cy.get("input[placeholder='TOTP verification code']").type(get_totp());
       cy.get("button").contains("Authorize").click();
     }
@@ -74,7 +95,7 @@ describe("SuccessfulLogin", () => {
 
     cy.wait("@login");
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      cy.get("div.card-header h4").contains("Provide the verification code");
+      cy.get("div.card-header h1").contains("Provide the verification code");
       const token = get_totp();
       cy.get("input[placeholder='TOTP verification code']").type(token);
       cy.get("button").contains("Authorize").click();

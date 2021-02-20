@@ -1,0 +1,102 @@
+<div class="container-fluid">
+  <div class="row justify-content-md-center">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h1>
+            <i class="fas fa-envelope"></i>
+            Admin send mail
+          </h1>
+        </div>
+
+        <div class="card-body" *ngIf="showForm">
+          <!-- true === dry run enabled -->
+          <form [formGroup]="form" (ngSubmit)="send(true)">
+            <formly-form [form]="form" [fields]="fields" [model]="model">
+            </formly-form>
+
+            <button type="submit" class="btn btn-success">Send mail</button>
+          </form>
+        </div>
+
+        <div class="card-body bg-success text-white" *ngIf="!showForm">
+          Your email with subject: <b>{{ model["subject"]}}</b> has been
+          successfully sent!<br />
+          <br />
+          <span>Destination address: <b>{{ model["to"] }}</b></span
+          ><br />
+          <span *ngIf="model['cc']">CC: <b>{{ model["cc"] }}</b></span
+          ><br />
+          <span *ngIf="model['bcc']">BCC: <b>{{ model["bcc"] }}</b></span
+          ><br />
+        </div>
+        <div class="card-footer" *ngIf="!showForm">
+          Do you want to send a new email?
+          <a class="btn btn-sm" (click)="open_form()">
+            <i class="fas fa-envelope"></i>
+            Send new email
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #show_email let-c="close" let-d="dismiss">
+  <div class="modal-header bg-default">
+    <h1 class="modal-title">
+      <i class="fas fa-envelope"></i> Do you want to send the following email?
+    </h1>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <b>Subject</b>: {{ email["subject"] }}<br />
+    <b>To</b>: {{ email["to"] }}<br />
+    <b>CC</b>: {{ email["cc"] }}<br />
+    <b>BCC</b>: {{ email["bcc"] }}<br />
+    <br />
+
+    <ul ngbNav #nav="ngbNav" class="nav-tabs">
+      <li ngbNavItem>
+        <a ngbNavLink>HTML Body</a>
+        <ng-template ngbNavContent>
+          <br />
+          <span [innerHTML]="email['html_body'] | safeHtml"></span><br />
+        </ng-template>
+      </li>
+      <li ngbNavItem>
+        <a ngbNavLink>Plain Body</a>
+        <ng-template ngbNavContent>
+          <pre>
+            {{ email["plain_body"] }}<br/>
+          </pre>
+        </ng-template>
+      </li>
+    </ul>
+
+    <div [ngbNavOutlet]="nav"></div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-dark btn-success text-white"
+      (click)="modalRef.close('Save click')"
+    >
+      YES, SEND IT
+    </button>
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="d('Not accepted')"
+    >
+      DO NOT SEND
+    </button>
+  </div>
+</ng-template>

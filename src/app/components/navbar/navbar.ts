@@ -25,6 +25,7 @@ export class NavbarComponent implements OnInit {
   public user: User;
   public loading: boolean = true;
 
+  public showLogin: boolean = true;
   public allowRegistration: boolean = false;
 
   // This property tracks whether the menu is open.
@@ -47,6 +48,7 @@ export class NavbarComponent implements OnInit {
     private confirmationModals: ConfirmationModals,
     private ref: ChangeDetectorRef
   ) {
+    this.showLogin = environment.showLogin;
     this.allowRegistration = environment.allowRegistration;
   }
 
@@ -102,6 +104,12 @@ export class NavbarComponent implements OnInit {
       enabled: user.isAdmin,
       label: "Server Stats",
       router_link: "/app/admin/stats",
+    });
+
+    this.admin_entries.push({
+      enabled: user.isAdmin,
+      label: "Send mail",
+      router_link: "/app/admin/mail",
     });
 
     const custom_entries: AdminMenu[] = this.customization.admin_menu_entries(

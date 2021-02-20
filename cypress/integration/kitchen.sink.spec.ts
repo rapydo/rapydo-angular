@@ -2,16 +2,19 @@
 /*global cy, Cypress*/
 
 describe("KitchenSink", () => {
-  it("TestSink", () => {
-    cy.login();
+  beforeEach(() => {
+    // cy.login();
 
     cy.visit("/app/sink");
+  });
 
+  it("TestSink - ngx-formly - default layout", () => {
     cy.location("pathname").then((pathname) => {
+      // Is Kitchen Sink enabled?
       if (pathname === "/app/sink") {
-        // Kitchen Sink is enabled, add here all tests!
-
-        cy.get("div.card-header h4").contains("Kitchen Sink");
+        // quiet = true => no error if already closed
+        cy.closecookielaw(true);
+        cy.get("div.card-header h1").contains("Kitchen Sink");
 
         // Normal formly forms
         cy.get("ul.nav-tabs li.nav-item a.active").contains("ngx-formly");
@@ -203,6 +206,53 @@ describe("KitchenSink", () => {
 
         cy.get('input:checkbox[placeholder="boolean"]').check({ force: true });
 
+        // test the select field [1 / 2], select the first element
+        // open the options
+        cy.get("ng-select").eq(0).find("input").click({ force: true });
+
+        // and select the first (that is eq(1) because eq(0) is an empty option)
+        cy.get("ng-dropdown-panel")
+          .find("div.ng-option")
+          .eq(1)
+          .click({ force: true });
+
+        // test multi-select
+        // enable the options dropdown
+        cy.get("ng-select").eq(1).find("input").click({ force: true });
+        // select the third option
+        cy.get("ng-dropdown-panel")
+          .find("div.ng-option")
+          .eq(2)
+          .click({ force: true });
+
+        // verify that the selected option is the cow
+        cy.get("ng-select")
+          .eq(1)
+          .find("span.ng-value-label")
+          .eq(0)
+          .contains("Bos taurus");
+
+        // filter the options
+        cy.get("ng-select").eq(1).find("input").type("sus");
+        cy.get("ng-dropdown-panel")
+          .find("div.ng-option")
+          .eq(0)
+          .click({ force: true });
+
+        // verify that the first selected option is still the cow
+        cy.get("ng-select")
+          .eq(1)
+          .find("span.ng-value-label")
+          .eq(0)
+          .contains("Bos taurus");
+
+        // verify that the second selected option is the pig
+        cy.get("ng-select")
+          .eq(1)
+          .find("span.ng-value-label")
+          .eq(1)
+          .contains("Sus scrofa domesticus");
+
         cy.contains("Option1");
         cy.contains("Option2");
         cy.contains("Option3");
@@ -218,18 +268,56 @@ describe("KitchenSink", () => {
         cy.contains('"text": "123456"');
         cy.contains('"number": 3');
         cy.contains('"boolean": true');
+        cy.contains('"select": "first-key"');
+        cy.contains('"multiselect"');
+        cy.contains('"cow"');
+        cy.contains('"pig"');
+
         cy.contains('"date": "' + (current_year + 1) + '-05-19T00:00:00.000Z"');
+
+        // test the select field [2 / 2], filter and the select the new first element
+        cy.get("ng-select").eq(0).find("input").type("third");
+        cy.get("ng-dropdown-panel")
+          .eq(0)
+          .find("div.ng-option")
+          .eq(0)
+          .click({ force: true });
+        cy.contains('"select": "third-key"');
+
+        // Remove an element from the multiselect
+        cy.get("ng-select")
+          .eq(1)
+          .find("span.ng-value-icon")
+          .eq(0)
+          .click({ force: true });
+        cy.contains('"multiselect"');
+        cy.contains('"cow"').should("not.exist");
+        cy.contains('"pig"');
 
         cy.get("button.btn-outline-danger").find("i.fa-times").parent().click();
         cy.get('button:contains("Submit")').click({ force: true });
         cy.contains('"date": null');
+      }
+    });
+  });
 
+  it("TestSink - ngx-formly - horizontal layout", () => {
+    cy.location("pathname").then((pathname) => {
+      // Is Kitchen Sink enabled?
+      if (pathname === "/app/sink") {
         // Horizontal formly forms
         cy.get("ul.nav-tabs li.nav-item a")
           .contains("horizontal forms")
           .click();
 
         cy.get("formly-horizontal-wrapper");
+
+        cy.get('input[placeholder="email"]').as("email");
+        cy.get('input[placeholder="password"]').as("pwd");
+        cy.get('input[placeholder="date"]').as("date");
+        cy.get('input[placeholder="url"]').as("url");
+        cy.get('input[placeholder="text"]').as("text");
+        cy.get('input[placeholder="number"]').as("number");
 
         cy.get("@email").clear();
         cy.get("@pwd").clear();
@@ -244,18 +332,278 @@ describe("KitchenSink", () => {
         cy.get("@email").clear().type("user2@sample.org");
         cy.get("@pwd").clear().type("thisIsSUPERS3cret!");
 
+        cy.get("@date").click();
+
+        cy.get(
+          'ngb-datepicker-navigation-select select[title="Select year"]'
+        ).as("year");
+
+        const current_year = new Date().getFullYear();
+        // Let's select the third year (current + 1)
+        // The fourth is incomplete and only selectable to current day, i.e.
+        // at 02 Jan 2021 only dates between 02 Jan 2020 and 02 Jan 2022 are enabled
+        cy.get("@year").select((current_year + 1).toString());
+
+        cy.get(
+          'ngb-datepicker-navigation-select select[title="Select month"]'
+        ).select("5");
+
+        cy.get("div.ngb-dp-day div").contains("19").click({ force: true });
+
+        cy.get("@url").clear().type("http://www.google.com");
+        cy.get("@text").clear().type("1234");
+        cy.get("@number").clear().type("5");
+
+        // open the ng-select options and pick the first element
+        cy.get("ng-select").eq(0).find("input").click({ force: true });
+
+        // and select the first (that is eq(1) because eq(0) is an empty option)
+        cy.get("ng-dropdown-panel")
+          .find("div.ng-option")
+          .eq(1)
+          .click({ force: true });
+
+        // open the multiple ng-select options and pick the first element
+        cy.get("ng-select").eq(1).find("input").click({ force: true });
+
+        // and select the first (that is eq(1) because eq(0) is an empty option)
+        cy.get("ng-dropdown-panel")
+          .find("div.ng-option")
+          .eq(1)
+          .click({ force: true });
+
         cy.get('button:contains("Submit")').click({ force: true });
 
         cy.contains('"email": "user2@sample.org"');
         cy.contains('"password": "thisIsSUPERS3cret!"');
+      }
+    });
+  });
 
-        // Upload
+  it("TestSink - Upload", () => {
+    cy.location("pathname").then((pathname) => {
+      // Is Kitchen Sink enabled?
+      if (pathname === "/app/sink") {
         cy.get("ul.nav-tabs li.nav-item a").contains("ngx-uploadx").click();
+      }
+    });
+  });
 
-        // Datatables
+  it("TestSink - Datatables", () => {
+    cy.location("pathname").then((pathname) => {
+      // Is Kitchen Sink enabled?
+      if (pathname === "/app/sink") {
         cy.get("ul.nav-tabs li.nav-item a").contains("ngx-datatable").click();
+      }
+    });
+  });
 
-        // What more??
+  it("TestSink - Autocomplete", () => {
+    cy.location("pathname").then((pathname) => {
+      // Is Kitchen Sink enabled?
+      if (pathname === "/app/sink") {
+        // From put => single with show id OFF
+        cy.get("ul.nav-tabs li.nav-item a").contains("Autocomplete").click();
+
+        // this is needed because the component is auto-cleaned after 500 msec
+        cy.wait(600);
+
+        cy.get("input").as("field");
+
+        // 1 - select an element, verify the label and the key in the model
+        cy.get("@field").clear().type("h");
+        cy.get("@field").type("a");
+        cy.get("@field").type("r");
+
+        // == debounceTime
+        cy.wait(350);
+
+        cy.get("ng-dropdown-panel")
+          .get("div.ng-option")
+          .eq(0)
+          .click({ force: true });
+
+        cy.get("ng-select")
+          .find("span.ng-value-label")
+          .contains("Harry Smith the Kid");
+
+        cy.get('button:contains("Submit")').click({ force: true });
+
+        cy.contains('"element": "HSK"');
+
+        // 2 - select an other element
+        cy.get("@field").clear().type("s");
+        cy.get("@field").type(" ");
+        cy.get("@field").type("t");
+        cy.get("@field").type("h");
+        cy.get("@field").type("e");
+        cy.get("@field").type(" ");
+
+        // == debounceTime
+        cy.wait(350);
+
+        cy.get("ng-dropdown-panel")
+          .find("div.ng-option")
+          .eq(0)
+          .click({ force: true });
+
+        cy.get("ng-select")
+          .find("span.ng-value-label")
+          .contains("Oliver Jones the Kid");
+
+        cy.get('button:contains("Submit")').click({ force: true });
+
+        cy.contains('"element": "OJK"');
+        cy.contains('"element": "HSK"').should("not.exist");
+      }
+    });
+  });
+
+  it("TestSink - Multi Autocomplete", () => {
+    cy.location("pathname").then((pathname) => {
+      // Is Kitchen Sink enabled?
+      if (pathname === "/app/sink") {
+        // From post => multiple with show id ON
+        cy.get("ul.nav-tabs li.nav-item a")
+          .contains("Multi Autocomplete")
+          .click();
+
+        cy.get("input").as("field");
+
+        // this is needed because the component is auto-cleaned after 500 msec
+        cy.wait(600);
+
+        // 1 - Select Oliver Smith
+        cy.get("@field").clear().type("o");
+        cy.get("@field").type("l");
+        cy.get("@field").type("i");
+
+        // == debounceTime
+        cy.wait(350);
+
+        cy.get("ng-dropdown-panel")
+          .get("div.ng-option")
+          .eq(0)
+          .click({ force: true });
+
+        cy.get("ng-select")
+          .find("span.ng-value-label")
+          .eq(0)
+          .contains("Oliver Smith the Kid");
+
+        // 2 - Select Oliver Jones
+        cy.get("@field").clear().type("s");
+        cy.get("@field").type(" ");
+        cy.get("@field").type("t");
+        cy.get("@field").type("h");
+        cy.get("@field").type("e");
+        cy.get("@field").type(" ");
+
+        // == debounceTime
+        cy.wait(350);
+
+        cy.get("ng-dropdown-panel")
+          .get("div.ng-option")
+          .eq(0)
+          .click({ force: true });
+
+        cy.get("ng-select")
+          .find("span.ng-value-label")
+          .eq(0)
+          .contains("Oliver Smith the Kid");
+        cy.get("ng-select")
+          .find("span.ng-value-label")
+          .eq(1)
+          .contains("Oliver Jones the Kid");
+
+        cy.get('button:contains("Submit")').click({ force: true });
+        cy.contains('"elements"');
+        cy.contains('"OSK"');
+        cy.contains('"OJK"');
+
+        // 3 - Remove Oliver Jones
+        // select again the same element will remove it from the list
+        cy.get("@field").clear().type("oliver jones the kid");
+
+        // == debounceTime
+        cy.wait(350);
+
+        cy.get("ng-dropdown-panel")
+          .get("div.ng-option")
+          .eq(0)
+          .click({ force: true });
+
+        cy.get("ng-select")
+          .find("span.ng-value-label")
+          .eq(0)
+          .contains("Oliver Smith the Kid");
+
+        cy.get('button:contains("Submit")').click({ force: true });
+
+        cy.contains('"elements"');
+        cy.contains('"OJK"').should("not.exist");
+        cy.contains('"OSK"');
+
+        // 4 - Remove Oliver Smith, add some Charlie
+        // (otherwise the validation will fail because the field is required)
+        // this is the x icon to delete the item
+        cy.get("ng-select").find("span.ng-value-icon").click({ force: true });
+
+        cy.get("@field").clear().type("charlie");
+
+        // == debounceTime
+        cy.wait(350);
+
+        cy.get("ng-dropdown-panel")
+          .get("div.ng-option")
+          .eq(0)
+          .click({ force: true });
+
+        cy.get('button:contains("Submit")').click({ force: true });
+
+        cy.contains('"elements"');
+        cy.contains('"OSK"').should("not.exist");
+        cy.contains('"OJK"').should("not.exist");
+      }
+    });
+  });
+  it("TestSink - Preloaded Autocomplete", () => {
+    cy.location("pathname").then((pathname) => {
+      // Is Kitchen Sink enabled?
+      if (pathname === "/app/sink") {
+        // From post with previous model => multple with show id ON and preloaded data
+        cy.get("ul.nav-tabs li.nav-item a")
+          .contains("Preloaded Autocomplete")
+          .click();
+
+        cy.get("input").as("field");
+
+        // this is needed because the component is auto-cleaned after 500 msec
+        cy.wait(600);
+
+        // Verify preloaded data
+        cy.get('button:contains("Submit")').click({ force: true });
+        cy.contains('"elements"');
+        cy.contains('"CSK"');
+        cy.contains('"JWR"');
+        cy.get("@field").clear().type("harr");
+        cy.get("@field").type("y s");
+        cy.get("@field").type("mith t");
+        cy.get("@field").type("he u");
+
+        // == debounceTime
+        cy.wait(350);
+
+        cy.get("ng-dropdown-panel")
+          .get("div.ng-option")
+          .eq(0)
+          .click({ force: true });
+
+        cy.get('button:contains("Submit")').click({ force: true });
+        cy.contains('"elements"');
+        cy.contains('"CSK"');
+        cy.contains('"JWR"');
+        cy.contains('"HSU"');
       }
     });
   });

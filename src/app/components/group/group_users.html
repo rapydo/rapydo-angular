@@ -1,0 +1,69 @@
+<div class="container-fluid">
+  <div class="row justify-content-md-center">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h1>
+            <i class="fas fa-users"></i> Users in group {{ group?.fullname }}
+            <span class="float-right"
+              ><i
+                class="fas fa-sync-alt clickable"
+                ngbTooltip="Reload the list of {{resource_name}}s"
+                (click)="list();"
+              ></i
+            ></span>
+          </h1>
+        </div>
+
+        <div class="card-body">
+          <div class="table-responsive">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-6">
+                  <input
+                    type="text"
+                    class="form-control data-filter"
+                    placeholder="Type to filter users"
+                    (keyup)="updateFilter($event)"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="table-wrapper" #tableWrapper>
+              <ngx-spinner [fullScreen]="true"></ngx-spinner>
+              <ngx-datatable
+                class="bootstrap"
+                [rows]="data"
+                [columns]="columns"
+                [columnMode]="ColumnMode.flex"
+                [headerHeight]="40"
+                [footerHeight]="40"
+                [limit]="paging.itemsPerPage"
+                [rowHeight]="'auto'"
+                (activate)="onDatatableActivate($event)"
+              >
+              </ngx-datatable>
+            </div>
+          </div>
+          <ng-template #dataRoles let-row="row" let-value="value" let-i="index">
+            <span
+              class="badge badge-info role-badge"
+              *ngFor="let role of value | keyvalue"
+            >
+              <span *ngIf='role.value.description != "disabled"'>
+                {{role.value.description}}
+              </span>
+              <span *ngIf='role.value.description == "disabled"'>
+                {{role.value.name}}
+              </span>
+            </span>
+          </ng-template>
+
+          <ng-template #dataName let-row="row" let-value="value" let-i="index">
+            {{row['name']}} {{row['surname']}}
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

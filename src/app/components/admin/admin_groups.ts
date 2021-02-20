@@ -12,9 +12,10 @@ export class AdminGroupsComponent extends BasePaginationComponent<Group> {
   public controlsCell: TemplateRef<any>;
   @ViewChild("membersCell", { static: false })
   public membersCell: TemplateRef<any>;
-  @ViewChild("emptyHeader", { static: false }) public emptyHeader: TemplateRef<
-    any
-  >;
+  @ViewChild("coordinatorsCell", { static: false })
+  public coordinatorsCell: TemplateRef<any>;
+  @ViewChild("emptyHeader", { static: false })
+  public emptyHeader: TemplateRef<any>;
 
   constructor(protected injector: Injector) {
     super(injector);
@@ -27,13 +28,20 @@ export class AdminGroupsComponent extends BasePaginationComponent<Group> {
   public ngAfterViewInit(): void {
     this.columns = [
       { name: "Shortname", prop: "shortname", flexGrow: 0.5 },
+      { name: "Fullname", prop: "fullname", flexGrow: 1.5 },
       {
         name: "Members",
         prop: "members",
         flexGrow: 0.3,
         cellTemplate: this.membersCell,
       },
-      { name: "Fullname", prop: "fullname", flexGrow: 1.5 },
+      {
+        name: "Coordinator(s)",
+        prop: "coordinators",
+        cellTemplate: this.coordinatorsCell,
+        sortable: false,
+        flexGrow: 1,
+      },
       {
         name: "controls",
         prop: "controls",

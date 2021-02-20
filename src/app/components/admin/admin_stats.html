@@ -3,7 +3,7 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <h4 class="float-left">Server Stats</h4>
+          <h1 class="float-left">Server Stats</h1>
           <span class="float-right">
             <i
               class="fas fa-sync-alt fa-lg clickable"
@@ -12,8 +12,8 @@
           </span>
         </div>
 
-        <div class="card-block">
-          <ngx-spinner [fullScreen]="false"> </ngx-spinner>
+        <div class="card-body">
+          <ngx-spinner [fullScreen]="true"> </ngx-spinner>
 
           <div class="table-responsive">
             <table class="table table-sm" *ngIf="stats">

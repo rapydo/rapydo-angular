@@ -1,20 +1,27 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword, get_totp } from "../../fixtures/utilities";
+import {
+  getpassword,
+  get_random_username,
+  get_totp,
+} from "../../fixtures/utilities";
 
-describe("Login with TOTP", () => {
-  if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-    const email = "aaaaaaaaaa000555" + Math.random() + "@sample.org";
-    let pwd = getpassword(4);
+if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+  describe("Login with TOTP", () => {
+    // do not directly create the random values here,
+    // otherwise will be always the same on each test repetition!
+    // do not generate it in the before() block, or will be not re-created on repetitions
+    let email;
+    let pwd;
 
-    before(() => {
+    it("TOTP - change temporary password", () => {
+      email = get_random_username("testtotp");
+      pwd = getpassword(4);
       // expired = false
       // init_user = false
       cy.createuser(email, pwd, false, false);
-    });
 
-    it("TOTP - change temporary password", () => {
       cy.visit("/app/login");
 
       cy.get("input[placeholder='Your username (email)']").type(email);
@@ -27,10 +34,10 @@ describe("Login with TOTP", () => {
 
       cy.checkalert("You do not provided a valid verification code");
 
-      cy.get("div.card-header h4").contains(
-        "Configure Two-Factor with Google Auth"
+      cy.get("div.card-header h1").contains(
+        "Configure Two-Factor with Google Authenticator"
       );
-      cy.get("div.card-header.bg-warning h4").contains(
+      cy.get("div.card-header.bg-warning h1").contains(
         "Please change your temporary password"
       );
 
@@ -83,7 +90,7 @@ describe("Login with TOTP", () => {
       cy.get("button").contains("Authorize").click();
 
       if (Cypress.env("ALLOW_TERMS_OF_USE")) {
-        cy.get("div.modal-footer h4").contains(
+        cy.get("div.modal-footer h1").contains(
           "Do you accept our Terms of Use?"
         );
         cy.get("div.modal-footer button").first().contains("YES").click();
@@ -109,7 +116,7 @@ describe("Login with TOTP", () => {
 
       cy.get("input[placeholder='Your password']").should("not.exist");
 
-      cy.get("div.card-header.bg-warning h4").contains(
+      cy.get("div.card-header.bg-warning h1").contains(
         "Provide the verification code"
       );
 
@@ -171,7 +178,7 @@ describe("Login with TOTP", () => {
 
       cy.get("input[placeholder='Your password']").should("not.exist");
 
-      cy.get("div.card-header h4").contains("Provide the verification code");
+      cy.get("div.card-header h1").contains("Provide the verification code");
       cy.get("input[placeholder='TOTP verification code']")
         .clear()
         .type(get_totp());
@@ -242,7 +249,7 @@ describe("Login with TOTP", () => {
 
       // With TOTP after password change the user has to login again
       // Automatic login with new password is not possible due to the TOTP request
-      cy.get("div.card-header h4").contains("Login");
+      cy.get("div.card-header h1").contains("Login");
 
       cy.get("input[placeholder='Your username (email)']").type(email);
       cy.get("input[placeholder='Your password']").type(pwd);
@@ -251,7 +258,7 @@ describe("Login with TOTP", () => {
       cy.get("button").contains("Login").click();
       cy.wait("@login");
 
-      cy.get("div.card-header.bg-warning h4").contains(
+      cy.get("div.card-header.bg-warning h1").contains(
         "Provide the verification code"
       );
       cy.get("input[placeholder='TOTP verification code']")
@@ -271,5 +278,5 @@ describe("Login with TOTP", () => {
       cy.login();
       cy.deleteuser(email);
     });
-  }
-});
+  });
+}

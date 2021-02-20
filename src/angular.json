@@ -16,11 +16,14 @@
             "outputPath": "/app/dist",
             "index": "app/rapydo/index.html",
             "main": "app/rapydo/main.ts",
+            "deleteOutputPath": false,
             "polyfills": "polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
+            "progress": true,
             "forkTypeChecker": false,
             "assets": [
+              "node_modules/@fortawesome/fontawesome-free/webfonts",
               "./app/rapydo/assets",
               "./app/custom/assets",
               "./app/subproject/assets"
@@ -33,15 +36,12 @@
               "node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/brands.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/solid.min.css",
+              "node_modules/@ng-select/ng-select/themes/default.theme.css",
               "./app/rapydo/css/rapydo.css",
               "./app/custom/css/style.css"
             ],
             "scripts": [],
-            "allowedCommonJsDependencies": [
-              "xlsx",
-              "file-saver",
-              "@rapydo/../../validate.js"
-            ]
+            "allowedCommonJsDependencies": ["xlsx", "@rapydo/../../validate.js"]
           },
           "configurations": {
             "production": {
@@ -59,6 +59,8 @@
               "extractLicenses": true,
               "vendorChunk": true,
               "buildOptimizer": true,
+              "optimization": true,
+              "extractLicenses": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -137,6 +139,7 @@
               "node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/brands.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/solid.min.css",
+              "node_modules/@ng-select/ng-select/themes/default.theme.css",
               "./app/rapydo/css/rapydo.css",
               "./app/custom/css/style.css"
             ],

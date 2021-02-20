@@ -1,11 +1,11 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword } from "../../fixtures/utilities";
+import { getpassword, get_random_username } from "../../fixtures/utilities";
 
 describe("AccountExpired", () => {
   it("LOGIN EXPIRED", () => {
-    const email = "aaaaaaaaaa000444" + Math.random() + "@sample.org";
+    const email = get_random_username("testaccountexpired");
     const pwd = getpassword(4);
 
     cy.createuser(email, pwd, true);
@@ -26,7 +26,7 @@ describe("AccountExpired", () => {
     cy.checkalert("Sorry, this account is expired");
 
     cy.visit("/public/reset");
-    cy.get("div.card-header h4").contains("Reset your password");
+    cy.get("div.card-header h1").contains("Reset your password");
 
     cy.intercept("POST", "/auth/reset").as("reset");
 

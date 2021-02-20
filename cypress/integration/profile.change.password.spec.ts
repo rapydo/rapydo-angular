@@ -1,17 +1,29 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword, get_totp } from "../../fixtures/utilities";
+import {
+  getpassword,
+  get_random_username,
+  get_totp,
+} from "../../fixtures/utilities";
 
 describe("ChangePassword", () => {
-  const email = "aaaaaaaaaa000111" + Math.random() + "@sample.org";
-  const pwd = getpassword(4);
+  // do not directly create the random values here,
+  // otherwise will be always the same on each test repetition!
+  // do not generate it in the before() block, or will be not re-created on repetitions
+  let email;
+  let pwd;
 
-  before(() => {
-    cy.createuser(email, pwd);
-  });
+  let created = false;
 
   beforeEach(() => {
+    if (!created) {
+      email = get_random_username("testchangepassword");
+      pwd = getpassword(4);
+      cy.createuser(email, pwd);
+      created = true;
+    }
+
     cy.login(email, pwd);
 
     cy.visit("/app/profile/changepassword");
@@ -35,7 +47,7 @@ describe("ChangePassword", () => {
       expect(location.pathname).to.eq("/app/profile/changepassword");
     });
 
-    cy.get("div.card-header h4").contains("Change your password");
+    cy.get("div.card-header h1").contains("Change your password");
 
     cy.get("button:contains('Submit')").click();
     cy.checkvalidation(0, "This field is required");
@@ -107,6 +119,12 @@ describe("ChangePassword", () => {
     cy.get("button:contains('Submit')").click();
     cy.checkalert("Password is too weak, missing special characters");
 
+    newPassword = email + "AADwfef331!!";
+    cy.get("@new_password").clear().type(newPassword);
+    cy.get("@confirm_password").clear().type(newPassword);
+    cy.get("button:contains('Submit')").click();
+    cy.checkalert("Password is too weak, can't contain your email address");
+
     cy.get("@new_password").clear().type(pwd);
     cy.get("@confirm_password").clear().type(pwd);
     cy.get("button:contains('Submit')").click();
@@ -114,7 +132,7 @@ describe("ChangePassword", () => {
   });
 
   it("ChangePassword", () => {
-    cy.get("div.card-header h4").contains("Change your password");
+    cy.get("div.card-header h1").contains("Change your password");
 
     const newPassword = getpassword(4);
 
@@ -144,7 +162,7 @@ describe("ChangePassword", () => {
 
     // if TOTP is enabled the automatic re-login is not possible
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      cy.get("div.card-header h4").contains("Login");
+      cy.get("div.card-header h1").contains("Login");
 
       cy.get("input[placeholder='Your username (email)']").type(email);
       cy.get("input[placeholder='Your password']").type(newPassword);
@@ -155,7 +173,7 @@ describe("ChangePassword", () => {
 
       cy.get("input[placeholder='Your password']").should("not.exist");
 
-      cy.get("div.card-header h4").contains("Provide the verification code");
+      cy.get("div.card-header h1").contains("Provide the verification code");
       cy.get("input[placeholder='TOTP verification code']").type(get_totp());
 
       cy.get("button").contains("Authorize").click();

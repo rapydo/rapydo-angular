@@ -33,7 +33,7 @@ import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
     <ng-template #content let-c="close" let-d="dismiss">
       <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">{{ to.label }}</h4>
+        <h1 class="modal-title" id="modal-basic-title">{{ to.label }}</h1>
       </div>
 
       <div class="modal-body" [innerHTML]="to.terms_of_use"></div>
@@ -51,7 +51,9 @@ import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
     <br />
   `,
 })
-export class TermsOfUseCheckbox extends FormlyFieldCheckbox implements OnInit {
+export class TermsOfUseTypeComponent
+  extends FormlyFieldCheckbox
+  implements OnInit {
   constructor(private modalService: NgbModal) {
     super();
   }

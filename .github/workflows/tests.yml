@@ -9,11 +9,19 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
-    timeout-minutes: 45
+    timeout-minutes: 60
 
     strategy:
       matrix:
-        stage: [karma, cypress-lite, cypress-full, cypress-totp, prod]
+        stage:
+          [
+            karma,
+            cypress-lite,
+            cypress-full,
+            cypress-totp,
+            cypress-hiddenlogin,
+            prod,
+          ]
 
     steps:
       - uses: actions/checkout@v2
@@ -55,13 +63,13 @@ jobs:
           bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular;
 
       - uses: rapydo/actions/setup-cypress@v1
-        if: ${{ matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full' || matrix.stage == 'cypress-totp' }}
+        if: ${{ matrix.stage != 'karma' && matrix.stage != 'prod' }}
         with:
           id: ${{ secrets.CYPRESS_PROJECT_ID }}
           key: ${{ secrets.CYPRESS_RECORD_KEY }}
 
-      - name: Run Cypress
-        if: ${{ matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full' || matrix.stage == 'cypress-totp' }}
+      - name: Setup project
+        if: ${{ matrix.stage != 'karma' && matrix.stage != 'prod' }}
         run: |
           cd rapydo_tests
 
@@ -70,17 +78,47 @@ jobs:
 
           rapydo pull --quiet
 
-          if [[ "${{ matrix.stage }}" == "cypress-full" ]]; then
+          STAGE="${{ matrix.stage }}"
+          LABEL=${STAGE/cypress-/}
 
-            rapydo -e PROJECT_TITLE="Your ${AUTH} Full Project" -e ALLOW_TERMS_OF_USE=1 -e AUTH_FORCE_FIRST_PASSWORD_CHANGE=1 -e AUTH_MIN_PASSWORD_LENGTH=10 -e AUTH_MAX_LOGIN_ATTEMPTS=10 -e AUTH_MAX_PASSWORD_VALIDITY=60 -e AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER=60 start
+          if [[ "${LABEL}" == "full" ]]; then
 
-          elif [[ "${{ matrix.stage }}" == "cypress-totp" ]]; then
+            rapydo \
+              -e PROJECT_TITLE="Your ${AUTH} ${LABEL} Project" \
+              -e ALLOW_TERMS_OF_USE=1 \
+              -e AUTH_FORCE_FIRST_PASSWORD_CHANGE=1 \
+              -e AUTH_MIN_PASSWORD_LENGTH=10 \
+              -e AUTH_MAX_LOGIN_ATTEMPTS=10 \
+              -e AUTH_MAX_PASSWORD_VALIDITY=60 \
+              -e AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER=60 \
+              start
 
-            rapydo -e PROJECT_TITLE="Your ${AUTH} TOTP Project" -e ALLOW_TERMS_OF_USE=1 -e AUTH_FORCE_FIRST_PASSWORD_CHANGE=1 -e AUTH_MIN_PASSWORD_LENGTH=12 -e AUTH_MAX_LOGIN_ATTEMPTS=10 -e AUTH_MAX_PASSWORD_VALIDITY=60 -e AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER=60 -e AUTH_SECOND_FACTOR_AUTHENTICATION=1 start
+          elif [[ "${LABEL}" == "totp" ]]; then
+
+            rapydo \
+              -e PROJECT_TITLE="Your ${AUTH} ${LABEL} Project" \
+              -e ALLOW_TERMS_OF_USE=1 \
+              -e AUTH_FORCE_FIRST_PASSWORD_CHANGE=1 \
+              -e AUTH_MIN_PASSWORD_LENGTH=12 \
+              -e AUTH_MAX_LOGIN_ATTEMPTS=10 \
+              -e AUTH_MAX_PASSWORD_VALIDITY=60 \
+              -e AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER=60 \
+              -e AUTH_SECOND_FACTOR_AUTHENTICATION=1 \
+              -e AUTH_TOTP_VALIDITY_WINDOW=5 \
+              start
+
+          elif [[ "${LABEL}" == "hiddenlogin" ]]; then
+
+            rapydo \
+              -e PROJECT_TITLE="Your ${AUTH} ${LABEL} Project" \
+              -e SHOW_LOGIN=0 \
+              start
 
           else
 
-            rapydo -e PROJECT_TITLE="Your ${AUTH} Project" start
+            rapydo \
+              -e PROJECT_TITLE="Your ${AUTH} ${LABEL} Project" \
+              start
 
           fi
 
@@ -92,16 +130,16 @@ jobs:
           rapydo shell --no-tty frontend "yarn install"
           rapydo shell --no-tty frontend "reload-types"
           rapydo logs
-          if [[ "${{ matrix.stage }}" == "cypress-full" ]]; then
-            rapydo shell --no-tty frontend "yarn run cypress:start"
-          elif [[ "${{ matrix.stage }}" == "cypress-totp" ]]; then
-            # Only differs in --group option
-            rapydo shell --no-tty frontend "yarn run cypress:start:totp"
-          else
-            # Only differs in --group option
-            rapydo shell --no-tty frontend "yarn run cypress:start:lite"
-          fi
 
+      - name: Run Cypress
+        if: ${{ matrix.stage != 'karma' && matrix.stage != 'prod' }}
+        run: |
+          cd rapydo_tests
+
+          STAGE="${{ matrix.stage }}"
+          LABEL=${STAGE/cypress-/}
+
+          rapydo shell --no-tty frontend "yarn run cypress:start:${LABEL}"
 
           rapydo shell --no-tty frontend "npx nyc --all report --reporter=lcov --report-dir /coverage"
           cp data/prj/karma/lcov.info .
@@ -237,16 +275,27 @@ jobs:
           echo "{}" > cypress.json
           cypress run --browser chrome --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
 
+          # To complete a basic test to verify that
+          # the frontend correctly builds also when SSR is disabled
+          rapydo -e ENABLE_ANGULAR_SSR=0 start
+          rapydo -s frontend logs --follow
+          docker-compose logs --tail 2 frontend 2>&1 | grep "files have been compressed."
+          curl --insecure -X GET https://localhost
+
       # - name: Save Video Artifact
       #   uses: actions/upload-artifact@v1
-      #   if: ${{ matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full' || matrix.stage == 'cypress-totp' }}
+      #   if: ${{ matrix.stage != 'karma' && matrix.stage != 'prod' }}
       #   with:
       #     name: cypress-recordings
       #     path: rapydo_tests/data/prj/cypress
 
       - name: Print backend logs on failure
-        if: ${{ failure() && (matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full' || matrix.stage == 'cypress-totp') }}
+        if: ${{ failure() && matrix.stage != 'karma' && matrix.stage != 'prod' }}
         run: cat rapydo_tests/data/logs/backend-server.log
+
+      - name: Print mocked email on failure
+        if: ${{ failure() && matrix.stage != 'karma' && matrix.stage != 'prod' }}
+        run: cat rapydo_tests/data/logs/mock.mail.*.body
 
       - name: Docker logs
         if: failure()

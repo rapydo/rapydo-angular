@@ -9,6 +9,9 @@ const routes: Routes = [
   {
     path: "app/404",
     component: Error404Component,
+    data: {
+      description: "Page not found",
+    },
   },
   {
     path: "**",

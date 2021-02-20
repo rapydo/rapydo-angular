@@ -16,18 +16,27 @@ const routes: Routes = [
     component: ProfileComponent,
     canActivate: [AuthGuard],
     runGuardsAndResolvers: "always",
+    data: {
+      description: "Your profile",
+    },
   },
   {
     path: "changepassword",
     component: ChangePasswordComponent,
     canActivate: [AuthGuard],
     runGuardsAndResolvers: "always",
+    data: {
+      description: "Change your password",
+    },
   },
   {
     path: "sessions",
     component: SessionsComponent,
     canActivate: [AuthGuard],
     runGuardsAndResolvers: "always",
+    data: {
+      description: "Your open sessions",
+    },
   },
 ];
 

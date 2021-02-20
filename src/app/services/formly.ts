@@ -7,8 +7,17 @@ import { Schema, JSON2Form } from "@rapydo/types";
 
 @Injectable()
 export class FormlyService {
-  constructor() {}
+  private get_type(s: Schema) {
+    if (s.options && s.type !== "radio") {
+      return "select";
+    }
 
+    if (s.autocomplete_endpoint) {
+      return "autocomplete";
+    }
+
+    return s.type;
+  }
   public json2Form(schema: Schema[], data: Record<string, any>): JSON2Form {
     let fields: FormlyFieldConfig[] = [];
     let model: Record<string, unknown> = {};
@@ -17,7 +26,14 @@ export class FormlyService {
     }
 
     for (let s of schema) {
-      let stype: string = s.type;
+      // This can occur if a key is deleted from the response, as in admin_mail.ts
+      if (!s) {
+        continue;
+      }
+
+      const stype: string = this.get_type(s);
+
+      const is_array = s.type.endsWith("[]");
 
       let field_type = "";
       let template_type = "";
@@ -26,17 +42,8 @@ export class FormlyService {
       field["templateOptions"] = {};
       field["validators"] = {};
 
-      if (
-        s.options &&
-        stype !== "radio" &&
-        stype !== "radio_with_description"
-      ) {
-        stype = "select";
-      }
-
       if (stype === "string") {
         if (s.max && s.max > 256) {
-          stype = "textarea";
           field_type = "textarea";
           // should be calculated from s.max
           field["templateOptions"]["rows"] = 5;
@@ -90,23 +97,28 @@ export class FormlyService {
         //   field["templateOptions"]["maxLength"] = s.max;
         // }
       } else if (stype === "select") {
-        if (s.multiple) {
-          field_type = "multicheckbox";
-          // will output as a list instead of an object)
-          template_type = "array";
-        } else {
-          field_type = "select";
-          template_type = "select";
-        }
+        // if (is_array) {
+        //   field_type = "multicheckbox";
+        //   // will output as a list instead of an object)
+        //   template_type = "array";
+        // } else {
+        //   field_type = "select";
+        //   template_type = "select";
+        // }
+
+        field_type = "select";
+        template_type = "select";
+        field["templateOptions"]["multiple"] = is_array;
 
         let options = [];
-        // { k1: v1, k2: v2}
+        // { k1: v1, k2: v2} -> [{value: k1, label: v1}, {value: k2, label: v2}]
         for (let key in s.options) {
+          // value and label match the default bindValue and bindValue in ng-select
           options.push({ value: key, label: s.options[key] });
         }
 
         field["templateOptions"]["options"] = options;
-        if (!s.multiple && !field["templateOptions"]["required"]) {
+        if (!is_array && !field["templateOptions"]["required"]) {
           if (Array.isArray(field["templateOptions"]["options"])) {
             // prevent duplicated empty options if already provided as valid value
             let empty_option_found = false;
@@ -124,9 +136,6 @@ export class FormlyService {
             }
           }
         }
-        // if (s.multiple) {
-        //   field["templateOptions"]["multiple"] = s.multiple;
-        // }
       } else if (stype === "boolean") {
         field_type = "checkbox";
         template_type = "checkbox";
@@ -134,14 +143,21 @@ export class FormlyService {
         if (typeof model[s.key] === "undefined") {
           model[s.key] = false;
         }
-      } else if (stype === "radio" || stype === "radio_with_description") {
-        field_type = stype;
+      } else if (stype === "radio") {
+        field_type = "radio";
         template_type = "radio";
         field["templateOptions"]["options"] = s.options;
       } else if (stype === "url") {
         field_type = "input";
         template_type = "url";
         field["validators"] = { validation: ["url"] };
+      } else if (stype == "autocomplete") {
+        field_type = "autocomplete";
+        field["templateOptions"]["endpoint"] = s.autocomplete_endpoint;
+        field["templateOptions"]["showValue"] = s.autocomplete_show_id;
+        field["templateOptions"]["bindValue"] = s.autocomplete_id_bind;
+        field["templateOptions"]["bindLabel"] = s.autocomplete_label_bind;
+        field["templateOptions"]["multiple"] = is_array;
       }
 
       field["key"] = s.key;
@@ -169,56 +185,52 @@ export class FormlyService {
       field["templateOptions"]["type"] = template_type;
       field["templateOptions"]["required"] = s.required;
 
-      // if (template_type === 'radio') {
-      //   field['templateOptions']['labelProp'] = "value";
-      //   field['templateOptions']['valueProp'] = "name";
-      //   field['templateOptions']['options'] = s.options;
-      // }
-
       fields.push(field);
 
-      if (data) {
-        let model_key = s.key;
+      if (data && s.key in data) {
+        let default_data = data[s.key];
 
-        if (model_key in data) {
-          let default_data = data[model_key];
+        if (default_data === null || default_data === "") {
+          if (field_type !== "datepicker") {
+            model[s.key] = "";
+          }
+        } else {
+          if (template_type === "number") {
+            default_data = parseInt(default_data);
+          } else if (field_type === "datepicker") {
+            default_data = this.formatNgbDatepicker(default_data);
+          } else if (field_type === "autocomplete") {
+            field["templateOptions"]["selectedItems"] = [...default_data];
+            const idValue = field["templateOptions"]["bindValue"] || "value";
+            default_data = default_data.map((v) => v[idValue]);
 
-          if (default_data === null || default_data === "") {
-            if (field_type !== "datepicker") {
-              model[s.key] = "";
-            }
-          } else {
-            if (template_type === "number") {
-              default_data = parseInt(default_data);
-            } else if (field_type === "datepicker") {
-              default_data = this.formatNgbDatepicker(default_data);
-            } else if (template_type === "date") {
-              default_data = this.formatDate(default_data);
-            } else if (field_type === "multicheckbox") {
-              // This works because template_type = "array";
-              // Otherwise the model should be {key1: true, key2: true}
-              let default_data_list = [];
+            // Replaced by datepicker
+            // } else if (template_type === "date") {
+            //   default_data = this.formatDate(default_data);
+
+            // Replaced by ng-select with multiple values
+            // } else if (field_type === "multicheckbox") {
+            //   // This works because template_type = "array";
+            //   // Otherwise the model should be {key1: true, key2: true}
+            //   let default_data_list = [];
+            //   for (let d of default_data) {
+            //     default_data_list.push(this.getSelectIdFromObject(d));
+            //   }
+            //   default_data = default_data_list;
+          } else if (template_type === "select") {
+            if (is_array) {
+              const default_data_list = [];
               for (let d of default_data) {
                 default_data_list.push(this.getSelectIdFromObject(d));
               }
 
               default_data = default_data_list;
-            } else if (template_type === "select") {
-              // if (Array.isArray(default_data)) {
-              //   if (default_data.length === 1) {
-              //     default_data = default_data[0];
-              //   } else {
-              //     console.warn(
-              //       "Cannot determine default data from ",
-              //       default_data
-              //     );
-              //   }
-              // }
+            } else {
               default_data = this.getSelectIdFromObject(default_data);
             }
-
-            model[s.key] = default_data;
           }
+
+          model[s.key] = default_data;
         }
       }
     }

@@ -68,10 +68,19 @@ export function getpassword(type, len = 0) {
   return pwd;
 }
 
-// Version with otpauth
+export function get_random_username(prefix: string) {
+  const timestamp = Date.now().toString();
+  // Not really random since can't be feed with a seed and Cypress
+  // always return the same values during a test...
+  // It is usefull to provide random between different tests
+  const random_number = Math.round(10000000 * Math.random()).toString();
+  return `${prefix}_${timestamp}_${random_number}@sample.org`;
+}
+
 import * as OTPAuth from "otpauth";
 
 const totp = new OTPAuth.TOTP({
+  // TESTING_TOTP_HASH is set by setup-cypress github action
   secret: Cypress.env("TESTING_TOTP_HASH"),
   digits: 6,
   period: 30,
@@ -79,10 +88,3 @@ const totp = new OTPAuth.TOTP({
 export function get_totp() {
   return totp.generate();
 }
-
-// // Version with otplib
-// import { authenticator } from "otplib";
-
-// export function get_totp() {
-//   return authenticator.generate(Cypress.env("TESTING_TOTP_HASH"));
-// }

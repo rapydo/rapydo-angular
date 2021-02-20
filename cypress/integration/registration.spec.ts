@@ -1,7 +1,11 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword, get_totp } from "../../fixtures/utilities";
+import {
+  getpassword,
+  get_random_username,
+  get_totp,
+} from "../../fixtures/utilities";
 
 describe("Registration", () => {
   if (!Cypress.env("ALLOW_REGISTRATION")) {
@@ -11,19 +15,28 @@ describe("Registration", () => {
         expect(location.pathname).to.eq("/public/register");
       });
 
-      cy.get("div.card-header h4").contains("Register a new account");
+      cy.get("ul.navbar-nav.navbar-right")
+        .find("a:contains('Sign up')")
+        .should("not.exist");
+
+      cy.get("div.card-header h1").contains("Register a new account");
 
       cy.contains("Account registration is not allowed");
     });
   } else {
-    const newUser =
-      "testuser" + Math.floor(Math.random() * 1000000) + "@sample.org";
+    // do not directly create the random values here,
+    // otherwise will be always the same on each test repetition!
+    // do not generate it in the before() block, or will be not re-created on repetitions
+    let newUser;
     let newPassword = "to-be-generated";
 
     it("Registration", () => {
+      newUser = get_random_username("testregistration");
+
       cy.visit("/app/login");
       cy.closecookielaw();
 
+      // Login -> Register
       cy.contains("You don't have an account yet");
       cy.get('a:contains("Register here")').click();
 
@@ -31,7 +44,37 @@ describe("Registration", () => {
         expect(location.pathname).to.eq("/public/register");
       });
 
-      cy.get("div.card-header h4").contains("Register a new account");
+      cy.visit("/app/login");
+
+      cy.location().should((location) => {
+        expect(location.pathname).to.eq("/app/login");
+      });
+
+      cy.get("ul.navbar-nav.navbar-right")
+        .find("a:contains('Sign up')")
+        .click();
+
+      cy.location().should((location) => {
+        expect(location.pathname).to.eq("/public/register");
+      });
+
+      // Register -> Login
+      cy.contains("Already have an account?");
+      // find the sign in the in the card header to prevent to pick the one in the navbar
+      cy.get("div.card-header").find('a:contains("Sign in")').click();
+
+      cy.location().should((location) => {
+        expect(location.pathname).to.eq("/app/login");
+      });
+
+      // direct -> Register
+      cy.visit("/public/register");
+
+      cy.location().should((location) => {
+        expect(location.pathname).to.eq("/public/register");
+      });
+
+      cy.get("div.card-header h1").contains("Register a new account");
 
       // Save form fields as aliases
       cy.get('input[placeholder="Type here your name"]').as("name");
@@ -105,18 +148,20 @@ describe("Registration", () => {
       });
 
       // Pick all the selects, included Groups and any other custom fields (like in IMC)
-      if (Cypress.$("select").length) {
+      if (Cypress.$("ng-select").length) {
         cy.get("form")
-          .find("select")
+          .find("ng-select")
           .each(($el, index, $list) => {
-            if ($el.prop("required")) {
-              cy.wrap($el)
-                .find("option")
-                .eq(1)
-                .then((element) => {
-                  cy.wrap($el).select(element.val());
-                });
-            }
+            cy.wrap($el).find("input").click({ force: true });
+            cy.wrap($el).find("div.ng-option").eq(1).click({ force: true });
+            // if ($el.prop("required")) {
+            //   cy.wrap($el)
+            //     .find("option")
+            //     .eq(1)
+            //     .then((element) => {
+            //       cy.wrap($el).select(element.val());
+            //     });
+            // }
           });
       }
 
@@ -134,7 +179,6 @@ describe("Registration", () => {
       );
 
       // Failures on password validation: missing upper case letters
-
       cy.get("@email").clear().type(newUser);
       cy.get("@submit").click({ force: true });
       cy.checkalert("Password is too weak, missing upper case letters");
@@ -160,6 +204,28 @@ describe("Registration", () => {
       cy.get("@submit").click({ force: true });
       cy.checkalert("Password is too weak, missing special characters");
 
+      // Failures on password validation: containing email, name or surname
+      cy.get("@name").clear().type("Albert");
+      cy.get("@surname").clear().type("Einstein");
+
+      newPassword = newUser + "AADwfef331!!";
+      cy.get("@password").clear().type(newPassword);
+      cy.get("@confirmation").clear().type(newPassword);
+      cy.get("@submit").click({ force: true });
+      cy.checkalert("Password is too weak, can't contain your email address");
+
+      newPassword = "AAlbertDwfef331!!";
+      cy.get("@password").clear().type(newPassword);
+      cy.get("@confirmation").clear().type(newPassword);
+      cy.get("@submit").click({ force: true });
+      cy.checkalert("Password is too weak, can't contain your name");
+
+      newPassword = "Ar52sEinSTein!sdfF=";
+      cy.get("@password").clear().type(newPassword);
+      cy.get("@confirmation").clear().type(newPassword);
+      cy.get("@submit").click({ force: true });
+      cy.checkalert("Password is too weak, can't contain your name");
+
       // That's all ok, let's create the user!
       newPassword = getpassword(4);
       cy.get("@password").clear().type(newPassword);
@@ -167,7 +233,7 @@ describe("Registration", () => {
       cy.get("@submit").click({ force: true });
       cy.checkalert("User successfully registered");
 
-      cy.get("div.card-header h4").contains("Account registered");
+      cy.get("div.card-header h1").contains("Account registered");
 
       cy.contains(
         "User successfully registered. You will receive an email to confirm your registraton and activate your account"
@@ -176,6 +242,7 @@ describe("Registration", () => {
 
     it("Activation", () => {
       cy.visit("/app/login");
+      cy.closecookielaw();
 
       cy.intercept("POST", "/auth/login").as("login");
 
@@ -188,10 +255,10 @@ describe("Registration", () => {
 
       cy.wait("@login");
 
-      cy.get("div.card-header.bg-warning h4").contains(
+      cy.get("div.card-header.bg-warning h1").contains(
         "This account is not active"
       );
-      cy.get("div.card-block").contains("Didn't receive an activation link?");
+      cy.get("div.card-body").contains("Didn't receive an activation link?");
 
       cy.get("a").contains("Click here to send again").click({ force: true });
 
@@ -202,7 +269,7 @@ describe("Registration", () => {
       cy.location().should((location) => {
         expect(location.pathname).to.eq("/app/login");
       });
-      cy.get("div.card-header h4").contains("Login");
+      cy.get("div.card-header h1").contains("Login");
 
       // also verify errors on reset
       cy.visit("/public/reset");
@@ -212,14 +279,15 @@ describe("Registration", () => {
 
       cy.visit("/public/register/invalid");
 
-      cy.get("div.card-header h4").contains("Invalid activation token");
-      cy.get("div.card-block").contains(
+      cy.get("div.card-header h1").contains("Invalid activation token");
+      cy.get("div.card-body").contains(
         "This activation token is not valid and your request can not be satisfied."
       );
 
       cy.getmail().then((body) => {
-        let re = /.*https?:\/\/.*\/register\/(.*)$/;
+        let re = /.*https?:\/\/.*\/register\/([A-Za-z0-9-\.\+_]+)[\s\S]*$/;
         var token = body.match(re);
+
         cy.visit("/public/register/" + token[1]);
 
         cy.location().should((location) => {
@@ -230,8 +298,8 @@ describe("Registration", () => {
 
         cy.visit("/public/register/" + token[1]);
 
-        cy.get("div.card-header h4").contains("Invalid activation token");
-        cy.get("div.card-block").contains(
+        cy.get("div.card-header h1").contains("Invalid activation token");
+        cy.get("div.card-body").contains(
           "This activation token is not valid and your request can not be satisfied."
         );
       });
@@ -251,8 +319,8 @@ describe("Registration", () => {
       cy.wait("@login2");
 
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-        cy.get("div.card-header h4").contains(
-          "Configure Two-Factor with Google Auth"
+        cy.get("div.card-header h1").contains(
+          "Configure Two-Factor with Google Authenticator"
         );
 
         cy.get("input[placeholder='Your new password']").type(
@@ -265,7 +333,7 @@ describe("Registration", () => {
 
         cy.get("button").contains("Authorize").click();
       } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
-        cy.get("div.card-header.bg-warning h4").contains(
+        cy.get("div.card-header.bg-warning h1").contains(
           "Please change your temporary password"
         );
 

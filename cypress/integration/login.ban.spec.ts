@@ -1,12 +1,42 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword, get_totp } from "../../fixtures/utilities";
+import {
+  getpassword,
+  get_random_username,
+  get_totp,
+} from "../../fixtures/utilities";
 
 describe("Login Ban", () => {
   if (Cypress.env("AUTH_MAX_LOGIN_ATTEMPTS") > 0) {
+    it("Credentials unlock page with wrong token", () => {
+      cy.visit("/app/login/unlock/invalidtoken");
+
+      cy.location().should((location) => {
+        expect(location.pathname).to.eq("/app/login/unlock/invalidtoken");
+      });
+
+      cy.get("div.card-header h1").contains("Invalid unlock token");
+
+      cy.get("div.card-body p").contains(
+        "The received token is not valid, if you copied the URL please verify that you copied all parts of it."
+      );
+      cy.get("div.card-body p").contains(
+        "If the URL is correct the token could be invalid because your credentials are already unlocked."
+      );
+      cy.get("div.card-body p").contains("To verify that you can try to");
+
+      cy.checkalert("Invalid unlock token");
+
+      cy.get("a:contains('login')").click();
+
+      cy.location().should((location) => {
+        expect(location.pathname).to.eq("/app/login");
+      });
+    });
+
     it("Ban after wrong password", () => {
-      const email = "bbbb111111111" + Math.random() + "@sample.org";
+      const email = get_random_username("testloginban1");
       const pwd = getpassword(4);
 
       cy.createuser(email, pwd);
@@ -15,7 +45,7 @@ describe("Login Ban", () => {
       const max_failures = Math.max(Cypress.env("AUTH_MAX_LOGIN_ATTEMPTS"), 10);
 
       cy.visit("/app/login");
-      cy.get("div.card-header h4").contains("Login");
+      cy.get("div.card-header h1").contains("Login");
       cy.get("input[placeholder='Your username (email)']").clear().type(email);
       for (let i = 0; i < max_failures; i++) {
         cy.get("input[placeholder='Your password']")
@@ -38,13 +68,32 @@ describe("Login Ban", () => {
         "Sorry, this account is temporarily blocked due to the number of failed login attempts."
       );
 
+      cy.getmail().then((body) => {
+        let re = /.*https?:\/\/.*\/unlock\/([A-Za-z0-9-\.\+_]+)[\s\S]*$/;
+        var token = body.match(re);
+
+        cy.visit("/app/login/unlock/" + token[1]);
+
+        cy.checkalert("Credentials successfully unlocked");
+
+        cy.wait(200);
+
+        cy.location().should((location) => {
+          expect(location.pathname).to.eq("/app/login");
+        });
+
+        cy.login(email, pwd);
+        cy.goto_profile();
+        cy.logout();
+      });
+
       cy.login();
       cy.deleteuser(email);
     });
 
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       it("Ban after wrong totp", () => {
-        const email = "bbbb222222222" + Math.random() + "@sample.org";
+        const email = get_random_username("testloginban2");
         const pwd = getpassword(4);
 
         cy.createuser(email, pwd);
@@ -55,7 +104,7 @@ describe("Login Ban", () => {
         );
 
         cy.visit("/app/login");
-        cy.get("div.card-header h4").contains("Login");
+        cy.get("div.card-header h1").contains("Login");
         cy.get("input[placeholder='Your username (email)']")
           .clear()
           .type(email);
@@ -63,7 +112,7 @@ describe("Login Ban", () => {
         cy.get("button").contains("Login").click();
 
         cy.get("input[placeholder='Your password']").should("not.exist");
-        cy.get("div.card-header h4").contains("Provide the verification code");
+        cy.get("div.card-header h1").contains("Provide the verification code");
 
         for (let i = 0; i < max_failures; i++) {
           cy.get("input[placeholder='TOTP verification code']")
@@ -87,6 +136,25 @@ describe("Login Ban", () => {
         cy.checkalert(
           "Sorry, this account is temporarily blocked due to the number of failed login attempts."
         );
+
+        cy.getmail().then((body) => {
+          let re = /.*https?:\/\/.*\/unlock\/([A-Za-z0-9-\.\+_]+)[\s\S]*$/;
+          var token = body.match(re);
+
+          cy.visit("/app/login/unlock/" + token[1]);
+
+          cy.checkalert("Credentials successfully unlocked");
+
+          cy.wait(200);
+
+          cy.location().should((location) => {
+            expect(location.pathname).to.eq("/app/login");
+          });
+
+          cy.login(email, pwd);
+          cy.goto_profile();
+          cy.logout();
+        });
 
         cy.login();
         cy.deleteuser(email);

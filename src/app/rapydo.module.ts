@@ -68,19 +68,26 @@ const routes: Routes = [
         (m) => m.AdminModule
       ),
   },
+  {
+    path: "app/group",
+    loadChildren: () =>
+      import("@rapydo/components/group/group.module").then(
+        (m) => m.AdminModule
+      ),
+  },
 ];
 
 let module_imports: any = [
   CommonModule,
   SharedModule,
 
-  RouterModule.forRoot(
-    routes,
-    {
-      enableTracing: false,
-      onSameUrlNavigation: "reload",
-    } // <-- debugging purposes only
-  ),
+  RouterModule.forRoot(routes, {
+    enableTracing: false, // debugging purposes only
+    onSameUrlNavigation: "reload",
+    scrollPositionRestoration: "enabled",
+    anchorScrolling: "enabled",
+    scrollOffset: [0, 0], // [x, y]
+  }),
 
   // BrowserModule,
   BrowserAnimationsModule, // required by CookieLaw and Toastr

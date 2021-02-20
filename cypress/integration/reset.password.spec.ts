@@ -1,18 +1,25 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword, get_totp } from "../../fixtures/utilities";
+import {
+  getpassword,
+  get_random_username,
+  get_totp,
+} from "../../fixtures/utilities";
 
-describe("ResetPassword", () => {
-  if (Cypress.env("ALLOW_PASSWORD_RESET")) {
-    const email = "aaaaaaaaaa000222@sample.org";
-    const pwd = getpassword(4);
-
-    beforeEach(() => {
-      cy.createuser(email, pwd);
-    });
+if (Cypress.env("ALLOW_PASSWORD_RESET")) {
+  describe("ResetPassword", () => {
+    // do not directly create the random values here,
+    // otherwise will be always the same on each test repetition!
+    // do not generate it in the before() block, or will be not re-created on repetitions
+    let email;
+    let pwd;
 
     it("Reset", () => {
+      email = get_random_username("testreset");
+      pwd = getpassword(4);
+      cy.createuser(email, pwd);
+
       cy.visit("/app/login");
 
       cy.get('a:contains("Reset your password")').click({ force: true });
@@ -21,10 +28,10 @@ describe("ResetPassword", () => {
         expect(location.pathname).to.eq("/public/reset");
       });
 
-      cy.get("div.card-header h4").contains("Reset your password");
+      cy.get("div.card-header h1").contains("Reset your password");
 
       cy.visit("/public/reset");
-      cy.get("div.card-header h4").contains("Reset your password");
+      cy.get("div.card-header h1").contains("Reset your password");
 
       cy.get("button:contains('Submit request')").click();
       cy.checkvalidation(0, "This field is required");
@@ -51,8 +58,8 @@ describe("ResetPassword", () => {
 
       cy.wait("@reset");
 
-      cy.get("div.card-header h4").contains("Reset your password");
-      cy.get("div.card-block").contains(
+      cy.get("div.card-header h1").contains("Reset your password");
+      cy.get("div.card-body").contains(
         "We'll send instructions to the email provided if it's associated with an account. Please check your spam/junk folder."
       );
 
@@ -64,16 +71,16 @@ describe("ResetPassword", () => {
 
       cy.wait("@validate1");
 
-      cy.get("div.card-header h4").contains("Invalid request");
-      cy.get("div.card-block").contains("Invalid reset token");
+      cy.get("div.card-header h1").contains("Invalid request");
+      cy.get("div.card-body").contains("Invalid reset token");
 
       cy.getmail().then((body) => {
-        let re = /.*https?:\/\/.*\/reset\/(.*)$/;
+        let re = /.*https?:\/\/.*\/reset\/([A-Za-z0-9-\.\+_]+)[\s\S]*$/;
         var token = body.match(re);
 
         cy.visit("/public/reset/" + token[1]);
 
-        cy.get("div.card-header h4").contains("Change your password");
+        cy.get("div.card-header h1").contains("Change your password");
 
         cy.get("button:contains('Submit')").click();
 
@@ -125,6 +132,12 @@ describe("ResetPassword", () => {
         cy.get("button:contains('Submit')").click();
         cy.checkalert("Password is too weak, missing special characters");
 
+        newPassword = email + "AADwfef331!!";
+        cy.get("@new_password").clear().type(newPassword);
+        cy.get("@confirm_password").clear().type(newPassword);
+        cy.get("button:contains('Submit')").click();
+        cy.checkalert("Password is too weak, can't contain your email address");
+
         cy.get("@new_password").clear().type(pwd);
         cy.get("@confirm_password").clear().type(pwd);
         cy.get("button:contains('Submit')").click();
@@ -141,13 +154,13 @@ describe("ResetPassword", () => {
         cy.location().should((location) => {
           expect(location.pathname).to.eq("/app/login");
         });
-        cy.get("div.card-header h4").contains("Login");
+        cy.get("div.card-header h1").contains("Login");
 
         // then test again the reset link to confirm the invalidation
         cy.visit("/public/reset/" + token[1]);
 
-        cy.get("div.card-header h4").contains("Invalid request");
-        cy.get("div.card-block").contains("Invalid reset token");
+        cy.get("div.card-header h1").contains("Invalid request");
+        cy.get("div.card-body").contains("Invalid reset token");
         cy.checkalert("Invalid reset token");
 
         cy.visit("/app/login");
@@ -160,7 +173,7 @@ describe("ResetPassword", () => {
 
         if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
           cy.get("input[placeholder='Your password']").should("not.exist");
-          cy.get("div.card-header h4").contains(
+          cy.get("div.card-header h1").contains(
             "Provide the verification code"
           );
           cy.get("input[placeholder='TOTP verification code']")
@@ -174,11 +187,11 @@ describe("ResetPassword", () => {
       });
     });
 
-    afterEach(() => {
+    after(() => {
       cy.logout();
 
       cy.login();
       cy.deleteuser(email);
     });
-  }
-});
+  });
+}

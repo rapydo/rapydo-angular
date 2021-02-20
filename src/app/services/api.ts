@@ -1,5 +1,6 @@
 import { Injectable, PLATFORM_ID, Inject } from "@angular/core";
 import { isPlatformBrowser } from "@angular/common";
+import { Router } from "@angular/router";
 
 import { catchError, map } from "rxjs/operators";
 import { of, throwError, Observable } from "rxjs";
@@ -20,6 +21,7 @@ export class ApiService {
 
   constructor(
     private http: HttpClient,
+    private router: Router,
     @Inject(PLATFORM_ID) private platformId: any,
     private notify: NotificationService
   ) {}
@@ -90,9 +92,10 @@ export class ApiService {
     data: Record<string, unknown> = {},
     options: Record<string, unknown> = {}
   ): Observable<T> {
-    let conf = this.opt(options, "conf");
-    let rawError = this.opt(options, "rawError", false);
-    let validationSchema = this.opt(options, "validationSchema");
+    const conf = this.opt(options, "conf");
+    const rawError = this.opt(options, "rawError", false);
+    const validationSchema = this.opt(options, "validationSchema");
+    const redirectOnInvalidTokens = this.opt(options, "redirect", true);
 
     // to be deprecated
     if (!endpoint.startsWith("/")) {
@@ -154,9 +157,11 @@ export class ApiService {
 
             if (errors) {
               for (let error of errors) {
-                const message = {};
-                message["Invalid " + validationSchema + " response"] = error;
-                this.notify.showError(message);
+                this.notify.showError(
+                  error,
+                  `Invalid ${validationSchema} response`
+                );
+                this.notify.showWarning(response);
               }
               throw new Error("Response validation error");
             }
@@ -185,6 +190,27 @@ export class ApiService {
           this.set_online();
         }
 
+        if (redirectOnInvalidTokens && error.status === 401) {
+          // Should be done by executing auth.removeToken... But AuthService can't
+          // be included here due to circular dependencies
+          // These removeItem are needed to prevent the automatic execution of logout
+          // (from login component) that will fail because the token is invalid.
+          // The failure will be intercepeted again here and an additional returnUrl
+          // will be appended and this will mess the url
+          localStorage.removeItem("token");
+          localStorage.removeItem("currentUser");
+
+          this.router.navigate(["app/login"], {
+            queryParams: { returnUrl: this.router.url },
+          });
+          if (
+            !rawError &&
+            this.parse_error(error) == "Invalid token received"
+          ) {
+            return throwError({ "Invalid token": "This session is expired" });
+          }
+        }
+
         if (rawError) {
           return throwError(error);
         }
@@ -196,21 +222,26 @@ export class ApiService {
         }
 
         // This is a HttpErrorResponse
-        if (error.error) {
-          if (error.error instanceof ProgressEvent) {
-            if (error.message.startsWith("Http failure response for ")) {
-              // strip off the URL
-              return throwError("Http request failed: unknown error");
-            }
-            return throwError(error.message);
-          }
-
-          return throwError(error.error);
-        }
-        // This is a 'normal' error
-        return throwError(error);
+        return throwError(this.parse_error(error));
       })
     );
+  }
+
+  private parse_error(error) {
+    // This is a HttpErrorResponse
+    if (error.error) {
+      if (error.error instanceof ProgressEvent) {
+        if (error.message.startsWith("Http failure response for ")) {
+          // strip off the URL
+          return "Http request failed: unknown error";
+        }
+        return error.message;
+      }
+
+      return error.error;
+    }
+    // This is a 'normal' error
+    return error;
   }
 
   // Utility to convert Blob errors into text

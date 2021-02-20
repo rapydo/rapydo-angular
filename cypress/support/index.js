@@ -6,6 +6,97 @@ import { get_totp } from "../fixtures/utilities";
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
+Cypress.Commands.add("change_expired_password", (email, pwd, formtype) => {
+  cy.checkalert("Your password is expired, please change it");
+
+  cy.get("input[placeholder='Your new password']")
+    .clear()
+    .type(pwd + "!");
+  cy.get("input[placeholder='Confirm your new password']")
+    .clear()
+    .type(pwd + "!");
+
+  if (formtype == 1) {
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.checkalert("You do not provided a valid verification code");
+      cy.get("input[placeholder='TOTP verification code']")
+        .clear()
+        .type(get_totp());
+      cy.get("button").contains("Authorize").click();
+    } else {
+      cy.get("button").contains("Change").click();
+    }
+  } else if (formtype == 2) {
+    // Version 2
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.get("input[placeholder='TOTP verification code']")
+        .clear()
+        .type(get_totp());
+    }
+    cy.get("button").contains("Change").click();
+  }
+
+  cy.get("input[placeholder='Your new password']").should("not.exist");
+
+  cy.wait(300);
+
+  cy.visit("/app/profile/changepassword");
+
+  cy.location().should((location) => {
+    expect(location.pathname).to.eq("/app/profile/changepassword");
+  });
+
+  cy.get("div.card-header h1").contains("Change your password");
+
+  cy.get('input[placeholder="Type here your current password"]')
+    .clear()
+    .type(pwd + "!");
+  cy.get('input[placeholder="Type the desidered new password"]')
+    .clear()
+    .type(pwd);
+  cy.get('input[placeholder="Type again the new password for confirmation"]')
+    .clear()
+    .type(pwd);
+
+  if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+    cy.get('input[placeholder="TOTP verification code"]')
+      .clear()
+      .type(get_totp());
+  }
+
+  cy.get("button:contains('Submit')").click();
+
+  cy.location().should((location) => {
+    expect(location.pathname).to.not.eq("/app/profile/changepassword");
+  });
+
+  // With TOTP after password change the user has to login again
+  // Automatic login with new password is not possible due to the TOTP request
+  if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+    cy.get("div.card-header h1").contains("Login");
+
+    cy.get("input[placeholder='Your username (email)']").type(email);
+    cy.get("input[placeholder='Your password']").type(pwd);
+
+    cy.get("button").contains("Login").click();
+
+    cy.get("input[placeholder='Your password']").should("not.exist");
+
+    cy.get("div.card-header.bg-warning h1").contains(
+      "Provide the verification code"
+    );
+    cy.get("input[placeholder='TOTP verification code']")
+      .clear()
+      .type(get_totp());
+
+    cy.get("button").contains("Authorize").click();
+
+    cy.location().should((location) => {
+      expect(location.pathname).to.not.eq("/app/login");
+    });
+  }
+});
+
 Cypress.Commands.add("login", (email = null, pwd = null) => {
   if (email === null) {
     email = Cypress.env("AUTH_DEFAULT_USERNAME");
@@ -25,107 +116,36 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
   cy.get("input[placeholder='Your password']").should("not.exist");
 
   cy.get("body").then((body) => {
-    if (body.find("h4").length > 0) {
+    if (body.find("h1").length > 0) {
       cy.wrap(body)
-        .get("h4")
+        .get("h1")
         .then(($title) => {
-          if ($title.text() == "Provide the verification code") {
+          const t = $title.text();
+
+          if (t == "Provide the verification code") {
             cy.get("input[placeholder='TOTP verification code']")
               .clear()
               .type(get_totp());
             cy.get("button").contains("Authorize").click();
-            cy.get("input[placeholder='TOTP verification code']").should(
-              "not.exist"
-            );
-            cy.wait(300);
-          } else if (
-            $title.text() == "Your password is expired, please change it"
-          ) {
-            cy.checkalert("Your password is expired, please change it");
 
-            cy.get("input[placeholder='Your new password']")
-              .clear()
-              .type(pwd + "!");
-            cy.get("input[placeholder='Confirm your new password']")
-              .clear()
-              .type(pwd + "!");
-
-            if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-              cy.checkalert("You do not provided a valid verification code");
-              cy.get("input[placeholder='TOTP verification code']")
-                .clear()
-                .type(get_totp());
-              cy.get("button").contains("Authorize").click();
-            } else {
-              cy.get("button").contains("Change").click();
-            }
-            cy.get("input[placeholder='Your new password']").should(
-              "not.exist"
-            );
+            cy.get("button:contains('Authorize')").should("not.exist");
             cy.wait(300);
 
-            cy.visit("/app/profile/changepassword");
-
-            cy.location().should((location) => {
-              expect(location.pathname).to.eq("/app/profile/changepassword");
+            cy.get("body").then((body2) => {
+              if (body2.find("h1").length > 0) {
+                cy.wrap(body2)
+                  .get("h1")
+                  .then(($title) => {
+                    const t = $title.text();
+                    if (t == "Your password is expired, please change it") {
+                      cy.change_expired_password(email, pwd, 2);
+                    }
+                  });
+              }
             });
-
-            cy.get("div.card-header h4").contains("Change your password");
-
-            cy.get('input[placeholder="Type here your current password"]')
-              .clear()
-              .type(pwd + "!");
-            cy.get('input[placeholder="Type the desidered new password"]')
-              .clear()
-              .type(pwd);
-            cy.get(
-              'input[placeholder="Type again the new password for confirmation"]'
-            )
-              .clear()
-              .type(pwd);
-
-            if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-              cy.get('input[placeholder="TOTP verification code"]')
-                .clear()
-                .type(get_totp());
-            }
-
-            cy.get("button:contains('Submit')").click();
-
-            cy.location().should((location) => {
-              expect(location.pathname).to.not.eq(
-                "/app/profile/changepassword"
-              );
-            });
-
-            // With TOTP after password change the user has to login again
-            // Automatic login with new password is not possible due to the TOTP request
-            if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-              cy.get("div.card-header h4").contains("Login");
-
-              cy.get("input[placeholder='Your username (email)']").type(email);
-              cy.get("input[placeholder='Your password']").type(pwd);
-
-              cy.get("button").contains("Login").click();
-
-              cy.get("input[placeholder='Your password']").should("not.exist");
-
-              cy.get("div.card-header.bg-warning h4").contains(
-                "Provide the verification code"
-              );
-              cy.get("input[placeholder='TOTP verification code']")
-                .clear()
-                .type(get_totp());
-
-              cy.get("button").contains("Authorize").click();
-
-              cy.location().should((location) => {
-                expect(location.pathname).to.not.eq("/app/login");
-              });
-            }
+          } else if (t == "Your password is expired, please change it") {
+            cy.change_expired_password(email, pwd, 1);
           }
-          // } else if ($title.text() == "Please change your temporary password") {
-          //    cy.get("?????");
         });
     }
   });
@@ -155,8 +175,8 @@ Cypress.Commands.add("login_and_init_user", (email = null, pwd = null) => {
   cy.get("input[placeholder='Your password']").should("not.exist");
 
   if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-    cy.get("div.card-header h4").contains(
-      "Configure Two-Factor with Google Auth"
+    cy.get("div.card-header h1").contains(
+      "Configure Two-Factor with Google Authenticator"
     );
 
     cy.checkalert("Please change your temporary password");
@@ -175,7 +195,7 @@ Cypress.Commands.add("login_and_init_user", (email = null, pwd = null) => {
     cy.wait("@login");
     cy.wait(200);
   } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
-    cy.get("div.card-header.bg-warning h4").contains(
+    cy.get("div.card-header.bg-warning h1").contains(
       "Please change your temporary password"
     );
 
@@ -199,36 +219,6 @@ Cypress.Commands.add("login_and_init_user", (email = null, pwd = null) => {
   // arrives causing the request interruption and inconsistences and make the tests fail
   cy.wait(300);
 });
-
-// Login Via Request:
-//       let body = { username: email, password: pwd };
-//       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-//         const totp = new OTPAuth.TOTP({
-//           secret: Cypress.env("TESTING_TOTP_HASH"),
-//         });
-
-//         body["totp_code"] = totp.generate();
-//       }
-
-//       cy.request({
-//         method: "POST",
-//         url: Cypress.env("API_URL") + "auth/login",
-//         body,
-//       }).then((response) => {
-//         cy.setLocalStorage("token", JSON.stringify(response.body));
-
-//         const options = {
-//           method: "GET",
-//           url: Cypress.env("API_URL") + "auth/profile",
-//           headers: {
-//             Authorization: `Bearer ${response.body}`,
-//           },
-//         };
-
-//         cy.request(options).then((response) => {
-//           cy.setLocalStorage("currentUser", JSON.stringify(response.body));
-//         });
-//       });
 
 Cypress.Commands.add("logout", (collapsed = false) => {
   if (collapsed) {
@@ -297,13 +287,16 @@ Cypress.Commands.add("checkvalidation", (index, msg) => {
   cy.get("formly-validation-message").eq(index).contains(msg);
 });
 
-Cypress.Commands.add("getmail", () => {
+Cypress.Commands.add("getmail", (previous = false) => {
+  if (previous) {
+    return cy.readFile("/logs/mock.mail.prevsent.body");
+  }
   return cy.readFile("/logs/mock.mail.lastsent.body");
 });
 
 Cypress.Commands.add(
   "createuser",
-  (email, pwd, expired = false, init_user = true) => {
+  (email, pwd, expired = false, init_user = true, roles = null) => {
     // init_user = change first password and accept terms of use
 
     // If expired do not init the user
@@ -347,16 +340,11 @@ Cypress.Commands.add(
 
     // Pick all the selects, included Groups and any other custom fields (like in IMC)
     cy.get("form")
-      .find("select")
+      .find("ng-select")
       .each(($el, index, $list) => {
-        if ($el.prop("required")) {
-          cy.wrap($el)
-            .find("option")
-            .eq(1)
-            .then((element) => {
-              cy.wrap($el).select(element.val());
-            });
-        }
+        // open the ng-select options and pick the first element
+        cy.wrap($el).find("input").click({ force: true });
+        cy.wrap($el).find("div.ng-option").eq(1).click({ force: true });
       });
 
     if (expired) {
@@ -373,6 +361,26 @@ Cypress.Commands.add(
 
       cy.get("div.ngb-dp-day div").contains("31").click({ force: true });
     }
+
+    if (roles != null && roles.length > 0) {
+      // Remove any previous roles
+      cy.get("ng-select")
+        .eq(0)
+        .find("span.ng-value-icon")
+        .each(($el, index, $list) => {
+          cy.wrap($el).click({ force: true });
+        });
+
+      // Add new roles
+      for (let role_name of roles) {
+        cy.get("ng-select").eq(0).find("input").type(role_name);
+        cy.get("ng-dropdown-panel")
+          .find("div.ng-option")
+          .eq(0)
+          .click({ force: true });
+      }
+    }
+
     cy.get('button:contains("Submit")').click({ force: true });
 
     cy.checkalert("Confirmation: user successfully created");
@@ -403,8 +411,8 @@ Cypress.Commands.add(
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
         cy.get("input[placeholder='Your password']").should("not.exist");
 
-        cy.get("div.card-header h4").contains(
-          "Configure Two-Factor with Google Auth"
+        cy.get("div.card-header h1").contains(
+          "Configure Two-Factor with Google Authenticator"
         );
 
         cy.get("input[placeholder='Your new password']").clear().type(pwd);
@@ -420,7 +428,7 @@ Cypress.Commands.add(
         cy.wait("@login");
       } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
         cy.get("input[placeholder='Your password']").should("not.exist");
-        cy.get("div.card-header.bg-warning h4").contains(
+        cy.get("div.card-header.bg-warning h1").contains(
           "Please change your temporary password"
         );
 
@@ -437,7 +445,7 @@ Cypress.Commands.add(
       }
 
       if (Cypress.env("ALLOW_TERMS_OF_USE")) {
-        cy.get("div.modal-footer h4").contains(
+        cy.get("div.modal-footer h1").contains(
           "Do you accept our Terms of Use?"
         );
         cy.get("div.modal-footer button").first().contains("YES").click();
@@ -455,7 +463,7 @@ Cypress.Commands.add("deleteuser", (email) => {
   cy.get('input[placeholder="Type to filter users"]').clear().type(email);
 
   cy.get("datatable-body-row").first().find(".fa-trash").click();
-  cy.get("h5.modal-title").contains("Confirmation required");
+  cy.get("h2.modal-title").contains("Confirmation required");
   cy.get("button").contains("Yes, delete").click();
 
   cy.checkalert("Confirmation: user successfully deleted");

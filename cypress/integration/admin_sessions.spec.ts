@@ -21,15 +21,15 @@ describe("AdminSessions", () => {
   it("Sort, search, copy", () => {
     cy.scrollTo("bottom");
     cy.get("div.page-count").contains(" total");
-    cy.get("ul.pager li.pages").contains(" 1 ");
-    cy.get("ul.pager li.pages").contains(" 2 ").click();
-    cy.get("ul.pager li.pages").contains(" 1 ").click();
+    cy.get("ul.pager").find("li.pages:contains(' 1 ')");
+    cy.get("ul.pager").find("li.pages:contains(' 2 ')").click();
+    cy.get("ul.pager").find("li.pages:contains(' 1 ')").click();
     cy.scrollTo("top");
 
     cy.get("span.datatable-header-cell-label").contains("Expiration").click();
     cy.get("datatable-body-row").first().find(".fa-trash");
 
-    // this doens not work because server side sort is not implemented:
+    // this does not work because server side sort is not implemented:
     // Already sorted by Expiration, curent token is lhe last
     // Sort by Expiration, current token is now the first
     // cy.get("span.datatable-header-cell-label").contains("Expiration").click();
@@ -77,10 +77,10 @@ describe("AdminSessions", () => {
     // due to scroll not work we cannot visualize firt and last tokens...
     // let's click in the middle...
     cy.get("datatable-body-row").eq(15).find(".fa-trash").click();
-    cy.get("h5.modal-title").contains("Confirmation required");
+    cy.get("h2.modal-title").contains("Confirmation required");
     cy.get("button").contains("No, cancel").click();
     cy.get("datatable-body-row").eq(15).find(".fa-trash").click();
-    cy.get("h5.modal-title").contains("Confirmation required");
+    cy.get("h2.modal-title").contains("Confirmation required");
     cy.get("button").contains("Yes, delete").click();
 
     cy.checkalert("Confirmation: token successfully deleted");

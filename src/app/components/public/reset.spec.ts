@@ -13,8 +13,6 @@ import { AppModule } from "@rapydo/app.module";
 import { ResetPasswordComponent } from "@rapydo/components/public/reset";
 import { PublicModule } from "@rapydo/components/public/public.module";
 
-import { environment } from "@rapydo/../environments/environment";
-
 describe("ResetPasswordComponent", () => {
   let injector: TestBed;
   let httpMock: HttpTestingController;

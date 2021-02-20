@@ -4,12 +4,12 @@ This web app is integrated with the RAPyDo stack and the RAPyDo REST APIs by imp
 
 Based on:
 
-- Angular 11.0.9 with typescript 4.0.5
-- bootstrap 4.5.3 with @ng-bootstrap 7.0.0
-- @ngx-formly 5.10.11
+- Angular 11.2.4 with typescript 4.1.5
+- bootstrap 4.6.0 with @ng-bootstrap 7.0.0
+- @ngx-formly 5.10.14
 - ngx-datatable 19.0.0
 - ngx-uploadx 4.0.2
-- file-saver 2.0.5
+- file-saver (es) 2.0.5
 - ngx-toastr 13.2.0
 - moment 2.29.1 with ngx-moment 5.0.0
 - font-awesome 5.15.2
@@ -20,5 +20,5 @@ Based on:
 
 Tests based on:
 
-- Karma 5.2.3 with Jasmine 3.6.0
-- Cypress 6.2.1
+- Karma 6.1.1 with Jasmine 3.6.0
+- Cypress 6.5.0

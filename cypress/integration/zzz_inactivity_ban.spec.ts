@@ -12,7 +12,7 @@ if (Cypress.env("AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER")) {
 
       // default username/password and via_form = true
       cy.visit("/app/login");
-      cy.get("div.card-header h4").contains("Login");
+      cy.get("div.card-header h1").contains("Login");
       cy.closecookielaw();
 
       cy.get("input[placeholder='Your username (email)']").clear().type(email);

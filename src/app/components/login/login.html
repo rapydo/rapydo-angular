@@ -10,10 +10,10 @@
     <div class="col-12 col-md-8 col-lg-6" *ngIf="isBrowser">
       <div class="card" *ngIf="accountNotActive">
         <div class="card-header bg-warning">
-          <h4>This account is not active</h4>
+          <h1>This account is not active</h1>
         </div>
 
-        <div class="card-block">
+        <div class="card-body">
           Didn't receive an activation link?
           <a [routerLink]="" (click)="ask_activation_link()"
             >Click here to send again</a
@@ -25,25 +25,31 @@
 
       <div class="card" *ngIf="qr_code">
         <div class="card-header">
-          <h4>Configure Two-Factor with Google Auth</h4>
+          <h1>Configure Two-Factor with Google Authenticator</h1>
         </div>
 
-        <div class="card-block text-center">
-          After installing the Google Authenticator app,<br />
-          scan the QR code below<br />
+        <div class="card-body text-center">
+          Due to enhanced security policies, two-step verification is required
+          to log in. You will need to first download the Google Authenticator
+          mobile app or any analogous app on your smartphone, then open the app
+          and scan the QR code below to configure your access.<br />
+          After you have scanned the QR code you can open the app at any time in
+          the future to obtain your verification code. Please note that the
+          verification code is always changing, so it will be different each
+          time you log in.<br />
           <img src="data:image/png;base64,{{qr_code}}" />
         </div>
       </div>
 
       <div class="card" *ngIf="!accountNotActive">
         <div class="card-header" *ngIf="!warningCard">
-          <h4>{{panelTitle}}</h4>
+          <h1>{{panelTitle}}</h1>
         </div>
         <div class="card-header bg-warning" *ngIf="warningCard">
-          <h4>{{panelTitle}}</h4>
+          <h1>{{panelTitle}}</h1>
         </div>
 
-        <div class="card-block">
+        <div class="card-body">
           <form [formGroup]="form" (ngSubmit)="login()">
             <formly-form [form]="form" [fields]="fields" [model]="model">
             </formly-form>
@@ -84,7 +90,7 @@
 
 <ng-template #privacy_acceptance let-c="close" let-d="dismiss">
   <div class="modal-header bg-default">
-    <h4 class="modal-title">Terms of use</h4>
+    <h1 class="modal-title">Terms of use</h1>
     <button
       type="button"
       class="close"
@@ -105,7 +111,7 @@
     </ngb-accordion>
   </div>
   <div class="modal-footer">
-    <h4>Do you accept our Terms of Use?</h4>
+    <h1>Do you accept our Terms of Use?</h1>
     <button
       type="button"
       class="btn btn-outline-dark"

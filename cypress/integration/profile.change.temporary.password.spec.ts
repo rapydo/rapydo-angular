@@ -1,20 +1,27 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword, get_totp } from "../../fixtures/utilities";
+import {
+  getpassword,
+  get_random_username,
+  get_totp,
+} from "../../fixtures/utilities";
 
 if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
-  const email = "aaaaaaaaaa000112" + Math.random() + "@sample.org";
-  const pwd = getpassword(4);
-
   describe("ChangeTemporaryPassword", () => {
-    beforeEach(() => {
+    // do not directly create the random values here,
+    // otherwise will be always the same on each test repetition!
+    // do not generate it in the before() block, or will be not re-created on repetitions
+    let email;
+    let pwd;
+
+    it("ChangeTemporaryPassword", () => {
+      email = get_random_username("testtemppasswordchange");
+      pwd = getpassword(4);
       // expired = false
       // init_user = false
       cy.createuser(email, pwd, false, false);
-    });
 
-    it("ChangeTemporaryPassword", () => {
       cy.visit("/app/login");
 
       cy.get("input[placeholder='Your username (email)']").clear().type(email);
@@ -29,15 +36,15 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
 
         cy.get("button").contains("Authorize").as("submit");
 
-        cy.get("div.card-header h4").contains(
-          "Configure Two-Factor with Google Auth"
+        cy.get("div.card-header h1").contains(
+          "Configure Two-Factor with Google Authenticator"
         );
-        cy.get("div.card-header.bg-warning h4").contains(
+        cy.get("div.card-header.bg-warning h1").contains(
           "Please change your temporary password"
         );
         cy.checkalert("You do not provided a valid verification code");
       } else {
-        cy.get("div.card-header.bg-warning h4").contains(
+        cy.get("div.card-header.bg-warning h1").contains(
           "Please change your temporary password"
         );
 
@@ -91,6 +98,12 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
       cy.get("@submit").click({ force: true });
       cy.checkalert("Password is too weak, missing special characters");
 
+      newPassword = email + "AADwfef331!!";
+      cy.get("@newpwd").clear().type(newPassword);
+      cy.get("@confirm").clear().type(newPassword);
+      cy.get("@submit").click({ force: true });
+      cy.checkalert("Password is too weak, can't contain your email address");
+
       cy.intercept("POST", "/auth/login").as("changed");
 
       cy.get("@newpwd")
@@ -104,7 +117,7 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
       cy.wait("@changed");
 
       if (Cypress.env("ALLOW_TERMS_OF_USE")) {
-        cy.get("div.modal-footer h4").contains(
+        cy.get("div.modal-footer h1").contains(
           "Do you accept our Terms of Use?"
         );
         cy.get("div.modal-footer button").first().contains("YES").click();
@@ -121,7 +134,7 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
       cy.get("table").find("td").contains(email);
     });
 
-    afterEach(() => {
+    after(() => {
       cy.logout();
 
       cy.login();

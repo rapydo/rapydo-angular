@@ -1,12 +1,13 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword } from "../../fixtures/utilities";
+import { getpassword, get_random_username } from "../../fixtures/utilities";
 
 describe("AdminUsers", () => {
-  // with this email the user should be the first when sorted by email
-  // username will be created without roles
-  const username = "a000000000000@sample.org";
+  // do not directly create the random values here,
+  // otherwise will be always the same on each test repetition!
+  // do not generate it in the before() block, or will be not re-created on repetitions
+  let username;
 
   beforeEach(() => {
     cy.login();
@@ -19,6 +20,9 @@ describe("AdminUsers", () => {
   });
 
   it("Create new user", () => {
+    // with this prefix on the email the user should be the first when sorted by email
+    username = get_random_username("a000000000000");
+
     cy.get('button:contains("new user")').click({ force: true });
     cy.get('button:contains("Close")').click({ force: true });
 
@@ -73,16 +77,10 @@ describe("AdminUsers", () => {
 
     // Pick all the selects, included Groups and any other custom fields (like in IMC)
     cy.get("form")
-      .find("select")
+      .find("ng-select")
       .each(($el, index, $list) => {
-        if ($el.prop("required")) {
-          cy.wrap($el)
-            .find("option")
-            .eq(1)
-            .then((element) => {
-              cy.wrap($el).select(element.val());
-            });
-        }
+        cy.wrap($el).find("input").click({ force: true });
+        cy.wrap($el).find("div.ng-option").eq(1).click({ force: true });
       });
 
     cy.get("formly-validation-message").should("not.exist");
@@ -172,7 +170,9 @@ describe("AdminUsers", () => {
     cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
     cy.get('input[placeholder="Email"]').should("not.exist");
     cy.get('input[placeholder="Name"]').clear().type("NewName");
-    cy.get('input:checkbox[value="normal_user"]').uncheck({ force: true });
+    // cy.get('input:checkbox[value="normal_user"]').uncheck({ force: true });
+    cy.get("ng-select").find("span.ng-value-icon").eq(0).click({ force: true });
+
     cy.get('button:contains("Submit")').click({ force: true });
     cy.checkalert("Confirmation: user successfully updated");
 
@@ -199,13 +199,13 @@ describe("AdminUsers", () => {
       .eq(0)
       .contains("datatable-body-cell", username);
     cy.get("datatable-body-row").eq(0).find(".fa-trash").click({ force: true });
-    cy.get("h5.modal-title").contains("Confirmation required");
+    cy.get("h2.modal-title").contains("Confirmation required");
     cy.get("button").contains("No, cancel").click({ force: true });
     cy.get("datatable-body-row")
       .eq(0)
       .contains("datatable-body-cell", username);
     cy.get("datatable-body-row").eq(0).find(".fa-trash").click({ force: true });
-    cy.get("h5.modal-title").contains("Confirmation required");
+    cy.get("h2.modal-title").contains("Confirmation required");
     cy.get("button").contains("Yes, delete").click({ force: true });
 
     cy.checkalert("Confirmation: user successfully deleted");

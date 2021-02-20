@@ -27,12 +27,16 @@ import { ClipboardModule } from "ngx-clipboard";
 import { FormlyModule } from "@ngx-formly/core";
 import { FormlyBootstrapModule } from "@ngx-formly/bootstrap";
 import { FormlyFieldConfig } from "@ngx-formly/core/lib/components/formly.field.config";
+import { NgSelectModule } from "@ng-select/ng-select";
+import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
 
 import { FormlyHorizontalWrapper } from "@rapydo/components/forms/bootstrap.horizontal.wrapper";
-import { FormlyDescriptiveRadio } from "@rapydo/components/forms/radio-type.component";
-import { TermsOfUseCheckbox } from "@rapydo/components/forms/terms_of_use_checkbox";
-import { DatePickerComponent } from "@rapydo/components/forms/datepicker.component";
-import { PasswordComponent } from "@rapydo/components/forms/password.component";
+import { PasswordTypeComponent } from "@rapydo/components/forms/password.type";
+import { DatePickerTypeComponent } from "@rapydo/components/forms/datepicker.type";
+import { SelectTypeComponent } from "@rapydo/components/forms/ng-select.type";
+import { AutocompleTypeComponent } from "@rapydo/components/forms/ng-select-autocomplete.type";
+import { RadioTypeComponent } from "@rapydo/components/forms/radio.type";
+import { TermsOfUseTypeComponent } from "@rapydo/components/forms/terms-of-use.type";
 
 import { NgxSpinnerModule } from "ngx-spinner";
 
@@ -40,10 +44,11 @@ import { IteratePipe } from "@rapydo/pipes/iterate";
 import { BytesPipe } from "@rapydo/pipes/bytes";
 import { BooleanFlagPipe } from "@rapydo/pipes/boolean_flag";
 import { YesNoPipe } from "@rapydo/pipes/yes_or_no";
+import { SafeHtmlPipe } from "@rapydo/pipes/safe_html";
 
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
 import { DeleteModal } from "@rapydo/components/delete_modal";
-import { FormModal } from "@rapydo/components/forms/form_modal";
+import { FormModal } from "@rapydo/components/forms/form.modal";
 
 export function emailValidator(
   control: AbstractControl,
@@ -128,11 +133,10 @@ export function minLengthValidationError(error, field) {
   return `Should have at least ${field.templateOptions.minLength} characters`;
 }
 
-// Can't be tested because inputs are prevented to add more characters then the maximum allowed
-/* istanbul ignore next */
-export function maxLengthValidationError(error, field) {
-  return `Should have no more than ${field.templateOptions.maxLength} characters`;
-}
+// Can't be used because inputs are prevented to add more characters then the maximum allowed
+// export function maxLengthValidationError(error, field) {
+//   return `Should have no more than ${field.templateOptions.maxLength} characters`;
+// }
 
 export function minValidationError(error, field) {
   return `Should be greater than ${field.templateOptions.min}`;
@@ -185,29 +189,45 @@ let module_imports: any = [
   ClipboardModule,
   NgxSpinnerModule,
   FormlyBootstrapModule,
+  NgSelectModule,
+  NgOptionHighlightModule,
   FormlyModule.forRoot({
     wrappers: [
       { name: "form-field-horizontal", component: FormlyHorizontalWrapper },
     ],
     types: [
-      { name: "radio_with_description", component: FormlyDescriptiveRadio },
-      { name: "terms_of_use", component: TermsOfUseCheckbox },
       {
         name: "datepicker",
-        component: DatePickerComponent,
+        component: DatePickerTypeComponent,
+        wrappers: ["form-field"],
+      },
+      {
+        name: "select",
+        component: SelectTypeComponent,
         wrappers: ["form-field"],
       },
       {
         // extend password field with visibility toggle
         name: "password",
-        component: PasswordComponent,
+        component: PasswordTypeComponent,
         wrappers: ["form-field"],
       },
+      {
+        name: "autocomplete",
+        component: AutocompleTypeComponent,
+        wrappers: ["form-field"],
+      },
+      {
+        name: "radio",
+        component: RadioTypeComponent,
+        wrappers: ["form-field"],
+      },
+      { name: "terms_of_use", component: TermsOfUseTypeComponent },
     ],
     validationMessages: [
       { name: "required", message: "This field is required" },
       { name: "minlength", message: minLengthValidationError },
-      { name: "maxlength", message: maxLengthValidationError },
+      // { name: "maxlength", message: maxLengthValidationError },
       { name: "min", message: minValidationError },
       { name: "max", message: maxValidationError },
       { name: "email", message: "Invalid email address" },
@@ -228,6 +248,7 @@ let module_imports: any = [
 
 let module_declarations = [
   IteratePipe,
+  SafeHtmlPipe,
   BytesPipe,
   BooleanFlagPipe,
   YesNoPipe,
@@ -235,20 +256,24 @@ let module_declarations = [
   DeleteModal,
   FormModal,
   FormlyHorizontalWrapper,
-  FormlyDescriptiveRadio,
-  TermsOfUseCheckbox,
-  DatePickerComponent,
-  PasswordComponent,
+  RadioTypeComponent,
+  TermsOfUseTypeComponent,
+  DatePickerTypeComponent,
+  PasswordTypeComponent,
+  SelectTypeComponent,
+  AutocompleTypeComponent,
 ];
 
 let module_exports = [
   CommonModule,
 
   FormlyHorizontalWrapper,
-  FormlyDescriptiveRadio,
-  TermsOfUseCheckbox,
-  DatePickerComponent,
-  PasswordComponent,
+  RadioTypeComponent,
+  TermsOfUseTypeComponent,
+  DatePickerTypeComponent,
+  PasswordTypeComponent,
+  SelectTypeComponent,
+  AutocompleTypeComponent,
 
   NgxDatatableModule,
   NgbModule,
@@ -262,6 +287,7 @@ let module_exports = [
   NgxSpinnerModule,
 
   IteratePipe,
+  SafeHtmlPipe,
   BytesPipe,
   BooleanFlagPipe,
   YesNoPipe,

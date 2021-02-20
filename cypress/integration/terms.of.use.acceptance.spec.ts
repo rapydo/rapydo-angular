@@ -1,26 +1,31 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword, get_totp } from "../../fixtures/utilities";
+import {
+  getpassword,
+  get_random_username,
+  get_totp,
+} from "../../fixtures/utilities";
 
 if (Cypress.env("ALLOW_TERMS_OF_USE")) {
   describe("Terms of use", () => {
-    const username = "bbb000@sample.org";
-    let pwd = getpassword(4);
-
-    before(() => {
-      // expired = false
-      // init_user = false
-      cy.createuser(username, pwd, false, false);
-    });
+    // do not directly create the random values here,
+    // otherwise will be always the same on each test repetition!
+    // do not generate it in the before() block, or will be not re-created on repetitions
+    let email;
+    let pwd;
 
     it("Terms of Use - not accepted", () => {
+      email = get_random_username("testtermsofuser");
+      pwd = getpassword(4);
+      // expired = false
+      // init_user = false
+      cy.createuser(email, pwd, false, false);
+
       cy.visit("/app/login");
 
       cy.intercept("POST", "/auth/login").as("login");
-      cy.get("input[placeholder='Your username (email)']")
-        .clear()
-        .type(username);
+      cy.get("input[placeholder='Your username (email)']").clear().type(email);
       cy.get("input[placeholder='Your password']")
         .clear()
         .type(pwd + "{enter}");
@@ -30,8 +35,8 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
         cy.checkalert("You do not provided a valid verification code");
 
-        cy.get("div.card-header h4").contains(
-          "Configure Two-Factor with Google Auth"
+        cy.get("div.card-header h1").contains(
+          "Configure Two-Factor with Google Authenticator"
         );
 
         pwd = pwd + "!";
@@ -50,7 +55,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
         cy.get("button").contains("Authorize").click();
         cy.wait("@login");
       } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
-        cy.get("div.card-header.bg-warning h4").contains(
+        cy.get("div.card-header.bg-warning h1").contains(
           "Please change your temporary password"
         );
 
@@ -65,9 +70,9 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
         cy.get('button:contains("Change")').click({ force: true });
       }
 
-      cy.get("div.modal-header h4.modal-title").contains("Terms of use");
+      cy.get("div.modal-header h1.modal-title").contains("Terms of use");
 
-      cy.get("div.modal-footer h4").contains("Do you accept our Terms of Use?");
+      cy.get("div.modal-footer h1").contains("Do you accept our Terms of Use?");
 
       cy.get("div.modal-footer button").first().contains("YES");
       cy.get("div.modal-footer button").last().contains("NO").click();
@@ -81,9 +86,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
       cy.visit("/app/login");
 
       cy.intercept("POST", "/auth/login").as("login");
-      cy.get("input[placeholder='Your username (email)']")
-        .clear()
-        .type(username);
+      cy.get("input[placeholder='Your username (email)']").clear().type(email);
       cy.get("input[placeholder='Your password']")
         .clear()
         .type(pwd + "{enter}");
@@ -92,14 +95,14 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
       // cy.get("input[placeholder='Your password']").should("not.exist");
 
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-        cy.get("div.card-header h4").contains("Provide the verification code");
+        cy.get("div.card-header h1").contains("Provide the verification code");
         cy.get("input[placeholder='TOTP verification code']").type(get_totp());
         cy.get("button").contains("Authorize").click();
       }
 
-      cy.get("div.modal-header h4.modal-title").contains("Terms of use");
+      cy.get("div.modal-header h1.modal-title").contains("Terms of use");
 
-      cy.get("div.modal-footer h4").contains("Do you accept our Terms of Use?");
+      cy.get("div.modal-footer h1").contains("Do you accept our Terms of Use?");
 
       cy.get("div.modal-footer button").last().contains("NO");
 
@@ -114,9 +117,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
       cy.visit("/app/login");
 
       cy.intercept("POST", "/auth/login").as("login");
-      cy.get("input[placeholder='Your username (email)']")
-        .clear()
-        .type(username);
+      cy.get("input[placeholder='Your username (email)']").clear().type(email);
       cy.get("input[placeholder='Your password']")
         .clear()
         .type(pwd + "{enter}");
@@ -125,7 +126,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
       // cy.get("input[placeholder='Your password']").should("not.exist");
 
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-        cy.get("div.card-header h4").contains("Provide the verification code");
+        cy.get("div.card-header h1").contains("Provide the verification code");
         cy.get("input[placeholder='TOTP verification code']").type(get_totp());
         cy.get("button").contains("Authorize").click();
       }
@@ -150,7 +151,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
 
       cy.visit("/app/admin/users");
 
-      cy.deleteuser(username);
+      cy.deleteuser(email);
     });
   });
 }
