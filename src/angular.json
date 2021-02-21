@@ -37,11 +37,7 @@
               "./app/custom/css/style.css"
             ],
             "scripts": [],
-            "allowedCommonJsDependencies": [
-              "xlsx",
-              "file-saver",
-              "@rapydo/../../validate.js"
-            ]
+            "allowedCommonJsDependencies": ["xlsx", "@rapydo/../../validate.js"]
           },
           "configurations": {
             "production": {
