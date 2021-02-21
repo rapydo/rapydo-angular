@@ -22,7 +22,7 @@
   "license": "MIT",
   "dependencies": {
     "typescript": "4.0.5",
-    "tslib": "2.0.3",
+    "tslib": "2.1.0",
     "@angular/common": "11.0.9",
     "@angular/compiler": "11.0.9",
     "@angular/core": "11.0.9",
