@@ -19,6 +19,7 @@
             "polyfills": "polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
+            "progress": true,
             "forkTypeChecker": false,
             "assets": [
               "./app/rapydo/assets",
