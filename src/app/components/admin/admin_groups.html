@@ -64,6 +64,20 @@
             </span> -->
           </ng-template>
 
+          <ng-template
+            #coordinatorsCell
+            let-row="row"
+            let-value="value"
+            let-i="index"
+          >
+            <span
+              *ngFor="let u of value"
+              ngbTooltip="{{u.name}} {{u.surname}} ({{u.email}})"
+            >
+              <span>- {{u.name}} {{u.surname}}</span><br />
+            </span>
+          </ng-template>
+
           <ng-template #emptyHeader let-column="column"> &nbsp; </ng-template>
 
           <ng-template

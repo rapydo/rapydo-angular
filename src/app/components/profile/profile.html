@@ -31,7 +31,14 @@
 
               <tr>
                 <th>Group</th>
-                <td>{{user.group.fullname}}</td>
+                <td>
+                  <i
+                    class="fas fa-star yellow"
+                    *ngIf="user.isCoordinator"
+                    ngbTooltip="You are a coordinator for this group"
+                  ></i>
+                  {{user.group.fullname}}
+                </td>
               </tr>
 
               <tr>
