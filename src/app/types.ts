@@ -32,6 +32,7 @@ export interface SimpleGroup {
 export interface Group extends SimpleGroup {
   readonly uuid: string;
 
+  // readonly coordinator?: SimpleUserWithId;
   readonly members?: SimpleUserWithId[];
 }
 
