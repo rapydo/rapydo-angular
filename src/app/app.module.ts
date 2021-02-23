@@ -20,7 +20,7 @@ export class AppModule {
    * This is good to prevent injecting the service as constructor parameter.
    */
   static injector: Injector;
-  constructor(injector: Injector, ngbConfig: ngbConfig) {
+  constructor(injector: Injector, ngbConfig: NgbConfig) {
     AppModule.injector = injector;
     ngbConfig.animation = false;
   }
