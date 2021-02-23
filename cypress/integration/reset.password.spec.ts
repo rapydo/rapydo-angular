@@ -68,8 +68,6 @@ describe("ResetPassword", () => {
       cy.get("div.card-block").contains("Invalid reset token");
 
       cy.getmail().then((body) => {
-        cy.log(body);
-
         let re = /.*https?:\/\/.*\/reset\/(.*)$/;
         var token = body.match(re);
 
