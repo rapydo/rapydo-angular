@@ -218,7 +218,7 @@ describe("Registration", () => {
       );
 
       cy.getmail().then((body) => {
-        let re = /.*https?:\/\/.*\/register\/(.*)$/;
+        let re = /.*https?:\/\/.*\/register\/(.*)[\s\S]*$/;
         var token = body.match(re);
         cy.visit("/public/register/" + token[1]);
 
