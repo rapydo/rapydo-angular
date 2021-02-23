@@ -248,6 +248,10 @@ jobs:
         if: ${{ failure() && (matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full' || matrix.stage == 'cypress-totp') }}
         run: cat rapydo_tests/data/logs/backend-server.log
 
+      - name: Print mocked email on failuire
+        if: ${{ failure() && (matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full' || matrix.stage == 'cypress-totp') }}
+        run: cat rapydo_tests/data/logs/mock.mail.lastsent.body
+
       - name: Docker logs
         if: failure()
         run: |
