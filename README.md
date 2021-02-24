@@ -4,7 +4,7 @@ This web app is integrated with the RAPyDo stack and the RAPyDo REST APIs by imp
 
 Based on:
 
-- Angular 11.2.1 with typescript 4.1.5
+- Angular 11.2.3 with typescript 4.1.5
 - bootstrap 4.6.0 with @ng-bootstrap 7.0.0
 - @ngx-formly 5.10.14
 - ngx-datatable 19.0.0
