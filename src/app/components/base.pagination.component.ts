@@ -53,7 +53,12 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   private server_side_pagination: boolean = false;
   private server_side_filtering: boolean = false;
 
+  // Used for GET and POST...
+  // but also the other methods if a resource_endpoint is not specified
   private endpoint: string;
+  // Used for PUT and DELETE ... usually it matches endpoint
+  private resource_endpoint: string;
+
   private data_type: string = null;
 
   protected modalRef: NgbModalRef;
@@ -95,8 +100,21 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   }
   protected init(res_name: string, endpoint: string, data_type: string): void {
     this.resource_name = res_name;
-    this.endpoint = endpoint;
+
+    this.set_endpoint(endpoint);
+    this.set_resource_endpoint(endpoint);
+
     this.data_type = data_type;
+  }
+
+  // Used for GET and POST... and PUT DELETE if a resource_endpoint is not specified
+  protected set_endpoint(endpoint: string) {
+    this.endpoint = endpoint;
+  }
+
+  // Used for PUT and DELETE ... usually it matches endpoint
+  protected set_resource_endpoint(endpoint: string) {
+    this.resource_endpoint = endpoint;
   }
 
   public ngOnInit(): void {}
@@ -347,17 +365,21 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       .open({ text: text, title: title, subText: subText })
       .then(
         (result) => {
-          retPromise = this.api.delete(`${this.endpoint}/${uuid}`).subscribe(
-            (response) => {
-              this.notify.showSuccess(
-                "Confirmation: " + this.resource_name + " successfully deleted"
-              );
-              this.list();
-            },
-            (error) => {
-              this.notify.showError(error);
-            }
-          );
+          retPromise = this.api
+            .delete(`${this.resource_endpoint}/${uuid}`)
+            .subscribe(
+              (response) => {
+                this.notify.showSuccess(
+                  "Confirmation: " +
+                    this.resource_name +
+                    " successfully deleted"
+                );
+                this.list();
+              },
+              (error) => {
+                this.notify.showError(error);
+              }
+            );
         },
         (reason) => {}
       );
@@ -391,9 +413,12 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         this.notify.showError("Malformed request: ID not found");
         return false;
       }
-      apiCall = this.api.put<Schema[]>(`${this.endpoint}/${model_id}`, {
-        get_schema: true,
-      });
+      apiCall = this.api.put<Schema[]>(
+        `${this.resource_endpoint}/${model_id}`,
+        {
+          get_schema: true,
+        }
+      );
     }
 
     return apiCall.subscribe(
@@ -448,7 +473,10 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     if (this.model["_id"]) {
       let model = { ...this.model };
       delete model["_id"];
-      apiCall = this.api.put(`${this.endpoint}/${this.model["_id"]}`, model);
+      apiCall = this.api.put(
+        `${this.resource_endpoint}/${this.model["_id"]}`,
+        model
+      );
       type = "updated";
     } else {
       apiCall = this.api.post<UUID>(this.endpoint, this.model);
