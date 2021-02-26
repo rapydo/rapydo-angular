@@ -35,13 +35,13 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
             class="btn btn-outline-secondary"
             (click)="modal.close('Close click')"
           >
-            <h5>Close</h5>
+            Close
           </button>
         </div>
 
         <div class="p-2">
           <button type="submit" class="btn btn-success" [disabled]="updating">
-            <h5>Submit</h5>
+            Submit
           </button>
         </div>
       </div>
