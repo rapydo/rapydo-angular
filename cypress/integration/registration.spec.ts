@@ -176,6 +176,7 @@ describe("Registration", () => {
 
     it("Activation", () => {
       cy.visit("/app/login");
+      cy.closecookielaw();
 
       cy.intercept("POST", "/auth/login").as("login");
 
