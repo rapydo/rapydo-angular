@@ -163,7 +163,7 @@ describe("Registration", () => {
       cy.get("@name").clear().type("Albert");
       cy.get("@surname").clear().type("Einstein");
 
-      newPassword = email + "AADwfef331!!";
+      newPassword = newUser + "AADwfef331!!";
       cy.get("@password").clear().type(newPassword);
       cy.get("@confirmation").clear().type(newPassword);
       cy.get("@submit").click({ force: true });
