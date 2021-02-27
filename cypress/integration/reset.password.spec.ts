@@ -125,6 +125,12 @@ describe("ResetPassword", () => {
         cy.get("button:contains('Submit')").click();
         cy.checkalert("Password is too weak, missing special characters");
 
+        newPassword = email + "AADwfef331!!";
+        cy.get("@new_password").clear().type(newPassword);
+        cy.get("@confirm_password").clear().type(newPassword);
+        cy.get("button:contains('Submit')").click();
+        cy.checkalert("Password is too weak, can't contain your email address");
+
         cy.get("@new_password").clear().type(pwd);
         cy.get("@confirm_password").clear().type(pwd);
         cy.get("button:contains('Submit')").click();

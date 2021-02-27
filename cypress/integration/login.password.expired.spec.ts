@@ -129,6 +129,20 @@ describe("Login", () => {
     }
     cy.checkalert("Password is too weak, missing special characters");
 
+    const new_pwd4 = email + "AADwfef331!!";
+    cy.get("@new_pwd").clear().type(new_pwd4);
+    cy.get("@pwd_confirm").clear().type(new_pwd4);
+    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.get("input[placeholder='TOTP verification code']")
+        .clear()
+        .type(get_totp());
+      cy.get("button").contains("Authorize").click();
+    } else {
+      cy.get("button").contains("Change").click();
+    }
+
+    cy.checkalert("Password is too weak, can't contain your email address");
+
     const new_pwd = getpassword(4);
     cy.get("@new_pwd").clear().type(new_pwd);
     cy.get("@pwd_confirm").clear().type(new_pwd);

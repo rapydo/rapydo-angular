@@ -134,7 +134,6 @@ describe("Registration", () => {
       );
 
       // Failures on password validation: missing upper case letters
-
       cy.get("@email").clear().type(newUser);
       cy.get("@submit").click({ force: true });
       cy.checkalert("Password is too weak, missing upper case letters");
@@ -159,6 +158,28 @@ describe("Registration", () => {
       cy.get("@confirmation").clear().type(newPassword);
       cy.get("@submit").click({ force: true });
       cy.checkalert("Password is too weak, missing special characters");
+
+      // Failures on password validation: containing email, name or surname
+      cy.get("@name").clear().type("Albert");
+      cy.get("@surname").clear().type("Einstein");
+
+      newPassword = email + "AADwfef331!!";
+      cy.get("@password").clear().type(newPassword);
+      cy.get("@confirmation").clear().type(newPassword);
+      cy.get("@submit").click({ force: true });
+      cy.checkalert("Password is too weak, can't contain your email address");
+
+      newPassword = "AAlbertDwfef331!!";
+      cy.get("@password").clear().type(newPassword);
+      cy.get("@confirmation").clear().type(newPassword);
+      cy.get("@submit").click({ force: true });
+      cy.checkalert("Password is too weak, can't contain your name");
+
+      newPassword = "Ar52sEinSTein!sdfF=";
+      cy.get("@password").clear().type(newPassword);
+      cy.get("@confirmation").clear().type(newPassword);
+      cy.get("@submit").click({ force: true });
+      cy.checkalert("Password is too weak, can't contain your name");
 
       // That's all ok, let's create the user!
       newPassword = getpassword(4);

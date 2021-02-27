@@ -91,6 +91,12 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
       cy.get("@submit").click({ force: true });
       cy.checkalert("Password is too weak, missing special characters");
 
+      newPassword = email + "AADwfef331!!";
+      cy.get("@newpwd").clear().type(newPassword);
+      cy.get("@confirm").clear().type(newPassword);
+      cy.get("@submit").click({ force: true });
+      cy.checkalert("Password is too weak, can't contain your email address");
+
       cy.intercept("POST", "/auth/login").as("changed");
 
       cy.get("@newpwd")
