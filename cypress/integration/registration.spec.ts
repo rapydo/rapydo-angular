@@ -240,9 +240,10 @@ describe("Registration", () => {
       );
 
       cy.getmail().then((body) => {
-        const token = cy.gettoken(body);
+        let re = /.*https?:\/\/.*\/register\/([A-Za-z0-9-\.\+]+)[\s\S]*$/;
+        var token = body.match(re);
 
-        cy.visit("/public/register/" + token);
+        cy.visit("/public/register/" + token[1]);
 
         cy.location().should((location) => {
           expect(location.pathname).to.eq("/app/login");
@@ -250,7 +251,7 @@ describe("Registration", () => {
 
         cy.checkalert("User successfully activated");
 
-        cy.visit("/public/register/" + token);
+        cy.visit("/public/register/" + token[1]);
 
         cy.get("div.card-header h4").contains("Invalid activation token");
         cy.get("div.card-block").contains(

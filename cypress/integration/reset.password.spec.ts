@@ -68,9 +68,10 @@ describe("ResetPassword", () => {
       cy.get("div.card-block").contains("Invalid reset token");
 
       cy.getmail().then((body) => {
-        const token = cy.gettoken(body);
+        let re = /.*https?:\/\/.*\/reset\/([A-Za-z0-9-\.\+]+)[\s\S]*$/;
+        var token = body.match(re);
 
-        cy.visit("/public/reset/" + token);
+        cy.visit("/public/reset/" + token[1]);
 
         cy.get("div.card-header h4").contains("Change your password");
 
@@ -149,7 +150,7 @@ describe("ResetPassword", () => {
         cy.get("div.card-header h4").contains("Login");
 
         // then test again the reset link to confirm the invalidation
-        cy.visit("/public/reset/" + token);
+        cy.visit("/public/reset/" + token[1]);
 
         cy.get("div.card-header h4").contains("Invalid request");
         cy.get("div.card-block").contains("Invalid reset token");
