@@ -6,18 +6,6 @@ import { get_totp } from "../fixtures/utilities";
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-function insert_totp() {
-  cy.get("input[placeholder='TOTP verification code']")
-    .clear()
-    .type(get_totp());
-  cy.get("button").contains("Authorize").click();
-
-  // The password may be expired here...
-
-  cy.get("input[placeholder='TOTP verification code']").should("not.exist");
-  cy.wait(300);
-}
-
 function change_expired_password() {
   cy.checkalert("Your password is expired, please change it");
 
@@ -96,6 +84,32 @@ function change_expired_password() {
     });
   }
 }
+
+function insert_totp() {
+  cy.get("input[placeholder='TOTP verification code']")
+    .clear()
+    .type(get_totp());
+  cy.get("button").contains("Authorize").click();
+
+  // The password may be expired here...
+
+  cy.get("body").then((body) => {
+    if (body.find("h4").length > 0) {
+      cy.wrap(body)
+        .get("h4")
+        .then(($title) => {
+          const t = $title.text();
+          if (t == "Your password is expired, please change it") {
+            change_expired_password();
+          }
+        });
+    }
+  });
+
+  cy.get("input[placeholder='TOTP verification code']").should("not.exist");
+  cy.wait(300);
+}
+
 Cypress.Commands.add("login", (email = null, pwd = null) => {
   if (email === null) {
     email = Cypress.env("AUTH_DEFAULT_USERNAME");
