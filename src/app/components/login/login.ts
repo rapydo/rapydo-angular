@@ -283,7 +283,7 @@ export class LoginComponent implements OnInit {
               }
 
               if (body.qr_code) {
-                this.qr_code = body.qr_code;
+                this.qr_code = body.qr_code[0];
               }
             }
           } else if (error.status === 404) {

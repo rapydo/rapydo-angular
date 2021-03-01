@@ -22,6 +22,6 @@ export class AppModule {
   static injector: Injector;
   constructor(injector: Injector, ngbConfig: NgbConfig) {
     AppModule.injector = injector;
-    ngbConfig.animation = true;
+    ngbConfig.animation = false;
   }
 }
