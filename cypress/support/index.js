@@ -93,18 +93,18 @@ function insert_totp() {
 
   // The password may be expired here...
 
-  cy.get("body").then((body) => {
-    if (body.find("h4").length > 0) {
-      cy.wrap(body)
-        .get("h4")
-        .then(($title) => {
-          const t = $title.text();
-          if (t == "Your password is expired, please change it") {
-            change_expired_password();
-          }
-        });
-    }
-  });
+  // cy.get("body").then((body) => {
+  //   if (body.find("h4").length > 0) {
+  //     cy.wrap(body)
+  //       .get("h4")
+  //       .then(($title) => {
+  //         const t = $title.text();
+  //         if (t == "Your password is expired, please change it") {
+  //           change_expired_password();
+  //         }
+  //       });
+  //   }
+  // });
 
   cy.get("input[placeholder='TOTP verification code']").should("not.exist");
   cy.wait(300);
