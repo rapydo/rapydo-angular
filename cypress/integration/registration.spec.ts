@@ -240,7 +240,7 @@ describe("Registration", () => {
       );
 
       cy.getmail().then((body) => {
-        const token = cy.gettoken(body, "register");
+        const token = cy.gettoken(body);
 
         cy.visit("/public/register/" + token);
 

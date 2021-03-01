@@ -304,8 +304,8 @@ Cypress.Commands.add("getmail", () => {
   return cy.readFile("/logs/mock.mail.lastsent.body");
 });
 
-Cypress.Commands.add("gettoken", (body, url_token) => {
-  let re = /.*https?:\/\/.*\// + url_token + /\/([A-Za-z0-9-\.\+]+)[\s\S]*$/;
+Cypress.Commands.add("gettoken", (body) => {
+  let re = /.*https?:\/\/.*\/[a-z]+\/([A-Za-z0-9-\.\+]+)[\s\S]*$/;
   var token = body.match(re);
   return token[1];
 });
