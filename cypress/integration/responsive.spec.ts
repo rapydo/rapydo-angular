@@ -20,14 +20,14 @@ describe("Responsive tests", () => {
     expected_collapsed_navbar = true;
   });
 
-  it("iphone-6 portrait", () => {
-    cy.viewport(375, 667);
-    expected_collapsed_navbar = true;
-  });
+  // it("iphone-6 portrait", () => {
+  //   cy.viewport(375, 667);
+  //   expected_collapsed_navbar = true;
+  // });
 
-  it("iphone-6 landscape", () => {
-    cy.viewport(667, 375);
-  });
+  // it("iphone-6 landscape", () => {
+  //   cy.viewport(667, 375);
+  // });
 
   it("ipad-2 portrait", () => {
     cy.viewport(768, 1024);
