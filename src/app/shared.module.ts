@@ -27,12 +27,14 @@ import { ClipboardModule } from "ngx-clipboard";
 import { FormlyModule } from "@ngx-formly/core";
 import { FormlyBootstrapModule } from "@ngx-formly/bootstrap";
 import { FormlyFieldConfig } from "@ngx-formly/core/lib/components/formly.field.config";
+import { NgSelectModule } from "@ng-select/ng-select";
 
 import { FormlyHorizontalWrapper } from "@rapydo/components/forms/bootstrap.horizontal.wrapper";
 import { FormlyDescriptiveRadio } from "@rapydo/components/forms/radio-type.component";
 import { TermsOfUseCheckbox } from "@rapydo/components/forms/terms_of_use_checkbox";
 import { DatePickerComponent } from "@rapydo/components/forms/datepicker.component";
 import { PasswordComponent } from "@rapydo/components/forms/password.component";
+import { NgSelectFormlyComponent } from "@rapydo/components/forms/ng-select.type";
 
 import { NgxSpinnerModule } from "ngx-spinner";
 
@@ -185,6 +187,7 @@ let module_imports: any = [
   ClipboardModule,
   NgxSpinnerModule,
   FormlyBootstrapModule,
+  NgSelectModule,
   FormlyModule.forRoot({
     wrappers: [
       { name: "form-field-horizontal", component: FormlyHorizontalWrapper },
@@ -201,6 +204,11 @@ let module_imports: any = [
         // extend password field with visibility toggle
         name: "password",
         component: PasswordComponent,
+        wrappers: ["form-field"],
+      },
+      {
+        name: "autocomplete",
+        component: NgSelectFormlyComponent,
         wrappers: ["form-field"],
       },
     ],
@@ -239,6 +247,7 @@ let module_declarations = [
   TermsOfUseCheckbox,
   DatePickerComponent,
   PasswordComponent,
+  NgSelectFormlyComponent,
 ];
 
 let module_exports = [
