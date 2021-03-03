@@ -140,7 +140,6 @@ export interface Schema {
   readonly max?: number | Date;
   // these are used by select/array fields. The second one is used by RADIO and RADIO_WITH_DESCRIPTION
   readonly options?: SchemaOptions;
-  readonly multiple?: boolean;
 }
 
 // I would directly the type from ngx-formly

@@ -19,6 +19,8 @@ export class FormlyService {
     for (let s of schema) {
       let stype: string = s.type;
 
+      const is_array = stype.endsWith("[]");
+
       let field_type = "";
       let template_type = "";
 
@@ -90,7 +92,7 @@ export class FormlyService {
         //   field["templateOptions"]["maxLength"] = s.max;
         // }
       } else if (stype === "select") {
-        if (s.multiple) {
+        if (is_array) {
           field_type = "multicheckbox";
           // will output as a list instead of an object)
           template_type = "array";
@@ -106,7 +108,7 @@ export class FormlyService {
         }
 
         field["templateOptions"]["options"] = options;
-        if (!s.multiple && !field["templateOptions"]["required"]) {
+        if (!is_array && !field["templateOptions"]["required"]) {
           if (Array.isArray(field["templateOptions"]["options"])) {
             // prevent duplicated empty options if already provided as valid value
             let empty_option_found = false;
@@ -124,9 +126,6 @@ export class FormlyService {
             }
           }
         }
-        // if (s.multiple) {
-        //   field["templateOptions"]["multiple"] = s.multiple;
-        // }
       } else if (stype === "boolean") {
         field_type = "checkbox";
         template_type = "checkbox";
