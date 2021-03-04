@@ -7,9 +7,20 @@ import { Schema, JSON2Form } from "@rapydo/types";
 
 @Injectable()
 export class FormlyService {
+  private get_type(s: Schema) {
+    if (s.options) {
+      if (s.type !== "radio" && s.type !== "radio_with_description") {
+        return "select";
+      }
+    }
 
+    if (s.autocomplete) {
+      return "autocomplete";
+    }
+
+    return s.type;
+  }
   public json2Form(schema: Schema[], data: Record<string, any>): JSON2Form {
-
     let fields: FormlyFieldConfig[] = [];
     let model: Record<string, unknown> = {};
     if (schema === null || typeof schema === "undefined") {
@@ -17,8 +28,7 @@ export class FormlyService {
     }
 
     for (let s of schema) {
-      let stype: string = s.type;
-
+      const stype: string = this.get_type(s);
       const is_array = stype.endsWith("[]");
 
       let field_type = "";
@@ -28,17 +38,8 @@ export class FormlyService {
       field["templateOptions"] = {};
       field["validators"] = {};
 
-      if (
-        s.options &&
-        stype !== "radio" &&
-        stype !== "radio_with_description"
-      ) {
-        stype = "select";
-      }
-
       if (stype === "string") {
         if (s.max && s.max > 256) {
-          stype = "textarea";
           field_type = "textarea";
           // should be calculated from s.max
           field["templateOptions"]["rows"] = 5;
@@ -141,7 +142,7 @@ export class FormlyService {
         field_type = "input";
         template_type = "url";
         field["validators"] = { validation: ["url"] };
-      } else if (s.autocomplete) {
+      } else if (stype == "autocomplete") {
         field_type = "autocomplete";
         field["templateOptions"]["endpoint"] = s.autocomplete;
         field["templateOptions"]["multiple"] = is_array;
