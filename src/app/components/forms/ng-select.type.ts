@@ -34,7 +34,9 @@ export class NgSelectFormlyComponent extends FieldType implements OnInit {
    onSearch($event) {
      this.items$ = of([]);
      const term = $event.term;
-     if (!term || 0 === term.length) return;
+     if (!term || 0 === term.length) {
+       return;
+     }
      this.loading = true;
      this.items$ = this.api.get<any[]>(`${this.endpoint}/${term}`)
       .pipe(tap(() => this.loading = false));
