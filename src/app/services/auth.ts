@@ -42,7 +42,7 @@ export class AuthService {
     }
 
     return this.api
-      .post<string>("/auth/login", data, { rawError: true })
+      .post<string>("/auth/login", data, { rawError: true, redirect: false })
       .pipe(
         map((response) => {
           this.clean_localstorage();

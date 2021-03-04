@@ -1,5 +1,11 @@
 import { Injectable, PLATFORM_ID, Inject } from "@angular/core";
 import { isPlatformBrowser } from "@angular/common";
+import {
+  Router,
+  CanActivate,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+} from "@angular/router";
 
 import { catchError, map } from "rxjs/operators";
 import { of, throwError, Observable } from "rxjs";
@@ -20,6 +26,7 @@ export class ApiService {
 
   constructor(
     private http: HttpClient,
+    private router: Router,
     @Inject(PLATFORM_ID) private platformId: any,
     private notify: NotificationService
   ) {}
@@ -90,9 +97,10 @@ export class ApiService {
     data: Record<string, unknown> = {},
     options: Record<string, unknown> = {}
   ): Observable<T> {
-    let conf = this.opt(options, "conf");
-    let rawError = this.opt(options, "rawError", false);
-    let validationSchema = this.opt(options, "validationSchema");
+    const conf = this.opt(options, "conf");
+    const rawError = this.opt(options, "rawError", false);
+    const validationSchema = this.opt(options, "validationSchema");
+    const redirectOnInvalidTokens = this.opt(options, "redirect", true);
 
     // to be deprecated
     if (!endpoint.startsWith("/")) {
@@ -183,6 +191,12 @@ export class ApiService {
           this.set_offline();
         } else {
           this.set_online();
+        }
+
+        if (redirectOnInvalidTokens && error.status === 401) {
+          this.router.navigate(["app/login"], {
+            queryParams: { returnUrl: this.router.url },
+          });
         }
 
         if (rawError) {
