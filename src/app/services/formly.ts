@@ -181,48 +181,34 @@ export class FormlyService {
 
       fields.push(field);
 
-      if (data) {
-        let model_key = s.key;
+      if (data && s.key in data) {
+        let default_data = data[s.key];
 
-        if (model_key in data) {
-          let default_data = data[model_key];
-
-          if (default_data === null || default_data === "") {
-            if (field_type !== "datepicker") {
-              model[s.key] = "";
-            }
-          } else {
-            if (template_type === "number") {
-              default_data = parseInt(default_data);
-            } else if (field_type === "datepicker") {
-              default_data = this.formatNgbDatepicker(default_data);
-            } else if (template_type === "date") {
-              default_data = this.formatDate(default_data);
-            } else if (field_type === "multicheckbox") {
-              // This works because template_type = "array";
-              // Otherwise the model should be {key1: true, key2: true}
-              let default_data_list = [];
-              for (let d of default_data) {
-                default_data_list.push(this.getSelectIdFromObject(d));
-              }
-
-              default_data = default_data_list;
-            } else if (template_type === "select") {
-              // if (Array.isArray(default_data)) {
-              //   if (default_data.length === 1) {
-              //     default_data = default_data[0];
-              //   } else {
-              //     console.warn(
-              //       "Cannot determine default data from ",
-              //       default_data
-              //     );
-              //   }
-              // }
-              default_data = this.getSelectIdFromObject(default_data);
-            }
-
-            model[s.key] = default_data;
+        if (default_data === null || default_data === "") {
+          if (field_type !== "datepicker") {
+            model[s.key] = "";
           }
+        } else {
+          if (template_type === "number") {
+            default_data = parseInt(default_data);
+          } else if (field_type === "datepicker") {
+            default_data = this.formatNgbDatepicker(default_data);
+          } else if (template_type === "date") {
+            default_data = this.formatDate(default_data);
+          } else if (field_type === "multicheckbox") {
+            // This works because template_type = "array";
+            // Otherwise the model should be {key1: true, key2: true}
+            let default_data_list = [];
+            for (let d of default_data) {
+              default_data_list.push(this.getSelectIdFromObject(d));
+            }
+
+            default_data = default_data_list;
+          } else if (template_type === "select") {
+            default_data = this.getSelectIdFromObject(default_data);
+          }
+
+          model[s.key] = default_data;
         }
       }
     }
