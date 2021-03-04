@@ -61,13 +61,15 @@ export class AuthService {
   }
 
   public change_password(data) {
-    return this.api.put("/auth/profile", data, { rawError: true }).pipe(
-      map((response) => {
-        this.removeToken();
+    return this.api
+      .put("/auth/profile", data, { rawError: true, redirect: false })
+      .pipe(
+        map((response) => {
+          this.removeToken();
 
-        return response;
-      })
-    );
+          return response;
+        })
+      );
   }
 
   public ask_activation_link(username) {
