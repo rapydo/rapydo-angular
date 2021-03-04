@@ -29,7 +29,7 @@ export class FormlyService {
 
     for (let s of schema) {
       const stype: string = this.get_type(s);
-      const is_array = stype.endsWith("[]");
+      const is_array = s.type.endsWith("[]");
 
       let field_type = "";
       let template_type = "";
