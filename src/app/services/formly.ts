@@ -143,8 +143,8 @@ export class FormlyService {
         field["validators"] = { validation: ["url"] };
       } else if (s.autocomplete) {
         field_type = "autocomplete";
-        field["templateOptions"]["endpoint"] = s.autocomplete
-        field["templateOptions"]["multiple"] = is_array
+        field["templateOptions"]["endpoint"] = s.autocomplete;
+        field["templateOptions"]["multiple"] = is_array;
       }
 
       field["key"] = s.key;
