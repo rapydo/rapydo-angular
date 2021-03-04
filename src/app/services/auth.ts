@@ -53,7 +53,7 @@ export class AuthService {
   }
 
   public logout() {
-    return this.api.get<any>("/auth/logout").pipe(
+    return this.api.get<any>("/auth/logout", {}, { redirect: false }).pipe(
       finalize(() => {
         this.removeToken();
       })
