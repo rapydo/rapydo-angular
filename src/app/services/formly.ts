@@ -7,9 +7,9 @@ import { Schema, JSON2Form } from "@rapydo/types";
 
 @Injectable()
 export class FormlyService {
-  constructor() {}
 
   public json2Form(schema: Schema[], data: Record<string, any>): JSON2Form {
+
     let fields: FormlyFieldConfig[] = [];
     let model: Record<string, unknown> = {};
     if (schema === null || typeof schema === "undefined") {
@@ -141,6 +141,10 @@ export class FormlyService {
         field_type = "input";
         template_type = "url";
         field["validators"] = { validation: ["url"] };
+      } else if (s.autocomplete) {
+        field_type = "autocomplete";
+        field["templateOptions"]["endpoint"] = s.autocomplete;
+        field["templateOptions"]["multiple"] = is_array;
       }
 
       field["key"] = s.key;
