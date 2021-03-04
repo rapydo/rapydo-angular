@@ -1,11 +1,6 @@
 import { Injectable, PLATFORM_ID, Inject } from "@angular/core";
 import { isPlatformBrowser } from "@angular/common";
-import {
-  Router,
-  CanActivate,
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-} from "@angular/router";
+import { Router } from "@angular/router";
 
 import { catchError, map } from "rxjs/operators";
 import { of, throwError, Observable } from "rxjs";
@@ -194,9 +189,24 @@ export class ApiService {
         }
 
         if (redirectOnInvalidTokens && error.status === 401) {
+          // Should be done by executing auth.removeToken... But AuthService can't
+          // be included here due to circular dependencies
+          // These removeItem are needed to prevent the automatic execution of logout
+          // (from login component) that will fail because the token is invalid.
+          // The failure will be intercepeted again here and an additional returnUrl
+          // will be appended and this will mess the url
+          localStorage.removeItem("token");
+          localStorage.removeItem("currentUser");
+
           this.router.navigate(["app/login"], {
             queryParams: { returnUrl: this.router.url },
           });
+          if (
+            !rawError &&
+            this.parse_error(error) == "Invalid token received"
+          ) {
+            return throwError({ "Invalid token": "This session is expired" });
+          }
         }
 
         if (rawError) {
@@ -210,21 +220,26 @@ export class ApiService {
         }
 
         // This is a HttpErrorResponse
-        if (error.error) {
-          if (error.error instanceof ProgressEvent) {
-            if (error.message.startsWith("Http failure response for ")) {
-              // strip off the URL
-              return throwError("Http request failed: unknown error");
-            }
-            return throwError(error.message);
-          }
-
-          return throwError(error.error);
-        }
-        // This is a 'normal' error
-        return throwError(error);
+        return throwError(this.parse_error(error));
       })
     );
+  }
+
+  private parse_error(error) {
+    // This is a HttpErrorResponse
+    if (error.error) {
+      if (error.error instanceof ProgressEvent) {
+        if (error.message.startsWith("Http failure response for ")) {
+          // strip off the URL
+          return "Http request failed: unknown error";
+        }
+        return error.message;
+      }
+
+      return error.error;
+    }
+    // This is a 'normal' error
+    return error;
   }
 
   // Utility to convert Blob errors into text
