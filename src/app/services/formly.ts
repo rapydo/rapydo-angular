@@ -8,10 +8,8 @@ import { Schema, JSON2Form } from "@rapydo/types";
 @Injectable()
 export class FormlyService {
   private get_type(s: Schema) {
-    if (s.options) {
-      if (s.type !== "radio" && s.type !== "radio_with_description") {
-        return "select";
-      }
+    if (s.options && s.type !== "radio") {
+      return "select";
     }
 
     if (s.autocomplete) {
@@ -29,6 +27,7 @@ export class FormlyService {
 
     for (let s of schema) {
       const stype: string = this.get_type(s);
+
       const is_array = s.type.endsWith("[]");
 
       let field_type = "";
@@ -103,7 +102,7 @@ export class FormlyService {
         }
 
         let options = [];
-        // { k1: v1, k2: v2}
+        // { k1: v1, k2: v2} -> [{value: k1, label: v1}, {value: k2, label: v2}]
         for (let key in s.options) {
           options.push({ value: key, label: s.options[key] });
         }
@@ -134,8 +133,8 @@ export class FormlyService {
         if (typeof model[s.key] === "undefined") {
           model[s.key] = false;
         }
-      } else if (stype === "radio" || stype === "radio_with_description") {
-        field_type = stype;
+      } else if (stype === "radio") {
+        field_type = "radio";
         template_type = "radio";
         field["templateOptions"]["options"] = s.options;
       } else if (stype === "url") {

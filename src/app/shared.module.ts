@@ -193,7 +193,11 @@ let module_imports: any = [
       { name: "form-field-horizontal", component: FormlyHorizontalWrapper },
     ],
     types: [
-      { name: "radio_with_description", component: FormlyDescriptiveRadio },
+      {
+        name: "radio",
+        component: FormlyDescriptiveRadio,
+        wrappers: ["form-field"],
+      },
       { name: "terms_of_use", component: TermsOfUseCheckbox },
       {
         name: "datepicker",
