@@ -137,7 +137,10 @@ export interface Schema {
   readonly min?: number | Date;
   readonly max?: number | Date;
   readonly options?: SchemaOptions;
-  readonly autocomplete?: string;
+  readonly autocomplete_endpoint?: string;
+  readonly autocomplete_id_bind?: string;
+  readonly autocomplete_label_bind?: string;
+  readonly autocomplete_show_id?: boolean;
 }
 
 // I would directly the type from ngx-formly

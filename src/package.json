@@ -48,6 +48,7 @@
     "@ngx-formly/core": "5.10.14",
     "@ngx-formly/bootstrap": "5.10.14",
     "@ng-select/ng-select": "6.1.0",
+    "@ng-select/ng-option-highlight": "0.0.6",
     "@swimlane/ngx-datatable": "19.0.0",
     "moment": "2.29.1",
     "ngx-moment": "5.0.0",
