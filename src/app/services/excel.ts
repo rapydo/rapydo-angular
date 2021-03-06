@@ -50,7 +50,7 @@ export class ExcelService {
 // => added regenerator-runtime to package.json and polyfills
 // import * as Excel from "exceljs/dist/exceljs.bare.min.js";
 
-// import { saveAs as importedSaveAs } from "file-saver";
+// import { saveAs as importedSaveAs } from "file-saver-es";
 
 // public addHeader(worksheet, header) {
 //   // Add Header Row
