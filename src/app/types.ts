@@ -118,8 +118,6 @@ export enum SchemaType {
   PASSWORD = "password",
   BOOLEAN = "boolean",
   RADIO = "radio",
-  // it is really needed??
-  RADIO_WITH_DESCRIPTION = "radio_with_description",
   URL = "url",
 }
 
@@ -138,7 +136,6 @@ export interface Schema {
 
   readonly min?: number | Date;
   readonly max?: number | Date;
-  // these are used by select/array fields. The second one is used by RADIO and RADIO_WITH_DESCRIPTION
   readonly options?: SchemaOptions;
   readonly autocomplete_endpoint?: string;
   readonly autocomplete_id_bind?: string;
