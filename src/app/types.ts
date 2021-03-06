@@ -140,7 +140,10 @@ export interface Schema {
   readonly max?: number | Date;
   // these are used by select/array fields. The second one is used by RADIO and RADIO_WITH_DESCRIPTION
   readonly options?: SchemaOptions;
-  readonly autocomplete?: string;
+  readonly autocomplete_endpoint?: string;
+  readonly autocomplete_id_bind?: string;
+  readonly autocomplete_label_bind?: string;
+  readonly autocomplete_show_id?: boolean;
 }
 
 // I would directly the type from ngx-formly

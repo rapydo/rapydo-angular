@@ -14,7 +14,7 @@ export class FormlyService {
       }
     }
 
-    if (s.autocomplete) {
+    if (s.autocomplete_endpoint) {
       return "autocomplete";
     }
 
@@ -144,7 +144,10 @@ export class FormlyService {
         field["validators"] = { validation: ["url"] };
       } else if (stype == "autocomplete") {
         field_type = "autocomplete";
-        field["templateOptions"]["endpoint"] = s.autocomplete;
+        field["templateOptions"]["endpoint"] = s.autocomplete_endpoint;
+        field["templateOptions"]["showValue"] = s.autocomplete_show_id;
+        field["templateOptions"]["bindValue"] = s.autocomplete_id_bind;
+        field["templateOptions"]["bindLabel"] = s.autocomplete_label_bind;
         field["templateOptions"]["multiple"] = is_array;
       }
 
@@ -196,7 +199,12 @@ export class FormlyService {
               default_data = parseInt(default_data);
             } else if (field_type === "datepicker") {
               default_data = this.formatNgbDatepicker(default_data);
-            } else if (template_type === "date") {
+            } else if (field_type === "autocomplete") {
+              field["templateOptions"]["selectedItems"] = [...default_data];
+              const idValue = field["templateOptions"]["bindValue"] || 'value';
+              default_data = default_data.map((v) => v[idValue]);
+            }
+              else if (template_type === "date") {
               default_data = this.formatDate(default_data);
             } else if (field_type === "multicheckbox") {
               // This works because template_type = "array";
