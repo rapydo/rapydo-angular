@@ -314,13 +314,14 @@ describe("KitchenSink", () => {
         // From put => single with show id OFF
         cy.get("ul.nav-tabs li.nav-item a").contains("Autocomplete 1").click();
 
+        // this is needed because the component is auto-cleaned after 500 msec
+        cy.wait(600);
+
         cy.get("input").as("field");
 
         cy.get("@field").clear().type("O");
         cy.get("@field").type("l");
         cy.get("@field").type("i");
-
-        cy.wait(300);
 
         cy.get("ng-dropdown-panel")
           .get("div.ng-option")
@@ -333,8 +334,6 @@ describe("KitchenSink", () => {
         cy.get("@field").type("h");
         cy.get("@field").type("e");
         cy.get("@field").type(" ");
-
-        cy.wait(300);
 
         cy.get("ng-dropdown-panel")
           .get("div.ng-option")
@@ -357,11 +356,12 @@ describe("KitchenSink", () => {
 
         cy.get("input").as("field");
 
+        // this is needed because the component is auto-cleaned after 500 msec
+        cy.wait(600);
+
         cy.get("@field").clear().type("o");
         cy.get("@field").type("l");
         cy.get("@field").type("i");
-
-        cy.wait(300);
 
         cy.get("ng-dropdown-panel")
           .get("div.ng-option")
@@ -379,11 +379,10 @@ describe("KitchenSink", () => {
           .eq(0)
           .click({ force: true });
 
-        cy.wait(300);
-
         cy.get('button:contains("Submit")').click({ force: true });
         cy.contains('"elements"');
-        cy.contains('["OSK", "OJK"]');
+        cy.contains('"OSK"');
+        cy.contains('"OJK"');
       }
     });
   });
