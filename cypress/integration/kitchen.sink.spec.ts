@@ -2,15 +2,16 @@
 /*global cy, Cypress*/
 
 describe("KitchenSink", () => {
-  it("TestSink", () => {
-    cy.login();
+  beforeEach(() => {
+    // cy.login();
 
     cy.visit("/app/sink");
+  });
 
+  it("TestSink - ngx-formly - default layout", () => {
     cy.location("pathname").then((pathname) => {
+      // Is Kitchen Sink enabled?
       if (pathname === "/app/sink") {
-        // Kitchen Sink is enabled, add here all tests!
-
         cy.get("div.card-header h4").contains("Kitchen Sink");
 
         // Normal formly forms
@@ -223,7 +224,14 @@ describe("KitchenSink", () => {
         cy.get("button.btn-outline-danger").find("i.fa-times").parent().click();
         cy.get('button:contains("Submit")').click({ force: true });
         cy.contains('"date": null');
+      }
+    });
+  });
 
+  it("TestSink - ngx-formly - horizontal layout", () => {
+    cy.location("pathname").then((pathname) => {
+      // Is Kitchen Sink enabled?
+      if (pathname === "/app/sink") {
         // Horizontal formly forms
         cy.get("ul.nav-tabs li.nav-item a")
           .contains("horizontal forms")
@@ -248,14 +256,59 @@ describe("KitchenSink", () => {
 
         cy.contains('"email": "user2@sample.org"');
         cy.contains('"password": "thisIsSUPERS3cret!"');
+      }
+    });
+  });
 
-        // Upload
+  it("TestSink - Upload", () => {
+    cy.location("pathname").then((pathname) => {
+      // Is Kitchen Sink enabled?
+      if (pathname === "/app/sink") {
         cy.get("ul.nav-tabs li.nav-item a").contains("ngx-uploadx").click();
+      }
+    });
+  });
 
-        // Datatables
+  it("TestSink - Datatables", () => {
+    cy.location("pathname").then((pathname) => {
+      // Is Kitchen Sink enabled?
+      if (pathname === "/app/sink") {
         cy.get("ul.nav-tabs li.nav-item a").contains("ngx-datatable").click();
+      }
+    });
+  });
 
-        // What more??
+  it("TestSink - Autocomplete", () => {
+    cy.location("pathname").then((pathname) => {
+      // Is Kitchen Sink enabled?
+      if (pathname === "/app/sink") {
+        // From post => multiple with show id ON
+        cy.get("ul.nav-tabs li.nav-item a").contains("Autocomplete 1").click();
+
+        cy.get('input[placeholder="Elements"]').as("field");
+        cy.get("@field").clear().type("O");
+        cy.get("@field").type("l");
+        cy.get("@field").type("i");
+        cy.get("@field").clear().type("s");
+        cy.get("@field").type(" ");
+        cy.get("@field").type("t");
+        cy.get("@field").type("h");
+        cy.get("@field").type("e");
+        cy.get("@field").type(" ");
+
+        // From put => single with show id OFF
+        cy.get("ul.nav-tabs li.nav-item a").contains("Autocomplete 2").click();
+
+        cy.get('input[placeholder="Elements"]').as("field");
+        cy.get("@field").clear().type("O");
+        cy.get("@field").type("l");
+        cy.get("@field").type("i");
+        cy.get("@field").clear().type("s");
+        cy.get("@field").type(" ");
+        cy.get("@field").type("t");
+        cy.get("@field").type("h");
+        cy.get("@field").type("e");
+        cy.get("@field").type(" ");
       }
     });
   });

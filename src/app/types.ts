@@ -122,7 +122,9 @@ export enum SchemaType {
 }
 
 export type SchemaOptions =
+  // select
   | Record<string, string>
+  // radio with/without description
   | Record<"value" | "label", string>[]
   | Record<"value" | "label" | "description", string>[];
 
@@ -143,7 +145,7 @@ export interface Schema {
   readonly autocomplete_show_id?: boolean;
 }
 
-// I would directly the type from ngx-formly
+// I would directly use the type from ngx-formly
 // https://github.com/ngx-formly/ngx-formly/blob/min/src/core/src/lib/models/fieldconfig.ts
 // but it fails during the compilation with ts-json-schema-generator
 
