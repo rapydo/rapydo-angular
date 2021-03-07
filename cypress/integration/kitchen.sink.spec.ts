@@ -319,6 +319,9 @@ describe("KitchenSink", () => {
         cy.get("@field").clear().type("O");
         cy.get("@field").type("l");
         cy.get("@field").type("i");
+
+        cy.wait(300);
+
         cy.get("ng-dropdown-panel")
           .get("div.ng-option")
           .eq(0)
@@ -330,6 +333,9 @@ describe("KitchenSink", () => {
         cy.get("@field").type("h");
         cy.get("@field").type("e");
         cy.get("@field").type(" ");
+
+        cy.wait(300);
+
         cy.get("ng-dropdown-panel")
           .get("div.ng-option")
           .eq(0)
@@ -351,9 +357,12 @@ describe("KitchenSink", () => {
 
         cy.get("input").as("field");
 
-        cy.get("@field").clear().type("O");
+        cy.get("@field").clear().type("o");
         cy.get("@field").type("l");
         cy.get("@field").type("i");
+
+        cy.wait(300);
+
         cy.get("ng-dropdown-panel")
           .get("div.ng-option")
           .eq(0)
@@ -370,9 +379,11 @@ describe("KitchenSink", () => {
           .eq(0)
           .click({ force: true });
 
-        cy.get('button:contains("Submit")').click({ force: true });
+        cy.wait(300);
 
-        cy.contains('"elements": ["OJK"]');
+        cy.get('button:contains("Submit")').click({ force: true });
+        cy.contains('"elements"');
+        cy.contains('["OSK", "OJK"]');
       }
     });
   });
