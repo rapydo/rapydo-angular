@@ -239,6 +239,9 @@ describe("KitchenSink", () => {
 
         cy.get("formly-horizontal-wrapper");
 
+        cy.get('input[placeholder="email"]').as("email");
+        cy.get('input[placeholder="password"]').as("pwd");
+
         cy.get("@email").clear();
         cy.get("@pwd").clear();
 
@@ -285,7 +288,7 @@ describe("KitchenSink", () => {
         // From post => multiple with show id ON
         cy.get("ul.nav-tabs li.nav-item a").contains("Autocomplete 1").click();
 
-        cy.get('input[placeholder="Elements"]').as("field");
+        cy.get("input").as("field");
         cy.get("@field").clear().type("O");
         cy.get("@field").type("l");
         cy.get("@field").type("i");
@@ -299,7 +302,7 @@ describe("KitchenSink", () => {
         // From put => single with show id OFF
         cy.get("ul.nav-tabs li.nav-item a").contains("Autocomplete 2").click();
 
-        cy.get('input[placeholder="Elements"]').as("field");
+        cy.get("input").as("field");
         cy.get("@field").clear().type("O");
         cy.get("@field").type("l");
         cy.get("@field").type("i");
