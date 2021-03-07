@@ -330,6 +330,12 @@ describe("KitchenSink", () => {
         cy.get("@field").type("h");
         cy.get("@field").type("e");
         cy.get("@field").type(" ");
+        cy.get("ng-dropdown-panel")
+          .get("div.ng-option")
+          .eq(0)
+          .click({ force: true });
+
+        cy.get('button:contains("Submit")').click({ force: true });
 
         // From put => single with show id OFF
         cy.get("ul.nav-tabs li.nav-item a").contains("Autocomplete 2").click();
@@ -338,12 +344,23 @@ describe("KitchenSink", () => {
         cy.get("@field").clear().type("O");
         cy.get("@field").type("l");
         cy.get("@field").type("i");
+        cy.get("ng-dropdown-panel")
+          .get("div.ng-option")
+          .eq(0)
+          .click({ force: true });
+
         cy.get("@field").clear().type("s");
         cy.get("@field").type(" ");
         cy.get("@field").type("t");
         cy.get("@field").type("h");
         cy.get("@field").type("e");
         cy.get("@field").type(" ");
+        cy.get("ng-dropdown-panel")
+          .get("div.ng-option")
+          .eq(0)
+          .click({ force: true });
+
+        cy.get('button:contains("Submit")').click({ force: true });
       }
     });
   });
