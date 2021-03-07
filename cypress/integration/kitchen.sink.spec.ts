@@ -311,7 +311,7 @@ describe("KitchenSink", () => {
     cy.location("pathname").then((pathname) => {
       // Is Kitchen Sink enabled?
       if (pathname === "/app/sink") {
-        // From post => multiple with show id ON
+        // From put => single with show id OFF
         cy.get("ul.nav-tabs li.nav-item a").contains("Autocomplete 1").click();
 
         cy.get("input").as("field");
@@ -337,10 +337,20 @@ describe("KitchenSink", () => {
 
         cy.get('button:contains("Submit")').click({ force: true });
 
+        cy.contains('"element": "OJK"');
+      }
+    });
+  });
+
+  it("TestSink - Multi Autocomplete", () => {
+    cy.location("pathname").then((pathname) => {
+      // Is Kitchen Sink enabled?
+      if (pathname === "/app/sink") {
         // From put => single with show id OFF
         cy.get("ul.nav-tabs li.nav-item a").contains("Autocomplete 2").click();
 
         cy.get("input").as("field");
+
         cy.get("@field").clear().type("O");
         cy.get("@field").type("l");
         cy.get("@field").type("i");
@@ -361,6 +371,8 @@ describe("KitchenSink", () => {
           .click({ force: true });
 
         cy.get('button:contains("Submit")').click({ force: true });
+
+        cy.contains('"elements": ["OJK"]');
       }
     });
   });
