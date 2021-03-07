@@ -316,19 +316,13 @@ describe("KitchenSink", () => {
 
         cy.get("input").as("field");
 
-        cy.get("div.ng-option").contains("Type to search");
         cy.get("@field").clear().type("O");
-
-        cy.get("div.ng-option").should("not.contain", "Type to search");
-        cy.get("div.ng-option").find("div.ng-option-label");
-        cy.get("div.ng-option").find("small").contains("ID:");
-        // You could verify that the option contains a text with the O highlithed
-
         cy.get("@field").type("l");
-        // You could verify that the option contains a text with the Ol highlithed
         cy.get("@field").type("i");
-        // You could verify that the option contains a text with the Oli highlithed
-        cy.get("div.ng-option").click({ force: true });
+        cy.get("ng-dropdown-panel")
+          .get("div.ng-option")
+          .eq(0)
+          .click({ force: true });
 
         cy.get("@field").clear().type("s");
         cy.get("@field").type(" ");
