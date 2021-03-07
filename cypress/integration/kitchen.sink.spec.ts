@@ -241,6 +241,10 @@ describe("KitchenSink", () => {
 
         cy.get('input[placeholder="email"]').as("email");
         cy.get('input[placeholder="password"]').as("pwd");
+        cy.get('input[placeholder="date"]').as("date");
+        cy.get('input[placeholder="url"]').as("url");
+        cy.get('input[placeholder="text"]').as("text");
+        cy.get('input[placeholder="number"]').as("number");
 
         cy.get("@email").clear();
         cy.get("@pwd").clear();
@@ -254,6 +258,28 @@ describe("KitchenSink", () => {
 
         cy.get("@email").clear().type("user2@sample.org");
         cy.get("@pwd").clear().type("thisIsSUPERS3cret!");
+
+        cy.get("@date").click();
+
+        cy.get(
+          'ngb-datepicker-navigation-select select[title="Select year"]'
+        ).as("year");
+
+        const current_year = new Date().getFullYear();
+        // Let's select the third year (current + 1)
+        // The fourth is incomplete and only selectable to current day, i.e.
+        // at 02 Jan 2021 only dates between 02 Jan 2020 and 02 Jan 2022 are enabled
+        cy.get("@year").select((current_year + 1).toString());
+
+        cy.get(
+          'ngb-datepicker-navigation-select select[title="Select month"]'
+        ).select("5");
+
+        cy.get("div.ngb-dp-day div").contains("19").click({ force: true });
+
+        cy.get("@url").clear().type("http://www.google.com");
+        cy.get("@text").clear().type("1234");
+        cy.get("@number").clear().type("5");
 
         cy.get('button:contains("Submit")').click({ force: true });
 
