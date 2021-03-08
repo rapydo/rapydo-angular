@@ -319,15 +319,25 @@ describe("KitchenSink", () => {
 
         cy.get("input").as("field");
 
-        cy.get("@field").clear().type("O");
-        cy.get("@field").type("l");
-        cy.get("@field").type("i");
+        // 1 - select an element, verify the label and the key in the model
+        cy.get("@field").clear().type("h");
+        cy.get("@field").type("a");
+        cy.get("@field").type("r");
 
         cy.get("ng-dropdown-panel")
           .get("div.ng-option")
           .eq(0)
           .click({ force: true });
 
+        cy.get("ng-select")
+          .get("span.ng-value-label")
+          .contains("Harry Smith the Kid");
+
+        cy.get('button:contains("Submit")').click({ force: true });
+
+        cy.contains('"element": "HSK"');
+
+        // 2 - select an other element
         cy.get("@field").clear().type("s");
         cy.get("@field").type(" ");
         cy.get("@field").type("t");
@@ -340,9 +350,14 @@ describe("KitchenSink", () => {
           .eq(0)
           .click({ force: true });
 
+        cy.get("ng-select")
+          .get("span.ng-value-label")
+          .contains("Oliver Jones the Kid");
+
         cy.get('button:contains("Submit")').click({ force: true });
 
         cy.contains('"element": "OJK"');
+        cy.contains('"element": "HSK"').should("not.exist");
       }
     });
   });
@@ -361,6 +376,7 @@ describe("KitchenSink", () => {
         // this is needed because the component is auto-cleaned after 500 msec
         cy.wait(600);
 
+        // 1 - Select Oliver Jones
         cy.get("@field").clear().type("o");
         cy.get("@field").type("l");
         cy.get("@field").type("i");
@@ -370,6 +386,12 @@ describe("KitchenSink", () => {
           .eq(0)
           .click({ force: true });
 
+        cy.get("ng-select")
+          .get("span.ng-value-label")
+          .eq(0)
+          .contains("Oliver Jones the Kid");
+
+        // 2 - Select Oliver Smith
         cy.get("@field").clear().type("s");
         cy.get("@field").type(" ");
         cy.get("@field").type("t");
@@ -381,10 +403,48 @@ describe("KitchenSink", () => {
           .eq(0)
           .click({ force: true });
 
+        cy.get("ng-select")
+          .get("span.ng-value-label")
+          .eq(0)
+          .contains("Oliver Jones the Kid");
+        cy.get("ng-select")
+          .get("span.ng-value-label")
+          .eq(1)
+          .contains("Oliver Smith the Kid");
+
         cy.get('button:contains("Submit")').click({ force: true });
         cy.contains('"elements"');
         cy.contains('"OSK"');
         cy.contains('"OJK"');
+
+        // 3 - Remove Oliver Jones
+        // select again the same element will remove it from the list
+        cy.get("@field").clear().type("oliver jones the kid");
+        cy.get("ng-dropdown-panel")
+          .get("div.ng-option")
+          .eq(0)
+          .click({ force: true });
+
+        cy.get("ng-select")
+          .get("span.ng-value-label")
+          .eq(0)
+          .contains("Oliver Smith the Kid");
+
+        cy.get('button:contains("Submit")').click({ force: true });
+
+        cy.contains('"elements"');
+        cy.contains('"OJK"').should("not.exist");
+        cy.contains('"OSK"');
+
+        // 4 - Remove Oliver Smith
+        // this is the x icon to delete the item
+        cy.get("ng-select").get("span.ng-value-icon").click({ force: true });
+
+        cy.get('button:contains("Submit")').click({ force: true });
+
+        cy.contains('"elements"');
+        cy.contains('"OSK"').should("not.exist");
+        cy.contains('"OJK"').should("not.exist");
       }
     });
   });
