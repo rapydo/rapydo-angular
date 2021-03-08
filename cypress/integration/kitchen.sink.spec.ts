@@ -376,7 +376,7 @@ describe("KitchenSink", () => {
         // this is needed because the component is auto-cleaned after 500 msec
         cy.wait(600);
 
-        // 1 - Select Oliver Jones
+        // 1 - Select Oliver Smith
         cy.get("@field").clear().type("o");
         cy.get("@field").type("l");
         cy.get("@field").type("i");
@@ -389,9 +389,9 @@ describe("KitchenSink", () => {
         cy.get("ng-select")
           .get("span.ng-value-label")
           .eq(0)
-          .contains("Oliver Jones the Kid");
+          .contains("Oliver Smith the Kid");
 
-        // 2 - Select Oliver Smith
+        // 2 - Select Oliver Jones
         cy.get("@field").clear().type("s");
         cy.get("@field").type(" ");
         cy.get("@field").type("t");
@@ -406,11 +406,11 @@ describe("KitchenSink", () => {
         cy.get("ng-select")
           .get("span.ng-value-label")
           .eq(0)
-          .contains("Oliver Jones the Kid");
+          .contains("Oliver Smith the Kid");
         cy.get("ng-select")
           .get("span.ng-value-label")
           .eq(1)
-          .contains("Oliver Smith the Kid");
+          .contains("Oliver Jones the Kid");
 
         cy.get('button:contains("Submit")').click({ force: true });
         cy.contains('"elements"');
