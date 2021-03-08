@@ -436,9 +436,16 @@ describe("KitchenSink", () => {
         cy.contains('"OJK"').should("not.exist");
         cy.contains('"OSK"');
 
-        // 4 - Remove Oliver Smith
+        // 4 - Remove Oliver Smith, add some Charlie
+        // (otherwise the validation will fail because the field is required)
         // this is the x icon to delete the item
         cy.get("ng-select").get("span.ng-value-icon").click({ force: true });
+
+        cy.get("@field").clear().type("charlie");
+        cy.get("ng-dropdown-panel")
+          .get("div.ng-option")
+          .eq(0)
+          .click({ force: true });
 
         cy.get('button:contains("Submit")').click({ force: true });
 
