@@ -312,7 +312,7 @@ describe("KitchenSink", () => {
       // Is Kitchen Sink enabled?
       if (pathname === "/app/sink") {
         // From put => single with show id OFF
-        cy.get("ul.nav-tabs li.nav-item a").contains("Autocomplete 1").click();
+        cy.get("ul.nav-tabs li.nav-item a").contains("Autocomplete").click();
 
         // this is needed because the component is auto-cleaned after 500 msec
         cy.wait(600);
@@ -351,8 +351,10 @@ describe("KitchenSink", () => {
     cy.location("pathname").then((pathname) => {
       // Is Kitchen Sink enabled?
       if (pathname === "/app/sink") {
-        // From put => single with show id OFF
-        cy.get("ul.nav-tabs li.nav-item a").contains("Autocomplete 2").click();
+        // From post => multiple with show id ON
+        cy.get("ul.nav-tabs li.nav-item a")
+          .contains("Multi Autocomplete")
+          .click();
 
         cy.get("input").as("field");
 
@@ -383,6 +385,42 @@ describe("KitchenSink", () => {
         cy.contains('"elements"');
         cy.contains('"OSK"');
         cy.contains('"OJK"');
+      }
+    });
+  });
+  it("TestSink - Preloaded Autocomplete", () => {
+    cy.location("pathname").then((pathname) => {
+      // Is Kitchen Sink enabled?
+      if (pathname === "/app/sink") {
+        // From post with previous model => multple with show id ON and preloaded data
+        cy.get("ul.nav-tabs li.nav-item a")
+          .contains("Preloaded Autocomplete")
+          .click();
+
+        cy.get("input").as("field");
+
+        // this is needed because the component is auto-cleaned after 500 msec
+        cy.wait(600);
+
+        // Verify preloaded data
+        cy.get('button:contains("Submit")').click({ force: true });
+        cy.contains('"elements"');
+        cy.contains('"CSK"');
+        cy.contains('"JWR"');
+        cy.get("@field").clear().type("harr");
+        cy.get("@field").type("y s");
+        cy.get("@field").type("mith t");
+        cy.get("@field").type("he u");
+        cy.get("ng-dropdown-panel")
+          .get("div.ng-option")
+          .eq(0)
+          .click({ force: true });
+
+        cy.get('button:contains("Submit")').click({ force: true });
+        cy.contains('"elements"');
+        cy.contains('"CSK"');
+        cy.contains('"JWR"');
+        cy.contains('"HSU"');
       }
     });
   });
