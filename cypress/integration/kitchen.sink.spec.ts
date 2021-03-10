@@ -324,6 +324,9 @@ describe("KitchenSink", () => {
         cy.get("@field").type("a");
         cy.get("@field").type("r");
 
+        // == debounceTime
+        cy.wait(300);
+
         cy.get("ng-dropdown-panel")
           .get("div.ng-option")
           .eq(0)
@@ -344,6 +347,9 @@ describe("KitchenSink", () => {
         cy.get("@field").type("h");
         cy.get("@field").type("e");
         cy.get("@field").type(" ");
+
+        // == debounceTime
+        cy.wait(300);
 
         cy.get("ng-dropdown-panel")
           .get("div.ng-option")
@@ -381,6 +387,9 @@ describe("KitchenSink", () => {
         cy.get("@field").type("l");
         cy.get("@field").type("i");
 
+        // == debounceTime
+        cy.wait(300);
+
         cy.get("ng-dropdown-panel")
           .get("div.ng-option")
           .eq(0)
@@ -398,6 +407,10 @@ describe("KitchenSink", () => {
         cy.get("@field").type("h");
         cy.get("@field").type("e");
         cy.get("@field").type(" ");
+
+        // == debounceTime
+        cy.wait(300);
+
         cy.get("ng-dropdown-panel")
           .get("div.ng-option")
           .eq(0)
@@ -420,6 +433,10 @@ describe("KitchenSink", () => {
         // 3 - Remove Oliver Jones
         // select again the same element will remove it from the list
         cy.get("@field").clear().type("oliver jones the kid");
+
+        // == debounceTime
+        cy.wait(300);
+
         cy.get("ng-dropdown-panel")
           .get("div.ng-option")
           .eq(0)
@@ -442,6 +459,10 @@ describe("KitchenSink", () => {
         cy.get("ng-select").get("span.ng-value-icon").click({ force: true });
 
         cy.get("@field").clear().type("charlie");
+
+        // == debounceTime
+        cy.wait(300);
+
         cy.get("ng-dropdown-panel")
           .get("div.ng-option")
           .eq(0)
@@ -478,6 +499,10 @@ describe("KitchenSink", () => {
         cy.get("@field").type("y s");
         cy.get("@field").type("mith t");
         cy.get("@field").type("he u");
+
+        // == debounceTime
+        cy.wait(300);
+
         cy.get("ng-dropdown-panel")
           .get("div.ng-option")
           .eq(0)
