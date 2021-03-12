@@ -129,7 +129,7 @@ jobs:
           docker-compose logs --tail 2 frontend 2>&1 | grep "files have been compressed."
           docker-compose logs --tail 20 proxy
           curl --insecure -X GET https://localhost
-          npm install -g seespee cypress
+          npm install -g seespee cypress@6.4.0
           seespee --level 1 --validate https://localhost
 
           opt="--silent --head --insecure -X GET https://localhost"
@@ -229,4 +229,4 @@ jobs:
           echo -e "\n"
 
           echo "{}" > cypress.json
-          cypress run --browser chrome --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
+          cypress run --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
