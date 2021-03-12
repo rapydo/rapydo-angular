@@ -175,12 +175,6 @@ export class FormlyService {
       field["templateOptions"]["type"] = template_type;
       field["templateOptions"]["required"] = s.required;
 
-      // if (template_type === 'radio') {
-      //   field['templateOptions']['labelProp'] = "value";
-      //   field['templateOptions']['valueProp'] = "name";
-      //   field['templateOptions']['options'] = s.options;
-      // }
-
       fields.push(field);
 
       if (data && s.key in data) {
@@ -197,7 +191,7 @@ export class FormlyService {
             default_data = this.formatNgbDatepicker(default_data);
           } else if (field_type === "autocomplete") {
             field["templateOptions"]["selectedItems"] = [...default_data];
-            const idValue = field["templateOptions"]["bindValue"] || 'value';
+            const idValue = field["templateOptions"]["bindValue"] || "value";
             default_data = default_data.map((v) => v[idValue]);
           } else if (template_type === "date") {
             default_data = this.formatDate(default_data);
