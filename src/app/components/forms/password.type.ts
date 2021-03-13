@@ -52,7 +52,7 @@ import { FieldType } from "@ngx-formly/core";
     ></i>
   `,
 })
-export class PasswordComponent extends FieldType {
+export class PasswordTypeComponent extends FieldType {
   public show: boolean = false;
   public show_password() {
     this.show = true;

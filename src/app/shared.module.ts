@@ -31,7 +31,7 @@ import { NgSelectModule } from "@ng-select/ng-select";
 import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
 
 import { FormlyHorizontalWrapper } from "@rapydo/components/forms/bootstrap.horizontal.wrapper";
-import { PasswordComponent } from "@rapydo/components/forms/password.component";
+import { PasswordTypeComponent } from "@rapydo/components/forms/password.type";
 import { DatePickerTypeComponent } from "@rapydo/components/forms/datepicker.type";
 import { NgSelectFormlyComponent } from "@rapydo/components/forms/ng-select.type";
 import { RadioTypeComponent } from "@rapydo/components/forms/radio.type";
@@ -209,7 +209,7 @@ let module_imports: any = [
       {
         // extend password field with visibility toggle
         name: "password",
-        component: PasswordComponent,
+        component: PasswordTypeComponent,
         wrappers: ["form-field"],
       },
       {
@@ -252,7 +252,7 @@ let module_declarations = [
   RadioTypeComponent,
   TermsOfUseCheckbox,
   DatePickerTypeComponent,
-  PasswordComponent,
+  PasswordTypeComponent,
   NgSelectFormlyComponent,
 ];
 
@@ -263,7 +263,7 @@ let module_exports = [
   RadioTypeComponent,
   TermsOfUseCheckbox,
   DatePickerTypeComponent,
-  PasswordComponent,
+  PasswordTypeComponent,
   NgSelectFormlyComponent,
 
   NgxDatatableModule,
