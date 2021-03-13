@@ -104,6 +104,7 @@ export class FormlyService {
         let options = [];
         // { k1: v1, k2: v2} -> [{value: k1, label: v1}, {value: k2, label: v2}]
         for (let key in s.options) {
+          // value and label match the default bindValue and bindValue in ng-select
           options.push({ value: key, label: s.options[key] });
         }
 

@@ -17,7 +17,7 @@ interface Item {
 }
 
 @Component({
-  selector: "formly-ng-select",
+  selector: "formly-ng-select-autocomplete",
   template: `
     <div>
       <ng-select
