@@ -213,7 +213,7 @@ describe("KitchenSink", () => {
         // and select the first
         cy.get("ng-dropdown-panel")
           .find("div.ng-option")
-          .eq(0)
+          .eq(1)
           .click({ force: true });
 
         cy.contains("Option1");
@@ -240,7 +240,7 @@ describe("KitchenSink", () => {
           .find("ng-select")
           .find("ng-dropdown-panel")
           .get("div.ng-option")
-          .eq(0)
+          .eq(1)
           .click({ force: true });
         cy.contains('"select": third-key');
 
