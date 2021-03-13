@@ -208,7 +208,7 @@ describe("KitchenSink", () => {
 
         // test the select field [1 / 2], select the first element
         // open the options
-        cy.get("form").get("ng-select").click({ force: true });
+        cy.get("ng-select").find("input").click({ force: true });
 
         // and select the first
         cy.get("ng-dropdown-panel")
