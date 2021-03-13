@@ -43,7 +43,7 @@ interface Item {
     </div>
   `,
 })
-export class NgSelectFormlyComponent extends FieldType implements OnInit {
+export class AutocompleTypeComponent extends FieldType implements OnInit {
   itemLoading: boolean = false;
   showValue: boolean = false;
   items$: Observable<Item[]>;

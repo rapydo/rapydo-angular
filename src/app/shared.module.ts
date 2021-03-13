@@ -33,7 +33,8 @@ import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
 import { FormlyHorizontalWrapper } from "@rapydo/components/forms/bootstrap.horizontal.wrapper";
 import { PasswordTypeComponent } from "@rapydo/components/forms/password.type";
 import { DatePickerTypeComponent } from "@rapydo/components/forms/datepicker.type";
-import { NgSelectFormlyComponent } from "@rapydo/components/forms/ng-select.type";
+// import { SelectTypeComponent } from "@rapydo/components/forms/ng-select.type";
+import { AutocompleTypeComponent } from "@rapydo/components/forms/ng-select-autocomplete.type";
 import { RadioTypeComponent } from "@rapydo/components/forms/radio.type";
 import { TermsOfUseTypeComponent } from "@rapydo/components/forms/terms-of-use.type";
 
@@ -196,12 +197,6 @@ let module_imports: any = [
     ],
     types: [
       {
-        name: "radio",
-        component: RadioTypeComponent,
-        wrappers: ["form-field"],
-      },
-      { name: "terms_of_use", component: TermsOfUseTypeComponent },
-      {
         name: "datepicker",
         component: DatePickerTypeComponent,
         wrappers: ["form-field"],
@@ -214,9 +209,15 @@ let module_imports: any = [
       },
       {
         name: "autocomplete",
-        component: NgSelectFormlyComponent,
+        component: AutocompleTypeComponent,
         wrappers: ["form-field"],
       },
+      {
+        name: "radio",
+        component: RadioTypeComponent,
+        wrappers: ["form-field"],
+      },
+      { name: "terms_of_use", component: TermsOfUseTypeComponent },
     ],
     validationMessages: [
       { name: "required", message: "This field is required" },
@@ -253,7 +254,7 @@ let module_declarations = [
   TermsOfUseTypeComponent,
   DatePickerTypeComponent,
   PasswordTypeComponent,
-  NgSelectFormlyComponent,
+  AutocompleTypeComponent,
 ];
 
 let module_exports = [
@@ -264,7 +265,7 @@ let module_exports = [
   TermsOfUseTypeComponent,
   DatePickerTypeComponent,
   PasswordTypeComponent,
-  NgSelectFormlyComponent,
+  AutocompleTypeComponent,
 
   NgxDatatableModule,
   NgbModule,
