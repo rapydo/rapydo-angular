@@ -231,18 +231,16 @@ describe("KitchenSink", () => {
         cy.contains('"text": "123456"');
         cy.contains('"number": 3');
         cy.contains('"boolean": true');
-        cy.contains('"select": first-key');
+        cy.contains('"select": "first-key"');
         cy.contains('"date": "' + (current_year + 1) + '-05-19T00:00:00.000Z"');
 
         // test the select field [2 / 2], filter and the select the new first element
-        cy.get("form").find("ng-select").find("input").type("third");
-        cy.get("form")
-          .find("ng-select")
-          .find("ng-dropdown-panel")
-          .get("div.ng-option")
+        cy.get("ng-select").find("input").type("third");
+        cy.get("ng-dropdown-panel")
+          .find("div.ng-option")
           .eq(1)
           .click({ force: true });
-        cy.contains('"select": third-key');
+        cy.contains('"select": "third-key"');
 
         cy.get("button.btn-outline-danger").find("i.fa-times").parent().click();
         cy.get('button:contains("Submit")').click({ force: true });
