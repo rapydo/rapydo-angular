@@ -12,6 +12,8 @@ describe("KitchenSink", () => {
     cy.location("pathname").then((pathname) => {
       // Is Kitchen Sink enabled?
       if (pathname === "/app/sink") {
+        // quiet = true => no error if already closed
+        cy.closecookielaw(true);
         cy.get("div.card-header h4").contains("Kitchen Sink");
 
         // Normal formly forms
@@ -204,10 +206,10 @@ describe("KitchenSink", () => {
 
         cy.get('input:checkbox[placeholder="boolean"]').check({ force: true });
 
-        // test the select field and the autocomplete
+        // test the select field [1 / 2], select the first element
         cy.get("form")
-          .find("ng-select")
-          .find("ng-dropdown-panel")
+          .get("ng-select")
+          .get("ng-dropdown-panel")
           .get("div.ng-option")
           .eq(0)
           .click({ force: true });
@@ -230,6 +232,7 @@ describe("KitchenSink", () => {
         cy.contains('"select": first-key');
         cy.contains('"date": "' + (current_year + 1) + '-05-19T00:00:00.000Z"');
 
+        // test the select field [2 / 2], filter and the select the new first element
         cy.get("form").find("ng-select").find("input").type("third");
         cy.get("form")
           .find("ng-select")
