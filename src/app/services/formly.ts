@@ -92,14 +92,18 @@ export class FormlyService {
         //   field["templateOptions"]["maxLength"] = s.max;
         // }
       } else if (stype === "select") {
-        if (is_array) {
-          field_type = "multicheckbox";
-          // will output as a list instead of an object)
-          template_type = "array";
-        } else {
-          field_type = "select";
-          template_type = "select";
-        }
+        // if (is_array) {
+        //   field_type = "multicheckbox";
+        //   // will output as a list instead of an object)
+        //   template_type = "array";
+        // } else {
+        //   field_type = "select";
+        //   template_type = "select";
+        // }
+
+        field_type = "select";
+        template_type = "select";
+        field["templateOptions"]["multiple"] = is_array;
 
         let options = [];
         // { k1: v1, k2: v2} -> [{value: k1, label: v1}, {value: k2, label: v2}]
@@ -196,17 +200,26 @@ export class FormlyService {
             default_data = default_data.map((v) => v[idValue]);
           } else if (template_type === "date") {
             default_data = this.formatDate(default_data);
-          } else if (field_type === "multicheckbox") {
-            // This works because template_type = "array";
-            // Otherwise the model should be {key1: true, key2: true}
-            let default_data_list = [];
-            for (let d of default_data) {
-              default_data_list.push(this.getSelectIdFromObject(d));
-            }
+            // } else if (field_type === "multicheckbox") {
+            //   // This works because template_type = "array";
+            //   // Otherwise the model should be {key1: true, key2: true}
+            //   let default_data_list = [];
+            //   for (let d of default_data) {
+            //     default_data_list.push(this.getSelectIdFromObject(d));
+            //   }
 
-            default_data = default_data_list;
+            //   default_data = default_data_list;
           } else if (template_type === "select") {
-            default_data = this.getSelectIdFromObject(default_data);
+            if (is_array) {
+              const default_data_list = [];
+              for (let d of default_data) {
+                default_data_list.push(this.getSelectIdFromObject(d));
+              }
+
+              default_data = default_data_list;
+            } else {
+              default_data = this.getSelectIdFromObject(default_data);
+            }
           }
 
           model[s.key] = default_data;
