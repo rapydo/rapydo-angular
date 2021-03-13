@@ -46,7 +46,7 @@ import { YesNoPipe } from "@rapydo/pipes/yes_or_no";
 
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
 import { DeleteModal } from "@rapydo/components/delete_modal";
-import { FormModal } from "@rapydo/components/forms/form_modal";
+import { FormModal } from "@rapydo/components/forms/form.modal";
 
 export function emailValidator(
   control: AbstractControl,

@@ -20,7 +20,7 @@ import { NotificationService } from "@rapydo/services/notification";
 import { ConfirmationModals } from "@rapydo/services/confirmation.modals";
 import { FormlyService } from "@rapydo/services/formly";
 import { Schema, Paging, Total } from "@rapydo/types";
-import { FormModal } from "@rapydo/components/forms/form_modal";
+import { FormModal } from "@rapydo/components/forms/form.modal";
 import { UUID } from "@rapydo/types";
 
 import { ProjectOptions } from "@app/customization";
