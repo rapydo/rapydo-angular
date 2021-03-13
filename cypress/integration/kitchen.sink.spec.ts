@@ -207,10 +207,8 @@ describe("KitchenSink", () => {
         cy.get('input:checkbox[placeholder="boolean"]').check({ force: true });
 
         // test the select field [1 / 2], select the first element
-        cy.get("form")
-          .get("ng-select")
-          .get("ng-dropdown-panel")
-          .get("div.ng-option")
+        cy.get("ng-dropdown-panel")
+          .find("div.ng-option")
           .eq(0)
           .click({ force: true });
 
