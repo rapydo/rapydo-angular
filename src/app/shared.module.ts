@@ -31,11 +31,11 @@ import { NgSelectModule } from "@ng-select/ng-select";
 import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
 
 import { FormlyHorizontalWrapper } from "@rapydo/components/forms/bootstrap.horizontal.wrapper";
-import { FormlyDescriptiveRadio } from "@rapydo/components/forms/radio-type.component";
-import { TermsOfUseCheckbox } from "@rapydo/components/forms/terms_of_use_checkbox";
-import { DatePickerTypeComponent } from "@rapydo/components/forms/datepicker.type";
 import { PasswordComponent } from "@rapydo/components/forms/password.component";
+import { DatePickerTypeComponent } from "@rapydo/components/forms/datepicker.type";
 import { NgSelectFormlyComponent } from "@rapydo/components/forms/ng-select.type";
+import { RadioTypeComponent } from "@rapydo/components/forms/radio.type";
+import { TermsOfUseCheckbox } from "@rapydo/components/forms/terms_of_use_checkbox";
 
 import { NgxSpinnerModule } from "ngx-spinner";
 
@@ -197,7 +197,7 @@ let module_imports: any = [
     types: [
       {
         name: "radio",
-        component: FormlyDescriptiveRadio,
+        component: RadioTypeComponent,
         wrappers: ["form-field"],
       },
       { name: "terms_of_use", component: TermsOfUseCheckbox },
@@ -249,9 +249,9 @@ let module_declarations = [
   DeleteModal,
   FormModal,
   FormlyHorizontalWrapper,
-  FormlyDescriptiveRadio,
+  RadioTypeComponent,
   TermsOfUseCheckbox,
-  DatePickerComponent,
+  DatePickerTypeComponent,
   PasswordComponent,
   NgSelectFormlyComponent,
 ];
@@ -260,10 +260,11 @@ let module_exports = [
   CommonModule,
 
   FormlyHorizontalWrapper,
-  FormlyDescriptiveRadio,
+  RadioTypeComponent,
   TermsOfUseCheckbox,
-  DatePickerComponent,
+  DatePickerTypeComponent,
   PasswordComponent,
+  NgSelectFormlyComponent,
 
   NgxDatatableModule,
   NgbModule,
