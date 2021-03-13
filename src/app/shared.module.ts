@@ -35,7 +35,7 @@ import { PasswordTypeComponent } from "@rapydo/components/forms/password.type";
 import { DatePickerTypeComponent } from "@rapydo/components/forms/datepicker.type";
 import { NgSelectFormlyComponent } from "@rapydo/components/forms/ng-select.type";
 import { RadioTypeComponent } from "@rapydo/components/forms/radio.type";
-import { TermsOfUseCheckbox } from "@rapydo/components/forms/terms_of_use_checkbox";
+import { TermsOfUseTypeComponent } from "@rapydo/components/forms/terms-of-use.type";
 
 import { NgxSpinnerModule } from "ngx-spinner";
 
@@ -200,7 +200,7 @@ let module_imports: any = [
         component: RadioTypeComponent,
         wrappers: ["form-field"],
       },
-      { name: "terms_of_use", component: TermsOfUseCheckbox },
+      { name: "terms_of_use", component: TermsOfUseTypeComponent },
       {
         name: "datepicker",
         component: DatePickerTypeComponent,
@@ -250,7 +250,7 @@ let module_declarations = [
   FormModal,
   FormlyHorizontalWrapper,
   RadioTypeComponent,
-  TermsOfUseCheckbox,
+  TermsOfUseTypeComponent,
   DatePickerTypeComponent,
   PasswordTypeComponent,
   NgSelectFormlyComponent,
@@ -261,7 +261,7 @@ let module_exports = [
 
   FormlyHorizontalWrapper,
   RadioTypeComponent,
-  TermsOfUseCheckbox,
+  TermsOfUseTypeComponent,
   DatePickerTypeComponent,
   PasswordTypeComponent,
   NgSelectFormlyComponent,

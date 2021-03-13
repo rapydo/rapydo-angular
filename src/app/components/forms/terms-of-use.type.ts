@@ -51,7 +51,9 @@ import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
     <br />
   `,
 })
-export class TermsOfUseCheckbox extends FormlyFieldCheckbox implements OnInit {
+export class TermsOfUseTypeComponent
+  extends FormlyFieldCheckbox
+  implements OnInit {
   constructor(private modalService: NgbModal) {
     super();
   }
