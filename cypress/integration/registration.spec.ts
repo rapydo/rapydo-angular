@@ -107,15 +107,20 @@ describe("Registration", () => {
       // Pick all the selects, included Groups and any other custom fields (like in IMC)
       if (Cypress.$("select").length) {
         cy.get("form")
-          .find("select")
+          .find("ng-select")
           .each(($el, index, $list) => {
             if ($el.prop("required")) {
               cy.wrap($el)
-                .find("option")
+                .find("ng-dropdown-panel")
+                .get("div.ng-option")
                 .eq(1)
-                .then((element) => {
-                  cy.wrap($el).select(element.val());
-                });
+                .click({ force: true });
+              // cy.wrap($el)
+              //   .find("option")
+              //   .eq(1)
+              //   .then((element) => {
+              //     cy.wrap($el).select(element.val());
+              //   });
             }
           });
       }

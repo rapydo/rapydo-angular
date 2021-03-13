@@ -204,6 +204,14 @@ describe("KitchenSink", () => {
 
         cy.get('input:checkbox[placeholder="boolean"]').check({ force: true });
 
+        // test the select field and the autocomplete
+        cy.get("form")
+          .find("ng-select")
+          .find("ng-dropdown-panel")
+          .get("div.ng-option")
+          .eq(0)
+          .click({ force: true });
+
         cy.contains("Option1");
         cy.contains("Option2");
         cy.contains("Option3");
@@ -219,7 +227,17 @@ describe("KitchenSink", () => {
         cy.contains('"text": "123456"');
         cy.contains('"number": 3');
         cy.contains('"boolean": true');
+        cy.contains('"select": first-key');
         cy.contains('"date": "' + (current_year + 1) + '-05-19T00:00:00.000Z"');
+
+        cy.get("form").find("ng-select").find("input").type("third");
+        cy.get("form")
+          .find("ng-select")
+          .find("ng-dropdown-panel")
+          .get("div.ng-option")
+          .eq(0)
+          .click({ force: true });
+        cy.contains('"select": third-key');
 
         cy.get("button.btn-outline-danger").find("i.fa-times").parent().click();
         cy.get('button:contains("Submit")').click({ force: true });
