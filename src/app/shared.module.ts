@@ -28,12 +28,12 @@ import { FormlyModule } from "@ngx-formly/core";
 import { FormlyBootstrapModule } from "@ngx-formly/bootstrap";
 import { FormlyFieldConfig } from "@ngx-formly/core/lib/components/formly.field.config";
 import { NgSelectModule } from "@ng-select/ng-select";
-import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
+import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
 
 import { FormlyHorizontalWrapper } from "@rapydo/components/forms/bootstrap.horizontal.wrapper";
 import { FormlyDescriptiveRadio } from "@rapydo/components/forms/radio-type.component";
 import { TermsOfUseCheckbox } from "@rapydo/components/forms/terms_of_use_checkbox";
-import { DatePickerComponent } from "@rapydo/components/forms/datepicker.component";
+import { DatePickerTypeComponent } from "@rapydo/components/forms/datepicker.type";
 import { PasswordComponent } from "@rapydo/components/forms/password.component";
 import { NgSelectFormlyComponent } from "@rapydo/components/forms/ng-select.type";
 
@@ -203,7 +203,7 @@ let module_imports: any = [
       { name: "terms_of_use", component: TermsOfUseCheckbox },
       {
         name: "datepicker",
-        component: DatePickerComponent,
+        component: DatePickerTypeComponent,
         wrappers: ["form-field"],
       },
       {
