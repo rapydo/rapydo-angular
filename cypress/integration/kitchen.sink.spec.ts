@@ -210,7 +210,7 @@ describe("KitchenSink", () => {
         // open the options
         cy.get("ng-select").find("input").click({ force: true });
 
-        // and select the first
+        // and select the first (that is eq(1) because eq(0) is an empty option)
         cy.get("ng-dropdown-panel")
           .find("div.ng-option")
           .eq(1)
@@ -238,7 +238,7 @@ describe("KitchenSink", () => {
         cy.get("ng-select").find("input").type("third");
         cy.get("ng-dropdown-panel")
           .find("div.ng-option")
-          .eq(1)
+          .eq(0)
           .click({ force: true });
         cy.contains('"select": "third-key"');
 
