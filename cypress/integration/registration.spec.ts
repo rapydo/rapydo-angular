@@ -110,11 +110,8 @@ describe("Registration", () => {
           .find("ng-select")
           .each(($el, index, $list) => {
             if ($el.prop("required")) {
-              cy.wrap($el)
-                .find("ng-dropdown-panel")
-                .get("div.ng-option")
-                .eq(1)
-                .click({ force: true });
+              cy.wrap($el).find("input").click({ force: true });
+              cy.wrap($el).find("div.ng-option").eq(1).click({ force: true });
               // cy.wrap($el)
               //   .find("option")
               //   .eq(1)
