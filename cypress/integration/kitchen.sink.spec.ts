@@ -216,6 +216,13 @@ describe("KitchenSink", () => {
           .eq(1)
           .click({ force: true });
 
+        // test multi-select
+        // cy.get("ng-select")
+        //   .get("span.ng-value-label")
+        //   .eq(0)
+        //   .contains("MyLabel");
+        // cy.get("ng-select").get("span.ng-value-icon").click({ force: true });
+
         cy.contains("Option1");
         cy.contains("Option2");
         cy.contains("Option3");
