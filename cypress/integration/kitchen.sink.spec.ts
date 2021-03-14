@@ -355,7 +355,16 @@ describe("KitchenSink", () => {
         cy.get("@number").clear().type("5");
 
         // open the ng-select options and pick the first element
-        cy.get("ng-select").find("input").click({ force: true });
+        cy.get("ng-select").eq(0).find("input").click({ force: true });
+
+        // and select the first (that is eq(1) because eq(0) is an empty option)
+        cy.get("ng-dropdown-panel")
+          .find("div.ng-option")
+          .eq(1)
+          .click({ force: true });
+
+        // open the multiple ng-select options and pick the first element
+        cy.get("ng-select").eq(1).find("input").click({ force: true });
 
         // and select the first (that is eq(1) because eq(0) is an empty option)
         cy.get("ng-dropdown-panel")

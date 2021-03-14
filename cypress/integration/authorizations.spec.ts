@@ -73,6 +73,7 @@ describe("AdminUsers", () => {
 
     // Delete temporary user
     cy.logout();
+    cy.login();
     cy.deleteuser(email);
   });
 
@@ -158,6 +159,7 @@ describe("AdminUsers", () => {
 
     // Delete temporary user
     cy.logout();
+    cy.login();
     cy.deleteuser(email);
   });
 
@@ -243,6 +245,7 @@ describe("AdminUsers", () => {
 
     // Delete temporary user
     cy.logout();
+    cy.login();
     cy.deleteuser(email);
   });
 
@@ -309,6 +312,7 @@ describe("AdminUsers", () => {
 
     // Delete temporary user
     cy.logout();
+    cy.login();
     cy.deleteuser(email);
   });
 
