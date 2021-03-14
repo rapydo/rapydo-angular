@@ -250,7 +250,7 @@ describe("KitchenSink", () => {
         cy.get("ng-select")
           .eq(1)
           .find("span.ng-value-label")
-          .eq(0)
+          .eq(1)
           .contains("Sus scrofa domesticus");
 
         cy.contains("Option1");

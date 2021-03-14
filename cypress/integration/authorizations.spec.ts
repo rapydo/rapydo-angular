@@ -126,18 +126,37 @@ describe("AdminUsers", () => {
     cy.location().should((location) => {
       expect(location.pathname).to.not.eq("/app/admin/users");
     });
+    cy.checkalert(
+      "Permission denied: you are not authorized to access this page"
+    );
+    cy.get("button:contains('Cancel')").click();
+
     cy.visit("/app/admin/groups");
     cy.location().should((location) => {
       expect(location.pathname).to.not.eq("/app/admin/groups");
     });
+    cy.checkalert(
+      "Permission denied: you are not authorized to access this page"
+    );
+    cy.get("button:contains('Cancel')").click();
+
     cy.visit("/app/admin/sessions");
     cy.location().should((location) => {
       expect(location.pathname).to.not.eq("/app/admin/sessions");
     });
+    cy.checkalert(
+      "Permission denied: you are not authorized to access this page"
+    );
+    cy.get("button:contains('Cancel')").click();
+
     cy.visit("/app/admin/stats");
     cy.location().should((location) => {
       expect(location.pathname).to.not.eq("/app/admin/stats");
     });
+    cy.checkalert(
+      "Permission denied: you are not authorized to access this page"
+    );
+    cy.get("button:contains('Cancel')").click();
 
     // Delete temporary user
     cy.logout();
@@ -193,18 +212,37 @@ describe("AdminUsers", () => {
     cy.location().should((location) => {
       expect(location.pathname).to.not.eq("/app/admin/users");
     });
+    cy.checkalert(
+      "Permission denied: you are not authorized to access this page"
+    );
+    cy.get("button:contains('Cancel')").click();
+
     cy.visit("/app/admin/groups");
     cy.location().should((location) => {
       expect(location.pathname).to.not.eq("/app/admin/groups");
     });
+    cy.checkalert(
+      "Permission denied: you are not authorized to access this page"
+    );
+    cy.get("button:contains('Cancel')").click();
+
     cy.visit("/app/admin/sessions");
     cy.location().should((location) => {
       expect(location.pathname).to.not.eq("/app/admin/sessions");
     });
+    cy.checkalert(
+      "Permission denied: you are not authorized to access this page"
+    );
+    cy.get("button:contains('Cancel')").click();
+
     cy.visit("/app/admin/stats");
     cy.location().should((location) => {
       expect(location.pathname).to.not.eq("/app/admin/stats");
     });
+    cy.checkalert(
+      "Permission denied: you are not authorized to access this page"
+    );
+    cy.get("button:contains('Cancel')").click();
 
     // Delete temporary user
     cy.logout();
@@ -278,5 +316,34 @@ describe("AdminUsers", () => {
     cy.deleteuser(user_email);
   });
 
-  it("Test Public authorizations", () => {});
+  it("Test Public authorizations", () => {
+    cy.visit("/app/profile");
+    cy.location().should((location) => {
+      expect(location.pathname).to.not.eq("/app/profile");
+    });
+    cy.visit("/app/profile/changepassword");
+    cy.location().should((location) => {
+      expect(location.pathname).to.not.eq("/app/profile/changepassword");
+    });
+    cy.visit("/app/profile/sessions");
+    cy.location().should((location) => {
+      expect(location.pathname).to.not.eq("/app/profile/sessions");
+    });
+    cy.visit("/app/admin/users");
+    cy.location().should((location) => {
+      expect(location.pathname).to.not.eq("/app/admin/users");
+    });
+    cy.visit("/app/admin/groups");
+    cy.location().should((location) => {
+      expect(location.pathname).to.not.eq("/app/admin/groups");
+    });
+    cy.visit("/app/admin/sessions");
+    cy.location().should((location) => {
+      expect(location.pathname).to.not.eq("/app/admin/sessions");
+    });
+    cy.visit("/app/admin/stats");
+    cy.location().should((location) => {
+      expect(location.pathname).to.not.eq("/app/admin/stats");
+    });
+  });
 });
