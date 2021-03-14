@@ -208,20 +208,54 @@ describe("KitchenSink", () => {
 
         // test the select field [1 / 2], select the first element
         // open the options
-        cy.get("ng-select").find("input").click({ force: true });
+        cy.get("ng-select").eq(0).find("input").click({ force: true });
 
         // and select the first (that is eq(1) because eq(0) is an empty option)
         cy.get("ng-dropdown-panel")
+          .eq(0)
           .find("div.ng-option")
           .eq(1)
           .click({ force: true });
 
         // test multi-select
-        // cy.get("ng-select")
-        //   .get("span.ng-value-label")
-        //   .eq(0)
-        //   .contains("MyLabel");
-        // cy.get("ng-select").find("span.ng-value-icon").click({ force: true });
+        // enable the options dropdown
+        cy.get("ng-select").eq(1).find("input").click({ force: true });
+        // select the third (note 0 == an empty option => eq(3) is effectively the third)
+        cy.get("ng-dropdown-panel")
+          .eq(1)
+          .find("div.ng-option")
+          .eq(3)
+          .click({ force: true });
+
+        // verify that the selected option is the cow
+        cy.get("ng-select")
+          .eq(1)
+          .get("span.ng-value-label")
+          .eq(0)
+          .contains("Bos taurus");
+
+        // filter the options
+        cy.get("ng-select").eq(1).find("input").type("sus");
+        // select the first option (as above, eq(1) is effectively the first)
+        cy.get("ng-dropdown-panel")
+          .eq(1)
+          .find("div.ng-option")
+          .eq(1)
+          .click({ force: true });
+
+        // verify that the first selected option is still the cow
+        cy.get("ng-select")
+          .eq(1)
+          .get("span.ng-value-label")
+          .eq(0)
+          .contains("Bos taurus");
+
+        // verify that the second selected option is the pig
+        cy.get("ng-select")
+          .eq(1)
+          .get("span.ng-value-label")
+          .eq(0)
+          .contains("Sus scrofa domesticus");
 
         cy.contains("Option1");
         cy.contains("Option2");
@@ -239,15 +273,25 @@ describe("KitchenSink", () => {
         cy.contains('"number": 3');
         cy.contains('"boolean": true');
         cy.contains('"select": "first-key"');
+        cy.contains('"multiselect": ["cow", "pig"]');
         cy.contains('"date": "' + (current_year + 1) + '-05-19T00:00:00.000Z"');
 
         // test the select field [2 / 2], filter and the select the new first element
-        cy.get("ng-select").find("input").type("third");
+        cy.get("ng-select").eq(0).find("input").type("third");
         cy.get("ng-dropdown-panel")
+          .eq(0)
           .find("div.ng-option")
           .eq(0)
           .click({ force: true });
         cy.contains('"select": "third-key"');
+
+        // Remove an element from the multiselect
+        cy.get("ng-select")
+          .eq(1)
+          .find("span.ng-value-icon")
+          .eq(0)
+          .click({ force: true });
+        cy.contains('"multiselect": ["pig"]');
 
         cy.get("button.btn-outline-danger").find("i.fa-times").parent().click();
         cy.get('button:contains("Submit")').click({ force: true });

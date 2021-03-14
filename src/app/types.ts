@@ -111,6 +111,7 @@ export interface Total {
 
 export enum SchemaType {
   STRING = "string",
+  STRING_ARRAY = "string[]",
   INT = "int",
   NUMBER = "number",
   DATE = "date",
