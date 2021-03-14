@@ -221,7 +221,7 @@ describe("KitchenSink", () => {
         //   .get("span.ng-value-label")
         //   .eq(0)
         //   .contains("MyLabel");
-        // cy.get("ng-select").get("span.ng-value-icon").click({ force: true });
+        // cy.get("ng-select").find("span.ng-value-icon").click({ force: true });
 
         cy.contains("Option1");
         cy.contains("Option2");
@@ -493,7 +493,7 @@ describe("KitchenSink", () => {
         // 4 - Remove Oliver Smith, add some Charlie
         // (otherwise the validation will fail because the field is required)
         // this is the x icon to delete the item
-        cy.get("ng-select").get("span.ng-value-icon").click({ force: true });
+        cy.get("ng-select").find("span.ng-value-icon").click({ force: true });
 
         cy.get("@field").clear().type("charlie");
 

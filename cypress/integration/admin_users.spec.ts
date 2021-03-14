@@ -175,7 +175,7 @@ describe("AdminUsers", () => {
     cy.get('input[placeholder="Email"]').should("not.exist");
     cy.get('input[placeholder="Name"]').clear().type("NewName");
     // cy.get('input:checkbox[value="normal_user"]').uncheck({ force: true });
-    cy.get("ng-select").get("span.ng-value-icon").click({ force: true });
+    cy.get("ng-select").find("span.ng-value-icon").eq(0).click({ force: true });
 
     cy.get('button:contains("Submit")').click({ force: true });
     cy.checkalert("Confirmation: user successfully updated");
