@@ -269,7 +269,10 @@ describe("KitchenSink", () => {
         cy.contains('"number": 3');
         cy.contains('"boolean": true');
         cy.contains('"select": "first-key"');
-        cy.contains('"multiselect": ["cow", "pig"]');
+        cy.contains('"multiselect"');
+        cy.contains('"cow"');
+        cy.contains('"pig"');
+
         cy.contains('"date": "' + (current_year + 1) + '-05-19T00:00:00.000Z"');
 
         // test the select field [2 / 2], filter and the select the new first element
@@ -287,7 +290,9 @@ describe("KitchenSink", () => {
           .find("span.ng-value-icon")
           .eq(0)
           .click({ force: true });
-        cy.contains('"multiselect": ["pig"]');
+        cy.contains('"multiselect"');
+        cy.contains('"cow"').should("not.exist");
+        cy.contains('"pig"');
 
         cy.get("button.btn-outline-danger").find("i.fa-times").parent().click();
         cy.get('button:contains("Submit")').click({ force: true });

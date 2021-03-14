@@ -11,14 +11,13 @@ describe("AdminUsers", () => {
   const pwd = getpassword(4);
 
   it("Test Admin authorizations", () => {
-    cy.createuser(admin_email, pwd);
+    const email = admin_email;
+    cy.createuser(email, pwd);
     cy.login();
     cy.visit("/app/admin/users");
 
     // Set the admin user
-    cy.get('input[placeholder="Type to filter users"]')
-      .clear()
-      .type(admin_email);
+    cy.get('input[placeholder="Type to filter users"]').clear().type(email);
 
     cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
     // remove all previous roles...
@@ -29,7 +28,7 @@ describe("AdminUsers", () => {
         cy.wrap($el).click({ force: true });
       });
     // and set the new role...
-    cy.get("ng-select").eq(0).find("input").type("administrator");
+    cy.get("ng-select").eq(0).find("input").type("admin");
     cy.get("ng-dropdown-panel")
       .find("div.ng-option")
       .eq(0)
@@ -39,7 +38,7 @@ describe("AdminUsers", () => {
     cy.checkalert("Confirmation: user successfully updated");
 
     // Test authorizations
-    cy.login(admin_email, pwd);
+    cy.login(email, pwd);
 
     cy.goto_profile();
 
@@ -74,18 +73,17 @@ describe("AdminUsers", () => {
 
     // Delete temporary user
     cy.logout();
-    cy.deleteuser(admin_email);
+    cy.deleteuser(email);
   });
 
   it("Test Staff authorizations", () => {
-    cy.createuser(staff_email, pwd);
+    const email = staff_email;
+    cy.createuser(email, pwd);
     cy.login();
     cy.visit("/app/admin/users");
 
     // Set the staff user
-    cy.get('input[placeholder="Type to filter users"]')
-      .clear()
-      .type(staff_email);
+    cy.get('input[placeholder="Type to filter users"]').clear().type(email);
     cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
 
     // remove all previous roles...
@@ -106,7 +104,7 @@ describe("AdminUsers", () => {
     cy.checkalert("Confirmation: user successfully updated");
 
     // Test authorizations
-    cy.login(staff_email, pwd);
+    cy.login(email, pwd);
 
     cy.goto_profile();
 
@@ -129,7 +127,7 @@ describe("AdminUsers", () => {
     cy.checkalert(
       "Permission denied: you are not authorized to access this page"
     );
-    cy.get("button:contains('Cancel')").click();
+    cy.login(email, pwd);
 
     cy.visit("/app/admin/groups");
     cy.location().should((location) => {
@@ -138,7 +136,7 @@ describe("AdminUsers", () => {
     cy.checkalert(
       "Permission denied: you are not authorized to access this page"
     );
-    cy.get("button:contains('Cancel')").click();
+    cy.login(email, pwd);
 
     cy.visit("/app/admin/sessions");
     cy.location().should((location) => {
@@ -147,7 +145,7 @@ describe("AdminUsers", () => {
     cy.checkalert(
       "Permission denied: you are not authorized to access this page"
     );
-    cy.get("button:contains('Cancel')").click();
+    cy.login(email, pwd);
 
     cy.visit("/app/admin/stats");
     cy.location().should((location) => {
@@ -156,22 +154,21 @@ describe("AdminUsers", () => {
     cy.checkalert(
       "Permission denied: you are not authorized to access this page"
     );
-    cy.get("button:contains('Cancel')").click();
+    cy.login(email, pwd);
 
     // Delete temporary user
     cy.logout();
-    cy.deleteuser(staff_email);
+    cy.deleteuser(email);
   });
 
   it("Test Coordinator authorizations", () => {
-    cy.createuser(coordinator_email, pwd);
+    const email = coordinator_email;
+    cy.createuser(email, pwd);
     cy.login();
     cy.visit("/app/admin/users");
 
     // Set the coordinator user
-    cy.get('input[placeholder="Type to filter users"]')
-      .clear()
-      .type(coordinator_email);
+    cy.get('input[placeholder="Type to filter users"]').clear().type(email);
     cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
 
     // remove all previous roles...
@@ -192,7 +189,7 @@ describe("AdminUsers", () => {
     cy.checkalert("Confirmation: user successfully updated");
 
     // Test authorizations
-    cy.login(coordinator_email, pwd);
+    cy.login(email, pwd);
 
     cy.goto_profile();
 
@@ -215,7 +212,7 @@ describe("AdminUsers", () => {
     cy.checkalert(
       "Permission denied: you are not authorized to access this page"
     );
-    cy.get("button:contains('Cancel')").click();
+    cy.login(email, pwd);
 
     cy.visit("/app/admin/groups");
     cy.location().should((location) => {
@@ -224,7 +221,7 @@ describe("AdminUsers", () => {
     cy.checkalert(
       "Permission denied: you are not authorized to access this page"
     );
-    cy.get("button:contains('Cancel')").click();
+    cy.login(email, pwd);
 
     cy.visit("/app/admin/sessions");
     cy.location().should((location) => {
@@ -233,7 +230,7 @@ describe("AdminUsers", () => {
     cy.checkalert(
       "Permission denied: you are not authorized to access this page"
     );
-    cy.get("button:contains('Cancel')").click();
+    cy.login(email, pwd);
 
     cy.visit("/app/admin/stats");
     cy.location().should((location) => {
@@ -242,22 +239,21 @@ describe("AdminUsers", () => {
     cy.checkalert(
       "Permission denied: you are not authorized to access this page"
     );
-    cy.get("button:contains('Cancel')").click();
+    cy.login(email, pwd);
 
     // Delete temporary user
     cy.logout();
-    cy.deleteuser(coordinator_email);
+    cy.deleteuser(email);
   });
 
   it("Test User authorizations", () => {
-    cy.createuser(user_email, pwd);
+    const email = user_email;
+    cy.createuser(email, pwd);
     cy.login();
     cy.visit("/app/admin/users");
 
     // Set the normal user
-    cy.get('input[placeholder="Type to filter users"]')
-      .clear()
-      .type(user_email);
+    cy.get('input[placeholder="Type to filter users"]').clear().type(email);
     cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
 
     // remove all previous roles...
@@ -278,7 +274,7 @@ describe("AdminUsers", () => {
     cy.checkalert("Confirmation: user successfully updated");
 
     // Test authorizations
-    cy.login(user_email, pwd);
+    cy.login(email, pwd);
 
     cy.goto_profile();
 
@@ -313,7 +309,7 @@ describe("AdminUsers", () => {
 
     // Delete temporary user
     cy.logout();
-    cy.deleteuser(user_email);
+    cy.deleteuser(email);
   });
 
   it("Test Public authorizations", () => {
