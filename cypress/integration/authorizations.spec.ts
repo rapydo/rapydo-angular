@@ -1,5 +1,6 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
+import { getpassword } from "../../fixtures/utilities";
 
 describe("AdminUsers", () => {
   const admin_email = "admin" + Math.random() + "@sample.org";

@@ -219,10 +219,10 @@ describe("KitchenSink", () => {
         // test multi-select
         // enable the options dropdown
         cy.get("ng-select").eq(1).find("input").click({ force: true });
-        // select the third (note 0 == an empty option => eq(3) is effectively the third)
+        // select the third option
         cy.get("ng-dropdown-panel")
           .find("div.ng-option")
-          .eq(3)
+          .eq(2)
           .click({ force: true });
 
         // verify that the selected option is the cow
@@ -234,10 +234,9 @@ describe("KitchenSink", () => {
 
         // filter the options
         cy.get("ng-select").eq(1).find("input").type("sus");
-        // select the first option (as above, eq(1) is effectively the first)
         cy.get("ng-dropdown-panel")
           .find("div.ng-option")
-          .eq(1)
+          .eq(0)
           .click({ force: true });
 
         // verify that the first selected option is still the cow
