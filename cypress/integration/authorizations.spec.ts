@@ -10,14 +10,9 @@ describe("AdminUsers", () => {
 
   const pwd = getpassword(4);
 
-  before(() => {
+  it("Test Admin authorizations", () => {
     cy.createuser(admin_email, pwd);
-    cy.createuser(staff_email, pwd);
-    cy.createuser(coordinator_email, pwd);
-    cy.createuser(user_email, pwd);
-
     cy.login();
-
     cy.visit("/app/admin/users");
 
     // Set the admin user
@@ -29,6 +24,19 @@ describe("AdminUsers", () => {
     cy.get('button:contains("Submit")').click({ force: true });
     cy.checkalert("Confirmation: user successfully updated");
 
+    // Test authorizations
+    cy.login(admin_email, pwd);
+
+    // Delete temporary user
+    cy.logout();
+    cy.deleteuser(admin_email);
+  });
+
+  it("Test Staff authorizations", () => {
+    cy.createuser(staff_email, pwd);
+    cy.login();
+    cy.visit("/app/admin/users");
+
     // Set the staff user
     cy.get('input[placeholder="Type to filter users"]')
       .clear()
@@ -37,6 +45,19 @@ describe("AdminUsers", () => {
     // set the roles...
     cy.get('button:contains("Submit")').click({ force: true });
     cy.checkalert("Confirmation: user successfully updated");
+
+    // Test authorizations
+    cy.login(staff_email, pwd);
+
+    // Delete temporary user
+    cy.logout();
+    cy.deleteuser(staff_email);
+  });
+
+  it("Test Coordinator authorizations", () => {
+    cy.createuser(coordinator_email, pwd);
+    cy.login();
+    cy.visit("/app/admin/users");
 
     // Set the coordinator user
     cy.get('input[placeholder="Type to filter users"]')
@@ -47,6 +68,19 @@ describe("AdminUsers", () => {
     cy.get('button:contains("Submit")').click({ force: true });
     cy.checkalert("Confirmation: user successfully updated");
 
+    // Test authorizations
+    cy.login(coordinator_email, pwd);
+
+    // Delete temporary user
+    cy.logout();
+    cy.deleteuser(coordinator_email);
+  });
+
+  it("Test User authorizations", () => {
+    cy.createuser(user_email, pwd);
+    cy.login();
+    cy.visit("/app/admin/users");
+
     // Set the normal user
     cy.get('input[placeholder="Type to filter users"]')
       .clear()
@@ -55,39 +89,14 @@ describe("AdminUsers", () => {
     // set the roles...
     cy.get('button:contains("Submit")').click({ force: true });
     cy.checkalert("Confirmation: user successfully updated");
-  });
 
-  it("Test Admin authorizations", () => {
-    cy.login(admin_email, pwd);
-
-    cy.logout();
-  });
-
-  it("Test Staff authorizations", () => {
-    cy.login(staff_email, pwd);
-
-    cy.logout();
-  });
-
-  it("Test Coordinator authorizations", () => {
-    cy.login(coordinator_email, pwd);
-
-    cy.logout();
-  });
-
-  it("Test User authorizations", () => {
+    // Test authorizations
     cy.login(user_email, pwd);
 
+    // Delete temporary user
     cy.logout();
+    cy.deleteuser(user_email);
   });
 
   it("Test Public authorizations", () => {});
-
-  after(() => {
-    cy.login();
-    cy.deleteuser(admin_email);
-    cy.deleteuser(staff_email);
-    cy.deleteuser(coordinator_email);
-    cy.deleteuser(user_email);
-  });
 });

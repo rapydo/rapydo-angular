@@ -228,7 +228,7 @@ describe("KitchenSink", () => {
         // verify that the selected option is the cow
         cy.get("ng-select")
           .eq(1)
-          .get("span.ng-value-label")
+          .find("span.ng-value-label")
           .eq(0)
           .contains("Bos taurus");
 
@@ -242,14 +242,14 @@ describe("KitchenSink", () => {
         // verify that the first selected option is still the cow
         cy.get("ng-select")
           .eq(1)
-          .get("span.ng-value-label")
+          .find("span.ng-value-label")
           .eq(0)
           .contains("Bos taurus");
 
         // verify that the second selected option is the pig
         cy.get("ng-select")
-          .eq(1)
-          .get("span.ng-value-label")
+          .findeq(1)
+          .find("span.ng-value-label")
           .eq(0)
           .contains("Sus scrofa domesticus");
 
@@ -410,7 +410,7 @@ describe("KitchenSink", () => {
           .click({ force: true });
 
         cy.get("ng-select")
-          .get("span.ng-value-label")
+          .find("span.ng-value-label")
           .contains("Harry Smith the Kid");
 
         cy.get('button:contains("Submit")').click({ force: true });
@@ -429,12 +429,12 @@ describe("KitchenSink", () => {
         cy.wait(300);
 
         cy.get("ng-dropdown-panel")
-          .get("div.ng-option")
+          .find("div.ng-option")
           .eq(0)
           .click({ force: true });
 
         cy.get("ng-select")
-          .get("span.ng-value-label")
+          .find("span.ng-value-label")
           .contains("Oliver Jones the Kid");
 
         cy.get('button:contains("Submit")').click({ force: true });
@@ -473,7 +473,7 @@ describe("KitchenSink", () => {
           .click({ force: true });
 
         cy.get("ng-select")
-          .get("span.ng-value-label")
+          .find("span.ng-value-label")
           .eq(0)
           .contains("Oliver Smith the Kid");
 
@@ -494,11 +494,11 @@ describe("KitchenSink", () => {
           .click({ force: true });
 
         cy.get("ng-select")
-          .get("span.ng-value-label")
+          .find("span.ng-value-label")
           .eq(0)
           .contains("Oliver Smith the Kid");
         cy.get("ng-select")
-          .get("span.ng-value-label")
+          .find("span.ng-value-label")
           .eq(1)
           .contains("Oliver Jones the Kid");
 
@@ -520,7 +520,7 @@ describe("KitchenSink", () => {
           .click({ force: true });
 
         cy.get("ng-select")
-          .get("span.ng-value-label")
+          .find("span.ng-value-label")
           .eq(0)
           .contains("Oliver Smith the Kid");
 
