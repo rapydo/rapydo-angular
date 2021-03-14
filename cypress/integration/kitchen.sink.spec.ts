@@ -212,7 +212,6 @@ describe("KitchenSink", () => {
 
         // and select the first (that is eq(1) because eq(0) is an empty option)
         cy.get("ng-dropdown-panel")
-          .eq(0)
           .find("div.ng-option")
           .eq(1)
           .click({ force: true });
@@ -222,7 +221,6 @@ describe("KitchenSink", () => {
         cy.get("ng-select").eq(1).find("input").click({ force: true });
         // select the third (note 0 == an empty option => eq(3) is effectively the third)
         cy.get("ng-dropdown-panel")
-          .eq(1)
           .find("div.ng-option")
           .eq(3)
           .click({ force: true });
@@ -238,7 +236,6 @@ describe("KitchenSink", () => {
         cy.get("ng-select").eq(1).find("input").type("sus");
         // select the first option (as above, eq(1) is effectively the first)
         cy.get("ng-dropdown-panel")
-          .eq(1)
           .find("div.ng-option")
           .eq(1)
           .click({ force: true });
