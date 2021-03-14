@@ -248,7 +248,7 @@ describe("KitchenSink", () => {
 
         // verify that the second selected option is the pig
         cy.get("ng-select")
-          .findeq(1)
+          .eq(1)
           .find("span.ng-value-label")
           .eq(0)
           .contains("Sus scrofa domesticus");

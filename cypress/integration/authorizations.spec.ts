@@ -19,13 +19,58 @@ describe("AdminUsers", () => {
     cy.get('input[placeholder="Type to filter users"]')
       .clear()
       .type(admin_email);
+
     cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
-    // set the roles...
+    // remove all previous roles...
+    cy.get("ng-select")
+      .eq(0)
+      .find("span.ng-value-icon")
+      .each(($el, index, $list) => {
+        cy.wrap($el).click({ force: true });
+      });
+    // and set the new role...
+    cy.get("ng-select").eq(0).find("input").type("administrator");
+    cy.get("ng-dropdown-panel")
+      .find("div.ng-option")
+      .eq(0)
+      .click({ force: true });
+
     cy.get('button:contains("Submit")').click({ force: true });
     cy.checkalert("Confirmation: user successfully updated");
 
     // Test authorizations
     cy.login(admin_email, pwd);
+
+    cy.goto_profile();
+
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/profile");
+    });
+
+    cy.visit("/app/profile/changepassword");
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/profile/changepassword");
+    });
+    cy.visit("/app/profile/sessions");
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/profile/sessions");
+    });
+    cy.visit("/app/admin/users");
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/admin/users");
+    });
+    cy.visit("/app/admin/groups");
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/admin/groups");
+    });
+    cy.visit("/app/admin/sessions");
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/admin/sessions");
+    });
+    cy.visit("/app/admin/stats");
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/admin/stats");
+    });
 
     // Delete temporary user
     cy.logout();
@@ -42,12 +87,57 @@ describe("AdminUsers", () => {
       .clear()
       .type(staff_email);
     cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
-    // set the roles...
+
+    // remove all previous roles...
+    cy.get("ng-select")
+      .eq(0)
+      .find("span.ng-value-icon")
+      .each(($el, index, $list) => {
+        cy.wrap($el).click({ force: true });
+      });
+    // and set the new role...
+    cy.get("ng-select").eq(0).find("input").type("staff");
+    cy.get("ng-dropdown-panel")
+      .find("div.ng-option")
+      .eq(0)
+      .click({ force: true });
+
     cy.get('button:contains("Submit")').click({ force: true });
     cy.checkalert("Confirmation: user successfully updated");
 
     // Test authorizations
     cy.login(staff_email, pwd);
+
+    cy.goto_profile();
+
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/profile");
+    });
+
+    cy.visit("/app/profile/changepassword");
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/profile/changepassword");
+    });
+    cy.visit("/app/profile/sessions");
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/profile/sessions");
+    });
+    cy.visit("/app/admin/users");
+    cy.location().should((location) => {
+      expect(location.pathname).to.not.eq("/app/admin/users");
+    });
+    cy.visit("/app/admin/groups");
+    cy.location().should((location) => {
+      expect(location.pathname).to.not.eq("/app/admin/groups");
+    });
+    cy.visit("/app/admin/sessions");
+    cy.location().should((location) => {
+      expect(location.pathname).to.not.eq("/app/admin/sessions");
+    });
+    cy.visit("/app/admin/stats");
+    cy.location().should((location) => {
+      expect(location.pathname).to.not.eq("/app/admin/stats");
+    });
 
     // Delete temporary user
     cy.logout();
@@ -64,12 +154,57 @@ describe("AdminUsers", () => {
       .clear()
       .type(coordinator_email);
     cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
-    // set the roles...
+
+    // remove all previous roles...
+    cy.get("ng-select")
+      .eq(0)
+      .find("span.ng-value-icon")
+      .each(($el, index, $list) => {
+        cy.wrap($el).click({ force: true });
+      });
+    // and set the new role...
+    cy.get("ng-select").eq(0).find("input").type("coordinator");
+    cy.get("ng-dropdown-panel")
+      .find("div.ng-option")
+      .eq(0)
+      .click({ force: true });
+
     cy.get('button:contains("Submit")').click({ force: true });
     cy.checkalert("Confirmation: user successfully updated");
 
     // Test authorizations
     cy.login(coordinator_email, pwd);
+
+    cy.goto_profile();
+
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/profile");
+    });
+
+    cy.visit("/app/profile/changepassword");
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/profile/changepassword");
+    });
+    cy.visit("/app/profile/sessions");
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/profile/sessions");
+    });
+    cy.visit("/app/admin/users");
+    cy.location().should((location) => {
+      expect(location.pathname).to.not.eq("/app/admin/users");
+    });
+    cy.visit("/app/admin/groups");
+    cy.location().should((location) => {
+      expect(location.pathname).to.not.eq("/app/admin/groups");
+    });
+    cy.visit("/app/admin/sessions");
+    cy.location().should((location) => {
+      expect(location.pathname).to.not.eq("/app/admin/sessions");
+    });
+    cy.visit("/app/admin/stats");
+    cy.location().should((location) => {
+      expect(location.pathname).to.not.eq("/app/admin/stats");
+    });
 
     // Delete temporary user
     cy.logout();
@@ -86,12 +221,57 @@ describe("AdminUsers", () => {
       .clear()
       .type(user_email);
     cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
-    // set the roles...
+
+    // remove all previous roles...
+    cy.get("ng-select")
+      .eq(0)
+      .find("span.ng-value-icon")
+      .each(($el, index, $list) => {
+        cy.wrap($el).click({ force: true });
+      });
+    // and set the new role...
+    cy.get("ng-select").eq(0).find("input").type("user");
+    cy.get("ng-dropdown-panel")
+      .find("div.ng-option")
+      .eq(0)
+      .click({ force: true });
+
     cy.get('button:contains("Submit")').click({ force: true });
     cy.checkalert("Confirmation: user successfully updated");
 
     // Test authorizations
     cy.login(user_email, pwd);
+
+    cy.goto_profile();
+
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/profile");
+    });
+
+    cy.visit("/app/profile/changepassword");
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/profile/changepassword");
+    });
+    cy.visit("/app/profile/sessions");
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/profile/sessions");
+    });
+    cy.visit("/app/admin/users");
+    cy.location().should((location) => {
+      expect(location.pathname).to.not.eq("/app/admin/users");
+    });
+    cy.visit("/app/admin/groups");
+    cy.location().should((location) => {
+      expect(location.pathname).to.not.eq("/app/admin/groups");
+    });
+    cy.visit("/app/admin/sessions");
+    cy.location().should((location) => {
+      expect(location.pathname).to.not.eq("/app/admin/sessions");
+    });
+    cy.visit("/app/admin/stats");
+    cy.location().should((location) => {
+      expect(location.pathname).to.not.eq("/app/admin/stats");
+    });
 
     // Delete temporary user
     cy.logout();
