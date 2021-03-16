@@ -1,10 +1,14 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword, get_totp } from "../../fixtures/utilities";
+import {
+  getpassword,
+  get_random_username,
+  get_totp,
+} from "../../fixtures/utilities";
 
 if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
-  const email = "aaaaaaaaaa000112" + Math.random() + "@sample.org";
+  const email = get_random_username("testtemppasswordchange");
   const pwd = getpassword(4);
 
   describe("ChangeTemporaryPassword", () => {

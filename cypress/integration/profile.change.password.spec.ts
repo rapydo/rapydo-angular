@@ -1,10 +1,14 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword, get_totp } from "../../fixtures/utilities";
+import {
+  getpassword,
+  get_random_username,
+  get_totp,
+} from "../../fixtures/utilities";
 
 describe("ChangePassword", () => {
-  const email = "aaaaaaaaaa000111" + Math.random() + "@sample.org";
+  const email = get_random_username("testchangepassword");
   const pwd = getpassword(4);
 
   before(() => {

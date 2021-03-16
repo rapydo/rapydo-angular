@@ -68,6 +68,15 @@ export function getpassword(type, len = 0) {
   return pwd;
 }
 
+export function get_random_username(prefix: string) {
+  const timestamp = Date.now().toString();
+  // Not really random since can't be feed with a seed and Cypress
+  // always return the same values during a test...
+  // It is usefull to provide random between different tests
+  const random_number = Math.round(10000000 * Math.random()).toString();
+  return `${prefix}_${timestamp}_${random_number}@sample.org`;
+}
+
 // Version with otpauth
 import * as OTPAuth from "otpauth";
 

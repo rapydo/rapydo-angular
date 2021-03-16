@@ -1,11 +1,15 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword, get_totp } from "../../fixtures/utilities";
+import {
+  getpassword,
+  get_random_username,
+  get_totp,
+} from "../../fixtures/utilities";
 
 describe("Login with TOTP", () => {
   if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-    const email = "aaaaaaaaaa000555" + Math.random() + "@sample.org";
+    const email = get_random_username("testtotp");
     let pwd = getpassword(4);
 
     before(() => {

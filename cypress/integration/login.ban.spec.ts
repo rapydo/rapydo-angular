@@ -1,12 +1,16 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword, get_totp } from "../../fixtures/utilities";
+import {
+  getpassword,
+  get_random_username,
+  get_totp,
+} from "../../fixtures/utilities";
 
 describe("Login Ban", () => {
   if (Cypress.env("AUTH_MAX_LOGIN_ATTEMPTS") > 0) {
     it("Ban after wrong password", () => {
-      const email = "bbbb111111111" + Math.random() + "@sample.org";
+      const email = get_random_username("testloginban1");
       const pwd = getpassword(4);
 
       cy.createuser(email, pwd);
@@ -44,7 +48,7 @@ describe("Login Ban", () => {
 
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       it("Ban after wrong totp", () => {
-        const email = "bbbb222222222" + Math.random() + "@sample.org";
+        const email = get_random_username("testloginban2");
         const pwd = getpassword(4);
 
         cy.createuser(email, pwd);

@@ -1,7 +1,11 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword, get_totp } from "../../fixtures/utilities";
+import {
+  getpassword,
+  get_random_username,
+  get_totp,
+} from "../../fixtures/utilities";
 
 describe("Registration", () => {
   if (!Cypress.env("ALLOW_REGISTRATION")) {
@@ -16,8 +20,7 @@ describe("Registration", () => {
       cy.contains("Account registration is not allowed");
     });
   } else {
-    const newUser =
-      "testuser" + Math.floor(Math.random() * 1000000) + "@sample.org";
+    const newUser = get_random_username("testregistration");
     let newPassword = "to-be-generated";
 
     it("Registration", () => {
