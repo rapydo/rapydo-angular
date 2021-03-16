@@ -41,6 +41,22 @@ describe("AdminUsers", () => {
 
     cy.checkalert("Confirmation: group successfully created");
 
+    //////////////////////////////////////////////////////////////
+    // DEBUG CODE !
+    cy.get('input[placeholder="Type to filter groups"]')
+      .clear()
+      .type(new Date().toString());
+
+    cy.wait(12000);
+
+    cy.get('input[placeholder="Type to filter groups"]')
+      .clear()
+      .type(new Date().toString());
+
+    cy.wait(12000);
+
+    //////////////////////////////////////////////////////////////
+
     cy.get('input[placeholder="Type to filter groups"]')
       .clear()
       .type("_TestGroup-" + randval);
