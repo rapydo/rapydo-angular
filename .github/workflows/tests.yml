@@ -60,7 +60,7 @@ jobs:
           id: ${{ secrets.CYPRESS_PROJECT_ID }}
           key: ${{ secrets.CYPRESS_RECORD_KEY }}
 
-      - name: Run Cypress
+      - name: Setup project
         if: ${{ matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full' || matrix.stage == 'cypress-totp' }}
         run: |
           cd rapydo_tests
@@ -92,6 +92,12 @@ jobs:
           rapydo shell --no-tty frontend "yarn install"
           rapydo shell --no-tty frontend "reload-types"
           rapydo logs
+
+      - name: Run Cypress
+        if: ${{ matrix.stage == 'cypress-lite' || matrix.stage == 'cypress-full' || matrix.stage == 'cypress-totp' }}
+        run: |
+          cd rapydo_tests
+
           if [[ "${{ matrix.stage }}" == "cypress-full" ]]; then
             rapydo shell --no-tty frontend "yarn run cypress:start"
           elif [[ "${{ matrix.stage }}" == "cypress-totp" ]]; then
@@ -101,7 +107,6 @@ jobs:
             # Only differs in --group option
             rapydo shell --no-tty frontend "yarn run cypress:start:lite"
           fi
-
 
           rapydo shell --no-tty frontend "npx nyc --all report --reporter=lcov --report-dir /coverage"
           cp data/prj/karma/lcov.info .
