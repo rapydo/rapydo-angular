@@ -2,13 +2,24 @@
 /*global cy, Cypress*/
 import { getpassword, get_random_username } from "../../fixtures/utilities";
 
-describe("AdminUsers", () => {
-  const admin_email = get_random_username("admin");
-  const staff_email = get_random_username("staff");
-  const coordinator_email = get_random_username("coordinator");
-  const user_email = get_random_username("user");
+describe("Test Authorizations", () => {
+  // do not directly create the random values here,
+  // otherwise will be always the same on each test repetition!
+  let admin_email;
+  let staff_email;
+  let coordinator_email;
+  let user_email;
 
-  const pwd = getpassword(4);
+  let pwd;
+
+  before(() => {
+    admin_email = get_random_username("admin");
+    staff_email = get_random_username("staff");
+    coordinator_email = get_random_username("coordinator");
+    user_email = get_random_username("user");
+
+    pwd = getpassword(4);
+  });
 
   it("Test Admin authorizations", () => {
     const email = admin_email;

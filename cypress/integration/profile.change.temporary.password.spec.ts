@@ -8,11 +8,15 @@ import {
 } from "../../fixtures/utilities";
 
 if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
-  const email = get_random_username("testtemppasswordchange");
-  const pwd = getpassword(4);
-
   describe("ChangeTemporaryPassword", () => {
-    beforeEach(() => {
+    // do not directly create the random values here,
+    // otherwise will be always the same on each test repetition!
+    let email;
+    let pwd;
+
+    before(() => {
+      email = get_random_username("testtemppasswordchange");
+      pwd = getpassword(4);
       // expired = false
       // init_user = false
       cy.createuser(email, pwd, false, false);
@@ -131,7 +135,7 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
       cy.get("table").find("td").contains(email);
     });
 
-    afterEach(() => {
+    after(() => {
       cy.logout();
 
       cy.login();

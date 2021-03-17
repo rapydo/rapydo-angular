@@ -1,12 +1,17 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword } from "../../fixtures/utilities";
+import { getpassword, get_random_username } from "../../fixtures/utilities";
 
 describe("AdminUsers", () => {
-  // with this email the user should be the first when sorted by email
-  // username will be created without roles
-  const username = "a000000000000@sample.org";
+  // do not directly create the random values here,
+  // otherwise will be always the same on each test repetition!
+  let username;
+
+  before(() => {
+    // with this prefix on the email the user should be the first when sorted by email
+    username = get_random_username("a000000000000");
+  });
 
   beforeEach(() => {
     cy.login();

@@ -20,8 +20,14 @@ describe("Registration", () => {
       cy.contains("Account registration is not allowed");
     });
   } else {
-    const newUser = get_random_username("testregistration");
+    // do not directly create the random values here,
+    // otherwise will be always the same on each test repetition!
+    let newUser;
     let newPassword = "to-be-generated";
+
+    before(() => {
+      newUser = get_random_username("testregistration");
+    });
 
     it("Registration", () => {
       cy.visit("/app/login");

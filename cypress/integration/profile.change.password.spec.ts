@@ -8,10 +8,14 @@ import {
 } from "../../fixtures/utilities";
 
 describe("ChangePassword", () => {
-  const email = get_random_username("testchangepassword");
-  const pwd = getpassword(4);
+  // do not directly create the random values here,
+  // otherwise will be always the same on each test repetition!
+  let email;
+  let pwd;
 
   before(() => {
+    email = get_random_username("testchangepassword");
+    pwd = getpassword(4);
     cy.createuser(email, pwd);
   });
 

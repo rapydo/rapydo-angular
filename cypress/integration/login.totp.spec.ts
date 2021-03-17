@@ -7,12 +7,16 @@ import {
   get_totp,
 } from "../../fixtures/utilities";
 
-describe("Login with TOTP", () => {
-  if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-    const email = get_random_username("testtotp");
-    let pwd = getpassword(4);
+if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+  describe("Login with TOTP", () => {
+    // do not directly create the random values here,
+    // otherwise will be always the same on each test repetition!
+    let email;
+    let pwd;
 
     before(() => {
+      email = get_random_username("testtotp");
+      pwd = getpassword(4);
       // expired = false
       // init_user = false
       cy.createuser(email, pwd, false, false);
@@ -275,5 +279,5 @@ describe("Login with TOTP", () => {
       cy.login();
       cy.deleteuser(email);
     });
-  }
-});
+  });
+}

@@ -1,14 +1,22 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword, get_totp } from "../../fixtures/utilities";
+import {
+  getpassword,
+  get_random_username,
+  get_totp,
+} from "../../fixtures/utilities";
 
-describe("ResetPassword", () => {
-  if (Cypress.env("ALLOW_PASSWORD_RESET")) {
-    const email = "aaaaaaaaaa000222@sample.org";
-    const pwd = getpassword(4);
+if (Cypress.env("ALLOW_PASSWORD_RESET")) {
+  describe("ResetPassword", () => {
+    // do not directly create the random values here,
+    // otherwise will be always the same on each test repetition!
+    let email;
+    let pwd;
 
-    beforeEach(() => {
+    before(() => {
+      email = get_random_username("testreset");
+      pwd = getpassword(4);
       cy.createuser(email, pwd);
     });
 
@@ -180,11 +188,11 @@ describe("ResetPassword", () => {
       });
     });
 
-    afterEach(() => {
+    after(() => {
       cy.logout();
 
       cy.login();
       cy.deleteuser(email);
     });
-  }
-});
+  });
+}

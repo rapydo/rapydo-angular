@@ -1,26 +1,32 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword, get_totp } from "../../fixtures/utilities";
+import {
+  getpassword,
+  get_random_username,
+  get_totp,
+} from "../../fixtures/utilities";
 
 if (Cypress.env("ALLOW_TERMS_OF_USE")) {
   describe("Terms of use", () => {
-    const username = "bbb000@sample.org";
-    let pwd = getpassword(4);
+    // do not directly create the random values here,
+    // otherwise will be always the same on each test repetition!
+    let email;
+    let pwd;
 
     before(() => {
+      email = get_random_username("testtermsofuser");
+      pwd = getpassword(4);
       // expired = false
       // init_user = false
-      cy.createuser(username, pwd, false, false);
+      cy.createuser(email, pwd, false, false);
     });
 
     it("Terms of Use - not accepted", () => {
       cy.visit("/app/login");
 
       cy.intercept("POST", "/auth/login").as("login");
-      cy.get("input[placeholder='Your username (email)']")
-        .clear()
-        .type(username);
+      cy.get("input[placeholder='Your username (email)']").clear().type(email);
       cy.get("input[placeholder='Your password']")
         .clear()
         .type(pwd + "{enter}");
@@ -81,9 +87,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
       cy.visit("/app/login");
 
       cy.intercept("POST", "/auth/login").as("login");
-      cy.get("input[placeholder='Your username (email)']")
-        .clear()
-        .type(username);
+      cy.get("input[placeholder='Your username (email)']").clear().type(email);
       cy.get("input[placeholder='Your password']")
         .clear()
         .type(pwd + "{enter}");
@@ -114,9 +118,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
       cy.visit("/app/login");
 
       cy.intercept("POST", "/auth/login").as("login");
-      cy.get("input[placeholder='Your username (email)']")
-        .clear()
-        .type(username);
+      cy.get("input[placeholder='Your username (email)']").clear().type(email);
       cy.get("input[placeholder='Your password']")
         .clear()
         .type(pwd + "{enter}");
@@ -150,7 +152,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
 
       cy.visit("/app/admin/users");
 
-      cy.deleteuser(username);
+      cy.deleteuser(email);
     });
   });
 }
