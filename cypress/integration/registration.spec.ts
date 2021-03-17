@@ -22,14 +22,13 @@ describe("Registration", () => {
   } else {
     // do not directly create the random values here,
     // otherwise will be always the same on each test repetition!
+    // do not generate it in the before() block, or will be not re-created on repetitions
     let newUser;
     let newPassword = "to-be-generated";
 
-    before(() => {
-      newUser = get_random_username("testregistration");
-    });
-
     it("Registration", () => {
+      newUser = get_random_username("testregistration");
+
       cy.visit("/app/login");
       cy.closecookielaw();
 

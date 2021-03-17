@@ -11,16 +11,15 @@ if (Cypress.env("ALLOW_PASSWORD_RESET")) {
   describe("ResetPassword", () => {
     // do not directly create the random values here,
     // otherwise will be always the same on each test repetition!
+    // do not generate it in the before() block, or will be not re-created on repetitions
     let email;
     let pwd;
 
-    before(() => {
+    it("Reset", () => {
       email = get_random_username("testreset");
       pwd = getpassword(4);
       cy.createuser(email, pwd);
-    });
 
-    it("Reset", () => {
       cy.visit("/app/login");
 
       cy.get('a:contains("Reset your password")').click({ force: true });

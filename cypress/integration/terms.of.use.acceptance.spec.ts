@@ -11,18 +11,17 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
   describe("Terms of use", () => {
     // do not directly create the random values here,
     // otherwise will be always the same on each test repetition!
+    // do not generate it in the before() block, or will be not re-created on repetitions
     let email;
     let pwd;
 
-    before(() => {
+    it("Terms of Use - not accepted", () => {
       email = get_random_username("testtermsofuser");
       pwd = getpassword(4);
       // expired = false
       // init_user = false
       cy.createuser(email, pwd, false, false);
-    });
 
-    it("Terms of Use - not accepted", () => {
       cy.visit("/app/login");
 
       cy.intercept("POST", "/auth/login").as("login");

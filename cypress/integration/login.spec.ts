@@ -9,16 +9,19 @@ import {
 describe("SuccessfulLogin", () => {
   // do not directly create the random values here,
   // otherwise will be always the same on each test repetition!
+  // do not generate it in the before() block, or will be not re-created on repetitions
   let email;
   let pwd;
 
-  before(() => {
-    email = get_random_username("testlogin");
-    pwd = getpassword(4);
-    cy.createuser(email, pwd);
-  });
+  let created = false;
 
   beforeEach(() => {
+    if (!created) {
+      email = get_random_username("testlogin");
+      pwd = getpassword(4);
+      cy.createuser(email, pwd);
+      created = true;
+    }
     cy.visit("/app/profile");
 
     // Profile page is restricted and you are automatically redirected to login page

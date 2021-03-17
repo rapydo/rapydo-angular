@@ -6,12 +6,8 @@ import { getpassword, get_random_username } from "../../fixtures/utilities";
 describe("AdminUsers", () => {
   // do not directly create the random values here,
   // otherwise will be always the same on each test repetition!
+  // do not generate it in the before() block, or will be not re-created on repetitions
   let username;
-
-  before(() => {
-    // with this prefix on the email the user should be the first when sorted by email
-    username = get_random_username("a000000000000");
-  });
 
   beforeEach(() => {
     cy.login();
@@ -24,6 +20,9 @@ describe("AdminUsers", () => {
   });
 
   it("Create new user", () => {
+    // with this prefix on the email the user should be the first when sorted by email
+    username = get_random_username("a000000000000");
+
     cy.get('button:contains("new user")').click({ force: true });
     cy.get('button:contains("Close")').click({ force: true });
 

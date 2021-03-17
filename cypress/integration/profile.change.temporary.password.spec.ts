@@ -11,18 +11,17 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
   describe("ChangeTemporaryPassword", () => {
     // do not directly create the random values here,
     // otherwise will be always the same on each test repetition!
+    // do not generate it in the before() block, or will be not re-created on repetitions
     let email;
     let pwd;
 
-    before(() => {
+    it("ChangeTemporaryPassword", () => {
       email = get_random_username("testtemppasswordchange");
       pwd = getpassword(4);
       // expired = false
       // init_user = false
       cy.createuser(email, pwd, false, false);
-    });
 
-    it("ChangeTemporaryPassword", () => {
       cy.visit("/app/login");
 
       cy.get("input[placeholder='Your username (email)']").clear().type(email);

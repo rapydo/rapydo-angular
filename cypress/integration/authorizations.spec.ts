@@ -3,26 +3,9 @@
 import { getpassword, get_random_username } from "../../fixtures/utilities";
 
 describe("Test Authorizations", () => {
-  // do not directly create the random values here,
-  // otherwise will be always the same on each test repetition!
-  let admin_email;
-  let staff_email;
-  let coordinator_email;
-  let user_email;
-
-  let pwd;
-
-  before(() => {
-    admin_email = get_random_username("admin");
-    staff_email = get_random_username("staff");
-    coordinator_email = get_random_username("coordinator");
-    user_email = get_random_username("user");
-
-    pwd = getpassword(4);
-  });
-
   it("Test Admin authorizations", () => {
-    const email = admin_email;
+    const email = get_random_username("admin");
+    const pwd = getpassword(4);
     cy.createuser(email, pwd);
     cy.login();
     cy.visit("/app/admin/users");
@@ -89,7 +72,8 @@ describe("Test Authorizations", () => {
   });
 
   it("Test Staff authorizations", () => {
-    const email = staff_email;
+    const email = get_random_username("staff");
+    const pwd = getpassword(4);
     cy.createuser(email, pwd);
     cy.login();
     cy.visit("/app/admin/users");
@@ -175,7 +159,8 @@ describe("Test Authorizations", () => {
   });
 
   it("Test Coordinator authorizations", () => {
-    const email = coordinator_email;
+    const email = get_random_username("coordinator");
+    const pwd = getpassword(4);
     cy.createuser(email, pwd);
     cy.login();
     cy.visit("/app/admin/users");
@@ -261,7 +246,8 @@ describe("Test Authorizations", () => {
   });
 
   it("Test User authorizations", () => {
-    const email = user_email;
+    const email = get_random_username("user");
+    const pwd = getpassword(4);
     cy.createuser(email, pwd);
     cy.login();
     cy.visit("/app/admin/users");

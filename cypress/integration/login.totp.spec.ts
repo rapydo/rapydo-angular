@@ -11,18 +11,17 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
   describe("Login with TOTP", () => {
     // do not directly create the random values here,
     // otherwise will be always the same on each test repetition!
+    // do not generate it in the before() block, or will be not re-created on repetitions
     let email;
     let pwd;
 
-    before(() => {
+    it("TOTP - change temporary password", () => {
       email = get_random_username("testtotp");
       pwd = getpassword(4);
       // expired = false
       // init_user = false
       cy.createuser(email, pwd, false, false);
-    });
 
-    it("TOTP - change temporary password", () => {
       cy.visit("/app/login");
 
       cy.get("input[placeholder='Your username (email)']").type(email);

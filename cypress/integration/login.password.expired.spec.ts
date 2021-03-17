@@ -8,18 +8,11 @@ import {
 } from "../../fixtures/utilities";
 
 describe("Login", () => {
-  // do not directly create the random values here,
-  // otherwise will be always the same on each test repetition!
-  let email;
-  let pwd;
-
-  before(() => {
-    email = get_random_username("testpwdexpiration");
-    pwd = getpassword(4);
-    cy.createuser(email, pwd);
-  });
-
   it("PASSWORD EXPIRED", () => {
+    const email = get_random_username("testpwdexpiration");
+    const pwd = getpassword(4);
+    cy.createuser(email, pwd);
+
     cy.visit("/app/login");
 
     cy.get("input[placeholder='Your username (email)']").as("user");
@@ -164,9 +157,7 @@ describe("Login", () => {
     }
 
     cy.logout();
-  });
 
-  after(() => {
     cy.login();
     cy.deleteuser(email);
   });

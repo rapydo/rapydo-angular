@@ -10,16 +10,20 @@ import {
 describe("ChangePassword", () => {
   // do not directly create the random values here,
   // otherwise will be always the same on each test repetition!
+  // do not generate it in the before() block, or will be not re-created on repetitions
   let email;
   let pwd;
 
-  before(() => {
-    email = get_random_username("testchangepassword");
-    pwd = getpassword(4);
-    cy.createuser(email, pwd);
-  });
+  let created = false;
 
   beforeEach(() => {
+    if (!created) {
+      email = get_random_username("testchangepassword");
+      pwd = getpassword(4);
+      cy.createuser(email, pwd);
+      created = true;
+    }
+
     cy.login(email, pwd);
 
     cy.visit("/app/profile/changepassword");
