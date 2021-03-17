@@ -132,11 +132,10 @@ export function minLengthValidationError(error, field) {
   return `Should have at least ${field.templateOptions.minLength} characters`;
 }
 
-// Can't be tested because inputs are prevented to add more characters then the maximum allowed
-/* istanbul ignore next */
-export function maxLengthValidationError(error, field) {
-  return `Should have no more than ${field.templateOptions.maxLength} characters`;
-}
+// Can't be used because inputs are prevented to add more characters then the maximum allowed
+// export function maxLengthValidationError(error, field) {
+//   return `Should have no more than ${field.templateOptions.maxLength} characters`;
+// }
 
 export function minValidationError(error, field) {
   return `Should be greater than ${field.templateOptions.min}`;
@@ -227,7 +226,7 @@ let module_imports: any = [
     validationMessages: [
       { name: "required", message: "This field is required" },
       { name: "minlength", message: minLengthValidationError },
-      { name: "maxlength", message: maxLengthValidationError },
+      // { name: "maxlength", message: maxLengthValidationError },
       { name: "min", message: minValidationError },
       { name: "max", message: maxValidationError },
       { name: "email", message: "Invalid email address" },

@@ -198,8 +198,12 @@ export class FormlyService {
             field["templateOptions"]["selectedItems"] = [...default_data];
             const idValue = field["templateOptions"]["bindValue"] || "value";
             default_data = default_data.map((v) => v[idValue]);
-          } else if (template_type === "date") {
-            default_data = this.formatDate(default_data);
+
+            // Replaced by datepicker
+            // } else if (template_type === "date") {
+            //   default_data = this.formatDate(default_data);
+
+            // Replaced by ng-select with multiple values
             // } else if (field_type === "multicheckbox") {
             //   // This works because template_type = "array";
             //   // Otherwise the model should be {key1: true, key2: true}
@@ -207,7 +211,6 @@ export class FormlyService {
             //   for (let d of default_data) {
             //     default_data_list.push(this.getSelectIdFromObject(d));
             //   }
-
             //   default_data = default_data_list;
           } else if (template_type === "select") {
             if (is_array) {
