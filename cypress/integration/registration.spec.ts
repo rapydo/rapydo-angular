@@ -39,6 +39,16 @@ describe("Registration", () => {
         expect(location.pathname).to.eq("/public/register");
       });
 
+      cy.contains("Already have an account?");
+      // find the sign in the in the card header to prevent to pick the one in the navbar
+      cy.get("div.card-header").find('a:contains("Sign in")').click();
+
+      cy.location().should((location) => {
+        expect(location.pathname).to.eq("/app/login");
+      });
+
+      cy.get('a:contains("Register here")').click();
+
       cy.get("div.card-header h4").contains("Register a new account");
 
       // Save form fields as aliases

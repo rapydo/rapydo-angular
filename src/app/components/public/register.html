@@ -5,7 +5,11 @@
         <ngx-spinner [fullScreen]="false"></ngx-spinner>
 
         <div class="card-header">
-          <h4>{{registration_title}}</h4>
+          <h4 class="float-left">{{registration_title}}</h4>
+          <small class="float-right">
+            Already have an account?
+            <a href="#" routerLink="/app/login">Sign in</a>
+          </small>
         </div>
 
         <div class="card-block" *ngIf="!allowRegistration">
