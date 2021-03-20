@@ -49,6 +49,10 @@ describe("Registration", () => {
 
       cy.get('a:contains("Register here")').click();
 
+      cy.location().should((location) => {
+        expect(location.pathname).to.eq("/public/register");
+      });
+
       cy.get("div.card-header h4").contains("Register a new account");
 
       // Save form fields as aliases
