@@ -49,9 +49,8 @@ describe("Registration", () => {
         expect(location.pathname).to.eq("/app/login");
       });
 
-      // Login -> Register
-      cy.contains("You don't have an account yet");
-      cy.get('a:contains("Register here")').click();
+      // direct -> Register
+      cy.visit("/public/register");
 
       cy.location().should((location) => {
         expect(location.pathname).to.eq("/public/register");
