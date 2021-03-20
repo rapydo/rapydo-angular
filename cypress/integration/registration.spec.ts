@@ -32,6 +32,7 @@ describe("Registration", () => {
       cy.visit("/app/login");
       cy.closecookielaw();
 
+      // Login -> Register
       cy.contains("You don't have an account yet");
       cy.get('a:contains("Register here")').click();
 
@@ -39,6 +40,7 @@ describe("Registration", () => {
         expect(location.pathname).to.eq("/public/register");
       });
 
+      // Register -> Login
       cy.contains("Already have an account?");
       // find the sign in the in the card header to prevent to pick the one in the navbar
       cy.get("div.card-header").find('a:contains("Sign in")').click();
@@ -47,6 +49,8 @@ describe("Registration", () => {
         expect(location.pathname).to.eq("/app/login");
       });
 
+      // Login -> Register
+      cy.contains("You don't have an account yet");
       cy.get('a:contains("Register here")').click();
 
       cy.location().should((location) => {
