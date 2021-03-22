@@ -37,7 +37,39 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
               .type(get_totp());
             cy.get("button").contains("Authorize").click();
 
-            // The password may be expired here... !? Is that a backend BUG?
+            cy.get("body").then((body) => {
+              if (body.find("h4").length > 0) {
+                cy.wrap(body)
+                  .get("h4")
+                  .then(($title) => {
+                    const t = $title.text();
+                    if (t == "Your password is expired, please change it") {
+                      cy.get("input[placeholder='Your new password']")
+                        .clear()
+                        .type(pwd + "!");
+                      cy.get("input[placeholder='Confirm your new password']")
+                        .clear()
+                        .type(pwd + "!");
+
+                      if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+                        cy.checkalert(
+                          "You do not provided a valid verification code"
+                        );
+                        cy.get("input[placeholder='TOTP verification code']")
+                          .clear()
+                          .type(get_totp());
+                        cy.get("button").contains("Authorize").click();
+                      } else {
+                        cy.get("button").contains("Change").click();
+                      }
+                      cy.get("input[placeholder='Your new password']").should(
+                        "not.exist"
+                      );
+                      cy.wait(300);
+                    }
+                  });
+              }
+            });
 
             cy.get("input[placeholder='TOTP verification code']").should(
               "not.exist"
