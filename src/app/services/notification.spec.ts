@@ -17,6 +17,7 @@ describe("NotificationService", () => {
   });
 
   it("showCritical", () => {
+    service.showCritical(null);
     service.showCritical("message");
     service.showCritical("message", "title");
     service.showCritical({ key: "message" });
@@ -24,6 +25,7 @@ describe("NotificationService", () => {
   });
 
   it("showError", () => {
+    service.showError(null);
     service.showError("message");
     service.showError("message", "title");
     service.showError({ key: "message" });
@@ -31,6 +33,7 @@ describe("NotificationService", () => {
   });
 
   it("showWarning", () => {
+    service.showWarning(null);
     service.showWarning("message");
     service.showWarning("message", "title");
     service.showWarning({ key: "message" });
@@ -38,6 +41,7 @@ describe("NotificationService", () => {
   });
 
   it("showSuccess", () => {
+    service.showSuccess(null);
     service.showSuccess("message");
     service.showSuccess("message", "title");
     service.showSuccess({ key: "message" });
@@ -45,6 +49,7 @@ describe("NotificationService", () => {
   });
 
   it("showInfo", () => {
+    service.showInfo(null);
     service.showInfo("message");
     service.showInfo("message", "title");
     service.showInfo({ key: "message" });
