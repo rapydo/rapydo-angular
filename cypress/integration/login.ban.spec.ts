@@ -9,6 +9,32 @@ import {
 
 describe("Login Ban", () => {
   if (Cypress.env("AUTH_MAX_LOGIN_ATTEMPTS") > 0) {
+    it("Credentials unlock page with wrong token", () => {
+      cy.visit("/app/login/unlock/invalidtoken");
+
+      cy.location().should((location) => {
+        expect(location.pathname).to.eq("/app/login/unlock/invalidtoken");
+      });
+
+      cy.get("div.card-header h4").contains("Invalid unlock token");
+
+      cy.get("div.card-body p").contains(
+        "The received token is not valid, if you copied the URL please verify that you copied all parts of it."
+      );
+      cy.get("div.card-body p").contains(
+        "If the URL is correct the token could be invalid because your credentials are already unlocked."
+      );
+      cy.get("div.card-body p").contains("To verify that you can try to");
+
+      cy.checkalert("Invalid unlock token");
+
+      cy.get("a:contains('login')").click();
+
+      cy.location().should((location) => {
+        expect(location.pathname).to.eq("/app/login");
+      });
+    });
+
     it("Ban after wrong password", () => {
       const email = get_random_username("testloginban1");
       const pwd = getpassword(4);
@@ -41,6 +67,25 @@ describe("Login Ban", () => {
       cy.checkalert(
         "Sorry, this account is temporarily blocked due to the number of failed login attempts."
       );
+
+      cy.getmail().then((body) => {
+        let re = /.*https?:\/\/.*\/unlock\/([A-Za-z0-9-\.\+_]+)[\s\S]*$/;
+        var token = body.match(re);
+
+        cy.visit("/app/login/unlock/" + token[1]);
+
+        cy.checkalert("Credentials successfully unlocked");
+
+        cy.wait(200);
+
+        cy.location().should((location) => {
+          expect(location.pathname).to.eq("/app/login");
+        });
+
+        cy.login(email, pwd);
+        cy.goto_profile();
+        cy.logout();
+      });
 
       cy.login();
       cy.deleteuser(email);
@@ -91,6 +136,25 @@ describe("Login Ban", () => {
         cy.checkalert(
           "Sorry, this account is temporarily blocked due to the number of failed login attempts."
         );
+
+        cy.getmail().then((body) => {
+          let re = /.*https?:\/\/.*\/unlock\/([A-Za-z0-9-\.\+_]+)[\s\S]*$/;
+          var token = body.match(re);
+
+          cy.visit("/app/login/unlock/" + token[1]);
+
+          cy.checkalert("Credentials successfully unlocked");
+
+          cy.wait(200);
+
+          cy.location().should((location) => {
+            expect(location.pathname).to.eq("/app/login");
+          });
+
+          cy.login(email, pwd);
+          cy.goto_profile();
+          cy.logout();
+        });
 
         cy.login();
         cy.deleteuser(email);
