@@ -240,7 +240,7 @@ describe("Registration", () => {
       cy.get("div.card-header.bg-warning h4").contains(
         "This account is not active"
       );
-      cy.get("div.card-block").contains("Didn't receive an activation link?");
+      cy.get("div.card-body").contains("Didn't receive an activation link?");
 
       cy.get("a").contains("Click here to send again").click({ force: true });
 
@@ -262,7 +262,7 @@ describe("Registration", () => {
       cy.visit("/public/register/invalid");
 
       cy.get("div.card-header h4").contains("Invalid activation token");
-      cy.get("div.card-block").contains(
+      cy.get("div.card-body").contains(
         "This activation token is not valid and your request can not be satisfied."
       );
 
@@ -281,7 +281,7 @@ describe("Registration", () => {
         cy.visit("/public/register/" + token[1]);
 
         cy.get("div.card-header h4").contains("Invalid activation token");
-        cy.get("div.card-block").contains(
+        cy.get("div.card-body").contains(
           "This activation token is not valid and your request can not be satisfied."
         );
       });

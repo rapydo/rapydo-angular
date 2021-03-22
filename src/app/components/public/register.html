@@ -12,14 +12,14 @@
           </small>
         </div>
 
-        <div class="card-block" *ngIf="!allowRegistration">
+        <div class="card-body" *ngIf="!allowRegistration">
           <i class="fas fa-exclamation-triangle"></i>
           Account registration is not allowed
         </div>
 
-        <div class="card-block" *ngIf="showRegistrationForm">
+        <div class="card-body" *ngIf="showRegistrationForm">
           <div class="card" *ngIf="disclaimer">
-            <div class="card-block text-justify" [innerHTML]="disclaimer"></div>
+            <div class="card-body text-justify" [innerHTML]="disclaimer"></div>
           </div>
 
           <form [formGroup]="form" (ngSubmit)="register()">
@@ -33,11 +33,11 @@
           </form>
         </div>
 
-        <div class="card-block" *ngIf="registration_message">
+        <div class="card-body" *ngIf="registration_message">
           {{registration_message}}
         </div>
 
-        <div class="card-block" *ngIf="invalid_token">
+        <div class="card-body" *ngIf="invalid_token">
           This activation token is not valid and your request can not be
           satisfied.
         </div>

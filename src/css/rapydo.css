@@ -72,10 +72,6 @@ div.initial_loading > h2 > div.spinner-grow {
   border-radius: 0 !important;
 }
 
-.card-block {
-  padding: 20px;
-}
-
 .datatable-header {
   font-weight: bold;
   font-size: 1.1em;

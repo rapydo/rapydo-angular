@@ -13,7 +13,7 @@
           <h4>This account is not active</h4>
         </div>
 
-        <div class="card-block">
+        <div class="card-body">
           Didn't receive an activation link?
           <a [routerLink]="" (click)="ask_activation_link()"
             >Click here to send again</a
@@ -28,7 +28,7 @@
           <h4>Configure Two-Factor with Google Auth</h4>
         </div>
 
-        <div class="card-block text-center">
+        <div class="card-body text-center">
           After installing the Google Authenticator app,<br />
           scan the QR code below<br />
           <img src="data:image/png;base64,{{qr_code}}" />
@@ -43,7 +43,7 @@
           <h4>{{panelTitle}}</h4>
         </div>
 
-        <div class="card-block">
+        <div class="card-body">
           <form [formGroup]="form" (ngSubmit)="login()">
             <formly-form [form]="form" [fields]="fields" [model]="model">
             </formly-form>

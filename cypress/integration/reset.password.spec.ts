@@ -59,7 +59,7 @@ if (Cypress.env("ALLOW_PASSWORD_RESET")) {
       cy.wait("@reset");
 
       cy.get("div.card-header h4").contains("Reset your password");
-      cy.get("div.card-block").contains(
+      cy.get("div.card-body").contains(
         "We'll send instructions to the email provided if it's associated with an account. Please check your spam/junk folder."
       );
 
@@ -72,7 +72,7 @@ if (Cypress.env("ALLOW_PASSWORD_RESET")) {
       cy.wait("@validate1");
 
       cy.get("div.card-header h4").contains("Invalid request");
-      cy.get("div.card-block").contains("Invalid reset token");
+      cy.get("div.card-body").contains("Invalid reset token");
 
       cy.getmail().then((body) => {
         let re = /.*https?:\/\/.*\/reset\/([A-Za-z0-9-\.\+_]+)[\s\S]*$/;
@@ -160,7 +160,7 @@ if (Cypress.env("ALLOW_PASSWORD_RESET")) {
         cy.visit("/public/reset/" + token[1]);
 
         cy.get("div.card-header h4").contains("Invalid request");
-        cy.get("div.card-block").contains("Invalid reset token");
+        cy.get("div.card-body").contains("Invalid reset token");
         cy.checkalert("Invalid reset token");
 
         cy.visit("/app/login");

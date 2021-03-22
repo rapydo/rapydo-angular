@@ -12,7 +12,7 @@
           <h4>Reset your password</h4>
         </div>
 
-        <div class="card-block">
+        <div class="card-body">
           <form [formGroup]="step1_form" (ngSubmit)="resetRequest()">
             <formly-form
               [form]="step1_form"
@@ -33,7 +33,7 @@
           <h4>Reset your password</h4>
         </div>
 
-        <div class="card-block">{{reset_message}}</div>
+        <div class="card-body">{{reset_message}}</div>
       </div>
 
       <!-- 3 -->
@@ -43,7 +43,7 @@
           <h4>Invalid request</h4>
         </div>
 
-        <div class="card-block">{{invalid_token}}</div>
+        <div class="card-body">{{invalid_token}}</div>
       </div>
 
       <!-- 4 -->
@@ -52,7 +52,7 @@
           <h4>Change your password</h4>
         </div>
 
-        <div class="card-block">
+        <div class="card-body">
           <form [formGroup]="step2_form" (ngSubmit)="changePassword()">
             <formly-form
               [form]="step2_form"
