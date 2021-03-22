@@ -37,9 +37,12 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
               .type(get_totp());
             cy.get("button").contains("Authorize").click();
 
-            cy.get("body").then((body) => {
-              if (body.find("h4").length > 0) {
-                cy.wrap(body)
+            cy.get("button:contains('Authorize')").should("not.exist");
+            cy.wait(300);
+
+            cy.get("body").then((body2) => {
+              if (body2.find("h4").length > 0) {
+                cy.wrap(body2)
                   .get("h4")
                   .then(($title) => {
                     const t = $title.text();
@@ -70,11 +73,6 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
                   });
               }
             });
-
-            cy.get("input[placeholder='TOTP verification code']").should(
-              "not.exist"
-            );
-            cy.wait(300);
           } else if (t == "Your password is expired, please change it") {
             cy.checkalert("Your password is expired, please change it");
 
