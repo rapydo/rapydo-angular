@@ -416,7 +416,7 @@ describe("KitchenSink", () => {
         cy.get("@field").type("r");
 
         // == debounceTime
-        cy.wait(300);
+        cy.wait(350);
 
         cy.get("ng-dropdown-panel")
           .get("div.ng-option")
@@ -440,7 +440,7 @@ describe("KitchenSink", () => {
         cy.get("@field").type(" ");
 
         // == debounceTime
-        cy.wait(300);
+        cy.wait(350);
 
         cy.get("ng-dropdown-panel")
           .find("div.ng-option")
@@ -479,7 +479,7 @@ describe("KitchenSink", () => {
         cy.get("@field").type("i");
 
         // == debounceTime
-        cy.wait(300);
+        cy.wait(350);
 
         cy.get("ng-dropdown-panel")
           .get("div.ng-option")
@@ -500,7 +500,7 @@ describe("KitchenSink", () => {
         cy.get("@field").type(" ");
 
         // == debounceTime
-        cy.wait(300);
+        cy.wait(350);
 
         cy.get("ng-dropdown-panel")
           .get("div.ng-option")
@@ -526,7 +526,7 @@ describe("KitchenSink", () => {
         cy.get("@field").clear().type("oliver jones the kid");
 
         // == debounceTime
-        cy.wait(300);
+        cy.wait(350);
 
         cy.get("ng-dropdown-panel")
           .get("div.ng-option")
@@ -552,7 +552,7 @@ describe("KitchenSink", () => {
         cy.get("@field").clear().type("charlie");
 
         // == debounceTime
-        cy.wait(300);
+        cy.wait(350);
 
         cy.get("ng-dropdown-panel")
           .get("div.ng-option")
@@ -592,7 +592,7 @@ describe("KitchenSink", () => {
         cy.get("@field").type("he u");
 
         // == debounceTime
-        cy.wait(300);
+        cy.wait(350);
 
         cy.get("ng-dropdown-panel")
           .get("div.ng-option")
