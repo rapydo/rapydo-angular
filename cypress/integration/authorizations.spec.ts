@@ -21,7 +21,13 @@ describe("Test Authorizations", () => {
       .each(($el, index, $list) => {
         cy.wrap($el).click({ force: true });
       });
-    // and set the new role...
+    // and set the new role (Both User and Admin)
+    cy.get("ng-select").eq(0).find("input").type("user");
+    cy.get("ng-dropdown-panel")
+      .find("div.ng-option")
+      .eq(0)
+      .click({ force: true });
+
     cy.get("ng-select").eq(0).find("input").type("admin");
     cy.get("ng-dropdown-panel")
       .find("div.ng-option")
@@ -89,7 +95,13 @@ describe("Test Authorizations", () => {
       .each(($el, index, $list) => {
         cy.wrap($el).click({ force: true });
       });
-    // and set the new role...
+    // and set the new role (Both User and Staff)
+    cy.get("ng-select").eq(0).find("input").type("user");
+    cy.get("ng-dropdown-panel")
+      .find("div.ng-option")
+      .eq(0)
+      .click({ force: true });
+
     cy.get("ng-select").eq(0).find("input").type("staff");
     cy.get("ng-dropdown-panel")
       .find("div.ng-option")
@@ -176,7 +188,14 @@ describe("Test Authorizations", () => {
       .each(($el, index, $list) => {
         cy.wrap($el).click({ force: true });
       });
-    // and set the new role...
+
+    // and set the new role (both User and Coordinator)
+    cy.get("ng-select").eq(0).find("input").type("user");
+    cy.get("ng-dropdown-panel")
+      .find("div.ng-option")
+      .eq(0)
+      .click({ force: true });
+
     cy.get("ng-select").eq(0).find("input").type("coordinator");
     cy.get("ng-dropdown-panel")
       .find("div.ng-option")
