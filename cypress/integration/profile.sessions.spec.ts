@@ -1,6 +1,6 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
-// const path = require("path");
+const xlsx = require("node-xlsx").default;
 
 describe("Sessions", () => {
   beforeEach(() => {
@@ -111,34 +111,22 @@ describe("Sessions", () => {
     // data, no further request is done. Just wait a fixed time
     cy.wait(500);
 
-    // By default cy.readFile() asserts that the file exists and will fail if not exists
-    cy.readFile("/cypress/sessions.xlsx").then((body) => {
-      cy.log(body);
-      // expect(jsonData[0].data[0]).to.eqls(data);
-      expect(body).to.eqls(["this", "should", "be", "the", "header"]);
-    });
-    //////////////////////////
-    // IT DOES NOT WORK :-/ //
-    //////////////////////////
-
-    // // From Vivek Nayyar
+    // // Solution From Vivek Nayyar
     // // https://dev.to/viveknayyar/e2e-testing-of-excel-downloads-with-cypress-21fb
 
-    // cy.intercept / wait to wait for download completion
-    // const header = [
-    //   "IP",
-    //   "Location",
-    //   "Emitted",
-    //   "Last access",
-    //   "Expiration",
-    //   "Token",
-    // ];
-    // // parseXlsx task is defined in cypress/plugins/index.js
-    // cy.parseXlsx(path.join(__dirname, "..", "downloads", "sessions.xlsx")).then(
-    //   (jsonData) => {
-    //     // finally we write the assertion rule to check if that data matches the data we expected the excel file to have.
-    //     expect(jsonData[0].data[0]).to.eqls(header);
-    //   }
-    // );
+    // By default cy.readFile() asserts that the file exists and will fail if not exists
+    cy.readFile("/cypress/sessions.xlsx").then((body) => {
+      const jsonData = xlsx.parse(body);
+      const header = [
+        "IP",
+        "Location",
+        "Emitted",
+        "Last access",
+        "Expiration",
+        "Token",
+      ];
+      expect(jsonData[0].data[0]).to.eqls(header);
+      expect(jsonData[0].data[1]).to.not.eqls(header);
+    });
   });
 });
