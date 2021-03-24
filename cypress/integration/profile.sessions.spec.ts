@@ -109,7 +109,7 @@ describe("Sessions", () => {
 
     // no XHR wait is possibile, since the xls is created by using already available
     // data, no further request is done. Just wait a fixed time
-    cy.wait(500);
+    cy.wait(1000);
 
     // // Solution From Vivek Nayyar
     // // https://dev.to/viveknayyar/e2e-testing-of-excel-downloads-with-cypress-21fb
