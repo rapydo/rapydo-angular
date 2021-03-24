@@ -107,6 +107,13 @@ describe("Sessions", () => {
   it("Download", () => {
     cy.get("div.card-header div span i.fa-download").click();
 
+    // no XHR wait is possibile, since the xls is created by using already available
+    // data, no further request is done. Just wait a fixed time
+    cy.wait(500);
+
+    cy.readFile("/cypress/sessions.xlsx").then((body) => {
+      cy.log(body);
+    });
     //////////////////////////
     // IT DOES NOT WORK :-/ //
     //////////////////////////
