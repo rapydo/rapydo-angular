@@ -111,8 +111,11 @@ describe("Sessions", () => {
     // data, no further request is done. Just wait a fixed time
     cy.wait(500);
 
+    // By default cy.readFile() asserts that the file exists and will fail if not exists
     cy.readFile("/cypress/sessions.xlsx").then((body) => {
       cy.log(body);
+      // expect(jsonData[0].data[0]).to.eqls(data);
+      expect(body).to.eqls(["this", "should", "be", "the", "header"]);
     });
     //////////////////////////
     // IT DOES NOT WORK :-/ //
