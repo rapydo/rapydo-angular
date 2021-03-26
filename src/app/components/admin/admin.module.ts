@@ -15,7 +15,6 @@ const routes: Routes = [
     component: AdminUsersComponent,
     canActivate: [AuthGuard],
     runGuardsAndResolvers: "always",
-    // data: { roles: ["admin_root", "group_coordinator"] },
     data: { roles: ["admin_root"] },
   },
   {

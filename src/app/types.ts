@@ -80,6 +80,12 @@ export interface AdminUser extends SimpleUserWithId, CustomUser {
 }
 export interface AdminUsers extends Array<AdminUser> {}
 
+// It is used in GroupUsers response
+export interface GroupUser extends SimpleUser, CustomUser {
+  readonly roles: any;
+}
+export interface GroupUsers extends Array<GroupUser> {}
+
 export interface Session {
   readonly id: string;
   readonly token: string;

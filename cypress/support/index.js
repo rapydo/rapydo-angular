@@ -323,7 +323,7 @@ Cypress.Commands.add("getmail", () => {
 
 Cypress.Commands.add(
   "createuser",
-  (email, pwd, expired = false, init_user = true) => {
+  (email, pwd, expired = false, init_user = true, roles = null) => {
     // init_user = change first password and accept terms of use
 
     // If expired do not init the user
@@ -396,6 +396,17 @@ Cypress.Commands.add(
 
       cy.get("div.ngb-dp-day div").contains("31").click({ force: true });
     }
+
+    if (roles != null && roles.length > 0) {
+      for (let role_name in roles) {
+        cy.get("ng-select").eq(0).find("input").type(role_name);
+        cy.get("ng-dropdown-panel")
+          .find("div.ng-option")
+          .eq(0)
+          .click({ force: true });
+      }
+    }
+
     cy.get('button:contains("Submit")').click({ force: true });
 
     cy.checkalert("Confirmation: user successfully created");

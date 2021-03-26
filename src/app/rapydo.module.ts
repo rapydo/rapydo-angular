@@ -68,6 +68,13 @@ const routes: Routes = [
         (m) => m.AdminModule
       ),
   },
+  {
+    path: "app/group",
+    loadChildren: () =>
+      import("@rapydo/components/group/group.module").then(
+        (m) => m.AdminModule
+      ),
+  },
 ];
 
 let module_imports: any = [
