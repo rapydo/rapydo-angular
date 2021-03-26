@@ -398,7 +398,7 @@ Cypress.Commands.add(
     }
 
     if (roles != null && roles.length > 0) {
-      for (let role_name in roles) {
+      for (let role_name of roles) {
         cy.get("ng-select").eq(0).find("input").type(role_name);
         cy.get("ng-dropdown-panel")
           .find("div.ng-option")
