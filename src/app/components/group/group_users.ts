@@ -8,7 +8,7 @@ import {
 
 import { Subscription } from "rxjs";
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
-import { Group, GroupUser } from "@rapydo/types";
+import { Group, GroupUser, User } from "@rapydo/types";
 
 @Component({
   templateUrl: "group_users.html",
@@ -23,7 +23,10 @@ export class GroupUsersComponent extends BasePaginationComponent<GroupUser> {
 
     let endpoint = "group/users";
 
-    this.group = this.auth.getUser().group;
+    let user: User = this.auth.getUser();
+    if (user) {
+      this.group = user.group;
+    }
     this.init("user", endpoint, "GroupUsers");
     this.initPaging();
     this.list();
