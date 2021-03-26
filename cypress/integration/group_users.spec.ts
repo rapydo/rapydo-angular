@@ -16,6 +16,18 @@ describe("GroupUsers", () => {
       expect(location.pathname).to.eq("/app/group/users");
     });
 
+    cy.goto_profile();
+
+    cy.location().should((location) => {
+      expect(location.pathname).to.not.eq("/app/group/users");
+    });
+
+    cy.get("navbar").find("a:contains('My Group')").click({ force: true });
+
+    cy.location().should((location) => {
+      expect(location.pathname).to.eq("/app/group/users");
+    });
+
     cy.get("div.card-header h4").contains("Users in group ");
 
     cy.get("i.fa-sync-alt").click({ force: true });

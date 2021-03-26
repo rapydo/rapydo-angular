@@ -398,6 +398,15 @@ Cypress.Commands.add(
     }
 
     if (roles != null && roles.length > 0) {
+      // Remove any previous roles
+      cy.get("ng-select")
+        .eq(0)
+        .find("span.ng-value-icon")
+        .each(($el, index, $list) => {
+          cy.wrap($el).click({ force: true });
+        });
+
+      // Add new roles
       for (let role_name of roles) {
         cy.get("ng-select").eq(0).find("input").type(role_name);
         cy.get("ng-dropdown-panel")

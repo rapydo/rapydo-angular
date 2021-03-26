@@ -18,6 +18,22 @@
       (onClick)="isMenuCollapsed = true"
     ></customlinks>
 
+    <ul class="navbar-nav text-right">
+      <li
+        class="nav-item"
+        *ngIf="user && user.isCoordinator"
+        (click)="isMenuCollapsed = true"
+      >
+        <a
+          class="nav-link"
+          routerLink="/app/group/users"
+          routerLinkActive="active"
+        >
+          My Group
+        </a>
+      </li>
+    </ul>
+
     <ul
       class="navbar-nav text-right"
       *ngIf="user && (user.isAdmin || user.isCoordinator)"
