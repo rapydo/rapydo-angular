@@ -24,7 +24,7 @@ describe("AdminMail", () => {
       .clear()
       .type("Your subject");
     cy.get(
-      'input[placeholder="Body of your email. You can use email code here."]'
+      'textarea[placeholder="Body of your email. You can use html code here."]'
     )
       .clear()
       .type("Your <b>body</b>!");
@@ -60,7 +60,7 @@ describe("AdminMail", () => {
       .clear()
       .type("Your subject");
     cy.get(
-      'input[placeholder="Body of your email. You can use email code here."]'
+      'textarea[placeholder="Body of your email. You can use html code here."]'
     )
       .clear()
       .type("Your <b>body</b>!");

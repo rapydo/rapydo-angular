@@ -59,29 +59,30 @@ export class AdminMailComponent implements OnInit {
       );
   }
   public send(): void {
-    if (this.form.valid) {
-      this.spinner.show();
-      this.api.post("admin/mail", this.model).subscribe(
-        (response) => {
-          this.spinner.hide();
-          this.notify.showSuccess("Mail successfully sent");
-          this.showForm = false;
-        },
-        (error) => {
-          if (typeof error === "object" && ("cc" in error || "bcc" in error)) {
-            if ("cc" in error) {
-              this.notify.showError(error["cc"], "CC field validation error");
-            }
-
-            if ("bcc" in error) {
-              this.notify.showError(error["bcc"], "BCC field validation error");
-            }
-          } else {
-            this.notify.showError(error);
-          }
-          this.spinner.hide();
-        }
-      );
+    if (!this.form.valid) {
+      return;
     }
+    this.spinner.show();
+    this.api.post("admin/mail", this.model).subscribe(
+      (response) => {
+        this.spinner.hide();
+        this.notify.showSuccess("Mail successfully sent");
+        this.showForm = false;
+      },
+      (error) => {
+        if (typeof error === "object" && ("cc" in error || "bcc" in error)) {
+          if ("cc" in error) {
+            this.notify.showError(error["cc"], "CC field validation error");
+          }
+
+          if ("bcc" in error) {
+            this.notify.showError(error["bcc"], "BCC field validation error");
+          }
+        } else {
+          this.notify.showError(error);
+        }
+        this.spinner.hide();
+      }
+    );
   }
 }
