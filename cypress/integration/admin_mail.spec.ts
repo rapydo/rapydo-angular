@@ -13,6 +13,9 @@ describe("AdminMail", () => {
 
     cy.get("div.card-header h4").contains("Admin send mail");
 
+    // Why this wait!??!?
+    cy.wait(300);
+
     cy.get("div.card-body")
       .find("button:contains('Send mail')")
       .click({ force: true });
