@@ -8,6 +8,7 @@ import { AdminUsersComponent } from "@rapydo/components/admin/admin_users";
 import { AdminGroupsComponent } from "@rapydo/components/admin/admin_groups";
 import { AdminSessionsComponent } from "@rapydo/components/admin/admin_sessions";
 import { AdminStatsComponent } from "@rapydo/components/admin/admin_stats";
+import { AdminMailComponent } from "@rapydo/components/admin/admin_mail";
 
 const routes: Routes = [
   {
@@ -38,6 +39,13 @@ const routes: Routes = [
     runGuardsAndResolvers: "always",
     data: { roles: ["admin_root"] },
   },
+  {
+    path: "mail",
+    component: AdminMailComponent,
+    canActivate: [AuthGuard],
+    runGuardsAndResolvers: "always",
+    data: { roles: ["admin_root"] },
+  },
 ];
 
 @NgModule({
@@ -46,6 +54,7 @@ const routes: Routes = [
     AdminGroupsComponent,
     AdminSessionsComponent,
     AdminStatsComponent,
+    AdminMailComponent,
   ],
   exports: [
     AdminUsersComponent,

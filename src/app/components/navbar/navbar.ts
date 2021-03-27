@@ -104,6 +104,12 @@ export class NavbarComponent implements OnInit {
       router_link: "/app/admin/stats",
     });
 
+    this.admin_entries.push({
+      enabled: user.isAdmin,
+      label: "Send mail",
+      router_link: "/app/admin/mail",
+    });
+
     const custom_entries: AdminMenu[] = this.customization.admin_menu_entries(
       user
     );

@@ -1,0 +1,42 @@
+<div class="container-fluid">
+  <div class="row justify-content-md-center">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4>
+            <i class="fas fa-envelope"></i>
+            Admin send mail
+          </h4>
+        </div>
+
+        <div class="card-body" *ngIf="showForm">
+          <form [formGroup]="form" (ngSubmit)="send()">
+            <formly-form [form]="form" [fields]="fields" [model]="model">
+            </formly-form>
+
+            <button type="submit" class="btn btn-success">Send mail</button>
+          </form>
+        </div>
+
+        <div class="card-body bg-success text-white" *ngIf="!showForm">
+          Your email with subject: <b>{{ model["subject"]}}</b> has been
+          successfully sent!<br />
+          <br />
+          <span>Destination address: <b>{{ model["to"] }}</b></span
+          ><br />
+          <span *ngIf="model['cc']">CC: <b>{{ model["cc"] }}</b></span
+          ><br />
+          <span *ngIf="model['bcc']">BCC: <b>{{ model["bcc"] }}</b></span
+          ><br />
+        </div>
+        <div class="card-footer" *ngIf="!showForm">
+          Do you want to send a new email?
+          <a class="btn btn-sm" (click)="open_form()">
+            <i class="fas fa-envelope"></i>
+            Send new email
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
