@@ -26,7 +26,7 @@ export class AdminMailComponent implements OnInit {
     private formly: FormlyService
   ) {}
 
-  ngOnInit() {
+  ngAfterViewInit(): void {
     this.open_form();
   }
 
@@ -58,9 +58,9 @@ export class AdminMailComponent implements OnInit {
         }
       );
   }
-  public send(): void {
+  public send(): boolean {
     if (!this.form.valid) {
-      return;
+      return false;
     }
     this.spinner.show();
     this.api.post("admin/mail", this.model).subscribe(
@@ -84,5 +84,6 @@ export class AdminMailComponent implements OnInit {
         this.spinner.hide();
       }
     );
+    return true;
   }
 }

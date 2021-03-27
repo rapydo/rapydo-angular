@@ -194,7 +194,7 @@ export class LoginComponent implements OnInit {
       });
     }
   }
-  login() {
+  login(): boolean {
     if (!this.form.valid) {
       return false;
     }
