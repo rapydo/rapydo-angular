@@ -13,7 +13,9 @@ describe("AdminMail", () => {
 
     cy.get("div.card-header h4").contains("Admin send mail");
 
-    cy.get("a:contains('Send mail')").click({ force: true });
+    cy.get("div.card-body")
+      .find("a:contains('Send mail')")
+      .click({ force: true });
     cy.checkvalidation(0, "This field is required");
     cy.checkvalidation(1, "This field is required");
     cy.checkvalidation(2, "This field is required");
@@ -30,13 +32,17 @@ describe("AdminMail", () => {
       .clear()
       .type("Your email");
 
-    cy.get("a:contains('Send mail')").click({ force: true });
+    cy.get("div.card-body")
+      .find("a:contains('Send mail')")
+      .click({ force: true });
     cy.checkvalidation(0, "Invalid email address");
 
     cy.get('input[placeholder="Destination email address"]')
       .clear()
       .type("sample@nomail.org");
-    cy.get("a:contains('Send mail')").click({ force: true });
+    cy.get("div.card-body")
+      .find("a:contains('Send mail')")
+      .click({ force: true });
 
     cy.checkalert("Mail successfully sent");
 
@@ -69,7 +75,9 @@ describe("AdminMail", () => {
       .clear()
       .type("Your email");
 
-    cy.get("a:contains('Send mail')").click({ force: true });
+    cy.get("div.card-body")
+      .find("a:contains('Send mail')")
+      .click({ force: true });
 
     cy.checkalert("Non a valid email address.");
     cy.checkalert("Non a valid email address.");
@@ -81,7 +89,9 @@ describe("AdminMail", () => {
       .clear()
       .type("sample3@nomail.org,sample4");
 
-    cy.get("a:contains('Send mail')").click({ force: true });
+    cy.get("div.card-body")
+      .find("a:contains('Send mail')")
+      .click({ force: true });
 
     cy.checkalert("Non a valid email address.");
     cy.checkalert("Non a valid email address.");
@@ -93,7 +103,9 @@ describe("AdminMail", () => {
       .clear()
       .type("sample3@nomail.org,sample4@nomail.org");
 
-    cy.get("a:contains('Send mail')").click({ force: true });
+    cy.get("div.card-body")
+      .find("a:contains('Send mail')")
+      .click({ force: true });
 
     cy.checkalert("Mail successfully sent");
 
