@@ -14,7 +14,7 @@ describe("AdminMail", () => {
     cy.get("div.card-header h4").contains("Admin send mail");
 
     cy.get("div.card-body")
-      .find("a:contains('Send mail')")
+      .find("button:contains('Send mail')")
       .click({ force: true });
     cy.checkvalidation(0, "This field is required");
     cy.checkvalidation(1, "This field is required");
@@ -33,7 +33,7 @@ describe("AdminMail", () => {
       .type("Your email");
 
     cy.get("div.card-body")
-      .find("a:contains('Send mail')")
+      .find("button:contains('Send mail')")
       .click({ force: true });
     cy.checkvalidation(0, "Invalid email address");
 
@@ -41,7 +41,7 @@ describe("AdminMail", () => {
       .clear()
       .type("sample@nomail.org");
     cy.get("div.card-body")
-      .find("a:contains('Send mail')")
+      .find("button:contains('Send mail')")
       .click({ force: true });
 
     cy.checkalert("Mail successfully sent");
@@ -76,7 +76,7 @@ describe("AdminMail", () => {
       .type("Your email");
 
     cy.get("div.card-body")
-      .find("a:contains('Send mail')")
+      .find("button:contains('Send mail')")
       .click({ force: true });
 
     cy.checkalert("Non a valid email address.");
@@ -90,7 +90,7 @@ describe("AdminMail", () => {
       .type("sample3@nomail.org,sample4");
 
     cy.get("div.card-body")
-      .find("a:contains('Send mail')")
+      .find("button:contains('Send mail')")
       .click({ force: true });
 
     cy.checkalert("Non a valid email address.");
@@ -104,7 +104,7 @@ describe("AdminMail", () => {
       .type("sample3@nomail.org,sample4@nomail.org");
 
     cy.get("div.card-body")
-      .find("a:contains('Send mail')")
+      .find("button:contains('Send mail')")
       .click({ force: true });
 
     cy.checkalert("Mail successfully sent");
