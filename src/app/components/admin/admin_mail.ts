@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, AfterViewInit } from "@angular/core";
 
 import { FormGroup } from "@angular/forms";
 import { FormlyFieldConfig } from "@ngx-formly/core";
@@ -13,7 +13,7 @@ import { Schema } from "@rapydo/types";
 @Component({
   templateUrl: "admin_mail.html",
 })
-export class AdminMailComponent implements OnInit {
+export class AdminMailComponent implements AfterViewInit {
   public showForm: boolean = true;
   public form = new FormGroup({});
   public fields: FormlyFieldConfig[] = [];
