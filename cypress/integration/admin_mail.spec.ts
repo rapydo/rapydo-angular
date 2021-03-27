@@ -13,8 +13,8 @@ describe("AdminMail", () => {
 
     cy.get("div.card-header h4").contains("Admin send mail");
 
-    // Why this wait!??!?
-    cy.wait(300);
+    // Why this wait!??!? Without this the form is sent before the validation :o
+    cy.wait(100);
 
     cy.get("div.card-body")
       .find("button:contains('Send mail')")
@@ -63,7 +63,7 @@ describe("AdminMail", () => {
     cy.get("textarea").clear().type("Your <b>body</b>!");
     cy.get('input[placeholder="Destination email address"]')
       .clear()
-      .type("Your email");
+      .type("sample@nomail.org");
 
     cy.get('input[placeholder="CC email addresses (comma-delimited list)"]')
       .clear()
