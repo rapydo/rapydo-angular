@@ -76,8 +76,8 @@ describe("AdminMail", () => {
       .find("button:contains('Send mail')")
       .click({ force: true });
 
-    cy.checkalert("CC field validation error");
-    cy.checkalert("BCC field validation error");
+    cy.checkalert("Non a valid email address.");
+    cy.checkalert("Non a valid email address.");
 
     cy.get('input[placeholder="CC email addresses (comma-delimited list)"]')
       .clear()
