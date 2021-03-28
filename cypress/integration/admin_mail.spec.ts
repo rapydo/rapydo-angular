@@ -54,7 +54,8 @@ describe("AdminMail", () => {
 
     cy.get("ul.nav-tabs li.nav-item a").contains("HTML Body").click();
 
-    cy.get("div.ngbnavpane").contains("Your body!");
+    // cy.get("div.ngbnavpane").contains("Your body!");
+    cy.get("div.tab-content").contains("Your body!");
 
     cy.get("div.modal-body")
       .find("button:contains('DO NOT SEND')")
@@ -144,7 +145,8 @@ describe("AdminMail", () => {
 
     cy.get("ul.nav-tabs li.nav-item a").contains("HTML Body").click();
 
-    cy.get("div.ngbnavpane").contains("Your body!");
+    // cy.get("div.ngbnavpane").contains("Your body!");
+    cy.get("div.tab-content").contains("Your body!");
 
     cy.get("div.modal-body")
       .find("button:contains('DO NOT SEND')")
