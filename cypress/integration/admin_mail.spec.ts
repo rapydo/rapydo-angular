@@ -57,7 +57,7 @@ describe("AdminMail", () => {
     // cy.get("div.ngbnavpane").contains("Your body!");
     cy.get("div.tab-content").contains("Your body!");
 
-    cy.get("div.modal-body")
+    cy.get("div.modal-footer")
       .find("button:contains('DO NOT SEND')")
       .click({ force: true });
 
@@ -65,7 +65,7 @@ describe("AdminMail", () => {
       .find("button:contains('Send mail')")
       .click({ force: true });
 
-    cy.get("div.modal-body")
+    cy.get("div.modal-footer")
       .find("button:contains('YES, SEND IT')")
       .click({ force: true });
 
@@ -148,7 +148,7 @@ describe("AdminMail", () => {
     // cy.get("div.ngbnavpane").contains("Your body!");
     cy.get("div.tab-content").contains("Your body!");
 
-    cy.get("div.modal-body")
+    cy.get("div.modal-footer")
       .find("button:contains('DO NOT SEND')")
       .click({ force: true });
 
@@ -156,7 +156,7 @@ describe("AdminMail", () => {
       .find("button:contains('Send mail')")
       .click({ force: true });
 
-    cy.get("div.modal-body")
+    cy.get("div.modal-footer")
       .find("button:contains('YES, SEND IT')")
       .click({ force: true });
 
