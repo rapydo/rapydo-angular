@@ -44,7 +44,7 @@ describe("AdminMail", () => {
       .find("button:contains('Send mail')")
       .click({ force: true });
 
-    cy.get("div.modal-title h4").contains(
+    cy.get("div.modal-header h4.modal-title").contains(
       "Do you want to send the following email?"
     );
     cy.get("div.modal-body").contains("Subject: Subject of your email");
@@ -127,7 +127,7 @@ describe("AdminMail", () => {
       .find("button:contains('Send mail')")
       .click({ force: true });
 
-    cy.get("div.modal-title h4").contains(
+    cy.get("div.modal-header h4.modal-title").contains(
       "Do you want to send the following email?"
     );
     cy.get("div.modal-body").contains("Subject: Subject of your email");
