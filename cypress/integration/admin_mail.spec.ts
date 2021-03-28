@@ -47,7 +47,7 @@ describe("AdminMail", () => {
     cy.get("div.modal-header h4.modal-title").contains(
       "Do you want to send the following email?"
     );
-    cy.get("div.modal-body").contains("Subject: Subject of your email");
+    cy.get("div.modal-body").contains("Subject: Your subject");
     cy.get("div.modal-body").contains("To: sample@nomail.org");
 
     cy.get("ul.nav-tabs li.nav-item").contains("Your body!");
@@ -130,7 +130,7 @@ describe("AdminMail", () => {
     cy.get("div.modal-header h4.modal-title").contains(
       "Do you want to send the following email?"
     );
-    cy.get("div.modal-body").contains("Subject: Subject of your email");
+    cy.get("div.modal-body").contains("Subject: Your subject");
     cy.get("div.modal-body").contains("To: sample@nomail.org");
     cy.get("div.modal-body").contains(
       "CC: sample1@nomail.org,sample2@nomail.org"
