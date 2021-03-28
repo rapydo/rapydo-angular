@@ -1,14 +1,14 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { AppModule } from "@rapydo/app.module";
-import { IteratePipe } from "@rapydo/pipes/iterate";
+import { SafeHtmlPipe } from "@rapydo/pipes/safe_html";
 
 describe("Pipes", () => {
-  let iterate_pipe: IteratePipe;
+  let safe_html_pipe: SafeHtmlPipe;
 
   beforeEach(() => {
-    iterate_pipe = new IteratePipe();
+    safe_html_pipe = new SafeHtmlPipe();
   });
 
-  it("IteratePipe", () => {});
+  it("SafeHtmlPipe", () => {});
 });

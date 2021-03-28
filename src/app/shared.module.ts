@@ -44,6 +44,7 @@ import { IteratePipe } from "@rapydo/pipes/iterate";
 import { BytesPipe } from "@rapydo/pipes/bytes";
 import { BooleanFlagPipe } from "@rapydo/pipes/boolean_flag";
 import { YesNoPipe } from "@rapydo/pipes/yes_or_no";
+import { SafeHtmlPipe } from "@rapydo/pipes/safe_html";
 
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
 import { DeleteModal } from "@rapydo/components/delete_modal";
@@ -247,6 +248,7 @@ let module_imports: any = [
 
 let module_declarations = [
   IteratePipe,
+  SafeHtmlPipe,
   BytesPipe,
   BooleanFlagPipe,
   YesNoPipe,
@@ -285,6 +287,7 @@ let module_exports = [
   NgxSpinnerModule,
 
   IteratePipe,
+  SafeHtmlPipe,
   BytesPipe,
   BooleanFlagPipe,
   YesNoPipe,
