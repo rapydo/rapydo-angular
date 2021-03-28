@@ -50,10 +50,11 @@ describe("AdminMail", () => {
     cy.get("div.modal-body").contains("Subject: Your subject");
     cy.get("div.modal-body").contains("To: sample@nomail.org");
 
-    cy.get("ul.nav-tabs li.nav-item").contains("Your body!");
     cy.get("ul.nav-tabs li.nav-item a").contains("Plain Body").click();
 
     cy.get("ul.nav-tabs li.nav-item a").contains("HTML Body").click();
+
+    cy.get("div.ngbnavpane").contains("Your body!");
 
     cy.get("div.modal-body")
       .find("button:contains('DO NOT SEND')")
@@ -139,10 +140,11 @@ describe("AdminMail", () => {
       "BCC: sample3@nomail.org,sample4@nomail.org"
     );
 
-    cy.get("ul.nav-tabs li.nav-item").contains("Your body!");
     cy.get("ul.nav-tabs li.nav-item a").contains("Plain Body").click();
 
     cy.get("ul.nav-tabs li.nav-item a").contains("HTML Body").click();
+
+    cy.get("div.ngbnavpane").contains("Your body!");
 
     cy.get("div.modal-body")
       .find("button:contains('DO NOT SEND')")
