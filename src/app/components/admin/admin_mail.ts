@@ -1,26 +1,35 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, TemplateRef } from "@angular/core";
 
 import { FormGroup } from "@angular/forms";
 import { FormlyFieldConfig } from "@ngx-formly/core";
+import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
 import { FormlyService } from "@rapydo/services/formly";
 import { NgxSpinnerService } from "ngx-spinner";
 import { ApiService } from "@rapydo/services/api";
 import { NotificationService } from "@rapydo/services/notification";
 
-import { Schema } from "@rapydo/types";
+import { Schema, Email } from "@rapydo/types";
 
 @Component({
   templateUrl: "admin_mail.html",
 })
 export class AdminMailComponent implements OnInit {
+  @ViewChild("show_email", { static: false })
+  public show_email: TemplateRef<any>;
+  public modalRef: NgbModalRef;
+
   public showForm: boolean = true;
   public form = new FormGroup({});
   public fields: FormlyFieldConfig[] = [];
   public model: any = {};
 
+  // as Produced by dry run execution
+  public email: Email;
+
   constructor(
     private spinner: NgxSpinnerService,
+    private modalService: NgbModal,
     private api: ApiService,
     private notify: NotificationService,
     private formly: FormlyService
@@ -36,6 +45,11 @@ export class AdminMailComponent implements OnInit {
       .post<Schema[]>("admin/mail", { get_schema: true })
       .subscribe(
         (response) => {
+          for (let idx in response) {
+            if (response[idx]["key"] == "dry_run") {
+              delete response[idx];
+            }
+          }
           let data = this.formly.json2Form(response, {});
           this.fields = data.fields;
 
@@ -48,7 +62,6 @@ export class AdminMailComponent implements OnInit {
               }
             }
           }
-
           this.showForm = true;
           this.spinner.hide();
         },
@@ -58,32 +71,51 @@ export class AdminMailComponent implements OnInit {
         }
       );
   }
-  public send(): boolean {
+
+  public send(dry_run: boolean = true): boolean {
     if (!this.form.valid) {
       return false;
     }
     this.spinner.show();
-    this.api.post("admin/mail", this.model).subscribe(
-      (response) => {
-        this.spinner.hide();
-        this.notify.showSuccess("Mail successfully sent");
-        this.showForm = false;
-      },
-      (error) => {
-        if (typeof error === "object" && ("cc" in error || "bcc" in error)) {
-          if ("cc" in error) {
-            this.notify.showError(error["cc"], "CC field validation error");
-          }
+    this.model["dry_run"] = dry_run;
+    this.api
+      .post<Email>("admin/mail", this.model, { validationSchema: "Email" })
+      .subscribe(
+        (response) => {
+          this.spinner.hide();
 
-          if ("bcc" in error) {
-            this.notify.showError(error["bcc"], "BCC field validation error");
+          if (!dry_run) {
+            this.notify.showSuccess("Mail successfully sent");
+            this.showForm = false;
+          } else {
+            this.email = response;
+            this.modalRef = this.modalService.open(this.show_email, {
+              size: "lg",
+            });
+
+            this.modalRef.result.then(
+              (result) => {
+                return this.send(false);
+              },
+              (reason) => {}
+            );
           }
-        } else {
-          this.notify.showError(error);
+        },
+        (error) => {
+          if (typeof error === "object" && ("cc" in error || "bcc" in error)) {
+            if ("cc" in error) {
+              this.notify.showError(error["cc"], "CC field validation error");
+            }
+
+            if ("bcc" in error) {
+              this.notify.showError(error["bcc"], "BCC field validation error");
+            }
+          } else {
+            this.notify.showError(error);
+          }
+          this.spinner.hide();
         }
-        this.spinner.hide();
-      }
-    );
+      );
     return true;
   }
 }

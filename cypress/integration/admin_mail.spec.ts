@@ -44,6 +44,29 @@ describe("AdminMail", () => {
       .find("button:contains('Send mail')")
       .click({ force: true });
 
+    cy.get("div.modal-title h4").contains(
+      "Do you want to send the following email?"
+    );
+    cy.get("div.modal-body").contains("Subject: Subject of your email");
+    cy.get("div.modal-body").contains("To: sample@nomail.org");
+
+    cy.get("ul.nav-tabs li.nav-item").contains("Your body!");
+    cy.get("ul.nav-tabs li.nav-item a").contains("Plain Body").click();
+
+    cy.get("ul.nav-tabs li.nav-item a").contains("HTML Body").click();
+
+    cy.get("div.modal-body")
+      .find("button:contains('DO NOT SEND')")
+      .click({ force: true });
+
+    cy.get("div.card-body")
+      .find("button:contains('Send mail')")
+      .click({ force: true });
+
+    cy.get("div.modal-body")
+      .find("button:contains('YES, SEND IT')")
+      .click({ force: true });
+
     cy.checkalert("Mail successfully sent");
 
     cy.get("div.card-body").contains(
@@ -102,6 +125,35 @@ describe("AdminMail", () => {
 
     cy.get("div.card-body")
       .find("button:contains('Send mail')")
+      .click({ force: true });
+
+    cy.get("div.modal-title h4").contains(
+      "Do you want to send the following email?"
+    );
+    cy.get("div.modal-body").contains("Subject: Subject of your email");
+    cy.get("div.modal-body").contains("To: sample@nomail.org");
+    cy.get("div.modal-body").contains(
+      "CC: sample1@nomail.org,sample2@nomail.org"
+    );
+    cy.get("div.modal-body").contains(
+      "BCC: sample3@nomail.org,sample4@nomail.org"
+    );
+
+    cy.get("ul.nav-tabs li.nav-item").contains("Your body!");
+    cy.get("ul.nav-tabs li.nav-item a").contains("Plain Body").click();
+
+    cy.get("ul.nav-tabs li.nav-item a").contains("HTML Body").click();
+
+    cy.get("div.modal-body")
+      .find("button:contains('DO NOT SEND')")
+      .click({ force: true });
+
+    cy.get("div.card-body")
+      .find("button:contains('Send mail')")
+      .click({ force: true });
+
+    cy.get("div.modal-body")
+      .find("button:contains('YES, SEND IT')")
       .click({ force: true });
 
     cy.checkalert("Mail successfully sent");

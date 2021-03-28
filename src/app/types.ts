@@ -291,3 +291,15 @@ export interface AdminMenu {
   router_link: string;
   enabled: boolean;
 }
+
+export interface Email {
+  readonly html_body: string;
+  readonly plain_body: string;
+  readonly subject: string;
+  /** @format email */
+  readonly to: string;
+  /** @nullable */
+  readonly cc: string[];
+  /** @nullable */
+  readonly bcc: string[];
+}

@@ -26,6 +26,11 @@ export class FormlyService {
     }
 
     for (let s of schema) {
+      // This can occur if a key is deleted from the response, as in admin_mail.ts
+      if (!s) {
+        continue;
+      }
+
       const stype: string = this.get_type(s);
 
       const is_array = s.type.endsWith("[]");
