@@ -68,7 +68,7 @@
         <a ngbNavLink>HTML Body</a>
         <ng-template ngbNavContent>
           <br />
-          <span [innerHTML]="email['html_body']"></span><br />
+          <span [innerHTML]="email['html_body'] | safeHtml"></span><br />
         </ng-template>
       </li>
       <li ngbNavItem>
