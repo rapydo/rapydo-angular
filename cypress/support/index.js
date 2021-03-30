@@ -317,7 +317,10 @@ Cypress.Commands.add("checkvalidation", (index, msg) => {
   cy.get("formly-validation-message").eq(index).contains(msg);
 });
 
-Cypress.Commands.add("getmail", () => {
+Cypress.Commands.add("getmail", (previous = false) => {
+  if (previous) {
+    return cy.readFile("/logs/mock.mail.prevsent.body");
+  }
   return cy.readFile("/logs/mock.mail.lastsent.body");
 });
 

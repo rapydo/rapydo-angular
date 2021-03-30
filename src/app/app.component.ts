@@ -119,7 +119,11 @@ export class AppComponent implements OnInit {
     let t = environment.projectTitle;
     t = t.replace(/^'/, "");
     t = t.replace(/'$/, "");
-    this.titleService.setTitle(t);
+    let d = environment.projectDescription;
+    t = t.replace(/^'/, "");
+    t = t.replace(/'$/, "");
+
+    this.titleService.setTitle(`${t}: ${d}`);
   }
 
   public dismissCookieLaw(): void {
