@@ -29,7 +29,7 @@ describe("AdminSessions", () => {
     cy.get("span.datatable-header-cell-label").contains("Expiration").click();
     cy.get("datatable-body-row").first().find(".fa-trash");
 
-    // this doens not work because server side sort is not implemented:
+    // this does not work because server side sort is not implemented:
     // Already sorted by Expiration, curent token is lhe last
     // Sort by Expiration, current token is now the first
     // cy.get("span.datatable-header-cell-label").contains("Expiration").click();
