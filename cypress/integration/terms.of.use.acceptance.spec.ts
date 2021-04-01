@@ -36,7 +36,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
         cy.checkalert("You do not provided a valid verification code");
 
         cy.get("div.card-header h4").contains(
-          "Configure Two-Factor with Google Auth"
+          "Configure Two-Factor with Google Authenticator"
         );
 
         pwd = pwd + "!";

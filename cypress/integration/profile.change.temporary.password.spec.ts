@@ -37,7 +37,7 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
         cy.get("button").contains("Authorize").as("submit");
 
         cy.get("div.card-header h4").contains(
-          "Configure Two-Factor with Google Auth"
+          "Configure Two-Factor with Google Authenticator"
         );
         cy.get("div.card-header.bg-warning h4").contains(
           "Please change your temporary password"

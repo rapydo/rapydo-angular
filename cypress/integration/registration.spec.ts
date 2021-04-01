@@ -302,7 +302,7 @@ describe("Registration", () => {
 
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
         cy.get("div.card-header h4").contains(
-          "Configure Two-Factor with Google Auth"
+          "Configure Two-Factor with Google Authenticator"
         );
 
         cy.get("input[placeholder='Your new password']").type(

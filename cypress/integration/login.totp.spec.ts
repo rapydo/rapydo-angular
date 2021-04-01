@@ -35,7 +35,7 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       cy.checkalert("You do not provided a valid verification code");
 
       cy.get("div.card-header h4").contains(
-        "Configure Two-Factor with Google Auth"
+        "Configure Two-Factor with Google Authenticator"
       );
       cy.get("div.card-header.bg-warning h4").contains(
         "Please change your temporary password"

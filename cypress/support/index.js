@@ -176,7 +176,7 @@ Cypress.Commands.add("login_and_init_user", (email = null, pwd = null) => {
 
   if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
     cy.get("div.card-header h4").contains(
-      "Configure Two-Factor with Google Auth"
+      "Configure Two-Factor with Google Authenticator"
     );
 
     cy.checkalert("Please change your temporary password");
@@ -450,7 +450,7 @@ Cypress.Commands.add(
         cy.get("input[placeholder='Your password']").should("not.exist");
 
         cy.get("div.card-header h4").contains(
-          "Configure Two-Factor with Google Auth"
+          "Configure Two-Factor with Google Authenticator"
         );
 
         cy.get("input[placeholder='Your new password']").clear().type(pwd);

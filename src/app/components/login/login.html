@@ -25,12 +25,18 @@
 
       <div class="card" *ngIf="qr_code">
         <div class="card-header">
-          <h4>Configure Two-Factor with Google Auth</h4>
+          <h4>Configure Two-Factor with Google Authenticator</h4>
         </div>
 
         <div class="card-body text-center">
-          After installing the Google Authenticator app,<br />
-          scan the QR code below<br />
+          Due to enhanced security policies, two-step verification is required
+          to log in. You will need to first download the Google Authenticator
+          mobile app or any analogous app on your smartphone, then open the app
+          and scan the QR code below to configure your access.<br />
+          After you have scanned the QR code you can open the app at any time in
+          the future to obtain your verification code. Please note that the
+          verification code is always changing, so it will be different each
+          time you log in.<br />
           <img src="data:image/png;base64,{{qr_code}}" />
         </div>
       </div>
