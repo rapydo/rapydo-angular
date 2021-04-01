@@ -22,7 +22,7 @@ describe("AdminSessions", () => {
     // cy.scrollTo("bottom");
     cy.get("div.page-count").contains(" total");
     cy.get("ul.pager").find("li.pages:contains(' 1 ')");
-    cy.get("ul.pager").find("li.pages:contains(' 2 ')");
+    cy.get("ul.pager").find("li.pages:contains(' 2 ')").click();
     cy.get("ul.pager").find("li.pages:contains(' 1 ')").click();
     // cy.scrollTo("top");
 
