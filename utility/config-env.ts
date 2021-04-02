@@ -52,6 +52,14 @@ if (projectDescription.slice(projectDescription.length - 1) === "'") {
   projectDescription = projectDescription.slice(0, -1);
 }
 
+let projectKeywords = process.env.PROJECT_KEYWORDS;
+if (projectKeywords.charAt(0) === "'") {
+  projectKeywords = projectKeywords.substr(1);
+}
+if (projectKeywords.slice(projectKeywords.length - 1) === "'") {
+  projectKeywords = projectKeywords.slice(0, -1);
+}
+
 let websocketsURI = "";
 websocketsURI += process.env.PUSHPIN_HOST;
 websocketsURI += ":";
@@ -68,6 +76,7 @@ export const environment = {
     projectName: '${process.env.VANILLA_PACKAGE}',
     projectTitle: '${projectTitle}',
     projectDescription: '${projectDescription}',
+    projectKeywords: '${projectKeywords}',
     enableFooter: '${process.env.ENABLE_FOOTER}',
     allowRegistration: '${process.env.ALLOW_REGISTRATION}',
     allowPasswordReset: '${process.env.ALLOW_PASSWORD_RESET}',

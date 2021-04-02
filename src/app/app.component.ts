@@ -6,7 +6,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import { isPlatformBrowser, isPlatformServer } from "@angular/common";
-import { Title } from "@angular/platform-browser";
+import { Meta, Title } from "@angular/platform-browser";
 import { DeviceDetectorService } from "ngx-device-detector";
 
 import { environment } from "@rapydo/../environments/environment";
@@ -35,6 +35,7 @@ export class AppComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: any,
     public api: ApiService,
     private auth: AuthService,
+    private metaService: Meta,
     private titleService: Title,
     private customization: ProjectOptions,
     private notify: NotificationService,
@@ -116,14 +117,22 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    let t = environment.projectTitle;
-    t = t.replace(/^'/, "");
-    t = t.replace(/'$/, "");
-    let d = environment.projectDescription;
-    t = t.replace(/^'/, "");
-    t = t.replace(/'$/, "");
+    let title = environment.projectTitle;
+    title = title.replace(/^'/, "");
+    title = title.replace(/'$/, "");
+    let description = environment.projectDescription;
+    description = description.replace(/^'/, "");
+    description = description.replace(/'$/, "");
 
-    this.titleService.setTitle(`${t}: ${d}`);
+    const fullTitle = `${title}: ${description}`;
+    const keywords = environment.projectKeywords;
+
+    this.titleService.setTitle(fullTitle);
+    this.metaService.addTags([
+      { name: "keywords", content: keywords },
+      { name: "description", content: fullTitle },
+      { name: "robots", content: "index, follow" },
+    ]);
   }
 
   public dismissCookieLaw(): void {
