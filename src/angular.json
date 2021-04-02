@@ -16,6 +16,7 @@
             "outputPath": "/app/dist",
             "index": "app/rapydo/index.html",
             "main": "app/rapydo/main.ts",
+            "deleteOutputPath": false,
             "polyfills": "polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
