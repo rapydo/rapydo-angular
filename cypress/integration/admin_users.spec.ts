@@ -207,13 +207,13 @@ describe("AdminUsers", () => {
       .eq(0)
       .contains("datatable-body-cell", username);
     cy.get("datatable-body-row").eq(0).find(".fa-trash").click({ force: true });
-    cy.get("h5.modal-title").contains("Confirmation required");
+    cy.get("h2.modal-title").contains("Confirmation required");
     cy.get("button").contains("No, cancel").click({ force: true });
     cy.get("datatable-body-row")
       .eq(0)
       .contains("datatable-body-cell", username);
     cy.get("datatable-body-row").eq(0).find(".fa-trash").click({ force: true });
-    cy.get("h5.modal-title").contains("Confirmation required");
+    cy.get("h2.modal-title").contains("Confirmation required");
     cy.get("button").contains("Yes, delete").click({ force: true });
 
     cy.checkalert("Confirmation: user successfully deleted");

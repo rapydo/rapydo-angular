@@ -77,10 +77,10 @@ describe("AdminSessions", () => {
     // due to scroll not work we cannot visualize firt and last tokens...
     // let's click in the middle...
     cy.get("datatable-body-row").eq(15).find(".fa-trash").click();
-    cy.get("h5.modal-title").contains("Confirmation required");
+    cy.get("h2.modal-title").contains("Confirmation required");
     cy.get("button").contains("No, cancel").click();
     cy.get("datatable-body-row").eq(15).find(".fa-trash").click();
-    cy.get("h5.modal-title").contains("Confirmation required");
+    cy.get("h2.modal-title").contains("Confirmation required");
     cy.get("button").contains("Yes, delete").click();
 
     cy.checkalert("Confirmation: token successfully deleted");
