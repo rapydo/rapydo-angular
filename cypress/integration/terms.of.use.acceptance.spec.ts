@@ -35,7 +35,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
         cy.checkalert("You do not provided a valid verification code");
 
-        cy.get("div.card-header h4").contains(
+        cy.get("div.card-header h1").contains(
           "Configure Two-Factor with Google Authenticator"
         );
 
@@ -55,7 +55,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
         cy.get("button").contains("Authorize").click();
         cy.wait("@login");
       } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
-        cy.get("div.card-header.bg-warning h4").contains(
+        cy.get("div.card-header.bg-warning h1").contains(
           "Please change your temporary password"
         );
 
@@ -70,9 +70,9 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
         cy.get('button:contains("Change")').click({ force: true });
       }
 
-      cy.get("div.modal-header h4.modal-title").contains("Terms of use");
+      cy.get("div.modal-header h1.modal-title").contains("Terms of use");
 
-      cy.get("div.modal-footer h4").contains("Do you accept our Terms of Use?");
+      cy.get("div.modal-footer h1").contains("Do you accept our Terms of Use?");
 
       cy.get("div.modal-footer button").first().contains("YES");
       cy.get("div.modal-footer button").last().contains("NO").click();
@@ -95,14 +95,14 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
       // cy.get("input[placeholder='Your password']").should("not.exist");
 
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-        cy.get("div.card-header h4").contains("Provide the verification code");
+        cy.get("div.card-header h1").contains("Provide the verification code");
         cy.get("input[placeholder='TOTP verification code']").type(get_totp());
         cy.get("button").contains("Authorize").click();
       }
 
-      cy.get("div.modal-header h4.modal-title").contains("Terms of use");
+      cy.get("div.modal-header h1.modal-title").contains("Terms of use");
 
-      cy.get("div.modal-footer h4").contains("Do you accept our Terms of Use?");
+      cy.get("div.modal-footer h1").contains("Do you accept our Terms of Use?");
 
       cy.get("div.modal-footer button").last().contains("NO");
 
@@ -126,7 +126,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
       // cy.get("input[placeholder='Your password']").should("not.exist");
 
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-        cy.get("div.card-header h4").contains("Provide the verification code");
+        cy.get("div.card-header h1").contains("Provide the verification code");
         cy.get("input[placeholder='TOTP verification code']").type(get_totp());
         cy.get("button").contains("Authorize").click();
       }

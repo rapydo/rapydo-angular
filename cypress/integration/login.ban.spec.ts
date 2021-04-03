@@ -16,7 +16,7 @@ describe("Login Ban", () => {
         expect(location.pathname).to.eq("/app/login/unlock/invalidtoken");
       });
 
-      cy.get("div.card-header h4").contains("Invalid unlock token");
+      cy.get("div.card-header h1").contains("Invalid unlock token");
 
       cy.get("div.card-body p").contains(
         "The received token is not valid, if you copied the URL please verify that you copied all parts of it."
@@ -45,7 +45,7 @@ describe("Login Ban", () => {
       const max_failures = Math.max(Cypress.env("AUTH_MAX_LOGIN_ATTEMPTS"), 10);
 
       cy.visit("/app/login");
-      cy.get("div.card-header h4").contains("Login");
+      cy.get("div.card-header h1").contains("Login");
       cy.get("input[placeholder='Your username (email)']").clear().type(email);
       for (let i = 0; i < max_failures; i++) {
         cy.get("input[placeholder='Your password']")
@@ -104,7 +104,7 @@ describe("Login Ban", () => {
         );
 
         cy.visit("/app/login");
-        cy.get("div.card-header h4").contains("Login");
+        cy.get("div.card-header h1").contains("Login");
         cy.get("input[placeholder='Your username (email)']")
           .clear()
           .type(email);
@@ -112,7 +112,7 @@ describe("Login Ban", () => {
         cy.get("button").contains("Login").click();
 
         cy.get("input[placeholder='Your password']").should("not.exist");
-        cy.get("div.card-header h4").contains("Provide the verification code");
+        cy.get("div.card-header h1").contains("Provide the verification code");
 
         for (let i = 0; i < max_failures; i++) {
           cy.get("input[placeholder='TOTP verification code']")

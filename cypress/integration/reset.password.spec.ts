@@ -28,10 +28,10 @@ if (Cypress.env("ALLOW_PASSWORD_RESET")) {
         expect(location.pathname).to.eq("/public/reset");
       });
 
-      cy.get("div.card-header h4").contains("Reset your password");
+      cy.get("div.card-header h1").contains("Reset your password");
 
       cy.visit("/public/reset");
-      cy.get("div.card-header h4").contains("Reset your password");
+      cy.get("div.card-header h1").contains("Reset your password");
 
       cy.get("button:contains('Submit request')").click();
       cy.checkvalidation(0, "This field is required");
@@ -58,7 +58,7 @@ if (Cypress.env("ALLOW_PASSWORD_RESET")) {
 
       cy.wait("@reset");
 
-      cy.get("div.card-header h4").contains("Reset your password");
+      cy.get("div.card-header h1").contains("Reset your password");
       cy.get("div.card-body").contains(
         "We'll send instructions to the email provided if it's associated with an account. Please check your spam/junk folder."
       );
@@ -71,7 +71,7 @@ if (Cypress.env("ALLOW_PASSWORD_RESET")) {
 
       cy.wait("@validate1");
 
-      cy.get("div.card-header h4").contains("Invalid request");
+      cy.get("div.card-header h1").contains("Invalid request");
       cy.get("div.card-body").contains("Invalid reset token");
 
       cy.getmail().then((body) => {
@@ -80,7 +80,7 @@ if (Cypress.env("ALLOW_PASSWORD_RESET")) {
 
         cy.visit("/public/reset/" + token[1]);
 
-        cy.get("div.card-header h4").contains("Change your password");
+        cy.get("div.card-header h1").contains("Change your password");
 
         cy.get("button:contains('Submit')").click();
 
@@ -154,12 +154,12 @@ if (Cypress.env("ALLOW_PASSWORD_RESET")) {
         cy.location().should((location) => {
           expect(location.pathname).to.eq("/app/login");
         });
-        cy.get("div.card-header h4").contains("Login");
+        cy.get("div.card-header h1").contains("Login");
 
         // then test again the reset link to confirm the invalidation
         cy.visit("/public/reset/" + token[1]);
 
-        cy.get("div.card-header h4").contains("Invalid request");
+        cy.get("div.card-header h1").contains("Invalid request");
         cy.get("div.card-body").contains("Invalid reset token");
         cy.checkalert("Invalid reset token");
 
@@ -173,7 +173,7 @@ if (Cypress.env("ALLOW_PASSWORD_RESET")) {
 
         if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
           cy.get("input[placeholder='Your password']").should("not.exist");
-          cy.get("div.card-header h4").contains(
+          cy.get("div.card-header h1").contains(
             "Provide the verification code"
           );
           cy.get("input[placeholder='TOTP verification code']")

@@ -36,15 +36,15 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
 
         cy.get("button").contains("Authorize").as("submit");
 
-        cy.get("div.card-header h4").contains(
+        cy.get("div.card-header h1").contains(
           "Configure Two-Factor with Google Authenticator"
         );
-        cy.get("div.card-header.bg-warning h4").contains(
+        cy.get("div.card-header.bg-warning h1").contains(
           "Please change your temporary password"
         );
         cy.checkalert("You do not provided a valid verification code");
       } else {
-        cy.get("div.card-header.bg-warning h4").contains(
+        cy.get("div.card-header.bg-warning h1").contains(
           "Please change your temporary password"
         );
 
@@ -117,7 +117,7 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
       cy.wait("@changed");
 
       if (Cypress.env("ALLOW_TERMS_OF_USE")) {
-        cy.get("div.modal-footer h4").contains(
+        cy.get("div.modal-footer h1").contains(
           "Do you accept our Terms of Use?"
         );
         cy.get("div.modal-footer button").first().contains("YES").click();

@@ -46,7 +46,7 @@ Cypress.Commands.add("change_expired_password", (email, pwd, formtype) => {
     expect(location.pathname).to.eq("/app/profile/changepassword");
   });
 
-  cy.get("div.card-header h4").contains("Change your password");
+  cy.get("div.card-header h1").contains("Change your password");
 
   cy.get('input[placeholder="Type here your current password"]')
     .clear()
@@ -73,7 +73,7 @@ Cypress.Commands.add("change_expired_password", (email, pwd, formtype) => {
   // With TOTP after password change the user has to login again
   // Automatic login with new password is not possible due to the TOTP request
   if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-    cy.get("div.card-header h4").contains("Login");
+    cy.get("div.card-header h1").contains("Login");
 
     cy.get("input[placeholder='Your username (email)']").type(email);
     cy.get("input[placeholder='Your password']").type(pwd);
@@ -82,7 +82,7 @@ Cypress.Commands.add("change_expired_password", (email, pwd, formtype) => {
 
     cy.get("input[placeholder='Your password']").should("not.exist");
 
-    cy.get("div.card-header.bg-warning h4").contains(
+    cy.get("div.card-header.bg-warning h1").contains(
       "Provide the verification code"
     );
     cy.get("input[placeholder='TOTP verification code']")
@@ -116,9 +116,9 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
   cy.get("input[placeholder='Your password']").should("not.exist");
 
   cy.get("body").then((body) => {
-    if (body.find("h4").length > 0) {
+    if (body.find("h1").length > 0) {
       cy.wrap(body)
-        .get("h4")
+        .get("h1")
         .then(($title) => {
           const t = $title.text();
 
@@ -132,9 +132,9 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
             cy.wait(300);
 
             cy.get("body").then((body2) => {
-              if (body2.find("h4").length > 0) {
+              if (body2.find("h1").length > 0) {
                 cy.wrap(body2)
-                  .get("h4")
+                  .get("h1")
                   .then(($title) => {
                     const t = $title.text();
                     if (t == "Your password is expired, please change it") {
@@ -175,7 +175,7 @@ Cypress.Commands.add("login_and_init_user", (email = null, pwd = null) => {
   cy.get("input[placeholder='Your password']").should("not.exist");
 
   if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-    cy.get("div.card-header h4").contains(
+    cy.get("div.card-header h1").contains(
       "Configure Two-Factor with Google Authenticator"
     );
 
@@ -195,7 +195,7 @@ Cypress.Commands.add("login_and_init_user", (email = null, pwd = null) => {
     cy.wait("@login");
     cy.wait(200);
   } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
-    cy.get("div.card-header.bg-warning h4").contains(
+    cy.get("div.card-header.bg-warning h1").contains(
       "Please change your temporary password"
     );
 
@@ -449,7 +449,7 @@ Cypress.Commands.add(
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
         cy.get("input[placeholder='Your password']").should("not.exist");
 
-        cy.get("div.card-header h4").contains(
+        cy.get("div.card-header h1").contains(
           "Configure Two-Factor with Google Authenticator"
         );
 
@@ -466,7 +466,7 @@ Cypress.Commands.add(
         cy.wait("@login");
       } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
         cy.get("input[placeholder='Your password']").should("not.exist");
-        cy.get("div.card-header.bg-warning h4").contains(
+        cy.get("div.card-header.bg-warning h1").contains(
           "Please change your temporary password"
         );
 
@@ -483,7 +483,7 @@ Cypress.Commands.add(
       }
 
       if (Cypress.env("ALLOW_TERMS_OF_USE")) {
-        cy.get("div.modal-footer h4").contains(
+        cy.get("div.modal-footer h1").contains(
           "Do you accept our Terms of Use?"
         );
         cy.get("div.modal-footer button").first().contains("YES").click();

@@ -13,7 +13,7 @@ describe("AdminStats", () => {
   });
 
   it("View stats", () => {
-    cy.get("div.card-header h4").contains("Server Stats");
+    cy.get("div.card-header h1").contains("Server Stats");
 
     cy.get("table")
       .find("th")

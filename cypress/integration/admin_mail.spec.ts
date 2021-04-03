@@ -11,7 +11,7 @@ describe("AdminMail", () => {
       expect(location.pathname).to.eq("/app/admin/mail");
     });
 
-    cy.get("div.card-header h4").contains("Admin send mail");
+    cy.get("div.card-header h1").contains("Admin send mail");
 
     // Why this wait!??!? Without this the form is sent before the validation :o
     cy.wait(100);
@@ -44,7 +44,7 @@ describe("AdminMail", () => {
       .find("button:contains('Send mail')")
       .click({ force: true });
 
-    cy.get("div.modal-header h4.modal-title").contains(
+    cy.get("div.modal-header h1.modal-title").contains(
       "Do you want to send the following email?"
     );
     cy.get("div.modal-body").contains("Subject: Your subject");
@@ -129,7 +129,7 @@ describe("AdminMail", () => {
       .find("button:contains('Send mail')")
       .click({ force: true });
 
-    cy.get("div.modal-header h4.modal-title").contains(
+    cy.get("div.modal-header h1.modal-title").contains(
       "Do you want to send the following email?"
     );
     cy.get("div.modal-body").contains("Subject: Your subject");

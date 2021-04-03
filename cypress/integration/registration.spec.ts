@@ -15,7 +15,7 @@ describe("Registration", () => {
         expect(location.pathname).to.eq("/public/register");
       });
 
-      cy.get("div.card-header h4").contains("Register a new account");
+      cy.get("div.card-header h1").contains("Register a new account");
 
       cy.contains("Account registration is not allowed");
     });
@@ -56,7 +56,7 @@ describe("Registration", () => {
         expect(location.pathname).to.eq("/public/register");
       });
 
-      cy.get("div.card-header h4").contains("Register a new account");
+      cy.get("div.card-header h1").contains("Register a new account");
 
       // Save form fields as aliases
       cy.get('input[placeholder="Type here your name"]').as("name");
@@ -215,7 +215,7 @@ describe("Registration", () => {
       cy.get("@submit").click({ force: true });
       cy.checkalert("User successfully registered");
 
-      cy.get("div.card-header h4").contains("Account registered");
+      cy.get("div.card-header h1").contains("Account registered");
 
       cy.contains(
         "User successfully registered. You will receive an email to confirm your registraton and activate your account"
@@ -237,7 +237,7 @@ describe("Registration", () => {
 
       cy.wait("@login");
 
-      cy.get("div.card-header.bg-warning h4").contains(
+      cy.get("div.card-header.bg-warning h1").contains(
         "This account is not active"
       );
       cy.get("div.card-body").contains("Didn't receive an activation link?");
@@ -251,7 +251,7 @@ describe("Registration", () => {
       cy.location().should((location) => {
         expect(location.pathname).to.eq("/app/login");
       });
-      cy.get("div.card-header h4").contains("Login");
+      cy.get("div.card-header h1").contains("Login");
 
       // also verify errors on reset
       cy.visit("/public/reset");
@@ -261,7 +261,7 @@ describe("Registration", () => {
 
       cy.visit("/public/register/invalid");
 
-      cy.get("div.card-header h4").contains("Invalid activation token");
+      cy.get("div.card-header h1").contains("Invalid activation token");
       cy.get("div.card-body").contains(
         "This activation token is not valid and your request can not be satisfied."
       );
@@ -280,7 +280,7 @@ describe("Registration", () => {
 
         cy.visit("/public/register/" + token[1]);
 
-        cy.get("div.card-header h4").contains("Invalid activation token");
+        cy.get("div.card-header h1").contains("Invalid activation token");
         cy.get("div.card-body").contains(
           "This activation token is not valid and your request can not be satisfied."
         );
@@ -301,7 +301,7 @@ describe("Registration", () => {
       cy.wait("@login2");
 
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-        cy.get("div.card-header h4").contains(
+        cy.get("div.card-header h1").contains(
           "Configure Two-Factor with Google Authenticator"
         );
 
@@ -315,7 +315,7 @@ describe("Registration", () => {
 
         cy.get("button").contains("Authorize").click();
       } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
-        cy.get("div.card-header.bg-warning h4").contains(
+        cy.get("div.card-header.bg-warning h1").contains(
           "Please change your temporary password"
         );
 

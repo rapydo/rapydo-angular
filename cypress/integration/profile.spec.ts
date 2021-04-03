@@ -11,7 +11,7 @@ describe("Profile", () => {
       expect(location.pathname).to.eq("/app/profile");
     });
 
-    cy.get("div.card-header h4").contains("Your profile");
+    cy.get("div.card-header h1").contains("Your profile");
 
     cy.get("table").find("th").contains("Name");
     cy.get("table").find("th").contains("Email");
@@ -23,13 +23,13 @@ describe("Profile", () => {
 
     cy.get("table").find("td").contains(Cypress.env("AUTH_DEFAULT_USERNAME"));
 
-    cy.get("div.card-header h4").find(".fa-edit").click({ force: true });
-    cy.get("div.modal-header h4.modal-title").contains("Update your profile");
+    cy.get("div.card-header h1").find(".fa-edit").click({ force: true });
+    cy.get("div.modal-header h1.modal-title").contains("Update your profile");
     cy.get('button:contains("Close")').click({ force: true });
 
     const randval = Math.floor(Math.random() * 1000000);
-    cy.get("div.card-header h4").find(".fa-edit").click({ force: true });
-    cy.get("div.modal-header h4.modal-title").contains("Update your profile");
+    cy.get("div.card-header h1").find(".fa-edit").click({ force: true });
+    cy.get("div.modal-header h1.modal-title").contains("Update your profile");
 
     cy.get('input[placeholder="Name"]')
       .clear()

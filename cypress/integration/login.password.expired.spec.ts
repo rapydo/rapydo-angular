@@ -51,7 +51,7 @@ describe("Login", () => {
     cy.server({ enable: false });
 
     cy.checkalert("Your password is expired, please change it");
-    cy.get("div.card-header h4").contains(
+    cy.get("div.card-header h1").contains(
       "Your password is expired, please change it"
     );
     cy.get("button").contains("Change").click();

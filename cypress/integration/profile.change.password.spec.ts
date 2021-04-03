@@ -47,7 +47,7 @@ describe("ChangePassword", () => {
       expect(location.pathname).to.eq("/app/profile/changepassword");
     });
 
-    cy.get("div.card-header h4").contains("Change your password");
+    cy.get("div.card-header h1").contains("Change your password");
 
     cy.get("button:contains('Submit')").click();
     cy.checkvalidation(0, "This field is required");
@@ -132,7 +132,7 @@ describe("ChangePassword", () => {
   });
 
   it("ChangePassword", () => {
-    cy.get("div.card-header h4").contains("Change your password");
+    cy.get("div.card-header h1").contains("Change your password");
 
     const newPassword = getpassword(4);
 
@@ -162,7 +162,7 @@ describe("ChangePassword", () => {
 
     // if TOTP is enabled the automatic re-login is not possible
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      cy.get("div.card-header h4").contains("Login");
+      cy.get("div.card-header h1").contains("Login");
 
       cy.get("input[placeholder='Your username (email)']").type(email);
       cy.get("input[placeholder='Your password']").type(newPassword);
@@ -173,7 +173,7 @@ describe("ChangePassword", () => {
 
       cy.get("input[placeholder='Your password']").should("not.exist");
 
-      cy.get("div.card-header h4").contains("Provide the verification code");
+      cy.get("div.card-header h1").contains("Provide the verification code");
       cy.get("input[placeholder='TOTP verification code']").type(get_totp());
 
       cy.get("button").contains("Authorize").click();

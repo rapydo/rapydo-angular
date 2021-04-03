@@ -26,7 +26,7 @@ describe("AccountExpired", () => {
     cy.checkalert("Sorry, this account is expired");
 
     cy.visit("/public/reset");
-    cy.get("div.card-header h4").contains("Reset your password");
+    cy.get("div.card-header h1").contains("Reset your password");
 
     cy.intercept("POST", "/auth/reset").as("reset");
 

@@ -28,7 +28,7 @@ describe("GroupUsers", () => {
       expect(location.pathname).to.eq("/app/group/users");
     });
 
-    cy.get("div.card-header h4").contains("Users in group ");
+    cy.get("div.card-header h1").contains("Users in group ");
 
     cy.get("i.fa-sync-alt").click({ force: true });
 

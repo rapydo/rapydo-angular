@@ -32,7 +32,7 @@ describe("SuccessfulLogin", () => {
     // The URL contain a reference to the previous page (/app/profile)
     cy.url().should("include", "/app/login");
     cy.url().should("include", "?returnUrl=%2Fapp%2Fprofile");
-    cy.get("div.card-header h4").contains("Login");
+    cy.get("div.card-header h1").contains("Login");
   });
 
   it("Login - click on submit button", () => {
@@ -56,7 +56,7 @@ describe("SuccessfulLogin", () => {
     cy.wait("@login");
 
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      cy.get("div.card-header h4").contains("Provide the verification code");
+      cy.get("div.card-header h1").contains("Provide the verification code");
       cy.get("input[placeholder='TOTP verification code']").type(get_totp());
       cy.get("button").contains("Authorize").click();
     }
@@ -70,7 +70,7 @@ describe("SuccessfulLogin", () => {
 
     cy.wait("@login");
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      cy.get("div.card-header h4").contains("Provide the verification code");
+      cy.get("div.card-header h1").contains("Provide the verification code");
       cy.get("input[placeholder='TOTP verification code']").type(get_totp());
       cy.get("button").contains("Authorize").click();
     }
@@ -85,7 +85,7 @@ describe("SuccessfulLogin", () => {
 
     cy.wait("@login");
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      cy.get("div.card-header h4").contains("Provide the verification code");
+      cy.get("div.card-header h1").contains("Provide the verification code");
       const token = get_totp();
       cy.get("input[placeholder='TOTP verification code']").type(token);
       cy.get("button").contains("Authorize").click();

@@ -34,10 +34,10 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
 
       cy.checkalert("You do not provided a valid verification code");
 
-      cy.get("div.card-header h4").contains(
+      cy.get("div.card-header h1").contains(
         "Configure Two-Factor with Google Authenticator"
       );
-      cy.get("div.card-header.bg-warning h4").contains(
+      cy.get("div.card-header.bg-warning h1").contains(
         "Please change your temporary password"
       );
 
@@ -90,7 +90,7 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       cy.get("button").contains("Authorize").click();
 
       if (Cypress.env("ALLOW_TERMS_OF_USE")) {
-        cy.get("div.modal-footer h4").contains(
+        cy.get("div.modal-footer h1").contains(
           "Do you accept our Terms of Use?"
         );
         cy.get("div.modal-footer button").first().contains("YES").click();
@@ -116,7 +116,7 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
 
       cy.get("input[placeholder='Your password']").should("not.exist");
 
-      cy.get("div.card-header.bg-warning h4").contains(
+      cy.get("div.card-header.bg-warning h1").contains(
         "Provide the verification code"
       );
 
@@ -178,7 +178,7 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
 
       cy.get("input[placeholder='Your password']").should("not.exist");
 
-      cy.get("div.card-header h4").contains("Provide the verification code");
+      cy.get("div.card-header h1").contains("Provide the verification code");
       cy.get("input[placeholder='TOTP verification code']")
         .clear()
         .type(get_totp());
@@ -249,7 +249,7 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
 
       // With TOTP after password change the user has to login again
       // Automatic login with new password is not possible due to the TOTP request
-      cy.get("div.card-header h4").contains("Login");
+      cy.get("div.card-header h1").contains("Login");
 
       cy.get("input[placeholder='Your username (email)']").type(email);
       cy.get("input[placeholder='Your password']").type(pwd);
@@ -258,7 +258,7 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       cy.get("button").contains("Login").click();
       cy.wait("@login");
 
-      cy.get("div.card-header.bg-warning h4").contains(
+      cy.get("div.card-header.bg-warning h1").contains(
         "Provide the verification code"
       );
       cy.get("input[placeholder='TOTP verification code']")

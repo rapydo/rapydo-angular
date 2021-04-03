@@ -7,7 +7,7 @@ describe("Init user", () => {
   it("Login via form to change first password / setup TOTP if needed", () => {
     // default username/password and via_form = true
     cy.visit("/app/login");
-    cy.get("div.card-header h4").contains("Login");
+    cy.get("div.card-header h1").contains("Login");
     cy.closecookielaw();
 
     cy.login_and_init_user();
@@ -20,7 +20,7 @@ describe("Init user", () => {
         expect(location.pathname).to.eq("/app/profile/changepassword");
       });
 
-      cy.get("div.card-header h4").contains("Change your password");
+      cy.get("div.card-header h1").contains("Change your password");
 
       const pwd = Cypress.env("AUTH_DEFAULT_PASSWORD");
 

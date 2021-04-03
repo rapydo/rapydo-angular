@@ -9,7 +9,7 @@
         *ngIf="resetForm && !token && !invalid_token && !reset_message"
       >
         <div class="card-header">
-          <h4>Reset your password</h4>
+          <h1>Reset your password</h1>
         </div>
 
         <div class="card-body">
@@ -30,7 +30,7 @@
       <!-- 2 -->
       <div class="card" *ngIf="reset_message">
         <div class="card-header">
-          <h4>Reset your password</h4>
+          <h1>Reset your password</h1>
         </div>
 
         <div class="card-body">{{reset_message}}</div>
@@ -40,7 +40,7 @@
 
       <div class="card" *ngIf="invalid_token">
         <div class="card-header">
-          <h4>Invalid request</h4>
+          <h1>Invalid request</h1>
         </div>
 
         <div class="card-body">{{invalid_token}}</div>
@@ -49,7 +49,7 @@
       <!-- 4 -->
       <div class="card" *ngIf="token">
         <div class="card-header">
-          <h4>Change your password</h4>
+          <h1>Change your password</h1>
         </div>
 
         <div class="card-body">

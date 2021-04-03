@@ -77,7 +77,7 @@ describe("Responsive tests", () => {
       expect(location.pathname).to.eq("/app/profile");
     });
 
-    cy.get("div.card-header h4").contains("Your profile");
+    cy.get("div.card-header h1").contains("Your profile");
 
     // Logout Confirmation modal is not opened on Cypress when navbar is collapsed...
     // cy.logout(expected_collapsed_navbar);
