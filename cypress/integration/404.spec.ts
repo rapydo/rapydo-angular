@@ -11,16 +11,16 @@ describe("404", () => {
       expect(location.pathname).to.eq("/app/404");
     });
 
-    cy.get("div.card-header h2").contains("404 - Page not found");
-    cy.get("div.card-body h5").contains(
+    cy.get("div.card-header h1").contains("404 - Page not found");
+    cy.get("div.card-body h2").contains(
       "The page you requested could not be found!"
     );
-    cy.get("div.card-body h6").contains(
+    cy.get("div.card-body h4").contains(
       "Please report the error if you reached this page by following a link"
     );
 
-    cy.contains("go home");
-    cy.contains("go back").click();
+    cy.contains("GO HOME");
+    cy.contains("GO BACK").click();
 
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/login");

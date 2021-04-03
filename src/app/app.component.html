@@ -7,22 +7,21 @@
       <div class="col-6 offset-3">
         <div class="card">
           <div class="card-header bg-warning">
-            <h6>Server temporarily unreachable</h6>
+            <h1>Server temporarily unreachable</h1>
           </div>
 
           <div class="card-body">
-            <p>
+            <h2 class="smaller">
               This server is temporarily not reachable.<br />
               We apologize for any inconvenience this may cause.
 
               <br /><br />
 
-              <a [routerLink]="" (click)="refresh()">
-                <i class="fas fa-sync-alt"></i>
+              <a class="btn btn-warning" [routerLink]="" (click)="refresh()">
+                <i class="fas fa-sync-alt"> RELOAD</i>
                 <br />
-                Reload
               </a>
-            </p>
+            </h2>
           </div>
         </div>
       </div>
