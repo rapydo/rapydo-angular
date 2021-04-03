@@ -501,7 +501,7 @@ Cypress.Commands.add("deleteuser", (email) => {
   cy.get('input[placeholder="Type to filter users"]').clear().type(email);
 
   cy.get("datatable-body-row").first().find(".fa-trash").click();
-  cy.get("h5.modal-title").contains("Confirmation required");
+  cy.get("h2.modal-title").contains("Confirmation required");
   cy.get("button").contains("Yes, delete").click();
 
   cy.checkalert("Confirmation: user successfully deleted");
