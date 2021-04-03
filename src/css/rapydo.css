@@ -8,6 +8,67 @@ body {
   padding-top: 1rem;
 }
 
+h1.larger {
+  font-size: 2.5rem;
+}
+h1 {
+  font-size: 1.8rem;
+}
+h1.smaller {
+  font-size: 1.6rem;
+}
+
+h2.larger {
+  font-size: 1.8rem;
+}
+h2 {
+  font-size: 1.6rem;
+}
+h2.smaller {
+  font-size: 1.4rem;
+}
+
+h3.larger {
+  font-size: 1.6rem;
+}
+h3 {
+  font-size: 1.4rem;
+}
+h3.smaller {
+  font-size: 1.25rem;
+}
+
+h4.larger {
+  font-size: 1.4rem;
+}
+h4 {
+  font-size: 1.25rem;
+}
+h4.smaller {
+  font-size: 1.1rem;
+}
+
+h5.larger {
+  font-size: 1.25rem;
+}
+h5 {
+  font-size: 1.1rem;
+}
+h5.smaller {
+  font-size: 1rem;
+}
+
+h6.larger {
+  font-size: 1.1rem;
+}
+h6 {
+  font-size: 1rem;
+}
+h6.smaller {
+  /* should not be used */
+  font-size: 0.9rem;
+}
+
 /*
   Used to separate container and footer
   margin-bottom or padding-bottom does not work well on container fluid
@@ -55,7 +116,7 @@ span.role-badge {
   justify-content: center;
 }
 
-div.initial_loading > h2 > div.spinner-grow {
+div.initial_loading > h1 > div.spinner-grow {
   width: 3rem;
   height: 3rem;
 }

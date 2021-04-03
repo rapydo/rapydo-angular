@@ -14,7 +14,7 @@ describe("KitchenSink", () => {
       if (pathname === "/app/sink") {
         // quiet = true => no error if already closed
         cy.closecookielaw(true);
-        cy.get("div.card-header h4").contains("Kitchen Sink");
+        cy.get("div.card-header h1").contains("Kitchen Sink");
 
         // Normal formly forms
         cy.get("ul.nav-tabs li.nav-item a.active").contains("ngx-formly");
