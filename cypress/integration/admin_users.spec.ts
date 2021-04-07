@@ -76,24 +76,12 @@ describe("AdminUsers", () => {
     });
 
     // Pick all the selects, included Groups and any other custom fields (like in IMC)
-    cy.get("form")
-      .find("ng-select")
-      .each(($el, index, $list) => {
-        cy.wrap($el).find("input").click({ force: true });
-
-        cy.wrap($el).find("input").type("DEBUG CODE");
-        cy.wrap($el).find("input").clear();
-
-        cy.wrap($el).find("div.ng-option").eq(1).click({ force: true });
-        // if ($el.prop("required")) {
-        //   cy.wrap($el)
-        //     .find("option")
-        //     .eq(1)
-        //     .then((element) => {
-        //       cy.wrap($el).select(element.val());
-        //     });
-        // }
-      });
+    // cy.get("form")
+    //   .find("ng-select")
+    //   .each(($el, index, $list) => {
+    //     cy.wrap($el).find("input").click({ force: true });
+    //     cy.wrap($el).find("div.ng-option").eq(1).click({ force: true });
+    //   });
 
     cy.get("formly-validation-message").should("not.exist");
 
