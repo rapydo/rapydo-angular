@@ -75,31 +75,12 @@ describe("AdminUsers", () => {
       }
     });
 
-    // DEBUG CODE:
-    cy.get("ng-select").eq(0).find("input").click({ force: true });
-    cy.get("ng-dropdown-panel")
-      .find("div.ng-option")
-      .eq(0)
-      .click({ force: true });
-
-    // DEBUG CODE:
-    cy.get("ng-select").eq(1).find("input").click({ force: true });
-    cy.get("ng-dropdown-panel")
-      .find("div.ng-option")
-      .eq(0)
-      .click({ force: true });
-
     // Pick all the selects, included Groups and any other custom fields (like in IMC)
     cy.get("form")
       .find("ng-select")
       .each(($el, index, $list) => {
         cy.wrap($el).find("input").click({ force: true });
-        // cy.wrap($el).find("div.ng-option").eq(1).click({ force: true });
-        // DEBUG CODE:
-        cy.get("ng-dropdown-panel")
-          .find("div.ng-option")
-          .eq(1)
-          .click({ force: true });
+        cy.wrap($el).find("div.ng-option").eq(1).click({ force: true });
       });
 
     cy.get("formly-validation-message").should("not.exist");
