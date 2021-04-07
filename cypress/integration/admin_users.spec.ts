@@ -80,6 +80,10 @@ describe("AdminUsers", () => {
       .find("ng-select")
       .each(($el, index, $list) => {
         cy.wrap($el).find("input").click({ force: true });
+
+        cy.wrap($el).find("input").type("DEBUG CODE");
+        cy.wrap($el).find("input").clear();
+
         cy.wrap($el).find("div.ng-option").eq(1).click({ force: true });
         // if ($el.prop("required")) {
         //   cy.wrap($el)
