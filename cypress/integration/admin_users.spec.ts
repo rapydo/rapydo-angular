@@ -76,12 +76,14 @@ describe("AdminUsers", () => {
     });
 
     // DEBUG CODE:
+    cy.get("ng-select").eq(0).find("input").click({ force: true });
     cy.get("ng-dropdown-panel")
       .find("div.ng-option")
       .eq(0)
       .click({ force: true });
 
     // DEBUG CODE:
+    cy.get("ng-select").eq(1).find("input").click({ force: true });
     cy.get("ng-dropdown-panel")
       .find("div.ng-option")
       .eq(0)
