@@ -28,7 +28,7 @@ describe("Login", () => {
     cy.get("input[placeholder='Your password']").as("pwd");
 
     // Cypress is still not able to override intercept..
-    // A single intercept is needed, that the test should continue will normal responses
+    // A single intercept is needed here, then the test should continue with normal responses
     cy.server();
     cy.route({
       method: "POST",
