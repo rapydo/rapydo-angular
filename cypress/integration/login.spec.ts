@@ -37,13 +37,17 @@ describe("SuccessfulLogin", () => {
 
   it("Login - Test Sign in button", () => {
     if (Cypress.env("SHOW_LOGIN")) {
-      cy.get("navbar").find("a:contains('Sign in')").click();
+      cy.get("ul.navbar-right.navbar-right")
+        .find("a:contains('Sign in')")
+        .click();
 
       cy.location().should((location) => {
         expect(location.pathname).to.eq("/app/login");
       });
     } else {
-      cy.get("navbar").find("a:contains('Sign in')").should("not.exist");
+      cy.get("ul.navbar-nav.navbar-right")
+        .find("a:contains('Sign in')")
+        .should("not.exist");
     }
   });
 
