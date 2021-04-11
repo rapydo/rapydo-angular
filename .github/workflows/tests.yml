@@ -13,7 +13,15 @@ jobs:
 
     strategy:
       matrix:
-        stage: [karma, cypress-lite, cypress-full, cypress-totp, prod]
+        stage:
+          [
+            karma,
+            cypress-lite,
+            cypress-full,
+            cypress-totp,
+            cypress-nologin,
+            prod,
+          ]
 
     steps:
       - uses: actions/checkout@v2
@@ -97,6 +105,13 @@ jobs:
               -e AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER=60 \
               -e AUTH_SECOND_FACTOR_AUTHENTICATION=1 \
               -e AUTH_TOTP_VALIDITY_WINDOW=5 \
+              start
+
+          elif [[ "${LABEL}" == "nologin" ]]; then
+
+            rapydo \
+              -e PROJECT_TITLE="Your ${AUTH} ${LABEL} Project" \
+              -e SHOW_LOGIN=0 \
               start
 
           else
