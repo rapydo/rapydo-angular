@@ -10,14 +10,14 @@ import {
 describe("Registration", () => {
   if (!Cypress.env("ALLOW_REGISTRATION")) {
     it("Registration not allowed", () => {
-      cy.get("ul.navbar-nav.navbar-right")
-        .find("a:contains('Sign up')")
-        .should("not.exist");
-
       cy.visit("/public/register");
       cy.location().should((location) => {
         expect(location.pathname).to.eq("/public/register");
       });
+
+      cy.get("ul.navbar-nav.navbar-right")
+        .find("a:contains('Sign up')")
+        .should("not.exist");
 
       cy.get("div.card-header h1").contains("Register a new account");
 
@@ -31,14 +31,6 @@ describe("Registration", () => {
     let newPassword = "to-be-generated";
 
     it("Registration", () => {
-      cy.get("ul.navbar-nav.navbar-right")
-        .find("a:contains('Sign up')")
-        .click();
-
-      cy.location().should((location) => {
-        expect(location.pathname).to.eq("/public/register");
-      });
-
       newUser = get_random_username("testregistration");
 
       cy.visit("/app/login");
@@ -47,6 +39,20 @@ describe("Registration", () => {
       // Login -> Register
       cy.contains("You don't have an account yet");
       cy.get('a:contains("Register here")').click();
+
+      cy.location().should((location) => {
+        expect(location.pathname).to.eq("/public/register");
+      });
+
+      cy.visit("/app/login");
+
+      cy.location().should((location) => {
+        expect(location.pathname).to.eq("/app/login");
+      });
+
+      cy.get("ul.navbar-nav.navbar-right")
+        .find("a:contains('Sign up')")
+        .click();
 
       cy.location().should((location) => {
         expect(location.pathname).to.eq("/public/register");
