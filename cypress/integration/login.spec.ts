@@ -37,7 +37,7 @@ describe("SuccessfulLogin", () => {
 
   it("Login - click on Sign in button and submit button", () => {
     if (Cypress.env("SHOW_LOGIN")) {
-      cy.get("ul.navbar-right.navbar-right")
+      cy.get("ul.navbar-nav.navbar-right")
         .find("a:contains('Sign in')")
         .click();
 
