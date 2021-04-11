@@ -13,6 +13,7 @@ interface Env {
   projectTitle: string;
   projectDescription: string;
   projectKeywords: string;
+  showLogin: boolean;
   enableFooter: boolean;
   allowRegistration: boolean;
   allowPasswordReset: boolean;
@@ -33,6 +34,7 @@ export const environment: Env = {
   projectDescription: base.projectDescription,
   projectKeywords: base.projectKeywords,
   // Temporary Compatibility fix, remove === "true" in a near future
+  showLogin: base.showLogin === "1" || base.showLogin === "true",
   enableFooter: base.enableFooter === "1" || base.enableFooter === "true",
   allowRegistration:
     base.allowRegistration === "1" || base.allowRegistration === "true",

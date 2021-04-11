@@ -25,6 +25,7 @@ export class NavbarComponent implements OnInit {
   public user: User;
   public loading: boolean = true;
 
+  public showLogin: boolean = true;
   public allowRegistration: boolean = false;
 
   // This property tracks whether the menu is open.
@@ -47,6 +48,7 @@ export class NavbarComponent implements OnInit {
     private confirmationModals: ConfirmationModals,
     private ref: ChangeDetectorRef
   ) {
+    this.showLogin = environment.showLogin;
     this.allowRegistration = environment.allowRegistration;
   }
 

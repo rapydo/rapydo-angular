@@ -77,6 +77,7 @@ export const environment = {
     projectTitle: '${projectTitle}',
     projectDescription: '${projectDescription}',
     projectKeywords: '${projectKeywords}',
+    showLogin: '${process.env.SHOW_LOGIN}',
     enableFooter: '${process.env.ENABLE_FOOTER}',
     allowRegistration: '${process.env.ALLOW_REGISTRATION}',
     allowPasswordReset: '${process.env.ALLOW_PASSWORD_RESET}',

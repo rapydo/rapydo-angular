@@ -12,6 +12,7 @@ describe("Environment", () => {
     expect(environment.projectTitle).not.toBeUndefined();
     expect(environment.projectDescription).not.toBeUndefined();
     expect(environment.projectKeywords).not.toBeUndefined();
+    expect(environment.showLogin).not.toBeUndefined();
     expect(environment.enableFooter).not.toBeUndefined();
     expect(environment.allowRegistration).not.toBeUndefined();
     expect(environment.allowPasswordReset).not.toBeUndefined();
