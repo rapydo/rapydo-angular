@@ -10,6 +10,8 @@ import {
 describe("Registration", () => {
   if (!Cypress.env("ALLOW_REGISTRATION")) {
     it("Registration not allowed", () => {
+      cy.get("navbar").find("a:contains('Sign up')").should("not.exist");
+
       cy.visit("/public/register");
       cy.location().should((location) => {
         expect(location.pathname).to.eq("/public/register");
@@ -27,6 +29,12 @@ describe("Registration", () => {
     let newPassword = "to-be-generated";
 
     it("Registration", () => {
+      cy.get("navbar").find("a:contains('Sign up')").click();
+
+      cy.location().should((location) => {
+        expect(location.pathname).to.eq("/public/register");
+      });
+
       newUser = get_random_username("testregistration");
 
       cy.visit("/app/login");

@@ -29,10 +29,22 @@ describe("SuccessfulLogin", () => {
       expect(location.pathname).to.eq("/app/login");
     });
 
-    // The URL contain a reference to the previous page (/app/profile)
+    // The URL contains a reference to the previous page (/app/profile)
     cy.url().should("include", "/app/login");
     cy.url().should("include", "?returnUrl=%2Fapp%2Fprofile");
     cy.get("div.card-header h1").contains("Login");
+  });
+
+  it("Login - Test Sign in button", () => {
+    if (Cypress.env("SHOW_LOGIN")) {
+      cy.get("navbar").find("a:contains('Sign in')").click();
+
+      cy.location().should((location) => {
+        expect(location.pathname).to.eq("/app/login");
+      });
+    } else {
+      cy.get("navbar").find("a:contains('Sign in')").should("not.exist");
+    }
   });
 
   it("Login - click on submit button", () => {
