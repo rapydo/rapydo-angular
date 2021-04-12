@@ -35,15 +35,15 @@ describe("SuccessfulLogin", () => {
     cy.get("div.card-header h1").contains("Login");
   });
 
-  it("Login - click on Sign in button and submit button", () => {
-    if (Cypress.env("SHOW_LOGIN")) {
+  it.only("Login - click on Sign in button and submit button", () => {
+    if (Cypress.env("SHOW_LOGIN" === "1")) {
       cy.get("a:contains('Sign in')").click();
 
       cy.location().should((location) => {
         expect(location.pathname).to.eq("/app/login");
       });
-      // } else {
-      //   cy.get("a:contains('Sign in')").should("not.exist");
+    } else {
+      cy.get("a:contains('Sign in')").should("not.exist");
     }
 
     cy.get("input[placeholder='Your password']").type(pwd);

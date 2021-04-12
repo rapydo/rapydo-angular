@@ -17,7 +17,7 @@
     "cypress:start:full": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --record --group full --browser chrome'",
     "cypress:start:totp": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --record --group totp --browser chrome'",
     "cypress:start:lite": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --record --group lite --browser chrome'",
-    "cypress:start:nologin": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --record --group nologin --browser chrome'",
+    "cypress:start:hiddenlogin": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --record --group hiddenlogin --browser chrome'",
     "cypress:start:norecord": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --browser chrome'"
   },
   "license": "MIT",

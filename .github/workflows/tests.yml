@@ -19,7 +19,7 @@ jobs:
             cypress-lite,
             cypress-full,
             cypress-totp,
-            cypress-nologin,
+            cypress-hiddenlogin,
             prod,
           ]
 
@@ -107,7 +107,7 @@ jobs:
               -e AUTH_TOTP_VALIDITY_WINDOW=5 \
               start
 
-          elif [[ "${LABEL}" == "nologin" ]]; then
+          elif [[ "${LABEL}" == "hiddenlogin" ]]; then
 
             rapydo \
               -e PROJECT_TITLE="Your ${AUTH} ${LABEL} Project" \
