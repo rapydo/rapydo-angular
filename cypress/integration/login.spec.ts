@@ -42,8 +42,8 @@ describe("SuccessfulLogin", () => {
       cy.location().should((location) => {
         expect(location.pathname).to.eq("/app/login");
       });
-    } else {
-      cy.get("a:contains('Sign in')").should("not.exist");
+      // } else {
+      //   cy.get("a:contains('Sign in')").should("not.exist");
     }
 
     cy.get("input[placeholder='Your password']").type(pwd);
