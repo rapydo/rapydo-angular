@@ -36,7 +36,7 @@ describe("SuccessfulLogin", () => {
   });
 
   it.only("Login - click on Sign in button and submit button", () => {
-    if (Cypress.env("SHOW_LOGIN" === "1")) {
+    if (Cypress.env("SHOW_LOGIN")) {
       cy.get("a:contains('Sign in')").click();
 
       cy.location().should((location) => {

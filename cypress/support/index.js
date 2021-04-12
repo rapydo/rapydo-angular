@@ -220,36 +220,6 @@ Cypress.Commands.add("login_and_init_user", (email = null, pwd = null) => {
   cy.wait(300);
 });
 
-// Login Via Request:
-//       let body = { username: email, password: pwd };
-//       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-//         const totp = new OTPAuth.TOTP({
-//           secret: Cypress.env("TESTING_TOTP_HASH"),
-//         });
-
-//         body["totp_code"] = totp.generate();
-//       }
-
-//       cy.request({
-//         method: "POST",
-//         url: Cypress.env("API_URL") + "auth/login",
-//         body,
-//       }).then((response) => {
-//         cy.setLocalStorage("token", JSON.stringify(response.body));
-
-//         const options = {
-//           method: "GET",
-//           url: Cypress.env("API_URL") + "auth/profile",
-//           headers: {
-//             Authorization: `Bearer ${response.body}`,
-//           },
-//         };
-
-//         cy.request(options).then((response) => {
-//           cy.setLocalStorage("currentUser", JSON.stringify(response.body));
-//         });
-//       });
-
 Cypress.Commands.add("logout", (collapsed = false) => {
   if (collapsed) {
     cy.get("button.navbar-toggler").click();

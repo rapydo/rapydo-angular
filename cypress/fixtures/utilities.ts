@@ -77,10 +77,10 @@ export function get_random_username(prefix: string) {
   return `${prefix}_${timestamp}_${random_number}@sample.org`;
 }
 
-// Version with otpauth
 import * as OTPAuth from "otpauth";
 
 const totp = new OTPAuth.TOTP({
+  // TESTING_TOTP_HASH is set by setup-cypress github action
   secret: Cypress.env("TESTING_TOTP_HASH"),
   digits: 6,
   period: 30,
@@ -88,10 +88,3 @@ const totp = new OTPAuth.TOTP({
 export function get_totp() {
   return totp.generate();
 }
-
-// // Version with otplib
-// import { authenticator } from "otplib";
-
-// export function get_totp() {
-//   return authenticator.generate(Cypress.env("TESTING_TOTP_HASH"));
-// }
