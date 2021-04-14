@@ -275,6 +275,13 @@ jobs:
           echo "{}" > cypress.json
           cypress run --browser chrome --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
 
+          # To complete a basic test to verify that
+          # the frontend correctly builds also when SSR is disabled
+          rapydo -e ENABLE_ANGULAR_SSR=0 start
+          rapydo -s frontend logs --follow
+          docker-compose logs --tail 2 frontend 2>&1 | grep "files have been compressed."
+          curl --insecure -X GET https://localhost
+
       # - name: Save Video Artifact
       #   uses: actions/upload-artifact@v1
       #   if: ${{ matrix.stage != 'karma' && matrix.stage != 'prod' }}
