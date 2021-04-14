@@ -20,9 +20,6 @@
             "polyfills": "polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
-            "optimization": true,
-            "buildOptimizer": true,
-            "extractLicenses": true,
             "progress": true,
             "forkTypeChecker": false,
             "assets": [
@@ -62,6 +59,8 @@
               "extractLicenses": true,
               "vendorChunk": true,
               "buildOptimizer": true,
+              "optimization": true,
+              "extractLicenses": true,
               "budgets": [
                 {
                   "type": "initial",
