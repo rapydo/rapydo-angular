@@ -20,6 +20,9 @@
             "polyfills": "polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
+            "optimization": true,
+            "buildOptimizer": true,
+            "extractLicenses": true,
             "progress": true,
             "forkTypeChecker": false,
             "assets": [
