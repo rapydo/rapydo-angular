@@ -3,8 +3,6 @@
 
 describe("404", () => {
   it("Invalid page", () => {
-    cy.wait(60000);
-
     cy.visit("/app/login");
 
     cy.visit("app/invalid");
