@@ -157,9 +157,11 @@ export class ApiService {
 
             if (errors) {
               for (let error of errors) {
-                const message = {};
-                message["Invalid " + validationSchema + " response"] = error;
-                this.notify.showError(message);
+                this.notify.showError(
+                  error,
+                  `Invalid ${validationSchema} response`
+                );
+                this.notify.showWarning(response);
               }
               throw new Error("Response validation error");
             }
