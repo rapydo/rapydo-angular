@@ -129,13 +129,13 @@ export class AppComponent implements OnInit {
     description = description.replace(/^'/, "");
     description = description.replace(/'$/, "");
 
-    const fullTitle = `${title}: ${description}`;
-    const keywords = environment.projectKeywords;
+    const defaultFullTitle = `${title}: ${description}`;
+    const defaultKeywords = environment.projectKeywords;
 
-    this.titleService.setTitle(fullTitle);
+    this.titleService.setTitle(defaultFullTitle);
     this.metaService.addTags([
-      { name: "keywords", content: keywords },
-      { name: "description", content: fullTitle },
+      { name: "keywords", content: defaultKeywords },
+      { name: "description", content: defaultFullTitle },
       { name: "robots", content: "index, follow" },
     ]);
 
@@ -159,10 +159,19 @@ export class AppComponent implements OnInit {
           this.metaService.addTags([
             { name: "description", content: fullTitle },
           ]);
+        } else {
+          this.titleService.setTitle(defaultFullTitle);
+          this.metaService.addTags([
+            { name: "description", content: defaultFullTitle },
+          ]);
         }
         if (event["keywords"]) {
           this.metaService.addTags([
             { name: "keywords", content: event["keywords"] },
+          ]);
+        } else {
+          this.metaService.addTags([
+            { name: "keywords", content: defaultKeywords },
           ]);
         }
       });
