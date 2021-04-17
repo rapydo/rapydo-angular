@@ -12,7 +12,10 @@ const routes: Routes = [
     component: GroupUsersComponent,
     canActivate: [AuthGuard],
     runGuardsAndResolvers: "always",
-    data: { roles: ["group_coordinator"] },
+    data: {
+      roles: ["group_coordinator"],
+      description: "Groups configuration",
+    },
   },
 ];
 

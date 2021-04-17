@@ -16,35 +16,50 @@ const routes: Routes = [
     component: AdminUsersComponent,
     canActivate: [AuthGuard],
     runGuardsAndResolvers: "always",
-    data: { roles: ["admin_root"] },
+    data: {
+      roles: ["admin_root"],
+      description: "Users configuration",
+    },
   },
   {
     path: "groups",
     component: AdminGroupsComponent,
     canActivate: [AuthGuard],
     runGuardsAndResolvers: "always",
-    data: { roles: ["admin_root"] },
+    data: {
+      roles: ["admin_root"],
+      description: "Groups configuration",
+    },
   },
   {
     path: "sessions",
     component: AdminSessionsComponent,
     canActivate: [AuthGuard],
     runGuardsAndResolvers: "always",
-    data: { roles: ["admin_root"] },
+    data: {
+      roles: ["admin_root"],
+      description: "Sessions management",
+    },
   },
   {
     path: "stats",
     component: AdminStatsComponent,
     canActivate: [AuthGuard],
     runGuardsAndResolvers: "always",
-    data: { roles: ["admin_root"] },
+    data: {
+      roles: ["admin_root"],
+      description: "Server stats",
+    },
   },
   {
     path: "mail",
     component: AdminMailComponent,
     canActivate: [AuthGuard],
     runGuardsAndResolvers: "always",
-    data: { roles: ["admin_root"] },
+    data: {
+      roles: ["admin_root"],
+      description: "Send mail tool",
+    },
   },
 ];
 

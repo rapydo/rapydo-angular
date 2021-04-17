@@ -10,18 +10,30 @@ const routes: Routes = [
   {
     path: "register",
     component: RegisterComponent,
+    data: {
+      description: "Register a new user",
+    },
   },
   {
     path: "register/:token",
     component: RegisterComponent,
+    data: {
+      description: "Confirm registration",
+    },
   },
   {
     path: "reset",
     component: ResetPasswordComponent,
+    data: {
+      description: "Reset password",
+    },
   },
   {
     path: "reset/:token",
     component: ResetPasswordComponent,
+    data: {
+      description: "Confirm reset password",
+    },
   },
 ];
 

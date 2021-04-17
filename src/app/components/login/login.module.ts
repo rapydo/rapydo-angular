@@ -10,10 +10,16 @@ const routes: Routes = [
   {
     path: "",
     component: LoginComponent,
+    data: {
+      description: "Login",
+    },
   },
   {
     path: "unlock/:token",
     component: LoginUnlockComponent,
+    data: {
+      description: "Unlock login",
+    },
   },
 ];
 
