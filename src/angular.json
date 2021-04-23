@@ -23,7 +23,7 @@
             "progress": true,
             "forkTypeChecker": false,
             "assets": [
-              "node_modules/@fortawesome/fontawesome-free/webfont",
+              "node_modules/@fortawesome/fontawesome-free/webfonts",
               "./app/rapydo/assets",
               "./app/custom/assets",
               "./app/subproject/assets"
