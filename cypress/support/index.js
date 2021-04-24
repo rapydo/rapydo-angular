@@ -1,5 +1,4 @@
 import "@cypress/code-coverage/support";
-import "cypress-localstorage-commands";
 
 import { get_totp } from "../fixtures/utilities";
 
@@ -323,8 +322,8 @@ Cypress.Commands.add(
     } else {
       cy.get('input[placeholder="Password"]').clear().type(pwd);
     }
-    cy.get('input[placeholder="Name"]').clear().type("PlaceholderName");
-    cy.get('input[placeholder="Surname"]').clear().type("PlaceholderSurname");
+    cy.get('input[placeholder="First Name"]').clear().type("PlaceholderName");
+    cy.get('input[placeholder="Last Name"]').clear().type("PlaceholderSurname");
 
     // get custom fields added at project level:
     // foreach element select required input text/number still empty and fill them

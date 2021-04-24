@@ -99,6 +99,17 @@ export interface Session {
 }
 export interface Sessions extends Array<Session> {}
 
+export interface Login {
+  /** @format email */
+  readonly username: string;
+  readonly date: Date;
+  readonly IP: string;
+  readonly location: string;
+  readonly failed: boolean;
+  readonly flushed: boolean;
+}
+export interface Logins extends Array<Login> {}
+
 export interface Paging {
   /** @minimum 1 */
   page: number;

@@ -62,44 +62,28 @@ describe("FailedLogin", () => {
       .clear()
       .type("invalid-password");
 
-    // cy.intercept("POST", "/auth/login", {
-    //   statusCode: 409,
-    //   body: "Stubbed login error",
-    // }).as("login1");
-
-    // Cypress is still not able to override intercept..
-    // Cannot set two intercepts on the same endpoint :-(
-    cy.server();
-
-    cy.route({
-      method: "POST",
-      url: "/auth/login",
-      status: 404,
-      response: "Stubbed login error",
-    });
+    cy.intercept("POST", "/auth/login", {
+      statusCode: 404,
+      body: "Stubbed login error",
+    }).as("login1");
 
     cy.get("button").contains("Login").click();
-    // cy.wait("@login1");
+
+    cy.wait("@login1");
+
     cy.checkalert(
       "Unable to login due to a server error. If this error persists please contact system administrators"
     );
 
-    // cy.intercept("POST", "/auth/login", {
-    //   statusCode: 404,
-    //   body: "Stubbed login error",
-    // }).as("login2");
-
-    cy.route({
-      method: "POST",
-      url: "/auth/login",
-      status: 409,
-      response: "Stubbed login error",
-    });
+    cy.intercept("POST", "/auth/login", {
+      statusCode: 409,
+      body: "Stubbed login error",
+    }).as("login2");
 
     cy.get("button").contains("Login").click();
-    // cy.wait("@login2");
+    cy.wait("@login2");
+
     cy.checkalert("Stubbed login error");
-    cy.server({ enable: false });
   });
 
   afterEach(() => {

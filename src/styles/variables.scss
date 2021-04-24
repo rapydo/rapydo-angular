@@ -1,0 +1,54 @@
+/* BOOTSTRAP 4 VARIABLES */
+
+// $primary:       #007bff;
+// $secondary:     #6c757d;
+// $success:       #28a745;
+// $info:          #17a2b8;
+// $warning:       #ffc107;
+// $danger:        #dc3545;
+// $light:         #f8f9fa;
+// $dark:          #343a40;
+
+$body-bg: #fff;
+
+// Assumes the browser default, typically `16px`
+$font-size-base: 1rem;
+
+$h1-font-size: $font-size-base * 1.8;
+$h2-font-size: $font-size-base * 1.6;
+$h3-font-size: $font-size-base * 1.4;
+$h4-font-size: $font-size-base * 1.25;
+$h5-font-size: $font-size-base * 1.1;
+$h6-font-size: $font-size-base;
+
+$h1-font-size-larger: $h1-font-size * 1.4;
+$h2-font-size-larger: $h2-font-size * 1.2;
+$h3-font-size-larger: $h3-font-size * 1.2;
+$h4-font-size-larger: $h4-font-size * 1.2;
+$h5-font-size-larger: $h5-font-size * 1.2;
+$h6-font-size-larger: $h6-font-size * 1.2;
+
+$h1-font-size-smaller: $h1-font-size * 0.9;
+$h2-font-size-smaller: $h2-font-size * 0.9;
+$h3-font-size-smaller: $h3-font-size * 0.9;
+$h4-font-size-smaller: $h4-font-size * 0.9;
+$h5-font-size-smaller: $h5-font-size * 0.9;
+$h6-font-size-smaller: $h6-font-size * 0.9;
+
+/* RAPYDO VARIABLES */
+
+$navbar-bg-color: #f8f8f8;
+$navbar-border-size: 0;
+$navbar-border-color: #f8f8f8;
+$navbar-link-color: rgba(0, 0, 0, 0.5);
+$navbar-hover-link-color: rgba(0, 0, 0, 0.5);
+$navbar-active-link-color: rgba(0, 0, 0, 0.5);
+
+$footer-bg-color: #f8f8f8;
+$footer-text-color: #333;
+$footer-a-color: #0000ee;
+$footer-height: 3em;
+$footer-text-align: left;
+
+$initial-loading-bg-color: #cef;
+$initial-loading-spinner-color: #525f66;

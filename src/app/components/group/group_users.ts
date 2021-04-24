@@ -21,7 +21,7 @@ export class GroupUsersComponent extends BasePaginationComponent<GroupUser> {
   constructor(protected injector: Injector) {
     super(injector);
 
-    let endpoint = "group/users";
+    let endpoint = "/api/group/users";
 
     let user: User = this.auth.getUser();
     if (user) {
@@ -36,7 +36,7 @@ export class GroupUsersComponent extends BasePaginationComponent<GroupUser> {
     this.columns = [];
     this.columns.push({ name: "Email", prop: "email", flexGrow: 1.0 });
     this.columns.push({
-      name: "Name",
+      name: "Full Name",
       prop: "surname",
       flexGrow: 1.0,
       cellTemplate: this.dataName,

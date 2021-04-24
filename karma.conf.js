@@ -8,7 +8,6 @@ module.exports = function (config) {
     plugins: [
       require("karma-jasmine"),
       require("karma-chrome-launcher"),
-      require("karma-jasmine-html-reporter"),
       require("karma-coverage"),
       require("karma-spec-reporter"),
       require("@angular-devkit/build-angular/plugins/karma"),
@@ -24,10 +23,8 @@ module.exports = function (config) {
     },
     coverageReporter: {
       dir: require("path").join("/coverage"),
-      // reports: ["html", "lcovonly", "text-summary"],
       reporters: [
         // reporters not supporting the `file` property
-        { type: "html", subdir: "html" },
         { type: "lcov", subdir: "." },
         // reporters supporting the `file` property, use `subdir` to directly
         // output them in the `dir` directory
@@ -35,14 +32,14 @@ module.exports = function (config) {
         { type: "text", subdir: ".", file: "text.txt" },
         { type: "text-summary", subdir: ".", file: "text-summary.txt" },
       ],
-      // Combines coverage information from multiple browsers into one report rather than outputting a report for each browser.
+      // Combines coverage information from multiple browsers into one report rather than output a report for each browser
       combineBrowserReports: true,
       // if using webpack and pre-loaders, work around webpack breaking the source path
       fixWebpackSourcePaths: true,
       // Omit files with no statements, no functions and no branches from the report
       skipFilesWithNoCoverage: true,
     },
-    reporters: ["spec", "kjhtml", "coverage"],
+    reporters: ["spec", "coverage"],
     preprocessors: {
       // source files, that you wanna generate coverage for
       // do not include tests or libraries

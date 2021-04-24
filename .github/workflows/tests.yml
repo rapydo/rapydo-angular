@@ -122,10 +122,9 @@ jobs:
 
           fi
 
-          rapydo shell --no-tty backend 'restapi wait'
-          # To be removed?
           sleep 20
           rapydo logs
+          # rapydo shell --no-tty backend 'restapi wait'
           rapydo shell --no-tty backend --detach "restapi launch"
           rapydo shell --no-tty frontend "yarn install"
           rapydo shell --no-tty frontend "reload-types"
@@ -149,7 +148,7 @@ jobs:
         if: ${{ matrix.stage == 'prod' }}
         run: |
           cd rapydo_tests
-          rapydo --prod init
+          rapydo --prod -e SET_MAX_REQUESTS_PER_SECOND_ASSETS=60 init
 
           rapydo add --force component sink
 
@@ -258,17 +257,17 @@ jobs:
           curl $opt/$asset --header 'accept-encoding: gzip' | grep "content-encoding: gzip"
 
           echo -e "\n**** Testing Access-Control-Allow-Origin ****"
-          curl $opt | grep -i "Access-Control-Allow-Origin: localhost"
-          curl $opt/ | grep -i "Access-Control-Allow-Origin: localhost"
-          curl $opt/index.html | grep -i "Access-Control-Allow-Origin: localhost"
-          curl $opt/app | grep -i "Access-Control-Allow-Origin: localhost"
-          curl $opt/app/ | grep -i "Access-Control-Allow-Origin: localhost"
-          curl $opt/app/index.html | grep -i "Access-Control-Allow-Origin: localhost"
-          curl $opt/app/anything | grep -i "Access-Control-Allow-Origin: localhost"
-          curl $opt/public | grep -i "Access-Control-Allow-Origin: localhost"
-          curl $opt/public/ | grep -i "Access-Control-Allow-Origin: localhost"
-          curl $opt/public/index.html | grep -i "Access-Control-Allow-Origin: localhost"
-          curl $opt/public/anything | grep -i "Access-Control-Allow-Origin: localhost"
+          curl $opt | grep -i "Access-Control-Allow-Origin: https://localhost"
+          curl $opt/ | grep -i "Access-Control-Allow-Origin: https://localhost"
+          curl $opt/index.html | grep -i "Access-Control-Allow-Origin: https://localhost"
+          curl $opt/app | grep -i "Access-Control-Allow-Origin: https://localhost"
+          curl $opt/app/ | grep -i "Access-Control-Allow-Origin: https://localhost"
+          curl $opt/app/index.html | grep -i "Access-Control-Allow-Origin: https://localhost"
+          curl $opt/app/anything | grep -i "Access-Control-Allow-Origin: https://localhost"
+          curl $opt/public | grep -i "Access-Control-Allow-Origin: https://localhost"
+          curl $opt/public/ | grep -i "Access-Control-Allow-Origin: https://localhost"
+          curl $opt/public/index.html | grep -i "Access-Control-Allow-Origin: https://localhost"
+          curl $opt/public/anything | grep -i "Access-Control-Allow-Origin: https://localhost"
 
           echo -e "\n"
 

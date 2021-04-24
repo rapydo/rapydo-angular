@@ -14,28 +14,21 @@ import { AdminUser } from "@rapydo/types";
   templateUrl: "admin_users.html",
 })
 export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
-  @ViewChild("dataActive", { static: false }) public dataActive: TemplateRef<
-    any
-  >;
+  @ViewChild("dataActive", { static: false })
+  public dataActive: TemplateRef<any>;
   @ViewChild("dataRoles", { static: false }) public dataRoles: TemplateRef<any>;
   @ViewChild("dataGroup", { static: false }) public dataGroup: TemplateRef<any>;
   @ViewChild("dataName", { static: false }) public dataName: TemplateRef<any>;
   @ViewChild("dataDate", { static: false }) public dataDate: TemplateRef<any>;
   @ViewChild("controlsCell", { static: false })
   public controlsCell: TemplateRef<any>;
-  @ViewChild("emptyHeader", { static: false }) public emptyHeader: TemplateRef<
-    any
-  >;
+  @ViewChild("emptyHeader", { static: false })
+  public emptyHeader: TemplateRef<any>;
 
   constructor(protected injector: Injector) {
     super(injector);
 
-    let endpoint = "admin/users";
-
-    // let user = this.auth.getUser();
-    // if (user && user.isCoordinator && !user.isAdmin) {
-    //   endpoint = "group/users";
-    // }
+    let endpoint = "/api/admin/users";
 
     this.init("user", endpoint, "AdminUsers");
     this.initPaging();
@@ -61,10 +54,8 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
       flexGrow: 0.1,
     });
     this.columns.push({ name: "Email", prop: "email", flexGrow: 1.0 });
-    /*this.columns.push({name: 'Name', prop: "name", flexGrow: 0.8});*/
-    /*this.columns.push({name: 'Surname', prop: "surname", flexGrow: 0.8});*/
     this.columns.push({
-      name: "Name",
+      name: "Full Name",
       prop: "surname",
       flexGrow: 1.0,
       cellTemplate: this.dataName,
@@ -88,7 +79,8 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
       name: "Roles",
       prop: "roles",
       cellTemplate: this.dataRoles,
-      sortable: false,
+      // sortable: false,
+      comparator: this.rolesComparator.bind(this),
       flexGrow: 0.5,
     });
     this.columns.push({
@@ -120,6 +112,32 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
     });
   }
 
+  public rolesViewComparator(rolesA, rolesB): number {
+    const a = rolesA["value"]["description"];
+    const b = rolesB["value"]["description"];
+
+    return a.localeCompare(b);
+  }
+
+  private rolesComparator(rolesA, rolesB): number {
+    const A = rolesA
+      .map((r) => r["description"])
+      .sort()
+      .join(",");
+    const B = rolesB
+      .map((r) => r["description"])
+      .sort()
+      .join(",");
+
+    if (A == B) {
+      return 0;
+    }
+    if (A < B) {
+      return -1;
+    }
+    return 1;
+  }
+
   filter(data_filter) {
     return this.unfiltered_data.filter(function (d) {
       if (d.email.toLowerCase().indexOf(data_filter) !== -1) {
@@ -130,6 +148,12 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
       }
       if (d.surname.toLowerCase().indexOf(data_filter) !== -1) {
         return true;
+      }
+
+      for (let role of d.roles.map((x) => x["description"])) {
+        if (role.toLowerCase().indexOf(data_filter) !== -1) {
+          return true;
+        }
       }
 
       return false;

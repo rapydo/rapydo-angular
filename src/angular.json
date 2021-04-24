@@ -28,18 +28,7 @@
               "./app/custom/assets",
               "./app/subproject/assets"
             ],
-            "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/ngx-toastr/toastr.css",
-              "node_modules/@swimlane/ngx-datatable/themes/bootstrap.scss",
-              "node_modules/@swimlane/ngx-datatable/assets/icons.css",
-              "node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css",
-              "node_modules/@fortawesome/fontawesome-free/css/brands.min.css",
-              "node_modules/@fortawesome/fontawesome-free/css/solid.min.css",
-              "node_modules/@ng-select/ng-select/themes/default.theme.css",
-              "./app/rapydo/css/rapydo.css",
-              "./app/custom/css/style.css"
-            ],
+            "styles": ["./app/rapydo/styles/rapydo.scss"],
             "scripts": [],
             "allowedCommonJsDependencies": ["xlsx", "@rapydo/../../validate.js"]
           },
@@ -133,16 +122,7 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": ["./app/rapydo/assets", "./app/custom/assets"],
-            "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/ngx-toastr/toastr.css",
-              "node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css",
-              "node_modules/@fortawesome/fontawesome-free/css/brands.min.css",
-              "node_modules/@fortawesome/fontawesome-free/css/solid.min.css",
-              "node_modules/@ng-select/ng-select/themes/default.theme.css",
-              "./app/rapydo/css/rapydo.css",
-              "./app/custom/css/style.css"
-            ],
+            "styles": ["./app/rapydo/styles/rapydo.scss"],
             "scripts": []
           }
         }

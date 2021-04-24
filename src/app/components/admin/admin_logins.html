@@ -1,0 +1,76 @@
+<div class="container-fluid">
+  <div class="row justify-content-md-center">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h1 class="panel-title">
+            <i class="fas fa-users"></i> Logins
+            <span class="float-right"
+              ><i
+                class="fas fa-sync-alt"
+                ngbTooltip="Reload the list of {{resource_name}}s"
+                (click)="list();"
+              ></i
+            ></span>
+          </h1>
+        </div>
+
+        <div class="card-body">
+          <ngx-spinner [fullScreen]="true"> </ngx-spinner>
+
+          <div class="table-responsive">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-6">
+                  <input
+                    type="text"
+                    class="form-control data-filter"
+                    placeholder="Type to filter logins"
+                    (keyup)="updateFilter($event)"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="table-wrapper" #tableWrapper>
+              <ngx-datatable
+                class="bootstrap"
+                [rows]="data"
+                [columns]="columns"
+                [columnMode]="ColumnMode.flex"
+                [headerHeight]="40"
+                [footerHeight]="40"
+                [limit]="paging.itemsPerPage"
+                [rowHeight]="'auto'"
+                (activate)="onDatatableActivate($event)"
+              >
+              </ngx-datatable>
+            </div>
+          </div>
+
+          <ng-template #dateCell let-row="row" let-value="value" let-i="index">
+            <span *ngIf="value">
+              {{value | amFromUtc | date : 'dd MMM yyyy HH:mm:ss'}}
+            </span>
+            <span *ngIf="!value">N/A</span>
+          </ng-template>
+
+          <ng-template
+            #failedCell
+            let-row="row"
+            let-value="value"
+            let-i="index"
+          >
+            <span *ngIf="value">
+              <!-- {{ row.flushed }} -->
+              <i class="fas fa-times red"></i>
+            </span>
+            <span *ngIf="!value">
+              <i class="fas fa-check green"></i>
+            </span>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

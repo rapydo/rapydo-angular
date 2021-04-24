@@ -102,6 +102,10 @@ export class AuthService {
   }
 
   public isAuthenticated() {
+    if (!environment.authEnabled) {
+      return of(false);
+    }
+
     if (!this.getToken()) {
       return of(false);
     }
@@ -120,6 +124,12 @@ export class AuthService {
       })
     );
   }
+
+  // public printSecurityEvents() {
+  //   if (Math.floor(Math.random() * 2) == 0) {
+  //     this.notify.showWarning("...");
+  //   }
+  // }
 
   public hasRole(expectedRoles: string[]): boolean {
     if (!expectedRoles || expectedRoles.length === 0) {

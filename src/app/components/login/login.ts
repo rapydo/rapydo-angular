@@ -1,12 +1,4 @@
-import {
-  Component,
-  OnInit,
-  PLATFORM_ID,
-  Inject,
-  ViewChild,
-  TemplateRef,
-} from "@angular/core";
-import { isPlatformBrowser, isPlatformServer } from "@angular/common";
+import { Component, OnInit, ViewChild, TemplateRef } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { FormGroup } from "@angular/forms";
 import { FormlyFieldConfig } from "@ngx-formly/core";
@@ -16,6 +8,7 @@ import { environment } from "@rapydo/../environments/environment";
 
 import { ApiService } from "@rapydo/services/api";
 import { AuthService } from "@rapydo/services/auth";
+import { SSRService } from "@rapydo/services/ssr";
 import { User } from "@rapydo/types";
 import { NotificationService } from "@rapydo/services/notification";
 import { ProjectOptions } from "@app/customization";
@@ -32,6 +25,7 @@ const ACCOUNT_BANNED =
 export class LoginComponent implements OnInit {
   private returnUrl: string = "";
 
+  public allowLogin: boolean = true;
   public allowPasswordReset: boolean = false;
   public allowRegistration: boolean = false;
 
@@ -57,21 +51,22 @@ export class LoginComponent implements OnInit {
   public modalRef: NgbModalRef;
   public terms_of_use: any;
 
-  public isBrowser = isPlatformBrowser(this.platformId);
-  public isServer = isPlatformServer(this.platformId);
-
   constructor(
-    @Inject(PLATFORM_ID) private platformId: any,
     private route: ActivatedRoute,
     private router: Router,
     private notify: NotificationService,
     private modalService: NgbModal,
     private customization: ProjectOptions,
     private api: ApiService,
-    private auth: AuthService
+    private auth: AuthService,
+    public ssr: SSRService
   ) {
-    this.allowRegistration = environment.allowRegistration;
-    this.allowPasswordReset = environment.allowPasswordReset;
+    if (environment.authEnabled) {
+      this.allowRegistration = environment.allowRegistration;
+      this.allowPasswordReset = environment.allowPasswordReset;
+    } else {
+      this.router.navigate(["app/404"]);
+    }
 
     const user = this.auth.getUser();
     if (user != null) {
@@ -219,6 +214,8 @@ export class LoginComponent implements OnInit {
               } else {
                 this.showTermsOfUse(u);
               }
+
+              // this.auth.printSecurityEvents();
             },
             (error) => {
               this.notify.showError(error);

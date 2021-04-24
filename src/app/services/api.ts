@@ -1,5 +1,4 @@
-import { Injectable, PLATFORM_ID, Inject } from "@angular/core";
-import { isPlatformBrowser } from "@angular/common";
+import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 
 import { catchError, map } from "rxjs/operators";
@@ -11,6 +10,7 @@ import {
 } from "@angular/common/http";
 
 import { NotificationService } from "@rapydo/services/notification";
+import { SSRService } from "@rapydo/services/ssr";
 import { environment } from "@rapydo/../environments/environment";
 
 import { validate } from "@rapydo/validate";
@@ -22,8 +22,8 @@ export class ApiService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    @Inject(PLATFORM_ID) private platformId: any,
-    private notify: NotificationService
+    private notify: NotificationService,
+    private ssr: SSRService
   ) {}
 
   public is_online(): boolean {
@@ -94,15 +94,25 @@ export class ApiService {
   ): Observable<T> {
     const conf = this.opt(options, "conf");
     const rawError = this.opt(options, "rawError", false);
+    const externalURL = this.opt(options, "externalURL", false);
     const validationSchema = this.opt(options, "validationSchema");
     const redirectOnInvalidTokens = this.opt(options, "redirect", true);
 
-    // to be deprecated
-    if (!endpoint.startsWith("/")) {
-      endpoint = "/api/" + endpoint;
-    }
+    // If externalURL, endpoint will be assumed a full URL and will be used as it is
+    if (!externalURL) {
+      // Deprecated since 1.2
+      // Once dropped this, externalURL will be no longer needed because it will be
+      // simply possible to prefix environment.backendURI if the endpoint starts with /
+      if (!endpoint.startsWith("/")) {
+        // Deprecated since 1.2
+        console.warn(
+          `Relative URLs are deprecated, convert ${endpoint} into /api/${endpoint}`
+        );
+        endpoint = "/api/" + endpoint;
+      }
 
-    endpoint = environment.backendURI + endpoint;
+      endpoint = environment.backendURI + endpoint;
+    }
 
     // let contentType;
     // let formData = this.opt(options, "formData");
@@ -161,7 +171,6 @@ export class ApiService {
                   error,
                   `Invalid ${validationSchema} response`
                 );
-                this.notify.showWarning(response);
               }
               throw new Error("Response validation error");
             }
@@ -254,7 +263,7 @@ export class ApiService {
   public parseErrorBlob(err: HttpErrorResponse): Observable<any> {
     if (err.error instanceof Blob) {
       // This is only executed from the browser and skipped during SSR
-      if (isPlatformBrowser(this.platformId)) {
+      if (this.ssr.isBrowser) {
         const reader: FileReader = new FileReader();
         const obs = Observable.create((observer: any) => {
           reader.onloadend = (e) => {

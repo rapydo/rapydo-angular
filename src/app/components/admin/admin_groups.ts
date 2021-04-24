@@ -19,7 +19,7 @@ export class AdminGroupsComponent extends BasePaginationComponent<Group> {
 
   constructor(protected injector: Injector) {
     super(injector);
-    this.init("group", "admin/groups", "Groups");
+    this.init("group", "/api/admin/groups", "Groups");
     this.initPaging();
     this.list();
   }

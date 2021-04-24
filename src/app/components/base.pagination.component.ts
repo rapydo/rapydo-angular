@@ -16,6 +16,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 
 import { ApiService } from "@rapydo/services/api";
 import { AuthService } from "@rapydo/services/auth";
+import { SSRService } from "@rapydo/services/ssr";
 import { NotificationService } from "@rapydo/services/notification";
 import { ConfirmationModals } from "@rapydo/services/confirmation.modals";
 import { FormlyService } from "@rapydo/services/formly";
@@ -45,6 +46,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   protected changeDetectorRef: ChangeDetectorRef;
   protected spinner: NgxSpinnerService;
   protected customization: ProjectOptions;
+  public ssr: SSRService;
 
   public ColumnMode = ColumnMode;
 
@@ -97,6 +99,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     this.changeDetectorRef = injector.get(ChangeDetectorRef);
     this.spinner = injector.get(NgxSpinnerService);
     this.customization = injector.get(ProjectOptions);
+    this.ssr = injector.get(SSRService);
   }
   protected init(res_name: string, endpoint: string, data_type: string): void {
     this.resource_name = res_name;

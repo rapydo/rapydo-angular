@@ -1,74 +1,90 @@
+@import "variables";
+@import "/app/custom/styles/variables";
+@import "node_modules/bootstrap/scss/bootstrap";
+
+// Replaced basic toastr style with bootstrap4 style
+// @import "node_modules/ngx-toastr/toastr";
+@import "node_modules/ngx-toastr/toastr-bs4-alert";
+@import "node_modules/@swimlane/ngx-datatable/themes/bootstrap";
+@import "node_modules/@swimlane/ngx-datatable/assets/icons";
+@import "node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+@import "node_modules/@fortawesome/fontawesome-free/scss/brands";
+@import "node_modules/@fortawesome/fontawesome-free/scss/solid";
+@import "node_modules/@ng-select/ng-select/themes/default.theme";
+
 html,
 body {
   height: 100%;
   width: 100%;
+
+  // @if variable-exists(some_variable) {
+  //   background-color: $some_variable;
+  // }
 }
 
 .container-fluid {
   padding-top: 1rem;
 }
 
-h1.larger {
-  font-size: 2.5rem;
-}
 h1 {
-  font-size: 1.8rem;
-}
-h1.smaller {
-  font-size: 1.6rem;
+  font-size: $h1-font-size;
+  &.larger {
+    font-size: $h1-font-size-larger;
+  }
+  &.smaller {
+    font-size: $h1-font-size-smaller;
+  }
 }
 
-h2.larger {
-  font-size: 1.8rem;
-}
 h2 {
-  font-size: 1.6rem;
-}
-h2.smaller {
-  font-size: 1.4rem;
+  font-size: $h2-font-size;
+  &.larger {
+    font-size: $h2-font-size-larger;
+  }
+  &.smaller {
+    font-size: $h2-font-size-smaller;
+  }
 }
 
-h3.larger {
-  font-size: 1.6rem;
-}
 h3 {
-  font-size: 1.4rem;
-}
-h3.smaller {
-  font-size: 1.25rem;
+  font-size: $h3-font-size;
+  &.larger {
+    font-size: $h3-font-size-larger;
+  }
+  &.smaller {
+    font-size: $h3-font-size-smaller;
+  }
 }
 
-h4.larger {
-  font-size: 1.4rem;
-}
 h4 {
-  font-size: 1.25rem;
-}
-h4.smaller {
-  font-size: 1.1rem;
+  font-size: $h4-font-size;
+  &.larger {
+    font-size: $h4-font-size-larger;
+  }
+  &.smaller {
+    font-size: $h4-font-size-smaller;
+  }
 }
 
-h5.larger {
-  font-size: 1.25rem;
-}
 h5 {
-  font-size: 1.1rem;
-}
-h5.smaller {
-  font-size: 1rem;
+  font-size: $h5-font-size;
+  &.larger {
+    font-size: $h5-font-size-larger;
+  }
+  &.smaller {
+    font-size: $h5-font-size-smaller;
+  }
 }
 
-h6.larger {
-  font-size: 1.1rem;
-}
 h6 {
-  font-size: 1rem;
+  font-size: $h6-font-size;
+  &.larger {
+    font-size: $h6-font-size-larger;
+  }
+  &.smaller {
+    font-size: $h6-font-size-smaller;
+  }
 }
-h6.smaller {
-  /* should not be used */
-  font-size: 0.9rem;
-}
-
 /*
   Used to separate container and footer
   margin-bottom or padding-bottom does not work well on container fluid
@@ -86,15 +102,35 @@ h6.smaller {
 }
 
 .navbar {
-  background-color: #f8f8f8 !important;
+  background-color: $navbar-bg-color !important;
+  border-bottom: $navbar-border-size solid $navbar-border-color;
+  padding-top: 0;
+  padding-bottom: 0;
+  .navbar-nav .nav-link {
+    color: $navbar-link-color;
+
+    &:hover {
+      color: $navbar-hover-link-color;
+    }
+
+    &.active {
+      color: $navbar-active-link-color;
+    }
+  }
 }
 
 .footer {
-  background-color: #f8f8f8 !important;
+  background-color: $footer-bg-color !important;
+  color: $footer-text-color !important;
   border-top: 1px solid rgba(0, 0, 0, 0.125);
-  line-height: 3em;
+  line-height: $footer-height;
   padding-right: 4em;
   padding-left: 4em;
+  text-align: $footer-text-align;
+
+  a {
+    color: $footer-a-color !important;
+  }
 }
 
 /* used in Profile and AdminUsers */
@@ -103,7 +139,8 @@ span.role-badge {
 }
 
 .initial_loading {
-  background-color: #cef;
+  background-color: $initial-loading-bg-color;
+  color: $initial-loading-spinner-color;
   padding: 0;
   margin: 0;
   display: -webkit-box;
@@ -146,6 +183,7 @@ input.data-filter {
 input.datepicker {
   background-color: #fff !important;
 }
+
 .ngx-datatable.bootstrap .datatable-footer {
   background-color: rgb(132, 132, 132);
   color: rgb(255, 255, 255);
@@ -272,3 +310,5 @@ formly-field-multicheckbox > div {
 .lightbrown {
   color: #cbb69d !important;
 }
+
+@import "/app/custom/styles/style";

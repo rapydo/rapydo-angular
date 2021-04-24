@@ -43,7 +43,7 @@ describe("Validate", () => {
 
     expect(errors).not.toBeNull();
     expect(errors[0]).not.toBeUndefined();
-    expect(errors[0]).toBe("Response should have required property 'surname'");
+    expect(errors[0]).toBe("Response must have required property 'surname'");
 
     errors = validate("SimpleUser", {
       email: "sample@nomail.org",
@@ -53,7 +53,7 @@ describe("Validate", () => {
 
     expect(errors).not.toBeNull();
     expect(errors[0]).not.toBeUndefined();
-    expect(errors[0]).toBe("Response/surname = 42 should be string");
+    expect(errors[0]).toBe("Response/surname = 42 must be string");
 
     errors = validate("Groups", [
       {
@@ -64,7 +64,7 @@ describe("Validate", () => {
 
     expect(errors).not.toBeNull();
     expect(errors[0]).not.toBeUndefined();
-    expect(errors[0]).toBe("Response/0 should have required property 'uuid'");
+    expect(errors[0]).toBe("Response/0 must have required property 'uuid'");
 
     errors = validate("Groups", [
       {
@@ -91,6 +91,6 @@ describe("Validate", () => {
 
     expect(errors).not.toBeNull();
     expect(errors[0]).not.toBeUndefined();
-    expect(errors[0]).toBe("Response/0/uuid = 42 should be string");
+    expect(errors[0]).toBe("Response/0/uuid = 42 must be string");
   });
 });
