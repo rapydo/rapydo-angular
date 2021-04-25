@@ -36,7 +36,7 @@ export class GroupUsersComponent extends BasePaginationComponent<GroupUser> {
     this.columns = [];
     this.columns.push({ name: "Email", prop: "email", flexGrow: 1.0 });
     this.columns.push({
-      name: "Name",
+      name: "Full Name",
       prop: "surname",
       flexGrow: 1.0,
       cellTemplate: this.dataName,

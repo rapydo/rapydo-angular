@@ -30,8 +30,8 @@ describe("AdminUsers", () => {
 
     cy.get('input[placeholder="Email"]').as("email");
     cy.get('input[placeholder="Password"]').as("password");
-    cy.get('input[placeholder="Name"]').as("name");
-    cy.get('input[placeholder="Surname"]').as("surname");
+    cy.get('input[placeholder="First Name"]').as("name");
+    cy.get('input[placeholder="Last Name"]').as("surname");
     cy.get('button:contains("Submit")').as("submit");
 
     cy.get("@submit").click({ force: true });
@@ -169,7 +169,7 @@ describe("AdminUsers", () => {
 
     cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
     cy.get('input[placeholder="Email"]').should("not.exist");
-    cy.get('input[placeholder="Name"]').clear().type("NewName");
+    cy.get('input[placeholder="First Name"]').clear().type("NewName");
     // cy.get('input:checkbox[value="normal_user"]').uncheck({ force: true });
     cy.get("ng-select").find("span.ng-value-icon").eq(0).click({ force: true });
 
@@ -186,7 +186,7 @@ describe("AdminUsers", () => {
 
     // Restore previous value
     cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
-    cy.get('input[placeholder="Name"]').clear().type("SampleName");
+    cy.get('input[placeholder="First Name"]').clear().type("SampleName");
     cy.get('button:contains("Submit")').click({ force: true });
     cy.checkalert("Confirmation: user successfully updated");
   });

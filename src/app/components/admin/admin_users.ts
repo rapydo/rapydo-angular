@@ -14,18 +14,16 @@ import { AdminUser } from "@rapydo/types";
   templateUrl: "admin_users.html",
 })
 export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
-  @ViewChild("dataActive", { static: false }) public dataActive: TemplateRef<
-    any
-  >;
+  @ViewChild("dataActive", { static: false })
+  public dataActive: TemplateRef<any>;
   @ViewChild("dataRoles", { static: false }) public dataRoles: TemplateRef<any>;
   @ViewChild("dataGroup", { static: false }) public dataGroup: TemplateRef<any>;
   @ViewChild("dataName", { static: false }) public dataName: TemplateRef<any>;
   @ViewChild("dataDate", { static: false }) public dataDate: TemplateRef<any>;
   @ViewChild("controlsCell", { static: false })
   public controlsCell: TemplateRef<any>;
-  @ViewChild("emptyHeader", { static: false }) public emptyHeader: TemplateRef<
-    any
-  >;
+  @ViewChild("emptyHeader", { static: false })
+  public emptyHeader: TemplateRef<any>;
 
   constructor(protected injector: Injector) {
     super(injector);
@@ -61,10 +59,8 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
       flexGrow: 0.1,
     });
     this.columns.push({ name: "Email", prop: "email", flexGrow: 1.0 });
-    /*this.columns.push({name: 'Name', prop: "name", flexGrow: 0.8});*/
-    /*this.columns.push({name: 'Surname', prop: "surname", flexGrow: 0.8});*/
     this.columns.push({
-      name: "Name",
+      name: "Full Name",
       prop: "surname",
       flexGrow: 1.0,
       cellTemplate: this.dataName,
