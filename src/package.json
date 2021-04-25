@@ -91,7 +91,7 @@
     "ngx-build-plus": "11.0.0",
     "start-server-and-test": "1.12.1",
     "raw-loader": "4.0.2",
-    "otpauth": "7.0.1",
+    "otpauth": "6.2.2",
     "node-xlsx": "0.16.1"
   },
   "browserslist": [
