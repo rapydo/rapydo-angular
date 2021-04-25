@@ -13,7 +13,7 @@ describe("Profile", () => {
 
     cy.get("div.card-header h1").contains("Your profile");
 
-    cy.get("table").find("th").contains("Name");
+    cy.get("table").find("th").contains("Full Name");
     cy.get("table").find("th").contains("Email");
     cy.get("table").find("th").contains("Group");
     cy.get("table").find("th").contains("Roles");
@@ -31,10 +31,10 @@ describe("Profile", () => {
     cy.get("div.card-header h1").find(".fa-edit").click({ force: true });
     cy.get("div.modal-header h1.modal-title").contains("Update your profile");
 
-    cy.get('input[placeholder="Name"]')
+    cy.get('input[placeholder="First Name"]')
       .clear()
       .type("NewName" + randval);
-    cy.get('input[placeholder="Surname"]')
+    cy.get('input[placeholder="Last Name"]')
       .clear()
       .type("NewSurname" + randval);
     cy.get('button:contains("Submit")').click({ force: true });
