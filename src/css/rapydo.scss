@@ -1,3 +1,18 @@
+@import "variables";
+@import "/app/custom/styles/variables";
+
+@import "node_modules/bootstrap/scss/bootstrap";
+
+// @import "node_modules/ngx-toastr/toastr";
+@import "node_modules/ngx-toastr/toastr-bs4-alert";
+
+@import "node_modules/@swimlane/ngx-datatable/themes/bootstrap";
+@import "node_modules/@swimlane/ngx-datatable/assets/icons";
+@import "node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+@import "node_modules/@fortawesome/fontawesome-free/scss/brands";
+@import "node_modules/@fortawesome/fontawesome-free/scss/solid";
+@import "node_modules/@ng-select/ng-select/themes/default.theme";
+
 html,
 body {
   height: 100%;
@@ -272,3 +287,5 @@ formly-field-multicheckbox > div {
 .lightbrown {
   color: #cbb69d !important;
 }
+
+@import "/app/custom/styles/style";
