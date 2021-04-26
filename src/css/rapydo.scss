@@ -1,11 +1,10 @@
 @import "variables";
 @import "/app/custom/styles/variables";
-
 @import "node_modules/bootstrap/scss/bootstrap";
 
+// Replaced basic toastr style with bootstrap4 style
 // @import "node_modules/ngx-toastr/toastr";
 @import "node_modules/ngx-toastr/toastr-bs4-alert";
-
 @import "node_modules/@swimlane/ngx-datatable/themes/bootstrap";
 @import "node_modules/@swimlane/ngx-datatable/assets/icons";
 @import "node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
@@ -17,6 +16,10 @@ html,
 body {
   height: 100%;
   width: 100%;
+
+  // @if variable-exists(some_variable) {
+  //   background-color: $some_variable;
+  // }
 }
 
 .container-fluid {
@@ -101,15 +104,18 @@ h6.smaller {
 }
 
 .navbar {
-  background-color: #f8f8f8 !important;
+  background-color: $navbar-bg-color !important;
+  border-bottom: $navbar-border-size solid $navbar-border-color;
+  padding-bottom: 0px;
 }
 
 .footer {
-  background-color: #f8f8f8 !important;
+  background-color: $footer-bg-color !important;
   border-top: 1px solid rgba(0, 0, 0, 0.125);
-  line-height: 3em;
+  line-height: $footer-height;
   padding-right: 4em;
   padding-left: 4em;
+  text-align: $footer-text-align;
 }
 
 /* used in Profile and AdminUsers */
@@ -118,7 +124,8 @@ span.role-badge {
 }
 
 .initial_loading {
-  background-color: #cef;
+  background-color: $initial-loading-bg-color;
+  color: $initial-loading-spinner-color;
   padding: 0;
   margin: 0;
   display: -webkit-box;
@@ -161,6 +168,7 @@ input.data-filter {
 input.datepicker {
   background-color: #fff !important;
 }
+
 .ngx-datatable.bootstrap .datatable-footer {
   background-color: rgb(132, 132, 132);
   color: rgb(255, 255, 255);
