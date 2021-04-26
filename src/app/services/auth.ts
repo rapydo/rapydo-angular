@@ -102,6 +102,10 @@ export class AuthService {
   }
 
   public isAuthenticated() {
+    if (!environment.authEnabled) {
+      return of(false);
+    }
+
     if (!this.getToken()) {
       return of(false);
     }

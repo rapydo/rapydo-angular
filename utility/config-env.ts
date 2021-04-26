@@ -68,6 +68,17 @@ websocketsURI += process.env.PUSHPIN_PORT;
 const targetPath = `/tmp/environment.variables.ts`;
 const INJECT_KEY = "INJECT_";
 
+const authEnabled = process.env.AUTH_ENABLE;
+let showLogin = process.env.SHOW_LOGIN;
+let allowRegistration = process.env.ALLOW_REGISTRATION;
+let allowPasswordReset = process.env.ALLOW_PASSWORD_RESET;
+
+if (authEnabled == "0") {
+  showLogin = "0";
+  allowRegistration = "0";
+  allowPasswordReset = "0";
+}
+
 let envConfigFile = `
 export const environment = { 
     backendURI: '${backendURI}',
@@ -77,10 +88,11 @@ export const environment = {
     projectTitle: '${projectTitle}',
     projectDescription: '${projectDescription}',
     projectKeywords: '${projectKeywords}',
-    showLogin: '${process.env.SHOW_LOGIN}',
+    showLogin: '${showLogin}',
+    authEnabled: '${authEnabled}',
     enableFooter: '${process.env.ENABLE_FOOTER}',
-    allowRegistration: '${process.env.ALLOW_REGISTRATION}',
-    allowPasswordReset: '${process.env.ALLOW_PASSWORD_RESET}',
+    allowRegistration: '${allowRegistration}',
+    allowPasswordReset: '${allowPasswordReset}',
     allowTermsOfUse: '${process.env.ALLOW_TERMS_OF_USE}',
     minPasswordLength: '${process.env.AUTH_MIN_PASSWORD_LENGTH}',
     websocketsUrl: '${websocketsURI}',`;

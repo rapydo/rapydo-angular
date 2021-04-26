@@ -32,6 +32,7 @@ const ACCOUNT_BANNED =
 export class LoginComponent implements OnInit {
   private returnUrl: string = "";
 
+  public allowLogin: boolean = true;
   public allowPasswordReset: boolean = false;
   public allowRegistration: boolean = false;
 
@@ -70,8 +71,12 @@ export class LoginComponent implements OnInit {
     private api: ApiService,
     private auth: AuthService
   ) {
-    this.allowRegistration = environment.allowRegistration;
-    this.allowPasswordReset = environment.allowPasswordReset;
+    if (environment.authEnabled) {
+      this.allowRegistration = environment.allowRegistration;
+      this.allowPasswordReset = environment.allowPasswordReset;
+    } else {
+      this.router.navigate(["app/404"]);
+    }
 
     const user = this.auth.getUser();
     if (user != null) {
