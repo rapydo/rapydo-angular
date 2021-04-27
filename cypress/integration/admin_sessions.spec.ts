@@ -39,6 +39,11 @@ describe("AdminSessions", () => {
     cy.get('input[placeholder="Type to filter sessions"]')
       .clear()
       .type("thisisinvalidforsure");
+
+    // Let's wait the XHR call to complete
+    // Note: a debounceTime would be needed here...
+    cy.wait(300);
+
     cy.get("datatable-body-row").should("have.length", 0);
 
     // Filter by username
