@@ -36,13 +36,15 @@ describe("AdminSessions", () => {
     // cy.get("datatable-body-row").first().find(".fa-trash").should("not.exist");
 
     cy.get("datatable-body-row").its("length").should("be.gte", 1);
-    cy.get('input[placeholder="Type to filter sessions"]')
-      .clear()
-      .type("thisisinvalidforsure");
+    // cy.get('input[placeholder="Type to filter sessions"]')
+    //   .clear()
+    //   .type("thisisinvalidforsure");
 
-    // Let's wait the XHR call to complete
-    // Note: a debounceTime would be needed here...
-    cy.wait(300);
+    cy.get('input[placeholder="Type to filter sessions"]').clear();
+    // A combination of characters that should be invalid for sure...
+    cy.get('input[placeholder="Type to filter sessions"]').type("/");
+    cy.get('input[placeholder="Type to filter sessions"]').type("=");
+    cy.get('input[placeholder="Type to filter sessions"]').type("$");
 
     cy.get("datatable-body-row").should("have.length", 0);
 
