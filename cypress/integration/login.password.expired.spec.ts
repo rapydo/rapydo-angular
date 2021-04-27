@@ -27,26 +27,45 @@ describe("Login", () => {
     cy.get("input[placeholder='Your username (email)']").as("user");
     cy.get("input[placeholder='Your password']").as("pwd");
 
-    cy.intercept("POST", "/auth/login", {
-      statusCode: 403,
-      body: {
+    // Cypress is still not able to override intercept..
+    // A single intercept is needed here, then the test should continue with normal responses
+    // TO BE REMOVED
+    cy.server();
+
+    // TO BE REMOVED
+    cy.route({
+      method: "POST",
+      url: "/auth/login",
+      status: 403,
+      response: {
         actions: ["PASSWORD EXPIRED"],
         errors: ["Your password is expired, please change it"],
       },
-    }).as("login");
+    });
+
+    // TO BE REPLACED WITH:
+    // cy.intercept("POST", "/auth/login", {
+    //   statusCode: 403,
+    //   body: {
+    //     actions: ["PASSWORD EXPIRED"],
+    //     errors: ["Your password is expired, please change it"],
+    //   },
+    // }).as("login");
 
     cy.get("@user").type(email);
     cy.get("@pwd").type(pwd);
     cy.get("button").contains("Login").click();
 
-    cy.wait("@login");
-
+    // cy.wait("@login");
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/login");
     });
 
-    // This is to undo the intercept mocked response
-    cy.intercept("POST", "/auth/login");
+    // TO BE REMOVED
+    cy.server({ enable: false });
+
+    // TO BE REPLACED WITH something LIKE:
+    // cy.intercept("POST", "/auth/login");
 
     cy.checkalert("Your password is expired, please change it");
     cy.get("div.card-header h1").contains(
