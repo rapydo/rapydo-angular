@@ -21,4 +21,4 @@ Based on:
 Tests based on:
 
 - Karma 6.3.2 with Jasmine 3.7.1
-- Cypress 7.1.0
+- Cypress 7.2.0
