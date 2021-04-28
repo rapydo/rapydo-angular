@@ -1,5 +1,4 @@
 import "@cypress/code-coverage/support";
-import "cypress-localstorage-commands";
 
 import { get_totp } from "../fixtures/utilities";
 
