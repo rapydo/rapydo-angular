@@ -83,6 +83,8 @@ describe("FailedLogin", () => {
     // }).as("login1");
 
     cy.get("button").contains("Login").click();
+
+    // TO BE ADDED
     // cy.wait("@login1");
 
     cy.checkalert(
@@ -105,11 +107,10 @@ describe("FailedLogin", () => {
     // }).as("login2");
 
     cy.get("button").contains("Login").click();
-    // cy.wait("@login2");
-    cy.checkalert("Stubbed login error");
-
     // TO BE REMOVED
     cy.server({ enable: false });
+    // TO BE REPLACED WITH:
+    // cy.wait("@login2");
 
     cy.checkalert("Stubbed login error");
   });
