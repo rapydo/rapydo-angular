@@ -35,7 +35,7 @@ module.exports = function (config) {
         { type: "text", subdir: ".", file: "text.txt" },
         { type: "text-summary", subdir: ".", file: "text-summary.txt" },
       ],
-      // Combines coverage information from multiple browsers into one report rather than outputting a report for each browser.
+      // Combines coverage information from multiple browsers into one report rather than output a report for each browser
       combineBrowserReports: true,
       // if using webpack and pre-loaders, work around webpack breaking the source path
       fixWebpackSourcePaths: true,

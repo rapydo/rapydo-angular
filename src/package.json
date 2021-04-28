@@ -80,7 +80,6 @@
     "jasmine-core": "3.7.1",
     "jasmine-spec-reporter": "7.0.0",
     "@types/jasmine": "3.6.9",
-    "@types/jasminewd2": "2.0.8",
     "cypress": "7.2.0",
     "@cypress/code-coverage": "3.9.4",
     "istanbul-instrumenter-loader": "3.0.1",
