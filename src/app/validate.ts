@@ -46,22 +46,23 @@ export function validate(ref, data) {
 
   console.warn("Response does not meet " + ref + " schema");
   let errors = [];
+  console.log(validator.errors);
   for (let error of validator.errors) {
     if (error.keyword === "additionalProperties") {
-      const data_path =
-        error.dataPath + "." + error.params["additionalProperty"];
-      const value = get_value(data, data_path);
+      const instance_path =
+        error.instancePath + "." + error.params["additionalProperty"];
+      const value = get_value(data, instance_path);
       errors.push(
-        "Response contains unknown property: " + data_path + " = " + value
+        "Response contains unknown property: " + instance_path + " = " + value
       );
     } else if (error.keyword === "required") {
       // Response should have required property 'xyz'
-      errors.push("Response" + error.dataPath + " " + error.message);
+      errors.push("Response" + error.instancePath + " " + error.message);
       /* istanbul ignore else */
-    } else if (error.dataPath) {
-      const value = get_value(data, error.dataPath);
+    } else if (error.instancePath) {
+      const value = get_value(data, error.instancePath);
       errors.push(
-        "Response" + error.dataPath + " = " + value + " " + error.message
+        "Response" + error.instancePath + " = " + value + " " + error.message
       );
     } else {
       errors.push("Response " + error.message);

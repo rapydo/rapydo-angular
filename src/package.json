@@ -64,8 +64,8 @@
     "@sentry/browser": "6.3.1",
     "ngx-device-detector": "2.0.7",
     "xlsx": "0.16.9",
-    "ajv": "^7.0.0",
-    "ajv-formats": "1.5.1",
+    "ajv": "^8.0.0",
+    "ajv-formats": "2.0.2",
     "angular-polyfills": "1.0.1",
     "localstorage-polyfill": "1.0.1",
     "gzipper": "4.5.0"

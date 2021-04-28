@@ -161,7 +161,6 @@ export class ApiService {
                   error,
                   `Invalid ${validationSchema} response`
                 );
-                this.notify.showWarning(response);
               }
               throw new Error("Response validation error");
             }

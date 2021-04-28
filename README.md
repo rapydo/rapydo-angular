@@ -16,7 +16,7 @@ Based on:
 - ngx-clipboard 14.0.1
 - angular2-cookie-law 7.0.1
 - ngx-spinner 10.0.1
-- Ajv 7.0.2
+- Ajv 8+
 
 Tests based on:
 
