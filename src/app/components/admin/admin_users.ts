@@ -28,12 +28,7 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
   constructor(protected injector: Injector) {
     super(injector);
 
-    let endpoint = "admin/users";
-
-    // let user = this.auth.getUser();
-    // if (user && user.isCoordinator && !user.isAdmin) {
-    //   endpoint = "group/users";
-    // }
+    let endpoint = "/api/admin/users";
 
     this.init("user", endpoint, "AdminUsers");
     this.initPaging();

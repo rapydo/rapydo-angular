@@ -25,7 +25,11 @@ export class AdminStatsComponent {
   public retrieve_stats(): void {
     this.spinner.show();
     this.api
-      .get<AdminStats>("admin/stats", {}, { validationSchema: "AdminStats" })
+      .get<AdminStats>(
+        "/api/admin/stats",
+        {},
+        { validationSchema: "AdminStats" }
+      )
       .subscribe(
         (response) => {
           this.stats = response;

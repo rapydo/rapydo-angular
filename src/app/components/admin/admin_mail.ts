@@ -42,7 +42,7 @@ export class AdminMailComponent implements OnInit {
   public open_form(): void {
     this.spinner.show();
     this.api
-      .post<Schema[]>("admin/mail", { get_schema: true })
+      .post<Schema[]>("/api/admin/mail", { get_schema: true })
       .subscribe(
         (response) => {
           for (let idx in response) {
@@ -79,7 +79,7 @@ export class AdminMailComponent implements OnInit {
     this.spinner.show();
     this.model["dry_run"] = dry_run;
     this.api
-      .post<Email>("admin/mail", this.model, { validationSchema: "Email" })
+      .post<Email>("/api/admin/mail", this.model, { validationSchema: "Email" })
       .subscribe(
         (response) => {
           this.spinner.hide();

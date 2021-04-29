@@ -21,7 +21,7 @@ export class GroupUsersComponent extends BasePaginationComponent<GroupUser> {
   constructor(protected injector: Injector) {
     super(injector);
 
-    let endpoint = "group/users";
+    let endpoint = "/api/group/users";
 
     let user: User = this.auth.getUser();
     if (user) {
