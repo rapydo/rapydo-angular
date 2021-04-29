@@ -100,8 +100,14 @@ export class ApiService {
 
     // If externalURL, endpoint will be assumed a full URL and will be used as it is
     if (!externalURL) {
-      // to be deprecated
+      // Deprecated since 1.2
+      // Once dropped this, externalURL will be no longer needed because it will be
+      // simply possible to prefix environment.backendURI if the endpoint starts with /
       if (!endpoint.startsWith("/")) {
+        // Deprecated since 1.2
+        console.warn(
+          `Relative URLs are deprecated, convert ${endpoint} into /api/${endpoint}`
+        );
         endpoint = "/api/" + endpoint;
       }
 
