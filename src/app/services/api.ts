@@ -94,15 +94,19 @@ export class ApiService {
   ): Observable<T> {
     const conf = this.opt(options, "conf");
     const rawError = this.opt(options, "rawError", false);
+    const externalURL = this.opt(options, "externalURL", false);
     const validationSchema = this.opt(options, "validationSchema");
     const redirectOnInvalidTokens = this.opt(options, "redirect", true);
 
-    // to be deprecated
-    if (!endpoint.startsWith("/")) {
-      endpoint = "/api/" + endpoint;
-    }
+    // If externalURL, endpoint will be assumed a full URL and will be used as it is
+    if (!externalURL) {
+      // to be deprecated
+      if (!endpoint.startsWith("/")) {
+        endpoint = "/api/" + endpoint;
+      }
 
-    endpoint = environment.backendURI + endpoint;
+      endpoint = environment.backendURI + endpoint;
+    }
 
     // let contentType;
     // let formData = this.opt(options, "formData");
