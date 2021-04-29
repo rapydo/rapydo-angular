@@ -283,6 +283,7 @@ let module_exports = [
   FormlyBootstrapModule,
   FormlyModule,
   NgSelectModule,
+  NgOptionHighlightModule,
   UploadxModule,
   ClipboardModule,
   NgxSpinnerModule,
