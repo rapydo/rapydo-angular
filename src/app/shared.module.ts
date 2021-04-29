@@ -282,6 +282,7 @@ let module_exports = [
   ReactiveFormsModule,
   FormlyBootstrapModule,
   FormlyModule,
+  NgSelectModule,
   UploadxModule,
   ClipboardModule,
   NgxSpinnerModule,
