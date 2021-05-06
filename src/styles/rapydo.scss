@@ -109,11 +109,16 @@ h6 {
 
 .footer {
   background-color: $footer-bg-color !important;
+  color: $footer-color !important;
   border-top: 1px solid rgba(0, 0, 0, 0.125);
   line-height: $footer-height;
   padding-right: 4em;
   padding-left: 4em;
   text-align: $footer-text-align;
+
+  a {
+    color: $footer-a-color !important;
+  }
 }
 
 /* used in Profile and AdminUsers */

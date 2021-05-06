@@ -224,6 +224,8 @@ export class LoginComponent implements OnInit {
               } else {
                 this.showTermsOfUse(u);
               }
+
+              // this.auth.printSecurityEvents();
             },
             (error) => {
               this.notify.showError(error);
