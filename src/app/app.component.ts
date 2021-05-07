@@ -20,7 +20,7 @@ import { NotificationService } from "@rapydo/services/notification";
 import { ProjectOptions } from "@app/customization";
 
 @Component({
-  selector: "rapydo",
+  selector: "app-root",
   templateUrl: "app.component.html",
 })
 export class AppComponent implements OnInit {
