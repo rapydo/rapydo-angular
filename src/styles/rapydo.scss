@@ -104,13 +104,13 @@ h6 {
 .navbar {
   background-color: $navbar-bg-color !important;
   border-bottom: $navbar-border-size solid $navbar-border-color;
-  padding-top: 0px;
-  padding-bottom: 0px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .footer {
   background-color: $footer-bg-color !important;
-  color: $footer-color !important;
+  color: $footer-text-color !important;
   border-top: 1px solid rgba(0, 0, 0, 0.125);
   line-height: $footer-height;
   padding-right: 4em;
