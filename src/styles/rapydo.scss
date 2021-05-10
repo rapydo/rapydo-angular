@@ -106,6 +106,17 @@ h6 {
   border-bottom: $navbar-border-size solid $navbar-border-color;
   padding-top: 0;
   padding-bottom: 0;
+  .navbar-nav .nav-link {
+    color: $navbar-link-color;
+
+    &:hover {
+      color: $navbar-hover-link-color;
+    }
+
+    &.active {
+      color: $navbar-active-link-color;
+    }
+  }
 }
 
 .footer {
