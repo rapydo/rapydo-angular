@@ -27,51 +27,32 @@ describe("Login", () => {
     cy.get("input[placeholder='Your username (email)']").as("user");
     cy.get("input[placeholder='Your password']").as("pwd");
 
-    // Cypress is still not able to override intercept..
-    // A single intercept is needed here, then the test should continue with normal responses
-    // TO BE REMOVED
-    cy.server();
-
-    // TO BE REMOVED
-    cy.route({
-      method: "POST",
-      url: "/auth/login",
-      status: 403,
-      response: {
+    cy.intercept("POST", "/auth/login", {
+      statusCode: 403,
+      body: {
         actions: ["PASSWORD EXPIRED"],
         errors: ["Your password is expired, please change it"],
       },
-    });
-
-    // TO BE REPLACED WITH:
-    // cy.intercept("POST", "/auth/login", {
-    //   statusCode: 403,
-    //   body: {
-    //     actions: ["PASSWORD EXPIRED"],
-    //     errors: ["Your password is expired, please change it"],
-    //   },
-    // }).as("login");
+    }).as("login");
 
     cy.get("@user").type(email);
     cy.get("@pwd").type(pwd);
     cy.get("button").contains("Login").click();
 
-    // cy.wait("@login");
+    cy.wait("@login");
+
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/login");
     });
 
-    // TO BE REMOVED
-    cy.server({ enable: false });
-
-    // TO BE REPLACED WITH something LIKE:
-    // cy.intercept("POST", "/auth/login");
+    cy.intercept("POST", "/auth/login").as("login_new");
 
     cy.checkalert("Your password is expired, please change it");
     cy.get("div.card-header h1").contains(
       "Your password is expired, please change it"
     );
     cy.get("button").contains("Change").click();
+    cy.wait("@login_new");
 
     cy.checkvalidation(0, "This field is required");
     cy.checkvalidation(1, "This field is required");
