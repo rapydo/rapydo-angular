@@ -1,6 +1,6 @@
 # RAPyDo Angular App
 
-This web app is integrated with the RAPyDo stack and the RAPyDo REST APIs by implementing authentication and user management.
+This web app is integrated with the RAPyDo framework and the RAPyDo REST APIs by implementing authentication and user management.
 
 Based on:
 
@@ -17,8 +17,5 @@ Based on:
 - angular2-cookie-law 7.0.1
 - ngx-spinner 10.0.1
 - Ajv 8+
-
-Tests based on:
-
 - Karma 6.3.2
-- Cypress 7.2.0
+- Cypress 7.3.0
