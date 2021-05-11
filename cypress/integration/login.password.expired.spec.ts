@@ -45,14 +45,13 @@ describe("Login", () => {
       expect(location.pathname).to.eq("/app/login");
     });
 
-    cy.intercept("POST", "/auth/login").as("login_new");
+    cy.intercept("POST", "/auth/login");
 
     cy.checkalert("Your password is expired, please change it");
     cy.get("div.card-header h1").contains(
       "Your password is expired, please change it"
     );
     cy.get("button").contains("Change").click();
-    cy.wait("@login_new");
 
     cy.checkvalidation(0, "This field is required");
     cy.checkvalidation(1, "This field is required");
