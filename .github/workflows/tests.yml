@@ -122,10 +122,6 @@ jobs:
 
           fi
 
-          rapydo shell --no-tty backend 'restapi wait'
-          # To be removed?
-          sleep 20
-          rapydo logs
           rapydo shell --no-tty backend --detach "restapi launch"
           rapydo shell --no-tty frontend "yarn install"
           rapydo shell --no-tty frontend "reload-types"
