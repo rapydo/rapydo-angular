@@ -122,10 +122,11 @@ jobs:
 
           fi
 
+          sleep 20
+          rapydo logs
           rapydo shell --no-tty backend --detach "restapi launch"
           rapydo shell --no-tty frontend "yarn install"
           rapydo shell --no-tty frontend "reload-types"
-          sleep 20
           rapydo logs
 
       - name: Run Cypress
