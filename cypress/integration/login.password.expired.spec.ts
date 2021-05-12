@@ -40,12 +40,11 @@ describe("Login", () => {
     cy.get("button").contains("Login").click();
 
     cy.wait("@login");
-
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/login");
     });
 
-    cy.intercept("POST", "/auth/login");
+    // cy.intercept("POST", "/auth/login");
 
     cy.checkalert("Your password is expired, please change it");
     cy.get("div.card-header h1").contains(
