@@ -77,9 +77,11 @@ export class AdminMailComponent implements OnInit {
       return false;
     }
     this.spinner.show();
+
     this.model["dry_run"] = dry_run;
+    const validationSchema = dry_run ? "Email" : null;
     this.api
-      .post<Email>("/api/admin/mail", this.model, { validationSchema: "Email" })
+      .post<Email>("/api/admin/mail", this.model, { validationSchema })
       .subscribe(
         (response) => {
           this.spinner.hide();
