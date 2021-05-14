@@ -1,11 +1,4 @@
-import {
-  Component,
-  ChangeDetectorRef,
-  OnInit,
-  PLATFORM_ID,
-  Inject,
-} from "@angular/core";
-import { isPlatformBrowser, isPlatformServer } from "@angular/common";
+import { Component, ChangeDetectorRef, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
@@ -14,6 +7,7 @@ import { environment } from "@rapydo/../environments/environment";
 import { ProjectOptions } from "@app/customization";
 import { ApiService } from "@rapydo/services/api";
 import { AuthService } from "@rapydo/services/auth";
+import { SSRService } from "@rapydo/services/ssr";
 import { ConfirmationModals } from "@rapydo/services/confirmation.modals";
 import { User, ConfirmationModalOptions, AdminMenu } from "@rapydo/types";
 
@@ -33,17 +27,14 @@ export class NavbarComponent implements OnInit {
   // appear initially when the page loads on a small screen
   public isMenuCollapsed = true;
 
-  public isBrowser = isPlatformBrowser(this.platformId);
-  public isServer = isPlatformServer(this.platformId);
-
   public admin_entries: AdminMenu[];
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId: any,
     private router: Router,
     private modalService: NgbModal,
     private customization: ProjectOptions,
     public api: ApiService,
+    public ssr: SSRService,
     private auth: AuthService,
     private confirmationModals: ConfirmationModals,
     private ref: ChangeDetectorRef

@@ -1,5 +1,4 @@
-import { Injectable, PLATFORM_ID, Inject } from "@angular/core";
-import { isPlatformBrowser } from "@angular/common";
+import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 
 import { catchError, map } from "rxjs/operators";
@@ -11,6 +10,7 @@ import {
 } from "@angular/common/http";
 
 import { NotificationService } from "@rapydo/services/notification";
+import { SSRService } from "@rapydo/services/ssr";
 import { environment } from "@rapydo/../environments/environment";
 
 import { validate } from "@rapydo/validate";
@@ -22,8 +22,8 @@ export class ApiService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    @Inject(PLATFORM_ID) private platformId: any,
-    private notify: NotificationService
+    private notify: NotificationService,
+    private ssr: SSRService
   ) {}
 
   public is_online(): boolean {
@@ -263,7 +263,7 @@ export class ApiService {
   public parseErrorBlob(err: HttpErrorResponse): Observable<any> {
     if (err.error instanceof Blob) {
       // This is only executed from the browser and skipped during SSR
-      if (isPlatformBrowser(this.platformId)) {
+      if (this.ssr.isBrowser) {
         const reader: FileReader = new FileReader();
         const obs = Observable.create((observer: any) => {
           reader.onloadend = (e) => {

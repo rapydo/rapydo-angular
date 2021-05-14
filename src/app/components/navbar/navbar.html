@@ -91,7 +91,7 @@
 
       <li
         class="nav-item"
-        *ngIf="!user && api.is_online() && isBrowser && showLogin"
+        *ngIf="!user && api.is_online() && ssr.isBrowser && showLogin"
       >
         <a
           class="nav-link btn btn-sm btn-outline-secondary no-rounded"

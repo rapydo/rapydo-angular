@@ -24,6 +24,7 @@ import { AuthGuard } from "@rapydo/app.auth.guard";
 import { AuthService } from "@rapydo/services/auth";
 import { ApiService } from "@rapydo/services/api";
 import { FormlyService } from "@rapydo/services/formly";
+import { SSRService } from "@rapydo/services/ssr";
 import { NotificationService } from "@rapydo/services/notification";
 import { WebSocketsService } from "@rapydo/services/websockets";
 import { ExcelService } from "@rapydo/services/excel";
@@ -141,6 +142,7 @@ let module_providers: any = [
   AuthGuard,
   ApiService,
   FormlyService,
+  SSRService,
   NotificationService,
   BaseProjectOptions,
   ConfirmationModals,

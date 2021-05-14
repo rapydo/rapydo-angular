@@ -1,12 +1,5 @@
-import {
-  Component,
-  OnInit,
-  PLATFORM_ID,
-  Inject,
-  ViewChild,
-} from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
-import { isPlatformBrowser, isPlatformServer } from "@angular/common";
 import { Meta, Title } from "@angular/platform-browser";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { filter, map, mergeMap } from "rxjs/operators";
@@ -15,6 +8,7 @@ import { environment } from "@rapydo/../environments/environment";
 
 import { AuthService } from "@rapydo/services/auth";
 import { ApiService } from "@rapydo/services/api";
+import { SSRService } from "@rapydo/services/ssr";
 import { NavbarComponent } from "@rapydo/components/navbar/navbar";
 import { NotificationService } from "@rapydo/services/notification";
 import { ProjectOptions } from "@app/customization";
@@ -30,11 +24,7 @@ export class AppComponent implements OnInit {
   public cookieLawButton: string;
   public enableFooter: boolean = false;
 
-  public isBrowser = isPlatformBrowser(this.platformId);
-  public isServer = isPlatformServer(this.platformId);
-
   constructor(
-    @Inject(PLATFORM_ID) private platformId: any,
     public api: ApiService,
     private auth: AuthService,
     private metaService: Meta,
@@ -43,13 +33,14 @@ export class AppComponent implements OnInit {
     private notify: NotificationService,
     private deviceService: DeviceDetectorService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    public ssr: SSRService
   ) {
     this.enableFooter = environment.enableFooter;
     this.cookieLawText = this.customization.cookie_law_text();
     this.cookieLawButton = this.customization.cookie_law_button();
 
-    if (this.isBrowser) {
+    if (this.ssr.isBrowser) {
       let deviceInfo = deviceService.getDeviceInfo();
 
       let browser = deviceInfo.browser;

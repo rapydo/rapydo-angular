@@ -1,6 +1,6 @@
 <navbar></navbar>
 
-<div *ngIf="!api.is_online() && isBrowser">
+<div *ngIf="!api.is_online() && ssr.isBrowser">
   <div class="container-fluid">
     <div class="row p-5 text-center">
       <!-- Normal warning browser side when APIs are offline -->
@@ -29,7 +29,7 @@
   </div>
 </div>
 
-<router-outlet *ngIf="api.is_online() || isServer"></router-outlet>
+<router-outlet *ngIf="api.is_online() || ssr.isServer"></router-outlet>
 
 <!-- Used to create a separation between router-outlet and footer -->
 <div class="spacer"></div>
