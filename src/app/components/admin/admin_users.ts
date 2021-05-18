@@ -123,6 +123,12 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
         return true;
       }
 
+      for (let role of d.roles.map((x) => x["description"])) {
+        if (role.toLowerCase().indexOf(data_filter) !== -1) {
+          return true;
+        }
+      }
+
       return false;
     });
   }
