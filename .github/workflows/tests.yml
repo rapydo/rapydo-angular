@@ -148,7 +148,7 @@ jobs:
         if: ${{ matrix.stage == 'prod' }}
         run: |
           cd rapydo_tests
-          rapydo --prod init
+          rapydo --prod -e SET_MAX_REQUESTS_PER_MINUTE_ASSETS=1200 init
 
           rapydo add --force component sink
 
