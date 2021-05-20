@@ -79,7 +79,8 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
       name: "Roles",
       prop: "roles",
       cellTemplate: this.dataRoles,
-      sortable: false,
+      // sortable: false,
+      comparator: this.rolesComparator.bind(this),
       flexGrow: 0.5,
     });
     this.columns.push({
@@ -109,6 +110,25 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
       flexGrow: 0.2,
       minWidth: 60,
     });
+  }
+
+  private rolesComparator(rolesA, rolesB): number {
+    const A = rolesA
+      .map((r) => r["description"])
+      .sort()
+      .join(",");
+    const B = rolesB
+      .map((r) => r["description"])
+      .sort()
+      .join(",");
+
+    if (A == B) {
+      return 0;
+    }
+    if (A < B) {
+      return -1;
+    }
+    return 1;
   }
 
   filter(data_filter) {
