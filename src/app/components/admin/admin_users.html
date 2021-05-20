@@ -53,7 +53,7 @@
           <ng-template #dataRoles let-row="row" let-value="value" let-i="index">
             <span
               class="badge badge-info role-badge"
-              *ngFor="let role of value | keyvalue"
+              *ngFor="let role of value | keyvalue: rolesViewComparator"
             >
               <span *ngIf='role.value.description != "disabled"'>
                 {{role.value.description}}

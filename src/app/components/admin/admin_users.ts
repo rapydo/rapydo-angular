@@ -112,6 +112,13 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
     });
   }
 
+  public rolesViewComparator(rolesA, rolesB): number {
+    const a = rolesA["value"]["description"];
+    const b = rolesB["value"]["description"];
+
+    return a.localeCompare(b);
+  }
+
   private rolesComparator(rolesA, rolesB): number {
     const A = rolesA
       .map((r) => r["description"])
