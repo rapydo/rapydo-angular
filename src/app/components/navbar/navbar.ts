@@ -73,47 +73,49 @@ export class NavbarComponent implements OnInit {
   private fill_admin_menu(user: User): void {
     this.admin_entries = [];
 
-    this.admin_entries.push({
-      enabled: user.isAdmin || user.isCoordinator,
-      label: "Users",
-      router_link: "/app/admin/users",
-    });
+    if (user) {
+      this.admin_entries.push({
+        enabled: user.isAdmin || user.isCoordinator,
+        label: "Users",
+        router_link: "/app/admin/users",
+      });
 
-    this.admin_entries.push({
-      enabled: user.isAdmin,
-      label: "Groups",
-      router_link: "/app/admin/groups",
-    });
+      this.admin_entries.push({
+        enabled: user.isAdmin,
+        label: "Groups",
+        router_link: "/app/admin/groups",
+      });
 
-    this.admin_entries.push({
-      enabled: user.isAdmin,
-      label: "Logins",
-      router_link: "/app/admin/logins",
-    });
+      this.admin_entries.push({
+        enabled: user.isAdmin,
+        label: "Logins",
+        router_link: "/app/admin/logins",
+      });
 
-    this.admin_entries.push({
-      enabled: user.isAdmin,
-      label: "Sessions",
-      router_link: "/app/admin/sessions",
-    });
+      this.admin_entries.push({
+        enabled: user.isAdmin,
+        label: "Sessions",
+        router_link: "/app/admin/sessions",
+      });
 
-    this.admin_entries.push({
-      enabled: user.isAdmin,
-      label: "Server Stats",
-      router_link: "/app/admin/stats",
-    });
+      this.admin_entries.push({
+        enabled: user.isAdmin,
+        label: "Server Stats",
+        router_link: "/app/admin/stats",
+      });
 
-    this.admin_entries.push({
-      enabled: user.isAdmin,
-      label: "Send mail",
-      router_link: "/app/admin/mail",
-    });
+      this.admin_entries.push({
+        enabled: user.isAdmin,
+        label: "Send mail",
+        router_link: "/app/admin/mail",
+      });
 
-    const custom_entries: AdminMenu[] = this.customization.admin_menu_entries(
-      user
-    );
+      const custom_entries: AdminMenu[] = this.customization.admin_menu_entries(
+        user
+      );
 
-    this.admin_entries.push(...custom_entries);
+      this.admin_entries.push(...custom_entries);
+    }
   }
 
   do_logout(): void {
