@@ -4,10 +4,18 @@ import { getpassword, get_random_username } from "../../fixtures/utilities";
 
 describe("AdminLogins", () => {
   beforeEach(() => {
+    // Create a failed login entry
     const random_username = get_random_username("random");
     const pwd = getpassword(4);
 
-    cy.login(random_username, pwd);
+    cy.visit("/app/login");
+
+    cy.get("input[placeholder='Your username (email)']")
+      .clear()
+      .type(random_username);
+    cy.get("input[placeholder='Your password']").clear().type(pwd);
+    cy.get("button").contains("Login").click();
+    cy.checkalert("Invalid access credentials");
 
     cy.login();
 
