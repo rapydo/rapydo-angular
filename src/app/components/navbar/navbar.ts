@@ -87,6 +87,12 @@ export class NavbarComponent implements OnInit {
 
     this.admin_entries.push({
       enabled: user.isAdmin,
+      label: "Logins",
+      router_link: "/app/admin/logins",
+    });
+
+    this.admin_entries.push({
+      enabled: user.isAdmin,
       label: "Sessions",
       router_link: "/app/admin/sessions",
     });

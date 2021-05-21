@@ -9,6 +9,7 @@ import { AdminGroupsComponent } from "@rapydo/components/admin/admin_groups";
 import { AdminSessionsComponent } from "@rapydo/components/admin/admin_sessions";
 import { AdminStatsComponent } from "@rapydo/components/admin/admin_stats";
 import { AdminMailComponent } from "@rapydo/components/admin/admin_mail";
+import { AdminLoginsComponent } from "@rapydo/components/admin/admin_logins";
 
 const routes: Routes = [
   {
@@ -61,6 +62,16 @@ const routes: Routes = [
       description: "Send mail tool",
     },
   },
+  {
+    path: "logins",
+    component: AdminLoginsComponent,
+    canActivate: [AuthGuard],
+    runGuardsAndResolvers: "always",
+    data: {
+      roles: ["admin_root"],
+      description: "User logins",
+    },
+  },
 ];
 
 @NgModule({
@@ -70,12 +81,15 @@ const routes: Routes = [
     AdminSessionsComponent,
     AdminStatsComponent,
     AdminMailComponent,
+    AdminLoginsComponent,
   ],
   exports: [
     AdminUsersComponent,
     AdminGroupsComponent,
     AdminSessionsComponent,
     AdminStatsComponent,
+    AdminMailComponent,
+    AdminLoginsComponent,
   ],
   imports: [SharedModule, RouterModule.forChild(routes)],
 })
