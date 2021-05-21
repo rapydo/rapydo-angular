@@ -15,7 +15,7 @@ describe("AdminLoginsComponent", () => {
       imports: [AppModule, AdminModule],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AdminGroupsComponent);
+    fixture = TestBed.createComponent(AdminLoginsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
