@@ -34,10 +34,7 @@
       </li>
     </ul>
 
-    <ul
-      class="navbar-nav text-right"
-      *ngIf="user && (user.isAdmin || user.isCoordinator)"
-    >
+    <ul class="navbar-nav text-right" *ngIf="user && user.isAdmin">
       <li class="nav-item" ngbDropdown>
         <a
           class="nav-link clickable"
