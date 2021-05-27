@@ -11,13 +11,10 @@ import { FieldType } from "@ngx-formly/core";
   styles: [
     `
       input {
-        // padding-left: 30px;
         padding-right: 30px;
       }
       .toggle {
-        // float: left;
         float: right;
-        // margin-left: 10px;
         margin-right: 10px;
         margin-top: -27px;
         position: relative;
