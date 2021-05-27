@@ -21,7 +21,6 @@
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "progress": true,
-            "forkTypeChecker": false,
             "assets": [
               "node_modules/@fortawesome/fontawesome-free/webfonts",
               "./app/rapydo/assets",
