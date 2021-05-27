@@ -160,7 +160,7 @@ jobs:
           docker-compose logs --tail 20 proxy
           curl --insecure -X GET https://localhost
           npm install -g seespee cypress
-          # seespee --level 1 --validate https://localhost
+          seespee --level 1 --validate https://localhost
 
           opt="--silent --head --insecure -X GET https://localhost"
 
