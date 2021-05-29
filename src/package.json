@@ -59,7 +59,7 @@
     "file-saver-es": "2.0.5",
     "@types/file-saver": "2.0.2",
     "angular2-cookie-law": "7.0.1",
-    "ngx-toastr": "13.2.1",
+    "ngx-toastr": "14.0.0",
     "ngx-google-analytics": "11.2.1",
     "@sentry/browser": "6.4.1",
     "ngx-device-detector": "2.1.1",

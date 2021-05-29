@@ -10,7 +10,7 @@ Based on:
 - ngx-datatable 19.0.0
 - ngx-uploadx 4.1.0
 - file-saver (es) 2.0.5
-- ngx-toastr 13.2.1
+- ngx-toastr 14.0.0
 - moment 2.29.1 with ngx-moment 5.0.0
 - font-awesome 5.15.3
 - ngx-clipboard 14.0.1
