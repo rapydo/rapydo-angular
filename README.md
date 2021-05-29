@@ -18,4 +18,4 @@ Based on:
 - ngx-spinner 10.0.1
 - Ajv 8+
 - Karma 6.3.2
-- Cypress 7.3.0
+- Cypress 7.4.0
