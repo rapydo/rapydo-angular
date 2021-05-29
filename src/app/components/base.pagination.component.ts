@@ -7,7 +7,7 @@ import {
   ChangeDetectorRef,
   Injector,
 } from "@angular/core";
-import { Subscription } from "rxjs";
+import { Subject } from "rxjs";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { FormGroup } from "@angular/forms";
 // import { FormlyConfig } from "@ngx-formly/core";
@@ -83,6 +83,8 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
   protected sort_by: string = null;
   protected sort_order: string = null;
+
+  protected list_subject: Subject<boolean> = new Subject<boolean>();
 
   @ViewChild("tableWrapper", { static: false }) tableWrapper;
   @ViewChild(DatatableComponent, { static: false }) table: DatatableComponent;
@@ -295,7 +297,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       );
   }
 
-  public list(): Subscription {
+  public list(): Subject<boolean> {
     let opt = {};
 
     if (this.data_type) {
@@ -328,7 +330,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     }
 
     this.set_loading();
-    return this.api.get<T[]>(this.endpoint, data, opt).subscribe(
+    this.api.get<T[]>(this.endpoint, data, opt).subscribe(
       (response) => {
         this.data = response;
         this.unfiltered_data = this.data;
@@ -340,7 +342,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
         this.set_unloading();
         this.updating = false;
-
+        this.list_subject.next(true);
         return this.data;
       },
       (error) => {
@@ -348,9 +350,12 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
         this.set_unloading();
         this.updating = false;
+        this.list_subject.next(false);
         return this.data;
       }
     );
+
+    return this.list_subject;
   }
 
   protected delete_confirmation_callback(uuid: string) {
