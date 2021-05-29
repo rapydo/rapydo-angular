@@ -79,7 +79,7 @@
     "karma-jasmine": "4.0.1",
     "@types/jasmine": "3.6.9",
     "cypress": "7.3.0",
-    "@cypress/code-coverage": "3.9.4",
+    "@cypress/code-coverage": "3.9.6",
     "istanbul-instrumenter-loader": "3.0.1",
     "nyc": "15.1.0",
     "start-server-and-test": "1.12.3",
