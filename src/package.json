@@ -63,7 +63,7 @@
     "ngx-google-analytics": "11.2.1",
     "@sentry/browser": "6.4.1",
     "ngx-device-detector": "2.1.1",
-    "xlsx": "0.16.9",
+    "xlsx": "0.17.0",
     "ajv": "^8.0.0",
     "ajv-formats": "2.0.2",
     "angular-polyfills": "1.0.1",
