@@ -20,6 +20,10 @@
             "polyfills": "polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
+            "sourceMap": true,
+            "extractLicenses": true,
+            "buildOptimizer": false,
+            "optimization": false,
             "progress": true,
             "assets": [
               "node_modules/@fortawesome/fontawesome-free/webfonts",
@@ -40,13 +44,10 @@
                 }
               ],
               "outputHashing": "all",
-              "sourceMap": false,
               "namedChunks": false,
               "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": true,
+              "sourceMap": false,
               "buildOptimizer": true,
-              "extractLicenses": true,
               "optimization": {
                 "scripts": true,
                 "styles": {
