@@ -226,8 +226,12 @@ describe("EmailValidator", () => {
       )
     ).toBeNull();
 
-    // !!!!!!!!!!!!!!!!!! Not accepted
-    // expect(emailValidator(new FormControl("firstname+lastname@example.com"), undefined)).toBeNull();
+    expect(
+      emailValidator(
+        new FormControl("firstname+lastname@example.com"),
+        undefined
+      )
+    ).toBeNull();
 
     expect(
       emailValidator(new FormControl("email@123.123.123.123"), undefined)

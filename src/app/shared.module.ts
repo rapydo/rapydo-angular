@@ -66,11 +66,13 @@ export function emailValidator(
 
   /*
     - first chr of name is a letter or a number
-    - other chr allowed in name after the first: letters, number, . _ -
-    - if . _ - in the name they have to be single and followed by a letter or number
+    - other chr allowed in name after the first: letters, number, . _ - +
+    - if . _ - + in the name they have to be single and followed by a letter or number
   */
 
-  if (!/^[a-zA-Z0-9]+(([._-]?[a-zA-Z0-9]+)|([a-zA-Z0-9]))*$/.test(tokens[0])) {
+  if (
+    !/^[a-zA-Z0-9]+(([._\+-]?[a-zA-Z0-9]+)|([a-zA-Z0-9]))*$/.test(tokens[0])
+  ) {
     return { email: true };
   }
 
