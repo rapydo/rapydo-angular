@@ -287,11 +287,13 @@ describe("EmailValidator", () => {
       emailValidator(new FormControl(".email@example.com"), undefined)
     ).not.toBeNull();
 
-    // !!!!!!!!!!!!!!!!!! Accepted
-    // expect(emailValidator(new FormControl("email.@example.com"), undefined)).not.toBeNull();
+    expect(
+      emailValidator(new FormControl("email.@example.com"), undefined)
+    ).not.toBeNull();
 
-    // !!!!!!!!!!!!!!!!!! Accepted
-    // expect(emailValidator(new FormControl("email..email@example.com"), undefined)).not.toBeNull();
+    expect(
+      emailValidator(new FormControl("email..email@example.com"), undefined)
+    ).not.toBeNull();
 
     expect(
       emailValidator(new FormControl("あいうえお@example.com"), undefined)

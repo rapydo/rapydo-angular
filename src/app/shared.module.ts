@@ -55,16 +55,17 @@ export function emailValidator(
   fieldConfig: FormlyFieldConfig
 ): ValidationErrors {
   /*
-    - first chr of name is a letter
+    - first chr of name is a letter or a number
     - other chr allowed in name after the first: letters, number, . _ -
+    - if . _ - in the name they have to be single and followed by a letter or number
     - required @
     - first chr of domain is a letter or number (@163.com)
     - other chr allowed in domain after the first: letters, number, _ -
     - required a .
     - domain block can be repeated (letter/number)+(letters/numbers/-_).
-    - required from 2 to 5 letters after the last . 
+    - required from 2 to 6 letters after the last .
   */
-  return /^[a-zA-Z0-9]+[a-zA-Z0-9._-]*@[a-zA-Z0-9]+[a-zA-Z0-9_-]*\.([a-zA-Z0-9]+[a-zA-Z0-9_-]*\.)*[a-zA-Z]{2,6}$/.test(
+  return /^[a-zA-Z0-9]+(([._-]?[a-zA-Z0-9]+)|([a-zA-Z0-9]))*@[a-zA-Z0-9]+[a-zA-Z0-9_-]*\.([a-zA-Z0-9]+[a-zA-Z0-9_-]*\.)*[a-zA-Z]{2,6}$/.test(
     control.value
   )
     ? null
