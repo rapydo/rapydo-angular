@@ -1,6 +1,8 @@
 import { TestBed, getTestBed } from "@angular/core/testing";
+import { FormControl } from "@angular/forms";
 import { FormlyService } from "@rapydo/services/formly";
 import { Schema, SchemaType } from "@rapydo/types";
+import { emailValidator } from "@rapydo/shared.module";
 
 describe("FormlyService", () => {
   let injector: TestBed;
@@ -194,5 +196,127 @@ describe("FormlyService", () => {
       month: 1,
       day: 31,
     });
+  });
+});
+
+describe("EmailValidator", () => {
+  // EmailValidator returns null if the email is valid (i.e. no validation error)
+  // otherwise if invalid a { email: true } is returned
+
+  // Examples of email obtained from
+  // https://codefool.tumblr.com/post/15288874550/list-of-valid-and-invalid-email-addresses
+
+  it("Valid emails", function () {
+    expect(
+      emailValidator(new FormControl("email@example.com"), undefined)
+    ).toBeNull();
+    expect(
+      emailValidator(new FormControl("email@subdomain.example.com"), undefined)
+    ).toBeNull();
+    expect(
+      emailValidator(
+        new FormControl("firstname.lastname@example.com"),
+        undefined
+      )
+    ).toBeNull();
+    expect(
+      emailValidator(
+        new FormControl("firstname-lastname@example.com"),
+        undefined
+      )
+    ).toBeNull();
+
+    // !!!!!!!!!!!!!!!!!! Not accepted
+    // expect(emailValidator(new FormControl("firstname+lastname@example.com"), undefined)).toBeNull();
+
+    // !!!!!!!!!!!!!!!!!! Not accepted
+    // expect(emailValidator(new FormControl("email@123.123.123.123"), undefined)).toBeNull();
+
+    expect(
+      emailValidator(new FormControl("1234567890@example.com"), undefined)
+    ).toBeNull();
+    expect(
+      emailValidator(new FormControl("email@example-one.com"), undefined)
+    ).toBeNull();
+    expect(
+      emailValidator(new FormControl("email@example.name"), undefined)
+    ).toBeNull();
+    expect(
+      emailValidator(new FormControl("email@example.museum"), undefined)
+    ).toBeNull();
+    expect(
+      emailValidator(new FormControl("email@example.co.jp"), undefined)
+    ).toBeNull();
+  });
+
+  it("Invalid emails", function () {
+    expect(
+      emailValidator(new FormControl("plainaddress"), undefined)
+    ).not.toBeNull();
+    expect(
+      emailValidator(new FormControl("#@%^%#$@#$@#.com"), undefined)
+    ).not.toBeNull();
+    expect(
+      emailValidator(new FormControl("@example.com"), undefined)
+    ).not.toBeNull();
+    expect(
+      emailValidator(
+        new FormControl("Joe Smith <email@example.com>"),
+        undefined
+      )
+    ).not.toBeNull();
+    expect(
+      emailValidator(
+        new FormControl("firstname$lastname@example.com"),
+        undefined
+      )
+    ).not.toBeNull();
+    expect(
+      emailValidator(
+        new FormControl("firstname=lastname@example.com"),
+        undefined
+      )
+    ).not.toBeNull();
+    expect(
+      emailValidator(new FormControl("email.example.com"), undefined)
+    ).not.toBeNull();
+    expect(
+      emailValidator(new FormControl("email@example@example.com"), undefined)
+    ).not.toBeNull();
+    expect(
+      emailValidator(new FormControl(".email@example.com"), undefined)
+    ).not.toBeNull();
+
+    // !!!!!!!!!!!!!!!!!! Accepted
+    // expect(emailValidator(new FormControl("email.@example.com"), undefined)).not.toBeNull();
+
+    // !!!!!!!!!!!!!!!!!! Accepted
+    // expect(emailValidator(new FormControl("email..email@example.com"), undefined)).not.toBeNull();
+
+    expect(
+      emailValidator(new FormControl("あいうえお@example.com"), undefined)
+    ).not.toBeNull();
+    expect(
+      emailValidator(
+        new FormControl("email@example.com (Joe Smith)"),
+        undefined
+      )
+    ).not.toBeNull();
+    expect(
+      emailValidator(new FormControl("email@example"), undefined)
+    ).not.toBeNull();
+    expect(
+      emailValidator(new FormControl("email@-example.com"), undefined)
+    ).not.toBeNull();
+
+    // This is ok... but because IP addresses are not validated at all
+    // expect(emailValidator(new FormControl("email@111.222.333.44444"), undefined)).not.toBeNull();
+
+    expect(
+      emailValidator(new FormControl("email@example..com"), undefined)
+    ).not.toBeNull();
+
+    // !!!!!!!!!!!!!!!!!! Accepted
+    // expect(emailValidator(new FormControl("Abc..123@example.com"), undefined)).not.toBeNull();
   });
 });

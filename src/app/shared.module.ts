@@ -64,7 +64,7 @@ export function emailValidator(
     - domain block can be repeated (letter/number)+(letters/numbers/-_).
     - required from 2 to 5 letters after the last . 
   */
-  return /^[a-zA-Z]+[a-zA-Z0-9._-]*@[a-zA-Z0-9]+[a-zA-Z0-9_-]*\.([a-zA-Z0-9]+[a-zA-Z0-9_-]*\.)*[a-zA-Z]{2,5}$/.test(
+  return /^[a-zA-Z0-9]+[a-zA-Z0-9._-]*@[a-zA-Z0-9]+[a-zA-Z0-9_-]*\.([a-zA-Z0-9]+[a-zA-Z0-9_-]*\.)*[a-zA-Z]{2,6}$/.test(
     control.value
   )
     ? null
