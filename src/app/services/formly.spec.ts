@@ -229,8 +229,9 @@ describe("EmailValidator", () => {
     // !!!!!!!!!!!!!!!!!! Not accepted
     // expect(emailValidator(new FormControl("firstname+lastname@example.com"), undefined)).toBeNull();
 
-    // !!!!!!!!!!!!!!!!!! Not accepted
-    // expect(emailValidator(new FormControl("email@123.123.123.123"), undefined)).toBeNull();
+    expect(
+      emailValidator(new FormControl("email@123.123.123.123"), undefined)
+    ).toBeNull();
 
     expect(
       emailValidator(new FormControl("1234567890@example.com"), undefined)
@@ -250,6 +251,7 @@ describe("EmailValidator", () => {
   });
 
   it("Invalid emails", function () {
+    expect(emailValidator(new FormControl(""), undefined)).not.toBeNull();
     expect(
       emailValidator(new FormControl("plainaddress"), undefined)
     ).not.toBeNull();
@@ -311,14 +313,16 @@ describe("EmailValidator", () => {
       emailValidator(new FormControl("email@-example.com"), undefined)
     ).not.toBeNull();
 
-    // This is ok... but because IP addresses are not validated at all
-    // expect(emailValidator(new FormControl("email@111.222.333.44444"), undefined)).not.toBeNull();
+    expect(
+      emailValidator(new FormControl("email@111.222.333.44444"), undefined)
+    ).not.toBeNull();
 
     expect(
       emailValidator(new FormControl("email@example..com"), undefined)
     ).not.toBeNull();
 
-    // !!!!!!!!!!!!!!!!!! Accepted
-    // expect(emailValidator(new FormControl("Abc..123@example.com"), undefined)).not.toBeNull();
+    expect(
+      emailValidator(new FormControl("Abc..123@example.com"), undefined)
+    ).not.toBeNull();
   });
 });
