@@ -18,5 +18,5 @@ Based on:
 - angular2-cookie-law 7.0.1
 - ngx-spinner 10.0.1
 - Ajv 8+
-- Karma 6.3.2
+- Karma 6.3.3
 - Cypress 7.4.0
