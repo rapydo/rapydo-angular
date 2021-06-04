@@ -88,6 +88,12 @@
   },
   "browserslist": [
     "defaults",
-    "cover 99%"
+    "cover 99%",
+    "not safari < 9",
+    "not ios_saf < 9",
+    "not ie < 99",
+    "not ie_mob < 99",
+    "not firefox < 40",
+    "not chrome < 40"
   ]
 }
