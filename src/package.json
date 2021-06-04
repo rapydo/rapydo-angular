@@ -82,7 +82,7 @@
     "@cypress/code-coverage": "3.9.6",
     "istanbul-instrumenter-loader": "3.0.1",
     "nyc": "15.1.0",
-    "start-server-and-test": "1.12.3",
+    "start-server-and-test": "1.12.4",
     "otpauth": "7.0.3",
     "node-xlsx": "0.16.1"
   },
