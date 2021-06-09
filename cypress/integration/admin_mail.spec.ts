@@ -101,8 +101,8 @@ describe("AdminMail", () => {
       .find("button:contains('Send mail')")
       .click({ force: true });
 
-    cy.checkalert("Non a valid email address.");
-    cy.checkalert("Non a valid email address.");
+    cy.checkalert("Not a valid email address.");
+    cy.checkalert("Not a valid email address.");
 
     cy.get('input[placeholder="CC email addresses (comma-delimited list)"]')
       .clear()
@@ -115,8 +115,8 @@ describe("AdminMail", () => {
       .find("button:contains('Send mail')")
       .click({ force: true });
 
-    cy.checkalert("Non a valid email address.");
-    cy.checkalert("Non a valid email address.");
+    cy.checkalert("Not a valid email address.");
+    cy.checkalert("Not a valid email address.");
 
     cy.get('input[placeholder="CC email addresses (comma-delimited list)"]')
       .clear()
