@@ -167,6 +167,7 @@ Cypress.Commands.add("login_and_init_user", (email = null, pwd = null) => {
   }
 
   cy.visit("/app/login");
+  cy.closecookielaw(true);
 
   cy.get("input[placeholder='Your username (email)']").clear().type(email);
   cy.get("input[placeholder='Your password']").clear().type(pwd);
