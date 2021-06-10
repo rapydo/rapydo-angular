@@ -45,6 +45,7 @@ export class LoginComponent implements OnInit {
   public qr_code: string;
 
   public accountNotActive: boolean = false;
+  public minPasswordLength: number = environment.minPasswordLength;
 
   @ViewChild("privacy_acceptance", { static: false })
   public privacy_acceptance: TemplateRef<any>;

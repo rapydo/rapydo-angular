@@ -18,6 +18,8 @@ export class ChangePasswordComponent {
   public model: any = {};
   private user: any;
 
+  public minPasswordLength: number = environment.minPasswordLength;
+
   constructor(
     private api: ApiService,
     private auth: AuthService,
