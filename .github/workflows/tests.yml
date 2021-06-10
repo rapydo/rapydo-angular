@@ -104,7 +104,7 @@ jobs:
               -e AUTH_MAX_PASSWORD_VALIDITY=60 \
               -e AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER=60 \
               -e AUTH_SECOND_FACTOR_AUTHENTICATION=1 \
-              -e AUTH_TOTP_VALIDITY_WINDOW=5 \
+              -e AUTH_TOTP_VALIDITY_WINDOW=10 \
               start
 
           elif [[ "${LABEL}" == "hiddenlogin" ]]; then
