@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
   public buttonText: string = "Login";
 
   private askCredentials: boolean = true;
-  private askNewPassword: boolean = false;
+  public askNewPassword: boolean = false;
   private askTOTP: boolean = false;
   public qr_code: string;
 
