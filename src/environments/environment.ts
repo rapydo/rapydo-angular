@@ -20,7 +20,6 @@ interface Env {
   allowPasswordReset: boolean;
   allowTermsOfUse: boolean;
   minPasswordLength: number;
-  checkPasswordStrength: boolean;
   SENTRY_URL: string;
   websocketsUrl: string;
   GA_TRACKING_CODE: string;
@@ -46,8 +45,6 @@ export const environment: Env = {
   allowTermsOfUse:
     base.allowTermsOfUse === "1" || base.allowTermsOfUse === "true",
   minPasswordLength: parseInt(base.minPasswordLength),
-  checkPasswordStrength:
-    base.checkPasswordStrength === "1" || base.checkPasswordStrength === "true",
   websocketsUrl: base.websocketsUrl,
   SENTRY_URL: base.SENTRY_URL,
   GA_TRACKING_CODE: base.GA_TRACKING_CODE,

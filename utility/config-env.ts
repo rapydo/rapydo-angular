@@ -95,7 +95,6 @@ export const environment = {
     allowPasswordReset: '${allowPasswordReset}',
     allowTermsOfUse: '${process.env.ALLOW_TERMS_OF_USE}',
     minPasswordLength: '${process.env.AUTH_MIN_PASSWORD_LENGTH}',
-    checkPasswordStrength: '${process.env.AUTH_VERIFY_PASSWORD_STRENGTH}',
     websocketsUrl: '${websocketsURI}',`;
 for (let key in process.env) {
   if (key.startsWith(INJECT_KEY)) {
