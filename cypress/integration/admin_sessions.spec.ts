@@ -40,11 +40,6 @@ describe("AdminSessions", () => {
     cy.get("datatable-body-row").its("length").should("be.gte", 1);
 
     cy.get("@filter").clear();
-    // invalid character
-    cy.get("@filter").type("#");
-    cy.get("datatable-body-row").should("have.length", 0);
-
-    cy.get("@filter").clear();
     // Not probable to have six consective Ws
     cy.get("@filter").type("W");
     cy.get("@filter").type("W");
