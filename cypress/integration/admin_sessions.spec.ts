@@ -35,22 +35,31 @@ describe("AdminSessions", () => {
     // cy.get("span.datatable-header-cell-label").contains("Expiration").click();
     // cy.get("datatable-body-row").first().find(".fa-trash").should("not.exist");
 
+    cy.get('input[placeholder="Type to filter sessions"]').as("filter");
+
     cy.get("datatable-body-row").its("length").should("be.gte", 1);
-    cy.get('input[placeholder="Type to filter sessions"]')
-      .clear()
-      .type("thisisinvalidforsure");
+
+    cy.get("@filter").clear();
+    // invalid character
+    cy.get("@filter").type("#");
+    cy.get("datatable-body-row").should("have.length", 0);
+
+    cy.get("@filter").clear();
+    // Not probable to have six consective Ws
+    cy.get("@filter").type("W");
+    cy.get("@filter").type("W");
+    cy.get("@filter").type("W");
+    cy.get("@filter").type("W");
+    cy.get("@filter").type("W");
+    cy.get("@filter").type("W");
     cy.get("datatable-body-row").should("have.length", 0);
 
     // Filter by username
-    cy.get('input[placeholder="Type to filter sessions"]')
-      .clear()
-      .type(Cypress.env("AUTH_DEFAULT_USERNAME"));
+    cy.get("@filter").clear().type(Cypress.env("AUTH_DEFAULT_USERNAME"));
     cy.get("datatable-body-row").its("length").should("be.gte", 1);
 
     // Filter by location (only Unknown sessions should be included here)
-    cy.get('input[placeholder="Type to filter sessions"]')
-      .clear()
-      .type("Unknown");
+    cy.get("@filter").clear().type("Unknown");
     cy.get("datatable-body-row").its("length").should("be.gte", 1);
 
     // Filter by IP
@@ -60,7 +69,7 @@ describe("AdminSessions", () => {
       .eq(1)
       .then(($cell) => {
         const IP = $cell.text();
-        cy.get('input[placeholder="Type to filter sessions"]').clear().type(IP);
+        cy.get("@filter").clear().type(IP);
         cy.get("datatable-body-row").its("length").should("be.gte", 1);
       });
 

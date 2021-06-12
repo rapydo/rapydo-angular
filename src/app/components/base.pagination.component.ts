@@ -234,11 +234,11 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   }
 
   protected get_post_title() {
-    return "Create a new " + this.resource_name;
+    return `Create a new ${this.resource_name}`;
   }
 
   protected get_put_title() {
-    return "Update " + this.resource_name;
+    return `Update ${this.resource_name}`;
   }
 
   protected manipulate_post_fields(fields) {
@@ -493,7 +493,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       (response) => {
         this.modalRef.close("");
         this.notify.showSuccess(
-          "Confirmation: " + this.resource_name + " successfully " + type
+          `Confirmation: ${this.resource_name} successfully ${type}`
         );
         this.list();
         return true;
