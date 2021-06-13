@@ -99,7 +99,10 @@
         </a>
       </li>
 
-      <li class="nav-item ml-1" *ngIf="allowRegistration && !user">
+      <li
+        class="nav-item ml-1"
+        *ngIf="allowRegistration && !user && ssr.isBrowser"
+      >
         <a
           class="nav-link btn btn-sm btn-outline-secondary no-rounded"
           routerLink="/public/register"
