@@ -1,4 +1,5 @@
 import "@cypress/code-coverage/support";
+import "cypress-file-upload";
 
 import { get_totp } from "../fixtures/utilities";
 
