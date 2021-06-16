@@ -11,6 +11,7 @@ import {
   debounceTime,
 } from "rxjs/operators";
 import { ApiService } from "@rapydo/services/api";
+import { NotificationService } from "@rapydo/services/notification";
 
 interface Item {
   [key: string]: string;
@@ -52,7 +53,7 @@ export class AutocompleTypeComponent extends FieldType implements OnInit {
   bindValue: string;
   bindLabel: string;
 
-  constructor(private api: ApiService) {
+  constructor(private api: ApiService, private notify: NotificationService) {
     super();
   }
 
@@ -80,7 +81,10 @@ export class AutocompleTypeComponent extends FieldType implements OnInit {
         tap(() => (this.itemLoading = true)),
         switchMap((term) =>
           this.api.get<Item[]>(`${this.endpoint}/${term}`).pipe(
-            catchError(() => of([])), // empty list on error
+            catchError((err) => {
+              this.notify.showError(err);
+              return of([]);
+            }),
             tap(() => (this.itemLoading = false))
           )
         )
