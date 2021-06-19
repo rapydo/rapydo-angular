@@ -98,19 +98,16 @@ export class ApiService {
     const validationSchema = this.opt(options, "validationSchema");
     const redirectOnInvalidTokens = this.opt(options, "redirect", true);
 
-    // If externalURL, endpoint will be assumed a full URL and will be used as it is
-    if (!externalURL) {
-      // Deprecated since 1.2
-      // Once dropped this, externalURL will be no longer needed because it will be
-      // simply possible to prefix environment.backendURI if the endpoint starts with /
-      if (!endpoint.startsWith("/")) {
-        // Deprecated since 1.2
-        console.warn(
-          `Relative URLs are deprecated, convert ${endpoint} into /api/${endpoint}`
-        );
-        endpoint = "/api/" + endpoint;
-      }
+    // Deprecated since 2.0
+    if (externalURL) {
+      // externalURL is no longer needed, remove it
+      // Note: only use in meteohub
+      console.warn("Deprecated use of externalURL flag");
+    }
 
+    // If starting with / it is considered to be an internal URL
+    // otherwise it is considered to be an external url starting with protocol://
+    if (endpoint.startsWith("/")) {
       endpoint = environment.backendURI + endpoint;
     }
 
