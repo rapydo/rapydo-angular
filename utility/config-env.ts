@@ -84,7 +84,7 @@ export const environment = {
     backendURI: '${backendURI}',
     projectVersion: '${process.env.VERSION}',
     rapydoVersion: '${process.env.RAPYDO_VERSION}',
-    projectName: '${process.env.VANILLA_PACKAGE}',
+    projectName: '${process.env.PROJECT_NAME}',
     projectTitle: '${projectTitle}',
     projectDescription: '${projectDescription}',
     projectKeywords: '${projectKeywords}',
