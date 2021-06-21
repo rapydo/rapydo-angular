@@ -207,7 +207,7 @@ describe("EmailValidator", () => {
   // https://codefool.tumblr.com/post/15288874550/list-of-valid-and-invalid-email-addresses
 
   it("Valid emails", function () {
-    const fieldConfig;
+    const fieldConfig = null;
 
     expect(
       emailValidator(new FormControl("email@example.com"), fieldConfig)
@@ -260,7 +260,7 @@ describe("EmailValidator", () => {
   });
 
   it("Invalid emails", function () {
-    const fieldConfig;
+    const fieldConfig = null;
 
     expect(emailValidator(new FormControl(""), fieldConfig)).not.toBeNull();
     expect(
