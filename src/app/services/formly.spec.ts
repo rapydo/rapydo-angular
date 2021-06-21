@@ -207,126 +207,131 @@ describe("EmailValidator", () => {
   // https://codefool.tumblr.com/post/15288874550/list-of-valid-and-invalid-email-addresses
 
   it("Valid emails", function () {
+    const fieldConfig;
+
     expect(
-      emailValidator(new FormControl("email@example.com"), undefined)
+      emailValidator(new FormControl("email@example.com"), fieldConfig)
     ).toBeNull();
     expect(
-      emailValidator(new FormControl("email@subdomain.example.com"), undefined)
+      emailValidator(
+        new FormControl("email@subdomain.example.com"),
+        fieldConfig
+      )
     ).toBeNull();
     expect(
       emailValidator(
         new FormControl("firstname.lastname@example.com"),
-        undefined
+        fieldConfig
       )
     ).toBeNull();
     expect(
       emailValidator(
         new FormControl("firstname-lastname@example.com"),
-        undefined
+        fieldConfig
       )
     ).toBeNull();
 
     expect(
       emailValidator(
         new FormControl("firstname+lastname@example.com"),
-        undefined
+        fieldConfig
       )
     ).toBeNull();
 
     expect(
-      emailValidator(new FormControl("email@123.123.123.123"), undefined)
+      emailValidator(new FormControl("email@123.123.123.123"), fieldConfig)
     ).toBeNull();
 
     expect(
-      emailValidator(new FormControl("1234567890@example.com"), undefined)
+      emailValidator(new FormControl("1234567890@example.com"), fieldConfig)
     ).toBeNull();
     expect(
-      emailValidator(new FormControl("email@example-one.com"), undefined)
+      emailValidator(new FormControl("email@example-one.com"), fieldConfig)
     ).toBeNull();
     expect(
-      emailValidator(new FormControl("email@example.name"), undefined)
+      emailValidator(new FormControl("email@example.name"), fieldConfig)
     ).toBeNull();
     expect(
-      emailValidator(new FormControl("email@example.museum"), undefined)
+      emailValidator(new FormControl("email@example.museum"), fieldConfig)
     ).toBeNull();
     expect(
-      emailValidator(new FormControl("email@example.co.jp"), undefined)
+      emailValidator(new FormControl("email@example.co.jp"), fieldConfig)
     ).toBeNull();
   });
 
   it("Invalid emails", function () {
-    expect(emailValidator(new FormControl(""), undefined)).not.toBeNull();
+    expect(emailValidator(new FormControl(""), fieldConfig)).not.toBeNull();
     expect(
-      emailValidator(new FormControl("plainaddress"), undefined)
+      emailValidator(new FormControl("plainaddress"), fieldConfig)
     ).not.toBeNull();
     expect(
-      emailValidator(new FormControl("#@%^%#$@#$@#.com"), undefined)
+      emailValidator(new FormControl("#@%^%#$@#$@#.com"), fieldConfig)
     ).not.toBeNull();
     expect(
-      emailValidator(new FormControl("@example.com"), undefined)
+      emailValidator(new FormControl("@example.com"), fieldConfig)
     ).not.toBeNull();
     expect(
       emailValidator(
         new FormControl("Joe Smith <email@example.com>"),
-        undefined
+        fieldConfig
       )
     ).not.toBeNull();
     expect(
       emailValidator(
         new FormControl("firstname$lastname@example.com"),
-        undefined
+        fieldConfig
       )
     ).not.toBeNull();
     expect(
       emailValidator(
         new FormControl("firstname=lastname@example.com"),
-        undefined
+        fieldConfig
       )
     ).not.toBeNull();
     expect(
-      emailValidator(new FormControl("email.example.com"), undefined)
+      emailValidator(new FormControl("email.example.com"), fieldConfig)
     ).not.toBeNull();
     expect(
-      emailValidator(new FormControl("email@example@example.com"), undefined)
+      emailValidator(new FormControl("email@example@example.com"), fieldConfig)
     ).not.toBeNull();
     expect(
-      emailValidator(new FormControl(".email@example.com"), undefined)
-    ).not.toBeNull();
-
-    expect(
-      emailValidator(new FormControl("email.@example.com"), undefined)
+      emailValidator(new FormControl(".email@example.com"), fieldConfig)
     ).not.toBeNull();
 
     expect(
-      emailValidator(new FormControl("email..email@example.com"), undefined)
+      emailValidator(new FormControl("email.@example.com"), fieldConfig)
     ).not.toBeNull();
 
     expect(
-      emailValidator(new FormControl("あいうえお@example.com"), undefined)
+      emailValidator(new FormControl("email..email@example.com"), fieldConfig)
+    ).not.toBeNull();
+
+    expect(
+      emailValidator(new FormControl("あいうえお@example.com"), fieldConfig)
     ).not.toBeNull();
     expect(
       emailValidator(
         new FormControl("email@example.com (Joe Smith)"),
-        undefined
+        fieldConfig
       )
     ).not.toBeNull();
     expect(
-      emailValidator(new FormControl("email@example"), undefined)
+      emailValidator(new FormControl("email@example"), fieldConfig)
     ).not.toBeNull();
     expect(
-      emailValidator(new FormControl("email@-example.com"), undefined)
-    ).not.toBeNull();
-
-    expect(
-      emailValidator(new FormControl("email@111.222.333.44444"), undefined)
+      emailValidator(new FormControl("email@-example.com"), fieldConfig)
     ).not.toBeNull();
 
     expect(
-      emailValidator(new FormControl("email@example..com"), undefined)
+      emailValidator(new FormControl("email@111.222.333.44444"), fieldConfig)
     ).not.toBeNull();
 
     expect(
-      emailValidator(new FormControl("Abc..123@example.com"), undefined)
+      emailValidator(new FormControl("email@example..com"), fieldConfig)
+    ).not.toBeNull();
+
+    expect(
+      emailValidator(new FormControl("Abc..123@example.com"), fieldConfig)
     ).not.toBeNull();
   });
 });
