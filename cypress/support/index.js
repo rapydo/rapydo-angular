@@ -16,7 +16,7 @@ Cypress.Commands.add("change_expired_password", (email, pwd, formtype) => {
     .clear()
     .type(pwd + "!");
 
-  if (formtype == 1) {
+  if (formtype === 1) {
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       cy.checkalert("You do not provided a valid verification code");
       cy.get("input[placeholder='TOTP verification code']")
@@ -26,7 +26,7 @@ Cypress.Commands.add("change_expired_password", (email, pwd, formtype) => {
     } else {
       cy.get("button").contains("Change").click();
     }
-  } else if (formtype == 2) {
+  } else if (formtype === 2) {
     // Version 2
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       cy.get("input[placeholder='TOTP verification code']")
@@ -122,7 +122,7 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
         .then(($title) => {
           const t = $title.text();
 
-          if (t == "Provide the verification code") {
+          if (t === "Provide the verification code") {
             cy.get("input[placeholder='TOTP verification code']")
               .clear()
               .type(get_totp());
@@ -137,13 +137,13 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
                   .get("h1")
                   .then(($title) => {
                     const t = $title.text();
-                    if (t == "Your password is expired, please change it") {
+                    if (t === "Your password is expired, please change it") {
                       cy.change_expired_password(email, pwd, 2);
                     }
                   });
               }
             });
-          } else if (t == "Your password is expired, please change it") {
+          } else if (t === "Your password is expired, please change it") {
             cy.change_expired_password(email, pwd, 1);
           }
         });
@@ -267,7 +267,7 @@ Cypress.Commands.add("closecookielaw", (quiet = false) => {
       cy.root()
         .should("have.attr", "seen")
         .then((seen) => {
-          if (seen == "false") {
+          if (seen === "false") {
             cy.get("div.cookie-law-wrapper").find("button").click();
           }
         });

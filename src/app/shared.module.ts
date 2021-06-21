@@ -60,7 +60,7 @@ export function emailValidator(
   }
   const tokens = control.value.split("@");
 
-  if (tokens.length != 2) {
+  if (tokens.length !== 2) {
     return { email: true };
   }
 

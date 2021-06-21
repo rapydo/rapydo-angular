@@ -109,7 +109,7 @@ let module_imports: any = [
   }),
 ];
 
-if (environment.GA_TRACKING_CODE != "") {
+if (environment.GA_TRACKING_CODE !== "") {
   module_imports.push(
     NgxGoogleAnalyticsModule.forRoot(environment.GA_TRACKING_CODE)
   );

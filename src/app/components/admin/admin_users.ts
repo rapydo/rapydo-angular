@@ -133,7 +133,7 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
       .sort()
       .join(",");
 
-    if (A == B) {
+    if (A === B) {
       return 0;
     }
     if (A < B) {

@@ -265,7 +265,7 @@ export class LoginComponent implements OnInit {
                   // Please change your temporary password
                   // Your password is expired, please change it
                   // With Provide the verification code that is quite more generic
-                  if (this.panelTitle == "Login") {
+                  if (this.panelTitle === "Login") {
                     this.panelTitle = "Provide the verification code";
                   }
                   this.buttonText = "Authorize";

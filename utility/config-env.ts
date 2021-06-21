@@ -73,7 +73,7 @@ let showLogin = process.env.SHOW_LOGIN;
 let allowRegistration = process.env.ALLOW_REGISTRATION;
 let allowPasswordReset = process.env.ALLOW_PASSWORD_RESET;
 
-if (authEnabled == "0") {
+if (authEnabled === "0") {
   showLogin = "0";
   allowRegistration = "0";
   allowPasswordReset = "0";

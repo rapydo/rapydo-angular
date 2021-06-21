@@ -151,7 +151,7 @@ export class FormlyService {
         field_type = "input";
         template_type = "url";
         field["validators"] = { validation: ["url"] };
-      } else if (stype == "autocomplete") {
+      } else if (stype === "autocomplete") {
         field_type = "autocomplete";
         field["templateOptions"]["endpoint"] = s.autocomplete_endpoint;
         field["templateOptions"]["showValue"] = s.autocomplete_show_id;

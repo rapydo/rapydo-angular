@@ -211,7 +211,7 @@ export class ApiService {
           });
           if (
             !rawError &&
-            this.parse_error(error) == "Invalid token received"
+            this.parse_error(error) === "Invalid token received"
           ) {
             return throwError({ "Invalid token": "This session is expired" });
           }

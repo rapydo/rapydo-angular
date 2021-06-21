@@ -46,7 +46,7 @@ export class AdminMailComponent implements OnInit {
       .subscribe(
         (response) => {
           for (let idx in response) {
-            if (response[idx]["key"] == "dry_run") {
+            if (response[idx]["key"] === "dry_run") {
               delete response[idx];
             }
           }
