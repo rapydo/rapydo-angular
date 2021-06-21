@@ -260,6 +260,8 @@ describe("EmailValidator", () => {
   });
 
   it("Invalid emails", function () {
+    const fieldConfig;
+
     expect(emailValidator(new FormControl(""), fieldConfig)).not.toBeNull();
     expect(
       emailValidator(new FormControl("plainaddress"), fieldConfig)
