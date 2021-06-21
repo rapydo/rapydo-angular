@@ -375,22 +375,20 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       text = `Are you really sure you want to delete this ${this.resource_name}?`;
     }
 
-    this.confirmationModals
-      .open({ text: text, title: title, subText: subText })
-      .then(
-        (result) => {
-          this.api.delete(`${this.resource_endpoint}/${uuid}`).subscribe(
-            (response) => {
-              // this callback can be override by custom components
-              this.delete_confirmation_callback(uuid);
-            },
-            (error) => {
-              this.notify.showError(error);
-            }
-          );
-        },
-        (reason) => {}
-      );
+    this.confirmationModals.open({ text, title, subText }).then(
+      (result) => {
+        this.api.delete(`${this.resource_endpoint}/${uuid}`).subscribe(
+          (response) => {
+            // this callback can be override by custom components
+            this.delete_confirmation_callback(uuid);
+          },
+          (error) => {
+            this.notify.showError(error);
+          }
+        );
+      },
+      (reason) => {}
+    );
   }
 
   public create() {
