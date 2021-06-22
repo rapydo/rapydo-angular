@@ -101,10 +101,10 @@ describe("AdminMail", () => {
       .find("button:contains('Send mail')")
       .click({ force: true });
 
-    // Sometimes the popup is still appearing when checked... problems with animations?
-    // Let's try with a small sleep
-    cy.wait(50);
     cy.checkalert("Not a valid email address.");
+    // Without this wait the click will happen on the same popup...
+    // let's wait the first to disappear before clicking on the ther
+    cy.wait(50);
     cy.checkalert("Not a valid email address.");
 
     cy.get('input[placeholder="CC email addresses (comma-delimited list)"]')
@@ -119,6 +119,9 @@ describe("AdminMail", () => {
       .click({ force: true });
 
     cy.checkalert("Not a valid email address.");
+    // Without this wait the click will happen on the same popup...
+    // let's wait the first to disappear before clicking on the ther
+    cy.wait(50);
     cy.checkalert("Not a valid email address.");
 
     cy.get('input[placeholder="CC email addresses (comma-delimited list)"]')
