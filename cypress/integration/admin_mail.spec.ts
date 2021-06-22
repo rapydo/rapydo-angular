@@ -101,6 +101,9 @@ describe("AdminMail", () => {
       .find("button:contains('Send mail')")
       .click({ force: true });
 
+    // Sometimes the popup is still appearing when checked... problems with animations?
+    // Let's try with a small sleep
+    cy.wait(50);
     cy.checkalert("Not a valid email address.");
     cy.checkalert("Not a valid email address.");
 
