@@ -416,6 +416,9 @@ Cypress.Commands.add(
           "Configure Two-Factor with Google Authenticator"
         );
 
+        cy.checkalert("Please change your temporary password");
+        cy.checkalert("You do not provided a valid verification code");
+
         cy.get("input[placeholder='Your new password']").clear().type(pwd);
         cy.get("input[placeholder='Confirm your new password']")
           .clear()
