@@ -104,7 +104,7 @@ describe("AdminMail", () => {
     cy.checkalert("Not a valid email address.");
     // Without this wait the click will happen on the same popup...
     // let's wait the first to disappear before clicking on the ther
-    cy.wait(50);
+    cy.wait(100);
     cy.checkalert("Not a valid email address.");
 
     cy.get('input[placeholder="CC email addresses (comma-delimited list)"]')
@@ -121,7 +121,7 @@ describe("AdminMail", () => {
     cy.checkalert("Not a valid email address.");
     // Without this wait the click will happen on the same popup...
     // let's wait the first to disappear before clicking on the ther
-    cy.wait(50);
+    cy.wait(100);
     cy.checkalert("Not a valid email address.");
 
     cy.get('input[placeholder="CC email addresses (comma-delimited list)"]')
