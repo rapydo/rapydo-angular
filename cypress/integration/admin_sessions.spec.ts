@@ -50,7 +50,6 @@ describe("AdminSessions", () => {
 
     for (let x of Cypress.env("AUTH_DEFAULT_USERNAME")) {
       cy.get("@filter").type(x);
-      cy.wait(50);
     }
     cy.wait(200);
 
@@ -60,17 +59,11 @@ describe("AdminSessions", () => {
     cy.get("@filter").clear();
 
     cy.get("@filter").type("U");
-    cy.wait(50);
     cy.get("@filter").type("n");
-    cy.wait(50);
     cy.get("@filter").type("k");
-    cy.wait(50);
     cy.get("@filter").type("n");
-    cy.wait(50);
     cy.get("@filter").type("o");
-    cy.wait(50);
     cy.get("@filter").type("w");
-    cy.wait(50);
     cy.get("@filter").type("n");
     cy.wait(200);
     cy.get("datatable-body-row").its("length").should("be.gte", 1);
@@ -85,7 +78,6 @@ describe("AdminSessions", () => {
         cy.get("@filter").clear();
         for (let x of IP) {
           cy.get("@filter").type(x);
-          cy.wait(50);
         }
         cy.wait(200);
 
