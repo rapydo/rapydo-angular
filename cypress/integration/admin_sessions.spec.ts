@@ -37,7 +37,11 @@ describe("AdminSessions", () => {
 
     cy.get("@filter").clear();
     // Not probable to have five consective Ws
-    cy.get("@filter").type("WWWWW");
+    cy.get("@filter").type("W");
+    cy.get("@filter").type("W");
+    cy.get("@filter").type("W");
+    cy.get("@filter").type("W");
+    cy.get("@filter").type("W");
     cy.wait(200);
     cy.get("datatable-body-row").should("have.length", 0);
 
