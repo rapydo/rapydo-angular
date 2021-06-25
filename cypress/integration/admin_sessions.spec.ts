@@ -14,7 +14,7 @@ describe("AdminSessions", () => {
 
   // This is the same as in profile.sessions.spec
   // Please note the keystrokeDelay needed because there is no debounceTime on search
-  it("Sort, search, copy", { keystrokeDelay: 100 }, () => {
+  it("Sort, search, copy", { keystrokeDelay: 150 }, () => {
     cy.scrollTo("bottom");
     cy.get("div.page-count").contains(" total");
     cy.get("ul.pager").find("li.pages:contains(' 1 ')");
