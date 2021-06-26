@@ -13,7 +13,8 @@ describe("AdminSessions", () => {
   });
 
   // This is the same as in profile.sessions.spec
-  it("Sort, search, copy", () => {
+  // Please note the keystrokeDelay needed because there is no debounceTime on search
+  it("Sort, search, copy", { keystrokeDelay: 300 }, () => {
     cy.scrollTo("bottom");
     cy.get("div.page-count").contains(" total");
     cy.get("ul.pager").find("li.pages:contains(' 1 ')");
@@ -35,24 +36,19 @@ describe("AdminSessions", () => {
     cy.get("datatable-body-row").its("length").should("be.gte", 1);
 
     // Not probable to have five consective Ws
-    // delay needed because sessions search does not have a debounceTime
-    cy.get("@filter").clear().type("WWWWW", { delay: 300 });
+    cy.get("@filter").clear().type("WWWWW");
     cy.wait(200);
 
     cy.get("datatable-body-row").should("have.length", 0);
 
     // Filter by username
-    // delay needed because sessions search does not have a debounceTime
-    cy.get("@filter")
-      .clear()
-      .type(Cypress.env("AUTH_DEFAULT_USERNAME"), { delay: 300 });
+    cy.get("@filter").clear().type(Cypress.env("AUTH_DEFAULT_USERNAME"));
     cy.wait(200);
 
     cy.get("datatable-body-row").its("length").should("be.gte", 1);
 
     // Filter by location (only Unknown sessions should be included here)
-    // delay needed because sessions search does not have a debounceTime
-    cy.get("@filter").clear().type("Unknown", { delay: 300 });
+    cy.get("@filter").clear().type("Unknown");
     cy.wait(200);
 
     cy.get("datatable-body-row").its("length").should("be.gte", 1);
@@ -65,8 +61,7 @@ describe("AdminSessions", () => {
       .then(($cell) => {
         const IP = $cell.text();
 
-        // delay needed because sessions search does not have a debounceTime
-        cy.get("@filter").clear().type(IP, { delay: 300 });
+        cy.get("@filter").clear().type(IP);
         cy.wait(200);
 
         cy.get("datatable-body-row").its("length").should("be.gte", 1);
