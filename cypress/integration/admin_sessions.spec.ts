@@ -13,8 +13,7 @@ describe("AdminSessions", () => {
   });
 
   // This is the same as in profile.sessions.spec
-  // Please note the keystrokeDelay needed because there is no debounceTime on search
-  it("Sort, search, copy", { keystrokeDelay: 150 }, () => {
+  it("Sort, search, copy", () => {
     cy.scrollTo("bottom");
     cy.get("div.page-count").contains(" total");
     cy.get("ul.pager").find("li.pages:contains(' 1 ')");
@@ -35,36 +34,25 @@ describe("AdminSessions", () => {
 
     cy.get("datatable-body-row").its("length").should("be.gte", 1);
 
-    cy.get("@filter").clear();
     // Not probable to have five consective Ws
-    cy.get("@filter").type("W");
-    cy.get("@filter").type("W");
-    cy.get("@filter").type("W");
-    cy.get("@filter").type("W");
-    cy.get("@filter").type("W");
+    // keystroke delay is needed because there is no debounceTime on search
+    cy.get("@filter").clear().type("WWWWW", { delay: 200 });
+
     cy.wait(200);
     cy.get("datatable-body-row").should("have.length", 0);
 
     // Filter by username
-    cy.get("@filter").clear();
-
-    for (let x of Cypress.env("AUTH_DEFAULT_USERNAME")) {
-      cy.get("@filter").type(x);
-    }
+    // keystroke delay is needed because there is no debounceTime on search
+    cy.get("@filter")
+      .clear()
+      .type(Cypress.env("AUTH_DEFAULT_USERNAME"), { delay: 200 });
     cy.wait(200);
 
     cy.get("datatable-body-row").its("length").should("be.gte", 1);
 
     // Filter by location (only Unknown sessions should be included here)
-    cy.get("@filter").clear();
-
-    cy.get("@filter").type("U");
-    cy.get("@filter").type("n");
-    cy.get("@filter").type("k");
-    cy.get("@filter").type("n");
-    cy.get("@filter").type("o");
-    cy.get("@filter").type("w");
-    cy.get("@filter").type("n");
+    // keystroke delay is needed because there is no debounceTime on search
+    cy.get("@filter").clear().type("Unknown", { delay: 200 });
     cy.wait(200);
     cy.get("datatable-body-row").its("length").should("be.gte", 1);
 
@@ -75,10 +63,8 @@ describe("AdminSessions", () => {
       .eq(1)
       .then(($cell) => {
         const IP = $cell.text();
-        cy.get("@filter").clear();
-        for (let x of IP) {
-          cy.get("@filter").type(x);
-        }
+        // keystroke delay is needed because there is no debounceTime on search
+        cy.get("@filter").clear().type(IP, { delay: 200 });
         cy.wait(200);
 
         cy.get("datatable-body-row").its("length").should("be.gte", 1);
