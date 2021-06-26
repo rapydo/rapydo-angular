@@ -7,6 +7,8 @@ import {
 } from "@angular/core";
 
 import { Subject } from "rxjs";
+import { take } from "rxjs/operators";
+
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
 import { AdminUser } from "@rapydo/types";
 
@@ -38,7 +40,7 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
   public list(): Subject<boolean> {
     const subject = super.list();
 
-    subject.subscribe((success: boolean) => {
+    subject.pipe(take(1)).subscribe((success: boolean) => {
       const now: Date = new Date();
       for (let user of this.data) {
         if (user.expiration) {
