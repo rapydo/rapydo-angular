@@ -7,7 +7,8 @@ import {
   ChangeDetectorRef,
   Injector,
 } from "@angular/core";
-import { Subject } from "rxjs";
+import { Subscription, Subject } from "rxjs";
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { FormGroup } from "@angular/forms";
 // import { FormlyConfig } from "@ngx-formly/core";
@@ -85,6 +86,8 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   protected sort_order: string = null;
 
   protected list_subject: Subject<boolean> = new Subject<boolean>();
+  protected searchTextChanged: Subject<string> = new Subject<string>();
+  protected textSubscription: Subscription;
 
   @ViewChild("tableWrapper", { static: false }) tableWrapper;
   @ViewChild(DatatableComponent, { static: false }) table: DatatableComponent;
@@ -122,7 +125,21 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     this.resource_endpoint = endpoint;
   }
 
-  public ngOnInit(): void {}
+  public ngOnInit(): void {
+    if (this.server_side_filtering) {
+      this.textSubscription = this.searchTextChanged
+        .pipe(debounceTime(200), distinctUntilChanged())
+        .subscribe((text) => {
+          this.list();
+        });
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.textSubscription) {
+      this.textSubscription.unsubscribe();
+    }
+  }
 
   // https://github.com/swimlane/ngx-datatable/issues/193
   public ngAfterViewChecked(): void {
@@ -143,8 +160,9 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       this.data_filter = event.target.value.toLowerCase();
     }
 
-    if (this.server_side_pagination) {
-      this.list();
+    if (this.server_side_filtering) {
+      this.searchTextChanged.next(this.data_filter);
+      // this.list();
     } else {
       this.data = this.filter(this.data_filter);
       this.post_filter();
@@ -172,8 +190,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
     if (ssp) {
       this.server_side_pagination = true;
-      this.server_side_filtering = true;
-      // this.set_total_items();
+      this.setServerSideFiltering();
     }
 
     return this.paging;
