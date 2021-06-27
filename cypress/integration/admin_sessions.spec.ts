@@ -34,35 +34,24 @@ describe("AdminSessions", () => {
 
     cy.get("datatable-body-row").its("length").should("be.gte", 1);
 
-    cy.get("@filter").clear();
     // Not probable to have five consective Ws
-    cy.get("@filter").type("WWWWW");
+    cy.get("@filter").clear().type("WWWWW");
     // debounceTime is set to 200
     cy.wait(250);
 
     cy.get("datatable-body-row").should("have.length", 0);
 
     // Filter by username
-    cy.get("@filter").clear();
-
-    for (let x of Cypress.env("AUTH_DEFAULT_USERNAME")) {
-      cy.get("@filter").type(x);
-    }
-    cy.wait(200);
+    cy.get("@filter").clear().type(Cypress.env("AUTH_DEFAULT_USERNAME"));
+    // debounceTime is set to 200
+    cy.wait(250);
 
     cy.get("datatable-body-row").its("length").should("be.gte", 1);
 
     // Filter by location (only Unknown sessions should be included here)
-    cy.get("@filter").clear();
-
-    cy.get("@filter").type("U");
-    cy.get("@filter").type("n");
-    cy.get("@filter").type("k");
-    cy.get("@filter").type("n");
-    cy.get("@filter").type("o");
-    cy.get("@filter").type("w");
-    cy.get("@filter").type("n");
-    cy.wait(200);
+    cy.get("@filter").clear().type("Unknown");
+    // debounceTime is set to 200
+    cy.wait(250);
 
     cy.get("datatable-body-row").its("length").should("be.gte", 1);
 
@@ -74,11 +63,9 @@ describe("AdminSessions", () => {
       .then(($cell) => {
         const IP = $cell.text();
 
-        cy.get("@filter").clear();
-        for (let x of IP) {
-          cy.get("@filter").type(x);
-        }
-        cy.wait(200);
+        cy.get("@filter").clear().type(IP);
+        // debounceTime is set to 200
+        cy.wait(250);
 
         cy.get("datatable-body-row").its("length").should("be.gte", 1);
       });
