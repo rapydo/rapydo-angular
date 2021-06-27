@@ -13,8 +13,7 @@ describe("AdminSessions", () => {
   });
 
   // This is the same as in profile.sessions.spec
-  // Please note the keystrokeDelay needed because there is no debounceTime on search
-  it("Sort, search, copy", { keystrokeDelay: 300 }, () => {
+  it("Sort, search, copy", () => {
     cy.scrollTo("bottom");
     cy.get("div.page-count").contains(" total");
     cy.get("ul.pager").find("li.pages:contains(' 1 ')");
@@ -37,12 +36,9 @@ describe("AdminSessions", () => {
 
     cy.get("@filter").clear();
     // Not probable to have five consective Ws
-    cy.get("@filter").type("W");
-    cy.get("@filter").type("W");
-    cy.get("@filter").type("W");
-    cy.get("@filter").type("W");
-    cy.get("@filter").type("W");
-    cy.wait(200);
+    cy.get("@filter").type("WWWWW");
+    // debounceTime is set to 200
+    cy.wait(250);
 
     cy.get("datatable-body-row").should("have.length", 0);
 
