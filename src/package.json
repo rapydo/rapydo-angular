@@ -10,7 +10,7 @@
     "courtesy": "mkdir -p /app/dist && rm -rf /app/dist/* && cp /app/courtesy/index.html /app/dist/",
     "build": "ng build --configuration=production",
     "build:ssr": "ng run RAPyDo:server:production && ng run RAPyDo:prerender",
-    "gzip": "gzipper compress --verbose --level 9 --threshold 512 --remove-larger --exclude png,jpeg,jpg,svg,ico,woff,woff2,gif,webp /app/dist",
+    "gzip": "gzipper compress --verbose --workers 2 --level 9 --threshold 512 --remove-larger --exclude png,jpeg,jpg,svg,ico,woff,woff2,gif,webp /app/dist",
     "test": "ng test --code-coverage",
     "test:single": "ng test --code-coverage --watch=false",
     "cypress": "cypress run",
@@ -68,7 +68,7 @@
     "ajv-formats": "2.1.0",
     "angular-polyfills": "1.0.1",
     "localstorage-polyfill": "1.0.1",
-    "gzipper": "4.5.0"
+    "gzipper": "5.0.0"
   },
   "devDependencies": {
     "ngx-build-plus": "12.0.1",
