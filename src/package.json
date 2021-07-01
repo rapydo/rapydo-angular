@@ -39,7 +39,7 @@
     "@angular/cli": "12.0.5",
     "@angular-devkit/build-angular": "12.0.5",
     "@nguniversal/builders": "12.0.2",
-    "@types/node": "15.9.0",
+    "@types/node": "15.12.5",
     "core-js": "3.13.1",
     "zone.js": "0.11.4",
     "rxjs": "7.1.0",
