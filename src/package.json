@@ -48,7 +48,7 @@
     "@fortawesome/fontawesome-free": "5.15.3",
     "@ngx-formly/core": "5.10.21",
     "@ngx-formly/bootstrap": "5.10.21",
-    "@ng-select/ng-select": "7.0.1",
+    "@ng-select/ng-select": "7.1.0",
     "@ng-select/ng-option-highlight": "0.0.6",
     "@swimlane/ngx-datatable": "19.0.0",
     "moment": "2.29.1",
