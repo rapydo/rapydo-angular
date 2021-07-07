@@ -68,7 +68,7 @@
     "ajv-formats": "2.1.0",
     "angular-polyfills": "1.0.1",
     "localstorage-polyfill": "1.0.1",
-    "domino": "2.1.6",
+    "mock-browser": "0.92.14",
     "gzipper": "5.0.0"
   },
   "devDependencies": {
