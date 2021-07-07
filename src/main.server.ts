@@ -3,18 +3,20 @@ import { environment } from "@rapydo/../environments/environment";
 
 import "zone.js/dist/zone";
 
-// import * as domino from "domino";
+import "localstorage-polyfill";
+import * as domino from "domino";
+import { join } from "path";
+
 // import * as fs from "fs";
 
-import "localstorage-polyfill";
-
 // Use the browser index.html as template for the mock window
-// const template = fs.readFileSync("/app/dist/index.html").toString();
+// const template = fs.readFileSync("///index.html").toString();
+const template = join("app", "dist", "index.html");
 
 // Shim for the global window and document objects.
-// const window: any = domino.createWindow(template);
-// global['window'] = window;
-// global['document'] = window.document;
+const window: any = domino.createWindow(template);
+global["window"] = window;
+global["document"] = window.document;
 global["localStorage"] = localStorage;
 
 if (environment.production) {
