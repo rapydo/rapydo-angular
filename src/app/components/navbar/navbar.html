@@ -25,7 +25,7 @@
         (click)="isMenuCollapsed = true"
       >
         <a
-          class="nav-link"
+          class="nav-link text-nowrap"
           routerLink="/app/group/users"
           routerLinkActive="active"
         >
@@ -37,7 +37,7 @@
     <ul class="navbar-nav text-right" *ngIf="user && user.isAdmin">
       <li class="nav-item" ngbDropdown>
         <a
-          class="nav-link clickable"
+          class="nav-link clickable text-nowrap"
           ngbDropdownToggle
           id="navbarDropdownAdminLink"
           role="button"
@@ -91,7 +91,12 @@
         *ngIf="!user && api.is_online() && ssr.isBrowser && showLogin"
       >
         <a
-          class="nav-link btn btn-sm btn-outline-secondary no-rounded"
+          class="
+            nav-link
+            btn btn-sm btn-outline-secondary
+            no-rounded
+            text-nowrap
+          "
           routerLink="/app/login"
           routerLinkActive="active"
         >
@@ -104,7 +109,12 @@
         *ngIf="allowRegistration && !user && ssr.isBrowser"
       >
         <a
-          class="nav-link btn btn-sm btn-outline-secondary no-rounded"
+          class="
+            nav-link
+            btn btn-sm btn-outline-secondary
+            no-rounded
+            text-nowrap
+          "
           routerLink="/public/register"
           routerLinkActive="active"
         >
