@@ -274,7 +274,7 @@ jobs:
           echo -e "\n"
 
           echo "{}" > cypress.json
-          cypress run --browser chrome --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
+          cypress run --browser chrome --config watchForFileChanges=false,integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
 
           # To complete a basic test to verify that
           # the frontend correctly builds also when SSR is disabled
