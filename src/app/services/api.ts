@@ -101,8 +101,8 @@ export class ApiService {
     // Deprecated since 2.0
     if (externalURL) {
       // externalURL is no longer needed, remove it
-      // Note: only use in meteohub
-      console.warn("Deprecated use of externalURL flag");
+      // Note: only used in meteohub
+      this.notify.showDeprecation("Deprecated use of externalURL flag");
     }
 
     // If starting with / it is considered to be an internal URL
