@@ -19,7 +19,7 @@ describe("Registration", () => {
         .find("a:contains('Sign up')")
         .should("not.exist");
 
-      cy.get("div.card-header h1").contains("Register a new account");
+      cy.get("div.card-header h1").contains("Registration is not allowed");
 
       cy.contains("Account registration is not allowed");
     });

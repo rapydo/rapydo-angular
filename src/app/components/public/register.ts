@@ -44,45 +44,49 @@ export class RegisterComponent {
   ) {
     this.allowRegistration = environment.allowRegistration;
 
-    this.route.params.subscribe((params) => {
-      if (typeof params["token"] !== "undefined") {
-        this.registration_title = "Validating activation token...";
-        this.api.put(`/auth/profile/activate/${params["token"]}`).subscribe(
-          (response) => {
-            this.invalid_token = false;
-            this.showRegistrationForm = false;
-            this.registration_title = "Registraction activated";
-            this.notify.showSuccess("User successfully activated.");
-            this.router.navigate(["app", "login"]);
-            return true;
-          },
-          (error) => {
-            this.invalid_token = true;
-            this.showRegistrationForm = false;
-            this.registration_title = "Invalid activation token";
-            this.notify.showError(error);
-            return false;
-          }
-        );
-      } else {
-        this.showRegistrationForm = this.allowRegistration;
-        this.registration_title = "Register a new account";
-
-        this.spinner.show();
-        this.api
-          .post<Schema[]>("/auth/profile", { get_schema: true })
-          .subscribe(
+    if (!this.allowRegistration) {
+      this.showRegistrationForm = false;
+      this.registration_title = "Registration is not allowed";
+    } else {
+      this.route.params.subscribe((params) => {
+        if (typeof params["token"] !== "undefined") {
+          this.registration_title = "Validating activation token...";
+          this.api.put(`/auth/profile/activate/${params["token"]}`).subscribe(
             (response) => {
-              this.createRegistrationForm(response);
-              this.spinner.hide();
+              this.invalid_token = false;
+              this.showRegistrationForm = false;
+              this.registration_title = "Registraction activated";
+              this.notify.showSuccess("User successfully activated.");
+              this.router.navigate(["app", "login"]);
+              return true;
             },
             (error) => {
+              this.invalid_token = true;
+              this.showRegistrationForm = false;
+              this.registration_title = "Invalid activation token";
               this.notify.showError(error);
-              this.spinner.hide();
+              return false;
             }
           );
-      }
-    });
+        } else {
+          this.showRegistrationForm = true;
+          this.registration_title = "Register a new account";
+          this.spinner.show();
+          this.api
+            .post<Schema[]>("/auth/profile", { get_schema: true })
+            .subscribe(
+              (response) => {
+                this.createRegistrationForm(response);
+                this.spinner.hide();
+              },
+              (error) => {
+                this.notify.showError(error);
+                this.spinner.hide();
+              }
+            );
+        }
+      });
+    }
   }
 
   private createRegistrationForm(response) {

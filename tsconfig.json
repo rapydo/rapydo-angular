@@ -31,13 +31,13 @@
     "resolveJsonModule": true,
 
     // A set of cool rules
-    // Raise error on expressions and declarations with an implied any type.
+    // Raise errors on expressions and declarations with an implied any type.
 
     // Prevent TypeScript to fall back to a type of any
     // for a variable when it cannot infer the type.
     // "noImplicitAny": true,
 
-    // Raise error on ‘this’ expressions with an implied ‘any’ type.
+    // Raise errors on ‘this’ expressions with an implied ‘any’ type.
     "noImplicitThis": true,
 
     // When strictNullChecks is true, null and undefined have their own distinct types

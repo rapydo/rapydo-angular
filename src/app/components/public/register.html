@@ -13,8 +13,10 @@
         </div>
 
         <div class="card-body" *ngIf="!allowRegistration">
-          <i class="fas fa-exclamation-triangle"></i>
-          Account registration is not allowed
+          <h5>
+            <i class="fas fa-exclamation-triangle"></i>
+            Account registration is not allowed
+          </h5>
         </div>
 
         <div class="card-body" *ngIf="showRegistrationForm">
