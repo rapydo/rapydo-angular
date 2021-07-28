@@ -46,7 +46,7 @@ export class RegisterComponent {
 
     if (!this.allowRegistration) {
       this.showRegistrationForm = false;
-      this.registration_title = "Registration is not allowed";
+      this.registration_title = "Registration not allowed";
     } else {
       this.route.params.subscribe((params) => {
         if (typeof params["token"] !== "undefined") {
