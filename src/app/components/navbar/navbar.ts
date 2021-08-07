@@ -75,7 +75,7 @@ export class NavbarComponent implements OnInit {
 
     if (user) {
       this.admin_entries.push({
-        enabled: user.isAdmin || user.isCoordinator,
+        enabled: user.isAdmin,
         label: "Users",
         router_link: "/app/admin/users",
       });

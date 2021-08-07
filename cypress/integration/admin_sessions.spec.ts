@@ -3,11 +3,6 @@
 
 describe("AdminSessions", () => {
   beforeEach(() => {
-    // A lot's of logins... to have some tokens to test with
-    // for (let i = 0; i < 21; i++) {
-    //   cy.login();
-    // }
-
     cy.login();
 
     cy.visit("/app/admin/sessions");
@@ -35,22 +30,29 @@ describe("AdminSessions", () => {
     // cy.get("span.datatable-header-cell-label").contains("Expiration").click();
     // cy.get("datatable-body-row").first().find(".fa-trash").should("not.exist");
 
+    cy.get('input[placeholder="Type to filter sessions"]').as("filter");
+
     cy.get("datatable-body-row").its("length").should("be.gte", 1);
-    cy.get('input[placeholder="Type to filter sessions"]')
-      .clear()
-      .type("thisisinvalidforsure");
+
+    // Not probable to have five consective Ws
+    cy.get("@filter").clear().type("WWWWW");
+    // debounceTime is set to 200
+    cy.wait(250);
+
     cy.get("datatable-body-row").should("have.length", 0);
 
     // Filter by username
-    cy.get('input[placeholder="Type to filter sessions"]')
-      .clear()
-      .type(Cypress.env("AUTH_DEFAULT_USERNAME"));
+    cy.get("@filter").clear().type(Cypress.env("AUTH_DEFAULT_USERNAME"));
+    // debounceTime is set to 200
+    cy.wait(250);
+
     cy.get("datatable-body-row").its("length").should("be.gte", 1);
 
     // Filter by location (only Unknown sessions should be included here)
-    cy.get('input[placeholder="Type to filter sessions"]')
-      .clear()
-      .type("Unknown");
+    cy.get("@filter").clear().type("Unknown");
+    // debounceTime is set to 200
+    cy.wait(250);
+
     cy.get("datatable-body-row").its("length").should("be.gte", 1);
 
     // Filter by IP
@@ -60,7 +62,11 @@ describe("AdminSessions", () => {
       .eq(1)
       .then(($cell) => {
         const IP = $cell.text();
-        cy.get('input[placeholder="Type to filter sessions"]').clear().type(IP);
+
+        cy.get("@filter").clear().type(IP);
+        // debounceTime is set to 200
+        cy.wait(250);
+
         cy.get("datatable-body-row").its("length").should("be.gte", 1);
       });
 
@@ -68,7 +74,7 @@ describe("AdminSessions", () => {
     cy.get("datatable-body-row").first().find(".fa-clipboard").click();
     // cy.checkalert("Token successfully copied");
 
-    // Verify the clipboard requires an additional plugin...
+    // Clipboard verification requires an additional plugin...
   });
 
   // This is the same as in profile.sessions.spec

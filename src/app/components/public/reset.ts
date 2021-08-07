@@ -26,6 +26,8 @@ export class ResetPasswordComponent implements OnInit {
 
   public loading = false;
 
+  public minPasswordLength: number = environment.minPasswordLength;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,

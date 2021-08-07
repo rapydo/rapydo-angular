@@ -53,6 +53,17 @@
         </div>
 
         <div class="card-body">
+          <div class="card">
+            <div class="card-body text-justify">
+              Please enter your new password below. The new password must be at
+              least {{ minPasswordLength }} characthers in length and must
+              consist of at least one lower-case letter, one upper-case letter,
+              one number and one special character. It cannot contain your name
+              or email and you cannot re-use the current password.
+            </div>
+          </div>
+          <br />
+
           <form [formGroup]="step2_form" (ngSubmit)="changePassword()">
             <formly-form
               [form]="step2_form"

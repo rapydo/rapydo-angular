@@ -7,6 +7,7 @@ import {
 } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { AuthService } from "@rapydo/services/auth";
+import { environment } from "@rapydo/../environments/environment";
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -17,14 +18,15 @@ export class JwtInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     // add authorization header with jwt token if available
-    let token = this.auth.getToken();
-
-    if (token) {
-      request = request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    if (request.url.startsWith(`${environment.backendURI}/`)) {
+      let token = this.auth.getToken();
+      if (token) {
+        request = request.clone({
+          setHeaders: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      }
     }
 
     return next.handle(request);

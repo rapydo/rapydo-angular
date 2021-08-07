@@ -40,11 +40,12 @@ export class LoginComponent implements OnInit {
   public buttonText: string = "Login";
 
   private askCredentials: boolean = true;
-  private askNewPassword: boolean = false;
+  public askNewPassword: boolean = false;
   private askTOTP: boolean = false;
   public qr_code: string;
 
   public accountNotActive: boolean = false;
+  public minPasswordLength: number = environment.minPasswordLength;
 
   @ViewChild("privacy_acceptance", { static: false })
   public privacy_acceptance: TemplateRef<any>;
@@ -264,7 +265,7 @@ export class LoginComponent implements OnInit {
                   // Please change your temporary password
                   // Your password is expired, please change it
                   // With Provide the verification code that is quite more generic
-                  if (this.panelTitle == "Login") {
+                  if (this.panelTitle === "Login") {
                     this.panelTitle = "Provide the verification code";
                   }
                   this.buttonText = "Authorize";

@@ -73,7 +73,7 @@ let showLogin = process.env.SHOW_LOGIN;
 let allowRegistration = process.env.ALLOW_REGISTRATION;
 let allowPasswordReset = process.env.ALLOW_PASSWORD_RESET;
 
-if (authEnabled == "0") {
+if (authEnabled === "0") {
   showLogin = "0";
   allowRegistration = "0";
   allowPasswordReset = "0";
@@ -84,7 +84,7 @@ export const environment = {
     backendURI: '${backendURI}',
     projectVersion: '${process.env.VERSION}',
     rapydoVersion: '${process.env.RAPYDO_VERSION}',
-    projectName: '${process.env.VANILLA_PACKAGE}',
+    projectName: '${process.env.PROJECT_NAME}',
     projectTitle: '${projectTitle}',
     projectDescription: '${projectDescription}',
     projectKeywords: '${projectKeywords}',
@@ -95,6 +95,7 @@ export const environment = {
     allowPasswordReset: '${allowPasswordReset}',
     allowTermsOfUse: '${process.env.ALLOW_TERMS_OF_USE}',
     minPasswordLength: '${process.env.AUTH_MIN_PASSWORD_LENGTH}',
+    forceSSRServerMode: '${process.env.FORCE_SSR_SERVER_MODE}',
     websocketsUrl: '${websocketsURI}',`;
 for (let key in process.env) {
   if (key.startsWith(INJECT_KEY)) {

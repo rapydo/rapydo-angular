@@ -65,6 +65,12 @@ export class AdminLoginsComponent extends BasePaginationComponent<Login> {
       if (d.username.toLowerCase().indexOf(data_filter) !== -1) {
         return true;
       }
+      if (d.location.toLowerCase().indexOf(data_filter) !== -1) {
+        return true;
+      }
+      if (d.IP.indexOf(data_filter) !== -1) {
+        return true;
+      }
       return false;
     });
   }
