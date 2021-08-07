@@ -31,7 +31,7 @@ describe("ApiService", () => {
   });
 
   it("GET - success", () => {
-    service.get("xyz").subscribe((result) => {
+    service.get("/api/xyz").subscribe((result) => {
       expect(result).not.toBeUndefined();
     });
 
@@ -43,7 +43,7 @@ describe("ApiService", () => {
   });
 
   it("GET - fail", () => {
-    service.get("xyz").subscribe(
+    service.get("/api/xyz").subscribe(
       (result) => {},
       (error) => {
         expect(error).not.toBeUndefined();
@@ -58,7 +58,7 @@ describe("ApiService", () => {
   });
 
   it("POST - success", () => {
-    service.post("xyz", { key: "value" }).subscribe((result) => {
+    service.post("/api/xyz", { key: "value" }).subscribe((result) => {
       expect(result).not.toBeUndefined();
     });
 
@@ -70,7 +70,7 @@ describe("ApiService", () => {
   });
 
   it("POST - fail", () => {
-    service.post("xyz", { key: "value" }).subscribe(
+    service.post("/api/xyz", { key: "value" }).subscribe(
       (result) => {},
       (error) => {
         expect(error).not.toBeUndefined();
@@ -85,7 +85,7 @@ describe("ApiService", () => {
   });
 
   it("DELETE - success", () => {
-    service.delete("xyz/id").subscribe((result) => {
+    service.delete("/api/xyz/id").subscribe((result) => {
       expect(result).not.toBeUndefined();
     });
 
@@ -97,7 +97,7 @@ describe("ApiService", () => {
   });
 
   it("DELETE - fail", () => {
-    service.delete("xyz/id").subscribe(
+    service.delete("/api/xyz/id").subscribe(
       (result) => {},
       (error) => {
         expect(error).not.toBeUndefined();
@@ -112,7 +112,7 @@ describe("ApiService", () => {
   });
 
   it("PUT - success", () => {
-    service.put("xyz/id", { key: "value" }).subscribe((result) => {
+    service.put("/api/xyz/id", { key: "value" }).subscribe((result) => {
       expect(result).not.toBeUndefined();
     });
 
@@ -124,7 +124,7 @@ describe("ApiService", () => {
   });
 
   it("PUT - fail", () => {
-    service.put("xyz/id", { key: "value" }).subscribe(
+    service.put("/api/xyz/id", { key: "value" }).subscribe(
       (result) => {},
       (error) => {
         expect(error).not.toBeUndefined();
@@ -139,7 +139,7 @@ describe("ApiService", () => {
   });
 
   it("PATCH - success", () => {
-    service.patch("xyz/id", { key: "value" }).subscribe((result) => {
+    service.patch("/api/xyz/id", { key: "value" }).subscribe((result) => {
       expect(result).not.toBeUndefined();
     });
 
@@ -151,7 +151,7 @@ describe("ApiService", () => {
   });
 
   it("PATCH - fail", () => {
-    service.patch("xyz/id", { key: "value" }).subscribe(
+    service.patch("/api/xyz/id", { key: "value" }).subscribe(
       (result) => {},
       (error) => {
         expect(error).not.toBeUndefined();

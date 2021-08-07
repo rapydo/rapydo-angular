@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
+import { environment } from "@rapydo/../environments/environment";
 
 interface Message {
   text: string;
@@ -28,7 +29,7 @@ export class NotificationService {
     }
 
     if (msg.error && msg.error instanceof ProgressEvent) {
-      messages.push({ text: msg.message, title: title });
+      messages.push({ text: msg.message, title });
       return messages;
     }
 
@@ -45,12 +46,12 @@ export class NotificationService {
 
     if (Array.isArray(msg)) {
       for (let m of msg) {
-        messages.push({ text: m, title: title });
+        messages.push({ text: m, title });
       }
       return messages;
     }
 
-    messages.push({ text: msg, title: title });
+    messages.push({ text: msg, title });
     return messages;
   }
   public showCritical(message: any, title: string = ""): void {
@@ -105,6 +106,14 @@ export class NotificationService {
       this.toastr.info(msg.text, msg.title, {
         timeOut: 10000,
       });
+    }
+  }
+
+  public showDeprecation(message: string): void {
+    if (environment.production) {
+      console.warn(message);
+    } else {
+      this.showWarning(message);
     }
   }
 }

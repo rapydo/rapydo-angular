@@ -32,8 +32,6 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
       cy.checkalert("Please change your temporary password");
 
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-        cy.get("input[placeholder='TOTP verification code']").type(get_totp());
-
         cy.get("button").contains("Authorize").as("submit");
 
         cy.get("div.card-header h1").contains(
@@ -43,6 +41,8 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
           "Please change your temporary password"
         );
         cy.checkalert("You do not provided a valid verification code");
+
+        cy.get("input[placeholder='TOTP verification code']").type(get_totp());
       } else {
         cy.get("div.card-header.bg-warning h1").contains(
           "Please change your temporary password"
@@ -112,6 +112,7 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
       cy.get("@confirm")
         .clear()
         .type(pwd + "!");
+
       cy.get("@submit").click({ force: true });
 
       cy.wait("@changed");

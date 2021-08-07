@@ -84,6 +84,7 @@ jobs:
           if [[ "${LABEL}" == "full" ]]; then
 
             rapydo \
+              -e API_AUTOSTART=1 \
               -e PROJECT_TITLE="Your ${AUTH} ${LABEL} Project" \
               -e ALLOW_TERMS_OF_USE=1 \
               -e AUTH_FORCE_FIRST_PASSWORD_CHANGE=1 \
@@ -96,6 +97,7 @@ jobs:
           elif [[ "${LABEL}" == "totp" ]]; then
 
             rapydo \
+              -e API_AUTOSTART=1 \
               -e PROJECT_TITLE="Your ${AUTH} ${LABEL} Project" \
               -e ALLOW_TERMS_OF_USE=1 \
               -e AUTH_FORCE_FIRST_PASSWORD_CHANGE=1 \
@@ -104,12 +106,13 @@ jobs:
               -e AUTH_MAX_PASSWORD_VALIDITY=60 \
               -e AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER=60 \
               -e AUTH_SECOND_FACTOR_AUTHENTICATION=1 \
-              -e AUTH_TOTP_VALIDITY_WINDOW=5 \
+              -e AUTH_TOTP_VALIDITY_WINDOW=10 \
               start
 
           elif [[ "${LABEL}" == "hiddenlogin" ]]; then
 
             rapydo \
+              -e API_AUTOSTART=1 \
               -e PROJECT_TITLE="Your ${AUTH} ${LABEL} Project" \
               -e SHOW_LOGIN=0 \
               start
@@ -117,6 +120,7 @@ jobs:
           else
 
             rapydo \
+              -e API_AUTOSTART=1 \
               -e PROJECT_TITLE="Your ${AUTH} ${LABEL} Project" \
               start
 
@@ -124,8 +128,6 @@ jobs:
 
           sleep 20
           rapydo logs
-          # rapydo shell --no-tty backend 'restapi wait'
-          rapydo shell --no-tty backend --detach "restapi launch"
           rapydo shell --no-tty frontend "yarn install"
           rapydo shell --no-tty frontend "reload-types"
           rapydo logs
@@ -159,7 +161,7 @@ jobs:
           docker-compose logs --tail 2 frontend 2>&1 | grep "files have been compressed."
           docker-compose logs --tail 20 proxy
           curl --insecure -X GET https://localhost
-          npm install -g seespee cypress
+          npm install -g seespee cypress@7.6.0
           seespee --level 1 --validate https://localhost
 
           opt="--silent --head --insecure -X GET https://localhost"

@@ -7,7 +7,8 @@ import {
   ChangeDetectorRef,
   Injector,
 } from "@angular/core";
-import { Subscription } from "rxjs";
+import { Subscription, Subject } from "rxjs";
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { FormGroup } from "@angular/forms";
 // import { FormlyConfig } from "@ngx-formly/core";
@@ -84,6 +85,10 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   protected sort_by: string = null;
   protected sort_order: string = null;
 
+  protected list_subject: Subject<boolean> = new Subject<boolean>();
+  protected searchTextChanged: Subject<string> = new Subject<string>();
+  protected textSubscription: Subscription;
+
   @ViewChild("tableWrapper", { static: false }) tableWrapper;
   @ViewChild(DatatableComponent, { static: false }) table: DatatableComponent;
 
@@ -120,7 +125,21 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     this.resource_endpoint = endpoint;
   }
 
-  public ngOnInit(): void {}
+  public ngOnInit(): void {
+    if (this.server_side_filtering) {
+      this.textSubscription = this.searchTextChanged
+        .pipe(debounceTime(200), distinctUntilChanged())
+        .subscribe((text) => {
+          this.list();
+        });
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.textSubscription) {
+      this.textSubscription.unsubscribe();
+    }
+  }
 
   // https://github.com/swimlane/ngx-datatable/issues/193
   public ngAfterViewChecked(): void {
@@ -141,8 +160,9 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       this.data_filter = event.target.value.toLowerCase();
     }
 
-    if (this.server_side_pagination) {
-      this.list();
+    if (this.server_side_filtering) {
+      this.searchTextChanged.next(this.data_filter);
+      // this.list();
     } else {
       this.data = this.filter(this.data_filter);
       this.post_filter();
@@ -170,8 +190,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
     if (ssp) {
       this.server_side_pagination = true;
-      this.server_side_filtering = true;
-      // this.set_total_items();
+      this.setServerSideFiltering();
     }
 
     return this.paging;
@@ -232,11 +251,11 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
   }
 
   protected get_post_title() {
-    return "Create a new " + this.resource_name;
+    return `Create a new ${this.resource_name}`;
   }
 
   protected get_put_title() {
-    return "Update " + this.resource_name;
+    return `Update ${this.resource_name}`;
   }
 
   protected manipulate_post_fields(fields) {
@@ -295,7 +314,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       );
   }
 
-  public list(): Subscription {
+  public list(): Subject<boolean> {
     let opt = {};
 
     if (this.data_type) {
@@ -328,7 +347,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     }
 
     this.set_loading();
-    return this.api.get<T[]>(this.endpoint, data, opt).subscribe(
+    this.api.get<T[]>(this.endpoint, data, opt).subscribe(
       (response) => {
         this.data = response;
         this.unfiltered_data = this.data;
@@ -340,7 +359,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
         this.set_unloading();
         this.updating = false;
-
+        this.list_subject.next(true);
         return this.data;
       },
       (error) => {
@@ -348,9 +367,12 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
         this.set_unloading();
         this.updating = false;
+        this.list_subject.next(false);
         return this.data;
       }
     );
+
+    return this.list_subject;
   }
 
   protected delete_confirmation_callback(uuid: string) {
@@ -370,22 +392,20 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       text = `Are you really sure you want to delete this ${this.resource_name}?`;
     }
 
-    this.confirmationModals
-      .open({ text: text, title: title, subText: subText })
-      .then(
-        (result) => {
-          this.api.delete(`${this.resource_endpoint}/${uuid}`).subscribe(
-            (response) => {
-              // this callback can be override by custom components
-              this.delete_confirmation_callback(uuid);
-            },
-            (error) => {
-              this.notify.showError(error);
-            }
-          );
-        },
-        (reason) => {}
-      );
+    this.confirmationModals.open({ text, title, subText }).then(
+      (result) => {
+        this.api.delete(`${this.resource_endpoint}/${uuid}`).subscribe(
+          (response) => {
+            // this callback can be override by custom components
+            this.delete_confirmation_callback(uuid);
+          },
+          (error) => {
+            this.notify.showError(error);
+          }
+        );
+      },
+      (reason) => {}
+    );
   }
 
   public create() {
@@ -488,7 +508,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       (response) => {
         this.modalRef.close("");
         this.notify.showSuccess(
-          "Confirmation: " + this.resource_name + " successfully " + type
+          `Confirmation: ${this.resource_name} successfully ${type}`
         );
         this.list();
         return true;

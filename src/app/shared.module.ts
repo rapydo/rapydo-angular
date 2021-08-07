@@ -54,21 +54,55 @@ export function emailValidator(
   control: AbstractControl,
   fieldConfig: FormlyFieldConfig
 ): ValidationErrors {
+  // Empty email => not valid
+  if (!control.value) {
+    return { email: true };
+  }
+  const tokens = control.value.split("@");
+
+  if (tokens.length !== 2) {
+    return { email: true };
+  }
+
   /*
-    - first chr of name is a letter
-    - other chr allowed in name after the first: letters, number, . _ -
-    - required @
+    - first chr of name is a letter or a number
+    - other chr allowed in name after the first: letters, number, . _ - +
+    - if . _ - + in the name they have to be single and followed by a letter or number
+  */
+
+  if (
+    !/^[a-zA-Z0-9]+(([._\+-]?[a-zA-Z0-9]+)|([a-zA-Z0-9]))*$/.test(tokens[0])
+  ) {
+    return { email: true };
+  }
+
+  /*
     - first chr of domain is a letter or number (@163.com)
     - other chr allowed in domain after the first: letters, number, _ -
     - required a .
     - domain block can be repeated (letter/number)+(letters/numbers/-_).
-    - required from 2 to 5 letters after the last . 
+    - required from 2 to 6 letters after the last .
+    - otherwise after a @ a IP address can be accepted
   */
-  return /^[a-zA-Z]+[a-zA-Z0-9._-]*@[a-zA-Z0-9]+[a-zA-Z0-9_-]*\.([a-zA-Z0-9]+[a-zA-Z0-9_-]*\.)*[a-zA-Z]{2,5}$/.test(
-    control.value
-  )
-    ? null
-    : { email: true };
+  const is_address = /^[a-zA-Z0-9]+[a-zA-Z0-9_-]*\.([a-zA-Z0-9]+[a-zA-Z0-9_-]*\.)*[a-zA-Z]{2,6}$/;
+
+  // (?!0)         Assume IP cannot start with 0
+  // (?!.*\.$)     Make sure string does not end with a dot
+  // (
+  //   (
+  //   1?\d?\d|   A single digit, two digits, or 100-199
+  //   25[0-5]|   The numbers 250-255
+  //   2[0-4]\d   The numbers 200-249
+  //   )
+  // \.|$ the number must be followed by either a dot or end-of-string - to match the last number
+  // ){4}         Expect exactly four of these
+  const is_ip = /^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/;
+  if (!is_address.test(tokens[1]) && !is_ip.test(tokens[1])) {
+    return { email: true };
+  }
+
+  // The email is valid
+  return null;
 }
 
 export function TOTPValidator(

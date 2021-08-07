@@ -1,5 +1,6 @@
 {
   "baseUrl": "http://localhost:8080",
+  "watchForFileChanges": false,
   "screenshotsFolder": "/cypress",
   "videosFolder": "/cypress",
   "downloadsFolder": "/cypress",
