@@ -53,8 +53,8 @@ jobs:
         run: |
           cd rapydo_tests
           rapydo --testing init
-          rapydo -s frontend pull --quiet
-          rapydo -s frontend start
+          rapydo pull --quiet frontend
+          rapydo start frontend
           sleep 5
           rapydo shell --no-tty frontend "yarn install"
           rapydo shell --no-tty frontend "reload-types"
@@ -155,9 +155,9 @@ jobs:
           rapydo add --force component sink
 
           rapydo pull --quiet
-          rapydo -s frontend,proxy start
+          rapydo start frontend proxy
           rapydo dump
-          rapydo -s frontend logs --follow
+          rapydo logs --follow frontend
           docker-compose logs --tail 2 frontend 2>&1 | grep "files have been compressed."
           docker-compose logs --tail 20 proxy
           curl --insecure -X GET https://localhost
@@ -279,7 +279,7 @@ jobs:
           # To complete a basic test to verify that
           # the frontend correctly builds also when SSR is disabled
           rapydo -e ENABLE_ANGULAR_SSR=0 start
-          rapydo -s frontend logs --follow
+          rapydo logs --follow frontend
           docker-compose logs --tail 2 frontend 2>&1 | grep "files have been compressed."
           curl --insecure -X GET https://localhost
 
