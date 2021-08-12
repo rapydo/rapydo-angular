@@ -46,6 +46,7 @@ jobs:
           echo "AUTH=${AUTH}" >> $GITHUB_ENV
           mkdir rapydo_tests
           cd rapydo_tests
+          rapydo install compose
           rapydo --testing create prj --auth ${AUTH} --frontend angular --origin-url https://your_remote_git/your_project.git
 
       - name: Run Karma
