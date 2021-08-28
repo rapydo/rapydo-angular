@@ -157,10 +157,9 @@ jobs:
 
           rapydo pull --quiet
           rapydo start frontend proxy
-          rapydo dump
           rapydo logs --follow frontend
-          docker-compose logs --tail 6 frontend 2>&1 | grep "files have been compressed."
-          docker-compose logs --tail 20 proxy
+          rapydo logs --tail 6 frontend 2>&1 | grep "files have been compressed."
+          rapydo logs --tail 20 proxy
           curl --insecure -X GET https://localhost
 
           opt="--silent --head --insecure -X GET https://localhost"
@@ -279,7 +278,7 @@ jobs:
           # Verify that the frontend correctly builds also when SSR is disabled
           rapydo -e ENABLE_ANGULAR_SSR=0 start
           rapydo logs --follow frontend
-          docker-compose logs --tail 6 frontend 2>&1 | grep "files have been compressed."
+          rapydo logs --tail 6 frontend 2>&1 | grep "files have been compressed."
           curl --insecure -X GET https://localhost
 
       - name: Print backend logs on failure
