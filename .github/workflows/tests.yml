@@ -276,6 +276,7 @@ jobs:
           cypress run --browser chrome --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
 
           # Verify that the frontend correctly builds also when SSR is disabled
+          rapydo remove
           rapydo -e ENABLE_ANGULAR_SSR=0 start
           rapydo logs --follow frontend
           rapydo logs --tail 6 frontend 2>&1 | grep "files have been compressed."
