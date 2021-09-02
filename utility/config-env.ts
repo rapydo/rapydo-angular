@@ -83,6 +83,7 @@ let envConfigFile = `
 export const environment = { 
     backendURI: '${backendURI}',
     projectVersion: '${process.env.VERSION}',
+    projectBuild: '${process.env.BUILD}',
     rapydoVersion: '${process.env.RAPYDO_VERSION}',
     projectName: '${process.env.PROJECT_NAME}',
     projectTitle: '${projectTitle}',
