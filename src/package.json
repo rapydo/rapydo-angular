@@ -24,7 +24,7 @@
   "license": "MIT",
   "dependencies": {
     "typescript": "4.3.5",
-    "tslib": "2.2.0",
+    "tslib": "2.3.1",
     "@types/node": "15.12.5",
     "@angular/common": "12.2.6",
     "@angular/compiler": "12.2.6",
