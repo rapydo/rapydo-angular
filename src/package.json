@@ -84,7 +84,7 @@
     "cypress-file-upload": "5.0.8",
     "istanbul-instrumenter-loader": "3.0.1",
     "nyc": "15.1.0",
-    "start-server-and-test": "1.12.5",
+    "start-server-and-test": "1.14.0",
     "otpauth": "7.0.6",
     "node-xlsx": "0.17.1"
   },
