@@ -86,7 +86,7 @@
     "nyc": "15.1.0",
     "start-server-and-test": "1.12.5",
     "otpauth": "7.0.6",
-    "node-xlsx": "0.16.1"
+    "node-xlsx": "0.17.1"
   },
   "browserslist": [
     "defaults",
