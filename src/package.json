@@ -85,7 +85,7 @@
     "istanbul-instrumenter-loader": "3.0.1",
     "nyc": "15.1.0",
     "start-server-and-test": "1.12.5",
-    "otpauth": "7.0.3",
+    "otpauth": "7.0.6",
     "node-xlsx": "0.16.1"
   },
   "browserslist": [
