@@ -41,7 +41,7 @@
     "@angular/cli": "12.2.6",
     "@angular-devkit/build-angular": "12.2.6",
     "@nguniversal/builders": "12.1.0",
-    "ngx-build-plus": "12.0.1",
+    "ngx-build-plus": "12.2.0",
     "core-js": "3.13.1",
     "zone.js": "0.11.4",
     "rxjs": "7.1.0",
