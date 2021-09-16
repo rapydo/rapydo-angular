@@ -67,7 +67,7 @@
     "ngx-device-detector": "2.1.1",
     "xlsx": "0.17.2",
     "ajv": "^8.0.0",
-    "ajv-formats": "2.1.0",
+    "ajv-formats": "2.1.1",
     "angular-polyfills": "1.0.1",
     "localstorage-polyfill": "1.0.1",
     "gzipper": "5.0.0"
