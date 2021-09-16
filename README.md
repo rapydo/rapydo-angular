@@ -8,7 +8,7 @@ Based on:
 - RxJS 7.3.0
 - bootstrap 4.6.0 with @ng-bootstrap 10.0.0
 - ngx-formly 5.10.22
-- ngx-datatable 19.0.0
+- ngx-datatable 20.0.0
 - ngx-uploadx 4.1.3
 - file-saver (es) 2.0.5
 - ngx-toastr 14.1.3
