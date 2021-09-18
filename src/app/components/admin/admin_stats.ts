@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { interval } from "rxjs";
 
 import { NgxSpinnerService } from "ngx-spinner";
 import { ApiService } from "@rapydo/services/api";
@@ -12,6 +13,7 @@ import { AdminStats } from "@rapydo/types";
 })
 export class AdminStatsComponent {
   public stats: AdminStats;
+  public current_date = new Date();
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -20,6 +22,8 @@ export class AdminStatsComponent {
     private notify: NotificationService
   ) {
     this.retrieve_stats();
+    // Auto refresh every minute
+    interval(60000).subscribe(() => this.retrieve_stats());
   }
 
   public retrieve_stats(): void {
@@ -33,6 +37,7 @@ export class AdminStatsComponent {
       .subscribe(
         (response) => {
           this.stats = response;
+          this.current_date = new Date();
           this.spinner.hide();
         },
         /* istanbul ignore next */ (error) => {
