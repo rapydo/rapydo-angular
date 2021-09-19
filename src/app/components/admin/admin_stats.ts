@@ -11,7 +11,8 @@ import { AdminStats } from "@rapydo/types";
   // selector: "admin_stats",
   templateUrl: "admin_stats.html",
 })
-export class AdminStatsComponent implements OnInit {
+// implements OnInit
+export class AdminStatsComponent {
   public stats: AdminStats;
   public current_date = new Date();
 
