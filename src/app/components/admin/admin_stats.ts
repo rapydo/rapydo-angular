@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { interval, Subscription } from "rxjs";
+// import { interval, Subscription } from "rxjs";
 
 import { NgxSpinnerService } from "ngx-spinner";
 import { ApiService } from "@rapydo/services/api";
@@ -15,7 +15,7 @@ export class AdminStatsComponent implements OnInit {
   public stats: AdminStats;
   public current_date = new Date();
 
-  private refresh_interval: Subscription;
+  // private refresh_interval: Subscription;
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -26,17 +26,17 @@ export class AdminStatsComponent implements OnInit {
     this.retrieve_stats();
   }
 
-  ngOnInit() {
-    // Auto refresh every minute
-    this.refresh_interval = interval(60000).subscribe(() =>
-      this.retrieve_stats()
-    );
-  }
-  ngOnDestroy() {
-    if (this.refresh_interval) {
-      this.refresh_interval.unsubscribe();
-    }
-  }
+  // ngOnInit() {
+  //   // Auto refresh every minute
+  //   this.refresh_interval = interval(60000).subscribe(() =>
+  //     this.retrieve_stats()
+  //   );
+  // }
+  // ngOnDestroy() {
+  //   if (this.refresh_interval) {
+  //     this.refresh_interval.unsubscribe();
+  //   }
+  // }
 
   public retrieve_stats(): void {
     this.spinner.show();
