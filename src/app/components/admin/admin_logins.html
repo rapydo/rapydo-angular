@@ -40,6 +40,7 @@
                 [columnMode]="ColumnMode.flex"
                 [headerHeight]="40"
                 [footerHeight]="40"
+                [sorts]="[{ prop: 'date', dir: 'desc' }]"
                 [limit]="paging.itemsPerPage"
                 [rowHeight]="'auto'"
                 (activate)="onDatatableActivate($event)"
