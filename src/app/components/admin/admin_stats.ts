@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { interval } from "rxjs";
 
 import { NgxSpinnerService } from "ngx-spinner";
@@ -11,7 +11,7 @@ import { AdminStats } from "@rapydo/types";
   // selector: "admin_stats",
   templateUrl: "admin_stats.html",
 })
-export class AdminStatsComponent {
+export class AdminStatsComponent implements OnInit {
   public stats: AdminStats;
   public current_date = new Date();
 
@@ -22,6 +22,9 @@ export class AdminStatsComponent {
     private notify: NotificationService
   ) {
     this.retrieve_stats();
+  }
+
+  ngOnInit() {
     // Auto refresh every minute
     interval(60000).subscribe(() => this.retrieve_stats());
   }
