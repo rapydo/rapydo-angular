@@ -99,7 +99,7 @@
           "options": {
             "browserTarget": "RAPyDo:build:production",
             "serverTarget": "RAPyDo:server:production",
-            "routes": ["/"]
+            "routes": []
           }
         },
         "serve": {
