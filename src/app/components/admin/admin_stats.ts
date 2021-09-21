@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-
+import { FormGroup } from "@angular/forms";
+import { FormlyFieldConfig } from "@ngx-formly/core";
 import { NgxSpinnerService } from "ngx-spinner";
+
 import { ApiService } from "@rapydo/services/api";
 import { AuthService } from "@rapydo/services/auth";
 import { NotificationService } from "@rapydo/services/notification";
@@ -13,8 +15,14 @@ export class AdminStatsComponent implements OnInit {
   public stats: AdminStats;
   public current_date = new Date();
 
-  public refresh_interval: number = 60000;
   private refresh_timer: ReturnType<typeof setInterval>;
+
+  public showForm: boolean = true;
+  public form = new FormGroup({});
+  public fields: FormlyFieldConfig[] = [];
+  public model: any = {
+    refresh_interval: 0,
+  };
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -25,24 +33,53 @@ export class AdminStatsComponent implements OnInit {
 
   ngOnInit() {
     this.retrieve_stats();
-    // Auto refresh every minute
-    this.refresh_timer = setInterval(() => {
-      this.retrieve_stats();
-    }, this.refresh_interval);
+    if (this.model["refresh_interval"] > 0) {
+      this.refresh_timer = setInterval(() => {
+        this.retrieve_stats();
+      }, this.model["refresh_interval"] * 1000);
+    }
+
+    this.fields = [
+      {
+        key: "refresh_interval",
+        type: "input",
+        defaultValue: "",
+        templateOptions: {
+          type: "number",
+          min: 0,
+          max: 3600,
+          label: "",
+          change: (field: FormlyFieldConfig, event?: any) => {
+            this.reset_timer();
+          },
+          addonLeft: {
+            class: "fas fa-sync-alt clickable",
+            onClick: () => {
+              this.retrieve_stats();
+            },
+          },
+          addonRight: {
+            text: "seconds",
+          },
+          required: true,
+        },
+      },
+    ];
   }
   ngOnDestroy() {
     if (this.refresh_timer) {
       clearInterval(this.refresh_timer);
     }
   }
-  reset_timer(interval: number): void {
+  reset_timer(): void {
     if (this.refresh_timer) {
       clearInterval(this.refresh_timer);
     }
-    this.refresh_interval = interval * 1000;
-    this.refresh_timer = setInterval(() => {
-      this.retrieve_stats();
-    }, this.refresh_interval);
+    if (this.model["refresh_interval"] > 0) {
+      this.refresh_timer = setInterval(() => {
+        this.retrieve_stats();
+      }, this.model["refresh_interval"] * 1000);
+    }
   }
 
   public retrieve_stats(): void {
