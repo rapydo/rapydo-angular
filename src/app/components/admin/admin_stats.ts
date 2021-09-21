@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 // import { interval, Subscription } from "rxjs";
+import { timer, Subscription } from "rxjs";
 
 import { NgxSpinnerService } from "ngx-spinner";
 import { ApiService } from "@rapydo/services/api";
@@ -8,15 +9,14 @@ import { NotificationService } from "@rapydo/services/notification";
 import { AdminStats } from "@rapydo/types";
 
 @Component({
-  // selector: "admin_stats",
   templateUrl: "admin_stats.html",
 })
-// implements OnInit
-export class AdminStatsComponent {
+export class AdminStatsComponent implements OnInit {
   public stats: AdminStats;
   public current_date = new Date();
 
-  // private refresh_interval: Subscription;
+  // private refresh_interval: any;
+  private refresh_interval: Subscription;
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -24,20 +24,29 @@ export class AdminStatsComponent {
     private auth: AuthService,
     private notify: NotificationService
   ) {
-    this.retrieve_stats();
+    // this.retrieve_stats();
   }
 
-  // ngOnInit() {
-  //   // Auto refresh every minute
-  //   this.refresh_interval = interval(60000).subscribe(() =>
-  //     this.retrieve_stats()
-  //   );
-  // }
-  // ngOnDestroy() {
-  //   if (this.refresh_interval) {
-  //     this.refresh_interval.unsubscribe();
-  //   }
-  // }
+  ngOnInit() {
+    // Auto refresh every minute
+    // this.refresh_interval = interval(60000).subscribe(() =>
+    //   this.retrieve_stats()
+    // );
+
+    this.refresh_interval = timer(0, 60000).subscribe(() =>
+      this.retrieve_stats()
+    );
+
+    // this.refresh_interval = setInterval(() => {
+    //   this.retrieve_stats()
+    // }, 60000);
+  }
+  ngOnDestroy() {
+    if (this.refresh_interval) {
+      this.refresh_interval.unsubscribe();
+      // clearInterval(this.refresh_interval);
+    }
+  }
 
   public retrieve_stats(): void {
     this.spinner.show();
