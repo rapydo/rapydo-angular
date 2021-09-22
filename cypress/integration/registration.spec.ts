@@ -281,7 +281,7 @@ describe("Registration", () => {
 
       cy.get("div.card-header h1").contains("Invalid activation token");
       cy.get("div.card-body").contains(
-        "This activation token is not valid and your request can not be satisfied."
+        "This activation token is not valid and your request cannot be satisfied."
       );
 
       cy.getmail().then((body) => {
@@ -300,7 +300,7 @@ describe("Registration", () => {
 
         cy.get("div.card-header h1").contains("Invalid activation token");
         cy.get("div.card-body").contains(
-          "This activation token is not valid and your request can not be satisfied."
+          "This activation token is not valid and your request cannot be satisfied."
         );
       });
     });
