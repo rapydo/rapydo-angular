@@ -60,8 +60,6 @@ jobs:
           rapydo shell --no-tty frontend "yarn install"
           rapydo shell --no-tty frontend "reload-types"
           rapydo shell --no-tty frontend "yarn run test:single"
-          cp data/prj/karma/lcov.info .
-          bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular;
 
       - uses: rapydo/actions/setup-cypress@v1
         if: ${{ matrix.stage != 'karma' && matrix.stage != 'prod' }}
@@ -144,8 +142,6 @@ jobs:
           rapydo shell --no-tty frontend "yarn run cypress:start:${LABEL}"
 
           rapydo shell --no-tty frontend "npx nyc --all report --reporter=lcov --report-dir /coverage"
-          cp data/prj/karma/lcov.info .
-          bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular
 
       - name: Run Prod Tests
         if: ${{ matrix.stage == 'prod' }}
@@ -281,6 +277,13 @@ jobs:
           rapydo logs --follow frontend
           rapydo logs --tail 6 frontend 2>&1 | grep "files have been compressed."
           curl --insecure -X GET https://localhost
+
+      - name: Coverage
+        uses: rapydo/actions/coverage@v1
+        if: ${{ matrix.stage != 'prod' }}
+        with:
+          repository: rapydo_tests/submodules/rapydo-angular
+          cov_file: rapydo_tests/data/prj/karma/lcov.info
 
       - name: Print backend logs on failure
         if: ${{ failure() && matrix.stage != 'karma' && matrix.stage != 'prod' }}
