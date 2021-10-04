@@ -28,7 +28,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: 3.9
       - name: Set up Node
         uses: actions/setup-node@v1
         with:
@@ -49,25 +49,14 @@ jobs:
           rapydo install compose
           rapydo --testing create prj --auth ${AUTH} --frontend angular --origin-url https://your_remote_git/your_project.git
 
-      - name: Run Karma
-        if: ${{ matrix.stage == 'karma' }}
-        run: |
-          cd rapydo_tests
-          rapydo --testing init
-          rapydo pull --quiet frontend
-          rapydo start frontend
-          sleep 5
-          rapydo shell --no-tty frontend "yarn install"
-          rapydo shell --no-tty frontend "reload-types"
-          rapydo shell --no-tty frontend "yarn run test:single"
-
-      - uses: rapydo/actions/setup-cypress@v1
+      - name: Setup Cypress
+        uses: rapydo/actions/setup-cypress@v1
         if: ${{ matrix.stage != 'karma' && matrix.stage != 'prod' }}
         with:
           id: ${{ secrets.CYPRESS_PROJECT_ID }}
           key: ${{ secrets.CYPRESS_RECORD_KEY }}
 
-      - name: Setup project
+      - name: Setup Project
         if: ${{ matrix.stage != 'karma' && matrix.stage != 'prod' }}
         run: |
           cd rapydo_tests
@@ -131,6 +120,18 @@ jobs:
           rapydo shell --no-tty frontend "reload-types"
           rapydo logs
 
+      - name: Run Karma
+        if: ${{ matrix.stage == 'karma' }}
+        run: |
+          cd rapydo_tests
+          rapydo --testing init
+          rapydo pull --quiet frontend
+          rapydo start frontend
+          sleep 5
+          rapydo shell --no-tty frontend "yarn install"
+          rapydo shell --no-tty frontend "reload-types"
+          rapydo shell --no-tty frontend "yarn run test:single"
+
       - name: Run Cypress
         if: ${{ matrix.stage != 'karma' && matrix.stage != 'prod' }}
         run: |
@@ -143,7 +144,7 @@ jobs:
 
           rapydo shell --no-tty frontend "npx nyc --all report --reporter=lcov --report-dir /coverage"
 
-      - name: Run Prod Tests
+      - name: Run Production Tests
         if: ${{ matrix.stage == 'prod' }}
         run: |
           cd rapydo_tests
@@ -293,7 +294,7 @@ jobs:
         if: ${{ failure() && matrix.stage != 'karma' && matrix.stage != 'prod' }}
         run: cat rapydo_tests/data/logs/mock.mail.*.body
 
-      - name: Docker logs
+      - name: Docker logs on failure
         if: failure()
         run: |
           cd rapydo_tests
