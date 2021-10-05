@@ -20,4 +20,4 @@ Based on:
 - ng-select 7.2.0
 - Ajv 8+
 - Karma 6.3.4
-- Cypress 8.4.0
+- Cypress 8.5.0
