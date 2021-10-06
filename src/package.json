@@ -50,7 +50,7 @@
     "@fortawesome/fontawesome-free": "5.15.4",
     "@ngx-formly/core": "5.10.22",
     "@ngx-formly/bootstrap": "5.10.22",
-    "@ng-select/ng-select": "7.2.0",
+    "@ng-select/ng-select": "7.3.0",
     "@ng-select/ng-option-highlight": "0.0.6",
     "@swimlane/ngx-datatable": "20.0.0",
     "moment": "2.29.1",
