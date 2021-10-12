@@ -71,9 +71,7 @@ export class LoginComponent implements OnInit {
 
     const user = this.auth.getUser();
     if (user != null) {
-      this.auth.logout().subscribe((response) => {
-        // console.log("Forced logout");
-      });
+      this.auth.logout().subscribe((response) => {});
     }
   }
 
@@ -126,7 +124,6 @@ export class LoginComponent implements OnInit {
         key: "password",
         type: "password",
         templateOptions: {
-          // type: "password",
           label: "Password",
           placeholder: "Your password",
           addonLeft: {
@@ -142,7 +139,6 @@ export class LoginComponent implements OnInit {
         key: "new_password",
         type: "password",
         templateOptions: {
-          // type: "password",
           label: "New password",
           placeholder: "Your new password",
           addonLeft: {
@@ -156,7 +152,6 @@ export class LoginComponent implements OnInit {
         key: "password_confirm",
         type: "password",
         templateOptions: {
-          // type: "password",
           label: "Password confirmation",
           placeholder: "Confirm your new password",
           addonLeft: {
@@ -282,6 +277,11 @@ export class LoginComponent implements OnInit {
 
               if (body.qr_code) {
                 this.qr_code = body.qr_code[0];
+                // disable the focus on form inputs to prevent the page to scroll down
+                // and hide the section with the QR-code
+                for (let f in this.fields) {
+                  this.fields[f]["focus"] = false;
+                }
               }
             }
           } else if (error.status === 404) {
