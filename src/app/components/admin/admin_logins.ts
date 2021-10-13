@@ -1,8 +1,11 @@
 import { Component, ViewChild, TemplateRef, Injector } from "@angular/core";
+import { ExcelService } from "@rapydo/services/excel";
 
 import { Login } from "@rapydo/types";
 
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
+import { environment } from "@rapydo/../environments/environment";
+import * as moment from "moment";
 
 @Component({
   templateUrl: "./admin_logins.html",
@@ -13,7 +16,7 @@ export class AdminLoginsComponent extends BasePaginationComponent<Login> {
   @ViewChild("failedCell", { static: false })
   public failedCell: TemplateRef<any>;
 
-  constructor(protected injector: Injector) {
+  constructor(protected injector: Injector, private excel: ExcelService) {
     super(injector);
     this.init("login", "/api/admin/logins", "Logins");
     this.initPaging();
@@ -73,5 +76,27 @@ export class AdminLoginsComponent extends BasePaginationComponent<Login> {
       }
       return false;
     });
+  }
+
+  download() {
+    const m = moment().format("YYYYMMDD_HHmmss");
+    const filename = `${environment.projectName}_logins_${m}.xlsx`;
+
+    const headers = ["Date", "Username", "IP", "Location", "Failed Login"];
+    let download_data = [];
+
+    for (let d of this.unfiltered_data) {
+      download_data.push([
+        { t: "d", v: moment(d["date"]).format("YYYY-MM-DD HH:mm:ss") },
+        d["username"],
+        d["IP"],
+        d["location"],
+        d["failed"],
+      ]);
+    }
+
+    const workbook = this.excel.createWorkbook();
+    this.excel.addWorksheet(workbook, "Logins", headers, download_data);
+    this.excel.saveAs(workbook, filename);
   }
 }
