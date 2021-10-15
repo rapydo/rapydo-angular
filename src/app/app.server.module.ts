@@ -4,11 +4,12 @@ import { BrowserModule } from "@angular/platform-browser";
 
 import { AppModule } from "@rapydo/app.module";
 import { AppComponent } from "@rapydo/app.component";
+import { environment } from "@rapydo/../environments/environment";
 
 @NgModule({
   imports: [
     BrowserModule.withServerTransition({
-      appId: "RAPyDo",
+      appId: environment.projectName,
     }),
     AppModule,
     ServerModule,
