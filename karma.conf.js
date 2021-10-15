@@ -37,7 +37,7 @@ module.exports = function (config) {
       // if using webpack and pre-loaders, work around webpack breaking the source path
       fixWebpackSourcePaths: true,
       // Omit files with no statements, no functions and no branches from the report
-      skipFilesWithNoCoverage: true,
+      skipFilesWithNoCoverage: false,
     },
     reporters: ["spec", "coverage"],
     preprocessors: {
