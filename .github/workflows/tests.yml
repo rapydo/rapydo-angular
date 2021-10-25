@@ -116,8 +116,8 @@ jobs:
 
           sleep 20
           rapydo logs
-          rapydo shell --no-tty frontend "yarn install"
-          rapydo shell --no-tty frontend "reload-types"
+          rapydo shell frontend "yarn install"
+          rapydo shell frontend "reload-types"
           rapydo logs
 
       - name: Run Karma
@@ -128,9 +128,9 @@ jobs:
           rapydo pull --quiet frontend
           rapydo start frontend
           sleep 5
-          rapydo shell --no-tty frontend "yarn install"
-          rapydo shell --no-tty frontend "reload-types"
-          rapydo shell --no-tty frontend "yarn run test:single"
+          rapydo shell frontend "yarn install"
+          rapydo shell frontend "reload-types"
+          rapydo shell frontend "yarn run test:single"
 
       - name: Run Cypress
         if: ${{ matrix.stage != 'karma' && matrix.stage != 'prod' }}
@@ -140,9 +140,9 @@ jobs:
           STAGE="${{ matrix.stage }}"
           LABEL=${STAGE/cypress-/}
 
-          rapydo shell --no-tty frontend "yarn run cypress:start:${LABEL}"
+          rapydo shell frontend "yarn run cypress:start:${LABEL}"
 
-          rapydo shell --no-tty frontend "npx nyc --all report --reporter=lcov --report-dir /coverage"
+          rapydo shell frontend "npx nyc --all report --reporter=lcov --report-dir /coverage"
 
       - name: Run Production Tests
         if: ${{ matrix.stage == 'prod' }}
