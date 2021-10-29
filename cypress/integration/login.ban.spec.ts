@@ -28,11 +28,7 @@ describe("Login Ban", () => {
 
       cy.checkalert("Invalid unlock token");
 
-      // cy.click() can only be called on a single element.
-      // Your subject contained 2 elements.
-      // Pass { multiple: true } if you want to serially click each element.
-      // ... ???
-      cy.get("a:contains('login')").click({ multiple: true });
+      cy.get("a:contains('login')").first().click();
 
       cy.location().should((location) => {
         expect(location.pathname).to.eq("/app/login");
