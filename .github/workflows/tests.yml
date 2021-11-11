@@ -2,8 +2,6 @@ name: Test
 
 on:
   push:
-  # schedule:
-  #   - cron: "0 3 * * *"
   workflow_dispatch:
 
 jobs:
@@ -148,7 +146,7 @@ jobs:
         if: ${{ matrix.stage == 'prod' }}
         run: |
           cd rapydo_tests
-          rapydo --prod -e SET_MAX_REQUESTS_PER_SECOND_ASSETS=60 init
+          rapydo --testing --prod init
 
           rapydo add --force component sink
 
