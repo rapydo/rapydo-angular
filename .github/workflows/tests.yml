@@ -266,7 +266,7 @@ jobs:
 
           echo -e "\n"
 
-          npm install -g cypress@8.5.0
+          npm install -g cypress@9.0.0
           echo "{}" > cypress.json
           cypress run --browser chrome --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
 
