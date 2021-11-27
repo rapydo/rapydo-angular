@@ -5,10 +5,15 @@
         <div class="card-header">
           <h1 class="float-left">Server Stats</h1>
           <span class="float-right">
-            <i
+            <!--             <i
               class="fas fa-sync-alt fa-lg clickable"
               (click)="retrieve_stats();"
             ></i>
+ -->
+            <form [formGroup]="form">
+              <formly-form [form]="form" [fields]="fields" [model]="model">
+              </formly-form>
+            </form>
           </span>
         </div>
 
@@ -17,6 +22,16 @@
 
           <div class="table-responsive">
             <table class="table table-sm" *ngIf="stats">
+              <tr>
+                <th>Stats updated on</th>
+                <td>
+                  <span
+                    ngbTooltip="{{stats.system.boot_time | amFromUtc | date : 'dd MMM yyyy HH:mm:ss' }}"
+                  >
+                    {{current_date | date : 'dd MMM yyyy HH:mm:ss'}}
+                  </span>
+                </td>
+              </tr>
               <tr>
                 <th>Server startup</th>
                 <td>

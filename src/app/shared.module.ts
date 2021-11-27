@@ -84,7 +84,8 @@ export function emailValidator(
     - required from 2 to 6 letters after the last .
     - otherwise after a @ a IP address can be accepted
   */
-  const is_address = /^[a-zA-Z0-9]+[a-zA-Z0-9_-]*\.([a-zA-Z0-9]+[a-zA-Z0-9_-]*\.)*[a-zA-Z]{2,6}$/;
+  const is_address =
+    /^[a-zA-Z0-9]+[a-zA-Z0-9_-]*\.([a-zA-Z0-9]+[a-zA-Z0-9_-]*\.)*[a-zA-Z]{2,6}$/;
 
   // (?!0)         Assume IP cannot start with 0
   // (?!.*\.$)     Make sure string does not end with a dot

@@ -236,7 +236,8 @@ export class ApiService {
   private parse_error(error) {
     // This is a HttpErrorResponse
     if (error.error) {
-      if (error.error instanceof ProgressEvent) {
+      // if SSR: ReferenceError: ProgressEvent is not defined
+      if (this.ssr.isBrowser && error.error instanceof ProgressEvent) {
         if (error.message.startsWith("Http failure response for ")) {
           // strip off the URL
           return "Http request failed: unknown error";

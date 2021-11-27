@@ -41,35 +41,33 @@ export class AdminMailComponent implements OnInit {
 
   public open_form(): void {
     this.spinner.show();
-    this.api
-      .post<Schema[]>("/api/admin/mail", { get_schema: true })
-      .subscribe(
-        (response) => {
-          for (let idx in response) {
-            if (response[idx]["key"] === "dry_run") {
-              delete response[idx];
-            }
+    this.api.post<Schema[]>("/api/admin/mail", { get_schema: true }).subscribe(
+      (response) => {
+        for (let idx in response) {
+          if (response[idx]["key"] === "dry_run") {
+            delete response[idx];
           }
-          let data = this.formly.json2Form(response, {});
-          this.fields = data.fields;
-
-          // list of emails are not supported... let's convert them by hand
-          for (let idx in this.fields) {
-            if (this.fields[idx]["type"] === "") {
-              const field_key = this.fields[idx]["key"];
-              if (field_key === "cc" || field_key === "bcc") {
-                this.fields[idx]["type"] = "input";
-              }
-            }
-          }
-          this.showForm = true;
-          this.spinner.hide();
-        },
-        (error) => {
-          this.notify.showError(error);
-          this.spinner.hide();
         }
-      );
+        let data = this.formly.json2Form(response, {});
+        this.fields = data.fields;
+
+        // list of emails are not supported... let's convert them by hand
+        for (let idx in this.fields) {
+          if (this.fields[idx]["type"] === "") {
+            const field_key = this.fields[idx]["key"];
+            if (field_key === "cc" || field_key === "bcc") {
+              this.fields[idx]["type"] = "input";
+            }
+          }
+        }
+        this.showForm = true;
+        this.spinner.hide();
+      },
+      (error) => {
+        this.notify.showError(error);
+        this.spinner.hide();
+      }
+    );
   }
 
   public send(dry_run: boolean = true): boolean {

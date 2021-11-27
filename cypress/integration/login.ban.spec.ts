@@ -28,7 +28,7 @@ describe("Login Ban", () => {
 
       cy.checkalert("Invalid unlock token");
 
-      cy.get("a:contains('login')").click();
+      cy.get("a:contains('login')").first().click();
 
       cy.location().should((location) => {
         expect(location.pathname).to.eq("/app/login");

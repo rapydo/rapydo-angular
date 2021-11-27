@@ -12,6 +12,7 @@ import { ExcelService } from "@rapydo/services/excel";
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
 
 import { environment } from "@rapydo/../environments/environment";
+import * as moment from "moment";
 
 @Component({
   templateUrl: "sessions.html",
@@ -95,7 +96,8 @@ export class SessionsComponent extends BasePaginationComponent<Session> {
   }
 
   download() {
-    const filename = "sessions.xlsx";
+    const m = moment().format("YYYYMMDD_HHmmss");
+    const filename = `${environment.projectName}_sessions_${m}.xlsx`;
 
     const headers = [
       "IP",
@@ -111,9 +113,9 @@ export class SessionsComponent extends BasePaginationComponent<Session> {
       download_data.push([
         t["IP"],
         t["location"],
-        t["emitted"],
-        t["last_access"],
-        t["expiration"],
+        { t: "d", v: moment(t["emitted"]).format("YYYY-MM-DD HH:mm:ss") },
+        { t: "d", v: moment(t["last_access"]).format("YYYY-MM-DD HH:mm:ss") },
+        { t: "d", v: moment(t["expiration"]).format("YYYY-MM-DD HH:mm:ss") },
         t["token"],
       ]);
     }

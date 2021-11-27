@@ -7,6 +7,7 @@ describe("Environment", () => {
     expect(environment.production).not.toBeUndefined();
     expect(environment.backendURI).not.toBeUndefined();
     expect(environment.projectVersion).not.toBeUndefined();
+    expect(environment.projectBuild).not.toBeUndefined();
     expect(environment.rapydoVersion).not.toBeUndefined();
     expect(environment.projectName).not.toBeUndefined();
     expect(environment.projectTitle).not.toBeUndefined();

@@ -47,46 +47,44 @@ export class ProfileComponent {
     );
   }
   public edit_profile(): void {
-    this.api
-      .patch<Schema[]>("/auth/profile", { get_schema: true })
-      .subscribe(
-        (response) => {
-          response.some((value, index) => {
-            if (value.key === "privacy_accepted") {
-              response.splice(index, 1);
-              return true;
-            }
-          });
-
-          let model = {};
-          for (let field of response) {
-            model[field.key] = this.user[field.key];
+    this.api.patch<Schema[]>("/auth/profile", { get_schema: true }).subscribe(
+      (response) => {
+        response.some((value, index) => {
+          if (value.key === "privacy_accepted") {
+            response.splice(index, 1);
+            return true;
           }
+        });
 
-          let data = this.formly.json2Form(response, model);
-
-          this.form = new FormGroup({});
-          this.fields = data.fields;
-          this.model = data.model;
-          this.modalRef = this.modalService.open(FormModal, {
-            size: "m",
-            backdrop: "static",
-          });
-          this.modalRef.componentInstance.modalTitle = "Update your profile";
-          this.modalRef.componentInstance.updating = false;
-          this.modalRef.componentInstance.form = this.form;
-          this.modalRef.componentInstance.fields = this.fields;
-          this.modalRef.componentInstance.model = this.model;
-          this.modalRef.componentInstance.backRef = this;
-          this.modalRef.result.then(
-            (result) => {},
-            (reason) => {}
-          );
-        },
-        (error) => {
-          this.notify.showError(error);
+        let model = {};
+        for (let field of response) {
+          model[field.key] = this.user[field.key];
         }
-      );
+
+        let data = this.formly.json2Form(response, model);
+
+        this.form = new FormGroup({});
+        this.fields = data.fields;
+        this.model = data.model;
+        this.modalRef = this.modalService.open(FormModal, {
+          size: "m",
+          backdrop: "static",
+        });
+        this.modalRef.componentInstance.modalTitle = "Update your profile";
+        this.modalRef.componentInstance.updating = false;
+        this.modalRef.componentInstance.form = this.form;
+        this.modalRef.componentInstance.fields = this.fields;
+        this.modalRef.componentInstance.model = this.model;
+        this.modalRef.componentInstance.backRef = this;
+        this.modalRef.result.then(
+          (result) => {},
+          (reason) => {}
+        );
+      },
+      (error) => {
+        this.notify.showError(error);
+      }
+    );
   }
 
   public submit(): void {

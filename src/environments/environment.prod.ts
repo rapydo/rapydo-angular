@@ -8,6 +8,7 @@ interface Env {
   production: boolean;
   backendURI: string;
   projectVersion: string;
+  projectBuild: string;
   rapydoVersion: string;
   projectName: string;
   projectTitle: string;
@@ -30,6 +31,7 @@ export const environment: Env = {
   production: true,
   backendURI: base.backendURI,
   projectVersion: base.projectVersion,
+  projectBuild: base.projectBuild,
   rapydoVersion: base.rapydoVersion,
   projectName: base.projectName,
   projectTitle: base.projectTitle,

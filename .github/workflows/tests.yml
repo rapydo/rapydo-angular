@@ -2,8 +2,6 @@ name: Test
 
 on:
   push:
-  # schedule:
-  #   - cron: "0 3 * * *"
   workflow_dispatch:
 
 jobs:
@@ -28,7 +26,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: 3.9
       - name: Set up Node
         uses: actions/setup-node@v1
         with:
@@ -46,29 +44,17 @@ jobs:
           echo "AUTH=${AUTH}" >> $GITHUB_ENV
           mkdir rapydo_tests
           cd rapydo_tests
+          rapydo install compose
           rapydo --testing create prj --auth ${AUTH} --frontend angular --origin-url https://your_remote_git/your_project.git
 
-      - name: Run Karma
-        if: ${{ matrix.stage == 'karma' }}
-        run: |
-          cd rapydo_tests
-          rapydo --testing init
-          rapydo -s frontend pull --quiet
-          rapydo -s frontend start
-          sleep 5
-          rapydo shell --no-tty frontend "yarn install"
-          rapydo shell --no-tty frontend "reload-types"
-          rapydo shell --no-tty frontend "yarn run test:single"
-          cp data/prj/karma/lcov.info .
-          bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular;
-
-      - uses: rapydo/actions/setup-cypress@v1
+      - name: Setup Cypress
+        uses: rapydo/actions/setup-cypress@v1
         if: ${{ matrix.stage != 'karma' && matrix.stage != 'prod' }}
         with:
           id: ${{ secrets.CYPRESS_PROJECT_ID }}
           key: ${{ secrets.CYPRESS_RECORD_KEY }}
 
-      - name: Setup project
+      - name: Setup Project
         if: ${{ matrix.stage != 'karma' && matrix.stage != 'prod' }}
         run: |
           cd rapydo_tests
@@ -128,9 +114,21 @@ jobs:
 
           sleep 20
           rapydo logs
-          rapydo shell --no-tty frontend "yarn install"
-          rapydo shell --no-tty frontend "reload-types"
+          rapydo shell frontend "yarn install"
+          rapydo shell frontend "reload-types"
           rapydo logs
+
+      - name: Run Karma
+        if: ${{ matrix.stage == 'karma' }}
+        run: |
+          cd rapydo_tests
+          rapydo --testing init
+          rapydo pull --quiet frontend
+          rapydo start frontend
+          sleep 5
+          rapydo shell frontend "yarn install"
+          rapydo shell frontend "reload-types"
+          rapydo shell frontend "yarn run test:single"
 
       - name: Run Cypress
         if: ${{ matrix.stage != 'karma' && matrix.stage != 'prod' }}
@@ -140,29 +138,24 @@ jobs:
           STAGE="${{ matrix.stage }}"
           LABEL=${STAGE/cypress-/}
 
-          rapydo shell --no-tty frontend "yarn run cypress:start:${LABEL}"
+          rapydo shell frontend "yarn run cypress:start:${LABEL}"
 
-          rapydo shell --no-tty frontend "npx nyc --all report --reporter=lcov --report-dir /coverage"
-          cp data/prj/karma/lcov.info .
-          bash <(curl -s https://codecov.io/bash) -R submodules/rapydo-angular
+          rapydo shell frontend "npx nyc --all report --reporter=lcov --report-dir /coverage"
 
-      - name: Run Prod Tests
+      - name: Run Production Tests
         if: ${{ matrix.stage == 'prod' }}
         run: |
           cd rapydo_tests
-          rapydo --prod -e SET_MAX_REQUESTS_PER_SECOND_ASSETS=60 init
+          rapydo --testing --prod init
 
           rapydo add --force component sink
 
           rapydo pull --quiet
-          rapydo -s frontend,proxy start
-          rapydo dump
-          rapydo -s frontend logs --follow
-          docker-compose logs --tail 2 frontend 2>&1 | grep "files have been compressed."
-          docker-compose logs --tail 20 proxy
+          rapydo start frontend proxy
+          rapydo logs --follow frontend
+          rapydo logs --tail 6 frontend 2>&1 | grep "files have been compressed."
+          rapydo logs --tail 20 proxy
           curl --insecure -X GET https://localhost
-          npm install -g seespee cypress@7.6.0
-          seespee --level 1 --validate https://localhost
 
           opt="--silent --head --insecure -X GET https://localhost"
 
@@ -273,22 +266,23 @@ jobs:
 
           echo -e "\n"
 
+          npm install -g cypress@9.0.0
           echo "{}" > cypress.json
           cypress run --browser chrome --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
 
-          # To complete a basic test to verify that
-          # the frontend correctly builds also when SSR is disabled
+          # Verify that the frontend correctly builds also when SSR is disabled
+          rapydo remove
           rapydo -e ENABLE_ANGULAR_SSR=0 start
-          rapydo -s frontend logs --follow
-          docker-compose logs --tail 2 frontend 2>&1 | grep "files have been compressed."
+          rapydo logs --follow frontend
+          rapydo logs --tail 6 frontend 2>&1 | grep "files have been compressed."
           curl --insecure -X GET https://localhost
 
-      # - name: Save Video Artifact
-      #   uses: actions/upload-artifact@v1
-      #   if: ${{ matrix.stage != 'karma' && matrix.stage != 'prod' }}
-      #   with:
-      #     name: cypress-recordings
-      #     path: rapydo_tests/data/prj/cypress
+      - name: Coverage
+        uses: rapydo/actions/coverage@v1
+        if: ${{ matrix.stage != 'prod' }}
+        with:
+          repository: rapydo_tests/submodules/rapydo-angular
+          cov_file: rapydo_tests/data/prj/karma/lcov.info
 
       - name: Print backend logs on failure
         if: ${{ failure() && matrix.stage != 'karma' && matrix.stage != 'prod' }}
@@ -298,7 +292,7 @@ jobs:
         if: ${{ failure() && matrix.stage != 'karma' && matrix.stage != 'prod' }}
         run: cat rapydo_tests/data/logs/mock.mail.*.body
 
-      - name: Docker logs
+      - name: Docker logs on failure
         if: failure()
         run: |
           cd rapydo_tests
