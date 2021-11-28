@@ -7,7 +7,6 @@
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --port 8080 --watch --live-reload",
     "start:for-cypress": "ng serve --configuration cypress --host 0.0.0.0 --port 8080 --disable-host-check",
-    "courtesy": "mkdir -p /app/dist && rm -rf /app/dist/* && cp /app/courtesy/index.html /app/dist/",
     "build": "ng build --configuration=production",
     "build:ssr": "ng run RAPyDo:server:production && ng run RAPyDo:prerender",
     "move-build-online": "rm -rf /app/dist_online && mv /app/dist /app/dist_online",
