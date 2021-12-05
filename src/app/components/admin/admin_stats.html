@@ -26,7 +26,7 @@
                 <th>Stats updated on</th>
                 <td>
                   <span
-                    ngbTooltip="{{stats.system.boot_time | amFromUtc | date : 'dd MMM yyyy HH:mm:ss' }}"
+                    ngbTooltip="{{current_date | amFromUtc | date : 'dd MMM yyyy HH:mm:ss' }}"
                   >
                     {{current_date | date : 'dd MMM yyyy HH:mm:ss'}}
                   </span>
