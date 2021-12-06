@@ -132,6 +132,7 @@ export enum SchemaType {
   INT = "int",
   NUMBER = "number",
   DATE = "date",
+  DATETIME = "datetime",
   EMAIL = "email",
   PASSWORD = "password",
   BOOLEAN = "boolean",
