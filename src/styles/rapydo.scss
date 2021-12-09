@@ -123,7 +123,7 @@ h6 {
 .footer {
   background-color: $footer-bg-color !important;
   color: $footer-text-color !important;
-  border-top: 1px solid rgba(0, 0, 0, 0.125);
+  border-top: $footer-border-size solid $footer-border-color;
   line-height: $footer-height;
   padding-right: 4em;
   padding-left: 4em;
