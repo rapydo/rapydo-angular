@@ -94,16 +94,8 @@ export class ApiService {
   ): Observable<T> {
     const conf = this.opt(options, "conf");
     const rawError = this.opt(options, "rawError", false);
-    const externalURL = this.opt(options, "externalURL", false);
     const validationSchema = this.opt(options, "validationSchema");
     const redirectOnInvalidTokens = this.opt(options, "redirect", true);
-
-    // Deprecated since 2.0
-    if (externalURL) {
-      // externalURL is no longer needed, remove it
-      // Note: only used in meteohub
-      this.notify.showDeprecation("Deprecated use of externalURL flag");
-    }
 
     // If starting with / it is considered to be an internal URL
     // otherwise it is considered to be an external url starting with protocol://
