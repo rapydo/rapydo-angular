@@ -49,7 +49,7 @@ export class AuthService {
       .pipe(
         map((response) => {
           this.local_storage.clean();
-          this.local_storage.setToken(JSON.stringify(response));
+          this.local_storage.setToken(response);
           return response;
         })
       );
