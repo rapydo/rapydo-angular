@@ -191,14 +191,7 @@ export class ApiService {
         }
 
         if (redirectOnInvalidTokens && error.status === 401) {
-          // Should be done by executing auth.removeToken... But AuthService can't
-          // be included here due to circular dependencies
-          // These removeItem are needed to prevent the automatic execution of logout
-          // (from login component) that will fail because the token is invalid.
-          // The failure will be intercepeted again here and an additional returnUrl
-          // will be appended and this will mess the url
-          localStorage.removeItem("token");
-          localStorage.removeItem("currentUser");
+          this.local_storage.removeToken();
 
           this.router.navigate(["app/login"], {
             queryParams: { returnUrl: this.router.url },
