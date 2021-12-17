@@ -20,7 +20,7 @@ describe("LocalStorageService", () => {
   it("getUser", async () => {
     expect(service.getUser()).toBeNull();
 
-    user1: User = {
+    const user1: User = {
       isAdmin: false,
       isStaff: false,
       isCoordinator: false,
@@ -35,7 +35,7 @@ describe("LocalStorageService", () => {
       two_factor_enabled: false,
     };
 
-    user2: User = {
+    const user2: User = {
       isAdmin: false,
       isStaff: false,
       isCoordinator: false,
