@@ -58,7 +58,7 @@ describe("LocalStorageService", () => {
     expect(service.getUser()).toEqual(user2);
     expect(service.getUser()).not.toEqual(user1);
 
-    service.removeUser();
+    service.removeToken();
     expect(service.getUser()).toBeNull();
 
     service.setUser(user1);
