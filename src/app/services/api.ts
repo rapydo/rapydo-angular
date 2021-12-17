@@ -10,6 +10,7 @@ import {
 } from "@angular/common/http";
 
 import { NotificationService } from "@rapydo/services/notification";
+import { LocalStorageService } from "@rapydo/services/localstorage";
 import { SSRService } from "@rapydo/services/ssr";
 import { environment } from "@rapydo/../environments/environment";
 
@@ -22,6 +23,7 @@ export class ApiService {
   constructor(
     private http: HttpClient,
     private router: Router,
+    private local_storage: LocalStorageService,
     private notify: NotificationService,
     private ssr: SSRService
   ) {}

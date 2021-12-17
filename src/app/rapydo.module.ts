@@ -21,6 +21,7 @@ import { SharedModule } from "@rapydo/shared.module";
 import { NavbarComponent } from "@rapydo/components/navbar/navbar";
 
 import { AuthGuard } from "@rapydo/app.auth.guard";
+import { LocalStorageService } from "@rapydo/services/localstorage";
 import { AuthService } from "@rapydo/services/auth";
 import { ApiService } from "@rapydo/services/api";
 import { FormlyService } from "@rapydo/services/formly";
@@ -138,6 +139,7 @@ let module_exports = [
 ];
 
 let module_providers: any = [
+  LocalStorageService,
   AuthService,
   AuthGuard,
   ApiService,

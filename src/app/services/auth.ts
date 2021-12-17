@@ -1,20 +1,23 @@
 import { Injectable } from "@angular/core";
 import { catchError, map, finalize } from "rxjs/operators";
-import { of, throwError, Subject, Observable } from "rxjs";
+import { of, throwError, Observable } from "rxjs";
 
-import { User, Session, Group } from "@rapydo/types";
+import { User } from "@rapydo/types";
 import { environment } from "@rapydo/../environments/environment";
+import { LocalStorageService } from "@rapydo/services/localstorage";
 import { ApiService } from "@rapydo/services/api";
 import { NotificationService } from "@rapydo/services/notification";
 
 @Injectable()
 export class AuthService {
-  userChanged = new Subject<string>();
-
   readonly LOGGED_IN = "logged-in";
   readonly LOGGED_OUT = "logged-out";
 
-  constructor(private api: ApiService, private notify: NotificationService) {}
+  constructor(
+    private local_storage: LocalStorageService,
+    private api: ApiService,
+    private notify: NotificationService
+  ) {}
 
   public login(
     username: string,
@@ -45,8 +48,8 @@ export class AuthService {
       .post<string>("/auth/login", data, { rawError: true, redirect: false })
       .pipe(
         map((response) => {
-          this.clean_localstorage();
-          this.setToken(JSON.stringify(response));
+          this.local_storage.clean();
+          this.local_storage.setToken(JSON.stringify(response));
           return response;
         })
       );
@@ -55,7 +58,7 @@ export class AuthService {
   public logout() {
     return this.api.get<any>("/auth/logout", {}, { redirect: false }).pipe(
       finalize(() => {
-        this.removeToken();
+        this.local_storage.removeToken();
       })
     );
   }
@@ -65,7 +68,7 @@ export class AuthService {
       .put("/auth/profile", data, { rawError: true, redirect: false })
       .pipe(
         map((response) => {
-          this.removeToken();
+          this.local_storage.removeToken();
 
           return response;
         })
@@ -82,7 +85,7 @@ export class AuthService {
       .get<User>("/auth/profile", {}, { validationSchema: "User" })
       .pipe(
         map((response: User) => {
-          this.setUser(response);
+          this.local_storage.setUser(response);
 
           return response;
         }),
@@ -93,12 +96,11 @@ export class AuthService {
       );
   }
 
-  public getUser(): User {
-    return JSON.parse(localStorage.getItem("currentUser"));
+  public getToken(): string {
+    return this.local_storage.getToken();
   }
-
-  public getToken() {
-    return JSON.parse(localStorage.getItem("token"));
+  public getUser(): User {
+    return this.local_storage.getUser();
   }
 
   public isAuthenticated() {
@@ -106,7 +108,7 @@ export class AuthService {
       return of(false);
     }
 
-    if (!this.getToken()) {
+    if (!this.local_storage.getToken()) {
       return of(false);
     }
 
@@ -118,7 +120,7 @@ export class AuthService {
       catchError((error, caught) => {
         /* istanbul ignore else */
         if (this.api.is_online()) {
-          this.removeToken();
+          this.local_storage.removeToken();
         }
         return of(false);
       })
@@ -136,7 +138,7 @@ export class AuthService {
       return true;
     }
 
-    let user = this.getUser();
+    let user = this.local_storage.getUser();
 
     /* istanbul ignore if */
     if (user === null) {
@@ -152,30 +154,5 @@ export class AuthService {
       "Permission denied: you are not authorized to access this page"
     );
     return false;
-  }
-
-  private setUser(user: User) {
-    localStorage.setItem("currentUser", JSON.stringify(user));
-
-    this.userChanged.next(this.LOGGED_IN);
-  }
-
-  private setToken(token: string) {
-    localStorage.setItem("token", token);
-  }
-
-  private removeToken() {
-    this.clean_localstorage();
-    localStorage.removeItem("token");
-    localStorage.removeItem("currentUser");
-    // this.userChanged.emit(this.LOGGED_OUT);
-    this.userChanged.next(this.LOGGED_OUT);
-  }
-
-  private clean_localstorage() {
-    // Cleaning up the localStorage from data from the previous session
-    Object.keys(localStorage).forEach((key) => {
-      localStorage.removeItem(key);
-    });
   }
 }

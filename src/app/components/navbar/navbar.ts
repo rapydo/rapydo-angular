@@ -5,6 +5,7 @@ import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { environment } from "@rapydo/../environments/environment";
 
 import { ProjectOptions } from "@app/customization";
+import { LocalStorageService } from "@rapydo/services/localstorage";
 import { ApiService } from "@rapydo/services/api";
 import { AuthService } from "@rapydo/services/auth";
 import { SSRService } from "@rapydo/services/ssr";
@@ -33,6 +34,7 @@ export class NavbarComponent implements OnInit {
     private router: Router,
     private modalService: NgbModal,
     private customization: ProjectOptions,
+    private local_storage: LocalStorageService,
     public api: ApiService,
     public ssr: SSRService,
     private auth: AuthService,
@@ -55,7 +57,7 @@ export class NavbarComponent implements OnInit {
       this.loading = false;
     });
 
-    this.auth.userChanged.subscribe((user) => this.changeLogged(user));
+    this.local_storage.userChanged.subscribe((user) => this.changeLogged(user));
   }
 
   changeLogged(user: any) {
