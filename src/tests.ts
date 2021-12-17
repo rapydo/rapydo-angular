@@ -12,7 +12,12 @@ declare const require: any;
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(
   BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting()
+  platformBrowserDynamicTesting(),
+  // Angular 13 defaulted this to true causing karma to fail
+  // see: https://github.com/angular/angular/issues/44186#issuecomment-996162765
+  {
+    teardown: { destroyAfterEach: false },
+  }
 );
 // Then we find all the core and custom tests.
 const rapydo = require.context("../rapydo/app/", true, /\.spec\.ts$/);
