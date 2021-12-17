@@ -21,6 +21,10 @@ describe("LocalStorageService", () => {
     expect(service.getUser()).toBeNull();
 
     const user1: User = {
+      uuid: "00000000-0000-0000-0000-000000000000",
+      email: "my1@emai.il",
+      name: "MyName1",
+      surname: "MySurname1",
       isAdmin: false,
       isStaff: false,
       isCoordinator: false,
@@ -36,6 +40,10 @@ describe("LocalStorageService", () => {
     };
 
     const user2: User = {
+      uuid: "1111111-1111-1111-1111-111111111111",
+      email: "my2@emai.il",
+      name: "MyName2",
+      surname: "MySurname2",
       isAdmin: false,
       isStaff: false,
       isCoordinator: false,
