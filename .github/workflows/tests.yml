@@ -47,6 +47,8 @@ jobs:
           rapydo install compose
           rapydo --testing create prj --auth ${AUTH} --frontend angular --origin-url https://your_remote_git/your_project.git
           # This is to create a commit in the history to fill the BUILD variable
+          git config --global user.email "tests@rapy.do"
+          git config --global user.name "RAPyDo"
           git add -A && git commit -a -m "Initial commit"
 
       - name: Setup Cypress
