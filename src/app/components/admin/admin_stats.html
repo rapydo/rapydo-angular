@@ -39,6 +39,11 @@
                     ngbTooltip="{{stats.system.boot_time | amFromUtc | date : 'dd MMM yyyy HH:mm:ss' }}"
                   >
                     {{stats.system.boot_time | amTimeAgo:false}}
+                    <span
+                      class="badge badge-danger"
+                      *ngIf="(current_date | amDifference: stats.system.boot_time :'days' : true) > 90"
+                      >a reboot is suggested</span
+                    >
                   </span>
                 </td>
               </tr>
