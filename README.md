@@ -6,7 +6,7 @@ Based on:
 
 - Angular 13.1.1 with typescript 4.4.3
 - RxJS 7.3.0
-- bootstrap 4.6.0 with @ng-bootstrap 10.0.0
+- bootstrap 4.6.0 with @ng-bootstrap 11.0.0
 - ngx-formly 5.10.22
 - ngx-datatable 20.0.0
 - ngx-uploadx 4.1.3
