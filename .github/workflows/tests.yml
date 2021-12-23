@@ -118,7 +118,8 @@ jobs:
 
           sleep 20
           rapydo logs
-          rapydo shell frontend "yarn install"
+          # rapydo shell frontend "yarn install"
+          rapydo shell frontend "yarn workspaces focus --all"
           rapydo shell frontend "reload-types"
           rapydo logs
 
@@ -130,7 +131,8 @@ jobs:
           rapydo pull --quiet frontend
           rapydo start frontend
           sleep 5
-          rapydo shell frontend "yarn install"
+          # rapydo shell frontend "yarn install"
+          rapydo shell frontend "yarn workspaces focus --all"
           rapydo shell frontend "reload-types"
           rapydo shell frontend "yarn run test:single"
 
