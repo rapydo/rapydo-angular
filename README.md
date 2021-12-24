@@ -17,7 +17,7 @@ Based on:
 - ngx-clipboard 15.0.0
 - angular2-cookie-law 7.0.1
 - ngx-spinner 13.0.0
-- ng-select 7.3.0
+- ng-select 8.1.1
 - Ajv 8+
 - Karma 6.3.4
 - Cypress 9.2.0
