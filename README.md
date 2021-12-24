@@ -16,7 +16,7 @@ Based on:
 - font-awesome 5.15.4
 - ngx-clipboard 14.0.1
 - angular2-cookie-law 7.0.1
-- ngx-spinner 12.0.0
+- ngx-spinner 13.0.0
 - ng-select 7.3.0
 - Ajv 8+
 - Karma 6.3.4
