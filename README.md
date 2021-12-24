@@ -11,7 +11,7 @@ Based on:
 - ngx-datatable 20.0.0
 - ngx-uploadx 4.1.3
 - file-saver (es) 2.0.5
-- ngx-toastr 14.1.3
+- ngx-toastr 14.2.1
 - moment 2.29.1 with ngx-moment 5.0.0
 - font-awesome 5.15.4
 - ngx-clipboard 15.0.0
