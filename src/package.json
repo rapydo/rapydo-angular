@@ -10,7 +10,7 @@
     "build": "ng build --configuration=production",
     "build:ssr": "ng run RAPyDo:server:production && ng run RAPyDo:prerender",
     "move-build-online": "rm -rf /app/dist_online && mv /app/dist /app/dist_online",
-    "gzip": "gzipper compress --verbose --workers 2 --level 9 --threshold 512 --remove-larger --exclude png,jpeg,jpg,svg,ico,woff,woff2,gif,webp /app/dist",
+    "gzip": "gzipper compress --verbose --gzip-level 9 --threshold 512 --remove-larger --exclude png,jpeg,jpg,svg,ico,woff,woff2,gif,webp /app/dist",
     "test": "ng test --code-coverage",
     "test:single": "ng test --code-coverage --watch=false",
     "cypress": "cypress run",
