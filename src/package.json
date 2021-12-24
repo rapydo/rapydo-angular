@@ -61,7 +61,6 @@
     "ngx-toastr": "14.1.3",
     "ngx-google-analytics": "11.2.1",
     "@sentry/browser": "6.12.0",
-    "ngx-device-detector": "3.0.0",
     "xlsx": "0.17.2",
     "ajv": "^8.0.0",
     "ajv-formats": "2.1.1",
