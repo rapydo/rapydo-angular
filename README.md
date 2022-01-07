@@ -12,7 +12,7 @@ Based on:
 - ngx-uploadx 4.1.5
 - file-saver (es) 2.0.5
 - ngx-toastr 14.2.1
-- moment 2.29.1 with ngx-moment 5.0.0
+- moment 2.29.1 with ngx-moment 6.0.2
 - font-awesome 5.15.4
 - ngx-clipboard 15.0.1
 - angular2-cookie-law 7.0.1
