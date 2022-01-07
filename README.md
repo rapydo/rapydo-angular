@@ -9,7 +9,7 @@ Based on:
 - bootstrap 4.6.0 with @ng-bootstrap 11.0.0
 - ngx-formly 5.10.27
 - ngx-datatable 20.0.0
-- ngx-uploadx 4.1.3
+- ngx-uploadx 4.1.5
 - file-saver (es) 2.0.5
 - ngx-toastr 14.2.1
 - moment 2.29.1 with ngx-moment 5.0.0
