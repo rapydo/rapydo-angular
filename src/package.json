@@ -61,7 +61,7 @@
     "ngx-toastr": "14.2.1",
     "ngx-google-analytics": "11.2.1",
     "@sentry/browser": "6.16.1",
-    "xlsx": "0.17.2",
+    "xlsx": "0.17.4",
     "ajv": "^8.0.0",
     "ajv-formats": "2.1.1",
     "angular-polyfills": "1.0.1",
