@@ -52,7 +52,7 @@
     "@ng-select/ng-option-highlight": "0.0.7",
     "@swimlane/ngx-datatable": "20.0.0",
     "moment": "2.29.1",
-    "ngx-moment": "6.0.2",
+    "ngx-moment": "6.0.1",
     "ngx-spinner": "13.0.0",
     "ngx-clipboard": "15.0.1",
     "ngx-uploadx": "4.1.5",
