@@ -19,5 +19,5 @@ Based on:
 - ngx-spinner 13.0.0
 - ng-select 8.1.1
 - Ajv 8+
-- Karma 6.3.4
+- Karma 6.3.10
 - Cypress 9.2.0
