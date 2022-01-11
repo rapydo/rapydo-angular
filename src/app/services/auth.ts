@@ -10,9 +10,6 @@ import { NotificationService } from "@rapydo/services/notification";
 
 @Injectable()
 export class AuthService {
-  readonly LOGGED_IN = "logged-in";
-  readonly LOGGED_OUT = "logged-out";
-
   constructor(
     private local_storage: LocalStorageService,
     private api: ApiService,

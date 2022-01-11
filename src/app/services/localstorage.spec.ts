@@ -20,7 +20,7 @@ describe("LocalStorageService", () => {
   it("getUser", async () => {
     expect(service.getUser()).toBeNull();
 
-    // Can fail due to custom extensions to the user model
+    // Can fail due to custom extensions of the user model
     // @ts-ignore
     const user1: User = {
       uuid: "00000000-0000-0000-0000-000000000000",
@@ -41,7 +41,7 @@ describe("LocalStorageService", () => {
       two_factor_enabled: false,
     };
 
-    // Can fail due to custom extensions to the user model
+    // Can fail due to custom extensions of the user model
     // @ts-ignore
     const user2: User = {
       uuid: "1111111-1111-1111-1111-111111111111",

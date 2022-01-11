@@ -61,10 +61,10 @@ export class NavbarComponent implements OnInit {
   }
 
   changeLogged(user: any) {
-    if (user === this.auth.LOGGED_OUT) {
+    if (user === this.local_storage.LOGGED_OUT) {
       this.user = null;
       this.ref.detectChanges();
-    } else if (user === this.auth.LOGGED_IN) {
+    } else if (user === this.local_storage.LOGGED_IN) {
       this.user = this.auth.getUser();
       this.fill_admin_menu(this.user);
       // } else {
