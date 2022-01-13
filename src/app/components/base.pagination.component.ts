@@ -353,6 +353,8 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         this.unfiltered_data = this.data;
         if (this.server_side_pagination) {
           this.set_total_items();
+        } else if (this.data_filter) {
+          this.updateFilter(null);
         } else {
           this.updatePaging(this.data.length);
         }
