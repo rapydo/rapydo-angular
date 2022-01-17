@@ -60,11 +60,6 @@ if (projectKeywords.slice(projectKeywords.length - 1) === "'") {
   projectKeywords = projectKeywords.slice(0, -1);
 }
 
-let websocketsURI = "";
-websocketsURI += process.env.PUSHPIN_HOST;
-websocketsURI += ":";
-websocketsURI += process.env.PUSHPIN_PORT;
-
 const targetPath = `/tmp/environment.variables.ts`;
 const INJECT_KEY = "INJECT_";
 
@@ -96,8 +91,7 @@ export const environment = {
     allowPasswordReset: '${allowPasswordReset}',
     allowTermsOfUse: '${process.env.ALLOW_TERMS_OF_USE}',
     minPasswordLength: '${process.env.AUTH_MIN_PASSWORD_LENGTH}',
-    forceSSRServerMode: '${process.env.FORCE_SSR_SERVER_MODE}',
-    websocketsUrl: '${websocketsURI}',`;
+    forceSSRServerMode: '${process.env.FORCE_SSR_SERVER_MODE}',`;
 for (let key in process.env) {
   if (key.startsWith(INJECT_KEY)) {
     let k = key.substr(INJECT_KEY.length);
