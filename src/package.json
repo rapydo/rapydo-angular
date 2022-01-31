@@ -96,6 +96,8 @@
     "not ie < 99",
     "not ie_mob < 99",
     "not firefox < 40",
-    "not chrome < 40"
+    "not chrome < 40",
+    "not ios_saf 15.2-15.3",
+    "not safari 15.2-15.3"
   ]
 }
