@@ -8,11 +8,11 @@ require("dotenv").config({ path: "/tmp/.env" });
 let backendURI = "";
 
 if (
-  typeof process.env.BACKEND_URI !== "undefined" &&
-  process.env.BACKEND_URI !== null &&
-  process.env.BACKEND_URI !== ""
+  typeof process.env.BACKEND_URL !== "undefined" &&
+  process.env.BACKEND_URL !== null &&
+  process.env.BACKEND_URL !== ""
 ) {
-  backendURI = process.env.BACKEND_URI;
+  backendURI = process.env.BACKEND_URL;
 } else {
   if (process.env.APP_MODE === "production") {
     backendURI += "https://";

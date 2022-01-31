@@ -64,6 +64,14 @@ export class FormlyService {
         field["templateOptions"]["min"] = s.min;
         field["templateOptions"]["max"] = s.max;
       } else if (stype === "date") {
+        field_type = "simpledatepicker";
+        if (typeof s.min !== "undefined") {
+          field["templateOptions"]["min"] = this.getNgbDateStruct(s.min);
+        }
+        if (typeof s.max !== "undefined") {
+          field["templateOptions"]["max"] = this.getNgbDateStruct(s.max);
+        }
+      } else if (stype === "datetime") {
         field_type = "datepicker";
         // field_type = "input";
         // template_type = "date";
