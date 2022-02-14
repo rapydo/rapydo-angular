@@ -1,17 +1,26 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-/* mostly copied in StaffUsers */
+/* mostly copied From AdminUsers */
 import { getpassword, get_random_username } from "../../fixtures/utilities";
 
-describe("AdminUsers", () => {
+describe("StaffUsers", () => {
   // do not directly create the random values here,
   // otherwise will be always the same on each test repetition!
   // do not generate it in the before() block, or will be not re-created on repetitions
   let username;
+  let staff_email;
+  let staff_pwd;
+
+  before(() => {
+    const staff_email = get_random_username("staff");
+    const staff_pwd = getpassword(4);
+    // ................................., expired, init, roles
+    cy.createuser(staff_email, staff_pwd, false, true, ["staff", "user"]);
+  });
 
   beforeEach(() => {
-    cy.login();
+    cy.login(staff_email, staff_pwd);
 
     cy.visit("/app/admin/users");
 
@@ -218,26 +227,5 @@ describe("AdminUsers", () => {
     cy.get('input[placeholder="Type to filter users"]').clear();
 
     cy.get("datatable-body-row").its("length").should("be.gte", 1);
-  });
-
-  it("Backend errors", () => {
-    cy.intercept("DELETE", /\/api\/admin\/users\/*/, {
-      statusCode: 500,
-      body: "Stubbed delete error",
-    }).as("delete");
-
-    cy.get("datatable-body-row").eq(0).find(".fa-trash").click({ force: true });
-    cy.get("button").contains("Yes, delete").click({ force: true });
-    cy.wait("@delete");
-    cy.checkalert("Stubbed delete error");
-
-    cy.intercept("GET", "/api/admin/users", {
-      statusCode: 500,
-      body: "Stubbed get error",
-    }).as("get");
-
-    cy.visit("/app/admin/users");
-    cy.wait("@get");
-    cy.checkalert("Stubbed get error");
   });
 });

@@ -8,18 +8,18 @@ describe("StaffUsers", () => {
   // do not directly create the random values here,
   // otherwise will be always the same on each test repetition!
   // do not generate it in the before() block, or will be not re-created on repetitions
-  let email;
-  let pwd;
+  let staff_email;
+  let staff_pwd;
 
   before(() => {
-    const email = get_random_username("staff");
-    const pwd = getpassword(4);
-    // ....................., expired, init, roles
-    cy.createuser(email, pwd, false, true, ["staff", "user"]);
+    const staff_email = get_random_username("staff");
+    const staff_pwd = getpassword(4);
+    // ................................., expired, init, roles
+    cy.createuser(staff_email, staff_pwd, false, true, ["staff", "user"]);
   });
 
   beforeEach(() => {
-    cy.login(email, pwd);
+    cy.login(staff_email, staff_pwd);
 
     cy.visit("/app/admin/groups");
 
