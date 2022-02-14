@@ -93,10 +93,8 @@ describe("Test Authorizations", () => {
     ////////////////////////////////////////////////////////////////////
     cy.visit("/app/admin/users");
     cy.location().should((location) => {
-      expect(location.pathname).to.not.eq("/app/admin/users");
+      expect(location.pathname).to.eq("/app/admin/users");
     });
-    cy.checkalert("You are not authorized: missing privileges");
-    cy.login(email, pwd);
     ////////////////////////////////////////////////////////////////////
     cy.visit("/app/admin/groups");
     cy.location().should((location) => {
