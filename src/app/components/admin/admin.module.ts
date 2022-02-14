@@ -18,7 +18,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     runGuardsAndResolvers: "always",
     data: {
-      roles: ["admin_root"],
+      roles: ["admin_root", "staff_user"],
       description: "Users configuration",
     },
   },
@@ -28,7 +28,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     runGuardsAndResolvers: "always",
     data: {
-      roles: ["admin_root"],
+      roles: ["admin_root", "staff_user"],
       description: "Groups configuration",
     },
   },

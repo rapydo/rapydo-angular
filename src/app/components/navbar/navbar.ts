@@ -77,13 +77,13 @@ export class NavbarComponent implements OnInit {
 
     if (user) {
       this.admin_entries.push({
-        enabled: user.isAdmin,
+        enabled: user.isAdmin || user.isStaff,
         label: "Users",
         router_link: "/app/admin/users",
       });
 
       this.admin_entries.push({
-        enabled: user.isAdmin,
+        enabled: user.isAdmin || user.isStaff,
         label: "Groups",
         router_link: "/app/admin/groups",
       });

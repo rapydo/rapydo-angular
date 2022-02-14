@@ -95,19 +95,13 @@ describe("Test Authorizations", () => {
     cy.location().should((location) => {
       expect(location.pathname).to.not.eq("/app/admin/users");
     });
-    cy.checkalert(
-      "Permission denied: you are not authorized to access this page"
-    );
+    cy.checkalert("You are not authorized: missing privileges");
     cy.login(email, pwd);
     ////////////////////////////////////////////////////////////////////
     cy.visit("/app/admin/groups");
     cy.location().should((location) => {
-      expect(location.pathname).to.not.eq("/app/admin/groups");
+      expect(location.pathname).to.eq("/app/admin/groups");
     });
-    cy.checkalert(
-      "Permission denied: you are not authorized to access this page"
-    );
-    cy.login(email, pwd);
     ////////////////////////////////////////////////////////////////////
     cy.visit("/app/admin/sessions");
     cy.location().should((location) => {
