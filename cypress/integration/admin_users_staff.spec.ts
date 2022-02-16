@@ -117,7 +117,7 @@ describe("StaffUsers", () => {
     // search by email
     cy.get("@search").clear().type("thisisinvalidforsure");
     cy.get("datatable-body-row").should("have.length", 0);
-    cy.get("@search").clear().type(Cypress.env("AUTH_DEFAULT_USERNAME"));
+    cy.get("@search").clear().type(staff_email);
     cy.get("datatable-body-row").should("have.length", 1);
     cy.get("@search").clear().type(username);
     cy.get("datatable-body-row").should("have.length", 1);
