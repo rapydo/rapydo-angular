@@ -12,8 +12,8 @@ describe("StaffUsers", () => {
   let staff_pwd;
 
   before(() => {
-    const staff_email = get_random_username("staff");
-    const staff_pwd = getpassword(4);
+    staff_email = get_random_username("staff");
+    staff_pwd = getpassword(4);
     // ................................., expired, init, roles
     cy.createuser(staff_email, staff_pwd, false, true, ["staff", "user"]);
   });
