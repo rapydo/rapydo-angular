@@ -57,7 +57,7 @@ describe("StaffUsers", () => {
     cy.checkvalidation(2, "This field is required");
     cy.checkvalidation(3, "This field is required");
 
-    cy.get("@email").clear().type(Cypress.env("AUTH_DEFAULT_USERNAME"));
+    cy.get("@email").clear().type(staff_email);
     cy.get("@password").clear().type("short");
     cy.get("@submit").click({ force: true });
     cy.checkvalidation(0, "This field is required");
