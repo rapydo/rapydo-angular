@@ -97,10 +97,7 @@ describe("StaffUsers", () => {
 
     cy.get("@submit").click({ force: true });
 
-    cy.checkalert(
-      "A User already exists with email: " +
-        Cypress.env("AUTH_DEFAULT_USERNAME")
-    );
+    cy.checkalert("A User already exists with email: " + staff_email);
 
     cy.get("@email").clear().type(username);
     cy.get("@submit").click({ force: true });
