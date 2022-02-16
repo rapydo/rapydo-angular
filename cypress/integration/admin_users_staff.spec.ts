@@ -228,4 +228,29 @@ describe("StaffUsers", () => {
 
     cy.get("datatable-body-row").its("length").should("be.gte", 1);
   });
+
+  it("Staff restrictions", () => {
+    // Admin role is not shown on create
+    cy.get('button:contains("new user")').click({ force: true });
+    cy.get("ng-dropdown-panel").find("div.ng-option").contains("User");
+    cy.get("ng-dropdown-panel")
+      .find("div.ng-option")
+      .contains("Admin")
+      .should("not.exist");
+    cy.get('button:contains("Close")').click({ force: true });
+
+    // Admin role is not shown on edit
+    cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
+    cy.get("ng-dropdown-panel")
+      .find("div.ng-option")
+      .contains("Admin")
+      .should("not.exist");
+    cy.get('button:contains("Close")').click({ force: true });
+
+    // Admins are not shown in the list
+    cy.get('input[placeholder="Type to filter users"]')
+      .clear()
+      .type(Cypress.env("AUTH_DEFAULT_USERNAME"));
+    cy.get("datatable-body-row").should("not.exist");
+  });
 });
