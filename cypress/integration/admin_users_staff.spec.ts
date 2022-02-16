@@ -232,6 +232,9 @@ describe("StaffUsers", () => {
   it("Staff restrictions", () => {
     // Admin role is not shown on create
     cy.get('button:contains("new user")').click({ force: true });
+
+    // open the options
+    cy.get("ng-select").eq(0).find("input").click({ force: true });
     cy.get("ng-dropdown-panel").find("div.ng-option").contains("User");
     cy.get("ng-dropdown-panel")
       .find("div.ng-option")
@@ -241,6 +244,8 @@ describe("StaffUsers", () => {
 
     // Admin role is not shown on edit
     cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
+    // open the options
+    cy.get("ng-select").eq(0).find("input").click({ force: true });
     cy.get("ng-dropdown-panel")
       .find("div.ng-option")
       .contains("Admin")
