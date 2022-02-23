@@ -14,42 +14,50 @@ describe("Test Authorizations", () => {
     cy.goto_profile();
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/profile");
+      cy.get("div.card-header h1");
     });
 
     ////////////////////////////////////////////////////////////////////
     cy.visit("/app/profile/changepassword");
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/profile/changepassword");
+      cy.get("div.card-header h1");
     });
     ////////////////////////////////////////////////////////////////////
     cy.visit("/app/profile/sessions");
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/profile/sessions");
+      cy.get("div.card-header h1");
     });
     ////////////////////////////////////////////////////////////////////
     cy.visit("/app/admin/users");
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/admin/users");
+      cy.get("div.card-header h1");
     });
     ////////////////////////////////////////////////////////////////////
     cy.visit("/app/admin/groups");
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/admin/groups");
+      cy.get("div.card-header h1");
     });
     ////////////////////////////////////////////////////////////////////
     cy.visit("/app/admin/sessions");
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/admin/sessions");
+      cy.get("div.card-header h1");
     });
     ////////////////////////////////////////////////////////////////////
     cy.visit("/app/admin/stats");
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/admin/stats");
+      cy.get("div.card-header h1");
     });
     ////////////////////////////////////////////////////////////////////
     cy.visit("/app/admin/mail");
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/admin/mail");
+      cy.get("div.card-header h1");
     });
     ////////////////////////////////////////////////////////////////////
     cy.visit("/app/group/users");
@@ -79,26 +87,31 @@ describe("Test Authorizations", () => {
     cy.goto_profile();
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/profile");
+      cy.get("div.card-header h1");
     });
     ////////////////////////////////////////////////////////////////////
     cy.visit("/app/profile/changepassword");
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/profile/changepassword");
+      cy.get("div.card-header h1");
     });
     ////////////////////////////////////////////////////////////////////
     cy.visit("/app/profile/sessions");
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/profile/sessions");
+      cy.get("div.card-header h1");
     });
     ////////////////////////////////////////////////////////////////////
     cy.visit("/app/admin/users");
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/admin/users");
+      cy.get("div.card-header h1");
     });
     ////////////////////////////////////////////////////////////////////
     cy.visit("/app/admin/groups");
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/admin/groups");
+      cy.get("div.card-header h1");
     });
     ////////////////////////////////////////////////////////////////////
     cy.visit("/app/admin/sessions");
@@ -155,16 +168,19 @@ describe("Test Authorizations", () => {
     cy.goto_profile();
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/profile");
+      cy.get("div.card-header h1");
     });
     ////////////////////////////////////////////////////////////////////
     cy.visit("/app/profile/changepassword");
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/profile/changepassword");
+      cy.get("div.card-header h1");
     });
     ////////////////////////////////////////////////////////////////////
     cy.visit("/app/profile/sessions");
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/profile/sessions");
+      cy.get("div.card-header h1");
     });
     ////////////////////////////////////////////////////////////////////
     cy.visit("/app/admin/users");
@@ -215,6 +231,7 @@ describe("Test Authorizations", () => {
     cy.visit("/app/group/users");
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/group/users");
+      cy.get("div.card-header h1");
     });
     ////////////////////////////////////////////////////////////////////
 
@@ -235,16 +252,19 @@ describe("Test Authorizations", () => {
     cy.goto_profile();
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/profile");
+      cy.get("div.card-header h1");
     });
     ////////////////////////////////////////////////////////////////////
     cy.visit("/app/profile/changepassword");
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/profile/changepassword");
+      cy.get("div.card-header h1");
     });
     ////////////////////////////////////////////////////////////////////
     cy.visit("/app/profile/sessions");
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/profile/sessions");
+      cy.get("div.card-header h1");
     });
     ////////////////////////////////////////////////////////////////////
     cy.visit("/app/admin/users");
