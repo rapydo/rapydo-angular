@@ -1,10 +1,10 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 import { getpassword, get_random_username } from "../../fixtures/utilities";
-import { environment } from "@rapydo/../environments/environment";
+
 /* mostly copied From AdminUsers */
 
-if (environment.projectBuild != "debug code") {
+if (Cypress.env("AUTH_ROLES").includes(",staff_user,")) {
   describe("StaffUsers", () => {
     // do not directly create the random values here,
     // otherwise will be always the same on each test repetition!
