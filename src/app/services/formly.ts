@@ -117,6 +117,9 @@ export class FormlyService {
         field_type = "select";
         template_type = "select";
         field["templateOptions"]["multiple"] = is_array;
+        if ("extra_descriptions" in s) {
+          field["templateOptions"]["extra_descriptions"] = s.extra_descriptions;
+        }
 
         let options = [];
         // { k1: v1, k2: v2} -> [{value: k1, label: v1}, {value: k2, label: v2}]

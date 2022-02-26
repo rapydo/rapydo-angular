@@ -152,6 +152,7 @@ export interface Schema {
   readonly type: SchemaType;
   readonly label?: string;
   readonly description?: string;
+  readonly extra_descriptions?: Record<string, string>;
   readonly default?: any;
   readonly required?: boolean;
 
