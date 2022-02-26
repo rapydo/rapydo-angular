@@ -251,9 +251,9 @@ if (Cypress.env("AUTH_ROLES").includes(",staff_user,")) {
 
       // open the options
       cy.get("ng-select").eq(0).find("input").click({ force: true });
-      cy.get("ng-dropdown-panel").find("div.ng-option").contains("User");
+      cy.get("ng-dropdown-panel").find("div.ng-option span").contains("User");
       cy.get("ng-dropdown-panel")
-        .find("div.ng-option")
+        .find("div.ng-option span")
         .contains("Admin")
         .should("not.exist");
       cy.get('button:contains("Close")').click({ force: true });
@@ -266,7 +266,7 @@ if (Cypress.env("AUTH_ROLES").includes(",staff_user,")) {
       // open the options
       cy.get("ng-select").eq(0).find("input").click({ force: true });
       cy.get("ng-dropdown-panel")
-        .find("div.ng-option")
+        .find("div.ng-option span")
         .contains("Admin")
         .should("not.exist");
       cy.get('button:contains("Close")').click({ force: true });
