@@ -60,7 +60,11 @@ describe("AdminUsers", () => {
         " characters"
     );
 
-    cy.get("@password").clear().type(getpassword(4));
+    // cy.get("@password").clear().type(getpassword(4));
+
+    cy.get("generate a random password").click({ force: true });
+    cy.checkvalidation(0, "Random password generated");
+
     cy.get("@name").clear().type("SampleName");
     cy.get("@surname").clear().type("SampleSurname");
 
