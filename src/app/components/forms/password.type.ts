@@ -1,5 +1,8 @@
 import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { NotificationService } from "@rapydo/services/notification";
 import { FieldType } from "@ngx-formly/core";
+import { environment } from "@rapydo/../environments/environment";
+import * as generator from "generate-password-browser";
 
 // Inspired from
 // https://stackoverflow.com/questions/59105815/ngx-formly-password-visibility-toggle
@@ -28,6 +31,13 @@ import { FieldType } from "@ngx-formly/core";
   ],
   // copied from https://github.com/ngx-formly/ngx-formly/blob/main/src/ui/bootstrap/input/src/input.type.ts
   template: `
+    <span
+      class="clickable fa fas-random"
+      *ngIf="to.random_generation"
+      (click)="random()"
+      ngbTooltip="Click to generate a random password"
+      >&nbsp;&nbsp;<i>[generate a random password]</i></span
+    >
     <input
       [type]="show ? 'text' : 'password'"
       [formControl]="formControl"
@@ -56,5 +66,22 @@ export class PasswordTypeComponent extends FieldType {
   }
   public hide_password() {
     this.show = false;
+  }
+
+  constructor(private notify: NotificationService) {
+    super();
+  }
+  public random() {
+    const password = generator.generate({
+      length: 2 * environment.minPasswordLength,
+      lowercase: true,
+      uppercase: true,
+      numbers: true,
+      excludeSimilarCharacters: true,
+      strict: true,
+    });
+
+    this.formControl.setValue(password);
+    this.notify.showSuccess("Random password generated");
   }
 }

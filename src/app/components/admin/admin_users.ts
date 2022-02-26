@@ -121,6 +121,24 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
     });
   }
 
+  protected manipulate_post_fields(fields) {
+    for (let idx in fields) {
+      if (fields[idx].key == "password") {
+        fields[idx].templateOptions["random_generation"] = true;
+      }
+    }
+    return fields;
+  }
+
+  protected manipulate_put_fields(fields) {
+    for (let idx in fields) {
+      if (fields[idx].key == "password") {
+        fields[idx].templateOptions["random_generation"] = true;
+      }
+    }
+    return fields;
+  }
+
   public rolesViewComparator(rolesA, rolesB): number {
     const a = rolesA["value"]["description"];
     const b = rolesB["value"]["description"];
