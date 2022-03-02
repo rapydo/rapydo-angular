@@ -170,9 +170,11 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
       if (d.email.toLowerCase().indexOf(data_filter) !== -1) {
         return true;
       }
+
       if (d.name.toLowerCase().indexOf(data_filter) !== -1) {
         return true;
       }
+
       if (d.surname.toLowerCase().indexOf(data_filter) !== -1) {
         return true;
       }
@@ -181,6 +183,14 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
         if (role.toLowerCase().indexOf(data_filter) !== -1) {
           return true;
         }
+      }
+
+      if (d.group.shortname.toLowerCase().indexOf(data_filter) !== -1) {
+        return true;
+      }
+
+      if (d.group.fullname.toLowerCase().indexOf(data_filter) !== -1) {
+        return true;
       }
 
       return false;
