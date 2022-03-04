@@ -16,13 +16,16 @@ describe("GroupUsers", () => {
       expect(location.pathname).to.eq("/app/group/users");
     });
 
+    cy.wait(1000);
+
     cy.goto_profile();
 
     cy.location().should((location) => {
       expect(location.pathname).to.not.eq("/app/group/users");
     });
+    cy.wait(1000);
 
-    cy.get("navbar").find("a:contains('My Group')").click({ force: true });
+    cy.get("navbar").find("a:contains('Group')").click({ force: true });
 
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/group/users");

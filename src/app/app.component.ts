@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
 import { Meta, Title } from "@angular/platform-browser";
-import { DeviceDetectorService } from "ngx-device-detector";
 import { filter, map, mergeMap } from "rxjs/operators";
 
 import { environment } from "@rapydo/../environments/environment";
@@ -31,7 +30,6 @@ export class AppComponent implements OnInit {
     private titleService: Title,
     private customization: ProjectOptions,
     private notify: NotificationService,
-    private deviceService: DeviceDetectorService,
     private route: ActivatedRoute,
     private router: Router,
     public ssr: SSRService
@@ -39,76 +37,6 @@ export class AppComponent implements OnInit {
     this.enableFooter = environment.enableFooter;
     this.cookieLawText = this.customization.cookie_law_text();
     this.cookieLawButton = this.customization.cookie_law_button();
-
-    if (this.ssr.isBrowser) {
-      let deviceInfo = deviceService.getDeviceInfo();
-
-      let browser = deviceInfo.browser;
-      let version = deviceInfo.browser_version;
-      let os = deviceInfo.os;
-      let os_version = deviceInfo.os_version;
-      let compatibilityCheck = this.checkCompatibility(
-        browser,
-        version,
-        os,
-        os_version
-      );
-
-      let device = "";
-
-      /* istanbul ignore if */
-      if (deviceService.isMobile()) {
-        device = "mobile";
-      }
-      /* istanbul ignore if */
-      if (deviceService.isTablet()) {
-        device = "tablet";
-      }
-      /* istanbul ignore else */
-      if (deviceService.isDesktop()) {
-        device = "desktop";
-      }
-
-      console.info(
-        browser +
-          " (" +
-          version +
-          ") on " +
-          os +
-          " " +
-          device +
-          " (" +
-          os_version +
-          ")"
-      );
-
-      /* istanbul ignore if */
-      if (!compatibilityCheck) {
-        this.notify.showError(
-          "You are using " +
-            browser +
-            " " +
-            version +
-            " on " +
-            os +
-            ". We apologize, but your browser is not fully compatible with this website and some or all functionalities may not work."
-        );
-      }
-    }
-  }
-  private checkCompatibility(
-    browser: string,
-    version: string,
-    os: string,
-    os_version: string
-  ): boolean {
-    /* istanbul ignore if */
-    if (browser === "IE") {
-      if (parseFloat(version) <= 10) {
-        return false;
-      }
-    }
-    return true;
   }
 
   public ngOnInit(): void {

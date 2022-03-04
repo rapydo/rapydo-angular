@@ -1,6 +1,8 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
+/* mostly copied in StaffUsers */
+
 describe("AdminUsers", () => {
   beforeEach(() => {
     cy.login();
@@ -125,7 +127,7 @@ describe("AdminUsers", () => {
     cy.get('button:contains("Submit")').click({ force: true });
     cy.checkalert("Confirmation: group successfully updated");
 
-    // search by fulname and verify the new short name
+    // search by fullname and verify the new short name
     cy.get("@search").clear().type("Long name for test Group");
     cy.get("datatable-body-row")
       .eq(0)

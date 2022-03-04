@@ -21,12 +21,12 @@ import { SharedModule } from "@rapydo/shared.module";
 import { NavbarComponent } from "@rapydo/components/navbar/navbar";
 
 import { AuthGuard } from "@rapydo/app.auth.guard";
+import { LocalStorageService } from "@rapydo/services/localstorage";
 import { AuthService } from "@rapydo/services/auth";
 import { ApiService } from "@rapydo/services/api";
 import { FormlyService } from "@rapydo/services/formly";
 import { SSRService } from "@rapydo/services/ssr";
 import { NotificationService } from "@rapydo/services/notification";
-import { WebSocketsService } from "@rapydo/services/websockets";
 import { ExcelService } from "@rapydo/services/excel";
 import { ConfirmationModals } from "@rapydo/services/confirmation.modals";
 
@@ -138,6 +138,7 @@ let module_exports = [
 ];
 
 let module_providers: any = [
+  LocalStorageService,
   AuthService,
   AuthGuard,
   ApiService,
@@ -150,7 +151,6 @@ let module_providers: any = [
   { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
 ];
 
-module_providers.push(WebSocketsService);
 module_providers.push(ExcelService);
 
 @Injectable()

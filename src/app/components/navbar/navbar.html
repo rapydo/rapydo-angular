@@ -29,12 +29,15 @@
           routerLink="/app/group/users"
           routerLinkActive="active"
         >
-          My Group
+          Group
         </a>
       </li>
     </ul>
 
-    <ul class="navbar-nav text-right" *ngIf="user && user.isAdmin">
+    <ul
+      class="navbar-nav text-right"
+      *ngIf="user && (user.isAdmin || user.isStaff)"
+    >
       <li class="nav-item" ngbDropdown>
         <a
           class="nav-link clickable text-nowrap"

@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
+import { SSRService } from "@rapydo/services/ssr";
 import { environment } from "@rapydo/../environments/environment";
 
 interface Message {
@@ -14,7 +15,7 @@ export class NotificationService {
   readonly WARNING = 3;
   readonly INFO = 4;
 
-  constructor(private toastr: ToastrService) {}
+  constructor(private toastr: ToastrService, private ssr: SSRService) {}
 
   private isDict(dict: any): boolean {
     return typeof dict === "object" && !Array.isArray(dict);
@@ -55,57 +56,67 @@ export class NotificationService {
     return messages;
   }
   public showCritical(message: any, title: string = ""): void {
-    for (let msg of this.extractMessages(message, title)) {
-      if (msg === null) {
-        continue;
+    if (this.ssr.isBrowser) {
+      for (let msg of this.extractMessages(message, title)) {
+        if (msg === null) {
+          continue;
+        }
+        this.toastr.error(msg.text, msg.title, {
+          timeOut: 0,
+        });
       }
-      this.toastr.error(msg.text, msg.title, {
-        timeOut: 0,
-      });
     }
   }
 
   public showError(message: any, title: string = ""): void {
-    for (let msg of this.extractMessages(message, title)) {
-      if (msg === null) {
-        continue;
+    if (this.ssr.isBrowser) {
+      for (let msg of this.extractMessages(message, title)) {
+        if (msg === null) {
+          continue;
+        }
+        this.toastr.error(msg.text, msg.title, {
+          timeOut: 15000,
+        });
       }
-      this.toastr.error(msg.text, msg.title, {
-        timeOut: 15000,
-      });
     }
   }
 
   public showWarning(message: any, title: string = ""): void {
-    for (let msg of this.extractMessages(message, title)) {
-      if (msg === null) {
-        continue;
+    if (this.ssr.isBrowser) {
+      for (let msg of this.extractMessages(message, title)) {
+        if (msg === null) {
+          continue;
+        }
+        this.toastr.warning(msg.text, msg.title, {
+          timeOut: 10000,
+        });
       }
-      this.toastr.warning(msg.text, msg.title, {
-        timeOut: 10000,
-      });
     }
   }
 
   public showSuccess(message: any, title: string = ""): void {
-    for (let msg of this.extractMessages(message, title)) {
-      if (msg === null) {
-        continue;
+    if (this.ssr.isBrowser) {
+      for (let msg of this.extractMessages(message, title)) {
+        if (msg === null) {
+          continue;
+        }
+        this.toastr.success(msg.text, msg.title, {
+          timeOut: 10000,
+        });
       }
-      this.toastr.success(msg.text, msg.title, {
-        timeOut: 10000,
-      });
     }
   }
 
   public showInfo(message: any, title: string = ""): void {
-    for (let msg of this.extractMessages(message, title)) {
-      if (msg === null) {
-        continue;
+    if (this.ssr.isBrowser) {
+      for (let msg of this.extractMessages(message, title)) {
+        if (msg === null) {
+          continue;
+        }
+        this.toastr.info(msg.text, msg.title, {
+          timeOut: 10000,
+        });
       }
-      this.toastr.info(msg.text, msg.title, {
-        timeOut: 10000,
-      });
     }
   }
 

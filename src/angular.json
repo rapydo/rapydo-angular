@@ -33,7 +33,7 @@
             ],
             "styles": ["./app/rapydo/styles/rapydo.scss"],
             "scripts": [],
-            "allowedCommonJsDependencies": ["xlsx", "@rapydo/../../validate.js"]
+            "allowedCommonJsDependencies": ["xlsx", "ajv/dist/runtime/equal"]
           },
           "configurations": {
             "production": {
@@ -66,8 +66,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "12kb",
+                  "maximumError": "20kb"
                 }
               ]
             }

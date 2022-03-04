@@ -30,7 +30,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v1
         with:
-          node-version: "14.x"
+          node-version: "16.x"
       - name: Install
         run: |
           python -m pip install --upgrade pip
@@ -46,6 +46,10 @@ jobs:
           cd rapydo_tests
           rapydo install compose
           rapydo --testing create prj --auth ${AUTH} --frontend angular --origin-url https://your_remote_git/your_project.git
+          # This is to create a commit in the history to fill the BUILD variable
+          git config --global user.email "tests@rapy.do"
+          git config --global user.name "RAPyDo"
+          git add -A && git commit -a -m "Initial commit"
 
       - name: Setup Cypress
         uses: rapydo/actions/setup-cypress@v1
@@ -115,6 +119,7 @@ jobs:
           sleep 20
           rapydo logs
           rapydo shell frontend "yarn install"
+          rapydo shell frontend "yarn workspaces focus --all"
           rapydo shell frontend "reload-types"
           rapydo logs
 
@@ -127,6 +132,7 @@ jobs:
           rapydo start frontend
           sleep 5
           rapydo shell frontend "yarn install"
+          rapydo shell frontend "yarn workspaces focus --all"
           rapydo shell frontend "reload-types"
           rapydo shell frontend "yarn run test:single"
 
@@ -266,7 +272,7 @@ jobs:
 
           echo -e "\n"
 
-          npm install -g cypress@9.0.0
+          npm install -g cypress@9.2.0
           echo "{}" > cypress.json
           cypress run --browser chrome --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
 

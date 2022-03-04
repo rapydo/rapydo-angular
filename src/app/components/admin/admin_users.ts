@@ -10,7 +10,10 @@ import { Subject } from "rxjs";
 import { take } from "rxjs/operators";
 
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
+import { ExcelService } from "@rapydo/services/excel";
 import { AdminUser } from "@rapydo/types";
+import { environment } from "@rapydo/../environments/environment";
+import * as moment from "moment";
 
 @Component({
   templateUrl: "admin_users.html",
@@ -27,7 +30,7 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
   @ViewChild("emptyHeader", { static: false })
   public emptyHeader: TemplateRef<any>;
 
-  constructor(protected injector: Injector) {
+  constructor(protected injector: Injector, private excel: ExcelService) {
     super(injector);
 
     let endpoint = "/api/admin/users";
@@ -118,6 +121,24 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
     });
   }
 
+  protected manipulate_post_fields(fields) {
+    for (let idx in fields) {
+      if (fields[idx].key == "password") {
+        fields[idx].templateOptions["random_generation"] = true;
+      }
+    }
+    return fields;
+  }
+
+  protected manipulate_put_fields(fields) {
+    for (let idx in fields) {
+      if (fields[idx].key == "password") {
+        fields[idx].templateOptions["random_generation"] = true;
+      }
+    }
+    return fields;
+  }
+
   public rolesViewComparator(rolesA, rolesB): number {
     const a = rolesA["value"]["description"];
     const b = rolesB["value"]["description"];
@@ -149,9 +170,11 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
       if (d.email.toLowerCase().indexOf(data_filter) !== -1) {
         return true;
       }
+
       if (d.name.toLowerCase().indexOf(data_filter) !== -1) {
         return true;
       }
+
       if (d.surname.toLowerCase().indexOf(data_filter) !== -1) {
         return true;
       }
@@ -162,7 +185,61 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
         }
       }
 
+      if (d.group.shortname.toLowerCase().indexOf(data_filter) !== -1) {
+        return true;
+      }
+
+      if (d.group.fullname.toLowerCase().indexOf(data_filter) !== -1) {
+        return true;
+      }
+
       return false;
     });
+  }
+
+  download() {
+    const m = moment().format("YYYYMMDD_HHmmss");
+    const filename = `${environment.projectName}_users_${m}.xlsx`;
+
+    const headers = ["Name", "Surname", "Email", "Group", "Affiliation"];
+    const additional_fields = [];
+
+    // pre-calculate additional custom fields, if any:
+    const custom = this.customization.custom_user_data();
+    if (custom) {
+      for (let d of this.unfiltered_data) {
+        for (let field of custom) {
+          if (field.prop in d) {
+            if (!additional_fields.includes(field.prop)) {
+              additional_fields.push(field.prop);
+              const name = field.name.replace(/<.*>/, " ");
+              headers.push(name);
+            }
+          }
+        }
+      }
+    }
+
+    const download_data = [];
+
+    for (let d of this.unfiltered_data) {
+      const row = [
+        d.name,
+        d.surname,
+        d.email,
+        d.group.shortname,
+        d.group.fullname,
+      ];
+
+      for (let additional of additional_fields) {
+        row.push(d[additional]);
+      }
+
+      download_data.push(row);
+    }
+
+    const workbook = this.excel.createWorkbook();
+    this.excel.addWorksheet(workbook, "Users", headers, download_data);
+    this.excel.saveAs(workbook, filename);
   }
 }

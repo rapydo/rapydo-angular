@@ -8,7 +8,8 @@ function mergeJSON(commonsPath, customPath, outputPath) {
   if (fs.existsSync(customPath)) {
     let commonsContent = require(commonsPath);
     let customContent = require(customPath);
-    let mergedContent = JSON.stringify(merge(commonsContent, customContent));
+    let merged = merge(commonsContent, customContent);
+    let mergedContent = JSON.stringify(merged, null, 4);
 
     print.log("\nMerging files...");
     fs.writeFile(outputPath, mergedContent, "utf8", function (err) {

@@ -1,6 +1,7 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
+/* mostly copied in StaffUsers */
 import { getpassword, get_random_username } from "../../fixtures/utilities";
 
 describe("AdminUsers", () => {
@@ -59,7 +60,11 @@ describe("AdminUsers", () => {
         " characters"
     );
 
-    cy.get("@password").clear().type(getpassword(4));
+    // cy.get("@password").clear().type(getpassword(4));
+
+    cy.contains("generate a random password").click({ force: true });
+    cy.checkalert("Random password generated");
+
     cy.get("@name").clear().type("SampleName");
     cy.get("@surname").clear().type("SampleSurname");
 

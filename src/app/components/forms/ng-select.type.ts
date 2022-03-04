@@ -29,6 +29,13 @@ interface Item {
           <ng-container *ngIf="showValue">
             <small><b>ID:</b> {{ item[bindValue] }}</small>
           </ng-container>
+          <ng-container
+            *ngIf="
+              to.extra_descriptions && to.extra_descriptions[item[bindValue]]
+            "
+          >
+            <small>{{ to.extra_descriptions[item[bindValue]] }}</small>
+          </ng-container>
         </ng-template>
       </ng-select>
     </div>
