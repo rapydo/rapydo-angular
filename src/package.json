@@ -45,6 +45,7 @@
     "rxjs": "7.5.1",
     "bootstrap": "5.1.3",
     "@ng-bootstrap/ng-bootstrap": "12.0.0",
+    "@popperjs/core": "2.11.2",
     "@fortawesome/fontawesome-free": "5.15.4",
     "@ngx-formly/core": "5.10.28",
     "@ngx-formly/bootstrap": "5.10.28",
