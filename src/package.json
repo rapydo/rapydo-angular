@@ -43,7 +43,7 @@
     "core-js": "3.20.2",
     "zone.js": "0.11.4",
     "rxjs": "7.5.1",
-    "bootstrap": "4.6.0",
+    "bootstrap": "5.1.3",
     "@ng-bootstrap/ng-bootstrap": "11.0.0",
     "@fortawesome/fontawesome-free": "5.15.4",
     "@ngx-formly/core": "5.10.28",
