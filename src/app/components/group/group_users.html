@@ -5,7 +5,7 @@
         <div class="card-header">
           <h1>
             <i class="fas fa-users"></i> Users in group {{ group?.fullname }}
-            <span class="float-right"
+            <span class="float-end"
               ><i
                 class="fas fa-sync-alt clickable"
                 ngbTooltip="Reload the list of {{resource_name}}s"
@@ -47,7 +47,7 @@
           </div>
           <ng-template #dataRoles let-row="row" let-value="value" let-i="index">
             <span
-              class="badge badge-info role-badge"
+              class="badge bg-info role-badge"
               *ngFor="let role of value | keyvalue"
             >
               <span *ngIf='role.value.description != "disabled"'>

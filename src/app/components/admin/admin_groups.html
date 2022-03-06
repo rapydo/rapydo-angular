@@ -5,7 +5,7 @@
         <div class="card-header">
           <h1 class="panel-title">
             <i class="fas fa-users"></i> Groups list
-            <span class="float-right"
+            <span class="float-end"
               ><i
                 class="fas fa-sync-alt"
                 ngbTooltip="Reload the list of {{resource_name}}s"
@@ -29,7 +29,7 @@
                     (keyup)="updateFilter($event)"
                   />
                 </div>
-                <div class="col-6 text-right">
+                <div class="col-6 text-end">
                   <button class="btn btn-secondary" (click)="create()">
                     <i class="fas fa-plus"></i> new {{resource_name}}
                   </button>

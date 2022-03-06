@@ -3,8 +3,8 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <h1 class="float-left">Server Stats</h1>
-          <span class="float-right">
+          <h1 class="float-start">Server Stats</h1>
+          <span class="float-end">
             <!--             <i
               class="fas fa-sync-alt fa-lg clickable"
               (click)="retrieve_stats();"
@@ -40,7 +40,7 @@
                   >
                     {{stats.system.boot_time | amTimeAgo:false}}
                     <span
-                      class="badge badge-danger"
+                      class="badge bg-danger"
                       *ngIf="(current_date | amDifference: stats.system.boot_time :'days' : true) > 90"
                       >a reboot is suggested</span
                     >

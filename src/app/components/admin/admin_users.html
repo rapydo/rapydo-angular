@@ -3,7 +3,7 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <div class="float-right">
+          <div class="float-end">
             <i
               class="fas fa-sync-alt clickable fa-lg"
               ngbTooltip="Reload the list of {{resource_name}}s"
@@ -32,7 +32,7 @@
                     (keyup)="updateFilter($event)"
                   />
                 </div>
-                <div class="col-6 text-right">
+                <div class="col-6 text-end">
                   <button class="btn btn-secondary" (click)="create()">
                     <i class="fas fa-plus"></i> new {{resource_name}}
                   </button>
@@ -57,7 +57,7 @@
           </div>
           <ng-template #dataRoles let-row="row" let-value="value" let-i="index">
             <span
-              class="badge badge-info role-badge"
+              class="badge bg-info role-badge"
               *ngFor="let role of value | keyvalue: rolesViewComparator"
             >
               <span *ngIf='role.value.description != "disabled"'>
