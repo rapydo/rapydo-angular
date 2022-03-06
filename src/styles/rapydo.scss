@@ -159,7 +159,7 @@ div.initial_loading > h1 > div.spinner-grow {
   height: 3rem;
 }
 
-/* Bootstrap v4 */
+/* Bootstrap */
 
 .btn.btn-outline-secondary.active {
   color: #f8f9fa !important;
@@ -190,18 +190,6 @@ input.datepicker {
   color: rgb(255, 255, 255);
   font-weight: bold;
   overflow: initial; /* overrides an overflow: auto introduced in latest versions */
-}
-
-.vertical-center {
-  min-height: 100%; /* Fallback for browsers that do NOT support vh unit */
-  min-height: 100vh; /* These two lines are counted as one :-)       */
-  display: flex;
-  align-items: center;
-}
-
-.horizontal-center {
-  width: 1000px;
-  text-align: center;
 }
 
 .table-borderless td,
