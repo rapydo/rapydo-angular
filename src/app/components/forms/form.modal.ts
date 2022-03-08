@@ -9,17 +9,15 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="modal-header bg-default">
+    <div class="modal-header">
       <h1 class="modal-title smaller">{{ modalTitle }}</h1>
 
       <button
         type="button"
-        class="close"
+        class="btn-close"
         aria-label="Close"
         (click)="modal.dismiss('Cross click')"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
+      ></button>
     </div>
 
     <form [formGroup]="form" (ngSubmit)="backRef.submit()">

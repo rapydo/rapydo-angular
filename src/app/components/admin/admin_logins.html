@@ -17,13 +17,13 @@
             ></i>
           </div>
 
-          <h1 class="panel-title"><i class="fas fa-users"></i> Logins</h1>
+          <h1 class="card-title"><i class="fas fa-users"></i> Logins</h1>
         </div>
 
         <div class="card-body">
           <ngx-spinner [fullScreen]="true"> </ngx-spinner>
 
-          <div class="table-responsive">
+          <div class="table-responsive" #tableWrapper>
             <div class="container-fluid">
               <div class="row">
                 <div class="col-6">
@@ -37,21 +37,19 @@
               </div>
             </div>
 
-            <div class="table-wrapper" #tableWrapper>
-              <ngx-datatable
-                class="bootstrap"
-                [rows]="data"
-                [columns]="columns"
-                [columnMode]="ColumnMode.flex"
-                [headerHeight]="40"
-                [footerHeight]="40"
-                [sorts]="[{ prop: 'date', dir: 'desc' }]"
-                [limit]="paging.itemsPerPage"
-                [rowHeight]="'auto'"
-                (activate)="onDatatableActivate($event)"
-              >
-              </ngx-datatable>
-            </div>
+            <ngx-datatable
+              class="bootstrap"
+              [rows]="data"
+              [columns]="columns"
+              [columnMode]="ColumnMode.flex"
+              [headerHeight]="40"
+              [footerHeight]="40"
+              [sorts]="[{ prop: 'date', dir: 'desc' }]"
+              [limit]="paging.itemsPerPage"
+              [rowHeight]="'auto'"
+              (activate)="onDatatableActivate($event)"
+            >
+            </ngx-datatable>
           </div>
 
           <ng-template #dateCell let-row="row" let-value="value" let-i="index">

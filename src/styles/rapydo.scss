@@ -26,6 +26,10 @@ body {
   padding-top: 1rem;
 }
 
+nav .container-fluid {
+  padding-top: 0.2rem;
+}
+
 h1 {
   font-size: $h1-font-size;
   &.larger {
@@ -84,6 +88,11 @@ h6 {
   &.smaller {
     font-size: $h6-font-size-smaller;
   }
+}
+
+/* Dropped in Bootstrap5 but re-introduced by rapydo! */
+.text-justify {
+  text-align: justify !important;
 }
 
 /*

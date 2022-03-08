@@ -15,12 +15,10 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
       </h2>
       <button
         type="button"
-        class="close"
+        class="btn-close"
         aria-describedby="modal-title"
         (click)="modal.dismiss('Cross click')"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
+      ></button>
     </div>
     <div class="modal-body text-center">
       <p class="text-danger">

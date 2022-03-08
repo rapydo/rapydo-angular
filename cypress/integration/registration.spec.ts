@@ -15,7 +15,7 @@ describe("Registration", () => {
         expect(location.pathname).to.eq("/public/register");
       });
 
-      cy.get("ul.navbar-nav.navbar-right")
+      cy.get("ul.navbar-nav.ms-auto")
         .find("a:contains('Sign up')")
         .should("not.exist");
 

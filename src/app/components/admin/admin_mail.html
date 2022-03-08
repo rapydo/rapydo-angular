@@ -43,18 +43,16 @@
 </div>
 
 <ng-template #show_email let-c="close" let-d="dismiss">
-  <div class="modal-header bg-default">
+  <div class="modal-header">
     <h1 class="modal-title">
       <i class="fas fa-envelope"></i> Do you want to send the following email?
     </h1>
     <button
       type="button"
-      class="close"
+      class="btn-close"
       aria-label="Close"
       (click)="d('Cross click')"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
+    ></button>
   </div>
   <div class="modal-body">
     <b>Subject</b>: {{ email["subject"] }}<br />

@@ -20,15 +20,13 @@
       class="collapse navbar-collapse"
       id="navbarSupportedContent"
     >
-      <!-- this class text-right allows the menu to show on the right when collapsed. It has no effect when the menu is expaded -->
       <customlinks
         [user]="user"
         *ngIf="!loading"
-        class="text-right"
         (onClick)="isMenuCollapsed = true"
       ></customlinks>
 
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav me-1">
         <li
           class="nav-item"
           *ngIf="user && user.isCoordinator"
@@ -45,7 +43,7 @@
       </ul>
 
       <ul
-        class="navbar-nav text-right"
+        class="navbar-nav me-1"
         *ngIf="user && (user.isAdmin || user.isStaff)"
       >
         <li class="nav-item" ngbDropdown>
@@ -77,10 +75,7 @@
         </li>
       </ul>
 
-      <ul
-        class="nav navbar-nav ml-auto navbar-right text-right"
-        *ngIf="!loading"
-      >
+      <ul class="nav navbar-nav ms-auto" *ngIf="!loading">
         <li class="nav-item" *ngIf="user">
           <a
             class="nav-link"
@@ -116,7 +111,7 @@
         </li>
 
         <li
-          class="nav-item ml-1"
+          class="nav-item ms-1"
           *ngIf="allowRegistration && !user && ssr.isBrowser"
         >
           <a
@@ -129,5 +124,6 @@
         </li>
       </ul>
     </div>
+    <!-- container-fluid -->
   </div>
 </nav>

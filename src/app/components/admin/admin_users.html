@@ -17,11 +17,11 @@
             ></i>
           </div>
 
-          <h1 class="panel-title"><i class="fas fa-users"></i> Users list</h1>
+          <h1 class="card-title"><i class="fas fa-users"></i> Users list</h1>
         </div>
 
         <div class="card-body">
-          <div class="table-responsive">
+          <div class="table-responsive" #tableWrapper>
             <div class="container-fluid">
               <div class="row">
                 <div class="col-6">
@@ -39,21 +39,19 @@
                 </div>
               </div>
             </div>
-            <div class="table-wrapper" #tableWrapper>
-              <ngx-spinner [fullScreen]="true"></ngx-spinner>
-              <ngx-datatable
-                class="bootstrap"
-                [rows]="data"
-                [columns]="columns"
-                [columnMode]="ColumnMode.flex"
-                [headerHeight]="40"
-                [footerHeight]="40"
-                [limit]="paging.itemsPerPage"
-                [rowHeight]="'auto'"
-                (activate)="onDatatableActivate($event)"
-              >
-              </ngx-datatable>
-            </div>
+            <ngx-spinner [fullScreen]="true"></ngx-spinner>
+            <ngx-datatable
+              class="bootstrap"
+              [rows]="data"
+              [columns]="columns"
+              [columnMode]="ColumnMode.flex"
+              [headerHeight]="40"
+              [footerHeight]="40"
+              [limit]="paging.itemsPerPage"
+              [rowHeight]="'auto'"
+              (activate)="onDatatableActivate($event)"
+            >
+            </ngx-datatable>
           </div>
           <ng-template #dataRoles let-row="row" let-value="value" let-i="index">
             <span
