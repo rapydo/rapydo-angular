@@ -50,9 +50,7 @@ describe("Registration", () => {
         expect(location.pathname).to.eq("/app/login");
       });
 
-      cy.get("ul.navbar-nav.navbar-right")
-        .find("a:contains('Sign up')")
-        .click();
+      cy.get("ul.navbar-nav.ms-auto").find("a:contains('Sign up')").click();
 
       cy.location().should((location) => {
         expect(location.pathname).to.eq("/public/register");
