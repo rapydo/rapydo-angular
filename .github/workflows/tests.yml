@@ -116,7 +116,7 @@ jobs:
 
           fi
 
-          sleep 20
+          sleep 30
           rapydo logs
           rapydo shell frontend "yarn install"
           rapydo shell frontend "yarn workspaces focus --all"
