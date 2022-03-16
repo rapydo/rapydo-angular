@@ -37,7 +37,7 @@ jobs:
           # version is "x.y.0": convert in x.y
           export CURRENT_VERSION=$(grep '"version"' src/package.json | awk {'print $2'} | tr -d '", ' | awk -F. {'print $1 "." $2'})
           pip install --upgrade --no-cache-dir git+https://github.com/rapydo/do.git@${CURRENT_VERSION}
-          auth_services=(postgres mysql neo4j neo4j mongo)
+          auth_services=(postgres neo4j)
           AUTH=${auth_services[$(($RANDOM % ${#auth_services[@]}))]}
           echo "Selected random authentication service = ${AUTH}"
           # Make the environment variable available to next steps
