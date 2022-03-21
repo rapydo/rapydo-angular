@@ -18,88 +18,93 @@
         <div class="card-body">
           <div class="table-responsive">
             <ngx-spinner [fullScreen]="true"></ngx-spinner>
-            <table class="table">
-              <tr>
-                <th>Full Name</th>
-                <td>{{user.name}} {{user.surname}}</td>
-              </tr>
+            <table class="table table-hover">
+              <tbody>
+                <tr>
+                  <th>Full Name</th>
+                  <td>{{user.name}} {{user.surname}}</td>
+                </tr>
 
-              <tr>
-                <th>Email</th>
-                <td>{{user.email}}</td>
-              </tr>
+                <tr>
+                  <th>Email</th>
+                  <td>{{user.email}}</td>
+                </tr>
 
-              <tr>
-                <th>Group</th>
-                <td>
-                  <i
-                    class="fas fa-star yellow"
-                    *ngIf="user.isCoordinator"
-                    ngbTooltip="You are a coordinator for this group"
-                  ></i>
-                  {{user.group.fullname}}
-                </td>
-              </tr>
+                <tr>
+                  <th>Group</th>
+                  <td>
+                    <i
+                      class="fas fa-star yellow"
+                      *ngIf="user.isCoordinator"
+                      ngbTooltip="You are a coordinator for this group"
+                    ></i>
+                    {{user.group.fullname}}
+                  </td>
+                </tr>
 
-              <tr>
-                <th>Roles</th>
-                <td>
-                  <span
-                    *ngFor="let role of user.roles | keyvalue"
-                    class="badge bg-info role-badge"
-                  >
-                    <span *ngIf='role.value != "disabled"'>
-                      {{role.value}}
+                <tr>
+                  <th>Roles</th>
+                  <td>
+                    <span
+                      *ngFor="let role of user.roles | keyvalue"
+                      class="badge bg-info role-badge"
+                    >
+                      <span *ngIf='role.value != "disabled"'>
+                        {{role.value}}
+                      </span>
+                      <span *ngIf='role.value == "disabled"'>
+                        {{role.key}}
+                      </span>
                     </span>
-                    <span *ngIf='role.value == "disabled"'> {{role.key}} </span>
-                  </span>
-                </td>
-              </tr>
+                  </td>
+                </tr>
 
-              <tr>
-                <th>Privacy Accepted</th>
-                <td [innerHTML]="user.privacy_accepted | boolean_flag"></td>
-              </tr>
+                <tr>
+                  <th>Privacy Accepted</th>
+                  <td [innerHTML]="user.privacy_accepted | boolean_flag"></td>
+                </tr>
 
-              <tr *ngIf="user.expiration">
-                <th>Validity</th>
-                <td>
-                  Your account will expire on {{ user.expiration | amDateFormat:
-                  'Do of MMMM YYYY' }} ({{ user.expiration | amTimeAgo }})
-                </td>
-              </tr>
+                <tr *ngIf="user.expiration">
+                  <th>Validity</th>
+                  <td>
+                    Your account will expire on {{ user.expiration |
+                    amDateFormat: 'Do of MMMM YYYY' }} ({{ user.expiration |
+                    amTimeAgo }})
+                  </td>
+                </tr>
 
-              <!-- here | keyvalue does not work -->
-              <ng-container *ngFor="let row of user | iterate">
-                <tr my-profile-row [row]="row"></tr>
-              </ng-container>
+                <!-- here | keyvalue does not work -->
+                <ng-container *ngFor="let row of user | iterate">
+                  <tr my-profile-row [row]="row"></tr>
+                </ng-container>
 
-              <tr>
-                <th>Last password change</th>
-                <td>
-                  <span
-                    ngbTooltip="{{ user.last_password_change || user.first_login | date : 'yyyy MMM dd HH:mm:ss' }}"
-                  >
-                    {{ user.last_password_change || user.first_login |
-                    amTimeAgo:false }}
-                  </span>
-                  <a
-                    routerLink="changepassword"
-                    class="btn btn-secondary btn-sm ms-4 no-rounded"
-                  >
-                    CHANGE
-                  </a>
-                </td>
-              </tr>
+                <tr>
+                  <th>Last password change</th>
+                  <td>
+                    <span
+                      ngbTooltip="{{ user.last_password_change || user.first_login | date : 'yyyy MMM dd HH:mm:ss' }}"
+                    >
+                      {{ user.last_password_change || user.first_login |
+                      amTimeAgo:false }}
+                    </span>
+                    <a
+                      routerLink="changepassword"
+                      class="btn btn-secondary btn-sm ms-4 no-rounded"
+                    >
+                      CHANGE
+                    </a>
+                  </td>
+                </tr>
 
-              <tr>
-                <th>Open Sessions</th>
-                <td>
-                  <a routerLink="sessions">
-                    <i>View list of your open sessions</i>
-                  </a>
-                </td>
-              </tr>
+                <tr>
+                  <th>Open Sessions</th>
+                  <td>
+                    <a routerLink="sessions">
+                      <i>View list of your open sessions</i>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </div>
