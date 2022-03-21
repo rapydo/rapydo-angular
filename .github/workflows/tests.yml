@@ -272,7 +272,7 @@ jobs:
 
           echo -e "\n"
 
-          npm install -g cypress@9.5.1
+          npm install -g cypress@9.5.2
           echo "{}" > cypress.json
           cypress run --browser chrome --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
 
@@ -296,7 +296,7 @@ jobs:
 
       - name: Print mocked email on failure
         if: ${{ failure() && matrix.stage != 'karma' && matrix.stage != 'prod' }}
-        run: cat rapydo_tests/data/logs/mock.mail.*.body
+        run: cat rapydo_tests/data/logs/mock.mail.*.body 2>/dev/null || true
 
       - name: Docker logs on failure
         if: failure()
