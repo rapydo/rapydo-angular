@@ -171,7 +171,7 @@ export class FormlyService {
         field["templateOptions"]["multiple"] = is_array;
       }
 
-      field["key"] = s.key;
+      field["key"] = [s.key];
       field["type"] = field_type;
 
       if ("default" in s) {
