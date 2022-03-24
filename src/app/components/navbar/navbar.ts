@@ -47,7 +47,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
-    this.auth.isAuthenticated().subscribe((is_auth) => {
+    this.auth.isAuthenticated(false).subscribe((is_auth) => {
       if (is_auth) {
         this.user = this.auth.getUser();
         this.fill_admin_menu(this.user);

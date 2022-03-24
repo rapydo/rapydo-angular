@@ -100,7 +100,7 @@ export class AuthService {
     return this.local_storage.getUser();
   }
 
-  public isAuthenticated() {
+  public isAuthenticated(login_redirect: boolean = true) {
     if (!environment.authEnabled) {
       return of(false);
     }
@@ -110,18 +110,20 @@ export class AuthService {
     }
 
     // {validationSchema: "Boolean"}
-    return this.api.get<boolean>("/auth/status").pipe(
-      map((response) => {
-        return of(true);
-      }),
-      catchError((error, caught) => {
-        /* istanbul ignore else */
-        if (this.api.is_online()) {
-          this.local_storage.removeToken();
-        }
-        return of(false);
-      })
-    );
+    return this.api
+      .get<boolean>("/auth/status", {}, { redirect: login_redirect })
+      .pipe(
+        map((response) => {
+          return of(true);
+        }),
+        catchError((error, caught) => {
+          /* istanbul ignore else */
+          if (this.api.is_online()) {
+            this.local_storage.removeToken();
+          }
+          return of(false);
+        })
+      );
   }
 
   // public printSecurityEvents() {
