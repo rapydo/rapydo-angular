@@ -171,7 +171,17 @@ export class FormlyService {
         field["templateOptions"]["multiple"] = is_array;
       }
 
-      field["key"] = [s.key];
+      if (s.key.includes(".")) {
+        // dots in keys are interpreted as nested dictionaries and converted into
+        // a.b => a: { b: value}
+        // ["a.b"] prevents this behaviour
+        field["key"] = [s.key];
+      } else {
+        // the use of [ ] make some fields to fail (i.e. are in the form but not shown)
+        // in the html ... to prevent such kind of errors this fix is only applied
+        // to keys that contain dots
+        field["key"] = s.key;
+      }
       field["type"] = field_type;
 
       if ("default" in s) {
