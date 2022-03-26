@@ -10,7 +10,7 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="modal-header modal-warning bg-light">
-      <h2 class="modal-title smaller" id="modal-title">
+      <h2 class="modal-title fs-3" id="modal-title">
         <i class="fas fa-exclamation-circle"></i> {{ title }}
       </h2>
       <button

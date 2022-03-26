@@ -10,7 +10,7 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="modal-header">
-      <h1 class="modal-title smaller">{{ modalTitle }}</h1>
+      <h1 class="modal-title fs-2">{{ modalTitle }}</h1>
 
       <button
         type="button"

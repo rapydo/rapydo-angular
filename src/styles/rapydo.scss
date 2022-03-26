@@ -30,66 +30,6 @@ nav .container-fluid {
   padding-top: 0.2rem;
 }
 
-h1 {
-  font-size: $h1-font-size;
-  &.larger {
-    font-size: $h1-font-size-larger;
-  }
-  &.smaller {
-    font-size: $h1-font-size-smaller;
-  }
-}
-
-h2 {
-  font-size: $h2-font-size;
-  &.larger {
-    font-size: $h2-font-size-larger;
-  }
-  &.smaller {
-    font-size: $h2-font-size-smaller;
-  }
-}
-
-h3 {
-  font-size: $h3-font-size;
-  &.larger {
-    font-size: $h3-font-size-larger;
-  }
-  &.smaller {
-    font-size: $h3-font-size-smaller;
-  }
-}
-
-h4 {
-  font-size: $h4-font-size;
-  &.larger {
-    font-size: $h4-font-size-larger;
-  }
-  &.smaller {
-    font-size: $h4-font-size-smaller;
-  }
-}
-
-h5 {
-  font-size: $h5-font-size;
-  &.larger {
-    font-size: $h5-font-size-larger;
-  }
-  &.smaller {
-    font-size: $h5-font-size-smaller;
-  }
-}
-
-h6 {
-  font-size: $h6-font-size;
-  &.larger {
-    font-size: $h6-font-size-larger;
-  }
-  &.smaller {
-    font-size: $h6-font-size-smaller;
-  }
-}
-
 /* Dropped in Bootstrap5 but re-introduced by rapydo! */
 .text-justify {
   text-align: justify !important;
