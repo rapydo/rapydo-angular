@@ -11,7 +11,7 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
   template: `
     <div class="modal-header modal-warning bg-light">
       <h2 class="modal-title fs-3" id="modal-title">
-        <i class="fas fa-exclamation-circle"></i> {{ title }}
+        <i class="fas fa-circle-exclamation"></i> {{ title }}
       </h2>
       <button
         type="button"
