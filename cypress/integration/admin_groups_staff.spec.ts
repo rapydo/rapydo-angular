@@ -130,7 +130,7 @@ if (Cypress.env("AUTH_ROLES").includes(",staff_user,")) {
 
       cy.get("datatable-body-row")
         .eq(0)
-        .find(".fa-edit")
+        .find(".fa-pen-to-square")
         .click({ force: true });
       cy.get('button:contains("Close")').click({ force: true });
 
@@ -140,7 +140,7 @@ if (Cypress.env("AUTH_ROLES").includes(",staff_user,")) {
 
       cy.get("datatable-body-row")
         .eq(0)
-        .find(".fa-edit")
+        .find(".fa-pen-to-square")
         .click({ force: true });
       cy.get('input[placeholder="Short name"]')
         .clear()

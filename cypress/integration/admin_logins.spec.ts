@@ -48,7 +48,7 @@ describe("AdminLogins", () => {
     cy.get("@search").clear().type(random_username);
     cy.get("datatable-body-row").should("have.length", 1);
     cy.get("datatable-body-row").eq(0).contains(random_username);
-    cy.get("datatable-body-row").eq(0).find(".fa-times");
+    cy.get("datatable-body-row").eq(0).find(".fa-xmark");
   });
   it("Download", () => {
     cy.get("div.card-header div i.fa-download").click();

@@ -23,12 +23,16 @@ describe("Profile", () => {
 
     cy.get("table").find("td").contains(Cypress.env("AUTH_DEFAULT_USERNAME"));
 
-    cy.get("div.card-header h1").find(".fa-edit").click({ force: true });
+    cy.get("div.card-header h1")
+      .find(".fa-pen-to-square")
+      .click({ force: true });
     cy.get("div.modal-header h1.modal-title").contains("Update your profile");
     cy.get('button:contains("Close")').click({ force: true });
 
     const randval = Math.floor(Math.random() * 1000000);
-    cy.get("div.card-header h1").find(".fa-edit").click({ force: true });
+    cy.get("div.card-header h1")
+      .find(".fa-pen-to-square")
+      .click({ force: true });
     cy.get("div.modal-header h1.modal-title").contains("Update your profile");
 
     cy.get('input[placeholder="First Name"]')

@@ -33,7 +33,7 @@ describe("GroupUsers", () => {
 
     cy.get("div.card-header h1").contains("Users in group ");
 
-    cy.get("i.fa-sync-alt").click({ force: true });
+    cy.get("i.fa-rotate").click({ force: true });
 
     cy.get('input[placeholder="Type to filter users"]').as("search");
 

@@ -294,7 +294,7 @@ describe("KitchenSink", () => {
         cy.contains('"cow"').should("not.exist");
         cy.contains('"pig"');
 
-        cy.get("button.btn-outline-danger").find("i.fa-times").parent().click();
+        cy.get("button.btn-outline-danger").find("i.fa-xmark").parent().click();
         cy.get('button:contains("Submit")').click({ force: true });
         cy.contains('"date": null');
       }

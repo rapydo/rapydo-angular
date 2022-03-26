@@ -18,7 +18,7 @@ import { FieldType } from "@ngx-formly/core";
       />
       <div class="input-group-append" *ngIf="!to.required">
         <button class="btn btn-outline-danger" (click)="clear()" type="button">
-          <i class="fas fa-times"></i>
+          <i class="fas fa-xmark"></i>
         </button>
       </div>
       <div class="input-group-append">

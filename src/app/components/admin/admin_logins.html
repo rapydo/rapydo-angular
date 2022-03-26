@@ -5,7 +5,7 @@
         <div class="card-header">
           <div class="float-end">
             <i
-              class="fas fa-sync-alt clickable fa-lg"
+              class="fas fa-rotate clickable fa-lg"
               ngbTooltip="Reload the list of {{resource_name}}s"
               (click)="list();"
             ></i>
@@ -67,7 +67,7 @@
           >
             <span *ngIf="value">
               <!-- {{ row.flushed }} -->
-              <i class="fas fa-times red"></i>
+              <i class="fas fa-xmark red"></i>
             </span>
             <span *ngIf="!value">
               <i class="fas fa-check green"></i>

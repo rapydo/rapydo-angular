@@ -233,17 +233,17 @@ Cypress.Commands.add("logout", (collapsed = false) => {
   if (collapsed) {
     cy.get("button.navbar-toggler").click();
 
-    // cy.get("a").find(".fa-sign-out-alt").parent().click({ force: true });
+    // cy.get("a").find(".fa-right-from-bracket").parent().click({ force: true });
     // cy.get("div.modal-footer")
     //   .find("button")
     //   .contains("Confirm")
     //   .click({ force: true });
 
-    cy.get("i.fa-sign-out-alt").parent().click();
+    cy.get("i.fa-right-from-bracket").parent().click();
     cy.scrollTo("top");
     cy.get("button").contains("Confirm").click();
   } else {
-    cy.get("i.fa-sign-out-alt").parent().click();
+    cy.get("i.fa-right-from-bracket").parent().click();
     cy.get("button").contains("Confirm").click();
   }
 });
