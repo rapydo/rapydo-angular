@@ -62,7 +62,7 @@
     "generate-password-browser": "1.1.0",
     "ngx-toastr": "14.2.1",
     "ngx-google-analytics": "13.0.1",
-    "@sentry/browser": "6.16.1",
+    "@sentry/browser": "6.19.2",
     "xlsx": "0.18.3",
     "ajv": "^8.0.0",
     "ajv-formats": "2.1.1",
