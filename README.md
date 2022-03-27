@@ -5,7 +5,7 @@ This web app is integrated with the RAPyDo framework and the RAPyDo REST APIs by
 Based on:
 
 - Angular 13.3.0 with typescript 4.6.3
-- RxJS 7.5.1
+- RxJS 7.5.5
 - bootstrap 5.1.3 with @ng-bootstrap 12.0.1
 - ngx-formly 5.11.2
 - ngx-datatable 20.0.0
