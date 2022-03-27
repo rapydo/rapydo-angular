@@ -76,7 +76,7 @@
     "karma-coverage": "2.2.0",
     "karma-spec-reporter": "0.0.33",
     "karma-jasmine": "4.0.1",
-    "@types/jasmine": "4.0.0",
+    "@types/jasmine": "3.10.3",
     "cypress": "9.5.2",
     "@cypress/code-coverage": "3.9.12",
     "cypress-file-upload": "5.0.8",
