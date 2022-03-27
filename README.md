@@ -14,7 +14,7 @@ Based on:
 - ngx-toastr 14.2.1
 - moment 2.29.1 with ngx-moment 5.0.0
 - font-awesome 6.1.1
-- ngx-clipboard 15.0.1
+- ngx-clipboard 15.1.0
 - angular2-cookie-law 7.0.1
 - ngx-spinner 13.1.1
 - ng-select 8.1.1
