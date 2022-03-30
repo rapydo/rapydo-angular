@@ -7,3 +7,8 @@ module.exports = (on, config) => {
   // with the any changed environment variables
   return config;
 };
+
+module.exports = (on, config) => {
+  require("cypress-fail-fast/plugin")(on, config);
+  return config;
+};
