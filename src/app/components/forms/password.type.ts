@@ -32,11 +32,11 @@ import * as generator from "generate-password-browser";
   // copied from https://github.com/ngx-formly/ngx-formly/blob/main/src/ui/bootstrap/input/src/input.type.ts
   template: `
     <span
-      class="clickable fa fas-random"
+      class="clickable float-end"
       *ngIf="to.random_generation"
       (click)="random()"
       ngbTooltip="Click to generate a random password"
-      >&nbsp;&nbsp;<i>[generate a random password]</i></span
+      ><i class="fas fa-random"></i>&nbsp;<i>random</i></span
     >
     <input
       [type]="show ? 'text' : 'password'"
