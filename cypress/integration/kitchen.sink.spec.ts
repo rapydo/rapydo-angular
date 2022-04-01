@@ -432,7 +432,7 @@ describe("KitchenSink", () => {
         cy.contains('"element": "HSK"');
 
         // 2 - select an other element
-        cy.get("@field").clear().type("s");
+        cy.get("@field").clear().type("j");
         cy.get("@field").type(" ");
         cy.get("@field").type("t");
         cy.get("@field").type("h");
