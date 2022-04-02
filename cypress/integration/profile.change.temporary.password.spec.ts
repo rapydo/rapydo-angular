@@ -27,7 +27,7 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
       cy.get("input[placeholder='Your username (email)']").clear().type(email);
       cy.get("input[placeholder='Your password']")
         .clear()
-        .type(pwd, { parseSpecialCharSequences: false }));
+        .type(pwd, { parseSpecialCharSequences: false });
       cy.get("button").contains("Login").click();
 
       cy.checkalert("Please change your temporary password");
@@ -70,7 +70,9 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
 
       let newPassword = getpassword(1);
       cy.get("@newpwd").clear().type(newPassword);
-      cy.get("@confirm").clear().type(getpassword(4), { parseSpecialCharSequences: false });
+      cy.get("@confirm")
+        .clear()
+        .type(getpassword(4), { parseSpecialCharSequences: false });
       cy.checkvalidation(0, "The password does not match");
 
       cy.get("@confirm").clear().type(newPassword);
@@ -83,7 +85,9 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
       cy.checkalert("Password is too weak, missing lower case letters");
 
       cy.get("@newpwd").clear().type(pwd, { parseSpecialCharSequences: false });
-      cy.get("@confirm").clear().type(pwd, { parseSpecialCharSequences: false });
+      cy.get("@confirm")
+        .clear()
+        .type(pwd, { parseSpecialCharSequences: false });
       cy.get("@submit").click({ force: true });
       cy.checkalert("The new password cannot match the previous password");
 
