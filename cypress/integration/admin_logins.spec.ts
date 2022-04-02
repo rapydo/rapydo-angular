@@ -14,7 +14,7 @@ describe("AdminLogins", () => {
     cy.get("input[placeholder='Your username (email)']")
       .clear()
       .type(random_username);
-    cy.get("input[placeholder='Your password']").clear().type(pwd);
+    cy.get("input[placeholder='Your password']").clear().type(pwd, { parseSpecialCharSequences: false });
     cy.get("button").contains("Login").click();
     cy.checkalert("Invalid access credentials");
 

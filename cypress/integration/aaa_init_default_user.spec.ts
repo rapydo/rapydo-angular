@@ -32,12 +32,12 @@ describe("Init user", () => {
         .type(pwd + "!");
       cy.get('input[placeholder="Type the desidered new password"]')
         .clear()
-        .type(pwd);
+        .type(pwd, { parseSpecialCharSequences: false });
       cy.get(
         'input[placeholder="Type again the new password for confirmation"]'
       )
         .clear()
-        .type(pwd);
+        .type(pwd, { parseSpecialCharSequences: false });
 
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
         cy.get('input[placeholder="TOTP verification code"]')

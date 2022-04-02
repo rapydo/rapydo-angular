@@ -35,7 +35,7 @@ describe("SuccessfulLogin", () => {
     cy.get("div.card-header h1").contains("Login");
   });
 
-  it.only("Login - click on Sign in button and submit button", () => {
+  it.only("Login", () => {
     if (Cypress.env("SHOW_LOGIN")) {
       cy.get("a:contains('Sign in')").click();
 
@@ -46,7 +46,7 @@ describe("SuccessfulLogin", () => {
       cy.get("a:contains('Sign in')").should("not.exist");
     }
 
-    cy.get("input[placeholder='Your password']").type(pwd);
+    cy.get("input[placeholder='Your password']").type(pwd, { parseSpecialCharSequences: false });
     cy.get("input[placeholder='Your username (email)']").type(email);
 
     // cy.get("input[placeholder='Your password'][type='password']").should('not.have.value', pwd);
