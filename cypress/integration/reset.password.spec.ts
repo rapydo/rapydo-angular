@@ -138,8 +138,12 @@ if (Cypress.env("ALLOW_PASSWORD_RESET")) {
         cy.get("button:contains('Submit')").click();
         cy.checkalert("Password is too weak, can't contain your email address");
 
-        cy.get("@new_password").clear().type(pwd, { parseSpecialCharSequences: false });
-        cy.get("@confirm_password").clear().type(pwd, { parseSpecialCharSequences: false });
+        cy.get("@new_password")
+          .clear()
+          .type(pwd, { parseSpecialCharSequences: false });
+        cy.get("@confirm_password")
+          .clear()
+          .type(pwd, { parseSpecialCharSequences: false });
         cy.get("button:contains('Submit')").click();
         cy.checkalert("The new password cannot match the previous password");
 

@@ -70,7 +70,9 @@ if (Cypress.env("AUTH_ROLES").includes(",staff_user,")) {
           " characters"
       );
 
-      cy.get("@password").clear().type(getpassword(4), { parseSpecialCharSequences: false });
+      cy.get("@password")
+        .clear()
+        .type(getpassword(4), { parseSpecialCharSequences: false });
       cy.get("@name").clear().type("SampleName");
       cy.get("@surname").clear().type("SampleSurname");
 

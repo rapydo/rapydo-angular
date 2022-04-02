@@ -94,7 +94,9 @@ describe("Login", () => {
     cy.checkvalidation(0, "The password does not match");
     cy.get("button").contains("Change").click();
 
-    cy.get("@pwd_confirm").clear().type(pwd, { parseSpecialCharSequences: false });
+    cy.get("@pwd_confirm")
+      .clear()
+      .type(pwd, { parseSpecialCharSequences: false });
     cy.get("button").contains("Change").click();
 
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {

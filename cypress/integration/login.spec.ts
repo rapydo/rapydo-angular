@@ -46,7 +46,9 @@ describe("SuccessfulLogin", () => {
       cy.get("a:contains('Sign in')").should("not.exist");
     }
 
-    cy.get("input[placeholder='Your password']").type(pwd, { parseSpecialCharSequences: false });
+    cy.get("input[placeholder='Your password']").type(pwd, {
+      parseSpecialCharSequences: false,
+    });
     cy.get("input[placeholder='Your username (email)']").type(email);
 
     // cy.get("input[placeholder='Your password'][type='password']").should('not.have.value', pwd);

@@ -112,8 +112,12 @@ describe("Registration", () => {
           " characters"
       );
 
-      cy.get("@password").clear().type(getpassword(4), { parseSpecialCharSequences: false });
-      cy.get("@confirmation").clear().type(getpassword(4), { parseSpecialCharSequences: false });
+      cy.get("@password")
+        .clear()
+        .type(getpassword(4), { parseSpecialCharSequences: false });
+      cy.get("@confirmation")
+        .clear()
+        .type(getpassword(4), { parseSpecialCharSequences: false });
       cy.checkvalidation(1, "Password not matching");
 
       cy.get("@submit").click({ force: true });

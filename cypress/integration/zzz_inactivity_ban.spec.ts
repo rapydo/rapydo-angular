@@ -16,11 +16,15 @@ if (Cypress.env("AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER")) {
       cy.closecookielaw();
 
       cy.get("input[placeholder='Your username (email)']").clear().type(email);
-      cy.get("input[placeholder='Your password']").clear().type(getpassword(4), { parseSpecialCharSequences: false });
+      cy.get("input[placeholder='Your password']")
+        .clear()
+        .type(getpassword(4), { parseSpecialCharSequences: false });
       cy.get("button").contains("Login").click();
       cy.checkalert("Invalid access credentials");
 
-      cy.get("input[placeholder='Your password']").clear().type(pwd, { parseSpecialCharSequences: false });
+      cy.get("input[placeholder='Your password']")
+        .clear()
+        .type(pwd, { parseSpecialCharSequences: false });
       cy.get("button").contains("Login").click();
       cy.checkalert("Sorry, this account is blocked for inactivity");
     });

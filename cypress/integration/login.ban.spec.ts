@@ -55,7 +55,9 @@ describe("Login Ban", () => {
         cy.checkalert("Invalid access credentials");
       }
 
-      cy.get("input[placeholder='Your password']").clear().type(pwd, { parseSpecialCharSequences: false });
+      cy.get("input[placeholder='Your password']")
+        .clear()
+        .type(pwd, { parseSpecialCharSequences: false });
       cy.get("button").contains("Login").click();
       cy.checkalert(
         "Sorry, this account is temporarily blocked due to the number of failed login attempts."
@@ -108,7 +110,9 @@ describe("Login Ban", () => {
         cy.get("input[placeholder='Your username (email)']")
           .clear()
           .type(email);
-        cy.get("input[placeholder='Your password']").clear().type(pwd, { parseSpecialCharSequences: false });
+        cy.get("input[placeholder='Your password']")
+          .clear()
+          .type(pwd, { parseSpecialCharSequences: false });
         cy.get("button").contains("Login").click();
 
         cy.get("input[placeholder='Your password']").should("not.exist");
