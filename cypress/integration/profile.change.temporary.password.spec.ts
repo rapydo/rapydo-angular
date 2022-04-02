@@ -28,7 +28,7 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
       cy.get("input[placeholder='Your password']")
         .clear()
         .type(pwd, { parseSpecialCharSequences: false });
-      cy.get("input[placeholder='Your password']").type("{enter}");
+      cy.get("button").contains("Login").click();
 
       cy.checkalert("Please change your temporary password");
 

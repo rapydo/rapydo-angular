@@ -398,217 +398,217 @@ describe("KitchenSink", () => {
     });
   });
 
-  // it("TestSink - Autocomplete", () => {
-  //   cy.location("pathname").then((pathname) => {
-  //     // Is Kitchen Sink enabled?
-  //     if (pathname === "/app/sink") {
-  //       // From put => single with show id OFF
-  //       cy.get("ul.nav-tabs li.nav-item a").contains("Autocomplete").click();
+  it("TestSink - Autocomplete", () => {
+    cy.location("pathname").then((pathname) => {
+      // Is Kitchen Sink enabled?
+      if (pathname === "/app/sink") {
+        // From put => single with show id OFF
+        cy.get("ul.nav-tabs li.nav-item a").contains("Autocomplete").click();
 
-  //       // this is needed because the component is auto-cleaned after 500 msec
-  //       cy.wait(600);
+        // this is needed because the component is auto-cleaned after 500 msec
+        cy.wait(600);
 
-  //       cy.get("input").as("field");
+        cy.get("input").as("field");
 
-  //       // 1 - select an element, verify the label and the key in the model
-  //       cy.get("@field").clear().type("h");
-  //       cy.get("@field").type("a");
-  //       cy.get("@field").type("r");
+        // 1 - select an element, verify the label and the key in the model
+        cy.get("@field").clear().type("h");
+        cy.get("@field").type("a");
+        cy.get("@field").type("r");
 
-  //       // == debounceTime
-  //       cy.wait(350);
+        // == debounceTime
+        cy.wait(350);
 
-  //       cy.get("ng-dropdown-panel")
-  //         .get("div.ng-option")
-  //         .eq(0)
-  //         .click({ force: true });
+        cy.get("ng-dropdown-panel")
+          .get("div.ng-option")
+          .eq(0)
+          .click({ force: true });
 
-  //       cy.get("ng-select")
-  //         .find("span.ng-value-label")
-  //         .contains("Harry Smith the Kid");
+        cy.get("ng-select")
+          .find("span.ng-value-label")
+          .contains("Harry Smith the Kid");
 
-  //       cy.get('button:contains("Submit")').click({ force: true });
+        cy.get('button:contains("Submit")').click({ force: true });
 
-  //       cy.contains('"element": "HSK"');
+        cy.contains('"element": "HSK"');
 
-  //       // 2 - select an other element
-  //       cy.get("@field").clear().type("J");
-  //       cy.get("@field").type("o");
-  //       cy.get("@field").type("n");
-  //       cy.get("@field").type("e");
-  //       cy.get("@field").type("s");
-  //       cy.get("@field").type(" ");
-  //       cy.get("@field").type("t");
-  //       cy.get("@field").type("h");
-  //       cy.get("@field").type("e");
-  //       cy.get("@field").type(" ");
+        // 2 - select an other element
+        cy.get("@field").clear().type("J");
+        cy.get("@field").type("o");
+        cy.get("@field").type("n");
+        cy.get("@field").type("e");
+        cy.get("@field").type("s");
+        cy.get("@field").type(" ");
+        cy.get("@field").type("t");
+        cy.get("@field").type("h");
+        cy.get("@field").type("e");
+        cy.get("@field").type(" ");
 
-  //       // == debounceTime
-  //       cy.wait(350);
+        // == debounceTime
+        cy.wait(350);
 
-  //       cy.get("ng-dropdown-panel")
-  //         .find("div.ng-option")
-  //         .eq(0)
-  //         .click({ force: true });
+        cy.get("ng-dropdown-panel")
+          .find("div.ng-option")
+          .eq(0)
+          .click({ force: true });
 
-  //       cy.get("ng-select")
-  //         .find("span.ng-value-label")
-  //         .contains("Oliver Jones the Kid");
+        cy.get("ng-select")
+          .find("span.ng-value-label")
+          .contains("Oliver Jones the Kid");
 
-  //       cy.get('button:contains("Submit")').click({ force: true });
+        cy.get('button:contains("Submit")').click({ force: true });
 
-  //       cy.contains('"element": "OJK"');
-  //       cy.contains('"element": "HSK"').should("not.exist");
-  //     }
-  //   });
-  // });
+        cy.contains('"element": "OJK"');
+        cy.contains('"element": "HSK"').should("not.exist");
+      }
+    });
+  });
 
-  // it("TestSink - Multi Autocomplete", () => {
-  //   cy.location("pathname").then((pathname) => {
-  //     // Is Kitchen Sink enabled?
-  //     if (pathname === "/app/sink") {
-  //       // From post => multiple with show id ON
-  //       cy.get("ul.nav-tabs li.nav-item a")
-  //         .contains("Multi Autocomplete")
-  //         .click();
+  it("TestSink - Multi Autocomplete", () => {
+    cy.location("pathname").then((pathname) => {
+      // Is Kitchen Sink enabled?
+      if (pathname === "/app/sink") {
+        // From post => multiple with show id ON
+        cy.get("ul.nav-tabs li.nav-item a")
+          .contains("Multi Autocomplete")
+          .click();
 
-  //       cy.get("input").as("field");
+        cy.get("input").as("field");
 
-  //       // this is needed because the component is auto-cleaned after 500 msec
-  //       cy.wait(600);
+        // this is needed because the component is auto-cleaned after 500 msec
+        cy.wait(600);
 
-  //       // 1 - Select Oliver Smith
-  //       cy.get("@field").clear().type("o");
-  //       cy.get("@field").type("l");
-  //       cy.get("@field").type("i");
+        // 1 - Select Oliver Smith
+        cy.get("@field").clear().type("o");
+        cy.get("@field").type("l");
+        cy.get("@field").type("i");
 
-  //       // == debounceTime
-  //       cy.wait(350);
+        // == debounceTime
+        cy.wait(350);
 
-  //       cy.get("ng-dropdown-panel")
-  //         .get("div.ng-option")
-  //         .eq(0)
-  //         .click({ force: true });
+        cy.get("ng-dropdown-panel")
+          .get("div.ng-option")
+          .eq(0)
+          .click({ force: true });
 
-  //       cy.get("ng-select")
-  //         .find("span.ng-value-label")
-  //         .eq(0)
-  //         .contains("Oliver Smith the Kid");
+        cy.get("ng-select")
+          .find("span.ng-value-label")
+          .eq(0)
+          .contains("Oliver Smith the Kid");
 
-  //       // 2 - Select Oliver Jones
-  //       cy.get("@field").clear().type("s");
-  //       cy.get("@field").type(" ");
-  //       cy.get("@field").type("t");
-  //       cy.get("@field").type("h");
-  //       cy.get("@field").type("e");
-  //       cy.get("@field").type(" ");
+        // 2 - Select Oliver Jones
+        cy.get("@field").clear().type("s");
+        cy.get("@field").type(" ");
+        cy.get("@field").type("t");
+        cy.get("@field").type("h");
+        cy.get("@field").type("e");
+        cy.get("@field").type(" ");
 
-  //       // == debounceTime
-  //       cy.wait(350);
+        // == debounceTime
+        cy.wait(350);
 
-  //       cy.get("ng-dropdown-panel")
-  //         .get("div.ng-option")
-  //         .eq(0)
-  //         .click({ force: true });
+        cy.get("ng-dropdown-panel")
+          .get("div.ng-option")
+          .eq(0)
+          .click({ force: true });
 
-  //       cy.get("ng-select")
-  //         .find("span.ng-value-label")
-  //         .eq(0)
-  //         .contains("Oliver Smith the Kid");
-  //       cy.get("ng-select")
-  //         .find("span.ng-value-label")
-  //         .eq(1)
-  //         .contains("Oliver Jones the Kid");
+        cy.get("ng-select")
+          .find("span.ng-value-label")
+          .eq(0)
+          .contains("Oliver Smith the Kid");
+        cy.get("ng-select")
+          .find("span.ng-value-label")
+          .eq(1)
+          .contains("Oliver Jones the Kid");
 
-  //       cy.get('button:contains("Submit")').click({ force: true });
-  //       cy.contains('"elements"');
-  //       cy.contains('"OSK"');
-  //       cy.contains('"OJK"');
+        cy.get('button:contains("Submit")').click({ force: true });
+        cy.contains('"elements"');
+        cy.contains('"OSK"');
+        cy.contains('"OJK"');
 
-  //       // 3 - Remove Oliver Jones
-  //       // select again the same element will remove it from the list
-  //       cy.get("@field").clear().type("oliver jones the kid");
+        // 3 - Remove Oliver Jones
+        // select again the same element will remove it from the list
+        cy.get("@field").clear().type("oliver jones the kid");
 
-  //       // == debounceTime
-  //       cy.wait(350);
+        // == debounceTime
+        cy.wait(350);
 
-  //       cy.get("ng-dropdown-panel")
-  //         .get("div.ng-option")
-  //         .eq(0)
-  //         .click({ force: true });
+        cy.get("ng-dropdown-panel")
+          .get("div.ng-option")
+          .eq(0)
+          .click({ force: true });
 
-  //       cy.get("ng-select")
-  //         .find("span.ng-value-label")
-  //         .eq(0)
-  //         .contains("Oliver Smith the Kid");
+        cy.get("ng-select")
+          .find("span.ng-value-label")
+          .eq(0)
+          .contains("Oliver Smith the Kid");
 
-  //       cy.get('button:contains("Submit")').click({ force: true });
+        cy.get('button:contains("Submit")').click({ force: true });
 
-  //       cy.contains('"elements"');
-  //       cy.contains('"OJK"').should("not.exist");
-  //       cy.contains('"OSK"');
+        cy.contains('"elements"');
+        cy.contains('"OJK"').should("not.exist");
+        cy.contains('"OSK"');
 
-  //       // 4 - Remove Oliver Smith, add some Charlie
-  //       // (otherwise the validation will fail because the field is required)
-  //       // this is the x icon to delete the item
-  //       cy.get("ng-select").find("span.ng-value-icon").click({ force: true });
+        // 4 - Remove Oliver Smith, add some Charlie
+        // (otherwise the validation will fail because the field is required)
+        // this is the x icon to delete the item
+        cy.get("ng-select").find("span.ng-value-icon").click({ force: true });
 
-  //       cy.get("@field").clear().type("charlie");
+        cy.get("@field").clear().type("charlie");
 
-  //       // == debounceTime
-  //       cy.wait(350);
+        // == debounceTime
+        cy.wait(350);
 
-  //       cy.get("ng-dropdown-panel")
-  //         .get("div.ng-option")
-  //         .eq(0)
-  //         .click({ force: true });
+        cy.get("ng-dropdown-panel")
+          .get("div.ng-option")
+          .eq(0)
+          .click({ force: true });
 
-  //       cy.get('button:contains("Submit")').click({ force: true });
+        cy.get('button:contains("Submit")').click({ force: true });
 
-  //       cy.contains('"elements"');
-  //       cy.contains('"OSK"').should("not.exist");
-  //       cy.contains('"OJK"').should("not.exist");
-  //     }
-  //   });
-  // });
-  // it("TestSink - Preloaded Autocomplete", () => {
-  //   cy.location("pathname").then((pathname) => {
-  //     // Is Kitchen Sink enabled?
-  //     if (pathname === "/app/sink") {
-  //       // From post with previous model => multple with show id ON and preloaded data
-  //       cy.get("ul.nav-tabs li.nav-item a")
-  //         .contains("Preloaded Autocomplete")
-  //         .click();
+        cy.contains('"elements"');
+        cy.contains('"OSK"').should("not.exist");
+        cy.contains('"OJK"').should("not.exist");
+      }
+    });
+  });
+  it("TestSink - Preloaded Autocomplete", () => {
+    cy.location("pathname").then((pathname) => {
+      // Is Kitchen Sink enabled?
+      if (pathname === "/app/sink") {
+        // From post with previous model => multple with show id ON and preloaded data
+        cy.get("ul.nav-tabs li.nav-item a")
+          .contains("Preloaded Autocomplete")
+          .click();
 
-  //       cy.get("input").as("field");
+        cy.get("input").as("field");
 
-  //       // this is needed because the component is auto-cleaned after 500 msec
-  //       cy.wait(600);
+        // this is needed because the component is auto-cleaned after 500 msec
+        cy.wait(600);
 
-  //       // Verify preloaded data
-  //       cy.get('button:contains("Submit")').click({ force: true });
-  //       cy.contains('"elements"');
-  //       cy.contains('"CSK"');
-  //       cy.contains('"JWR"');
-  //       cy.get("@field").clear().type("harr");
-  //       cy.get("@field").type("y s");
-  //       cy.get("@field").type("mith t");
-  //       cy.get("@field").type("he u");
+        // Verify preloaded data
+        cy.get('button:contains("Submit")').click({ force: true });
+        cy.contains('"elements"');
+        cy.contains('"CSK"');
+        cy.contains('"JWR"');
+        cy.get("@field").clear().type("harr");
+        cy.get("@field").type("y s");
+        cy.get("@field").type("mith t");
+        cy.get("@field").type("he u");
 
-  //       // == debounceTime
-  //       cy.wait(350);
+        // == debounceTime
+        cy.wait(350);
 
-  //       cy.get("ng-dropdown-panel")
-  //         .get("div.ng-option")
-  //         .eq(0)
-  //         .click({ force: true });
+        cy.get("ng-dropdown-panel")
+          .get("div.ng-option")
+          .eq(0)
+          .click({ force: true });
 
-  //       cy.get('button:contains("Submit")').click({ force: true });
-  //       cy.contains('"elements"');
-  //       cy.contains('"CSK"');
-  //       cy.contains('"JWR"');
-  //       cy.contains('"HSU"');
-  //     }
-  //   });
-  // });
+        cy.get('button:contains("Submit")').click({ force: true });
+        cy.contains('"elements"');
+        cy.contains('"CSK"');
+        cy.contains('"JWR"');
+        cy.contains('"HSU"');
+      }
+    });
+  });
 });
