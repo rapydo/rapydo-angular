@@ -28,7 +28,8 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
       cy.get("input[placeholder='Your username (email)']").clear().type(email);
       cy.get("input[placeholder='Your password']")
         .clear()
-        .type(pwd + "{enter}");
+        .type(pwd, { parseSpecialCharSequences: false }));
+      cy.get("button").contains("Login").click();
 
       cy.wait("@login");
 
@@ -89,7 +90,8 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
       cy.get("input[placeholder='Your username (email)']").clear().type(email);
       cy.get("input[placeholder='Your password']")
         .clear()
-        .type(pwd + "{enter}");
+        .type(pwd, { parseSpecialCharSequences: false }));
+      cy.get("button").contains("Login").click();
 
       cy.wait("@login");
       // cy.get("input[placeholder='Your password']").should("not.exist");
@@ -120,7 +122,8 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
       cy.get("input[placeholder='Your username (email)']").clear().type(email);
       cy.get("input[placeholder='Your password']")
         .clear()
-        .type(pwd + "{enter}");
+        .type(pwd, { parseSpecialCharSequences: false }));
+      cy.get("button").contains("Login").click();
 
       cy.wait("@login");
       // cy.get("input[placeholder='Your password']").should("not.exist");

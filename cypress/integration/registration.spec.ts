@@ -251,7 +251,8 @@ describe("Registration", () => {
         .type(newUser);
       cy.get("input[placeholder='Your password']")
         .clear()
-        .type(newPassword + "{enter}");
+        .type(newPassword, { parseSpecialCharSequences: false }));
+      cy.get("button").contains("Login").click();
 
       cy.wait("@login");
 
@@ -314,7 +315,8 @@ describe("Registration", () => {
         .type(newUser);
       cy.get("input[placeholder='Your password']")
         .clear()
-        .type(newPassword + "{enter}");
+        .type(newPassword, { parseSpecialCharSequences: false }));
+      cy.get("button").contains("Login").click();
 
       cy.wait("@login2");
 
