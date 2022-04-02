@@ -169,7 +169,8 @@ if (Cypress.env("ALLOW_PASSWORD_RESET")) {
           .type(email);
         cy.get("input[placeholder='Your password']")
           .clear()
-          .type(newPassword + "{enter}");
+          .type(newPassword, { parseSpecialCharSequences: false });
+        cy.get("button").contains("Login").click();
 
         if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
           cy.get("input[placeholder='Your password']").should("not.exist");
