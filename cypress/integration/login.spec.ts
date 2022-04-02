@@ -72,36 +72,6 @@ describe("SuccessfulLogin", () => {
     }
   });
 
-  it("Login - enter on password field", () => {
-    cy.intercept("POST", "/auth/login").as("login");
-
-    cy.get("input[placeholder='Your username (email)']").type(email);
-    cy.get("input[placeholder='Your password']").type(pwd + "{enter}");
-
-    cy.wait("@login");
-    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      cy.get("div.card-header h1").contains("Provide the verification code");
-      cy.get("input[placeholder='TOTP verification code']").type(get_totp());
-      cy.get("button").contains("Authorize").click();
-    }
-  });
-
-  it("Login - enter on username field", () => {
-    cy.intercept("POST", "/auth/login").as("login");
-    cy.get("input[placeholder='Your password']").type(pwd);
-    cy.get("input[placeholder='Your username (email)']").type(
-      email + "{enter}"
-    );
-
-    cy.wait("@login");
-    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      cy.get("div.card-header h1").contains("Provide the verification code");
-      const token = get_totp();
-      cy.get("input[placeholder='TOTP verification code']").type(token);
-      cy.get("button").contains("Authorize").click();
-    }
-  });
-
   afterEach(() => {
     // After the login you are automatically redirected to the profile
     cy.location().should((location) => {
