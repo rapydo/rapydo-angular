@@ -16,7 +16,7 @@ describe("AccountExpired", () => {
     cy.get("input[placeholder='Your password']").as("pwd");
 
     cy.get("@user").type(email);
-    cy.get("@pwd").type(pwd);
+    cy.get("@pwd").type(pwd, { parseSpecialCharSequences: false });
     cy.get("button").contains("Login").click();
 
     cy.location().should((location) => {
