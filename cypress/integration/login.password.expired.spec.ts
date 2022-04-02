@@ -52,7 +52,7 @@ describe("Login", () => {
     // }).as("login");
 
     cy.get("@user").type(email);
-    cy.get("@pwd").type(pwd);
+    cy.get("@pwd").type(pwd, { parseSpecialCharSequences: false });
     cy.get("button").contains("Login").click();
 
     // TO BE ADDED
@@ -88,13 +88,13 @@ describe("Login", () => {
     );
     cy.get("button").contains("Change").click();
 
-    cy.get("@new_pwd").clear().type(pwd);
+    cy.get("@new_pwd").clear().type(pwd, { parseSpecialCharSequences: false });
     cy.get("@pwd_confirm").clear().type("invalid");
 
     cy.checkvalidation(0, "The password does not match");
     cy.get("button").contains("Change").click();
 
-    cy.get("@pwd_confirm").clear().type(pwd);
+    cy.get("@pwd_confirm").clear().type(pwd, { parseSpecialCharSequences: false });
     cy.get("button").contains("Change").click();
 
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
