@@ -37,6 +37,8 @@ Cypress.Commands.add("change_expired_password", (email, pwd, formtype) => {
     cy.get("button").contains("Change").click();
   }
 
+  cy.wait(200);
+
   cy.get("input[placeholder='Your new password']").should("not.exist");
 
   cy.wait(300);
