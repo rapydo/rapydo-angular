@@ -68,6 +68,7 @@ describe("SuccessfulLogin", () => {
     cy.wait("@login");
 
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.wait(50);
       cy.get("div.card-header h1").contains("Provide the verification code");
       cy.get("input[placeholder='TOTP verification code']").type(get_totp());
       cy.get("button").contains("Authorize").click();
