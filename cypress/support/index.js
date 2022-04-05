@@ -331,9 +331,11 @@ Cypress.Commands.add(
     ) {
       cy.get('input[placeholder="Password"]')
         .clear()
-        .type(pwd + "!", { delay: 0 });
+        .type(pwd + "!", { delay: 0, parseSpecialCharSequences: false });
     } else {
-      cy.get('input[placeholder="Password"]').clear().type(pwd, { delay: 0 });
+      cy.get('input[placeholder="Password"]')
+        .clear()
+        .type(pwd, { delay: 0, parseSpecialCharSequences: false });
     }
     cy.get('input[placeholder="First Name"]')
       .clear()
@@ -421,9 +423,13 @@ Cypress.Commands.add(
       ) {
         cy.get("input[placeholder='Your password']").type(pwd + "!", {
           delay: 0,
+          parseSpecialCharSequences: false,
         });
       } else {
-        cy.get("input[placeholder='Your password']").type(pwd, { delay: 0 });
+        cy.get("input[placeholder='Your password']").type(pwd, {
+          delay: 0,
+          parseSpecialCharSequences: false,
+        });
       }
 
       cy.get("button").contains("Login").click();
@@ -440,10 +446,10 @@ Cypress.Commands.add(
 
         cy.get("input[placeholder='Your new password']")
           .clear()
-          .type(pwd, { delay: 0 });
+          .type(pwd, { delay: 0, parseSpecialCharSequences: false });
         cy.get("input[placeholder='Confirm your new password']")
           .clear()
-          .type(pwd, { delay: 0 });
+          .type(pwd, { delay: 0, parseSpecialCharSequences: false });
         cy.get("input[placeholder='TOTP verification code']")
           .clear()
           .type(get_totp(), { delay: 0 });
@@ -461,10 +467,10 @@ Cypress.Commands.add(
 
         cy.get('input[placeholder="Your new password"]')
           .clear()
-          .type(pwd, { delay: 0 });
+          .type(pwd, { delay: 0, parseSpecialCharSequences: false });
         cy.get('input[placeholder="Confirm your new password"]')
           .clear()
-          .type(pwd, { delay: 0 });
+          .type(pwd, { delay: 0, parseSpecialCharSequences: false });
 
         cy.intercept("POST", "/auth/login").as("login");
         cy.get('button:contains("Change")').click({ force: true });
