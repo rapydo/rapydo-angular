@@ -320,6 +320,7 @@ describe("Registration", () => {
         .type(newPassword, { parseSpecialCharSequences: false });
       cy.get("button").contains("Login").click();
       cy.wait("@login2");
+      cy.wait(50);
 
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
         cy.get("div.card-header h1").contains(
