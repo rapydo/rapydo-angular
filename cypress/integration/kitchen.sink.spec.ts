@@ -388,21 +388,10 @@ describe("KitchenSink", () => {
 
         cy.get("input[type=file]").selectFile({
           contents: Cypress.Buffer.from("file contents"),
-          fileName: "file.txt",
-          mimeType: "text/plain",
-          lastModified: Date.now(),
-        });
-
-        cy.wait(5000);
-
-        cy.get("input[type=file]").selectFile({
-          contents: Cypress.Buffer.from("file contents"),
           fileName: "file.zip",
           mimeType: "application/x-zip-compressed",
           lastModified: Date.now(),
         });
-
-        cy.wait(5000);
 
         cy.get("span").contains("Upload speed");
       }
