@@ -386,6 +386,8 @@ describe("KitchenSink", () => {
       if (pathname === "/app/sink") {
         cy.get("ul.nav-tabs li.nav-item a").contains("ngx-uploadx").click();
 
+        cy.closecookielaw(true);
+
         cy.get("input[type=file]").selectFile({
           contents: Cypress.Buffer.from("file contents"),
           fileName: "file.zip",
