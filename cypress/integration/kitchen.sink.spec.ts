@@ -385,6 +385,20 @@ describe("KitchenSink", () => {
       // Is Kitchen Sink enabled?
       if (pathname === "/app/sink") {
         cy.get("ul.nav-tabs li.nav-item a").contains("ngx-uploadx").click();
+
+        // cy.get('input[type=file]').selectFile({
+        //   contents: Cypress.Buffer.from('file contents'),
+        //   fileName: 'file.txt',
+        //   mimeType: 'text/plain',
+        //   lastModified: Date.now(),
+        // });
+
+        cy.get("input[type=file]").selectFile({
+          contents: Cypress.Buffer.from("file contents"),
+          fileName: "file.zip",
+          mimeType: "application/x-zip-compressed",
+          lastModified: Date.now(),
+        });
       }
     });
   });
