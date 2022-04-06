@@ -395,7 +395,7 @@ describe("KitchenSink", () => {
           lastModified: Date.now(),
         });
 
-        cy.get("span").contains("Upload speed");
+        cy.get("#upload_speed").contains("Upload speed");
       }
     });
   });
