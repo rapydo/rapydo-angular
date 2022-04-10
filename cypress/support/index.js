@@ -222,10 +222,10 @@ Cypress.Commands.add("login_and_init_user", (email = null, pwd = null) => {
 
     cy.get('input[placeholder="Your new password"]')
       .clear()
-      .type(pwd + "!", { delay: 0 });
+      .type(pwd + "!", { delay: 0, parseSpecialCharSequences: false });
     cy.get('input[placeholder="Confirm your new password"]')
       .clear()
-      .type(pwd + "!", { delay: 0 });
+      .type(pwd + "!", { delay: 0, parseSpecialCharSequences: false });
 
     cy.intercept("POST", "/auth/login").as("login");
     cy.get('button:contains("Change")').click({ force: true });
