@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormlyFieldCheckbox } from "@ngx-formly/bootstrap";
+import { FormlyFieldCheckbox } from "@ngx-formly/bootstrap/checkbox";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({

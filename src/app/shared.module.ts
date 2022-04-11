@@ -24,9 +24,8 @@ import * as moment from "moment";
 
 import { ClipboardModule } from "ngx-clipboard";
 
-import { FormlyModule } from "@ngx-formly/core";
+import { FormlyModule, FormlyFieldConfig } from "@ngx-formly/core";
 import { FormlyBootstrapModule } from "@ngx-formly/bootstrap";
-import { FormlyFieldConfig } from "@ngx-formly/core/lib/components/formly.field.config";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
 
