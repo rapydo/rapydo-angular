@@ -149,7 +149,8 @@ input.datepicker {
 /* FORMLY */
 
 .form-control,
-.form-control:focus {
+.form-control:focus,
+.form-check-input {
   background-color: #fff;
 }
 formly-field-multicheckbox > div {

@@ -42,6 +42,9 @@ export class FormlyService {
       field["templateOptions"] = {};
       field["validators"] = {};
 
+      // Uhmm... show to handle with placeholders? Should I raise a warning!??
+      // field["wrappers"] = ["form-field-floating"];
+
       if (stype === "string") {
         if (s.max && s.max > 256) {
           field_type = "textarea";
