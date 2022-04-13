@@ -1,9 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ViewChild,
-  ViewContainerRef,
-} from "@angular/core";
+import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { FieldWrapper } from "@ngx-formly/core";
 
 // Warning: this template is not properly working
@@ -20,25 +15,12 @@ import { FieldWrapper } from "@ngx-formly/core";
   template: `
     <div class="form-floating mb-3">
       <ng-template #fieldComponent></ng-template>
-      <div *ngIf="showError" class="invalid-feedback" [style.display]="'block'">
-        <formly-validation-message [field]="field"></formly-validation-message>
-      </div>
 
-      <label
-        [attr.for]="id"
-        class="col-form-label col-form-label-sm"
-        *ngIf="to.label"
-      >
+      <label [attr.for]="id" class="col-form-label" *ngIf="to.label">
         {{ to.label }}
-        <ng-container *ngIf="to.required && to.hideRequiredMarker !== true"
-          >*</ng-container
-        >
       </label>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormlyFloatingWrapper extends FieldWrapper {
-  @ViewChild("fieldComponent", { read: ViewContainerRef, static: false })
-  fieldComponent: ViewContainerRef;
-}
+export class FormlyFloatingWrapper extends FieldWrapper {}
