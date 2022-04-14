@@ -1,8 +1,8 @@
-const Ajv = require("/app/node_modules/ajv");
-const addFormats = require("/app/node_modules/ajv-formats");
+const Ajv = require("ajv");
+const addFormats = require("ajv-formats");
 
 const schema = require("/app/app/types.json");
-const standaloneCode = require("/app/node_modules/ajv/dist/standalone");
+const standaloneCode = require("ajv/dist/standalone");
 
 const ajv = new Ajv.default({ code: { source: true } });
 addFormats(ajv);
