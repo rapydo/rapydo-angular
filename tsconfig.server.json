@@ -2,9 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/server",
-    "target": "es2016",
-    "types": ["node"],
-    "typeRoots": ["node_modules/@types"]
+    "target": "es2016"
   },
   "files": ["app/rapydo/main.server.ts"],
   "angularCompilerOptions": {

@@ -68,7 +68,7 @@
     // "allowSyntheticDefaultImports": true,
 
     // From default Angular CLI
-    "types": ["node"],
+    "types": [],
 
     "typeRoots": ["/app/node_modules/@types"],
 
