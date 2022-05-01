@@ -97,8 +97,9 @@ describe("AccountExpired", () => {
     // Open the datepicker
     cy.get('input[placeholder="This user will be blocked after this date"]')
       .parent()
-      .find(".fa-xmark")
+      .find("i.fa-calendar-minus")
       .click({ force: true });
+
     cy.get('button:contains("Submit")').click({ force: true });
     cy.checkalert("Confirmation: user successfully updated");
 
