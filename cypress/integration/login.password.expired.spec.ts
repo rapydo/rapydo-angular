@@ -21,7 +21,7 @@ describe("Login", () => {
     cy.createuser(email, pwd);
   });
 
-  it("PASSWORD EXPIRED", () => {
+  it("Password expired", () => {
     cy.visit("/app/login");
 
     cy.get("input[placeholder='Your username (email)']").as("user");

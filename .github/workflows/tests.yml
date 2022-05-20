@@ -80,7 +80,7 @@ jobs:
               -e AUTH_FORCE_FIRST_PASSWORD_CHANGE=1 \
               -e AUTH_MIN_PASSWORD_LENGTH=10 \
               -e AUTH_MAX_LOGIN_ATTEMPTS=10 \
-              -e AUTH_MAX_PASSWORD_VALIDITY=60 \
+              -e AUTH_MAX_PASSWORD_VALIDITY=120 \
               -e AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER=60 \
               start
 
@@ -93,7 +93,7 @@ jobs:
               -e AUTH_FORCE_FIRST_PASSWORD_CHANGE=1 \
               -e AUTH_MIN_PASSWORD_LENGTH=12 \
               -e AUTH_MAX_LOGIN_ATTEMPTS=10 \
-              -e AUTH_MAX_PASSWORD_VALIDITY=60 \
+              -e AUTH_MAX_PASSWORD_VALIDITY=120 \
               -e AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER=60 \
               -e AUTH_SECOND_FACTOR_AUTHENTICATION=1 \
               -e AUTH_TOTP_VALIDITY_WINDOW=10 \
