@@ -5,9 +5,9 @@
         <div class="card-header">
           <h1>
             <i class="fas fa-users"></i> Users in group {{ group?.fullname }}
-            <span class="float-right"
+            <span class="float-end"
               ><i
-                class="fas fa-sync-alt clickable"
+                class="fas fa-rotate clickable"
                 ngbTooltip="Reload the list of {{resource_name}}s"
                 (click)="list();"
               ></i
@@ -16,7 +16,7 @@
         </div>
 
         <div class="card-body">
-          <div class="table-responsive">
+          <div class="table-responsive" #tableWrapper>
             <div class="container-fluid">
               <div class="row">
                 <div class="col-6">
@@ -29,25 +29,26 @@
                 </div>
               </div>
             </div>
-            <div class="table-wrapper" #tableWrapper>
-              <ngx-spinner [fullScreen]="true"></ngx-spinner>
-              <ngx-datatable
-                class="bootstrap"
-                [rows]="data"
-                [columns]="columns"
-                [columnMode]="ColumnMode.flex"
-                [headerHeight]="40"
-                [footerHeight]="40"
-                [limit]="paging.itemsPerPage"
-                [rowHeight]="'auto'"
-                (activate)="onDatatableActivate($event)"
-              >
-              </ngx-datatable>
-            </div>
+            <ngx-spinner
+              [fullScreen]="true"
+              type="ball-scale-multiple"
+            ></ngx-spinner>
+            <ngx-datatable
+              class="bootstrap"
+              [rows]="data"
+              [columns]="columns"
+              [columnMode]="ColumnMode.flex"
+              [headerHeight]="40"
+              [footerHeight]="40"
+              [limit]="paging.itemsPerPage"
+              [rowHeight]="'auto'"
+              (activate)="onDatatableActivate($event)"
+            >
+            </ngx-datatable>
           </div>
           <ng-template #dataRoles let-row="row" let-value="value" let-i="index">
             <span
-              class="badge badge-info role-badge"
+              class="badge bg-info role-badge"
               *ngFor="let role of value | keyvalue"
             >
               <span *ngIf='role.value.description != "disabled"'>

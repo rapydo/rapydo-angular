@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormlyFieldCheckbox } from "@ngx-formly/bootstrap";
+import { FormlyFieldCheckbox } from "@ngx-formly/bootstrap/checkbox";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
@@ -23,7 +23,7 @@ import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
         <span *ngIf="to.required && to.hideRequiredMarker !== true">*</span>
       </label>
       <a (click)="open(content)">
-        ( <i class="fas fa-external-link-alt"></i> read)
+        ( <i class="fas fa-up-right-from-square"></i> read)
       </a>
       <div *ngIf="showError" class="invalid-feedback" [style.display]="'block'">
         Acceptance is mandatory

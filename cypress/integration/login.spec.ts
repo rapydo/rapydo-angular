@@ -35,7 +35,7 @@ describe("SuccessfulLogin", () => {
     cy.get("div.card-header h1").contains("Login");
   });
 
-  it.only("Login - click on Sign in button and submit button", () => {
+  it.only("Login", () => {
     if (Cypress.env("SHOW_LOGIN")) {
       cy.get("a:contains('Sign in')").click();
 
@@ -46,7 +46,9 @@ describe("SuccessfulLogin", () => {
       cy.get("a:contains('Sign in')").should("not.exist");
     }
 
-    cy.get("input[placeholder='Your password']").type(pwd);
+    cy.get("input[placeholder='Your password']").type(pwd, {
+      parseSpecialCharSequences: false,
+    });
     cy.get("input[placeholder='Your username (email)']").type(email);
 
     // cy.get("input[placeholder='Your password'][type='password']").should('not.have.value', pwd);
@@ -66,38 +68,9 @@ describe("SuccessfulLogin", () => {
     cy.wait("@login");
 
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+      cy.wait(50);
       cy.get("div.card-header h1").contains("Provide the verification code");
       cy.get("input[placeholder='TOTP verification code']").type(get_totp());
-      cy.get("button").contains("Authorize").click();
-    }
-  });
-
-  it("Login - enter on password field", () => {
-    cy.intercept("POST", "/auth/login").as("login");
-
-    cy.get("input[placeholder='Your username (email)']").type(email);
-    cy.get("input[placeholder='Your password']").type(pwd + "{enter}");
-
-    cy.wait("@login");
-    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      cy.get("div.card-header h1").contains("Provide the verification code");
-      cy.get("input[placeholder='TOTP verification code']").type(get_totp());
-      cy.get("button").contains("Authorize").click();
-    }
-  });
-
-  it("Login - enter on username field", () => {
-    cy.intercept("POST", "/auth/login").as("login");
-    cy.get("input[placeholder='Your password']").type(pwd);
-    cy.get("input[placeholder='Your username (email)']").type(
-      email + "{enter}"
-    );
-
-    cy.wait("@login");
-    if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
-      cy.get("div.card-header h1").contains("Provide the verification code");
-      const token = get_totp();
-      cy.get("input[placeholder='TOTP verification code']").type(token);
       cy.get("button").contains("Authorize").click();
     }
   });

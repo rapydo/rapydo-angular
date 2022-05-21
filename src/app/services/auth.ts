@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { catchError, map, finalize } from "rxjs/operators";
+import { catchError, map, finalize, shareReplay } from "rxjs/operators";
 import { of, throwError, Observable } from "rxjs";
 
 import { User } from "@rapydo/types";
@@ -15,6 +15,10 @@ export class AuthService {
     private api: ApiService,
     private notify: NotificationService
   ) {}
+
+  private isAuth$: Observable<boolean>;
+  private isAuthSubscriptionTime: number;
+  private isAuthWindowTime: number = 500;
 
   public login(
     username: string,
@@ -100,7 +104,7 @@ export class AuthService {
     return this.local_storage.getUser();
   }
 
-  public isAuthenticated() {
+  public isAuthenticated(login_redirect: boolean = true): Observable<boolean> {
     if (!environment.authEnabled) {
       return of(false);
     }
@@ -109,19 +113,38 @@ export class AuthService {
       return of(false);
     }
 
-    // {validationSchema: "Boolean"}
-    return this.api.get<boolean>("/auth/status").pipe(
-      map((response) => {
-        return of(true);
-      }),
-      catchError((error, caught) => {
-        /* istanbul ignore else */
-        if (this.api.is_online()) {
-          this.local_storage.removeToken();
-        }
-        return of(false);
-      })
-    );
+    const currentTime = new Date().getTime();
+    if (
+      !this.isAuth$ ||
+      currentTime - this.isAuthSubscriptionTime > this.isAuthWindowTime
+    ) {
+      // Type 'Observable<boolean | Observable<boolean>>'
+      //       is not assignable to type 'Observable<boolean>'. !?
+      // @ts-ignore
+      this.isAuth$ = this.api
+        .get<boolean>("/auth/status", {}, { redirect: login_redirect })
+        .pipe(
+          shareReplay({
+            refCount: false,
+            bufferSize: 1,
+            windowTime: this.isAuthWindowTime,
+          }),
+          map((response) => {
+            return of(true);
+          }),
+          catchError((error, caught) => {
+            /* istanbul ignore else */
+            if (this.api.is_online()) {
+              this.local_storage.removeToken();
+            }
+            return of(false);
+          })
+        );
+
+      this.isAuthSubscriptionTime = currentTime;
+    }
+
+    return this.isAuth$;
   }
 
   // public printSecurityEvents() {

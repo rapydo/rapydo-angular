@@ -16,7 +16,7 @@ module.exports = function (config) {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
       jasmine: {
         // stop execution of the suite after the first spec failure
-        failFast: true,
+        stopOnSpecFailure: true,
         // do not  randomize spec execution order
         random: false,
       },

@@ -10,17 +10,15 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="modal-header modal-warning bg-light">
-      <h2 class="modal-title smaller" id="modal-title">
-        <i class="fas fa-exclamation-circle"></i> {{ title }}
+      <h2 class="modal-title fs-3" id="modal-title">
+        <i class="fas fa-circle-exclamation"></i> {{ title }}
       </h2>
       <button
         type="button"
-        class="close"
+        class="btn-close"
         aria-describedby="modal-title"
         (click)="modal.dismiss('Cross click')"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
+      ></button>
     </div>
     <div class="modal-body text-center">
       <p class="text-danger">

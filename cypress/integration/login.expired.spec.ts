@@ -16,7 +16,7 @@ describe("AccountExpired", () => {
     cy.get("input[placeholder='Your password']").as("pwd");
 
     cy.get("@user").type(email);
-    cy.get("@pwd").type(pwd);
+    cy.get("@pwd").type(pwd, { parseSpecialCharSequences: false });
     cy.get("button").contains("Login").click();
 
     cy.location().should((location) => {
@@ -60,7 +60,7 @@ describe("AccountExpired", () => {
     // Edit the user
     cy.get("datatable-body-row")
       .first()
-      .find(".fa-edit")
+      .find(".fa-pen-to-square")
       .click({ force: true });
     // Open the datepicker
     cy.get(
@@ -92,13 +92,14 @@ describe("AccountExpired", () => {
     // Let's remove the expiration date
     cy.get("datatable-body-row")
       .first()
-      .find(".fa-edit")
+      .find(".fa-pen-to-square")
       .click({ force: true });
     // Open the datepicker
     cy.get('input[placeholder="This user will be blocked after this date"]')
       .parent()
-      .find(".fa-times")
+      .find("i.fa-calendar-minus")
       .click({ force: true });
+
     cy.get('button:contains("Submit")').click({ force: true });
     cy.checkalert("Confirmation: user successfully updated");
 

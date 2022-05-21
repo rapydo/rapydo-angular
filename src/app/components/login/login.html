@@ -3,7 +3,7 @@
     <!-- A splash screen to be used during SSR loadings -->
     <div class="col-12 p-5 text-center" *ngIf="ssr.isServer">
       <div class="spinner-grow" role="status">
-        <span class="sr-only">Loading...</span>
+        <span class="visually-hidden">Loading...</span>
       </div>
     </div>
 
@@ -82,13 +82,13 @@
             <i *ngIf="loading" class="fas fa-spinner fa-spin"></i>
           </form>
 
-          <div class="text-left" *ngIf="allowPasswordReset">
+          <div class="text-start" *ngIf="allowPasswordReset">
             <br />
             Forgot your password?
             <a href="#" routerLink="/public/reset">Reset your password</a>
           </div>
 
-          <div class="text-left" *ngIf="allowRegistration">
+          <div class="text-start" *ngIf="allowRegistration">
             <br />
             You don't have an account yet?
             <a href="#" routerLink="/public/register">Register here</a>
@@ -100,16 +100,14 @@
 </div>
 
 <ng-template #privacy_acceptance let-c="close" let-d="dismiss">
-  <div class="modal-header bg-default">
+  <div class="modal-header">
     <h1 class="modal-title">Terms of use</h1>
     <button
       type="button"
-      class="close"
+      class="btn-close"
       aria-label="Close"
       (click)="d('Cross click')"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
+    ></button>
   </div>
   <div class="modal-body">
     <ngb-accordion [closeOthers]="true">

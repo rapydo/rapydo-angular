@@ -3,7 +3,7 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <div class="float-right">
+          <div class="float-end">
             <i (click)="download()" class="fas fa-download fa-lg clickable"></i>
           </div>
 
@@ -11,7 +11,7 @@
         </div>
 
         <div class="card-body">
-          <div class="table-responsive">
+          <div class="table-responsive" #tableWrapper>
             <div class="container-fluid">
               <div class="row">
                 <div class="col-6">
@@ -25,21 +25,22 @@
               </div>
             </div>
 
-            <div class="table-wrapper" #tableWrapper>
-              <ngx-spinner [fullScreen]="true"></ngx-spinner>
-              <ngx-datatable
-                class="bootstrap"
-                [rows]="data"
-                [columns]="columns"
-                [columnMode]="ColumnMode.flex"
-                [headerHeight]="40"
-                [footerHeight]="40"
-                [limit]="paging.itemsPerPage"
-                [rowHeight]="'auto'"
-                (activate)="onDatatableActivate($event)"
-              >
-              </ngx-datatable>
-            </div>
+            <ngx-spinner
+              [fullScreen]="true"
+              type="ball-scale-multiple"
+            ></ngx-spinner>
+            <ngx-datatable
+              class="bootstrap"
+              [rows]="data"
+              [columns]="columns"
+              [columnMode]="ColumnMode.flex"
+              [headerHeight]="40"
+              [footerHeight]="40"
+              [limit]="paging.itemsPerPage"
+              [rowHeight]="'auto'"
+              (activate)="onDatatableActivate($event)"
+            >
+            </ngx-datatable>
           </div>
 
           <ng-template #dataDate let-row="row" let-value="value" let-i="index">
@@ -77,7 +78,7 @@
         </div>
 
         <div class="card-footer text-muted">
-          <div class="text-left float-right">
+          <div class="text-start float-end">
             <button class="btn btn-secondary" type="submit" routerLink="..">
               <i class="fas fa-backward"></i> Back to profile
             </button>

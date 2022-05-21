@@ -15,7 +15,7 @@ describe("Registration", () => {
         expect(location.pathname).to.eq("/public/register");
       });
 
-      cy.get("ul.navbar-nav.navbar-right")
+      cy.get("ul.navbar-nav.ms-auto")
         .find("a:contains('Sign up')")
         .should("not.exist");
 
@@ -50,9 +50,7 @@ describe("Registration", () => {
         expect(location.pathname).to.eq("/app/login");
       });
 
-      cy.get("ul.navbar-nav.navbar-right")
-        .find("a:contains('Sign up')")
-        .click();
+      cy.get("ul.navbar-nav.ms-auto").find("a:contains('Sign up')").click();
 
       cy.location().should((location) => {
         expect(location.pathname).to.eq("/public/register");
@@ -114,8 +112,12 @@ describe("Registration", () => {
           " characters"
       );
 
-      cy.get("@password").clear().type(getpassword(4));
-      cy.get("@confirmation").clear().type(getpassword(4));
+      cy.get("@password")
+        .clear()
+        .type(getpassword(4), { parseSpecialCharSequences: false });
+      cy.get("@confirmation")
+        .clear()
+        .type(getpassword(4), { parseSpecialCharSequences: false });
       cy.checkvalidation(1, "Password not matching");
 
       cy.get("@submit").click({ force: true });
@@ -251,7 +253,8 @@ describe("Registration", () => {
         .type(newUser);
       cy.get("input[placeholder='Your password']")
         .clear()
-        .type(newPassword + "{enter}");
+        .type(newPassword, { parseSpecialCharSequences: false });
+      cy.get("button").contains("Login").click();
 
       cy.wait("@login");
 
@@ -314,9 +317,10 @@ describe("Registration", () => {
         .type(newUser);
       cy.get("input[placeholder='Your password']")
         .clear()
-        .type(newPassword + "{enter}");
-
+        .type(newPassword, { parseSpecialCharSequences: false });
+      cy.get("button").contains("Login").click();
       cy.wait("@login2");
+      cy.wait(50);
 
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
         cy.get("div.card-header h1").contains(

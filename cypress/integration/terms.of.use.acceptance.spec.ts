@@ -28,7 +28,8 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
       cy.get("input[placeholder='Your username (email)']").clear().type(email);
       cy.get("input[placeholder='Your password']")
         .clear()
-        .type(pwd + "{enter}");
+        .type(pwd, { parseSpecialCharSequences: false });
+      cy.get("button").contains("Login").click();
 
       cy.wait("@login");
 
@@ -43,10 +44,12 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
 
         cy.checkalert("You do not provided a valid verification code");
         cy.checkalert("Please change your temporary password");
-        cy.get("input[placeholder='Your new password']").clear().type(pwd);
+        cy.get("input[placeholder='Your new password']")
+          .clear()
+          .type(pwd, { parseSpecialCharSequences: false });
         cy.get("input[placeholder='Confirm your new password']")
           .clear()
-          .type(pwd);
+          .type(pwd, { parseSpecialCharSequences: false });
         cy.get("input[placeholder='TOTP verification code']")
           .clear()
           .type(get_totp());
@@ -63,10 +66,12 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
 
         pwd = pwd + "!";
 
-        cy.get('input[placeholder="Your new password"]').clear().type(pwd);
+        cy.get('input[placeholder="Your new password"]')
+          .clear()
+          .type(pwd, { parseSpecialCharSequences: false });
         cy.get('input[placeholder="Confirm your new password"]')
           .clear()
-          .type(pwd);
+          .type(pwd, { parseSpecialCharSequences: false });
         cy.get('button:contains("Change")').click({ force: true });
       }
 
@@ -89,7 +94,8 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
       cy.get("input[placeholder='Your username (email)']").clear().type(email);
       cy.get("input[placeholder='Your password']")
         .clear()
-        .type(pwd + "{enter}");
+        .type(pwd, { parseSpecialCharSequences: false });
+      cy.get("button").contains("Login").click();
 
       cy.wait("@login");
       // cy.get("input[placeholder='Your password']").should("not.exist");
@@ -120,7 +126,8 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
       cy.get("input[placeholder='Your username (email)']").clear().type(email);
       cy.get("input[placeholder='Your password']")
         .clear()
-        .type(pwd + "{enter}");
+        .type(pwd, { parseSpecialCharSequences: false });
+      cy.get("button").contains("Login").click();
 
       cy.wait("@login");
       // cy.get("input[placeholder='Your password']").should("not.exist");

@@ -25,7 +25,9 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       cy.visit("/app/login");
 
       cy.get("input[placeholder='Your username (email)']").type(email);
-      cy.get("input[placeholder='Your password']").type(pwd);
+      cy.get("input[placeholder='Your password']").type(pwd, {
+        parseSpecialCharSequences: false,
+      });
       cy.get("button").contains("Login").click();
 
       cy.location().should((location) => {
@@ -45,8 +47,12 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
 
       pwd += "!";
 
-      cy.get('input[placeholder="Your new password"]').type(pwd);
-      cy.get('input[placeholder="Confirm your new password"]').type(pwd);
+      cy.get('input[placeholder="Your new password"]').type(pwd, {
+        parseSpecialCharSequences: false,
+      });
+      cy.get('input[placeholder="Confirm your new password"]').type(pwd, {
+        parseSpecialCharSequences: false,
+      });
 
       // Authorization code is missing
       cy.get("button").contains("Authorize").click();
@@ -109,7 +115,9 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       cy.visit("/app/login");
 
       cy.get("input[placeholder='Your username (email)']").type(email);
-      cy.get("input[placeholder='Your password']").type(pwd);
+      cy.get("input[placeholder='Your password']").type(pwd, {
+        parseSpecialCharSequences: false,
+      });
       cy.intercept("POST", "/auth/login").as("login");
       cy.get("button").contains("Login").click();
       cy.wait("@login");
@@ -171,7 +179,9 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       cy.visit("/app/login");
 
       cy.get("input[placeholder='Your username (email)']").type(email);
-      cy.get("input[placeholder='Your password']").type(pwd);
+      cy.get("input[placeholder='Your password']").type(pwd, {
+        parseSpecialCharSequences: false,
+      });
       cy.intercept("POST", "/auth/login").as("login");
       cy.get("button").contains("Login").click();
       cy.wait("@login");
@@ -191,7 +201,7 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
 
       cy.get('input[placeholder="Type here your current password"]')
         .clear()
-        .type(pwd);
+        .type(pwd, { parseSpecialCharSequences: false });
       cy.get('input[placeholder="Type the desidered new password"]')
         .clear()
         .type(pwd + "!");
@@ -252,7 +262,9 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       cy.get("div.card-header h1").contains("Login");
 
       cy.get("input[placeholder='Your username (email)']").type(email);
-      cy.get("input[placeholder='Your password']").type(pwd);
+      cy.get("input[placeholder='Your password']").type(pwd, {
+        parseSpecialCharSequences: false,
+      });
 
       cy.intercept("POST", "/auth/login").as("login");
       cy.get("button").contains("Login").click();

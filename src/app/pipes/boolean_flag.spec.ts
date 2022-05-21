@@ -16,7 +16,7 @@ describe("Pipes", () => {
       "<i class='fas fa-check fa-lg green'></i>"
     );
     expect(boolean_pipe.transform(false)).toBe(
-      "<i class='fas fa-times fa-lg red'></i>"
+      "<i class='fas fa-xmark fa-lg red'></i>"
     );
     expect(boolean_pipe.transform("XYZ")).toBe("XYZ");
   });

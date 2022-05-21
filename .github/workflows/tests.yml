@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     timeout-minutes: 60
 
     strategy:
@@ -26,7 +26,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.9
+          python-version: "3.10"
       - name: Set up Node
         uses: actions/setup-node@v1
         with:
@@ -37,7 +37,7 @@ jobs:
           # version is "x.y.0": convert in x.y
           export CURRENT_VERSION=$(grep '"version"' src/package.json | awk {'print $2'} | tr -d '", ' | awk -F. {'print $1 "." $2'})
           pip install --upgrade --no-cache-dir git+https://github.com/rapydo/do.git@${CURRENT_VERSION}
-          auth_services=(postgres mysql neo4j neo4j mongo)
+          auth_services=(postgres neo4j)
           AUTH=${auth_services[$(($RANDOM % ${#auth_services[@]}))]}
           echo "Selected random authentication service = ${AUTH}"
           # Make the environment variable available to next steps
@@ -80,7 +80,7 @@ jobs:
               -e AUTH_FORCE_FIRST_PASSWORD_CHANGE=1 \
               -e AUTH_MIN_PASSWORD_LENGTH=10 \
               -e AUTH_MAX_LOGIN_ATTEMPTS=10 \
-              -e AUTH_MAX_PASSWORD_VALIDITY=60 \
+              -e AUTH_MAX_PASSWORD_VALIDITY=120 \
               -e AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER=60 \
               start
 
@@ -93,7 +93,7 @@ jobs:
               -e AUTH_FORCE_FIRST_PASSWORD_CHANGE=1 \
               -e AUTH_MIN_PASSWORD_LENGTH=12 \
               -e AUTH_MAX_LOGIN_ATTEMPTS=10 \
-              -e AUTH_MAX_PASSWORD_VALIDITY=60 \
+              -e AUTH_MAX_PASSWORD_VALIDITY=120 \
               -e AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER=60 \
               -e AUTH_SECOND_FACTOR_AUTHENTICATION=1 \
               -e AUTH_TOTP_VALIDITY_WINDOW=10 \
@@ -116,7 +116,7 @@ jobs:
 
           fi
 
-          sleep 20
+          sleep 30
           rapydo logs
           rapydo shell frontend "yarn install"
           rapydo shell frontend "yarn workspaces focus --all"
@@ -272,7 +272,7 @@ jobs:
 
           echo -e "\n"
 
-          npm install -g cypress@9.2.0
+          npm install -g cypress@9.5.3
           echo "{}" > cypress.json
           cypress run --browser chrome --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
 
@@ -296,7 +296,7 @@ jobs:
 
       - name: Print mocked email on failure
         if: ${{ failure() && matrix.stage != 'karma' && matrix.stage != 'prod' }}
-        run: cat rapydo_tests/data/logs/mock.mail.*.body
+        run: cat rapydo_tests/data/logs/mock.mail.*.body 2>/dev/null || true
 
       - name: Docker logs on failure
         if: failure()

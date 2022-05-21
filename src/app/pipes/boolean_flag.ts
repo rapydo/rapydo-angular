@@ -11,7 +11,7 @@ export class BooleanFlagPipe {
     }
 
     if (str === false) {
-      return "<i class='fas fa-times fa-lg red'></i>";
+      return "<i class='fas fa-xmark fa-lg red'></i>";
     }
 
     return str;

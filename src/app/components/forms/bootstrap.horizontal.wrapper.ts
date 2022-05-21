@@ -1,9 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ViewChild,
-  ViewContainerRef,
-} from "@angular/core";
+import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { FieldWrapper } from "@ngx-formly/core";
 
 @Component({
@@ -32,7 +27,4 @@ import { FieldWrapper } from "@ngx-formly/core";
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormlyHorizontalWrapper extends FieldWrapper {
-  @ViewChild("fieldComponent", { read: ViewContainerRef, static: false })
-  fieldComponent: ViewContainerRef;
-}
+export class FormlyHorizontalWrapper extends FieldWrapper {}

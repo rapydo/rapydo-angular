@@ -14,6 +14,9 @@ describe("Init user", () => {
 
     // Change back to the default password
     if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
+      // without this wait, sometimes, the getUser in changepassword.ts
+      // does not return a value and the TOTP field is not filled up
+      cy.wait(1000);
       cy.visit("/app/profile/changepassword");
 
       cy.location().should((location) => {
@@ -29,12 +32,12 @@ describe("Init user", () => {
         .type(pwd + "!");
       cy.get('input[placeholder="Type the desidered new password"]')
         .clear()
-        .type(pwd);
+        .type(pwd, { parseSpecialCharSequences: false });
       cy.get(
         'input[placeholder="Type again the new password for confirmation"]'
       )
         .clear()
-        .type(pwd);
+        .type(pwd, { parseSpecialCharSequences: false });
 
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
         cy.get('input[placeholder="TOTP verification code"]')

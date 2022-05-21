@@ -34,7 +34,7 @@ export class SimpleDateAdapter extends NgbDateAdapter<string> {
     <div class="input-group">
       <input
         readonly
-        class="form-control datepicker"
+        class="form-control datepicker input-addons"
         [formControl]="formControl"
         [formlyAttributes]="field"
         ngbDatepicker
@@ -43,22 +43,22 @@ export class SimpleDateAdapter extends NgbDateAdapter<string> {
         #d="ngbDatepicker"
         (click)="d.toggle()"
       />
-      <div class="input-group-append" *ngIf="!to.required">
-        <button class="btn btn-outline-danger" (click)="clear()" type="button">
-          <i class="fas fa-times"></i>
-        </button>
+      <div
+        class="input-group-text clickable"
+        (click)="clear()"
+        *ngIf="!to.required"
+        ngbTooltip="Clear the current date selection"
+      >
+        <i class="fas fa-calendar-minus red clickable"></i>
       </div>
-      <div class="input-group-append">
-        <button
-          class="btn btn-outline-secondary"
-          (click)="d.toggle()"
-          type="button"
-        >
-          <i class="fas fa-calendar"></i>
-        </button>
+      <div
+        class="input-group-text clickable"
+        (click)="d.toggle()"
+        ngbTooltip="Pick a date from the calendar"
+      >
+        <i class="fas fa-calendar-plus clickable"></i>
       </div>
     </div>
-    <!--<pre>Model: {{field.parent.formControl.get(field?.key).value | json}}</pre>-->
   `,
   providers: [{ provide: NgbDateAdapter, useClass: SimpleDateAdapter }],
 })

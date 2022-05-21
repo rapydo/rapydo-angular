@@ -1,9 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "./out-tsc/app",
-    "types": ["node"],
-    "typeRoots": ["node_modules/@types"]
+    "outDir": "./out-tsc/app"
   },
   "files": ["app/rapydo/main.ts", "polyfills.ts"],
   "include": ["rapydo/**/*.ts"],

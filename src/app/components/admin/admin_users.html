@@ -3,9 +3,9 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <div class="float-right">
+          <div class="float-end">
             <i
-              class="fas fa-sync-alt clickable fa-lg"
+              class="fas fa-rotate clickable fa-lg"
               ngbTooltip="Reload the list of {{resource_name}}s"
               (click)="list();"
             ></i>
@@ -17,11 +17,11 @@
             ></i>
           </div>
 
-          <h1 class="panel-title"><i class="fas fa-users"></i> Users list</h1>
+          <h1 class="card-title"><i class="fas fa-users"></i> Users list</h1>
         </div>
 
         <div class="card-body">
-          <div class="table-responsive">
+          <div class="table-responsive" #tableWrapper>
             <div class="container-fluid">
               <div class="row">
                 <div class="col-6">
@@ -32,32 +32,33 @@
                     (keyup)="updateFilter($event)"
                   />
                 </div>
-                <div class="col-6 text-right">
+                <div class="col-6 text-end">
                   <button class="btn btn-secondary" (click)="create()">
                     <i class="fas fa-plus"></i> new {{resource_name}}
                   </button>
                 </div>
               </div>
             </div>
-            <div class="table-wrapper" #tableWrapper>
-              <ngx-spinner [fullScreen]="true"></ngx-spinner>
-              <ngx-datatable
-                class="bootstrap"
-                [rows]="data"
-                [columns]="columns"
-                [columnMode]="ColumnMode.flex"
-                [headerHeight]="40"
-                [footerHeight]="40"
-                [limit]="paging.itemsPerPage"
-                [rowHeight]="'auto'"
-                (activate)="onDatatableActivate($event)"
-              >
-              </ngx-datatable>
-            </div>
+            <ngx-spinner
+              [fullScreen]="true"
+              type="ball-scale-multiple"
+            ></ngx-spinner>
+            <ngx-datatable
+              class="bootstrap"
+              [rows]="data"
+              [columns]="columns"
+              [columnMode]="ColumnMode.flex"
+              [headerHeight]="40"
+              [footerHeight]="40"
+              [limit]="paging.itemsPerPage"
+              [rowHeight]="'auto'"
+              (activate)="onDatatableActivate($event)"
+            >
+            </ngx-datatable>
           </div>
           <ng-template #dataRoles let-row="row" let-value="value" let-i="index">
             <span
-              class="badge badge-info role-badge"
+              class="badge bg-info role-badge"
               *ngFor="let role of value | keyvalue: rolesViewComparator"
             >
               <span *ngIf='role.value.description != "disabled"'>
@@ -127,7 +128,7 @@
             let-i="index"
           >
             <i
-              class="fas fa-edit fa-lg clickable"
+              class="fas fa-pen-to-square fa-lg clickable"
               container="body"
               (click)="update(row)"
             ></i>

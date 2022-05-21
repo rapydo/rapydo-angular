@@ -53,7 +53,7 @@ export class AdminStatsComponent implements OnInit {
             this.reset_timer();
           },
           addonLeft: {
-            class: "fas fa-sync-alt clickable",
+            class: "fas fa-rotate clickable",
             onClick: () => {
               this.retrieve_stats();
             },

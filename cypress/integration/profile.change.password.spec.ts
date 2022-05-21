@@ -71,7 +71,7 @@ describe("ChangePassword", () => {
     // Set a wrong password for the current password
     cy.get('input[placeholder="Type here your current password"]')
       .clear()
-      .type(getpassword(4));
+      .type(getpassword(4), { parseSpecialCharSequences: false });
 
     cy.checkvalidation(
       0,
@@ -97,7 +97,7 @@ describe("ChangePassword", () => {
     cy.checkalert("Invalid access credentials");
     cy.get('input[placeholder="Type here your current password"]')
       .clear()
-      .type(pwd);
+      .type(pwd, { parseSpecialCharSequences: false });
 
     cy.get("button:contains('Submit')").click();
     cy.checkalert("Password is too weak, missing upper case letters");
@@ -125,8 +125,12 @@ describe("ChangePassword", () => {
     cy.get("button:contains('Submit')").click();
     cy.checkalert("Password is too weak, can't contain your email address");
 
-    cy.get("@new_password").clear().type(pwd);
-    cy.get("@confirm_password").clear().type(pwd);
+    cy.get("@new_password")
+      .clear()
+      .type(pwd, { parseSpecialCharSequences: false });
+    cy.get("@confirm_password")
+      .clear()
+      .type(pwd, { parseSpecialCharSequences: false });
     cy.get("button:contains('Submit')").click();
     cy.checkalert("The new password cannot match the previous password");
   });
@@ -138,7 +142,7 @@ describe("ChangePassword", () => {
 
     cy.get('input[placeholder="Type here your current password"]')
       .clear()
-      .type(pwd);
+      .type(pwd, { parseSpecialCharSequences: false });
     cy.get('input[placeholder="Type the desidered new password"]')
       .clear()
       .type(newPassword);

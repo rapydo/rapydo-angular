@@ -3,11 +3,11 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <h1 class="panel-title">
+          <h1 class="card-title">
             <i class="fas fa-users"></i> Groups list
-            <span class="float-right"
+            <span class="float-end"
               ><i
-                class="fas fa-sync-alt"
+                class="fas fa-rotate"
                 ngbTooltip="Reload the list of {{resource_name}}s"
                 (click)="list();"
               ></i
@@ -16,9 +16,10 @@
         </div>
 
         <div class="card-body">
-          <ngx-spinner [fullScreen]="true"> </ngx-spinner>
+          <ngx-spinner [fullScreen]="true" type="ball-scale-multiple">
+          </ngx-spinner>
 
-          <div class="table-responsive">
+          <div class="table-responsive" #tableWrapper>
             <div class="container-fluid">
               <div class="row">
                 <div class="col-6">
@@ -29,7 +30,7 @@
                     (keyup)="updateFilter($event)"
                   />
                 </div>
-                <div class="col-6 text-right">
+                <div class="col-6 text-end">
                   <button class="btn btn-secondary" (click)="create()">
                     <i class="fas fa-plus"></i> new {{resource_name}}
                   </button>
@@ -37,20 +38,18 @@
               </div>
             </div>
 
-            <div class="table-wrapper" #tableWrapper>
-              <ngx-datatable
-                class="bootstrap"
-                [rows]="data"
-                [columns]="columns"
-                [columnMode]="ColumnMode.flex"
-                [headerHeight]="40"
-                [footerHeight]="40"
-                [limit]="paging.itemsPerPage"
-                [rowHeight]="'auto'"
-                (activate)="onDatatableActivate($event)"
-              >
-              </ngx-datatable>
-            </div>
+            <ngx-datatable
+              class="bootstrap"
+              [rows]="data"
+              [columns]="columns"
+              [columnMode]="ColumnMode.flex"
+              [headerHeight]="40"
+              [footerHeight]="40"
+              [limit]="paging.itemsPerPage"
+              [rowHeight]="'auto'"
+              (activate)="onDatatableActivate($event)"
+            >
+            </ngx-datatable>
           </div>
           <ng-template
             #membersCell
@@ -86,7 +85,10 @@
             let-value="value"
             let-i="index"
           >
-            <i class="fas fa-edit fa-lg clickable" (click)="update(row)"></i>
+            <i
+              class="fas fa-pen-to-square fa-lg clickable"
+              (click)="update(row)"
+            ></i>
             <i
               class="fas fa-trash fa-lg red clickable"
               (click)="delete(row.uuid)"

@@ -7,18 +7,21 @@
       <div class="col-12 col-md-8 offset-md-2">
         <div class="card">
           <div class="card-header bg-warning">
-            <h1>Service temporarily unreachable</h1>
+            <h1 class="fs-2">
+              <i class="fas fa-triangle-exclamation"></i> Service temporarily
+              unreachable
+            </h1>
           </div>
 
           <div class="card-body">
-            <h2 class="smaller">This service is temporarily not reachable.</h2>
-            <h3 class="smaller">
+            <h2 class="fs-3">This service is temporarily not reachable.</h2>
+            <h3 class="fs-4">
               We apologize for any inconvenience this may cause.
 
               <br /><br />
 
               <a class="btn btn-warning" [routerLink]="" (click)="refresh()">
-                <i class="fas fa-sync-alt"> RELOAD</i>
+                <i class="fas fa-rotate"> RELOAD</i>
                 <br />
               </a>
             </h3>

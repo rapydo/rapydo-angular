@@ -14,7 +14,9 @@ describe("AdminLogins", () => {
     cy.get("input[placeholder='Your username (email)']")
       .clear()
       .type(random_username);
-    cy.get("input[placeholder='Your password']").clear().type(pwd);
+    cy.get("input[placeholder='Your password']")
+      .clear()
+      .type(pwd, { parseSpecialCharSequences: false });
     cy.get("button").contains("Login").click();
     cy.checkalert("Invalid access credentials");
 
@@ -48,7 +50,7 @@ describe("AdminLogins", () => {
     cy.get("@search").clear().type(random_username);
     cy.get("datatable-body-row").should("have.length", 1);
     cy.get("datatable-body-row").eq(0).contains(random_username);
-    cy.get("datatable-body-row").eq(0).find(".fa-times");
+    cy.get("datatable-body-row").eq(0).find(".fa-xmark");
   });
   it("Download", () => {
     cy.get("div.card-header div i.fa-download").click();

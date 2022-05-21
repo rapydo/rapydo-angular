@@ -60,9 +60,7 @@ describe("AdminUsers", () => {
         " characters"
     );
 
-    // cy.get("@password").clear().type(getpassword(4));
-
-    cy.contains("generate a random password").click({ force: true });
+    cy.contains("random").click({ force: true });
     cy.checkalert("Random password generated");
 
     cy.get("@name").clear().type("SampleName");
@@ -165,14 +163,20 @@ describe("AdminUsers", () => {
       .eq(0)
       .contains("datatable-body-cell", username);
 
-    cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
+    cy.get("datatable-body-row")
+      .eq(0)
+      .find(".fa-pen-to-square")
+      .click({ force: true });
     cy.get('button:contains("Close")').click({ force: true });
 
     cy.get("datatable-body-row")
       .eq(0)
       .contains("datatable-body-cell", "SampleName");
 
-    cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
+    cy.get("datatable-body-row")
+      .eq(0)
+      .find(".fa-pen-to-square")
+      .click({ force: true });
     cy.get('input[placeholder="Email"]').should("not.exist");
     cy.get('input[placeholder="First Name"]').clear().type("NewName");
     // cy.get('input:checkbox[value="normal_user"]').uncheck({ force: true });
@@ -190,7 +194,10 @@ describe("AdminUsers", () => {
     // cy.get("datatable-body-row").eq(0).contains("datatable-body-cell", "User");
 
     // Restore previous value
-    cy.get("datatable-body-row").eq(0).find(".fa-edit").click({ force: true });
+    cy.get("datatable-body-row")
+      .eq(0)
+      .find(".fa-pen-to-square")
+      .click({ force: true });
     cy.get('input[placeholder="First Name"]').clear().type("SampleName");
     cy.get('button:contains("Submit")').click({ force: true });
     cy.checkalert("Confirmation: user successfully updated");

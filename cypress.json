@@ -6,6 +6,6 @@
   "downloadsFolder": "/cypress",
   "retries": {
     "openMode": 0,
-    "runMode": 1
+    "runMode": 0
   }
 }

@@ -24,13 +24,13 @@ import * as moment from "moment";
 
 import { ClipboardModule } from "ngx-clipboard";
 
-import { FormlyModule } from "@ngx-formly/core";
+import { FormlyModule, FormlyFieldConfig } from "@ngx-formly/core";
 import { FormlyBootstrapModule } from "@ngx-formly/bootstrap";
-import { FormlyFieldConfig } from "@ngx-formly/core/lib/components/formly.field.config";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
 
 import { FormlyHorizontalWrapper } from "@rapydo/components/forms/bootstrap.horizontal.wrapper";
+import { FormlyFloatingWrapper } from "@rapydo/components/forms/bootstrap.floating.wrapper";
 import { PasswordTypeComponent } from "@rapydo/components/forms/password.type";
 import { DatePickerTypeComponent } from "@rapydo/components/forms/datepicker.type";
 import { SimpleDatePickerTypeComponent } from "@rapydo/components/forms/simpledatepicker.type";
@@ -230,6 +230,7 @@ let module_imports: any = [
   FormlyModule.forRoot({
     wrappers: [
       { name: "form-field-horizontal", component: FormlyHorizontalWrapper },
+      { name: "form-field-floating", component: FormlyFloatingWrapper },
     ],
     types: [
       {
@@ -297,6 +298,7 @@ let module_declarations = [
   DeleteModal,
   FormModal,
   FormlyHorizontalWrapper,
+  FormlyFloatingWrapper,
   RadioTypeComponent,
   TermsOfUseTypeComponent,
   DatePickerTypeComponent,
@@ -310,6 +312,7 @@ let module_exports = [
   CommonModule,
 
   FormlyHorizontalWrapper,
+  FormlyFloatingWrapper,
   RadioTypeComponent,
   TermsOfUseTypeComponent,
   DatePickerTypeComponent,

@@ -70,7 +70,9 @@ if (Cypress.env("AUTH_ROLES").includes(",staff_user,")) {
           " characters"
       );
 
-      cy.get("@password").clear().type(getpassword(4));
+      cy.get("@password")
+        .clear()
+        .type(getpassword(4), { parseSpecialCharSequences: false });
       cy.get("@name").clear().type("SampleName");
       cy.get("@surname").clear().type("SampleSurname");
 
@@ -170,7 +172,7 @@ if (Cypress.env("AUTH_ROLES").includes(",staff_user,")) {
 
       cy.get("datatable-body-row")
         .eq(0)
-        .find(".fa-edit")
+        .find(".fa-pen-to-square")
         .click({ force: true });
       cy.get('button:contains("Close")').click({ force: true });
 
@@ -180,7 +182,7 @@ if (Cypress.env("AUTH_ROLES").includes(",staff_user,")) {
 
       cy.get("datatable-body-row")
         .eq(0)
-        .find(".fa-edit")
+        .find(".fa-pen-to-square")
         .click({ force: true });
       cy.get('input[placeholder="Email"]').should("not.exist");
       cy.get('input[placeholder="First Name"]').clear().type("NewName");
@@ -204,7 +206,7 @@ if (Cypress.env("AUTH_ROLES").includes(",staff_user,")) {
       // Restore previous value
       cy.get("datatable-body-row")
         .eq(0)
-        .find(".fa-edit")
+        .find(".fa-pen-to-square")
         .click({ force: true });
       cy.get('input[placeholder="First Name"]').clear().type("SampleName");
       cy.get('button:contains("Submit")').click({ force: true });
@@ -261,7 +263,7 @@ if (Cypress.env("AUTH_ROLES").includes(",staff_user,")) {
       // Admin role is not shown on edit
       cy.get("datatable-body-row")
         .eq(0)
-        .find(".fa-edit")
+        .find(".fa-pen-to-square")
         .click({ force: true });
       // open the options
       cy.get("ng-select").eq(0).find("input").click({ force: true });

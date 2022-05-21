@@ -1,5 +1,6 @@
 import "@cypress/code-coverage/support";
 import "cypress-file-upload";
+import "cypress-fail-fast";
 
 import { get_totp } from "../fixtures/utilities";
 
@@ -11,10 +12,10 @@ Cypress.Commands.add("change_expired_password", (email, pwd, formtype) => {
 
   cy.get("input[placeholder='Your new password']")
     .clear()
-    .type(pwd + "!", { delay: 0 });
+    .type(pwd + "!", { delay: 0, parseSpecialCharSequences: false });
   cy.get("input[placeholder='Confirm your new password']")
     .clear()
-    .type(pwd + "!", { delay: 0 });
+    .type(pwd + "!", { delay: 0, parseSpecialCharSequences: false });
 
   if (formtype === 1) {
     if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
@@ -36,6 +37,8 @@ Cypress.Commands.add("change_expired_password", (email, pwd, formtype) => {
     cy.get("button").contains("Change").click();
   }
 
+  cy.wait(200);
+
   cy.get("input[placeholder='Your new password']").should("not.exist");
 
   cy.wait(300);
@@ -50,13 +53,13 @@ Cypress.Commands.add("change_expired_password", (email, pwd, formtype) => {
 
   cy.get('input[placeholder="Type here your current password"]')
     .clear()
-    .type(pwd + "!", { delay: 0 });
+    .type(pwd + "!", { delay: 0, parseSpecialCharSequences: false });
   cy.get('input[placeholder="Type the desidered new password"]')
     .clear()
-    .type(pwd, { delay: 0 });
+    .type(pwd, { delay: 0, parseSpecialCharSequences: false });
   cy.get('input[placeholder="Type again the new password for confirmation"]')
     .clear()
-    .type(pwd, { delay: 0 });
+    .type(pwd, { delay: 0, parseSpecialCharSequences: false });
 
   if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
     cy.get('input[placeholder="TOTP verification code"]')
@@ -78,7 +81,10 @@ Cypress.Commands.add("change_expired_password", (email, pwd, formtype) => {
     cy.get("input[placeholder='Your username (email)']").type(email, {
       delay: 0,
     });
-    cy.get("input[placeholder='Your password']").type(pwd, { delay: 0 });
+    cy.get("input[placeholder='Your password']").type(pwd, {
+      delay: 0,
+      parseSpecialCharSequences: false,
+    });
 
     cy.get("button").contains("Login").click();
 
@@ -115,7 +121,9 @@ Cypress.Commands.add("login", (email = null, pwd = null) => {
   cy.get("input[placeholder='Your username (email)']")
     .clear()
     .type(email, { delay: 0 });
-  cy.get("input[placeholder='Your password']").clear().type(pwd, { delay: 0 });
+  cy.get("input[placeholder='Your password']")
+    .clear()
+    .type(pwd, { delay: 0, parseSpecialCharSequences: false });
   cy.get("button").contains("Login").click();
   cy.get("input[placeholder='Your password']").should("not.exist");
 
@@ -177,7 +185,9 @@ Cypress.Commands.add("login_and_init_user", (email = null, pwd = null) => {
   cy.get("input[placeholder='Your username (email)']")
     .clear()
     .type(email, { delay: 0 });
-  cy.get("input[placeholder='Your password']").clear().type(pwd, { delay: 0 });
+  cy.get("input[placeholder='Your password']")
+    .clear()
+    .type(pwd, { delay: 0, parseSpecialCharSequences: false });
   cy.get("button").contains("Login").click();
   cy.get("input[placeholder='Your password']").should("not.exist");
 
@@ -191,10 +201,10 @@ Cypress.Commands.add("login_and_init_user", (email = null, pwd = null) => {
 
     cy.get("input[placeholder='Your new password']")
       .clear()
-      .type(pwd + "!", { delay: 0 });
+      .type(pwd + "!", { delay: 0, parseSpecialCharSequences: false });
     cy.get("input[placeholder='Confirm your new password']")
       .clear()
-      .type(pwd + "!", { delay: 0 });
+      .type(pwd + "!", { delay: 0, parseSpecialCharSequences: false });
     cy.get("input[placeholder='TOTP verification code']").type(get_totp(), {
       delay: 0,
     });
@@ -212,10 +222,10 @@ Cypress.Commands.add("login_and_init_user", (email = null, pwd = null) => {
 
     cy.get('input[placeholder="Your new password"]')
       .clear()
-      .type(pwd + "!", { delay: 0 });
+      .type(pwd + "!", { delay: 0, parseSpecialCharSequences: false });
     cy.get('input[placeholder="Confirm your new password"]')
       .clear()
-      .type(pwd + "!", { delay: 0 });
+      .type(pwd + "!", { delay: 0, parseSpecialCharSequences: false });
 
     cy.intercept("POST", "/auth/login").as("login");
     cy.get('button:contains("Change")').click({ force: true });
@@ -233,17 +243,17 @@ Cypress.Commands.add("logout", (collapsed = false) => {
   if (collapsed) {
     cy.get("button.navbar-toggler").click();
 
-    // cy.get("a").find(".fa-sign-out-alt").parent().click({ force: true });
+    // cy.get("a").find(".fa-right-from-bracket").parent().click({ force: true });
     // cy.get("div.modal-footer")
     //   .find("button")
     //   .contains("Confirm")
     //   .click({ force: true });
 
-    cy.get("i.fa-sign-out-alt").parent().click();
+    cy.get("i.fa-right-from-bracket").parent().click();
     cy.scrollTo("top");
     cy.get("button").contains("Confirm").click();
   } else {
-    cy.get("i.fa-sign-out-alt").parent().click();
+    cy.get("i.fa-right-from-bracket").parent().click();
     cy.get("button").contains("Confirm").click();
   }
 });
@@ -328,9 +338,11 @@ Cypress.Commands.add(
     ) {
       cy.get('input[placeholder="Password"]')
         .clear()
-        .type(pwd + "!", { delay: 0 });
+        .type(pwd + "!", { delay: 0, parseSpecialCharSequences: false });
     } else {
-      cy.get('input[placeholder="Password"]').clear().type(pwd, { delay: 0 });
+      cy.get('input[placeholder="Password"]')
+        .clear()
+        .type(pwd, { delay: 0, parseSpecialCharSequences: false });
     }
     cy.get('input[placeholder="First Name"]')
       .clear()
@@ -418,9 +430,13 @@ Cypress.Commands.add(
       ) {
         cy.get("input[placeholder='Your password']").type(pwd + "!", {
           delay: 0,
+          parseSpecialCharSequences: false,
         });
       } else {
-        cy.get("input[placeholder='Your password']").type(pwd, { delay: 0 });
+        cy.get("input[placeholder='Your password']").type(pwd, {
+          delay: 0,
+          parseSpecialCharSequences: false,
+        });
       }
 
       cy.get("button").contains("Login").click();
@@ -437,10 +453,10 @@ Cypress.Commands.add(
 
         cy.get("input[placeholder='Your new password']")
           .clear()
-          .type(pwd, { delay: 0 });
+          .type(pwd, { delay: 0, parseSpecialCharSequences: false });
         cy.get("input[placeholder='Confirm your new password']")
           .clear()
-          .type(pwd, { delay: 0 });
+          .type(pwd, { delay: 0, parseSpecialCharSequences: false });
         cy.get("input[placeholder='TOTP verification code']")
           .clear()
           .type(get_totp(), { delay: 0 });
@@ -458,10 +474,10 @@ Cypress.Commands.add(
 
         cy.get('input[placeholder="Your new password"]')
           .clear()
-          .type(pwd, { delay: 0 });
+          .type(pwd, { delay: 0, parseSpecialCharSequences: false });
         cy.get('input[placeholder="Confirm your new password"]')
           .clear()
-          .type(pwd, { delay: 0 });
+          .type(pwd, { delay: 0, parseSpecialCharSequences: false });
 
         cy.intercept("POST", "/auth/login").as("login");
         cy.get('button:contains("Change")').click({ force: true });

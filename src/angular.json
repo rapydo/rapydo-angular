@@ -33,7 +33,7 @@
             ],
             "styles": ["./app/rapydo/styles/rapydo.scss"],
             "scripts": [],
-            "allowedCommonJsDependencies": ["xlsx", "ajv/dist/runtime/equal"]
+            "allowedCommonJsDependencies": ["ajv/dist/runtime/equal"]
           },
           "configurations": {
             "production": {
