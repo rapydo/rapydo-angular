@@ -29,11 +29,14 @@ getTestBed().initTestEnvironment(
 );
 
 // Then we find all tests
-const context = require.context("../", true, /\.spec\.ts$/);
-// const rapydo = require.context("../rapydo/app/", true, /\.spec\.ts$/);
-// const custom = require.context("../custom/app/", true, /\.spec\.ts$/);
+// const context = require.context("../", true, /\.spec\.ts$/);
+// And load the modules.
+// context.keys().map(context);
+
+// Then we find all tests
+const rapydo = require.context("../rapydo/app/", true, /\.spec\.ts$/);
+const custom = require.context("../custom/app/", true, /\.spec\.ts$/);
 
 // And load the modules.
-context.keys().map(context);
-// rapydo.keys().map(rapydo);
-// custom.keys().map(custom);
+rapydo.keys().map(rapydo);
+custom.keys().map(custom);
