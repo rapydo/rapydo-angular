@@ -200,6 +200,7 @@ export class FormlyService {
       }
 
       field["templateOptions"]["label"] = s.label;
+      field["templateOptions"]["labelPosition"] = "floating";
 
       if (stype === "select") {
         field["templateOptions"]["description"] = s.description;
