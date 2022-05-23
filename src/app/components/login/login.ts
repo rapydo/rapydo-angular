@@ -111,6 +111,7 @@ export class LoginComponent implements OnInit {
         templateOptions: {
           type: "email",
           label: "Username",
+          labelPosition: "floating",
           placeholder: "Your username (email)",
           addonLeft: {
             class: "fas fa-envelope",
@@ -125,6 +126,7 @@ export class LoginComponent implements OnInit {
         type: "password",
         templateOptions: {
           label: "Password",
+          labelPosition: "floating",
           placeholder: "Your password",
           addonLeft: {
             class: "fas fa-key",
@@ -140,6 +142,7 @@ export class LoginComponent implements OnInit {
         type: "password",
         templateOptions: {
           label: "New password",
+          labelPosition: "floating",
           placeholder: "Your new password",
           addonLeft: {
             class: "fas fa-key",
@@ -153,6 +156,7 @@ export class LoginComponent implements OnInit {
         type: "password",
         templateOptions: {
           label: "Password confirmation",
+          labelPosition: "floating",
           placeholder: "Confirm your new password",
           addonLeft: {
             class: "fas fa-key",
@@ -175,6 +179,7 @@ export class LoginComponent implements OnInit {
         templateOptions: {
           type: "string",
           label: "Verification code",
+          labelPosition: "floating",
           placeholder: "TOTP verification code",
           addonLeft: {
             class: "fas fa-shield-blank",
