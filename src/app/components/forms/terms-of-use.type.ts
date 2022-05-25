@@ -36,7 +36,7 @@ import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
         <h1 class="modal-title" id="modal-basic-title">{{ to.label }}</h1>
       </div>
 
-      <div class="modal-body" [innerHTML]="to.terms_of_use"></div>
+      <div class="modal-body" [innerHTML]="terms_of_use"></div>
 
       <div class="modal-footer">
         <button
@@ -55,11 +55,15 @@ export class TermsOfUseTypeComponent
   extends FormlyFieldCheckbox
   implements OnInit
 {
+  public terms_of_use: string = "";
+
   constructor(private modalService: NgbModal) {
     super();
   }
 
-  public ngOnInit(): void {}
+  public ngOnInit(): void {
+    this.terms_of_use = this.to.terms_of_use || "";
+  }
 
   // NgbModal.open is annotated as:
   // (content: any, options: NgbModalOptions = {}): NgbModalRef {
