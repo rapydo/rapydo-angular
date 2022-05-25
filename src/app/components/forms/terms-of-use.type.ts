@@ -62,6 +62,7 @@ export class TermsOfUseTypeComponent
   }
 
   public ngOnInit(): void {
+    // @ts-ignore
     this.terms_of_use = this.to.terms_of_use || "";
   }
 
