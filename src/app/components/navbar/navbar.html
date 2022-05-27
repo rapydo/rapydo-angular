@@ -75,7 +75,8 @@
         </li>
       </ul>
 
-      <ul class="nav navbar-nav ms-auto" *ngIf="!loading">
+      <!-- rpd-menu-controls is a hook to let custom styles from projects-->
+      <ul class="nav navbar-nav ms-auto rpd-menu-controls" *ngIf="!loading">
         <li class="nav-item" *ngIf="user">
           <a
             class="nav-link"
