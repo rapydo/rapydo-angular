@@ -53,7 +53,7 @@ jobs:
 
       - name: Setup Cypress
         uses: rapydo/actions/setup-cypress@v1
-        if: ${{ matrix.stage != 'karma' && matrix.stage != 'prod' }}
+        if: ${{ matrix.stage != 'karma' && matrix.stage != 'prod' && github.event_name != 'pull_request' }}
         with:
           id: ${{ secrets.CYPRESS_PROJECT_ID }}
           key: ${{ secrets.CYPRESS_RECORD_KEY }}
@@ -144,7 +144,11 @@ jobs:
           STAGE="${{ matrix.stage }}"
           LABEL=${STAGE/cypress-/}
 
-          rapydo shell frontend "yarn run cypress:start:${LABEL}"
+          if [[ "${github.event_name}" == "pull_request" ]]; then
+            rapydo shell frontend "yarn run cypress:start:${LABEL}:norecord"
+          else
+            rapydo shell frontend "yarn run cypress:start:${LABEL}"
+          fi
 
           rapydo shell frontend "npx nyc --all report --reporter=lcov --report-dir /coverage"
 
