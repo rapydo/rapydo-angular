@@ -149,7 +149,7 @@ jobs:
           STAGE="${{ matrix.stage }}"
           LABEL=${STAGE/cypress-/}
 
-          if [[ "${github.event_name}" == "pull_request" ]]; then
+          if [[ "${{github.event_name}}" == "pull_request" ]]; then
             rapydo shell frontend "yarn run cypress:start:${LABEL}:norecord"
           else
             rapydo shell frontend "yarn run cypress:start:${LABEL}"
