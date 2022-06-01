@@ -150,7 +150,7 @@ jobs:
           LABEL=${STAGE/cypress-/}
 
           if [[ "${{github.actor}}" == "dependabot[bot]" ]]; then
-            rapydo shell frontend "yarn run cypress:start:${LABEL}:norecord"
+            rapydo shell frontend "yarn run cypress:start:norecord"
           else
             rapydo shell frontend "yarn run cypress:start:${LABEL}"
           fi
