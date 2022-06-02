@@ -62,7 +62,7 @@
     "file-saver-es": "2.0.5",
     "angular2-cookie-law": "7.0.1",
     "generate-password-browser": "1.1.0",
-    "ngx-toastr": "14.2.2",
+    "ngx-toastr": "14.3.0",
     "ngx-google-analytics": "13.0.1",
     "@sentry/browser": "6.19.2",
     "xlsx": "0.18.5",
