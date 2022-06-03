@@ -33,7 +33,7 @@
     "@angular/router": "13.3.1",
     "@angular/animations": "13.3.1",
     "@angular/localize": "13.3.1",
-    "@angular/language-service": "13.3.1",
+    "@angular/language-service": "14.0.0",
     "@angular/platform-server": "13.3.1",
     "@angular/compiler-cli": "13.3.1",
     "@angular/cli": "13.3.1",
