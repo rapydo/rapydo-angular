@@ -281,20 +281,6 @@ jobs:
 
           echo -e "\n"
 
-          npm install cypress@10.0.2
-          echo '
-          const { defineConfig } = require('cypress')
-
-          module.exports = defineConfig({
-            e2e: {
-              supportFile: false,
-              specPattern: 'submodules/rapydo-angular/cypress/prod-test.js',
-            },
-          });
-          ' > cypress.config.js;
-
-          cypress run --browser chrome
-
           # Verify that the frontend correctly builds also when SSR is disabled
           rapydo remove
           rapydo -e ENABLE_ANGULAR_SSR=0 start
