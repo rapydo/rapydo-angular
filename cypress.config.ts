@@ -12,8 +12,6 @@ export default defineConfig({
       openMode: 0,
       runMode: 0,
     },
-  },
-  component: {
     setupNodeEvents(on, config) {
       require("@cypress/code-coverage/task")(on, config);
       require("cypress-fail-fast/plugin")(on, config);
