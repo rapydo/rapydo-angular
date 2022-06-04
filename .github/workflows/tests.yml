@@ -283,15 +283,15 @@ jobs:
 
           npm install -g cypress@10.0.2
           echo '
-          import { defineConfig } from "cypress";
+          const { defineConfig } = require('cypress')
 
-          export default defineConfig({
+          module.exports = defineConfig({
             e2e: {
               supportFile: false,
               specPattern: 'submodules/rapydo-angular/cypress/prod-test.js',
             },
           });
-          ' > cypress.config.ts;
+          ' > cypress.config.js;
 
           cypress run --browser chrome
 
