@@ -5,6 +5,7 @@ export default defineConfig({
     baseUrl: "http://localhost:8080",
     watchForFileChanges: false,
     supportFile: false,
+    specPattern: "/app/cypress/e2e/**/*.ts",
     screenshotsFolder: "/cypress",
     videosFolder: "/cypress",
     downloadsFolder: "/cypress",
