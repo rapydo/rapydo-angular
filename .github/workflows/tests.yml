@@ -281,7 +281,7 @@ jobs:
 
           echo -e "\n"
 
-          npm install -g cypress@10.0.2
+          npm install cypress@10.0.2
           echo '
           const { defineConfig } = require('cypress')
 
