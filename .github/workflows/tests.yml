@@ -282,7 +282,14 @@ jobs:
           echo -e "\n"
 
           npm install -g cypress@10.0.2
-          echo "{e2e: {supportFile: false, specPattern: 'submodules/rapydo-angular/cypress/prod-test.js'}}" > cypress.config.ts
+          echo "
+          {
+            e2e: {
+              supportFile: false,
+              specPattern: 'submodules/rapydo-angular/cypress/prod-test.js'
+            }
+          }" > cypress.config.ts;
+
           cypress run --browser chrome
 
           # Verify that the frontend correctly builds also when SSR is disabled
