@@ -281,8 +281,8 @@ jobs:
 
           echo -e "\n"
 
-          npm install -g cypress@9.5.3
-          echo "{}" > cypress.json
+          npm install -g cypress@10.0.2
+          echo "" > cypress.config.ts
           cypress run --browser chrome --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
 
           # Verify that the frontend correctly builds also when SSR is disabled
