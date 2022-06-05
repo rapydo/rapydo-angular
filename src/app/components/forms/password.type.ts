@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { NotificationService } from "@rapydo/services/notification";
-import { FieldType } from "@ngx-formly/core";
+import { FieldType } from "@ngx-formly/bootstrap/form-field";
+
 import { environment } from "@rapydo/../environments/environment";
 import * as generator from "generate-password-browser";
 
@@ -31,13 +32,8 @@ import * as generator from "generate-password-browser";
   ],
   // copied from https://github.com/ngx-formly/ngx-formly/blob/main/src/ui/bootstrap/input/src/input.type.ts
   template: `
-    <span
-      class="clickable float-end"
-      *ngIf="to.random_generation"
-      (click)="random()"
-      ngbTooltip="Click to generate a random password"
-      ><i class="fas fa-random"></i>&nbsp;<i>random</i></span
-    >
+    <!-- <ng-template #fieldTypeTemplate> -->
+
     <input
       [type]="show ? 'text' : 'password'"
       [formControl]="formControl"
@@ -57,6 +53,16 @@ import * as generator from "generate-password-browser";
       (mouseup)="hide_password()"
       (mouseleave)="hide_password()"
     ></i>
+
+    <span
+      class="clickable float-end"
+      *ngIf="to.random_generation"
+      (click)="random()"
+      ngbTooltip="Click to generate a random password"
+      ><i class="fas fa-random"></i>&nbsp;<i>random</i></span
+    >
+
+    <!-- </ng-template> -->
   `,
 })
 export class PasswordTypeComponent extends FieldType {

@@ -1,48 +1,45 @@
 import { Component } from "@angular/core";
-import { FieldType } from "@ngx-formly/core";
+import { FieldType } from "@ngx-formly/bootstrap/form-field";
 
 @Component({
   selector: "formly-field-radio",
 
-  // copied from https://github.com/ngx-formly/ngx-formly/blob/v5/src/bootstrap/src/lib/types/radio.ts
+  // copied from
+  // https://github.com/ngx-formly/ngx-formly/blob/main/src/ui/bootstrap/radio/src/radio.type.ts
   // removed pipe | formlySelectOptions:field | async (used to resolve observables?)
-  // removed dynamic classes from <label>
   // added description muted
   template: `
-    <div>
+    <ng-template #fieldTypeTemplate>
       <div
-        class="radio"
-        *ngFor="let option of to.options; let i = index"
-        [ngClass]="{
-          'form-check': to.formCheck !== 'custom',
-          'form-check-inline': to.formCheck === 'inline',
-          'custom-control custom-radio': to.formCheck === 'custom'
-        }"
+        *ngFor="let option of props.options; let i = index"
+        class="form-check"
+        [class.form-check-inline]="props.formCheck === 'inline'"
       >
-        <label class="custom-control custom-radio">
-          <input
-            type="radio"
-            class="custom-control-input"
-            [id]="id + '_' + i"
-            [name]="id"
-            [class.is-invalid]="showError"
-            [attr.value]="option.value"
-            [value]="option.value"
-            [formControl]="formControl"
-            [formlyAttributes]="field"
-          />
-          <span class="custom-control-label">
-            {{ option.label }}
-          </span>
-          <small
-            *ngIf="option.description"
-            class="radio-description form-text text-muted"
-          >
-            {{ option.description }}
-          </small>
+        <input
+          type="radio"
+          [id]="id + '_' + i"
+          class="form-check-input"
+          [name]="field.name || id"
+          [class.is-invalid]="showError"
+          [attr.value]="option.value"
+          [value]="option.value"
+          [formControl]="formControl"
+          [formlyAttributes]="field"
+          [attr.disabled]="
+            option.disabled || formControl.disabled ? true : null
+          "
+        />
+        <label class="form-check-label" [for]="id + '_' + i">
+          {{ option.label }}
         </label>
+        <small
+          *ngIf="option.description"
+          class="radio-description form-text text-muted"
+        >
+          {{ option.description }}
+        </small>
       </div>
-    </div>
+    </ng-template>
   `,
 })
 export class RadioTypeComponent extends FieldType {}

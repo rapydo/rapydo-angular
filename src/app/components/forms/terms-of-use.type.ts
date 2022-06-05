@@ -5,22 +5,40 @@ import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 @Component({
   selector: "formly-field-terms_of_use_checkbox",
   // Copied from
-  // https://github.com/formly-js/ngx-formly/blob/master/src/bootstrap/src/lib/types/checkbox.ts
+  // https://github.com/ngx-formly/ngx-formly/blob/main/src/ui/bootstrap/checkbox/src/checkbox.type.ts
   // changed to add link to acceptation
+  // removed <ng-template #fieldTypeTemplate>,
+  //    because bs5 does not support floating labels for checkboxes
   template: `
-    <div class="custom-control custom-checkbox">
+    <div
+      class="form-check"
+      [ngClass]="{
+        'form-check-inline':
+          props.formCheck === 'inline' || props.formCheck === 'inline-switch',
+        'form-switch':
+          props.formCheck === 'switch' || props.formCheck === 'inline-switch'
+      }"
+    >
       <input
-        class="custom-control-input"
         type="checkbox"
-        [id]="id"
         [class.is-invalid]="showError"
-        [indeterminate]="to.indeterminate"
+        class="form-check-input"
+        [class.position-static]="props.formCheck === 'nolabel'"
+        [indeterminate]="props.indeterminate && formControl.value == null"
         [formControl]="formControl"
         [formlyAttributes]="field"
       />
-      <label class="custom-control-label" [for]="id">
-        {{ to.label }}
-        <span *ngIf="to.required && to.hideRequiredMarker !== true">*</span>
+      <label
+        *ngIf="props.formCheck !== 'nolabel'"
+        [for]="id"
+        class="form-check-label"
+      >
+        {{ props.label }}
+        <span
+          *ngIf="props.required && props.hideRequiredMarker !== true"
+          aria-hidden="true"
+          >*</span
+        >
       </label>
       <a (click)="open(content)">
         ( <i class="fas fa-up-right-from-square"></i> read)
