@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewContainerRef } from "@angular/core";
 import { FieldType } from "@ngx-formly/bootstrap/form-field";
 import { concat, Observable, of, Subject } from "rxjs";
 import {
@@ -20,30 +20,30 @@ interface Item {
 @Component({
   selector: "formly-ng-select-autocomplete",
   template: `
-    <!-- <ng-template #fieldTypeTemplate> -->
-    <div>
-      <ng-select
-        [items]="items$ | async"
-        [formControl]="formControl"
-        [bindValue]="bindValue"
-        [bindLabel]="bindLabel"
-        [placeholder]="to.label"
-        [multiple]="to.multiple || false"
-        [loading]="itemLoading"
-        [typeahead]="itemInput$"
-        [trackByFn]="trackByFn"
-      >
-        <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-          <div class="ng-option-label">
-            <span [ngOptionHighlight]="search">{{ item[bindLabel] }}</span>
-          </div>
-          <ng-container *ngIf="showValue">
-            <small><b>ID:</b> {{ item[bindValue] }}</small>
-          </ng-container>
-        </ng-template>
-      </ng-select>
-    </div>
-    <!-- </ng-template> -->
+    <ng-template #fieldTypeTemplate>
+      <div>
+        <ng-select
+          [items]="items$ | async"
+          [formControl]="formControl"
+          [bindValue]="bindValue"
+          [bindLabel]="bindLabel"
+          [placeholder]="to.label"
+          [multiple]="to.multiple || false"
+          [loading]="itemLoading"
+          [typeahead]="itemInput$"
+          [trackByFn]="trackByFn"
+        >
+          <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+            <div class="ng-option-label">
+              <span [ngOptionHighlight]="search">{{ item[bindLabel] }}</span>
+            </div>
+            <ng-container *ngIf="showValue">
+              <small><b>ID:</b> {{ item[bindValue] }}</small>
+            </ng-container>
+          </ng-template>
+        </ng-select>
+      </div>
+    </ng-template>
   `,
 })
 export class AutocompleTypeComponent extends FieldType implements OnInit {
@@ -55,8 +55,12 @@ export class AutocompleTypeComponent extends FieldType implements OnInit {
   bindValue: string;
   bindLabel: string;
 
-  constructor(private api: ApiService, private notify: NotificationService) {
-    super();
+  constructor(
+    private api: ApiService,
+    private notify: NotificationService,
+    containerRef: ViewContainerRef
+  ) {
+    super(containerRef);
   }
 
   ngOnInit() {

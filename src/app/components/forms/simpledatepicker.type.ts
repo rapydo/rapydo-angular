@@ -1,4 +1,4 @@
-import { Component, Injectable } from "@angular/core";
+import { Component, Injectable, ViewContainerRef } from "@angular/core";
 import { FieldType } from "@ngx-formly/bootstrap/form-field";
 import { NgbDateAdapter, NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 
@@ -65,8 +65,11 @@ export class SimpleDateAdapter extends NgbDateAdapter<string> {
   providers: [{ provide: NgbDateAdapter, useClass: SimpleDateAdapter }],
 })
 export class SimpleDatePickerTypeComponent extends FieldType {
-  constructor(private dateAdapter: NgbDateAdapter<string>) {
-    super();
+  constructor(
+    private dateAdapter: NgbDateAdapter<string>,
+    containerRef: ViewContainerRef
+  ) {
+    super(containerRef);
   }
 
   public clear() {

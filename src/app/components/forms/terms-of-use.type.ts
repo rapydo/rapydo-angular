@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewContainerRef } from "@angular/core";
 import { FormlyFieldCheckbox } from "@ngx-formly/bootstrap/checkbox";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
@@ -75,8 +75,8 @@ export class TermsOfUseTypeComponent
 {
   public terms_of_use: string = "";
 
-  constructor(private modalService: NgbModal) {
-    super();
+  constructor(private modalService: NgbModal, containerRef: ViewContainerRef) {
+    super(containerRef);
   }
 
   public ngOnInit(): void {

@@ -1,4 +1,8 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ViewContainerRef,
+} from "@angular/core";
 import { NotificationService } from "@rapydo/services/notification";
 import { FieldType } from "@ngx-formly/bootstrap/form-field";
 
@@ -32,37 +36,35 @@ import * as generator from "generate-password-browser";
   ],
   // copied from https://github.com/ngx-formly/ngx-formly/blob/main/src/ui/bootstrap/input/src/input.type.ts
   template: `
-    <!-- <ng-template #fieldTypeTemplate> -->
+    <ng-template #fieldTypeTemplate>
+      <input
+        [type]="show ? 'text' : 'password'"
+        [formControl]="formControl"
+        class="form-control"
+        [formlyAttributes]="field"
+        [class.is-invalid]="showError"
+      />
 
-    <input
-      [type]="show ? 'text' : 'password'"
-      [formControl]="formControl"
-      class="form-control"
-      [formlyAttributes]="field"
-      [class.is-invalid]="showError"
-    />
+      <i
+        class="clickable toggle fas "
+        [ngClass]="{
+          'fa-eye': show,
+          'fa-eye-slash': !show,
+          'toggle-shift': showError
+        }"
+        (mousedown)="show_password()"
+        (mouseup)="hide_password()"
+        (mouseleave)="hide_password()"
+      ></i>
 
-    <i
-      class="clickable toggle fas "
-      [ngClass]="{
-        'fa-eye': show,
-        'fa-eye-slash': !show,
-        'toggle-shift': showError
-      }"
-      (mousedown)="show_password()"
-      (mouseup)="hide_password()"
-      (mouseleave)="hide_password()"
-    ></i>
-
-    <span
-      class="clickable float-end"
-      *ngIf="to.random_generation"
-      (click)="random()"
-      ngbTooltip="Click to generate a random password"
-      ><i class="fas fa-random"></i>&nbsp;<i>random</i></span
-    >
-
-    <!-- </ng-template> -->
+      <span
+        class="clickable float-end"
+        *ngIf="to.random_generation"
+        (click)="random()"
+        ngbTooltip="Click to generate a random password"
+        ><i class="fas fa-random"></i>&nbsp;<i>random</i></span
+      >
+    </ng-template>
   `,
 })
 export class PasswordTypeComponent extends FieldType {
@@ -74,8 +76,11 @@ export class PasswordTypeComponent extends FieldType {
     this.show = false;
   }
 
-  constructor(private notify: NotificationService) {
-    super();
+  constructor(
+    private notify: NotificationService,
+    containerRef: ViewContainerRef
+  ) {
+    super(containerRef);
   }
   public random() {
     const password = generator.generate({
