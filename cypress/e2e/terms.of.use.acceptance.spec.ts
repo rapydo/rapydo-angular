@@ -130,9 +130,9 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
       cy.get("button").contains("Login").click();
 
       cy.wait("@login");
-      // cy.get("input[placeholder='Your password']").should("not.exist");
 
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
+        cy.wait(50);
         cy.get("div.card-header h1").contains("Provide the verification code");
         cy.get("input[placeholder='TOTP verification code']").type(get_totp());
         cy.get("button").contains("Authorize").click();
