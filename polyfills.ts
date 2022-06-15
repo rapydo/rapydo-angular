@@ -87,3 +87,9 @@ import "@angular/localize/init";
 
 // required by exceljs (no longer used)
 // import "regenerator-runtime/runtime";
+
+/* To reference and create an instance of the Buffer. This requires to install the buffer package. */
+(window as any).global = window;
+declare var global: (any);
+declare var require: (any);
+global.Buffer = global.Buffer || require('buffer').Buffer;
