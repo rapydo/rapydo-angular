@@ -69,7 +69,8 @@
     "ajv-formats": "2.1.1",
     "angular-polyfills": "1.0.1",
     "localstorage-polyfill": "1.0.1",
-    "gzipper": "7.1.0"
+    "gzipper": "7.1.0",
+    "buffer": "6.0.3"
   },
   "devDependencies": {
     "karma": "6.4.0",
