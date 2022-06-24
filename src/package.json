@@ -38,7 +38,7 @@
     "@angular/compiler-cli": "14.0.2",
     "@angular/cli": "14.0.2",
     "@angular-devkit/architect": "0.1400.2",
-    "@angular-devkit/build-angular": "14.0.2",
+    "@angular-devkit/build-angular": "14.0.3",
     "@angular-devkit/core": "14.0.2",
     "@nguniversal/builders": "14.0.2",
     "ngx-build-plus": "14.0.0",
