@@ -10,6 +10,10 @@ describe("AdminLoginsComponent", () => {
   let fixture: ComponentFixture<AdminLoginsComponent>;
   let component: AdminLoginsComponent;
 
+  beforeAll(function () {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+  });
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [AppModule, AdminModule],
