@@ -266,8 +266,8 @@ let module_imports: any = [
     ],
     validationMessages: [
       { name: "required", message: "This field is required" },
-      { name: "minlength", message: minLengthValidationError },
-      // { name: "maxlength", message: maxLengthValidationError },
+      { name: "minLength", message: minLengthValidationError },
+      // { name: "maxLength", message: maxLengthValidationError },
       { name: "min", message: minValidationError },
       { name: "max", message: maxValidationError },
       { name: "email", message: "Invalid email address" },
