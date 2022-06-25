@@ -11,7 +11,7 @@ describe("AdminLoginsComponent", () => {
   let component: AdminLoginsComponent;
 
   beforeAll(function () {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 999999;
   });
 
   beforeEach(async(() => {
