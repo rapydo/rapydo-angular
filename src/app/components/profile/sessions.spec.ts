@@ -33,9 +33,7 @@ describe("SessionsComponent", () => {
     fixture.detectChanges();
   }));
 
-  /*
-  it('component initialization', () => {
+  it("component initialization", () => {
     expect(component).toBeDefined();
   });
-*/
 });
