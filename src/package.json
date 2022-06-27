@@ -56,7 +56,7 @@
     "@swimlane/ngx-datatable": "20.0.0",
     "moment": "2.29.3",
     "ngx-moment": "5.0.0",
-    "ngx-spinner": "13.1.1",
+    "ngx-spinner": "14.0.0",
     "ngx-clipboard": "15.1.0",
     "ngx-uploadx": "5.1.0",
     "file-saver-es": "2.0.5",
