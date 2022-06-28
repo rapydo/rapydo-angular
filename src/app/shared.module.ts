@@ -49,6 +49,7 @@ import { SafeHtmlPipe } from "@rapydo/pipes/safe_html";
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
 import { DeleteModal } from "@rapydo/components/delete_modal";
 import { FormModal } from "@rapydo/components/forms/form.modal";
+import { environment } from "@rapydo/../environments/environment";
 
 export function emailValidator(
   control: AbstractControl,
@@ -222,7 +223,7 @@ let module_imports: any = [
   NgxDatatableModule,
   UploadxModule,
   ClipboardModule,
-  NgxSpinnerModule,
+  NgxSpinnerModule.forRoot({ type: environment.spinnerType }),
   FormlyBootstrapModule,
   NgSelectModule,
   NgOptionHighlightModule,

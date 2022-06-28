@@ -21,6 +21,7 @@ describe("Environment", () => {
     expect(environment.allowTermsOfUse).not.toBeUndefined();
     expect(environment.minPasswordLength).not.toBeUndefined();
     expect(environment.forceSSRServerMode).not.toBeUndefined();
+    expect(environment.spinnerType).not.toBeUndefined();
     expect(environment.SENTRY_URL).not.toBeUndefined();
     expect(environment.GA_TRACKING_CODE).not.toBeUndefined();
     expect(environment.CUSTOM).not.toBeUndefined();
