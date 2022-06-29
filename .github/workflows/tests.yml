@@ -53,8 +53,9 @@ jobs:
           rapydo install compose
           rapydo --testing create prj --auth ${AUTH} --frontend angular --origin-url https://your_remote_git/your_project.git
 
-          echo "Forcing rapydo-angular to branch ${{ github.ref }}"
-          sed -i "s|# branch: rapydo-angular-branch|branch: ${{ github.ref }}|g" projects/prj/project_configuration.yaml
+          BRANCH=${github.ref/refs\/heads\//}
+          echo "Forcing rapydo-angular to branch ${BRANCH}"
+          sed -i "s|# branch: rapydo-angular-branch|branch: ${BRANCH}|g" projects/prj/project_configuration.yaml
 
           # This is to create a commit in the history to fill the BUILD variable
           git config --global user.email "tests@rapy.do"
