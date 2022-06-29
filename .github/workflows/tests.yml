@@ -38,6 +38,7 @@ jobs:
         with:
           node-version: "16.x"
       - name: Install
+        SOURCE_BRANCH: ${{ github.ref }}
         run: |
           python -m pip install --upgrade pip
           # version is "x.y.0": convert in x.y
@@ -53,7 +54,7 @@ jobs:
           rapydo install compose
           rapydo --testing create prj --auth ${AUTH} --frontend angular --origin-url https://your_remote_git/your_project.git
 
-          BRANCH=${github.ref/refs\/heads\//}
+          BRANCH=${SOURCE_BRANCH/refs\/heads\//}
           echo "Forcing rapydo-angular to branch ${BRANCH}"
           sed -i "s|# branch: \"rapydo-angular-branch\"|branch: \"${BRANCH}\"|g" projects/prj/project_configuration.yaml
 
