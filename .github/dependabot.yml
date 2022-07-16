@@ -10,11 +10,11 @@ updates:
     directory: "/"
     open-pull-requests-limit: 99
     schedule:
-      interval: "daily"
+      interval: "monthly"
 
   # Maintain dependencies for Angular
   - package-ecosystem: "npm"
     open-pull-requests-limit: 99
     directory: "/src"
     schedule:
-      interval: "daily"
+      interval: "monthly"
