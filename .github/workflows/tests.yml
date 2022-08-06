@@ -76,7 +76,7 @@ jobs:
 
       - name: Setup Cypress
         uses: rapydo/actions/setup-cypress@v2
-        if: ${{ matrix.stage != 'karma' && matrix.stage != 'prod' && github.actor != 'dependabot[bot]' && github.event_name != 'pull_request'}}
+        if: ${{ matrix.stage != 'karma' && matrix.stage != 'prod' && github.event_name != 'pull_request'}}
         with:
           id: ${{ secrets.CYPRESS_PROJECT_ID }}
           key: ${{ secrets.CYPRESS_RECORD_KEY }}
