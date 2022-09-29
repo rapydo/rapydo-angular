@@ -63,7 +63,7 @@
     "angular2-cookie-law": "7.0.1",
     "generate-password-browser": "1.1.0",
     "ngx-toastr": "15.0.0",
-    "ngx-google-analytics": "14.0.0",
+    "ngx-google-analytics": "14.0.1",
     "@sentry/browser": "7.11.1",
     "xlsx": "0.18.5",
     "ajv-formats": "2.1.1",
