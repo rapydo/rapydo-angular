@@ -44,6 +44,7 @@ export class FormlyService {
 
       // Uhmm... show to handle with placeholders? Should I raise a warning!??
       // field["wrappers"] = ["form-field-floating"];
+      let floating_labels_supported = true;
 
       if (stype === "string") {
         if (s.max && s.max > 256) {
@@ -67,6 +68,7 @@ export class FormlyService {
         field["templateOptions"]["min"] = s.min;
         field["templateOptions"]["max"] = s.max;
       } else if (stype === "date") {
+        floating_labels_supported = false;
         field_type = "simpledatepicker";
         if (typeof s.min !== "undefined") {
           field["templateOptions"]["min"] = this.getNgbDateStruct(s.min);
@@ -75,6 +77,7 @@ export class FormlyService {
           field["templateOptions"]["max"] = this.getNgbDateStruct(s.max);
         }
       } else if (stype === "datetime") {
+        floating_labels_supported = false;
         field_type = "datepicker";
         // field_type = "input";
         // template_type = "date";
@@ -108,6 +111,7 @@ export class FormlyService {
         //   field["templateOptions"]["maxLength"] = s.max;
         // }
       } else if (stype === "select") {
+        floating_labels_supported = false;
         // if (is_array) {
         //   field_type = "multicheckbox";
         //   // will output as a list instead of an object)
@@ -166,6 +170,7 @@ export class FormlyService {
         template_type = "url";
         field["validators"] = { validation: ["url"] };
       } else if (stype === "autocomplete") {
+        floating_labels_supported = false;
         field_type = "autocomplete";
         field["templateOptions"]["endpoint"] = s.autocomplete_endpoint;
         field["templateOptions"]["showValue"] = s.autocomplete_show_id;
@@ -200,7 +205,9 @@ export class FormlyService {
       }
 
       field["templateOptions"]["label"] = s.label;
-      field["templateOptions"]["labelPosition"] = "floating";
+      if (floating_labels_supported) {
+        field["templateOptions"]["labelPosition"] = "floating";
+      }
 
       if (stype === "select") {
         field["templateOptions"]["description"] = s.description;
