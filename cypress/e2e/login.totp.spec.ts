@@ -23,7 +23,7 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       cy.createuser(email, pwd, false, false);
 
       cy.visit("/app/login");
-      cy.closecookielaw();
+      cy.closecookielaw(true);
 
       cy.get("input[placeholder='Your username (email)']").type(email);
       cy.get("input[placeholder='Your password']").type(pwd, {
