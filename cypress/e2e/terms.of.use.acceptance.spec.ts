@@ -98,7 +98,10 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
       cy.get("button").contains("Login").click();
 
       cy.wait("@login");
-      // cy.get("input[placeholder='Your password']").should("not.exist");
+      // without this the following checks often fail, because
+      // the page is not refreshed yet to render the new form
+      cy.wait(1000);
+      cy.get("input[placeholder='Your password']").should("not.exist");
 
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
         cy.get("div.card-header h1").contains("Provide the verification code");
