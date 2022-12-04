@@ -45,7 +45,7 @@
     "core-js": "3.25.5",
     "zone.js": "0.11.8",
     "rxjs": "7.5.7",
-    "bootstrap": "5.2.1",
+    "bootstrap": "5.2.3",
     "@ng-bootstrap/ng-bootstrap": "13.0.0",
     "@popperjs/core": "2.11.6",
     "@fortawesome/fontawesome-free": "6.2.1",
