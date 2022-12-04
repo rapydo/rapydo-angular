@@ -40,7 +40,7 @@
     "@angular-devkit/architect": "0.1402.4",
     "@angular-devkit/build-angular": "14.2.4",
     "@angular-devkit/core": "14.2.4",
-    "@nguniversal/builders": "14.2.0",
+    "@nguniversal/builders": "14.2.3",
     "ngx-build-plus": "14.0.0",
     "core-js": "3.25.5",
     "zone.js": "0.11.8",
