@@ -15,9 +15,6 @@ jobs:
           [
             karma,
             cypress-lite,
-            cypress-full,
-            cypress-totp,
-            cypress-hiddenlogin,
             prod,
           ]
 
