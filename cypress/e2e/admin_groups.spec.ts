@@ -3,7 +3,7 @@
 
 /* mostly copied in StaffUsers */
 
-describe("AdminUsers", () => {
+describe("AdminGroups", () => {
   beforeEach(() => {
     cy.login();
 

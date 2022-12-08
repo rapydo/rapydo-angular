@@ -66,6 +66,8 @@ jobs:
           else
             BRANCH=${REF_BRANCH/refs\/heads\//}
           fi
+          # Also strip out tags from the branch
+          BRANCH=${BRANCH/refs\/tags\/v/}
           echo "Forcing rapydo-angular to branch ${BRANCH}"
           sed -i "s|# branch: \"rapydo-angular-branch\"|branch: \"${BRANCH}\"|g" projects/prj/project_configuration.yaml
 
