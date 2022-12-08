@@ -40,14 +40,6 @@ export function get_random_username(prefix: string) {
   return `${prefix}_${randval}@sample.org`;
 }
 
-import * as OTPAuth from "otpauth";
-
-const totp = new OTPAuth.TOTP({
-  // TESTING_TOTP_HASH is set by setup-cypress github action
-  secret: Cypress.env("TESTING_TOTP_HASH"),
-  digits: 6,
-  period: 30,
-});
 export function get_totp() {
-  return totp.generate();
+  return "111111";
 }

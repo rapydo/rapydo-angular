@@ -22,6 +22,7 @@ interface Env {
   allowTermsOfUse: boolean;
   minPasswordLength: number;
   forceSSRServerMode: boolean;
+  spinnerType: string;
   SENTRY_URL: string;
   GA_TRACKING_CODE: string;
   CUSTOM: Record<string, any>;
@@ -49,6 +50,7 @@ export const environment: Env = {
   minPasswordLength: parseInt(base.minPasswordLength),
   forceSSRServerMode:
     base.forceSSRServerMode === "1" || base.forceSSRServerMode === "true",
+  spinnerType: base.spinnerType,
   SENTRY_URL: base.SENTRY_URL,
   GA_TRACKING_CODE: base.GA_TRACKING_CODE,
   CUSTOM: {},

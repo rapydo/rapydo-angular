@@ -30,7 +30,6 @@ import { NgSelectModule } from "@ng-select/ng-select";
 import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
 
 import { FormlyHorizontalWrapper } from "@rapydo/components/forms/bootstrap.horizontal.wrapper";
-import { FormlyFloatingWrapper } from "@rapydo/components/forms/bootstrap.floating.wrapper";
 import { PasswordTypeComponent } from "@rapydo/components/forms/password.type";
 import { DatePickerTypeComponent } from "@rapydo/components/forms/datepicker.type";
 import { SimpleDatePickerTypeComponent } from "@rapydo/components/forms/simpledatepicker.type";
@@ -50,6 +49,7 @@ import { SafeHtmlPipe } from "@rapydo/pipes/safe_html";
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
 import { DeleteModal } from "@rapydo/components/delete_modal";
 import { FormModal } from "@rapydo/components/forms/form.modal";
+import { environment } from "@rapydo/../environments/environment";
 
 export function emailValidator(
   control: AbstractControl,
@@ -223,14 +223,13 @@ let module_imports: any = [
   NgxDatatableModule,
   UploadxModule,
   ClipboardModule,
-  NgxSpinnerModule,
+  NgxSpinnerModule.forRoot({ type: environment.spinnerType }),
   FormlyBootstrapModule,
   NgSelectModule,
   NgOptionHighlightModule,
   FormlyModule.forRoot({
     wrappers: [
       { name: "form-field-horizontal", component: FormlyHorizontalWrapper },
-      { name: "form-field-floating", component: FormlyFloatingWrapper },
     ],
     types: [
       {
@@ -268,8 +267,8 @@ let module_imports: any = [
     ],
     validationMessages: [
       { name: "required", message: "This field is required" },
-      { name: "minlength", message: minLengthValidationError },
-      // { name: "maxlength", message: maxLengthValidationError },
+      { name: "minLength", message: minLengthValidationError },
+      // { name: "maxLength", message: maxLengthValidationError },
       { name: "min", message: minValidationError },
       { name: "max", message: maxValidationError },
       { name: "email", message: "Invalid email address" },
@@ -298,7 +297,6 @@ let module_declarations = [
   DeleteModal,
   FormModal,
   FormlyHorizontalWrapper,
-  FormlyFloatingWrapper,
   RadioTypeComponent,
   TermsOfUseTypeComponent,
   DatePickerTypeComponent,
@@ -312,7 +310,6 @@ let module_exports = [
   CommonModule,
 
   FormlyHorizontalWrapper,
-  FormlyFloatingWrapper,
   RadioTypeComponent,
   TermsOfUseTypeComponent,
   DatePickerTypeComponent,

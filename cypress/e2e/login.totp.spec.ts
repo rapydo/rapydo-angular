@@ -23,6 +23,7 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       cy.createuser(email, pwd, false, false);
 
       cy.visit("/app/login");
+      cy.closecookielaw(true);
 
       cy.get("input[placeholder='Your username (email)']").type(email);
       cy.get("input[placeholder='Your password']").type(pwd, {
@@ -113,6 +114,7 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
     it("TOTP - login", () => {
       // Let's test the second login (temporary password already changed)
       cy.visit("/app/login");
+      cy.closecookielaw();
 
       cy.get("input[placeholder='Your username (email)']").type(email);
       cy.get("input[placeholder='Your password']").type(pwd, {
@@ -177,6 +179,7 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
 
     it("TOTP - change password", () => {
       cy.visit("/app/login");
+      cy.closecookielaw();
 
       cy.get("input[placeholder='Your username (email)']").type(email);
       cy.get("input[placeholder='Your password']").type(pwd, {

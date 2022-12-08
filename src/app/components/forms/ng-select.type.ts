@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FieldType } from "@ngx-formly/core";
+import { FieldType } from "@ngx-formly/bootstrap/form-field";
 import { Subject } from "rxjs";
 
 interface Item {
@@ -9,36 +9,38 @@ interface Item {
 @Component({
   selector: "formly-ng-select",
   template: `
-    <div>
-      <ng-select
-        [items]="to.options"
-        [formControl]="formControl"
-        [bindValue]="bindValue"
-        [bindLabel]="bindLabel"
-        [groupBy]="'group'"
-        [placeholder]="to.label"
-        [multiple]="to.multiple || false"
-        [loading]="itemLoading"
-        [typeahead]="itemInput$"
-        [trackByFn]="trackByFn"
-      >
-        <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-          <div class="ng-option-label">
-            <span [ngOptionHighlight]="search">{{ item[bindLabel] }}</span>
-          </div>
-          <ng-container *ngIf="showValue">
-            <small><b>ID:</b> {{ item[bindValue] }}</small>
-          </ng-container>
-          <ng-container
-            *ngIf="
-              to.extra_descriptions && to.extra_descriptions[item[bindValue]]
-            "
-          >
-            <small>{{ to.extra_descriptions[item[bindValue]] }}</small>
-          </ng-container>
-        </ng-template>
-      </ng-select>
-    </div>
+    <ng-template #fieldTypeTemplate>
+      <div>
+        <ng-select
+          [items]="to.options"
+          [formControl]="formControl"
+          [bindValue]="bindValue"
+          [bindLabel]="bindLabel"
+          [groupBy]="'group'"
+          [placeholder]="to.label"
+          [multiple]="to.multiple || false"
+          [loading]="itemLoading"
+          [typeahead]="itemInput$"
+          [trackByFn]="trackByFn"
+        >
+          <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+            <div class="ng-option-label">
+              <span [ngOptionHighlight]="search">{{ item[bindLabel] }}</span>
+            </div>
+            <ng-container *ngIf="showValue">
+              <small><b>ID:</b> {{ item[bindValue] }}</small>
+            </ng-container>
+            <ng-container
+              *ngIf="
+                to.extra_descriptions && to.extra_descriptions[item[bindValue]]
+              "
+            >
+              <small>{{ to.extra_descriptions[item[bindValue]] }}</small>
+            </ng-container>
+          </ng-template>
+        </ng-select>
+      </div>
+    </ng-template>
   `,
 })
 export class SelectTypeComponent extends FieldType implements OnInit {

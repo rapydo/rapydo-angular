@@ -2,7 +2,13 @@ name: Test
 
 on:
   push:
+  pull_request:
   workflow_dispatch:
+
+# Cancel previous running jobs on the same branch in case of new pushs
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -22,16 +28,20 @@ jobs:
           ]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: "3.11"
       - name: Set up Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: "16.x"
       - name: Install
+        env:
+          REF_BRANCH: ${{ github.ref }}
+          HEAD_REF_BRANCH: ${{ github.head_ref }}
+
         run: |
           python -m pip install --upgrade pip
           # version is "x.y.0": convert in x.y
@@ -46,14 +56,27 @@ jobs:
           cd rapydo_tests
           rapydo install compose
           rapydo --testing create prj --auth ${AUTH} --frontend angular --origin-url https://your_remote_git/your_project.git
+
+          # REF contains the branch when commit, but contains refs/pull/XXX/merge on PRs
+          # with PRs use HEAD_REF
+          # Strip out refs/heads/ prefix
+          if [[ ! -z $HEAD_REF_BRANCH ]];
+          then
+            BRANCH=${HEAD_REF_BRANCH/refs\/heads\//}
+          else
+            BRANCH=${REF_BRANCH/refs\/heads\//}
+          fi
+          echo "Forcing rapydo-angular to branch ${BRANCH}"
+          sed -i "s|# branch: \"rapydo-angular-branch\"|branch: \"${BRANCH}\"|g" projects/prj/project_configuration.yaml
+
           # This is to create a commit in the history to fill the BUILD variable
           git config --global user.email "tests@rapy.do"
           git config --global user.name "RAPyDo"
           git add -A && git commit -a -m "Initial commit"
 
       - name: Setup Cypress
-        uses: rapydo/actions/setup-cypress@v1
-        if: ${{ matrix.stage != 'karma' && matrix.stage != 'prod' }}
+        uses: rapydo/actions/setup-cypress@v2
+        if: ${{ matrix.stage != 'karma' && matrix.stage != 'prod' && github.event_name != 'pull_request'}}
         with:
           id: ${{ secrets.CYPRESS_PROJECT_ID }}
           key: ${{ secrets.CYPRESS_RECORD_KEY }}
@@ -144,7 +167,11 @@ jobs:
           STAGE="${{ matrix.stage }}"
           LABEL=${STAGE/cypress-/}
 
-          rapydo shell frontend "yarn run cypress:start:${LABEL}"
+          if [[ "${{github.actor}}" == "dependabot[bot]" ]] || [[ "${{github.event_name}}" == "pull_request" ]]; then
+            rapydo shell frontend "yarn run cypress:start:norecord"
+          else
+            rapydo shell frontend "yarn run cypress:start:${LABEL}"
+          fi
 
           rapydo shell frontend "npx nyc --all report --reporter=lcov --report-dir /coverage"
 
@@ -272,10 +299,6 @@ jobs:
 
           echo -e "\n"
 
-          npm install -g cypress@9.5.3
-          echo "{}" > cypress.json
-          cypress run --browser chrome --config integrationFolder=. --spec submodules/rapydo-angular/cypress/prod-test.js
-
           # Verify that the frontend correctly builds also when SSR is disabled
           rapydo remove
           rapydo -e ENABLE_ANGULAR_SSR=0 start
@@ -284,7 +307,7 @@ jobs:
           curl --insecure -X GET https://localhost
 
       - name: Coverage
-        uses: rapydo/actions/coverage@v1
+        uses: rapydo/actions/coverage@v2
         if: ${{ matrix.stage != 'prod' }}
         with:
           repository: rapydo_tests/submodules/rapydo-angular

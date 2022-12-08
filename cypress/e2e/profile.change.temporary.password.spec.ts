@@ -113,10 +113,10 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
 
       cy.get("@newpwd")
         .clear()
-        .type(pwd + "!");
+        .type(pwd + "!new!");
       cy.get("@confirm")
         .clear()
-        .type(pwd + "!");
+        .type(pwd + "!new!");
 
       cy.get("@submit").click({ force: true });
 
@@ -134,7 +134,7 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
 
       cy.logout();
 
-      cy.login(email, pwd + "!");
+      cy.login(email, pwd + "!new!");
 
       cy.goto_profile();
       cy.get("table").find("td").contains(email);
