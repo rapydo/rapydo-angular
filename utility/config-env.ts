@@ -102,7 +102,6 @@ for (let key in process.env) {
 }
 envConfigFile += `  
     SENTRY_URL: '${process.env.SENTRY_URL}',
-    GA_TRACKING_CODE: '${process.env.GA_TRACKING_CODE}'
 };
 `;
 fs.writeFile(targetPath, envConfigFile, function (err) {

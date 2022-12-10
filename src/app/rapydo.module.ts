@@ -12,10 +12,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { CookieLawModule } from "angular2-cookie-law";
 import { ToastrModule } from "ngx-toastr";
 import * as Sentry from "@sentry/browser";
-import {
-  NgxGoogleAnalyticsModule,
-  NgxGoogleAnalyticsRouterModule,
-} from "ngx-google-analytics";
 
 import { SharedModule } from "@rapydo/shared.module";
 import { NavbarComponent } from "@rapydo/components/navbar/navbar";
@@ -108,13 +104,6 @@ let module_imports: any = [
     positionClass: "toast-bottom-right",
   }),
 ];
-
-if (environment.GA_TRACKING_CODE !== "") {
-  module_imports.push(
-    NgxGoogleAnalyticsModule.forRoot(environment.GA_TRACKING_CODE)
-  );
-  module_imports.push(NgxGoogleAnalyticsRouterModule);
-}
 
 let module_declarations = [
   NavbarComponent,

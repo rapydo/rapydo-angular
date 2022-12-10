@@ -23,7 +23,6 @@ describe("Environment", () => {
     expect(environment.forceSSRServerMode).not.toBeUndefined();
     expect(environment.spinnerType).not.toBeUndefined();
     expect(environment.SENTRY_URL).not.toBeUndefined();
-    expect(environment.GA_TRACKING_CODE).not.toBeUndefined();
     expect(environment.CUSTOM).not.toBeUndefined();
   });
 });
