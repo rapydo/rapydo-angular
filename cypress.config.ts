@@ -4,7 +4,7 @@ export default defineConfig({
   e2e: {
     baseUrl: "http://localhost:8080",
     watchForFileChanges: false,
-    specPattern: "/app/cypress/e2e/**/*.ts",
+    specPattern: "/e2e/**/*.ts",
     screenshotsFolder: "/cypress",
     videosFolder: "/cypress",
     downloadsFolder: "/cypress",

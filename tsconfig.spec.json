@@ -10,6 +10,5 @@
     "app/rapydo/app/**/*.d.ts",
     "app/custom/app/**/*.spec.ts",
     "app/custom/app/**/*.d.ts"
-  ],
-  "exclude": ["cypress/**/*"]
+  ]
 }
