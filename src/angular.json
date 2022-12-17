@@ -112,7 +112,7 @@
               "browserTarget": "RAPyDo:build:production"
             },
             "cypress": {
-              "extraWebpackConfig": "/e2e/coverage.webpack.js"
+              "extraWebpackConfig": "/app/cypress/coverage.webpack.js"
             }
           }
         },
