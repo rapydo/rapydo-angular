@@ -23,6 +23,7 @@ describe("ApiService", () => {
     TestBed.configureTestingModule({
       providers: [ApiService],
       imports: [AppModule, HttpClientTestingModule],
+      teardown: { destroyAfterEach: false },
     });
 
     injector = getTestBed();

@@ -23,6 +23,7 @@ describe("AuthService", () => {
     TestBed.configureTestingModule({
       providers: [AuthService],
       imports: [AppModule, HttpClientTestingModule],
+      teardown: { destroyAfterEach: false },
     });
 
     injector = getTestBed();
