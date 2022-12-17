@@ -8,6 +8,7 @@ export default defineConfig({
     screenshotsFolder: "/cypress",
     videosFolder: "/cypress",
     downloadsFolder: "/cypress",
+    supportFile: "/e2e/support/e2e.js",
     retries: {
       openMode: 0,
       runMode: 0,

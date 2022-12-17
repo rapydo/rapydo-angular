@@ -2,7 +2,7 @@ import "@cypress/code-coverage/support";
 import "cypress-file-upload";
 import "cypress-fail-fast";
 
-import { get_totp } from "../fixtures/utilities";
+import { get_totp } from "./fixtures/utilities";
 
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
