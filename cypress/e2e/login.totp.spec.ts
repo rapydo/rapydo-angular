@@ -5,7 +5,7 @@ import {
   getpassword,
   get_random_username,
   get_totp,
-} from "../../fixtures/utilities";
+} from "../fixtures/utilities";
 
 if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
   describe("Login with TOTP", () => {

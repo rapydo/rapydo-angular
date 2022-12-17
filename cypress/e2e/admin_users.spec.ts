@@ -2,7 +2,7 @@
 /*global cy, Cypress*/
 
 /* mostly copied in StaffUsers */
-import { getpassword, get_random_username } from "../../fixtures/utilities";
+import { getpassword, get_random_username } from "../fixtures/utilities";
 
 describe("AdminUsers", () => {
   // do not directly create the random values here,

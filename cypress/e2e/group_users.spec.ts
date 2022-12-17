@@ -1,6 +1,6 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
-import { getpassword, get_random_username } from "../../fixtures/utilities";
+import { getpassword, get_random_username } from "../fixtures/utilities";
 
 describe("GroupUsers", () => {
   it("Test Group Users", () => {

@@ -4,7 +4,7 @@ import {
   getpassword,
   get_random_username,
   get_totp,
-} from "../../fixtures/utilities";
+} from "../fixtures/utilities";
 
 describe("SuccessfulLogin", () => {
   // do not directly create the random values here,

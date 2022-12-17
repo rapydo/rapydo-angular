@@ -1,7 +1,7 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword, get_totp } from "../../fixtures/utilities";
+import { getpassword, get_totp } from "../fixtures/utilities";
 
 if (Cypress.env("AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER")) {
   describe("Test inactivity ban", () => {

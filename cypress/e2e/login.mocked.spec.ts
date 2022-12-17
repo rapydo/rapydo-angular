@@ -1,7 +1,7 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword } from "../../fixtures/utilities";
+import { getpassword } from "../fixtures/utilities";
 
 describe("Mocked login", () => {
   beforeEach(() => {

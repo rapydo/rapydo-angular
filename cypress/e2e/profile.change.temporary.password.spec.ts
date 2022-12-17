@@ -5,7 +5,7 @@ import {
   getpassword,
   get_random_username,
   get_totp,
-} from "../../fixtures/utilities";
+} from "../fixtures/utilities";
 
 if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
   describe("ChangeTemporaryPassword", () => {

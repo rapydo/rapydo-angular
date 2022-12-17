@@ -5,7 +5,7 @@ import {
   getpassword,
   get_random_username,
   get_totp,
-} from "../../fixtures/utilities";
+} from "../fixtures/utilities";
 
 describe("Login Ban", () => {
   if (Cypress.env("AUTH_MAX_LOGIN_ATTEMPTS") > 0) {
