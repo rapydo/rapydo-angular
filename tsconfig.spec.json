@@ -4,7 +4,6 @@
     "outDir": "./out-tsc/spec",
     "types": ["jasmine", "node"]
   },
-  "files": ["app/rapydo/tests.ts", "polyfills.ts"],
   "include": [
     "app/rapydo/app/**/*.spec.ts",
     "app/rapydo/app/**/*.d.ts",
