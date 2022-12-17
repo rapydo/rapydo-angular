@@ -90,11 +90,16 @@
   "browserslist": [
     "defaults",
     "cover 99%",
-    "not safari < 9",
-    "not ios_saf < 9",
+    "not safari < 11",
+    "not ios_saf < 11",
     "not ie < 99",
     "not ie_mob < 99",
-    "not firefox < 40",
-    "not chrome < 40"
+    "not firefox <= 57",
+    "not chrome <= 60",
+    "not android < 4.5",
+    "not opera <= 47",
+    "not op_mini all",
+    "not samsung <= 7.4",
+    "not kaios <= 2.5"
   ]
 }
