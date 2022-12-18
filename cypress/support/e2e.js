@@ -492,6 +492,7 @@ Cypress.Commands.add(
         cy.wait(300);
       }
 
+      cy.wait(300);
       cy.logout();
     }
   }
