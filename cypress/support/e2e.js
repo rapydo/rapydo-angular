@@ -240,7 +240,7 @@ Cypress.Commands.add("login_and_init_user", (email = null, pwd = null) => {
 });
 
 Cypress.Commands.add("logout", () => {
-  cy.get("i.fa-right-from-bracket").parent().click();
+  cy.get("a[id=logout-icon]").click({ force: true });
   cy.get("button").contains("Confirm").click();
 });
 
