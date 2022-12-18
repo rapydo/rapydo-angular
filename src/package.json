@@ -46,7 +46,7 @@
     "zone.js": "0.11.8",
     "rxjs": "7.6.0",
     "bootstrap": "5.2.3",
-    "@ng-bootstrap/ng-bootstrap": "13.1.1",
+    "@ng-bootstrap/ng-bootstrap": "14.0.0",
     "@popperjs/core": "2.11.6",
     "@fortawesome/fontawesome-free": "6.2.1",
     "@ngx-formly/core": "6.0.4",
