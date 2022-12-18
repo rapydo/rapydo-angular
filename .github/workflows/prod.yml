@@ -15,18 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
 
-    strategy:
-      matrix:
-        stage:
-          [
-            karma,
-            cypress-lite,
-            cypress-full,
-            cypress-totp,
-            cypress-hiddenlogin,
-            prod,
-          ]
-
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
@@ -47,11 +35,6 @@ jobs:
           # version is "x.y.0": convert in x.y
           export CURRENT_VERSION=$(grep '"version"' src/package.json | awk {'print $2'} | tr -d '", ' | awk -F. {'print $1 "." $2'})
           pip install --upgrade --no-cache-dir git+https://github.com/rapydo/do.git@${CURRENT_VERSION}
-          auth_services=(postgres neo4j)
-          AUTH=${auth_services[$(($RANDOM % ${#auth_services[@]}))]}
-          echo "Selected random authentication service = ${AUTH}"
-          # Make the environment variable available to next steps
-          echo "AUTH=${AUTH}" >> $GITHUB_ENV
           mkdir rapydo_tests
           cd rapydo_tests
           rapydo install compose
@@ -76,109 +59,7 @@ jobs:
           git config --global user.name "RAPyDo"
           git add -A && git commit -a -m "Initial commit"
 
-      - name: Setup Cypress
-        uses: rapydo/actions/setup-cypress@v2
-        if: ${{ matrix.stage != 'karma' && matrix.stage != 'prod' && github.event_name != 'pull_request'}}
-        with:
-          id: ${{ secrets.CYPRESS_PROJECT_ID }}
-          key: ${{ secrets.CYPRESS_RECORD_KEY }}
-
-      - name: Setup Project
-        if: ${{ matrix.stage != 'karma' && matrix.stage != 'prod' }}
-        run: |
-          cd rapydo_tests
-
-          rapydo --testing init
-          rapydo add --force component sink
-
-          rapydo pull --quiet
-
-          STAGE="${{ matrix.stage }}"
-          LABEL=${STAGE/cypress-/}
-
-          if [[ "${LABEL}" == "full" ]]; then
-
-            rapydo \
-              -e API_AUTOSTART=1 \
-              -e PROJECT_TITLE="Your ${AUTH} ${LABEL} Project" \
-              -e ALLOW_TERMS_OF_USE=1 \
-              -e AUTH_FORCE_FIRST_PASSWORD_CHANGE=1 \
-              -e AUTH_MIN_PASSWORD_LENGTH=10 \
-              -e AUTH_MAX_LOGIN_ATTEMPTS=10 \
-              -e AUTH_MAX_PASSWORD_VALIDITY=120 \
-              -e AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER=60 \
-              start
-
-          elif [[ "${LABEL}" == "totp" ]]; then
-
-            rapydo \
-              -e API_AUTOSTART=1 \
-              -e PROJECT_TITLE="Your ${AUTH} ${LABEL} Project" \
-              -e ALLOW_TERMS_OF_USE=1 \
-              -e AUTH_FORCE_FIRST_PASSWORD_CHANGE=1 \
-              -e AUTH_MIN_PASSWORD_LENGTH=12 \
-              -e AUTH_MAX_LOGIN_ATTEMPTS=10 \
-              -e AUTH_MAX_PASSWORD_VALIDITY=120 \
-              -e AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER=60 \
-              -e AUTH_SECOND_FACTOR_AUTHENTICATION=1 \
-              -e AUTH_TOTP_VALIDITY_WINDOW=10 \
-              start
-
-          elif [[ "${LABEL}" == "hiddenlogin" ]]; then
-
-            rapydo \
-              -e API_AUTOSTART=1 \
-              -e PROJECT_TITLE="Your ${AUTH} ${LABEL} Project" \
-              -e SHOW_LOGIN=0 \
-              start
-
-          else
-
-            rapydo \
-              -e API_AUTOSTART=1 \
-              -e PROJECT_TITLE="Your ${AUTH} ${LABEL} Project" \
-              start
-
-          fi
-
-          sleep 30
-          rapydo logs
-          rapydo shell frontend "yarn install"
-          rapydo shell frontend "yarn workspaces focus --all"
-          rapydo shell frontend "reload-types"
-          rapydo logs
-
-      - name: Run Karma
-        if: ${{ matrix.stage == 'karma' }}
-        run: |
-          cd rapydo_tests
-          rapydo --testing init
-          rapydo pull --quiet frontend
-          rapydo start frontend
-          sleep 5
-          rapydo shell frontend "yarn install"
-          rapydo shell frontend "yarn workspaces focus --all"
-          rapydo shell frontend "reload-types"
-          rapydo shell frontend "yarn run test:single"
-
-      - name: Run Cypress
-        if: ${{ matrix.stage != 'karma' && matrix.stage != 'prod' }}
-        run: |
-          cd rapydo_tests
-
-          STAGE="${{ matrix.stage }}"
-          LABEL=${STAGE/cypress-/}
-
-          if [[ "${{github.actor}}" == "dependabot[bot]" ]] || [[ "${{github.event_name}}" == "pull_request" ]]; then
-            rapydo shell frontend "yarn run cypress:start:norecord"
-          else
-            rapydo shell frontend "yarn run cypress:start:${LABEL}"
-          fi
-
-          rapydo shell frontend "npx nyc --all report --reporter=lcov --report-dir /coverage"
-
       - name: Run Production Tests
-        if: ${{ matrix.stage == 'prod' }}
         run: |
           cd rapydo_tests
           rapydo --testing --prod init
@@ -307,21 +188,6 @@ jobs:
           rapydo logs --follow frontend
           rapydo logs --tail 6 frontend 2>&1 | grep "files have been compressed."
           curl --insecure -X GET https://localhost
-
-      - name: Coverage
-        uses: rapydo/actions/coverage@v2
-        if: ${{ matrix.stage != 'prod' }}
-        with:
-          repository: rapydo_tests/submodules/rapydo-angular
-          cov_file: rapydo_tests/data/prj/karma/lcov.info
-
-      - name: Print backend logs on failure
-        if: ${{ failure() && matrix.stage != 'karma' && matrix.stage != 'prod' }}
-        run: cat rapydo_tests/data/logs/backend-server.log
-
-      - name: Print mocked email on failure
-        if: ${{ failure() && matrix.stage != 'karma' && matrix.stage != 'prod' }}
-        run: cat rapydo_tests/data/logs/mock.mail.*.body 2>/dev/null || true
 
       - name: Docker logs on failure
         if: failure()
