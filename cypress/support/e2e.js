@@ -239,32 +239,14 @@ Cypress.Commands.add("login_and_init_user", (email = null, pwd = null) => {
   cy.wait(300);
 });
 
-Cypress.Commands.add("logout", (collapsed = false) => {
-  if (collapsed) {
-    cy.get("button.navbar-toggler").click();
-
-    // cy.get("a").find(".fa-right-from-bracket").parent().click({ force: true });
-    // cy.get("div.modal-footer")
-    //   .find("button")
-    //   .contains("Confirm")
-    //   .click({ force: true });
-
-    cy.get("i.fa-right-from-bracket").parent().click();
-    cy.scrollTo("top");
-    cy.get("button").contains("Confirm").click();
-  } else {
-    cy.get("i.fa-right-from-bracket").parent().click();
-    cy.get("button").contains("Confirm").click();
-  }
+Cypress.Commands.add("logout", () => {
+  cy.get("i.fa-right-from-bracket").parent().click();
+  cy.get("button").contains("Confirm").click();
 });
 
 // Replaces cy.visit("/app/profile") to introduces automatic waits on DOM elements
 // instead of requiring waits on the http call
-Cypress.Commands.add("goto_profile", (collapsed = false) => {
-  if (collapsed) {
-    cy.get("button.navbar-toggler").click();
-  }
-
+Cypress.Commands.add("goto_profile", () => {
   // Why this wait?
   // Cypress does not offer a way to automatically wait for all pending XHR requests and
   // often some requests e.g. GET /auth/status, are still under the hook when this click
