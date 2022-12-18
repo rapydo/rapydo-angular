@@ -17,9 +17,6 @@
  * BROWSER POLYFILLS
  */
 
-/** IE10 and IE11 requires the following for NgClass support on SVG elements */
-import "angular-polyfills/dist/classlist.js";
-
 /**
  * Web Animations `@angular/platform-browser/animations`
  * Only required if AnimationBuilder is used within the application and using IE/Edge or Safari.
@@ -58,16 +55,6 @@ import "zone.js/dist/zone";
 import "zone.js/dist/long-stack-trace-zone";
 
 /** APPLICATION IMPORTS */
-
-// import 'angular-polyfills/dist/all.js';
-import "angular-polyfills/dist/typedarray.js";
-import "angular-polyfills/dist/blob.js";
-import "angular-polyfills/dist/formdata.js";
-import "angular-polyfills/dist/intl.js";
-import "angular-polyfills/dist/shim.js";
-// This fails to import with error (on version 1.0.1):
-// TypeError: Cannot set property 'true' of undefined
-// import 'angular-polyfills/dist/webanimations.js';
 
 /* istanbul ignore next */
 // if (typeof (window as any).global === "undefined") {
