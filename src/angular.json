@@ -17,7 +17,7 @@
             "index": "app/rapydo/index.html",
             "main": "app/rapydo/main.ts",
             "deleteOutputPath": false,
-            "polyfills": "polyfills.ts",
+            "polyfills": ["zone.js", "polyfills.ts"],
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "sourceMap": true,
