@@ -102,10 +102,6 @@ describe("AdminMail", () => {
       .click({ force: true });
 
     cy.checkalert("Not a valid email address.");
-    // Without this wait the click will happen on the same popup...
-    // let's wait the first to disappear before clicking on the ther
-    cy.wait(300);
-    cy.checkalert("Not a valid email address.");
 
     cy.get('input[placeholder="CC email addresses (comma-delimited list)"]')
       .clear()
@@ -118,10 +114,6 @@ describe("AdminMail", () => {
       .find("button:contains('Send mail')")
       .click({ force: true });
 
-    cy.checkalert("Not a valid email address.");
-    // Without this wait the click will happen on the same popup...
-    // let's wait the first to disappear before clicking on the ther
-    cy.wait(300);
     cy.checkalert("Not a valid email address.");
 
     cy.get('input[placeholder="CC email addresses (comma-delimited list)"]')

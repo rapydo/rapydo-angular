@@ -299,7 +299,9 @@ Cypress.Commands.add("closecookielaw", (quiet = false) => {
 });
 
 Cypress.Commands.add("checkalert", (msg) => {
-  cy.get("div[role=alert]").contains(msg).click({ force: true });
+  cy.get("div[role=alert]")
+    .contains(msg)
+    .click({ force: true, multiple: true });
 });
 
 Cypress.Commands.add("checkvalidation", (index, msg) => {
