@@ -1,4 +1,4 @@
-name: Test
+name: Cypress
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 # Cancel previous running jobs on the same branch in case of new pushs
 concurrency:
-  group: tests-${{ github.ref }}
+  group: cypress-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:

@@ -1,4 +1,4 @@
-name: Test
+name: Karma
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 # Cancel previous running jobs on the same branch in case of new pushs
 concurrency:
-  group: tests-${{ github.ref }}
+  group: karma-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -38,7 +38,7 @@ jobs:
           mkdir rapydo_tests
           cd rapydo_tests
           rapydo install compose
-          rapydo --testing create prj --auth no --frontend angular --origin-url https://your_remote_git/your_project.git
+          rapydo --testing create prj --auth neo4j --frontend angular --origin-url https://your_remote_git/your_project.git
 
           # REF contains the branch when commit, but contains refs/pull/XXX/merge on PRs
           # with PRs use HEAD_REF
