@@ -17,13 +17,6 @@
  * BROWSER POLYFILLS
  */
 
-// Old Safari and IE
-import "core-js/stable";
-
-/** Evergreen browsers require these. **/
-// Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
-import "core-js/proposals/reflect-metadata";
-
 /** IE10 and IE11 requires the following for NgClass support on SVG elements */
 import "angular-polyfills/dist/classlist.js";
 
