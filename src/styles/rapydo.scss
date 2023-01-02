@@ -164,6 +164,10 @@ formly-field-multicheckbox > div {
   border-radius: 0.3em;
 }
 
+textarea {
+  height: 100% !important;
+}
+
 /* FORMLY ERRORS */
 
 .error-messages {

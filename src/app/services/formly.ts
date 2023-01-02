@@ -177,6 +177,9 @@ export class FormlyService {
         field["templateOptions"]["bindValue"] = s.autocomplete_id_bind;
         field["templateOptions"]["bindLabel"] = s.autocomplete_label_bind;
         field["templateOptions"]["multiple"] = is_array;
+      } else if (is_array) {
+        field_type = "textarea";
+        field["templateOptions"]["rows"] = 5;
       }
 
       if (s.key.includes(".")) {
