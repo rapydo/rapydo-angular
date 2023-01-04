@@ -88,10 +88,10 @@ describe("AdminMail", () => {
       .clear()
       .type("sample@nomail.org");
 
-    cy.get('input[placeholder="CC email addresses (comma-delimited list)"]')
+    cy.get('textarea[placeholder="CC email addresses (comma-delimited list)"]')
       .clear()
       .type("Your email");
-    cy.get('input[placeholder="BCC email addresses (comma-delimited list)"]')
+    cy.get('textarea[placeholder="BCC email addresses (comma-delimited list)"]')
       .clear()
       .type("Your email");
 
@@ -101,10 +101,10 @@ describe("AdminMail", () => {
 
     cy.checkalert("Not a valid email address.");
 
-    cy.get('input[placeholder="CC email addresses (comma-delimited list)"]')
+    cy.get('textarea[placeholder="CC email addresses (comma-delimited list)"]')
       .clear()
       .type("sample1@nomail.org,sample2");
-    cy.get('input[placeholder="BCC email addresses (comma-delimited list)"]')
+    cy.get('textarea[placeholder="BCC email addresses (comma-delimited list)"]')
       .clear()
       .type("sample3@nomail.org,sample4");
 
@@ -114,10 +114,10 @@ describe("AdminMail", () => {
 
     cy.checkalert("Not a valid email address.");
 
-    cy.get('input[placeholder="CC email addresses (comma-delimited list)"]')
+    cy.get('textarea[placeholder="CC email addresses (comma-delimited list)"]')
       .clear()
       .type("sample1@nomail.org,sample2@nomail.org");
-    cy.get('input[placeholder="BCC email addresses (comma-delimited list)"]')
+    cy.get('textarea[placeholder="BCC email addresses (comma-delimited list)"]')
       .clear()
       .type("sample3@nomail.org,sample4@nomail.org");
 
