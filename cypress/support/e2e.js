@@ -240,8 +240,11 @@ Cypress.Commands.add("login_and_init_user", (email = null, pwd = null) => {
 });
 
 Cypress.Commands.add("logout", () => {
-  cy.wait(200);
-  cy.get("a[id=logout-icon]").click({ force: true });
+  // With Angular 15 I'm experiencing issues with the logout modal
+  // that often does not trigger the modal opening when clicked
+  // this is one of the several attempts to work around the problem
+  cy.reload(true);
+  cy.get("button[id=logout-icon]").click({ force: true });
   cy.get("button").contains("Confirm").click();
 });
 

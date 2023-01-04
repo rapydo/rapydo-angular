@@ -93,13 +93,18 @@
         </li>
 
         <li class="nav-item" *ngIf="user">
-          <a class="nav-link" id="logout-icon" href [routerLink]="">
+          <button
+            class="nav-link btn btn-link"
+            id="logout-icon"
+            href
+            [routerLink]=""
+          >
             <i
               class="fas fa-right-from-bracket fa-lg clickable"
               ngbTooltip="Click to logout"
               (click)="do_logout()"
             ></i>
-          </a>
+          </button>
         </li>
 
         <li
