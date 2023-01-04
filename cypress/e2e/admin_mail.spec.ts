@@ -26,8 +26,7 @@ describe("AdminMail", () => {
     cy.get('input[placeholder="Subject of your email"]')
       .clear()
       .type("Your subject");
-    // It should work because there is only 1 textarea
-    cy.get("textarea").clear().type("Your <b>body</b>!");
+    cy.get('textarea[placeholder="Body"]').clear().type("Your <b>body</b>!");
     cy.get('input[placeholder="Destination email address"]')
       .clear()
       .type("Your email");
@@ -84,8 +83,7 @@ describe("AdminMail", () => {
     cy.get('input[placeholder="Subject of your email"]')
       .clear()
       .type("Your subject");
-    // It should work because there is only 1 textarea
-    cy.get("textarea").clear().type("Your <b>body</b>!");
+    cy.get('textarea[placeholder="Body"]').clear().type("Your <b>body</b>!");
     cy.get('input[placeholder="Destination email address"]')
       .clear()
       .type("sample@nomail.org");
