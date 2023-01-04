@@ -193,8 +193,6 @@ if (Cypress.env("ALLOW_PASSWORD_RESET")) {
     });
 
     after(() => {
-      cy.logout();
-
       cy.login();
       cy.deleteuser(email);
     });

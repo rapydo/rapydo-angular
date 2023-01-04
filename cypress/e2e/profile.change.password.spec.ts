@@ -190,8 +190,6 @@ describe("ChangePassword", () => {
   });
 
   after(() => {
-    cy.logout();
-
     cy.login();
     cy.deleteuser(email);
   });

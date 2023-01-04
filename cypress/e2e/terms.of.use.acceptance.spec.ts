@@ -154,8 +154,6 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
     });
 
     after(() => {
-      cy.logout();
-
       cy.login();
 
       cy.visit("/app/admin/users");

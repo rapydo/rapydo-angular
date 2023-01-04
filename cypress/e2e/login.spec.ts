@@ -84,7 +84,7 @@ describe("SuccessfulLogin", () => {
     cy.get("a").find(".fa-user");
     cy.get("table").find("td").contains(email);
 
-    cy.logout();
+    cy.logout(false);
 
     // After the logout you are automatically redirected to the default page...
     // more in generale not on the profile page

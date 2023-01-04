@@ -183,8 +183,6 @@ describe("Login", () => {
     } else {
       cy.get("button").contains("Change").click();
     }
-
-    cy.logout();
   });
 
   after(() => {

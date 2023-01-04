@@ -86,7 +86,6 @@ describe("Login Ban", () => {
 
         cy.login(email, pwd);
         cy.goto_profile();
-        cy.logout();
       });
 
       cy.login();
@@ -157,7 +156,6 @@ describe("Login Ban", () => {
 
           cy.login(email, pwd);
           cy.goto_profile();
-          cy.logout();
         });
 
         cy.login();

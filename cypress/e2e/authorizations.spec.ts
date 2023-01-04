@@ -67,11 +67,9 @@ describe("Test Authorizations", () => {
     cy.checkalert(
       "Permission denied: you are not authorized to access this page"
     );
-    // cy.login(email, pwd);
     ////////////////////////////////////////////////////////////////////
 
     // Delete temporary user
-    // cy.logout();
     cy.login();
     cy.deleteuser(email);
   });
@@ -149,11 +147,9 @@ describe("Test Authorizations", () => {
       cy.checkalert(
         "Permission denied: you are not authorized to access this page"
       );
-      // cy.login(email, pwd);
       ////////////////////////////////////////////////////////////////////
 
       // Delete temporary user
-      // cy.logout();
       cy.login();
       cy.deleteuser(email);
     });
@@ -238,7 +234,6 @@ describe("Test Authorizations", () => {
     ////////////////////////////////////////////////////////////////////
 
     // Delete temporary user
-    cy.logout();
     cy.login();
     cy.deleteuser(email);
   });
@@ -321,11 +316,9 @@ describe("Test Authorizations", () => {
     cy.checkalert(
       "Permission denied: you are not authorized to access this page"
     );
-    // cy.login(email, pwd);
     ////////////////////////////////////////////////////////////////////
 
     // Delete temporary user
-    // cy.logout();
     cy.login();
     cy.deleteuser(email);
   });

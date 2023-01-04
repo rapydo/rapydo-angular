@@ -132,8 +132,6 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
       cy.goto_profile();
       cy.get("table").find("td").contains(email);
 
-      cy.logout();
-
       cy.login(email, pwd + "!new!");
 
       cy.goto_profile();
@@ -141,8 +139,6 @@ if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
     });
 
     after(() => {
-      cy.logout();
-
       cy.login();
       cy.deleteuser(email);
     });

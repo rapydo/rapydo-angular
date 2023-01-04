@@ -367,8 +367,6 @@ describe("Registration", () => {
       cy.checkalert(
         "Permission denied: you are not authorized to access this page"
       );
-
-      cy.logout();
     });
 
     after(() => {

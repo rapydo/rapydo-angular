@@ -239,14 +239,17 @@ Cypress.Commands.add("login_and_init_user", (email = null, pwd = null) => {
   cy.wait(300);
 });
 
-Cypress.Commands.add("logout", () => {
-  // With Angular 15 I'm experiencing issues with the logout modal
-  // that often does not trigger the modal opening when clicked
-  // this is one of the several attempts to work around the problem
-  cy.goto_profile();
-
-  cy.get("button[id=logout-icon]").click({ force: true });
-  cy.get("button").contains("Confirm").click();
+// With Angular 15 I'm experiencing issues with the logout modal
+// that often does not trigger the modal opening when clicked
+// Warning: at the moment all logouts have via_modal false !!
+Cypress.Commands.add("logout", (via_modal = true) => {
+  if (via_modal) {
+    cy.get("button[id=logout-icon]").click({ force: true });
+    cy.get("button").contains("Confirm").click();
+  } else {
+    // access to login page triggers tokens invalidation
+    cy.visit("/app/login");
+  }
 });
 
 // Replaces cy.visit("/app/profile") to introduces automatic waits on DOM elements
@@ -399,7 +402,7 @@ Cypress.Commands.add(
 
     cy.checkalert("Confirmation: user successfully created");
 
-    cy.logout();
+    cy.logout(false);
 
     if (init_user) {
       cy.visit("/app/login");
@@ -481,8 +484,7 @@ Cypress.Commands.add(
         cy.wait(300);
       }
 
-      cy.wait(300);
-      cy.logout();
+      cy.logout(false);
     }
   }
 );

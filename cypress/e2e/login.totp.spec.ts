@@ -107,8 +107,6 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       cy.goto_profile();
 
       cy.get("table").find("td").contains(email);
-
-      cy.logout();
     });
 
     it("TOTP - login", () => {
@@ -288,8 +286,6 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
     });
 
     after(() => {
-      cy.logout();
-
       cy.login();
       cy.deleteuser(email);
     });
