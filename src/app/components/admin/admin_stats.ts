@@ -44,7 +44,7 @@ export class AdminStatsComponent implements OnInit {
         key: "refresh_interval",
         type: "input",
         defaultValue: "",
-        templateOptions: {
+        props: {
           type: "number",
           min: 0,
           max: 3600,

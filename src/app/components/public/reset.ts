@@ -62,7 +62,7 @@ export class ResetPasswordComponent implements OnInit {
     this.step1_fields.push({
       key: "reset_email",
       type: "input",
-      templateOptions: {
+      props: {
         type: "email",
         label: "Your e-mail address",
         placeholder: "Type here your email address to receive the reset link",
@@ -77,8 +77,7 @@ export class ResetPasswordComponent implements OnInit {
     this.step2_fields.push({
       key: "newPwd",
       type: "password",
-      templateOptions: {
-        // type: "password",
+      props: {
         label: "New password",
         placeholder: "Type here your new password",
         addonLeft: {
@@ -91,8 +90,7 @@ export class ResetPasswordComponent implements OnInit {
     this.step2_fields.push({
       key: "confirmPwd",
       type: "password",
-      templateOptions: {
-        // type: "password",
+      props: {
         label: "Confirm password",
         placeholder: "Type again your new password for confirmation",
         addonLeft: {

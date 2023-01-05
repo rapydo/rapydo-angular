@@ -108,7 +108,7 @@ export class LoginComponent implements OnInit {
         key: "username",
         type: "input",
         focus: true,
-        templateOptions: {
+        props: {
           type: "email",
           // label: "Username",
           // labelPosition: "floating",
@@ -124,7 +124,7 @@ export class LoginComponent implements OnInit {
       this.fields.push({
         key: "password",
         type: "password",
-        templateOptions: {
+        props: {
           // label: "Password",
           // labelPosition: "floating",
           placeholder: "Your password",
@@ -140,7 +140,7 @@ export class LoginComponent implements OnInit {
       this.fields.push({
         key: "new_password",
         type: "password",
-        templateOptions: {
+        props: {
           // label: "New password",
           // labelPosition: "floating",
           placeholder: "Your new password",
@@ -154,7 +154,7 @@ export class LoginComponent implements OnInit {
       this.fields.push({
         key: "password_confirm",
         type: "password",
-        templateOptions: {
+        props: {
           // label: "Password confirmation",
           // labelPosition: "floating",
           placeholder: "Confirm your new password",
@@ -176,7 +176,7 @@ export class LoginComponent implements OnInit {
         key: "totp_code",
         type: "input",
         focus: true,
-        templateOptions: {
+        props: {
           type: "string",
           // label: "Verification code",
           // labelPosition: "floating",

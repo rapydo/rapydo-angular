@@ -166,20 +166,20 @@ export function URLValidator(
 }
 
 export function minLengthValidationError(error, field) {
-  return `Should have at least ${field.templateOptions.minLength} characters`;
+  return `Should have at least ${field.props.minLength} characters`;
 }
 
 // Can't be used because inputs are prevented to add more characters then the maximum allowed
 // export function maxLengthValidationError(error, field) {
-//   return `Should have no more than ${field.templateOptions.maxLength} characters`;
+//   return `Should have no more than ${field.props.maxLength} characters`;
 // }
 
 export function minValidationError(error, field) {
-  return `Should be greater than ${field.templateOptions.min}`;
+  return `Should be greater than ${field.props.min}`;
 }
 
 export function maxValidationError(error, field) {
-  return `Should be lower than ${field.templateOptions.max}`;
+  return `Should be lower than ${field.props.max}`;
 }
 
 // ngbDatepicker uses { year: 'yyyy', month: 'mm', day: 'dd'} as date format by default
