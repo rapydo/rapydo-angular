@@ -27,14 +27,22 @@ describe("Login", () => {
     cy.get("input[placeholder='Your username (email)']").as("user");
     cy.get("input[placeholder='Your password']").as("pwd");
 
-    cy.intercept("POST", "/auth/login", {
-      statusCode: 403,
-      times: 1,
-      body: {
-        actions: ["PASSWORD EXPIRED"],
-        errors: ["Your password is expired, please change it"],
+    cy.intercept(
+      // routeMatcher
+      {
+        path: "/auth/login",
+        method: "POST",
+        times: 1,
       },
-    }).as("login");
+      // staticResponse
+      {
+        statusCode: 403,
+        body: {
+          actions: ["PASSWORD EXPIRED"],
+          errors: ["Your password is expired, please change it"],
+        },
+      }
+    ).as("login");
 
     cy.get("@user").type(email);
     cy.get("@pwd").type(pwd, { parseSpecialCharSequences: false });
@@ -44,8 +52,6 @@ describe("Login", () => {
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/login");
     });
-
-    cy.intercept("POST", "/auth/login");
 
     cy.checkalert("Your password is expired, please change it");
     cy.get("div.card-header h1").contains(
