@@ -45,6 +45,8 @@ describe("Login", () => {
       expect(location.pathname).to.eq("/app/login");
     });
 
+    cy.intercept("POST", "/auth/login");
+
     cy.checkalert("Your password is expired, please change it");
     cy.get("div.card-header h1").contains(
       "Your password is expired, please change it"
