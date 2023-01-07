@@ -231,6 +231,11 @@ describe("AdminUsers", () => {
     cy.get("datatable-body-row").its("length").should("be.gte", 1);
   });
 
+  it("Download users as excel", () => {
+    cy.get("div.card-header div i.fa-download").click();
+    // TODO: to be implemented. See profile.sessions.spec.ts
+  });
+
   it("Backend errors", () => {
     cy.intercept("DELETE", /\/api\/admin\/users\/*/, {
       statusCode: 500,
