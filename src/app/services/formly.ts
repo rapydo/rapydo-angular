@@ -1,12 +1,14 @@
 import { Injectable } from "@angular/core";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { FormlyFieldConfig } from "@ngx-formly/core";
-import * as moment from "moment";
+import { DateService } from "@rapydo/services/date";
 
 import { Schema, JSON2Form } from "@rapydo/types";
 
 @Injectable()
 export class FormlyService {
+  constructor(private date: DateService) {}
+
   private get_type(s: Schema) {
     if (s.options && s.type !== "radio") {
       return "select";
@@ -326,19 +328,11 @@ export class FormlyService {
     return [year, month, day].join("-");
   }
   public getNgbDateStruct(d: Date | string | number): NgbDateStruct {
-    // Can handle both string in standard (ISO?) formats and Date objects
-    const mdt = moment.utc(d);
+    const utc = this.date.toUTCDate(d);
     return {
-      year: mdt.year(),
-      month: 1 + mdt.month(),
-      day: mdt.date(),
+      year: utc.getFullYear(),
+      month: 1 + utc.getMonth(),
+      day: utc.getDate(),
     };
-
-    // Version Date only, no moment conversion:
-    // return {
-    //   year: d.getFullYear(),
-    //   month: d.getMonth() + 1,
-    //   day: d.getDate()
-    // }
   }
 }

@@ -2,6 +2,7 @@ import { TestBed, getTestBed } from "@angular/core/testing";
 import { FormControl } from "@angular/forms";
 import { FormlyService } from "@rapydo/services/formly";
 import { Schema, SchemaType } from "@rapydo/types";
+import { DateService } from "@rapydo/services/date";
 import { emailValidator } from "@rapydo/shared.module";
 
 describe("FormlyService", () => {
@@ -86,7 +87,7 @@ describe("FormlyService", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [FormlyService],
+      providers: [FormlyService, DateService],
     });
 
     injector = getTestBed();

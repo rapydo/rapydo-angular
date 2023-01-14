@@ -57,7 +57,8 @@
 
           <ng-template #dataDate let-row="row" let-value="value" let-i="index">
             <span ngbTooltip="{{value | date : 'yyyy MMM dd HH:mm:ss'}}">
-              {{value | amTimeAgo:false}}
+              {{value | dfnsParseIso | dfnsFormatDistanceToNow: {addSuffix:true}
+              }}
             </span>
           </ng-template>
 

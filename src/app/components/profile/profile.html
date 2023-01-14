@@ -67,9 +67,9 @@
                 <tr *ngIf="user.expiration">
                   <th>Validity</th>
                   <td>
-                    Your account will expire on {{ user.expiration |
-                    amDateFormat: 'Do of MMMM YYYY' }} ({{ user.expiration |
-                    amTimeAgo }})
+                    Your account will expire on {{ user.expiration | date: 'dd
+                    MMMM YYYY' }} ({{ user.expiration | dfnsParseIso |
+                    dfnsFormatDistanceToNow }})
                   </td>
                 </tr>
 
@@ -85,7 +85,8 @@
                       ngbTooltip="{{ user.last_password_change || user.first_login | date : 'yyyy MMM dd HH:mm:ss' }}"
                     >
                       {{ user.last_password_change || user.first_login |
-                      amTimeAgo:false }}
+                      dfnsParseIso | dfnsFormatDistanceToNow: {addSuffix:true}
+                      }}
                     </span>
                     <a
                       routerLink="changepassword"

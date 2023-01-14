@@ -54,7 +54,7 @@
 
           <ng-template #dateCell let-row="row" let-value="value" let-i="index">
             <span *ngIf="value">
-              {{value | amFromUtc | date : 'dd MMM yyyy HH:mm:ss'}}
+              {{value | date : 'dd MMM yyyy HH:mm:ss'}}
             </span>
             <span *ngIf="!value">N/A</span>
           </ng-template>

@@ -13,7 +13,7 @@ import { BasePaginationComponent } from "@rapydo/components/base.pagination.comp
 import { ExcelService } from "@rapydo/services/excel";
 import { AdminUser } from "@rapydo/types";
 import { environment } from "@rapydo/../environments/environment";
-import * as moment from "moment";
+import { format } from "date-fns";
 
 @Component({
   templateUrl: "admin_users.html",
@@ -198,7 +198,7 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
   }
 
   download() {
-    const m = moment().format("YYYYMMDD_HHmmss");
+    const m = format(new Date(), "yyyyMMdd_HHmmss");
     const filename = `${environment.projectName}_users_${m}.xlsx`;
 
     const headers = ["Name", "Surname", "Email", "Group", "Affiliation"];

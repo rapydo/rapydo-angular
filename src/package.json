@@ -53,8 +53,6 @@
     "@ng-select/ng-select": "10.0.3",
     "@ng-select/ng-option-highlight": "0.0.7",
     "@swimlane/ngx-datatable": "20.1.0",
-    "moment": "2.29.4",
-    "ngx-moment": "5.0.0",
     "date-fns": "2.29.3",
     "ngx-date-fns": "10.0.1",
     "ngx-spinner": "15.0.1",

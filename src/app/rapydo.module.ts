@@ -24,6 +24,7 @@ import { FormlyService } from "@rapydo/services/formly";
 import { SSRService } from "@rapydo/services/ssr";
 import { NotificationService } from "@rapydo/services/notification";
 import { ExcelService } from "@rapydo/services/excel";
+import { DateService } from "@rapydo/services/date";
 import { ConfirmationModals } from "@rapydo/services/confirmation.modals";
 
 import { JwtInterceptor } from "@rapydo/jwt.interceptor";
@@ -131,6 +132,7 @@ let module_providers: any = [
   AuthService,
   AuthGuard,
   ApiService,
+  DateService,
   FormlyService,
   SSRService,
   NotificationService,
