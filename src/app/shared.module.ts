@@ -20,7 +20,8 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 
 import { MomentModule } from "ngx-moment";
-import * as moment from "moment";
+import { DateFnsModule } from "ngx-date-fns";
+import { format, parse } from "date-fns";
 
 import { ClipboardModule } from "ngx-clipboard";
 
@@ -185,31 +186,29 @@ export function maxValidationError(error, field) {
 // ngbDatepicker uses { year: 'yyyy', month: 'mm', day: 'dd'} as date format by default
 // this adapter allow ngbDatepicker to accept js native Dates
 @Injectable()
-export class MomentDateFormatter extends NgbDateParserFormatter {
+export class DateFormatter extends NgbDateParserFormatter {
   // Convert a string formatted as 'DD/MM/YYYY' into {year: 'yyyy', month: 'mm', day:}
   parse(value: string): NgbDateStruct {
-    if (value) {
-      value = value.trim();
-      let mdt = moment(value, "DD/MM/YYYY");
-      return {
-        year: mdt.year(),
-        month: 1 + mdt.month(),
-        day: mdt.date(),
-      };
+    if (!value) {
+      return null;
     }
-    return null;
+    value = value.trim();
+
+    let d = parse(value, "dd/MM/yyyy", new Date());
+
+    return {
+      year: d.getFullYear(),
+      month: 1 + d.getMonth(),
+      day: d.getDate(),
+    };
   }
 
-  // Convert {year: 'yyyy', month: 'mm', day:} 'dd' into DD/MM/YYYY
+  // Convert {year: 'yyyy', month: 'mm', day: 'dd'} into DD/MM/YYYY
   format(date: NgbDateStruct): string {
     if (!date) {
       return "";
     }
-    let mdt = moment([date.year, date.month - 1, date.day]);
-    if (!mdt.isValid()) {
-      return "";
-    }
-    return mdt.format("DD/MM/YYYY");
+    return format(new Date(date.year, date.month - 1, date.day), "dd/MM/yyyy");
   }
 }
 
@@ -218,6 +217,7 @@ let module_imports: any = [
 
   NgbModule,
   MomentModule,
+  DateFnsModule.forRoot(),
   FormsModule,
   ReactiveFormsModule,
   NgxDatatableModule,
@@ -343,7 +343,7 @@ let module_exports = [
 
 let module_providers: any = [
   { provide: NgbDateAdapter, useClass: NgbDateNativeUTCAdapter },
-  { provide: NgbDateParserFormatter, useValue: new MomentDateFormatter() },
+  { provide: NgbDateParserFormatter, useValue: new DateFormatter() },
 ];
 
 @NgModule({

@@ -13,6 +13,7 @@ Based on:
 - file-saver(es)
 - ngx-toastr
 - moment + ngx-moment
+- date-fns + ngx-date-fns
 - font-awesome
 - ngx-clipboard
 - angular2-cookie-law
