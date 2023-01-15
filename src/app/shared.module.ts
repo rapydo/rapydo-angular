@@ -19,6 +19,7 @@ import {
   NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
 
+import { DateFnsModule } from "ngx-date-fns";
 import { MomentModule } from "ngx-moment";
 import * as moment from "moment";
 
@@ -217,6 +218,7 @@ let module_imports: any = [
   CommonModule,
 
   NgbModule,
+  DateFnsModule.forRoot(),
   MomentModule,
   FormsModule,
   ReactiveFormsModule,
@@ -320,6 +322,7 @@ let module_exports = [
 
   NgxDatatableModule,
   NgbModule,
+  DateFnsModule,
   MomentModule,
   FormsModule,
   ReactiveFormsModule,
