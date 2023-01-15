@@ -26,8 +26,7 @@ describe("AdminMail", () => {
     cy.get('input[placeholder="Subject of your email"]')
       .clear()
       .type("Your subject");
-    // It should work because there is only 1 textarea
-    cy.get("textarea").clear().type("Your <b>body</b>!");
+    cy.get("textarea").first().clear().type("Your <b>body</b>!");
     cy.get('input[placeholder="Destination email address"]')
       .clear()
       .type("Your email");
@@ -84,16 +83,15 @@ describe("AdminMail", () => {
     cy.get('input[placeholder="Subject of your email"]')
       .clear()
       .type("Your subject");
-    // It should work because there is only 1 textarea
-    cy.get("textarea").clear().type("Your <b>body</b>!");
+    cy.get("textarea").first().clear().type("Your <b>body</b>!");
     cy.get('input[placeholder="Destination email address"]')
       .clear()
       .type("sample@nomail.org");
 
-    cy.get('input[placeholder="CC email addresses (comma-delimited list)"]')
+    cy.get('textarea[placeholder="CC email addresses (comma-delimited list)"]')
       .clear()
       .type("Your email");
-    cy.get('input[placeholder="BCC email addresses (comma-delimited list)"]')
+    cy.get('textarea[placeholder="BCC email addresses (comma-delimited list)"]')
       .clear()
       .type("Your email");
 
@@ -102,15 +100,11 @@ describe("AdminMail", () => {
       .click({ force: true });
 
     cy.checkalert("Not a valid email address.");
-    // Without this wait the click will happen on the same popup...
-    // let's wait the first to disappear before clicking on the ther
-    cy.wait(300);
-    cy.checkalert("Not a valid email address.");
 
-    cy.get('input[placeholder="CC email addresses (comma-delimited list)"]')
+    cy.get('textarea[placeholder="CC email addresses (comma-delimited list)"]')
       .clear()
       .type("sample1@nomail.org,sample2");
-    cy.get('input[placeholder="BCC email addresses (comma-delimited list)"]')
+    cy.get('textarea[placeholder="BCC email addresses (comma-delimited list)"]')
       .clear()
       .type("sample3@nomail.org,sample4");
 
@@ -119,15 +113,11 @@ describe("AdminMail", () => {
       .click({ force: true });
 
     cy.checkalert("Not a valid email address.");
-    // Without this wait the click will happen on the same popup...
-    // let's wait the first to disappear before clicking on the ther
-    cy.wait(300);
-    cy.checkalert("Not a valid email address.");
 
-    cy.get('input[placeholder="CC email addresses (comma-delimited list)"]')
+    cy.get('textarea[placeholder="CC email addresses (comma-delimited list)"]')
       .clear()
       .type("sample1@nomail.org,sample2@nomail.org");
-    cy.get('input[placeholder="BCC email addresses (comma-delimited list)"]')
+    cy.get('textarea[placeholder="BCC email addresses (comma-delimited list)"]')
       .clear()
       .type("sample3@nomail.org,sample4@nomail.org");
 
