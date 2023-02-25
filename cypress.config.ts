@@ -15,6 +15,7 @@ export default defineConfig({
     },
     setupNodeEvents(on, config) {
       require("@cypress/code-coverage/task")(on, config);
+      require("cypress-fail-fast/plugin")(on, config);
 
       // add other tasks to be registered here
 

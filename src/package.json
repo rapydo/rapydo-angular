@@ -14,11 +14,11 @@
     "test": "ng test --code-coverage",
     "test:single": "ng test --code-coverage --watch=false",
     "cypress": "cypress run",
-    "cypress:start:full": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --record --group full --browser chrome --auto-cancel-after-failures 1'",
-    "cypress:start:totp": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --record --group totp --browser chrome --auto-cancel-after-failures 1'",
-    "cypress:start:lite": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --record --group lite --browser chrome --auto-cancel-after-failures 1'",
-    "cypress:start:hiddenlogin": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --record --group hiddenlogin --browser chrome --auto-cancel-after-failures 1'",
-    "cypress:start:norecord": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --browser chrome --auto-cancel-after-failures 1'"
+    "cypress:start:full": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --record --group full --browser chrome'",
+    "cypress:start:totp": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --record --group totp --browser chrome'",
+    "cypress:start:lite": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --record --group lite --browser chrome'",
+    "cypress:start:hiddenlogin": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --record --group hiddenlogin --browser chrome'",
+    "cypress:start:norecord": "start-server-and-test start:for-cypress http://localhost:8080 'cypress run --browser chrome'"
   },
   "license": "MIT",
   "dependencies": {
@@ -79,6 +79,7 @@
     "cypress": "12.7.0",
     "@cypress/code-coverage": "3.10.0",
     "cypress-file-upload": "5.0.8",
+    "cypress-fail-fast": "7.0.0",
     "istanbul-instrumenter-loader": "3.0.1",
     "nyc": "15.1.0",
     "start-server-and-test": "1.15.4",
