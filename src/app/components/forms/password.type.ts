@@ -22,11 +22,14 @@ import * as generator from "generate-password-browser";
         padding-right: 30px;
       }
       .toggle {
+        margin-right: 0;
+        margin-top: 0;
+        position: absolute;
         float: right;
-        margin-right: 10px;
-        margin-top: -27px;
-        position: relative;
-        z-index: 2;
+        right: -4px;
+        top: 10px;
+        padding: 0 0.75rem;
+        z-index: 6;
         color: gray;
       }
       .toggle-shift {
@@ -40,7 +43,7 @@ import * as generator from "generate-password-browser";
       <input
         [type]="show ? 'text' : 'password'"
         [formControl]="formControl"
-        class="form-control"
+        class="form-control rounded-end"
         [formlyAttributes]="field"
         [class.is-invalid]="showError"
       />
