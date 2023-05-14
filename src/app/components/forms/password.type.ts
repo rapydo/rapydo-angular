@@ -42,8 +42,8 @@ import * as generator from "generate-password-browser";
     <ng-template #fieldTypeTemplate>
       <input
         [type]="show ? 'text' : 'password'"
-        [formControl]="formControl rounded-end"
-        class="form-control"
+        [formControl]="formControl"
+        class="form-control rounded-end"
         [formlyAttributes]="field"
         [class.is-invalid]="showError"
       />
