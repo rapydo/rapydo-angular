@@ -83,7 +83,7 @@
     "istanbul-instrumenter-loader": "3.0.1",
     "nyc": "15.1.0",
     "start-server-and-test": "2.0.0",
-    "node-xlsx": "0.21.0"
+    "node-xlsx": "0.21.2"
   },
   "browserslist": [
     "defaults",
