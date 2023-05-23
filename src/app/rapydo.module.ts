@@ -22,6 +22,7 @@ import { AuthService } from "@rapydo/services/auth";
 import { ApiService } from "@rapydo/services/api";
 import { FormlyService } from "@rapydo/services/formly";
 import { SSRService } from "@rapydo/services/ssr";
+import { SharedService } from "@rapydo/services/shared-service";
 import { NotificationService } from "@rapydo/services/notification";
 import { ExcelService } from "@rapydo/services/excel";
 import { DateService } from "@rapydo/services/date";
@@ -135,6 +136,7 @@ let module_providers: any = [
   DateService,
   FormlyService,
   SSRService,
+  SharedService,
   NotificationService,
   BaseProjectOptions,
   ConfirmationModals,
