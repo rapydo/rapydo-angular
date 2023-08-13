@@ -13,10 +13,10 @@ describe("404", () => {
 
     cy.get("div.card-header h1").contains("404 - Page not found");
     cy.get("div.card-body h2").contains(
-      "The page you requested could not be found!"
+      "The page you requested could not be found!",
     );
     cy.get("div.card-body h4").contains(
-      "Please report the error if you reached this page by following a link"
+      "Please report the error if you reached this page by following a link",
     );
 
     cy.contains("GO HOME");

@@ -1,4 +1,11 @@
-import { Component, ChangeDetectorRef, OnInit, Input, ElementRef, Renderer2 } from "@angular/core";
+import {
+  Component,
+  ChangeDetectorRef,
+  OnInit,
+  Input,
+  ElementRef,
+  Renderer2,
+} from "@angular/core";
 import { Router } from "@angular/router";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
@@ -33,13 +40,13 @@ export class NavbarComponent implements OnInit {
   @Input()
   set display(value: string) {
     this._display = value;
-    if (value === 'none') {
+    if (value === "none") {
       this.hide();
       return;
     }
     this.show();
   }
-  private _display = 'block';
+  private _display = "block";
 
   constructor(
     private router: Router,
@@ -52,7 +59,7 @@ export class NavbarComponent implements OnInit {
     private confirmationModals: ConfirmationModals,
     private ref: ChangeDetectorRef,
     private _el: ElementRef,
-    private _renderer: Renderer2
+    private _renderer: Renderer2,
   ) {
     this.showLogin = environment.showLogin;
     this.allowRegistration = environment.allowRegistration;
@@ -146,17 +153,17 @@ export class NavbarComponent implements OnInit {
           this.router.navigate([""]);
         });
       },
-      (reason) => {}
+      (reason) => {},
     );
   }
 
   /** allows to manually show this content */
   show(): void {
-    this._renderer.setStyle(this._el.nativeElement, 'display', this._display);
+    this._renderer.setStyle(this._el.nativeElement, "display", this._display);
   }
 
   /** allows to manually hide content */
   hide(): void {
-    this._renderer.setStyle(this._el.nativeElement, 'display', 'none');
+    this._renderer.setStyle(this._el.nativeElement, "display", "none");
   }
 }

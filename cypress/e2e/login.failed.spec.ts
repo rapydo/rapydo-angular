@@ -72,7 +72,7 @@ describe("FailedLogin", () => {
     cy.wait("@login1");
 
     cy.checkalert(
-      "Unable to login due to a server error. If this error persists please contact system administrators"
+      "Unable to login due to a server error. If this error persists please contact system administrators",
     );
 
     cy.intercept("POST", "/auth/login", {

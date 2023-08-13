@@ -16,7 +16,10 @@ export class AdminLoginsComponent extends BasePaginationComponent<Login> {
   @ViewChild("failedCell", { static: false })
   public failedCell: TemplateRef<any>;
 
-  constructor(protected injector: Injector, private excel: ExcelService) {
+  constructor(
+    protected injector: Injector,
+    private excel: ExcelService,
+  ) {
     super(injector);
     this.init("login", "/api/admin/logins", "Logins");
     this.initPaging();

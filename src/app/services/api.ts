@@ -25,7 +25,7 @@ export class ApiService {
     private router: Router,
     private local_storage: LocalStorageService,
     private notify: NotificationService,
-    private ssr: SSRService
+    private ssr: SSRService,
   ) {}
 
   public is_online(): boolean {
@@ -52,7 +52,7 @@ export class ApiService {
   public get<T>(
     endpoint: string,
     data: Record<string, unknown> = {},
-    options: Record<string, unknown> = {}
+    options: Record<string, unknown> = {},
   ): Observable<T> {
     return this.call<T>("GET", endpoint, data, options);
   }
@@ -60,7 +60,7 @@ export class ApiService {
   public post<T>(
     endpoint: string,
     data: Record<string, unknown> = {},
-    options: Record<string, unknown> = {}
+    options: Record<string, unknown> = {},
   ): Observable<T> {
     return this.call<T>("POST", endpoint, data, options);
   }
@@ -68,7 +68,7 @@ export class ApiService {
   public put<T>(
     endpoint: string,
     data: Record<string, unknown> = {},
-    options: Record<string, unknown> = {}
+    options: Record<string, unknown> = {},
   ): Observable<T> {
     return this.call<T>("PUT", endpoint, data, options);
   }
@@ -76,14 +76,14 @@ export class ApiService {
   public patch<T>(
     endpoint: string,
     data: Record<string, unknown> = {},
-    options: Record<string, unknown> = {}
+    options: Record<string, unknown> = {},
   ): Observable<T> {
     return this.call<T>("PATCH", endpoint, data, options);
   }
 
   public delete<T>(
     endpoint: string,
-    options: Record<string, unknown> = {}
+    options: Record<string, unknown> = {},
   ): Observable<T> {
     return this.call<T>("DELETE", endpoint, {}, options);
   }
@@ -92,7 +92,7 @@ export class ApiService {
     method: string,
     endpoint: string,
     data: Record<string, unknown> = {},
-    options: Record<string, unknown> = {}
+    options: Record<string, unknown> = {},
   ): Observable<T> {
     const conf = this.opt(options, "conf");
     const rawError = this.opt(options, "rawError", false);
@@ -160,7 +160,7 @@ export class ApiService {
               for (let error of errors) {
                 this.notify.showError(
                   error,
-                  `Invalid ${validationSchema} response`
+                  `Invalid ${validationSchema} response`,
                 );
               }
               throw new Error("Response validation error");
@@ -216,7 +216,7 @@ export class ApiService {
 
         // This is a HttpErrorResponse
         return throwError(this.parse_error(error));
-      })
+      }),
     );
   }
 

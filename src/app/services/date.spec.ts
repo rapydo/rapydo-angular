@@ -18,7 +18,7 @@ describe("DateService", () => {
 
   it("convertDate", async () => {
     expect(
-      service.toUTCString("2023-01-14T00:00:00.000Z", "yyyy-MM-dd")
+      service.toUTCString("2023-01-14T00:00:00.000Z", "yyyy-MM-dd"),
     ).toEqual("2023-01-14");
   });
 });

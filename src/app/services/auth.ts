@@ -13,7 +13,7 @@ export class AuthService {
   constructor(
     private local_storage: LocalStorageService,
     private api: ApiService,
-    private notify: NotificationService
+    private notify: NotificationService,
   ) {}
 
   private isAuth$: Observable<boolean>;
@@ -25,7 +25,7 @@ export class AuthService {
     password: string,
     new_password: string = null,
     password_confirm: string = null,
-    totp_code: string = null
+    totp_code: string = null,
   ) {
     let data;
     if (new_password !== null && password_confirm !== null) {
@@ -52,7 +52,7 @@ export class AuthService {
           this.local_storage.clean();
           this.local_storage.setToken(response);
           return response;
-        })
+        }),
       );
   }
 
@@ -60,7 +60,7 @@ export class AuthService {
     return this.api.get<any>("/auth/logout", {}, { redirect: false }).pipe(
       finalize(() => {
         this.local_storage.removeToken();
-      })
+      }),
     );
   }
 
@@ -72,7 +72,7 @@ export class AuthService {
           this.local_storage.removeToken();
 
           return response;
-        })
+        }),
       );
   }
 
@@ -93,7 +93,7 @@ export class AuthService {
         catchError((error) => {
           this.notify.showError(error);
           return throwError(error);
-        })
+        }),
       );
   }
 
@@ -138,7 +138,7 @@ export class AuthService {
               this.local_storage.removeToken();
             }
             return of(false);
-          })
+          }),
         );
 
       this.isAuthSubscriptionTime = currentTime;
@@ -171,7 +171,7 @@ export class AuthService {
       }
     }
     this.notify.showError(
-      "Permission denied: you are not authorized to access this page"
+      "Permission denied: you are not authorized to access this page",
     );
     return false;
   }

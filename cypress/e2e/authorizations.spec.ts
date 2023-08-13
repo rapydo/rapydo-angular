@@ -65,7 +65,7 @@ describe("Test Authorizations", () => {
       expect(location.pathname).to.not.eq("/app/group/users");
     });
     cy.checkalert(
-      "Permission denied: you are not authorized to access this page"
+      "Permission denied: you are not authorized to access this page",
     );
     ////////////////////////////////////////////////////////////////////
 
@@ -118,7 +118,7 @@ describe("Test Authorizations", () => {
         expect(location.pathname).to.not.eq("/app/admin/sessions");
       });
       cy.checkalert(
-        "Permission denied: you are not authorized to access this page"
+        "Permission denied: you are not authorized to access this page",
       );
       cy.login(email, pwd);
       ////////////////////////////////////////////////////////////////////
@@ -127,7 +127,7 @@ describe("Test Authorizations", () => {
         expect(location.pathname).to.not.eq("/app/admin/stats");
       });
       cy.checkalert(
-        "Permission denied: you are not authorized to access this page"
+        "Permission denied: you are not authorized to access this page",
       );
       cy.login(email, pwd);
       ////////////////////////////////////////////////////////////////////
@@ -136,7 +136,7 @@ describe("Test Authorizations", () => {
         expect(location.pathname).to.not.eq("/app/admin/mail");
       });
       cy.checkalert(
-        "Permission denied: you are not authorized to access this page"
+        "Permission denied: you are not authorized to access this page",
       );
       cy.login(email, pwd);
       ////////////////////////////////////////////////////////////////////
@@ -145,7 +145,7 @@ describe("Test Authorizations", () => {
         expect(location.pathname).to.not.eq("/app/group/users");
       });
       cy.checkalert(
-        "Permission denied: you are not authorized to access this page"
+        "Permission denied: you are not authorized to access this page",
       );
       ////////////////////////////////////////////////////////////////////
 
@@ -186,7 +186,7 @@ describe("Test Authorizations", () => {
       expect(location.pathname).to.not.eq("/app/admin/users");
     });
     cy.checkalert(
-      "Permission denied: you are not authorized to access this page"
+      "Permission denied: you are not authorized to access this page",
     );
     cy.login(email, pwd);
     ////////////////////////////////////////////////////////////////////
@@ -195,7 +195,7 @@ describe("Test Authorizations", () => {
       expect(location.pathname).to.not.eq("/app/admin/groups");
     });
     cy.checkalert(
-      "Permission denied: you are not authorized to access this page"
+      "Permission denied: you are not authorized to access this page",
     );
     cy.login(email, pwd);
     ////////////////////////////////////////////////////////////////////
@@ -204,7 +204,7 @@ describe("Test Authorizations", () => {
       expect(location.pathname).to.not.eq("/app/admin/sessions");
     });
     cy.checkalert(
-      "Permission denied: you are not authorized to access this page"
+      "Permission denied: you are not authorized to access this page",
     );
     cy.login(email, pwd);
     ////////////////////////////////////////////////////////////////////
@@ -213,7 +213,7 @@ describe("Test Authorizations", () => {
       expect(location.pathname).to.not.eq("/app/admin/stats");
     });
     cy.checkalert(
-      "Permission denied: you are not authorized to access this page"
+      "Permission denied: you are not authorized to access this page",
     );
     cy.login(email, pwd);
     ////////////////////////////////////////////////////////////////////
@@ -222,7 +222,7 @@ describe("Test Authorizations", () => {
       expect(location.pathname).to.not.eq("/app/admin/mail");
     });
     cy.checkalert(
-      "Permission denied: you are not authorized to access this page"
+      "Permission denied: you are not authorized to access this page",
     );
     cy.login(email, pwd);
     ////////////////////////////////////////////////////////////////////
@@ -269,7 +269,7 @@ describe("Test Authorizations", () => {
       expect(location.pathname).to.not.eq("/app/admin/users");
     });
     cy.checkalert(
-      "Permission denied: you are not authorized to access this page"
+      "Permission denied: you are not authorized to access this page",
     );
     cy.login(email, pwd);
     ////////////////////////////////////////////////////////////////////
@@ -278,7 +278,7 @@ describe("Test Authorizations", () => {
       expect(location.pathname).to.not.eq("/app/admin/groups");
     });
     cy.checkalert(
-      "Permission denied: you are not authorized to access this page"
+      "Permission denied: you are not authorized to access this page",
     );
     cy.login(email, pwd);
     ////////////////////////////////////////////////////////////////////
@@ -287,7 +287,7 @@ describe("Test Authorizations", () => {
       expect(location.pathname).to.not.eq("/app/admin/sessions");
     });
     cy.checkalert(
-      "Permission denied: you are not authorized to access this page"
+      "Permission denied: you are not authorized to access this page",
     );
     cy.login(email, pwd);
     ////////////////////////////////////////////////////////////////////
@@ -296,7 +296,7 @@ describe("Test Authorizations", () => {
       expect(location.pathname).to.not.eq("/app/admin/stats");
     });
     cy.checkalert(
-      "Permission denied: you are not authorized to access this page"
+      "Permission denied: you are not authorized to access this page",
     );
     cy.login(email, pwd);
     ////////////////////////////////////////////////////////////////////
@@ -305,7 +305,7 @@ describe("Test Authorizations", () => {
       expect(location.pathname).to.not.eq("/app/admin/mail");
     });
     cy.checkalert(
-      "Permission denied: you are not authorized to access this page"
+      "Permission denied: you are not authorized to access this page",
     );
     cy.login(email, pwd);
     ////////////////////////////////////////////////////////////////////
@@ -314,7 +314,7 @@ describe("Test Authorizations", () => {
       expect(location.pathname).to.not.eq("/app/group/users");
     });
     cy.checkalert(
-      "Permission denied: you are not authorized to access this page"
+      "Permission denied: you are not authorized to access this page",
     );
     ////////////////////////////////////////////////////////////////////
 

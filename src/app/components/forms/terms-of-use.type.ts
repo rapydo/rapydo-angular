@@ -75,7 +75,10 @@ export class TermsOfUseTypeComponent
 {
   public terms_of_use: string = "";
 
-  constructor(private modalService: NgbModal, containerRef: ViewContainerRef) {
+  constructor(
+    private modalService: NgbModal,
+    containerRef: ViewContainerRef,
+  ) {
     super(containerRef);
   }
 

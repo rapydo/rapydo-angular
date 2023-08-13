@@ -20,7 +20,13 @@ function mergeJSON(commonsPath, customPath, outputPath) {
       }
 
       print.log(
-        "[" + commonsPath + "] + [" + customPath + "] -> [" + outputPath + "]\n"
+        "[" +
+          commonsPath +
+          "] + [" +
+          customPath +
+          "] -> [" +
+          outputPath +
+          "]\n",
       );
     });
   } else {
@@ -34,13 +40,13 @@ function mergeJSON(commonsPath, customPath, outputPath) {
 mergeJSON(
   "/app/app/rapydo/package.json",
   "/app/app/custom/package.json",
-  "/app/package.json"
+  "/app/package.json",
 );
 
 mergeJSON(
   "/app/app/rapydo/angular.json",
   "/app/app/custom/angular.json",
-  "/app/angular.json"
+  "/app/angular.json",
 );
 
 return true;

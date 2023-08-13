@@ -276,7 +276,7 @@ export class FormlyService {
   }
 
   public getSelectIdFromObject(
-    obj: string | Record<"key" | "uuid" | "id" | "name", string | number>
+    obj: string | Record<"key" | "uuid" | "id" | "name", string | number>,
   ): string {
     if (typeof obj["key"] !== "undefined") {
       return obj["key"].toString();

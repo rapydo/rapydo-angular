@@ -31,7 +31,7 @@ describe("AccountExpired", () => {
     cy.intercept("POST", "/auth/reset").as("reset");
 
     cy.get(
-      'input[placeholder="Type here your email address to receive the reset link"]'
+      'input[placeholder="Type here your email address to receive the reset link"]',
     )
       .clear()
       .type(email);
@@ -64,15 +64,15 @@ describe("AccountExpired", () => {
       .click({ force: true });
     // Open the datepicker
     cy.get(
-      'input[placeholder="This user will be blocked after this date"]'
+      'input[placeholder="This user will be blocked after this date"]',
     ).click();
 
     // Select the 31 - 12 - 2050 (the max allowed)
     cy.get(
-      'ngb-datepicker-navigation-select select[title="Select year"]'
+      'ngb-datepicker-navigation-select select[title="Select year"]',
     ).select("2050");
     cy.get(
-      'ngb-datepicker-navigation-select select[title="Select month"]'
+      'ngb-datepicker-navigation-select select[title="Select month"]',
     ).select("12");
     cy.get("div.ngb-dp-day div").contains("31").click({ force: true });
     cy.get('button:contains("Submit")').click({ force: true });

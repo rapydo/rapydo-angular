@@ -37,7 +37,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
         cy.checkalert("You do not provided a valid verification code");
 
         cy.get("div.card-header h1").contains(
-          "Configure Two-Factor with Google Authenticator"
+          "Configure Two-Factor with Google Authenticator",
         );
 
         pwd = pwd + "!";
@@ -59,7 +59,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
         cy.wait("@login");
       } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
         cy.get("div.card-header.bg-warning h1").contains(
-          "Please change your temporary password"
+          "Please change your temporary password",
         );
 
         cy.checkalert("Please change your temporary password");
@@ -83,7 +83,7 @@ if (Cypress.env("ALLOW_TERMS_OF_USE")) {
       cy.get("div.modal-footer button").last().contains("NO").click();
 
       cy.checkalert(
-        "We apologize but you are not allowed to login, as you have not accepted our Terms of Use"
+        "We apologize but you are not allowed to login, as you have not accepted our Terms of Use",
       );
     });
 

@@ -91,7 +91,7 @@ Cypress.Commands.add("change_expired_password", (email, pwd, formtype) => {
     cy.get("input[placeholder='Your password']").should("not.exist");
 
     cy.get("div.card-header.bg-warning h1").contains(
-      "Provide the verification code"
+      "Provide the verification code",
     );
     cy.get("input[placeholder='TOTP verification code']")
       .clear()
@@ -193,7 +193,7 @@ Cypress.Commands.add("login_and_init_user", (email = null, pwd = null) => {
 
   if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
     cy.get("div.card-header h1").contains(
-      "Configure Two-Factor with Google Authenticator"
+      "Configure Two-Factor with Google Authenticator",
     );
 
     cy.checkalert("Please change your temporary password");
@@ -215,7 +215,7 @@ Cypress.Commands.add("login_and_init_user", (email = null, pwd = null) => {
     cy.wait(200);
   } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
     cy.get("div.card-header.bg-warning h1").contains(
-      "Please change your temporary password"
+      "Please change your temporary password",
     );
 
     cy.checkalert("Please change your temporary password");
@@ -366,14 +366,14 @@ Cypress.Commands.add(
 
     if (expired) {
       cy.get(
-        'input[placeholder="This user will be blocked after this date"]'
+        'input[placeholder="This user will be blocked after this date"]',
       ).click();
       cy.get(
-        'ngb-datepicker-navigation-select select[title="Select year"]'
+        'ngb-datepicker-navigation-select select[title="Select year"]',
       ).select("2020");
 
       cy.get(
-        'ngb-datepicker-navigation-select select[title="Select month"]'
+        'ngb-datepicker-navigation-select select[title="Select month"]',
       ).select("12");
 
       cy.get("div.ngb-dp-day div").contains("31").click({ force: true });
@@ -437,7 +437,7 @@ Cypress.Commands.add(
         cy.get("input[placeholder='Your password']").should("not.exist");
 
         cy.get("div.card-header h1").contains(
-          "Configure Two-Factor with Google Authenticator"
+          "Configure Two-Factor with Google Authenticator",
         );
 
         cy.checkalert("Please change your temporary password");
@@ -459,7 +459,7 @@ Cypress.Commands.add(
       } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
         cy.get("input[placeholder='Your password']").should("not.exist");
         cy.get("div.card-header.bg-warning h1").contains(
-          "Please change your temporary password"
+          "Please change your temporary password",
         );
 
         cy.checkalert("Please change your temporary password");
@@ -478,7 +478,7 @@ Cypress.Commands.add(
 
       if (Cypress.env("ALLOW_TERMS_OF_USE")) {
         cy.get("div.modal-footer h1").contains(
-          "Do you accept our Terms of Use?"
+          "Do you accept our Terms of Use?",
         );
         cy.get("div.modal-footer button").first().contains("YES").click();
         cy.wait(300);
@@ -486,7 +486,7 @@ Cypress.Commands.add(
 
       cy.logout(false);
     }
-  }
+  },
 );
 
 Cypress.Commands.add("deleteuser", (email) => {

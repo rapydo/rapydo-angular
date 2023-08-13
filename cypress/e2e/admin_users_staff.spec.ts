@@ -67,7 +67,7 @@ if (Cypress.env("AUTH_ROLES").includes(",staff_user,")) {
         2,
         "Should have at least " +
           Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
-          " characters"
+          " characters",
       );
 
       cy.get("@password")

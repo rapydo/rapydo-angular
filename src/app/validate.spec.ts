@@ -9,7 +9,7 @@ describe("Validate", () => {
         email: "sample@nomail.org",
         name: "Name",
         surname: "Surname",
-      })
+      }),
     ).toBeNull();
 
     let errors = validate("SimpleUser", {
@@ -22,7 +22,7 @@ describe("Validate", () => {
     expect(errors).not.toBeNull();
     expect(errors[0]).not.toBeUndefined();
     expect(errors[0]).toBe(
-      "Response contains unknown property: .extra = invalid"
+      "Response contains unknown property: .extra = invalid",
     );
 
     errors = validate("SimpleUser", {
@@ -78,7 +78,7 @@ describe("Validate", () => {
     expect(errors).not.toBeNull();
     expect(errors[0]).not.toBeUndefined();
     expect(errors[0]).toBe(
-      "Response contains unknown property: /0.extra = invalid"
+      "Response contains unknown property: /0.extra = invalid",
     );
 
     errors = validate("Groups", [

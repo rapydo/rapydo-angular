@@ -58,7 +58,7 @@ export class AutocompleTypeComponent extends FieldType implements OnInit {
   constructor(
     private api: ApiService,
     private notify: NotificationService,
-    containerRef: ViewContainerRef
+    containerRef: ViewContainerRef,
   ) {
     super(containerRef);
   }
@@ -91,10 +91,10 @@ export class AutocompleTypeComponent extends FieldType implements OnInit {
               this.notify.showError(err);
               return of([]);
             }),
-            tap(() => (this.itemLoading = false))
-          )
-        )
-      )
+            tap(() => (this.itemLoading = false)),
+          ),
+        ),
+      ),
     );
   }
 }

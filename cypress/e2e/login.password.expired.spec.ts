@@ -41,7 +41,7 @@ describe("Login", () => {
           actions: ["PASSWORD EXPIRED"],
           errors: ["Your password is expired, please change it"],
         },
-      }
+      },
     ).as("login");
 
     cy.get("@user").type(email);
@@ -55,7 +55,7 @@ describe("Login", () => {
 
     cy.checkalert("Your password is expired, please change it");
     cy.get("div.card-header h1").contains(
-      "Your password is expired, please change it"
+      "Your password is expired, please change it",
     );
     cy.get("button").contains("Change").click();
 
@@ -70,7 +70,7 @@ describe("Login", () => {
       0,
       "Should have at least " +
         Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
-        " characters"
+        " characters",
     );
     cy.get("button").contains("Change").click();
 

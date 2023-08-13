@@ -28,7 +28,7 @@ export class ProfileComponent {
     private notify: NotificationService,
     private api: ApiService,
     private auth: AuthService,
-    private formly: FormlyService
+    private formly: FormlyService,
   ) {
     this.reloadUser();
   }
@@ -43,7 +43,7 @@ export class ProfileComponent {
       (error) => {
         this.notify.showError(error);
         this.spinner.hide();
-      }
+      },
     );
   }
   public edit_profile(): void {
@@ -78,12 +78,12 @@ export class ProfileComponent {
         this.modalRef.componentInstance.backRef = this;
         this.modalRef.result.then(
           (result) => {},
-          (reason) => {}
+          (reason) => {},
         );
       },
       (error) => {
         this.notify.showError(error);
-      }
+      },
     );
   }
 
@@ -100,7 +100,7 @@ export class ProfileComponent {
         (error) => {
           this.notify.showError(error);
           this.spinner.hide();
-        }
+        },
       );
     }
   }

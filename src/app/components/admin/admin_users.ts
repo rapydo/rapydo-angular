@@ -30,7 +30,10 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
   @ViewChild("emptyHeader", { static: false })
   public emptyHeader: TemplateRef<any>;
 
-  constructor(protected injector: Injector, private excel: ExcelService) {
+  constructor(
+    protected injector: Injector,
+    private excel: ExcelService,
+  ) {
     super(injector);
 
     let endpoint = "/api/admin/users";

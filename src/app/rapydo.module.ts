@@ -43,35 +43,35 @@ const routes: Routes = [
     path: "public",
     loadChildren: () =>
       import("@rapydo/components/public/public.module").then(
-        (m) => m.PublicModule
+        (m) => m.PublicModule,
       ),
   },
   {
     path: "app/login",
     loadChildren: () =>
       import("@rapydo/components/login/login.module").then(
-        (m) => m.LoginModule
+        (m) => m.LoginModule,
       ),
   },
   {
     path: "app/profile",
     loadChildren: () =>
       import("@rapydo/components/profile/profile.module").then(
-        (m) => m.ProfileModule
+        (m) => m.ProfileModule,
       ),
   },
   {
     path: "app/admin",
     loadChildren: () =>
       import("@rapydo/components/admin/admin.module").then(
-        (m) => m.AdminModule
+        (m) => m.AdminModule,
       ),
   },
   {
     path: "app/group",
     loadChildren: () =>
       import("@rapydo/components/group/group.module").then(
-        (m) => m.AdminModule
+        (m) => m.AdminModule,
       ),
   },
 ];

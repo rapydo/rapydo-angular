@@ -33,7 +33,7 @@ export class ResetPasswordComponent implements OnInit {
     private route: ActivatedRoute,
     private notify: NotificationService,
     private api: ApiService,
-    private authService: AuthService
+    private authService: AuthService,
   ) {
     this.route.params.subscribe((params) => {
       if (typeof params["token"] === "undefined") {
@@ -49,7 +49,7 @@ export class ResetPasswordComponent implements OnInit {
             this.invalid_token = error;
             this.notify.showError(this.invalid_token);
             return false;
-          }
+          },
         );
       }
     });
@@ -122,7 +122,7 @@ export class ResetPasswordComponent implements OnInit {
         },
         (error) => {
           this.notify.showError(error);
-        }
+        },
       );
   }
 
@@ -138,14 +138,14 @@ export class ResetPasswordComponent implements OnInit {
     this.api.put(`/auth/reset/${this.token}`, data).subscribe(
       (response) => {
         this.notify.showSuccess(
-          "Password successfully changed. Please login with your new password"
+          "Password successfully changed. Please login with your new password",
         );
 
         this.router.navigate(["app", "login"]);
       },
       (error) => {
         this.notify.showError(error);
-      }
+      },
     );
   }
 }

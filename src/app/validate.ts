@@ -53,7 +53,7 @@ export function validate(ref, data) {
         error.instancePath + "." + error.params["additionalProperty"];
       const value = get_value(data, instance_path);
       errors.push(
-        "Response contains unknown property: " + instance_path + " = " + value
+        "Response contains unknown property: " + instance_path + " = " + value,
       );
     } else if (error.keyword === "required") {
       // Response should have required property 'xyz'
@@ -62,7 +62,7 @@ export function validate(ref, data) {
     } else if (error.instancePath) {
       const value = get_value(data, error.instancePath);
       errors.push(
-        "Response" + error.instancePath + " = " + value + " " + error.message
+        "Response" + error.instancePath + " = " + value + " " + error.message,
       );
     } else {
       errors.push("Response " + error.message);

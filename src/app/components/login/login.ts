@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
     private customization: ProjectOptions,
     private api: ApiService,
     private auth: AuthService,
-    public ssr: SSRService
+    public ssr: SSRService,
   ) {
     if (environment.authEnabled) {
       this.allowRegistration = environment.allowRegistration;
@@ -201,7 +201,7 @@ export class LoginComponent implements OnInit {
         this.model.password,
         this.model.new_password,
         this.model.password_confirm,
-        this.model.totp_code
+        this.model.totp_code,
       )
       .subscribe(
         (data) => {
@@ -221,7 +221,7 @@ export class LoginComponent implements OnInit {
             (error) => {
               this.notify.showError(error);
               this.loading = false;
-            }
+            },
           );
         },
         (error) => {
@@ -291,19 +291,19 @@ export class LoginComponent implements OnInit {
             }
           } else if (error.status === 404) {
             this.notify.showError(
-              "Unable to login due to a server error. If this error persists please contact system administrators"
+              "Unable to login due to a server error. If this error persists please contact system administrators",
             );
           } else if (error.status === 502) {
             this.notify.showError(
               "The page you are looking for is currently unreachable",
-              "Resource unavailable"
+              "Resource unavailable",
             );
           } else {
             this.notify.showError(error);
           }
 
           this.loading = false;
-        }
+        },
       );
   }
 
@@ -323,17 +323,17 @@ export class LoginComponent implements OnInit {
           },
           (error) => {
             this.notify.showError(error);
-          }
+          },
         );
       },
       (reason) => {
         this.auth.logout().subscribe((response) => {
           this.notify.showError(
-            "We apologize but you are not allowed to login, as you have not accepted our Terms of Use"
+            "We apologize but you are not allowed to login, as you have not accepted our Terms of Use",
           );
           this.router.navigate([""]);
         });
-      }
+      },
     );
   }
 
@@ -345,7 +345,7 @@ export class LoginComponent implements OnInit {
       },
       (error) => {
         this.notify.showError(error);
-      }
+      },
     );
   }
 }

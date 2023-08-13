@@ -9,10 +9,10 @@ describe("Mocked login", () => {
     cy.closecookielaw();
 
     cy.get("input[placeholder='Your username (email)']").type(
-      Cypress.env("AUTH_DEFAULT_USERNAME")
+      Cypress.env("AUTH_DEFAULT_USERNAME"),
     );
     cy.get("input[placeholder='Your password']").type(
-      Cypress.env("AUTH_DEFAULT_PASSWORD")
+      Cypress.env("AUTH_DEFAULT_PASSWORD"),
     );
   });
 

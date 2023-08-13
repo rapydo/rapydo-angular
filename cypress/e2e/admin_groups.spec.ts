@@ -49,20 +49,20 @@ describe("AdminGroups", () => {
 
     cy.get("datatable-body").contains(
       "datatable-body-cell",
-      "_TestGroup-" + randval
+      "_TestGroup-" + randval,
     );
 
     // Test duplications
     cy.get('button:contains("new group")').click({ force: true });
     cy.get('input[placeholder="Short name"]').type("_TestGroup-" + randval);
     cy.get('input[placeholder="Full name"]').type(
-      "Long name for test Group " + randval
+      "Long name for test Group " + randval,
     );
 
     cy.get("@submit").click({ force: true });
 
     cy.checkalert(
-      "A Group already exists with shortname: _TestGroup-" + randval
+      "A Group already exists with shortname: _TestGroup-" + randval,
     );
 
     cy.get('button:contains("Close")').click({ force: true });

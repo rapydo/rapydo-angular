@@ -40,7 +40,7 @@ export class RegisterComponent {
     private api: ApiService,
     private authService: AuthService,
     private formly: FormlyService,
-    private customization: ProjectOptions
+    private customization: ProjectOptions,
   ) {
     this.allowRegistration = environment.allowRegistration;
 
@@ -66,7 +66,7 @@ export class RegisterComponent {
               this.registration_title = "Invalid activation token";
               this.notify.showError(error);
               return false;
-            }
+            },
           );
         } else {
           this.showRegistrationForm = true;
@@ -82,7 +82,7 @@ export class RegisterComponent {
               (error) => {
                 this.notify.showError(error);
                 this.spinner.hide();
-              }
+              },
             );
         }
       });
@@ -186,7 +186,7 @@ export class RegisterComponent {
         (error) => {
           this.notify.showError(error);
           this.loading = false;
-        }
+        },
       );
   }
 }

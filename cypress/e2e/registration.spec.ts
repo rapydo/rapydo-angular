@@ -79,10 +79,10 @@ describe("Registration", () => {
       cy.get('input[placeholder="Type here your surname"]').as("surname");
       cy.get('input[placeholder="Type here your email address"]').as("email");
       cy.get('input[placeholder="Type here the desidered password"]').as(
-        "password"
+        "password",
       );
       cy.get(
-        'input[placeholder="Type again the desidered password for confirmation"]'
+        'input[placeholder="Type again the desidered password for confirmation"]',
       ).as("confirmation");
       cy.get('button:contains("Register")').as("submit");
 
@@ -109,7 +109,7 @@ describe("Registration", () => {
         1,
         "Should have at least " +
           Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
-          " characters"
+          " characters",
       );
 
       cy.get("@password")
@@ -177,7 +177,7 @@ describe("Registration", () => {
       cy.get("@submit").click({ force: true });
 
       cy.checkalert(
-        "This user already exists: " + Cypress.env("AUTH_DEFAULT_USERNAME")
+        "This user already exists: " + Cypress.env("AUTH_DEFAULT_USERNAME"),
       );
 
       // Failures on password validation: missing upper case letters
@@ -238,7 +238,7 @@ describe("Registration", () => {
       cy.get("div.card-header h1").contains("Account registered");
 
       cy.contains(
-        "User successfully registered. You will receive an email to confirm your registraton and activate your account"
+        "User successfully registered. You will receive an email to confirm your registraton and activate your account",
       );
     });
 
@@ -259,14 +259,14 @@ describe("Registration", () => {
       cy.wait("@login");
 
       cy.get("div.card-header.bg-warning h1").contains(
-        "This account is not active"
+        "This account is not active",
       );
       cy.get("div.card-body").contains("Didn't receive an activation link?");
 
       cy.get("a").contains("Click here to send again").click({ force: true });
 
       cy.checkalert(
-        "We are sending an email to your email address where you will find the link to activate your account"
+        "We are sending an email to your email address where you will find the link to activate your account",
       );
 
       cy.location().should((location) => {
@@ -284,7 +284,7 @@ describe("Registration", () => {
 
       cy.get("div.card-header h1").contains("Invalid activation token");
       cy.get("div.card-body").contains(
-        "This activation token is not valid and your request cannot be satisfied."
+        "This activation token is not valid and your request cannot be satisfied.",
       );
 
       cy.getmail().then((body) => {
@@ -303,7 +303,7 @@ describe("Registration", () => {
 
         cy.get("div.card-header h1").contains("Invalid activation token");
         cy.get("div.card-body").contains(
-          "This activation token is not valid and your request cannot be satisfied."
+          "This activation token is not valid and your request cannot be satisfied.",
         );
       });
     });
@@ -324,21 +324,21 @@ describe("Registration", () => {
 
       if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
         cy.get("div.card-header h1").contains(
-          "Configure Two-Factor with Google Authenticator"
+          "Configure Two-Factor with Google Authenticator",
         );
 
         cy.get("input[placeholder='Your new password']").type(
-          newPassword + "!"
+          newPassword + "!",
         );
         cy.get("input[placeholder='Confirm your new password']").type(
-          newPassword + "!"
+          newPassword + "!",
         );
         cy.get("input[placeholder='TOTP verification code']").type(get_totp());
 
         cy.get("button").contains("Authorize").click();
       } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
         cy.get("div.card-header.bg-warning h1").contains(
-          "Please change your temporary password"
+          "Please change your temporary password",
         );
 
         cy.checkalert("Please change your temporary password");
@@ -359,13 +359,13 @@ describe("Registration", () => {
       cy.visit("/app/admin/users");
 
       cy.checkalert(
-        "Permission denied: you are not authorized to access this page"
+        "Permission denied: you are not authorized to access this page",
       );
 
       cy.visit("/app/admin/sessions");
 
       cy.checkalert(
-        "Permission denied: you are not authorized to access this page"
+        "Permission denied: you are not authorized to access this page",
       );
     });
 

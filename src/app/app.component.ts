@@ -19,7 +19,7 @@ import { ProjectOptions } from "@app/customization";
 })
 export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild("cookieLaw", { static: false }) private cookieLawEl: any;
-  @ViewChild("navbar", {static: false}) private navbar: NavbarComponent;
+  @ViewChild("navbar", { static: false }) private navbar: NavbarComponent;
 
   public cookieLawText: string;
   public cookieLawButton: string;
@@ -73,7 +73,7 @@ export class AppComponent implements OnInit, AfterViewInit {
           return route;
         }),
         filter((route) => route.outlet === "primary"),
-        mergeMap((route) => route.data)
+        mergeMap((route) => route.data),
       )
       .subscribe((event) => {
         if (event["description"]) {

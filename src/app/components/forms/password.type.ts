@@ -81,7 +81,7 @@ export class PasswordTypeComponent extends FieldType {
 
   constructor(
     private notify: NotificationService,
-    containerRef: ViewContainerRef
+    containerRef: ViewContainerRef,
   ) {
     super(containerRef);
   }

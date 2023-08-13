@@ -34,7 +34,7 @@ describe("Init user", () => {
         .clear()
         .type(pwd, { parseSpecialCharSequences: false });
       cy.get(
-        'input[placeholder="Type again the new password for confirmation"]'
+        'input[placeholder="Type again the new password for confirmation"]',
       )
         .clear()
         .type(pwd, { parseSpecialCharSequences: false });

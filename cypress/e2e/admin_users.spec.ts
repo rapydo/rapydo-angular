@@ -57,7 +57,7 @@ describe("AdminUsers", () => {
       2,
       "Should have at least " +
         Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
-        " characters"
+        " characters",
     );
 
     cy.contains("random").click({ force: true });
@@ -92,7 +92,7 @@ describe("AdminUsers", () => {
 
     cy.checkalert(
       "A User already exists with email: " +
-        Cypress.env("AUTH_DEFAULT_USERNAME")
+        Cypress.env("AUTH_DEFAULT_USERNAME"),
     );
 
     cy.get("@email").clear().type(username);

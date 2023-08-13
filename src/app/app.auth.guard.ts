@@ -16,12 +16,12 @@ export class AuthGuard implements CanActivate {
   constructor(
     public auth: AuthService,
     public api: ApiService,
-    public router: Router
+    public router: Router,
   ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    state: RouterStateSnapshot,
   ): Observable<boolean> {
     const expectedRoles = route.data.roles;
 
@@ -46,7 +46,7 @@ export class AuthGuard implements CanActivate {
         }
 
         return false;
-      })
+      }),
     );
   }
 }

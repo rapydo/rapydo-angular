@@ -310,7 +310,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         },
         (error) => {
           this.notify.showError(error);
-        }
+        },
       );
   }
 
@@ -371,7 +371,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         this.updating = false;
         this.list_subject.next(false);
         return this.data;
-      }
+      },
     );
 
     return this.list_subject;
@@ -379,7 +379,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
 
   protected delete_confirmation_callback(uuid: string) {
     this.notify.showSuccess(
-      `Confirmation: ${this.resource_name} successfully deleted`
+      `Confirmation: ${this.resource_name} successfully deleted`,
     );
     this.list();
   }
@@ -388,7 +388,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
     uuid: string,
     text: string = null,
     title: string = null,
-    subText: string = null
+    subText: string = null,
   ): void {
     if (text == null) {
       text = `Are you really sure you want to delete this ${this.resource_name}?`;
@@ -403,10 +403,10 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
           },
           (error) => {
             this.notify.showError(error);
-          }
+          },
         );
       },
-      (reason) => {}
+      (reason) => {},
     );
   }
 
@@ -440,7 +440,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         `${this.resource_endpoint}/${model_id}`,
         {
           get_schema: true,
-        }
+        },
       );
     }
 
@@ -475,12 +475,12 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         this.modalRef.componentInstance.backRef = this;
         this.modalRef.result.then(
           (result) => {},
-          (reason) => {}
+          (reason) => {},
         );
       },
       (error) => {
         this.notify.showError(error);
-      }
+      },
     );
   }
 
@@ -498,7 +498,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       delete model["_id"];
       apiCall = this.api.put(
         `${this.resource_endpoint}/${this.model["_id"]}`,
-        model
+        model,
       );
       type = "updated";
     } else {
@@ -510,7 +510,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
       (response) => {
         this.modalRef.close("");
         this.notify.showSuccess(
-          `Confirmation: ${this.resource_name} successfully ${type}`
+          `Confirmation: ${this.resource_name} successfully ${type}`,
         );
         this.list();
         return true;
@@ -519,7 +519,7 @@ export class BasePaginationComponent<T> implements OnInit, AfterViewChecked {
         this.updating = false;
         this.notify.showError(error);
         return false;
-      }
+      },
     );
   }
 }

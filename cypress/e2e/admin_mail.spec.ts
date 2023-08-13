@@ -44,7 +44,7 @@ describe("AdminMail", () => {
       .click({ force: true });
 
     cy.get("div.modal-header h1.modal-title").contains(
-      "Do you want to send the following email?"
+      "Do you want to send the following email?",
     );
     cy.get("div.modal-body").contains("Subject: Your subject");
     cy.get("div.modal-body").contains("To: sample@nomail.org");
@@ -71,7 +71,7 @@ describe("AdminMail", () => {
     cy.checkalert("Mail successfully sent");
 
     cy.get("div.card-body").contains(
-      "Your email with subject: Your subject has been successfully sent!"
+      "Your email with subject: Your subject has been successfully sent!",
     );
     cy.get("div.card-body").contains("Destination address: sample@nomail.org");
 
@@ -126,15 +126,15 @@ describe("AdminMail", () => {
       .click({ force: true });
 
     cy.get("div.modal-header h1.modal-title").contains(
-      "Do you want to send the following email?"
+      "Do you want to send the following email?",
     );
     cy.get("div.modal-body").contains("Subject: Your subject");
     cy.get("div.modal-body").contains("To: sample@nomail.org");
     cy.get("div.modal-body").contains(
-      "CC: sample1@nomail.org,sample2@nomail.org"
+      "CC: sample1@nomail.org,sample2@nomail.org",
     );
     cy.get("div.modal-body").contains(
-      "BCC: sample3@nomail.org,sample4@nomail.org"
+      "BCC: sample3@nomail.org,sample4@nomail.org",
     );
 
     cy.get("ul.nav-tabs li.nav-item a").contains("Plain Body").click();
@@ -159,14 +159,14 @@ describe("AdminMail", () => {
     cy.checkalert("Mail successfully sent");
 
     cy.get("div.card-body").contains(
-      "Your email with subject: Your subject has been successfully sent!"
+      "Your email with subject: Your subject has been successfully sent!",
     );
     cy.get("div.card-body").contains("Destination address: sample@nomail.org");
     cy.get("div.card-body").contains(
-      "CC: sample1@nomail.org,sample2@nomail.org"
+      "CC: sample1@nomail.org,sample2@nomail.org",
     );
     cy.get("div.card-body").contains(
-      "BCC: sample3@nomail.org,sample4@nomail.org"
+      "BCC: sample3@nomail.org,sample4@nomail.org",
     );
   });
 });

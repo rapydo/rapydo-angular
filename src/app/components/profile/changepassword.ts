@@ -24,7 +24,7 @@ export class ChangePasswordComponent {
     private api: ApiService,
     private auth: AuthService,
     private notify: NotificationService,
-    private router: Router
+    private router: Router,
   ) {
     this.user = auth.getUser();
 
@@ -131,18 +131,18 @@ export class ChangePasswordComponent {
                 },
                 (error) => {
                   this.notify.showError(error);
-                }
+                },
               );
             },
             (error) => {
               this.notify.showError(error);
-            }
+            },
           );
         }
       },
       (error) => {
         this.notify.showError(error);
-      }
+      },
     );
   }
 }

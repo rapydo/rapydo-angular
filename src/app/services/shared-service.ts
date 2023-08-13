@@ -3,7 +3,6 @@ import { Observable, Subject } from "rxjs";
 
 @Injectable()
 export class SharedService {
-
   private emitIframeSource = new Subject<boolean>();
   iframeModeEmitted$ = this.emitIframeSource.asObservable();
 

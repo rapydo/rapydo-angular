@@ -28,7 +28,7 @@ export class AdminStatsComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private api: ApiService,
     private auth: AuthService,
-    private notify: NotificationService
+    private notify: NotificationService,
   ) {}
 
   ngOnInit() {
@@ -88,7 +88,7 @@ export class AdminStatsComponent implements OnInit {
       .get<AdminStats>(
         "/api/admin/stats",
         {},
-        { validationSchema: "AdminStats" }
+        { validationSchema: "AdminStats" },
       )
       .subscribe(
         (response) => {
@@ -99,7 +99,7 @@ export class AdminStatsComponent implements OnInit {
         /* istanbul ignore next */ (error) => {
           this.notify.showError(error);
           this.spinner.hide();
-        }
+        },
       );
   }
 }

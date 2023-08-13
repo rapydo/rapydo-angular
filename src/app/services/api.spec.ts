@@ -48,7 +48,7 @@ describe("ApiService", () => {
       (result) => {},
       (error) => {
         expect(error).not.toBeUndefined();
-      }
+      },
     );
 
     const req = httpMock.expectOne(environment.backendURI + "/api/xyz");
@@ -75,7 +75,7 @@ describe("ApiService", () => {
       (result) => {},
       (error) => {
         expect(error).not.toBeUndefined();
-      }
+      },
     );
 
     const req = httpMock.expectOne(environment.backendURI + "/api/xyz");
@@ -102,7 +102,7 @@ describe("ApiService", () => {
       (result) => {},
       (error) => {
         expect(error).not.toBeUndefined();
-      }
+      },
     );
 
     const req = httpMock.expectOne(environment.backendURI + "/api/xyz/id");
@@ -129,7 +129,7 @@ describe("ApiService", () => {
       (result) => {},
       (error) => {
         expect(error).not.toBeUndefined();
-      }
+      },
     );
 
     const req = httpMock.expectOne(environment.backendURI + "/api/xyz/id");
@@ -156,7 +156,7 @@ describe("ApiService", () => {
       (result) => {},
       (error) => {
         expect(error).not.toBeUndefined();
-      }
+      },
     );
 
     const req = httpMock.expectOne(environment.backendURI + "/api/xyz/id");
