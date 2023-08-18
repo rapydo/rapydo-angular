@@ -56,7 +56,7 @@
     "date-fns": "2.30.0",
     "ngx-date-fns": "10.0.1",
     "ngx-spinner": "15.0.1",
-    "ngx-clipboard": "15.1.0",
+    "ngx-clipboard": "16.0.0",
     "ngx-uploadx": "5.4.0",
     "file-saver-es": "2.0.5",
     "angular2-cookie-law": "7.0.1",
