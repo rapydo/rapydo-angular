@@ -24,6 +24,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   public cookieLawText: string;
   public cookieLawButton: string;
   public enableFooter: boolean = false;
+  public enableCookieLaw: boolean = true;
 
   constructor(
     public api: ApiService,
@@ -106,6 +107,10 @@ export class AppComponent implements OnInit, AfterViewInit {
       setTimeout(() => {
         // show/hide footer
         this.enableFooter = !isFlagOn;
+        // disable cookie-law in iframe mode
+        if (isFlagOn) {
+          this.enableCookieLaw = false;
+        }
       });
       // show/hide navbar
       isFlagOn ? this.navbar.hide() : this.navbar.show();
