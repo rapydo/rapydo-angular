@@ -41,7 +41,7 @@
   <customfooter></customfooter>
 </footer>
 
-<cookie-law #cookieLaw>
+<cookie-law #cookieLaw *ngIf="enableCookieLaw">
   <span
     *ngIf="cookieLawText; else defaultText"
     [innerHTML]="cookieLawText"
