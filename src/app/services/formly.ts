@@ -44,7 +44,7 @@ export class FormlyService {
 
       // Uhmm... show to handle with placeholders? Should I raise a warning!??
       // field["wrappers"] = ["form-field-floating"];
-      let floating_labels_supported = true;
+      let floating_labels_supported = false;
 
       if (stype === "string") {
         if (s.max && s.max > 256) {
