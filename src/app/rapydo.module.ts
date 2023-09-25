@@ -31,6 +31,7 @@ import { ConfirmationModals } from "@rapydo/services/confirmation.modals";
 import { JwtInterceptor } from "@rapydo/jwt.interceptor";
 
 import { CustomNavbarComponent } from "@app/custom.navbar";
+import { CustomControlsComponent } from "@app/custom.navbar";
 import { CustomBrandComponent } from "@app/custom.navbar";
 import { CustomFooterComponent } from "@app/custom.footer";
 import { BaseProjectOptions } from "@rapydo/base.project.options";
@@ -111,6 +112,7 @@ let module_declarations = [
   NavbarComponent,
 
   CustomNavbarComponent,
+  CustomControlsComponent,
   CustomBrandComponent,
   CustomFooterComponent,
 ];
