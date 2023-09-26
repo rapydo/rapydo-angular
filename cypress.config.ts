@@ -6,6 +6,7 @@ export default defineConfig({
     watchForFileChanges: false,
     specPattern: "/e2e/**/*.ts",
     screenshotsFolder: "/cypress",
+    video: true,
     videosFolder: "/cypress",
     downloadsFolder: "/cypress",
     supportFile: "/e2e/support/e2e.js",
