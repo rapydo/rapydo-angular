@@ -43,19 +43,27 @@ export interface User extends SimpleUserWithId, CustomUser {
   readonly isStaff: boolean;
   readonly isCoordinator: boolean;
   readonly is_active: boolean;
-  /** @nullable */
-  /** @format date-time */
+  /**
+   * @nullable
+   * @format date-time
+   */
   readonly expiration: string;
   readonly privacy_accepted: boolean;
   readonly roles: Record<string, string>;
-  /** @nullable */
-  /** @format date-time */
+  /**
+   * @nullable
+   * @format date-time
+   */
   readonly first_login: string;
-  /** @nullable */
-  /** @format date-time */
+  /**
+   * @nullable
+   * @format date-time 
+   */
   readonly last_login: string;
-  /** @nullable */
-  /** @format date-time */
+  /**
+   * @nullable
+   * @format date-time
+   */
   readonly last_password_change: string;
   // "nullable" should be removed in a near future
   /** @nullable */
@@ -67,18 +75,26 @@ export interface User extends SimpleUserWithId, CustomUser {
 export interface AdminUser extends SimpleUserWithId, CustomUser {
   readonly is_active: boolean;
   readonly privacy_accepted: boolean;
-  /** @nullable */
-  /** @format date-time */
+  /**
+   * @nullable
+   * @format date-time
+   */
   readonly first_login: string;
-  /** @nullable */
-  /** @format date-time */
+  /**
+   * @nullable
+   * @format date-time
+   */
   readonly last_login: string;
-  /** @nullable */
-  /** @format date-time */
+  /**
+   * @nullable
+   * @format date-time
+   */
   readonly last_password_change: string;
   readonly roles: any;
-  /** @nullable */
-  /** @format date-time */
+  /**
+   * @nullable
+   * @format date-time
+   */
   readonly expiration: string;
   // Added by AdminUsersComponent
   expired?: boolean;
