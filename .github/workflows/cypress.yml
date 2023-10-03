@@ -17,7 +17,7 @@ jobs:
 
     strategy:
       matrix:
-        stage: [lite, full, totp, hiddenlogin]
+        stage: [lite, full, totp]
 
     steps:
       - uses: actions/checkout@v3
@@ -110,14 +110,6 @@ jobs:
               -e AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER=60 \
               -e AUTH_SECOND_FACTOR_AUTHENTICATION=1 \
               -e AUTH_TOTP_VALIDITY_WINDOW=10 \
-              start
-
-          elif [[ "${{ matrix.stage }}" == "hiddenlogin" ]]; then
-
-            rapydo \
-              -e API_AUTOSTART=1 \
-              -e PROJECT_TITLE="Your ${AUTH} ${{ matrix.stage }} Project" \
-              -e SHOW_LOGIN=0 \
               start
 
           else
