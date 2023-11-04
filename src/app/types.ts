@@ -57,7 +57,7 @@ export interface User extends SimpleUserWithId, CustomUser {
   readonly first_login: string;
   /**
    * @nullable
-   * @format date-time 
+   * @format date-time
    */
   readonly last_login: string;
   /**
