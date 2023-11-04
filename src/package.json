@@ -50,7 +50,7 @@
     "@ngx-formly/core": "6.1.6",
     "@ngx-formly/bootstrap": "6.1.6",
     "@ng-select/ng-select": "10.0.4",
-    "@ng-select/ng-option-highlight": "0.0.7",
+    "@ng-select/ng-option-highlight": "11.2.0",
     "@swimlane/ngx-datatable": "20.1.0",
     "date-fns": "2.30.0",
     "ngx-date-fns": "10.0.1",
