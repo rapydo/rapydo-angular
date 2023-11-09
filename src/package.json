@@ -71,7 +71,7 @@
   "devDependencies": {
     "karma": "6.4.2",
     "karma-chrome-launcher": "3.2.0",
-    "karma-coverage": "2.2.0",
+    "karma-coverage": "2.2.1",
     "karma-spec-reporter": "0.0.36",
     "karma-jasmine": "5.1.0",
     "@types/jasmine": "5.1.2",
