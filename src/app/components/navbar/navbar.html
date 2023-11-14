@@ -77,6 +77,10 @@
 
       <!-- rpd-menu-controls is a hook to let custom styles from projects-->
       <ul class="nav navbar-nav ms-auto rpd-menu-controls" *ngIf="!loading">
+        <customcontrols
+           [user]="user"
+           (onClick)="isMenuCollapsed = true"
+        ></customcontrols>
         <li class="nav-item" *ngIf="user">
           <a
             class="nav-link"
