@@ -69,6 +69,7 @@ jobs:
           rapydo shell frontend "yarn install"
           rapydo shell frontend "yarn workspaces focus --all"
           rapydo shell frontend "reload-types"
+          rapydo shell frontend "yarn info --recursive --dependents"
           rapydo shell frontend "yarn run test:single"
 
       - name: Coverage

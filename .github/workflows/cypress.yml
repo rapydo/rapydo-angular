@@ -132,7 +132,7 @@ jobs:
         run: |
           cd rapydo_tests
 
-          if [[ "${{github.actor}}" == "dependabot[bot]" ]] || [[ "${{github.event_name}}" == "pull_request" ]]; then
+          if [[ "${{github.actor}}" == "renovate[bot]" ]] || [[ "${{github.event_name}}" == "pull_request" ]]; then
             rapydo shell frontend "yarn run cypress:start:norecord"
           else
             rapydo shell frontend "yarn run cypress:start:${{ matrix.stage }}"
