@@ -52,7 +52,9 @@ jobs:
           # Also strip out tags from the branch
           BRANCH=${BRANCH/refs\/tags\/v/}
           echo "Forcing rapydo-angular to branch ${BRANCH}"
-          sed -i "s|# branch: \"rapydo-angular-branch\"|branch: \"${BRANCH}\"|g" projects/prj/project_configuration.yaml
+          echo "  submodules:" >> projects/prj/project_configuration.yaml
+          echo "    rapydo-angular:" >> projects/prj/project_configuration.yaml
+          echo "      branch \"${BRANCH}\"" >> projects/prj/project_configuration.yaml
 
           # This is to create a commit in the history to fill the BUILD variable
           git config --global user.email "tests@rapy.do"
