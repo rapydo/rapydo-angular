@@ -164,6 +164,7 @@ export class FormlyService {
           model[s.key] = false;
         }
       } else if (stype === "radio") {
+        floating_labels_supported = false;
         field_type = "radio";
         template_type = "radio";
         field["props"]["options"] = s.options;
