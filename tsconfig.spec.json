@@ -9,5 +9,6 @@
     "app/rapydo/app/**/*.d.ts",
     "app/custom/app/**/*.spec.ts",
     "app/custom/app/**/*.d.ts"
-  ]
+  ],
+  "exclude": ["app/rapydo/e2e/**/*.spec.ts", "app/custom/e2e/**/*.spec.ts"]
 }
