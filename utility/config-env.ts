@@ -93,7 +93,7 @@ export const environment = {
     minPasswordLength: '${process.env.AUTH_MIN_PASSWORD_LENGTH}',
     forceSSRServerMode: '${process.env.FORCE_SSR_SERVER_MODE}',
     spinnerType: '${process.env.SPINNER_TYPE}',
-    multiLang: '${process.env.MULTI_LANG}',`;
+    enableMultiLang: '${process.env.ENABLE_ANGULAR_MULTI_LANGUAGE}',`;
 for (let key in process.env) {
   if (key.startsWith(INJECT_KEY)) {
     let k = key.substr(INJECT_KEY.length);

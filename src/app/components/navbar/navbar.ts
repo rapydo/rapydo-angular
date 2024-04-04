@@ -30,7 +30,7 @@ export class NavbarComponent implements OnInit {
 
   public showLogin: boolean = true;
   public allowRegistration: boolean = false;
-  public multiLang: boolean = false;
+  public enableMultiLang: boolean = false;
 
   // This property tracks whether the menu is open.
   // Start with the menu collapsed so that it does not
@@ -66,7 +66,7 @@ export class NavbarComponent implements OnInit {
   ) {
     this.showLogin = environment.showLogin;
     this.allowRegistration = environment.allowRegistration;
-    this.multiLang = environment.multiLang;
+    this.enableMultiLang = environment.enableMultiLang;
   }
 
   ngOnInit() {
@@ -173,6 +173,10 @@ export class NavbarComponent implements OnInit {
 
   changeLang(language: string) {
     this.translate.use(language);
+  }
+
+  currentLang() {
+    return this.translate.currentLang;
   }
 
 }

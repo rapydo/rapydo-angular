@@ -23,7 +23,7 @@ interface Env {
   minPasswordLength: number;
   forceSSRServerMode: boolean;
   spinnerType: string;
-  multiLang: boolean;
+  enableMultiLang: boolean;
   SENTRY_URL: string;
   CUSTOM: Record<string, any>;
 }
@@ -51,7 +51,7 @@ export const environment: Env = {
   forceSSRServerMode:
     base.forceSSRServerMode === "1" || base.forceSSRServerMode === "true",
   spinnerType: base.spinnerType,
-  multiLang: base.multiLang === "1" || base.multiLang === "true",
+  enableMultiLang: base.enableMultiLang === "1" || base.enableMultiLang === "true",
   SENTRY_URL: base.SENTRY_URL,
   CUSTOM: {},
 };

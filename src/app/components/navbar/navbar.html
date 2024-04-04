@@ -81,16 +81,17 @@
            [user]="user"
            (onClick)="isMenuCollapsed = true"
         ></customcontrols>
-        <li class="nav-item dropdown" ngbDropdown *ngIf="multiLang">
+        <li class="nav-item dropdown" ngbDropdown *ngIf="enableMultiLang">
           <a class="nav-link" href="javascript:void(0)" ngbDropdownToggle>
             <i class="fa fa-language"></i>
-              {{ "navbar.lang.title" | translate }}
+              {{ currentLang() }}
               <b class="caret"></b>
           </a>
           <div class="dropdown-menu-right" ngbDropdownMenu>
             <a
               (click)="changeLang('en')"
               class="dropdown-item"
+              [ngClass]="{active: currentLang() === 'en'}"
               href="javascript:void(0)"
             >
               {{ "navbar.lang.en" | translate }}
@@ -98,6 +99,7 @@
             <a
               (click)="changeLang('it')"
               class="dropdown-item"
+              [ngClass]="{active: currentLang() === 'it'}"
               href="javascript:void(0)"
             >
               {{ "navbar.lang.it" | translate }}
