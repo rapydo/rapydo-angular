@@ -55,7 +55,10 @@ describe("AuthService", () => {
 
     expect(req.request.method).toEqual("POST");
     req.flush("Invalid access credentials", mock401Response);
-
+    const localizationReq = httpMock.match("app/rapydo/assets/i18n/en.json");
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     httpMock.verify();
   });
 
@@ -87,7 +90,10 @@ describe("AuthService", () => {
     );
     expect(user_req.request.method).toEqual("GET");
     user_req.flush(user);
-
+    const localizationReq = httpMock.match("app/rapydo/assets/i18n/en.json");
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     httpMock.verify();
   });
 
@@ -113,7 +119,10 @@ describe("AuthService", () => {
     );
     expect(profile_req.request.method).toEqual("GET");
     profile_req.flush("", mock401Response);
-
+    const localizationReq = httpMock.match("app/rapydo/assets/i18n/en.json");
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     httpMock.verify();
   });
 
@@ -132,15 +141,14 @@ describe("AuthService", () => {
     );
     expect(logout_req.request.method).toEqual("GET");
     logout_req.flush("");
-
-    httpMock.verify();
-  });
-
-  afterEach(() => {
     const localizationReq = httpMock.match("app/rapydo/assets/i18n/en.json");
     if (localizationReq.length > 0) {
       localizationReq.forEach((req) => req.flush({}));
     }
+    httpMock.verify();
+  });
+
+  afterEach(() => {
     // make sure that there are no outstanding requests
     httpMock.verify();
   });
