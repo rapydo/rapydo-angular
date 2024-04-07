@@ -39,7 +39,9 @@ describe("ApiService", () => {
     const req = httpMock.expectOne(environment.backendURI + "/api/xyz");
     expect(req.request.method).toEqual("GET");
     req.flush("");
-
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     httpMock.verify();
   });
 
@@ -167,6 +169,9 @@ describe("ApiService", () => {
   });
 
   afterEach(() => {
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     // make sure that there are no outstanding requests
     httpMock.verify();
   });

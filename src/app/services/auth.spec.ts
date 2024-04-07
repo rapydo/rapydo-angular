@@ -149,6 +149,9 @@ describe("AuthService", () => {
   });
 
   afterEach(() => {
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     // make sure that there are no outstanding requests
     httpMock.verify();
   });

@@ -47,7 +47,9 @@ describe("AdminUsersComponent", () => {
     const req = httpMock.expectOne(environment.backendURI + "/api/admin/users");
     expect(req.request.method).toEqual("GET");
     req.flush(users);
-
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     httpMock.verify();
   }));
 

@@ -46,7 +46,9 @@ describe("AdminGroupsComponent", () => {
     );
     expect(req.request.method).toEqual("GET");
     req.flush(groups);
-
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     httpMock.verify();
   }));
 
