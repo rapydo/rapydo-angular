@@ -39,6 +39,7 @@ describe("ApiService", () => {
     const req = httpMock.expectOne(environment.backendURI + "/api/xyz");
     expect(req.request.method).toEqual("GET");
     req.flush("");
+    const localizationReq = httpMock.match("app/rapydo/assets/i18n/en.json");
     if (localizationReq.length > 0) {
       localizationReq.forEach((req) => req.flush({}));
     }
@@ -169,6 +170,7 @@ describe("ApiService", () => {
   });
 
   afterEach(() => {
+    const localizationReq = httpMock.match("app/rapydo/assets/i18n/en.json");
     if (localizationReq.length > 0) {
       localizationReq.forEach((req) => req.flush({}));
     }

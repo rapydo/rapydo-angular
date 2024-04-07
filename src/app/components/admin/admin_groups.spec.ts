@@ -46,6 +46,7 @@ describe("AdminGroupsComponent", () => {
     );
     expect(req.request.method).toEqual("GET");
     req.flush(groups);
+    const localizationReq = httpMock.match("app/rapydo/assets/i18n/en.json");
     if (localizationReq.length > 0) {
       localizationReq.forEach((req) => req.flush({}));
     }
