@@ -97,19 +97,24 @@ export class RegisterComponent {
 
     for (let f of this.fields) {
       if (f.key === "name") {
+        f.props.addonLeft = { class: "fas fa-user" };
+        f.props.labelPosition = "inline";
         f.props.placeholder = "Type here your name";
-        f.props.addonLeft = { class: "fas fa-user" };
       } else if (f.key === "surname") {
-        f.props.placeholder = "Type here your surname";
         f.props.addonLeft = { class: "fas fa-user" };
+        f.props.labelPosition = "inline";
+        f.props.placeholder = "Type here your surname";
       } else if (f.key === "email") {
-        f.props.placeholder = "Type here your email address";
         f.props.addonLeft = { class: "fas fa-envelope" };
+        f.props.labelPosition = "inline";
+        f.props.placeholder = "Type here your email address";
       } else if (f.key === "password") {
         f.props.addonLeft = { class: "fas fa-key" };
+        f.props.labelPosition = "inline";
         f.props.placeholder = "Type here the desidered password";
       } else if (f.key === "password_confirm") {
         f.props.addonLeft = { class: "fas fa-key" };
+        f.props.labelPosition = "inline";
         f.props.placeholder =
           "Type again the desidered password for confirmation";
 
