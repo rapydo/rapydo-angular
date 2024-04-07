@@ -49,4 +49,26 @@ mergeJSON(
   "/app/angular.json",
 );
 
+const i18nCommonsPath = "/app/app/rapydo/i18n";
+if (fs.existsSync(i18nCommonsPath)) {
+  fs.readdir(i18nCommonsPath, function (err, files) {
+    if (err) {
+      console.error("Could not list i18n directory.", err);
+      return;
+    }
+    files.forEach(function(file, index){
+      // look for corresponding custom file
+      if (!fs.existsSync(`/app/app/custom/assets/i18n/${file}`)) {
+        print.log(`nothing to merge for ${file}`);
+      } else {
+        mergeJSON(
+          `${i18nCommonsPath}/${file}`,
+          `/app/app/custom/assets/i18n/${file}`,
+          `/app/app/rapydo/assets/i18n/${file}`
+        );
+      }
+    });
+  });
+}
+
 return true;

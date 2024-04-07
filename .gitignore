@@ -27,3 +27,6 @@ coverage.xml
 
 # GitGuardian
 .cache_ggshield
+
+# Ignore compiled i18n translations
+src/assets/i18n
