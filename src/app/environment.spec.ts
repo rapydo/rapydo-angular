@@ -22,6 +22,7 @@ describe("Environment", () => {
     expect(environment.minPasswordLength).not.toBeUndefined();
     expect(environment.forceSSRServerMode).not.toBeUndefined();
     expect(environment.spinnerType).not.toBeUndefined();
+    expect(environment.enableMultiLang).not.toBeUndefined();
     expect(environment.SENTRY_URL).not.toBeUndefined();
     expect(environment.CUSTOM).not.toBeUndefined();
   });

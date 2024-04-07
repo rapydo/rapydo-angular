@@ -66,7 +66,9 @@
     "ajv-formats": "2.1.1",
     "localstorage-polyfill": "1.0.1",
     "gzipper": "7.2.0",
-    "buffer": "6.0.3"
+    "buffer": "6.0.3",
+    "@ngx-translate/core": "14.0.0",
+    "@ngx-translate/http-loader": "7.0.0"
   },
   "devDependencies": {
     "karma": "6.4.3",

@@ -37,6 +37,7 @@ import { SelectTypeComponent } from "@rapydo/components/forms/ng-select.type";
 import { AutocompleTypeComponent } from "@rapydo/components/forms/ng-select-autocomplete.type";
 import { RadioTypeComponent } from "@rapydo/components/forms/radio.type";
 import { TermsOfUseTypeComponent } from "@rapydo/components/forms/terms-of-use.type";
+import { LanguageTranslationModule } from "@rapydo/language-translation.module";
 
 import { NgxSpinnerModule } from "ngx-spinner";
 
@@ -283,6 +284,7 @@ let module_imports: any = [
       { name: "url", validation: URLValidator },
     ],
   }),
+  LanguageTranslationModule,
 ];
 
 let module_declarations = [
@@ -328,6 +330,7 @@ let module_exports = [
   UploadxModule,
   ClipboardModule,
   NgxSpinnerModule,
+  LanguageTranslationModule,
 
   IteratePipe,
   SafeHtmlPipe,

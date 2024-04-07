@@ -37,7 +37,7 @@
             routerLink="/app/group/users"
             routerLinkActive="active"
           >
-            Group
+            {{"navbar.group.title" | translate}}
           </a>
         </li>
       </ul>
@@ -53,7 +53,7 @@
             id="navbarDropdownAdminLink"
             role="button"
           >
-            Admin
+            {{"navbar.admin.title" | translate}}
           </a>
           <div
             ngbDropdownMenu
@@ -81,6 +81,31 @@
            [user]="user"
            (onClick)="isMenuCollapsed = true"
         ></customcontrols>
+        <li class="nav-item dropdown" ngbDropdown *ngIf="enableMultiLang">
+          <a class="nav-link" href="javascript:void(0)" ngbDropdownToggle>
+            <i class="fa fa-language"></i>
+              {{ currentLang() }}
+              <b class="caret"></b>
+          </a>
+          <div class="dropdown-menu-right" ngbDropdownMenu>
+            <a
+              (click)="changeLang('en')"
+              class="dropdown-item"
+              [ngClass]="{active: currentLang() === 'en'}"
+              href="javascript:void(0)"
+            >
+              {{ "navbar.lang.en" | translate }}
+            </a>
+            <a
+              (click)="changeLang('it')"
+              class="dropdown-item"
+              [ngClass]="{active: currentLang() === 'it'}"
+              href="javascript:void(0)"
+            >
+              {{ "navbar.lang.it" | translate }}
+            </a>
+          </div>
+        </li>
         <li class="nav-item" *ngIf="user">
           <a
             class="nav-link"
