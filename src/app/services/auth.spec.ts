@@ -137,6 +137,10 @@ describe("AuthService", () => {
   });
 
   afterEach(() => {
+    const localizationReq = httpMock.match("app/rapydo/assets/i18n/en.json");
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     // make sure that there are no outstanding requests
     httpMock.verify();
   });

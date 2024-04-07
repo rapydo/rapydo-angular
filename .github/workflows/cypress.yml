@@ -47,7 +47,7 @@ jobs:
           mkdir rapydo_tests
           cd rapydo_tests
           rapydo install compose
-          rapydo --testing create prj --auth ${AUTH} --frontend angular --origin-url https://your_remote_git/your_project.git
+          rapydo --testing create prj --auth ${AUTH} --frontend angular -e ENABLE_ANGULAR_MULTI_LANGUAGE=1 --origin-url https://your_remote_git/your_project.git
 
           # REF contains the branch when commit, but contains refs/pull/XXX/merge on PRs
           # with PRs use HEAD_REF
