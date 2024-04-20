@@ -46,6 +46,9 @@ describe("Init user", () => {
       }
 
       cy.get("button:contains('Submit')").click();
+      cy.location().should((location) => {
+        expect(location.pathname).to.not.eq("/app/profile/changepassword");
+      });
     }
 
     if (Cypress.env("AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER")) {
