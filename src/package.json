@@ -91,7 +91,7 @@
     "defaults",
     "cover 99%",
     "not chrome <= 61",
-    "not firefox <= 58",
+    "not firefox <= 59",
     "not safari < 11",
     "not ios_saf < 11",
     "not edge <= 18",
