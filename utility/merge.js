@@ -20,20 +20,14 @@ function mergeJSON(commonsPath, customPath, outputPath) {
       }
 
       print.log(
-        "[" +
-          commonsPath +
-          "] + [" +
-          customPath +
-          "] -> [" +
-          outputPath +
-          "]\n",
+        "[" + commonsPath + "] + [" + customPath + "] -> [" + outputPath + "]",
       );
     });
   } else {
     print.log("\nCopying core file...");
     let commonsContent = fs.readFileSync(commonsPath);
     fs.writeFileSync(outputPath, commonsContent);
-    print.log("[" + commonsPath + "] -> [" + outputPath + "]\n");
+    print.log("[" + commonsPath + "] -> [" + outputPath + "]");
   }
 }
 
@@ -53,20 +47,15 @@ const i18nCommonsPath = "/app/app/rapydo/i18n";
 if (fs.existsSync(i18nCommonsPath)) {
   fs.readdir(i18nCommonsPath, function (err, files) {
     if (err) {
-      console.error("Could not list i18n directory.", err);
-      return;
+      print.log("Could not list i18n directory.", err);
+      return false;
     }
-    files.forEach(function(file, index){
-      // look for corresponding custom file
-      if (!fs.existsSync(`/app/app/custom/assets/i18n/${file}`)) {
-        print.log(`nothing to merge for ${file}`);
-      } else {
-        mergeJSON(
-          `${i18nCommonsPath}/${file}`,
-          `/app/app/custom/assets/i18n/${file}`,
-          `/app/app/rapydo/assets/i18n/${file}`
-        );
-      }
+    files.forEach(function (file, index) {
+      mergeJSON(
+        `${i18nCommonsPath}/${file}`,
+        `/app/app/custom/assets/i18n/${file}`,
+        `/app/app/rapydo/assets/i18n/${file}`,
+      );
     });
   });
 }
