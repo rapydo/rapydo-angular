@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": "/app/node_modules/",
     "outDir": "/app/dist",
-    "target": "ES2022",
+    "target": "ES6",
     "module": "esnext",
     "moduleResolution": "node",
 
