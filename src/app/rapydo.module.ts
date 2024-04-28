@@ -9,7 +9,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
-import { CookieLawModule } from "angular2-cookie-law";
+// import { CookieLawModule } from "angular2-cookie-law";
 import { ToastrModule } from "ngx-toastr";
 import * as Sentry from "@sentry/browser";
 
@@ -94,7 +94,7 @@ let module_imports: any = [
 
   // import HttpClientModule after BrowserModule
   HttpClientModule,
-  CookieLawModule,
+  // CookieLawModule,
   ToastrModule.forRoot({
     maxOpened: 5,
     preventDuplicates: true,
@@ -123,7 +123,7 @@ let module_exports = [
   // BrowserModule,
   BrowserAnimationsModule,
   HttpClientModule,
-  CookieLawModule,
+  // CookieLawModule,
   ToastrModule,
 
   NavbarComponent,
