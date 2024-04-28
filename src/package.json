@@ -53,7 +53,7 @@
     "@ng-select/ng-option-highlight": "12.0.6",
     "@swimlane/ngx-datatable": "20.1.0",
     "date-fns": "3.6.0",
-    "ngx-date-fns": "10.0.1",
+    "ngx-date-fns": "11.0.0",
     "ngx-spinner": "16.0.2",
     "ngx-clipboard": "16.0.0",
     "ngx-uploadx": "6.2.0",
