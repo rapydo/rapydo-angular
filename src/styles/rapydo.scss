@@ -1,17 +1,17 @@
 @import "variables";
 @import "/app/custom/styles/variables";
-@import "node_modules/bootstrap/scss/bootstrap";
+@import "/app/node_modules/bootstrap/scss/bootstrap";
 
 // Replaced basic toastr style with bootstrap4 style
-@import "node_modules/ngx-toastr/toastr";
+@import "/app/node_modules/ngx-toastr/toastr";
 // @import "node_modules/ngx-toastr/toastr-bs4-alert";
-@import "node_modules/@swimlane/ngx-datatable/themes/bootstrap";
-@import "node_modules/@swimlane/ngx-datatable/assets/icons";
-@import "node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
-@import "node_modules/@fortawesome/fontawesome-free/scss/brands";
-@import "node_modules/@fortawesome/fontawesome-free/scss/solid";
-@import "node_modules/@ng-select/ng-select/themes/default.theme";
-@import "node_modules/ngx-spinner/animations/ball-scale-multiple";
+@import "/app/node_modules/@swimlane/ngx-datatable/themes/bootstrap";
+@import "/app/node_modules/@swimlane/ngx-datatable/assets/icons";
+@import "/app/node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+@import "/app/node_modules/@fortawesome/fontawesome-free/scss/brands";
+@import "/app/node_modules/@fortawesome/fontawesome-free/scss/solid";
+@import "/app/node_modules/@ng-select/ng-select/themes/default.theme";
+@import "/app/node_modules/ngx-spinner/animations/ball-scale-multiple";
 
 html,
 body {

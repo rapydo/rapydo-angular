@@ -49,7 +49,7 @@ export class FormlyService {
       let floating_labels_supported = true;
 
       if (stype === "string") {
-        if (s.max && s.max > 256) {
+        if (s.max && (s.max as number) > 256) {
           field_type = "textarea";
           // should be calculated from s.max
           field["props"]["rows"] = 5;
