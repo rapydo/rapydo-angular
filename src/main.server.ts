@@ -9,5 +9,5 @@ if (environment.production) {
   enableProdMode();
 }
 
-import "zone.js/dist/zone";
+import "zone.js";
 export { AppServerModule } from "@rapydo/app.server.module";

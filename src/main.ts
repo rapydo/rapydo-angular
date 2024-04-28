@@ -4,8 +4,7 @@ import { AppModule } from "@rapydo/app.module";
 import { environment } from "@rapydo/../environments/environment";
 
 // required libs for angular
-import "zone.js/dist/zone";
-import "zone.js/dist/long-stack-trace-zone";
+import "zone.js";
 import "reflect-metadata/Reflect";
 
 if (environment.production) {
