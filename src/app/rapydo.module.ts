@@ -12,10 +12,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { CookieLawModule } from "angular2-cookie-law";
 import { ToastrModule } from "ngx-toastr";
 import * as Sentry from "@sentry/browser";
-import {
-  NgxGoogleAnalyticsModule,
-  NgxGoogleAnalyticsRouterModule,
-} from "ngx-google-analytics";
 
 import { SharedModule } from "@rapydo/shared.module";
 import { NavbarComponent } from "@rapydo/components/navbar/navbar";
@@ -26,13 +22,16 @@ import { AuthService } from "@rapydo/services/auth";
 import { ApiService } from "@rapydo/services/api";
 import { FormlyService } from "@rapydo/services/formly";
 import { SSRService } from "@rapydo/services/ssr";
+import { SharedService } from "@rapydo/services/shared-service";
 import { NotificationService } from "@rapydo/services/notification";
 import { ExcelService } from "@rapydo/services/excel";
+import { DateService } from "@rapydo/services/date";
 import { ConfirmationModals } from "@rapydo/services/confirmation.modals";
 
 import { JwtInterceptor } from "@rapydo/jwt.interceptor";
 
 import { CustomNavbarComponent } from "@app/custom.navbar";
+import { CustomControlsComponent } from "@app/custom.navbar";
 import { CustomBrandComponent } from "@app/custom.navbar";
 import { CustomFooterComponent } from "@app/custom.footer";
 import { BaseProjectOptions } from "@rapydo/base.project.options";
@@ -45,35 +44,35 @@ const routes: Routes = [
     path: "public",
     loadChildren: () =>
       import("@rapydo/components/public/public.module").then(
-        (m) => m.PublicModule
+        (m) => m.PublicModule,
       ),
   },
   {
     path: "app/login",
     loadChildren: () =>
       import("@rapydo/components/login/login.module").then(
-        (m) => m.LoginModule
+        (m) => m.LoginModule,
       ),
   },
   {
     path: "app/profile",
     loadChildren: () =>
       import("@rapydo/components/profile/profile.module").then(
-        (m) => m.ProfileModule
+        (m) => m.ProfileModule,
       ),
   },
   {
     path: "app/admin",
     loadChildren: () =>
       import("@rapydo/components/admin/admin.module").then(
-        (m) => m.AdminModule
+        (m) => m.AdminModule,
       ),
   },
   {
     path: "app/group",
     loadChildren: () =>
       import("@rapydo/components/group/group.module").then(
-        (m) => m.AdminModule
+        (m) => m.AdminModule,
       ),
   },
 ];
@@ -109,17 +108,11 @@ let module_imports: any = [
   }),
 ];
 
-if (environment.GA_TRACKING_CODE !== "") {
-  module_imports.push(
-    NgxGoogleAnalyticsModule.forRoot(environment.GA_TRACKING_CODE)
-  );
-  module_imports.push(NgxGoogleAnalyticsRouterModule);
-}
-
 let module_declarations = [
   NavbarComponent,
 
   CustomNavbarComponent,
+  CustomControlsComponent,
   CustomBrandComponent,
   CustomFooterComponent,
 ];
@@ -142,8 +135,10 @@ let module_providers: any = [
   AuthService,
   AuthGuard,
   ApiService,
+  DateService,
   FormlyService,
   SSRService,
+  SharedService,
   NotificationService,
   BaseProjectOptions,
   ConfirmationModals,

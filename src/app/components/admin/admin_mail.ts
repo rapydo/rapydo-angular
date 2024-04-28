@@ -32,7 +32,7 @@ export class AdminMailComponent implements OnInit {
     private modalService: NgbModal,
     private api: ApiService,
     private notify: NotificationService,
-    private formly: FormlyService
+    private formly: FormlyService,
   ) {}
 
   ngOnInit() {
@@ -66,7 +66,7 @@ export class AdminMailComponent implements OnInit {
       (error) => {
         this.notify.showError(error);
         this.spinner.hide();
-      }
+      },
     );
   }
 
@@ -97,7 +97,7 @@ export class AdminMailComponent implements OnInit {
               (result) => {
                 return this.send(false);
               },
-              (reason) => {}
+              (reason) => {},
             );
           }
         },
@@ -114,7 +114,7 @@ export class AdminMailComponent implements OnInit {
             this.notify.showError(error);
           }
           this.spinner.hide();
-        }
+        },
       );
     return true;
   }

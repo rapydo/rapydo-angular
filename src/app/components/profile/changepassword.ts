@@ -24,7 +24,7 @@ export class ChangePasswordComponent {
     private api: ApiService,
     private auth: AuthService,
     private notify: NotificationService,
-    private router: Router
+    private router: Router,
   ) {
     this.user = auth.getUser();
 
@@ -32,7 +32,7 @@ export class ChangePasswordComponent {
       this.fields.push({
         key: "totp_code",
         type: "input",
-        templateOptions: {
+        props: {
           type: "string",
           label: "Verification code",
           placeholder: "TOTP verification code",
@@ -47,7 +47,7 @@ export class ChangePasswordComponent {
     this.fields.push({
       key: "currentPwd",
       type: "password",
-      templateOptions: {
+      props: {
         // type: "password",
         label: "Current password",
         placeholder: "Type here your current password",
@@ -61,7 +61,7 @@ export class ChangePasswordComponent {
     this.fields.push({
       key: "newPwd",
       type: "password",
-      templateOptions: {
+      props: {
         // type: "password",
         label: "New password",
         placeholder: "Type the desidered new password",
@@ -75,7 +75,7 @@ export class ChangePasswordComponent {
     this.fields.push({
       key: "confirmPwd",
       type: "password",
-      templateOptions: {
+      props: {
         // type: "password",
         label: "Confirm password",
         placeholder: "Type again the new password for confirmation",
@@ -131,18 +131,18 @@ export class ChangePasswordComponent {
                 },
                 (error) => {
                   this.notify.showError(error);
-                }
+                },
               );
             },
             (error) => {
               this.notify.showError(error);
-            }
+            },
           );
         }
       },
       (error) => {
         this.notify.showError(error);
-      }
+      },
     );
   }
 }

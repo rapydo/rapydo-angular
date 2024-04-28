@@ -42,11 +42,14 @@ describe("AdminGroupsComponent", () => {
     fixture.detectChanges();
 
     const req = httpMock.expectOne(
-      environment.backendURI + "/api/admin/groups"
+      environment.backendURI + "/api/admin/groups",
     );
     expect(req.request.method).toEqual("GET");
     req.flush(groups);
-
+    const localizationReq = httpMock.match("app/rapydo/assets/i18n/en.json");
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     httpMock.verify();
   }));
 

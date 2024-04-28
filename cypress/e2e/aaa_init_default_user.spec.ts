@@ -1,7 +1,7 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { getpassword, get_totp } from "../../fixtures/utilities";
+import { getpassword, get_totp } from "../fixtures/utilities";
 
 describe("Init user", () => {
   it("Login via form to change first password / setup TOTP if needed", () => {
@@ -34,7 +34,7 @@ describe("Init user", () => {
         .clear()
         .type(pwd, { parseSpecialCharSequences: false });
       cy.get(
-        'input[placeholder="Type again the new password for confirmation"]'
+        'input[placeholder="Type again the new password for confirmation"]',
       )
         .clear()
         .type(pwd, { parseSpecialCharSequences: false });
@@ -46,6 +46,9 @@ describe("Init user", () => {
       }
 
       cy.get("button:contains('Submit')").click();
+      cy.location().should((location) => {
+        expect(location.pathname).to.not.eq("/app/profile/changepassword");
+      });
     }
 
     if (Cypress.env("AUTH_DISABLE_UNUSED_CREDENTIALS_AFTER")) {

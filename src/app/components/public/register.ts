@@ -40,7 +40,7 @@ export class RegisterComponent {
     private api: ApiService,
     private authService: AuthService,
     private formly: FormlyService,
-    private customization: ProjectOptions
+    private customization: ProjectOptions,
   ) {
     this.allowRegistration = environment.allowRegistration;
 
@@ -66,7 +66,7 @@ export class RegisterComponent {
               this.registration_title = "Invalid activation token";
               this.notify.showError(error);
               return false;
-            }
+            },
           );
         } else {
           this.showRegistrationForm = true;
@@ -82,7 +82,7 @@ export class RegisterComponent {
               (error) => {
                 this.notify.showError(error);
                 this.spinner.hide();
-              }
+              },
             );
         }
       });
@@ -97,20 +97,25 @@ export class RegisterComponent {
 
     for (let f of this.fields) {
       if (f.key === "name") {
-        f.templateOptions.placeholder = "Type here your name";
-        f.templateOptions.addonLeft = { class: "fas fa-user" };
+        f.props.addonLeft = { class: "fas fa-user" };
+        f.props.labelPosition = "inline";
+        f.props.placeholder = "Type here your name";
       } else if (f.key === "surname") {
-        f.templateOptions.placeholder = "Type here your surname";
-        f.templateOptions.addonLeft = { class: "fas fa-user" };
+        f.props.addonLeft = { class: "fas fa-user" };
+        f.props.labelPosition = "inline";
+        f.props.placeholder = "Type here your surname";
       } else if (f.key === "email") {
-        f.templateOptions.placeholder = "Type here your email address";
-        f.templateOptions.addonLeft = { class: "fas fa-envelope" };
+        f.props.addonLeft = { class: "fas fa-envelope" };
+        f.props.labelPosition = "inline";
+        f.props.placeholder = "Type here your email address";
       } else if (f.key === "password") {
-        f.templateOptions.addonLeft = { class: "fas fa-key" };
-        f.templateOptions.placeholder = "Type here the desidered password";
+        f.props.addonLeft = { class: "fas fa-key" };
+        f.props.labelPosition = "inline";
+        f.props.placeholder = "Type here the desidered password";
       } else if (f.key === "password_confirm") {
-        f.templateOptions.addonLeft = { class: "fas fa-key" };
-        f.templateOptions.placeholder =
+        f.props.addonLeft = { class: "fas fa-key" };
+        f.props.labelPosition = "inline";
+        f.props.placeholder =
           "Type again the desidered password for confirmation";
 
         f.validators = {
@@ -120,7 +125,7 @@ export class RegisterComponent {
           },
         };
       } else {
-        f.templateOptions.addonLeft = { class: "fas fa-asterisk" };
+        f.props.addonLeft = { class: "fas fa-asterisk" };
       }
     }
     this.disclaimer = this.customization.registration_disclaimer();
@@ -139,7 +144,7 @@ export class RegisterComponent {
           const field = {
             key: p.label.toLowerCase().replace(/ /gi, "_") + "_optin",
             type: "terms_of_use",
-            templateOptions: {
+            props: {
               label: p.label,
               terms_of_use: p.text,
             },
@@ -186,7 +191,7 @@ export class RegisterComponent {
         (error) => {
           this.notify.showError(error);
           this.loading = false;
-        }
+        },
       );
   }
 }

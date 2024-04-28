@@ -67,7 +67,7 @@ export class SimpleDateAdapter extends NgbDateAdapter<string> {
 export class SimpleDatePickerTypeComponent extends FieldType {
   constructor(
     private dateAdapter: NgbDateAdapter<string>,
-    containerRef: ViewContainerRef
+    containerRef: ViewContainerRef,
   ) {
     super(containerRef);
   }

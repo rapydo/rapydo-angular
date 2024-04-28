@@ -17,7 +17,7 @@
             "index": "app/rapydo/index.html",
             "main": "app/rapydo/main.ts",
             "deleteOutputPath": false,
-            "polyfills": "polyfills.ts",
+            "polyfills": ["zone.js", "polyfills.ts"],
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "sourceMap": true,
@@ -112,7 +112,7 @@
               "browserTarget": "RAPyDo:build:production"
             },
             "cypress": {
-              "extraWebpackConfig": "./cypress/coverage.webpack.js"
+              "extraWebpackConfig": "/app/cypress/coverage.webpack.js"
             }
           }
         },
@@ -125,12 +125,11 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "app/rapydo/tests.ts",
-            "polyfills": "polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": ["./app/rapydo/assets", "./app/custom/assets"],
+            "polyfills": ["zone.js", "zone.js/testing"],
+            "tsConfig": "tsconfig.spec.json",
             "styles": ["./app/rapydo/styles/rapydo.scss"],
+            "assets": ["./app/rapydo/assets", "./app/custom/assets"],
             "scripts": []
           }
         }

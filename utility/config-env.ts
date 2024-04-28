@@ -92,7 +92,8 @@ export const environment = {
     allowTermsOfUse: '${process.env.ALLOW_TERMS_OF_USE}',
     minPasswordLength: '${process.env.AUTH_MIN_PASSWORD_LENGTH}',
     forceSSRServerMode: '${process.env.FORCE_SSR_SERVER_MODE}',
-    spinnerType: '${process.env.SPINNER_TYPE}',`;
+    spinnerType: '${process.env.SPINNER_TYPE}',
+    enableMultiLang: '${process.env.ENABLE_ANGULAR_MULTI_LANGUAGE}',`;
 for (let key in process.env) {
   if (key.startsWith(INJECT_KEY)) {
     let k = key.substr(INJECT_KEY.length);
@@ -102,7 +103,6 @@ for (let key in process.env) {
 }
 envConfigFile += `  
     SENTRY_URL: '${process.env.SENTRY_URL}',
-    GA_TRACKING_CODE: '${process.env.GA_TRACKING_CODE}'
 };
 `;
 fs.writeFile(targetPath, envConfigFile, function (err) {

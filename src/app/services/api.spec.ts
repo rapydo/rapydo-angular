@@ -23,6 +23,7 @@ describe("ApiService", () => {
     TestBed.configureTestingModule({
       providers: [ApiService],
       imports: [AppModule, HttpClientTestingModule],
+      teardown: { destroyAfterEach: false },
     });
 
     injector = getTestBed();
@@ -38,7 +39,10 @@ describe("ApiService", () => {
     const req = httpMock.expectOne(environment.backendURI + "/api/xyz");
     expect(req.request.method).toEqual("GET");
     req.flush("");
-
+    const localizationReq = httpMock.match("app/rapydo/assets/i18n/en.json");
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     httpMock.verify();
   });
 
@@ -47,13 +51,16 @@ describe("ApiService", () => {
       (result) => {},
       (error) => {
         expect(error).not.toBeUndefined();
-      }
+      },
     );
 
     const req = httpMock.expectOne(environment.backendURI + "/api/xyz");
     expect(req.request.method).toEqual("GET");
     req.flush("FAILED", mock401Response);
-
+    const localizationReq = httpMock.match("app/rapydo/assets/i18n/en.json");
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     httpMock.verify();
   });
 
@@ -65,7 +72,10 @@ describe("ApiService", () => {
     const req = httpMock.expectOne(environment.backendURI + "/api/xyz");
     expect(req.request.method).toEqual("POST");
     req.flush("");
-
+    const localizationReq = httpMock.match("app/rapydo/assets/i18n/en.json");
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     httpMock.verify();
   });
 
@@ -74,13 +84,16 @@ describe("ApiService", () => {
       (result) => {},
       (error) => {
         expect(error).not.toBeUndefined();
-      }
+      },
     );
 
     const req = httpMock.expectOne(environment.backendURI + "/api/xyz");
     expect(req.request.method).toEqual("POST");
     req.flush("FAILED", mock401Response);
-
+    const localizationReq = httpMock.match("app/rapydo/assets/i18n/en.json");
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     httpMock.verify();
   });
 
@@ -92,7 +105,10 @@ describe("ApiService", () => {
     const req = httpMock.expectOne(environment.backendURI + "/api/xyz/id");
     expect(req.request.method).toEqual("DELETE");
     req.flush("");
-
+    const localizationReq = httpMock.match("app/rapydo/assets/i18n/en.json");
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     httpMock.verify();
   });
 
@@ -101,13 +117,16 @@ describe("ApiService", () => {
       (result) => {},
       (error) => {
         expect(error).not.toBeUndefined();
-      }
+      },
     );
 
     const req = httpMock.expectOne(environment.backendURI + "/api/xyz/id");
     expect(req.request.method).toEqual("DELETE");
     req.flush("FAILED", mock401Response);
-
+    const localizationReq = httpMock.match("app/rapydo/assets/i18n/en.json");
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     httpMock.verify();
   });
 
@@ -119,7 +138,10 @@ describe("ApiService", () => {
     const req = httpMock.expectOne(environment.backendURI + "/api/xyz/id");
     expect(req.request.method).toEqual("PUT");
     req.flush("");
-
+    const localizationReq = httpMock.match("app/rapydo/assets/i18n/en.json");
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     httpMock.verify();
   });
 
@@ -128,13 +150,16 @@ describe("ApiService", () => {
       (result) => {},
       (error) => {
         expect(error).not.toBeUndefined();
-      }
+      },
     );
 
     const req = httpMock.expectOne(environment.backendURI + "/api/xyz/id");
     expect(req.request.method).toEqual("PUT");
     req.flush("FAILED", mock401Response);
-
+    const localizationReq = httpMock.match("app/rapydo/assets/i18n/en.json");
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     httpMock.verify();
   });
 
@@ -146,7 +171,10 @@ describe("ApiService", () => {
     const req = httpMock.expectOne(environment.backendURI + "/api/xyz/id");
     expect(req.request.method).toEqual("PATCH");
     req.flush("");
-
+    const localizationReq = httpMock.match("app/rapydo/assets/i18n/en.json");
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     httpMock.verify();
   });
 
@@ -155,17 +183,24 @@ describe("ApiService", () => {
       (result) => {},
       (error) => {
         expect(error).not.toBeUndefined();
-      }
+      },
     );
 
     const req = httpMock.expectOne(environment.backendURI + "/api/xyz/id");
     expect(req.request.method).toEqual("PATCH");
     req.flush("FAILED", mock401Response);
-
+    const localizationReq = httpMock.match("app/rapydo/assets/i18n/en.json");
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     httpMock.verify();
   });
 
   afterEach(() => {
+    const localizationReq = httpMock.match("app/rapydo/assets/i18n/en.json");
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     // make sure that there are no outstanding requests
     httpMock.verify();
   });

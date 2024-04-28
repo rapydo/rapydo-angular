@@ -2,7 +2,7 @@
 /*global cy, Cypress*/
 
 /* mostly copied in StaffUsers */
-import { getpassword, get_random_username } from "../../fixtures/utilities";
+import { getpassword, get_random_username } from "../fixtures/utilities";
 
 describe("AdminUsers", () => {
   // do not directly create the random values here,
@@ -57,7 +57,7 @@ describe("AdminUsers", () => {
       2,
       "Should have at least " +
         Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
-        " characters"
+        " characters",
     );
 
     cy.contains("random").click({ force: true });
@@ -92,7 +92,7 @@ describe("AdminUsers", () => {
 
     cy.checkalert(
       "A User already exists with email: " +
-        Cypress.env("AUTH_DEFAULT_USERNAME")
+        Cypress.env("AUTH_DEFAULT_USERNAME"),
     );
 
     cy.get("@email").clear().type(username);
@@ -229,6 +229,11 @@ describe("AdminUsers", () => {
     cy.get('input[placeholder="Type to filter users"]').clear();
 
     cy.get("datatable-body-row").its("length").should("be.gte", 1);
+  });
+
+  it("Download users as excel", () => {
+    cy.get("div.card-header div i.fa-download").click();
+    // TODO: to be implemented. See profile.sessions.spec.ts
   });
 
   it("Backend errors", () => {

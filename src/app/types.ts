@@ -43,16 +43,28 @@ export interface User extends SimpleUserWithId, CustomUser {
   readonly isStaff: boolean;
   readonly isCoordinator: boolean;
   readonly is_active: boolean;
-  /** @nullable */
-  readonly expiration: Date;
+  /**
+   * @nullable
+   * @format date-time
+   */
+  readonly expiration: string;
   readonly privacy_accepted: boolean;
   readonly roles: Record<string, string>;
-  /** @nullable */
-  readonly first_login: Date;
-  /** @nullable */
-  readonly last_login: Date;
-  /** @nullable */
-  readonly last_password_change: Date;
+  /**
+   * @nullable
+   * @format date-time
+   */
+  readonly first_login: string;
+  /**
+   * @nullable
+   * @format date-time
+   */
+  readonly last_login: string;
+  /**
+   * @nullable
+   * @format date-time
+   */
+  readonly last_password_change: string;
   // "nullable" should be removed in a near future
   /** @nullable */
   readonly group: Group;
@@ -63,15 +75,27 @@ export interface User extends SimpleUserWithId, CustomUser {
 export interface AdminUser extends SimpleUserWithId, CustomUser {
   readonly is_active: boolean;
   readonly privacy_accepted: boolean;
-  /** @nullable */
-  readonly first_login: Date;
-  /** @nullable */
-  readonly last_login: Date;
-  /** @nullable */
-  readonly last_password_change: Date;
+  /**
+   * @nullable
+   * @format date-time
+   */
+  readonly first_login: string;
+  /**
+   * @nullable
+   * @format date-time
+   */
+  readonly last_login: string;
+  /**
+   * @nullable
+   * @format date-time
+   */
+  readonly last_password_change: string;
   readonly roles: any;
-  /** @nullable */
-  readonly expiration: Date;
+  /**
+   * @nullable
+   * @format date-time
+   */
+  readonly expiration: string;
   // Added by AdminUsersComponent
   expired?: boolean;
   // "nullable" should be removed in a near future
@@ -93,16 +117,20 @@ export interface Session {
   /** @nullable */
   readonly location: string;
   readonly user?: SimpleUser;
-  readonly emitted: Date;
-  readonly last_access: Date;
-  readonly expiration: Date;
+  /** @format date-time */
+  readonly emitted: string;
+  /** @format date-time */
+  readonly last_access: string;
+  /** @format date-time */
+  readonly expiration: string;
 }
 export interface Sessions extends Array<Session> {}
 
 export interface Login {
   /** @format email */
   readonly username: string;
-  readonly date: Date;
+  /** @format date-time */
+  readonly date: string;
   readonly IP: string;
   readonly location: string;
   readonly failed: boolean;
@@ -176,7 +204,8 @@ export interface JSON2Form {
 }
 
 interface SystemStats {
-  readonly boot_time: Date;
+  /** @format date-time */
+  readonly boot_time: string;
 }
 interface CPUStats {
   /** @minimum 1 */

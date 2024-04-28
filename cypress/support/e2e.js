@@ -91,7 +91,7 @@ Cypress.Commands.add("change_expired_password", (email, pwd, formtype) => {
     cy.get("input[placeholder='Your password']").should("not.exist");
 
     cy.get("div.card-header.bg-warning h1").contains(
-      "Provide the verification code"
+      "Provide the verification code",
     );
     cy.get("input[placeholder='TOTP verification code']")
       .clear()
@@ -193,7 +193,7 @@ Cypress.Commands.add("login_and_init_user", (email = null, pwd = null) => {
 
   if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
     cy.get("div.card-header h1").contains(
-      "Configure Two-Factor with Google Authenticator"
+      "Configure Two-Factor with Google Authenticator",
     );
 
     cy.checkalert("Please change your temporary password");
@@ -215,7 +215,7 @@ Cypress.Commands.add("login_and_init_user", (email = null, pwd = null) => {
     cy.wait(200);
   } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
     cy.get("div.card-header.bg-warning h1").contains(
-      "Please change your temporary password"
+      "Please change your temporary password",
     );
 
     cy.checkalert("Please change your temporary password");
@@ -239,32 +239,22 @@ Cypress.Commands.add("login_and_init_user", (email = null, pwd = null) => {
   cy.wait(300);
 });
 
-Cypress.Commands.add("logout", (collapsed = false) => {
-  if (collapsed) {
-    cy.get("button.navbar-toggler").click();
-
-    // cy.get("a").find(".fa-right-from-bracket").parent().click({ force: true });
-    // cy.get("div.modal-footer")
-    //   .find("button")
-    //   .contains("Confirm")
-    //   .click({ force: true });
-
-    cy.get("i.fa-right-from-bracket").parent().click();
-    cy.scrollTo("top");
+// With Angular 15 I'm experiencing issues with the logout modal
+// that often does not trigger the modal opening when clicked
+// Warning: at the moment all logouts have via_modal false !!
+Cypress.Commands.add("logout", (via_modal = true) => {
+  if (via_modal) {
+    cy.get("button[id=logout-icon]").click({ force: true });
     cy.get("button").contains("Confirm").click();
   } else {
-    cy.get("i.fa-right-from-bracket").parent().click();
-    cy.get("button").contains("Confirm").click();
+    // access to login page triggers tokens invalidation
+    cy.visit("/app/login");
   }
 });
 
 // Replaces cy.visit("/app/profile") to introduces automatic waits on DOM elements
 // instead of requiring waits on the http call
-Cypress.Commands.add("goto_profile", (collapsed = false) => {
-  if (collapsed) {
-    cy.get("button.navbar-toggler").click();
-  }
-
+Cypress.Commands.add("goto_profile", () => {
   // Why this wait?
   // Cypress does not offer a way to automatically wait for all pending XHR requests and
   // often some requests e.g. GET /auth/status, are still under the hook when this click
@@ -299,7 +289,9 @@ Cypress.Commands.add("closecookielaw", (quiet = false) => {
 });
 
 Cypress.Commands.add("checkalert", (msg) => {
-  cy.get("div[role=alert]").contains(msg).click({ force: true });
+  cy.get("div[role=alert]")
+    .contains(msg)
+    .click({ force: true, multiple: true });
 });
 
 Cypress.Commands.add("checkvalidation", (index, msg) => {
@@ -374,14 +366,14 @@ Cypress.Commands.add(
 
     if (expired) {
       cy.get(
-        'input[placeholder="This user will be blocked after this date"]'
+        'input[placeholder="This user will be blocked after this date"]',
       ).click();
       cy.get(
-        'ngb-datepicker-navigation-select select[title="Select year"]'
+        'ngb-datepicker-navigation-select select[title="Select year"]',
       ).select("2020");
 
       cy.get(
-        'ngb-datepicker-navigation-select select[title="Select month"]'
+        'ngb-datepicker-navigation-select select[title="Select month"]',
       ).select("12");
 
       cy.get("div.ngb-dp-day div").contains("31").click({ force: true });
@@ -410,7 +402,7 @@ Cypress.Commands.add(
 
     cy.checkalert("Confirmation: user successfully created");
 
-    cy.logout();
+    cy.logout(false);
 
     if (init_user) {
       cy.visit("/app/login");
@@ -445,7 +437,7 @@ Cypress.Commands.add(
         cy.get("input[placeholder='Your password']").should("not.exist");
 
         cy.get("div.card-header h1").contains(
-          "Configure Two-Factor with Google Authenticator"
+          "Configure Two-Factor with Google Authenticator",
         );
 
         cy.checkalert("Please change your temporary password");
@@ -467,7 +459,7 @@ Cypress.Commands.add(
       } else if (Cypress.env("AUTH_FORCE_FIRST_PASSWORD_CHANGE") === 1) {
         cy.get("input[placeholder='Your password']").should("not.exist");
         cy.get("div.card-header.bg-warning h1").contains(
-          "Please change your temporary password"
+          "Please change your temporary password",
         );
 
         cy.checkalert("Please change your temporary password");
@@ -486,15 +478,15 @@ Cypress.Commands.add(
 
       if (Cypress.env("ALLOW_TERMS_OF_USE")) {
         cy.get("div.modal-footer h1").contains(
-          "Do you accept our Terms of Use?"
+          "Do you accept our Terms of Use?",
         );
         cy.get("div.modal-footer button").first().contains("YES").click();
         cy.wait(300);
       }
 
-      cy.logout();
+      cy.logout(false);
     }
-  }
+  },
 );
 
 Cypress.Commands.add("deleteuser", (email) => {

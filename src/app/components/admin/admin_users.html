@@ -80,9 +80,9 @@
           <ng-template #dataDate let-row="row" let-value="value" let-i="index">
             <span
               *ngIf="value"
-              ngbTooltip="{{value | amFromUtc | date : 'dd MMM yyyy HH:mm:ss'}}"
+              ngbTooltip="{{value | date : 'dd MMM yyyy HH:mm:ss'}}"
             >
-              {{value | amFromUtc | date : 'dd MMM yyyy'}}
+              {{value | date : 'dd MMM yyyy'}}
             </span>
             <span *ngIf="!value">N/A</span>
           </ng-template>
@@ -106,13 +106,13 @@
             <i
               class="fas fa-hourglass-start orange"
               *ngIf="value && row.expiration && row.expiration && !row.expired"
-              ngbTooltip="This user will expire on {{ row.expiration | amDateFormat: 'Do of MMMM YYYY'}} ({{ row.expiration | amTimeAgo}})"
+              ngbTooltip="This user will expire on {{ row.expiration | date: 'dd MMMM YYYY'}} ({{ row.expiration | dfnsParseIso | dfnsFormatDistanceToNow: {addSuffix:true} }})"
             ></i>
 
             <i
               class="fas fa-hourglass-end red"
               *ngIf="value && row.expiration && row.expiration && row.expired"
-              ngbTooltip="This user is expired since {{ row.expiration | amDateFormat: 'Do of MMMM YYYY'}} ({{ row.expiration | amTimeAgo}})"
+              ngbTooltip="This user is expired since {{ row.expiration | date: 'dd MMMM YYYY'}} ({{ row.expiration | dfnsParseIso | dfnsFormatDistanceToNow: {addSuffix:true} }})"
             ></i>
           </ng-template>
 

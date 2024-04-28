@@ -49,7 +49,7 @@ describe("KitchenSink", () => {
         cy.get("input[ngbdatepicker]").click();
 
         cy.get(
-          'ngb-datepicker-navigation-select select[title="Select year"]'
+          'ngb-datepicker-navigation-select select[title="Select year"]',
         ).as("year");
 
         const current_year = new Date().getFullYear();
@@ -81,7 +81,7 @@ describe("KitchenSink", () => {
         cy.get("@year").select((current_year + 1).toString());
 
         cy.get(
-          'ngb-datepicker-navigation-select select[title="Select month"]'
+          'ngb-datepicker-navigation-select select[title="Select month"]',
         ).select("5");
 
         cy.get("div.ngb-dp-day div").contains("19").click({ force: true });
@@ -104,13 +104,13 @@ describe("KitchenSink", () => {
         cy.get("@url").clear().type("www.google.co");
         cy.get("formly-validation-message").should(
           "not.contain",
-          "Invalid web address"
+          "Invalid web address",
         );
 
         cy.get("@url").clear().type("wwwgoogle.com");
         cy.get("formly-validation-message").should(
           "not.contain",
-          "Invalid web address"
+          "Invalid web address",
         );
 
         // Not allowed in cypress...
@@ -119,13 +119,13 @@ describe("KitchenSink", () => {
         cy.get("@url").clear().type("http://www.google.com");
         cy.get("formly-validation-message").should(
           "not.contain",
-          "Invalid web address"
+          "Invalid web address",
         );
 
         cy.get("@url").clear().type("https://www.google.com");
         cy.get("formly-validation-message").should(
           "not.contain",
-          "Invalid web address"
+          "Invalid web address",
         );
 
         cy.get("@url").clear().type("httpx://www.google.com");
@@ -134,19 +134,19 @@ describe("KitchenSink", () => {
         cy.get("@url").clear().type("ftp://www.google.com");
         cy.get("formly-validation-message").should(
           "not.contain",
-          "Invalid web address"
+          "Invalid web address",
         );
 
         cy.get("@url").clear().type("user@sample.org");
         cy.get("formly-validation-message").should(
           "not.contain",
-          "Invalid web address"
+          "Invalid web address",
         );
 
         cy.get("@url").clear().type("www.google.com");
         cy.get("formly-validation-message").should(
           "not.contain",
-          "Invalid web address"
+          "Invalid web address",
         );
 
         cy.get("@text").clear().type("123");
@@ -154,7 +154,7 @@ describe("KitchenSink", () => {
         cy.get("@text").clear().type("1234");
         cy.get("formly-validation-message").should(
           "not.contain",
-          "Should have at least 4 characters"
+          "Should have at least 4 characters",
         );
         cy.get("@text").clear().type("12345678");
         // due to max: 6 on field definition
@@ -163,7 +163,7 @@ describe("KitchenSink", () => {
         // the input does not permit to include more than specified max
         cy.get("formly-validation-message").should(
           "not.contain",
-          "Should have no more than 6 characters"
+          "Should have no more than 6 characters",
         );
 
         cy.get("@number").clear().type("0");
@@ -173,32 +173,32 @@ describe("KitchenSink", () => {
         cy.get("@number").clear().type("5");
         cy.get("formly-validation-message").should(
           "not.contain",
-          "Should be greater than 1"
+          "Should be greater than 1",
         );
         cy.get("formly-validation-message").should(
           "not.contain",
-          "Should be lower than 9"
+          "Should be lower than 9",
         );
 
         cy.get("@number").clear().type("2.5");
         cy.get("formly-validation-message").should(
           "not.contain",
-          "Should be greater than 1"
+          "Should be greater than 1",
         );
         cy.get("formly-validation-message").should(
           "not.contain",
-          "Should be lower than 9"
+          "Should be lower than 9",
         );
 
         // 30e-1 == 3
         cy.get("@number").clear().type("30e-1");
         cy.get("formly-validation-message").should(
           "not.contain",
-          "Should be greater than 1"
+          "Should be greater than 1",
         );
         cy.get("formly-validation-message").should(
           "not.contain",
-          "Should be lower than 9"
+          "Should be lower than 9",
         );
 
         // Let's remove the validation error introduced to ease check of missing errors
@@ -335,7 +335,7 @@ describe("KitchenSink", () => {
         cy.get("@date").click();
 
         cy.get(
-          'ngb-datepicker-navigation-select select[title="Select year"]'
+          'ngb-datepicker-navigation-select select[title="Select year"]',
         ).as("year");
 
         const current_year = new Date().getFullYear();
@@ -345,7 +345,7 @@ describe("KitchenSink", () => {
         cy.get("@year").select((current_year + 1).toString());
 
         cy.get(
-          'ngb-datepicker-navigation-select select[title="Select month"]'
+          'ngb-datepicker-navigation-select select[title="Select month"]',
         ).select("5");
 
         cy.get("div.ngb-dp-day div").contains("19").click({ force: true });

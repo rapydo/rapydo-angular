@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
     private customization: ProjectOptions,
     private api: ApiService,
     private auth: AuthService,
-    public ssr: SSRService
+    public ssr: SSRService,
   ) {
     if (environment.authEnabled) {
       this.allowRegistration = environment.allowRegistration;
@@ -108,7 +108,7 @@ export class LoginComponent implements OnInit {
         key: "username",
         type: "input",
         focus: true,
-        templateOptions: {
+        props: {
           type: "email",
           // label: "Username",
           // labelPosition: "floating",
@@ -124,7 +124,7 @@ export class LoginComponent implements OnInit {
       this.fields.push({
         key: "password",
         type: "password",
-        templateOptions: {
+        props: {
           // label: "Password",
           // labelPosition: "floating",
           placeholder: "Your password",
@@ -140,7 +140,7 @@ export class LoginComponent implements OnInit {
       this.fields.push({
         key: "new_password",
         type: "password",
-        templateOptions: {
+        props: {
           // label: "New password",
           // labelPosition: "floating",
           placeholder: "Your new password",
@@ -154,7 +154,7 @@ export class LoginComponent implements OnInit {
       this.fields.push({
         key: "password_confirm",
         type: "password",
-        templateOptions: {
+        props: {
           // label: "Password confirmation",
           // labelPosition: "floating",
           placeholder: "Confirm your new password",
@@ -176,7 +176,7 @@ export class LoginComponent implements OnInit {
         key: "totp_code",
         type: "input",
         focus: true,
-        templateOptions: {
+        props: {
           type: "string",
           // label: "Verification code",
           // labelPosition: "floating",
@@ -201,7 +201,7 @@ export class LoginComponent implements OnInit {
         this.model.password,
         this.model.new_password,
         this.model.password_confirm,
-        this.model.totp_code
+        this.model.totp_code,
       )
       .subscribe(
         (data) => {
@@ -221,7 +221,7 @@ export class LoginComponent implements OnInit {
             (error) => {
               this.notify.showError(error);
               this.loading = false;
-            }
+            },
           );
         },
         (error) => {
@@ -291,19 +291,19 @@ export class LoginComponent implements OnInit {
             }
           } else if (error.status === 404) {
             this.notify.showError(
-              "Unable to login due to a server error. If this error persists please contact system administrators"
+              "Unable to login due to a server error. If this error persists please contact system administrators",
             );
           } else if (error.status === 502) {
             this.notify.showError(
               "The page you are looking for is currently unreachable",
-              "Resource unavailable"
+              "Resource unavailable",
             );
           } else {
             this.notify.showError(error);
           }
 
           this.loading = false;
-        }
+        },
       );
   }
 
@@ -323,17 +323,17 @@ export class LoginComponent implements OnInit {
           },
           (error) => {
             this.notify.showError(error);
-          }
+          },
         );
       },
       (reason) => {
         this.auth.logout().subscribe((response) => {
           this.notify.showError(
-            "We apologize but you are not allowed to login, as you have not accepted our Terms of Use"
+            "We apologize but you are not allowed to login, as you have not accepted our Terms of Use",
           );
           this.router.navigate([""]);
         });
-      }
+      },
     );
   }
 
@@ -345,7 +345,7 @@ export class LoginComponent implements OnInit {
       },
       (error) => {
         this.notify.showError(error);
-      }
+      },
     );
   }
 }

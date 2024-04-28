@@ -5,7 +5,7 @@ import {
   getpassword,
   get_random_username,
   get_totp,
-} from "../../fixtures/utilities";
+} from "../fixtures/utilities";
 
 if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
   describe("Login with TOTP", () => {
@@ -38,10 +38,10 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       cy.checkalert("You do not provided a valid verification code");
 
       cy.get("div.card-header h1").contains(
-        "Configure Two-Factor with Google Authenticator"
+        "Configure Two-Factor with Google Authenticator",
       );
       cy.get("div.card-header.bg-warning h1").contains(
-        "Please change your temporary password"
+        "Please change your temporary password",
       );
 
       cy.checkalert("Please change your temporary password");
@@ -98,7 +98,7 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
 
       if (Cypress.env("ALLOW_TERMS_OF_USE")) {
         cy.get("div.modal-footer h1").contains(
-          "Do you accept our Terms of Use?"
+          "Do you accept our Terms of Use?",
         );
         cy.get("div.modal-footer button").first().contains("YES").click();
       }
@@ -107,8 +107,6 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       cy.goto_profile();
 
       cy.get("table").find("td").contains(email);
-
-      cy.logout();
     });
 
     it("TOTP - login", () => {
@@ -127,7 +125,7 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       cy.get("input[placeholder='Your password']").should("not.exist");
 
       cy.get("div.card-header.bg-warning h1").contains(
-        "Provide the verification code"
+        "Provide the verification code",
       );
 
       // Authorization code is missing
@@ -209,7 +207,7 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
         .clear()
         .type(pwd + "!");
       cy.get(
-        'input[placeholder="Type again the new password for confirmation"]'
+        'input[placeholder="Type again the new password for confirmation"]',
       )
         .clear()
         .type(pwd + "!");
@@ -274,7 +272,7 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
       cy.wait("@login");
 
       cy.get("div.card-header.bg-warning h1").contains(
-        "Provide the verification code"
+        "Provide the verification code",
       );
       cy.get("input[placeholder='TOTP verification code']")
         .clear()
@@ -288,8 +286,6 @@ if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
     });
 
     after(() => {
-      cy.logout();
-
       cy.login();
       cy.deleteuser(email);
     });

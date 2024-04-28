@@ -13,7 +13,7 @@ import { BasePaginationComponent } from "@rapydo/components/base.pagination.comp
 import { ExcelService } from "@rapydo/services/excel";
 import { AdminUser } from "@rapydo/types";
 import { environment } from "@rapydo/../environments/environment";
-import * as moment from "moment";
+import { format } from "date-fns";
 
 @Component({
   templateUrl: "admin_users.html",
@@ -30,7 +30,10 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
   @ViewChild("emptyHeader", { static: false })
   public emptyHeader: TemplateRef<any>;
 
-  constructor(protected injector: Injector, private excel: ExcelService) {
+  constructor(
+    protected injector: Injector,
+    private excel: ExcelService,
+  ) {
     super(injector);
 
     let endpoint = "/api/admin/users";
@@ -124,7 +127,7 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
   protected manipulate_post_fields(fields) {
     for (let idx in fields) {
       if (fields[idx].key == "password") {
-        fields[idx].templateOptions["random_generation"] = true;
+        fields[idx].props["random_generation"] = true;
       }
     }
     return fields;
@@ -133,7 +136,7 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
   protected manipulate_put_fields(fields) {
     for (let idx in fields) {
       if (fields[idx].key == "password") {
-        fields[idx].templateOptions["random_generation"] = true;
+        fields[idx].props["random_generation"] = true;
       }
     }
     return fields;
@@ -198,7 +201,7 @@ export class AdminUsersComponent extends BasePaginationComponent<AdminUser> {
   }
 
   download() {
-    const m = moment().format("YYYYMMDD_HHmmss");
+    const m = format(new Date(), "yyyyMMdd_HHmmss");
     const filename = `${environment.projectName}_users_${m}.xlsx`;
 
     const headers = ["Name", "Surname", "Email", "Group", "Affiliation"];

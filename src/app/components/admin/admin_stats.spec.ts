@@ -70,7 +70,10 @@ describe("AdminStatsComponent", () => {
     const req = httpMock.expectOne(environment.backendURI + "/api/admin/stats");
     expect(req.request.method).toEqual("GET");
     req.flush(stats);
-
+    const localizationReq = httpMock.match("app/rapydo/assets/i18n/en.json");
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     httpMock.verify();
   }));
 

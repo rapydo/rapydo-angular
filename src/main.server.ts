@@ -11,4 +11,3 @@ if (environment.production) {
 
 import "zone.js/dist/zone";
 export { AppServerModule } from "@rapydo/app.server.module";
-export { renderModule, renderModuleFactory } from "@angular/platform-server";

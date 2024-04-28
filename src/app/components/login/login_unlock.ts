@@ -16,7 +16,7 @@ export class LoginUnlockComponent {
     private router: Router,
     private notify: NotificationService,
     private spinner: NgxSpinnerService,
-    private api: ApiService
+    private api: ApiService,
   ) {
     this.spinner.show();
     this.route.params.subscribe((params) => {
@@ -33,7 +33,7 @@ export class LoginUnlockComponent {
             this.spinner.hide();
             this.notify.showError(this.invalid_token);
             return false;
-          }
+          },
         );
       }
     });

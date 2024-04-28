@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, AfterViewInit } from "@angular/core";
 import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
 import { Meta, Title } from "@angular/platform-browser";
 import { filter, map, mergeMap } from "rxjs/operators";
@@ -8,6 +8,7 @@ import { environment } from "@rapydo/../environments/environment";
 import { AuthService } from "@rapydo/services/auth";
 import { ApiService } from "@rapydo/services/api";
 import { SSRService } from "@rapydo/services/ssr";
+import { SharedService } from "@rapydo/services/shared-service";
 import { NavbarComponent } from "@rapydo/components/navbar/navbar";
 import { NotificationService } from "@rapydo/services/notification";
 import { ProjectOptions } from "@app/customization";
@@ -16,12 +17,14 @@ import { ProjectOptions } from "@app/customization";
   selector: "app-root",
   templateUrl: "app.component.html",
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild("cookieLaw", { static: false }) private cookieLawEl: any;
+  @ViewChild("navbar", { static: false }) private navbar: NavbarComponent;
 
   public cookieLawText: string;
   public cookieLawButton: string;
   public enableFooter: boolean = false;
+  public enableCookieLaw: boolean = true;
 
   constructor(
     public api: ApiService,
@@ -32,7 +35,8 @@ export class AppComponent implements OnInit {
     private notify: NotificationService,
     private route: ActivatedRoute,
     private router: Router,
-    public ssr: SSRService
+    public ssr: SSRService,
+    private sharedService: SharedService,
   ) {
     this.enableFooter = environment.enableFooter;
     this.cookieLawText = this.customization.cookie_law_text();
@@ -70,7 +74,7 @@ export class AppComponent implements OnInit {
           return route;
         }),
         filter((route) => route.outlet === "primary"),
-        mergeMap((route) => route.data)
+        mergeMap((route) => route.data),
       )
       .subscribe((event) => {
         if (event["description"]) {
@@ -96,6 +100,21 @@ export class AppComponent implements OnInit {
           ]);
         }
       });
+  }
+
+  ngAfterViewInit(): void {
+    this.sharedService.iframeModeEmitted$.subscribe((isFlagOn: boolean) => {
+      setTimeout(() => {
+        // show/hide footer
+        this.enableFooter = !isFlagOn;
+        // disable cookie-law in iframe mode
+        if (isFlagOn) {
+          this.enableCookieLaw = false;
+        }
+      });
+      // show/hide navbar
+      isFlagOn ? this.navbar.hide() : this.navbar.show();
+    });
   }
 
   public dismissCookieLaw(): void {

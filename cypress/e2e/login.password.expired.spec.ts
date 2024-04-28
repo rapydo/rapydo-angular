@@ -5,7 +5,7 @@ import {
   getpassword,
   get_random_username,
   get_totp,
-} from "../../fixtures/utilities";
+} from "../fixtures/utilities";
 
 describe("Login", () => {
   // do not directly create the random values here,
@@ -27,49 +27,35 @@ describe("Login", () => {
     cy.get("input[placeholder='Your username (email)']").as("user");
     cy.get("input[placeholder='Your password']").as("pwd");
 
-    // Cypress is still not able to undo an intercept..
-    // A single intercept is needed here,
-    // then the test should continue with normal responses
-    // TO BE REMOVED:
-    cy.server();
-    cy.route({
-      method: "POST",
-      url: "/auth/login",
-      status: 403,
-      response: {
-        actions: ["PASSWORD EXPIRED"],
-        errors: ["Your password is expired, please change it"],
+    cy.intercept(
+      // routeMatcher
+      {
+        path: "/auth/login",
+        method: "POST",
+        times: 1,
       },
-    });
-
-    // TO BE REPLACED WITH:
-    // cy.intercept("POST", "/auth/login", {
-    //   statusCode: 403,
-    //   body: {
-    //     actions: ["PASSWORD EXPIRED"],
-    //     errors: ["Your password is expired, please change it"],
-    //   },
-    // }).as("login");
+      // staticResponse
+      {
+        statusCode: 403,
+        body: {
+          actions: ["PASSWORD EXPIRED"],
+          errors: ["Your password is expired, please change it"],
+        },
+      },
+    ).as("login");
 
     cy.get("@user").type(email);
     cy.get("@pwd").type(pwd, { parseSpecialCharSequences: false });
     cy.get("button").contains("Login").click();
 
-    // TO BE ADDED
-    // cy.wait("@login");
+    cy.wait("@login");
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/app/login");
     });
 
-    // TO BE REMOVED:
-    cy.server({ enable: false });
-
-    // TO BE REPLACED WITH SOMETHING TO UNDO THE PREVIOUS INTERCEPT
-    // cy.intercept("POST", "/auth/login");
-
     cy.checkalert("Your password is expired, please change it");
     cy.get("div.card-header h1").contains(
-      "Your password is expired, please change it"
+      "Your password is expired, please change it",
     );
     cy.get("button").contains("Change").click();
 
@@ -84,7 +70,7 @@ describe("Login", () => {
       0,
       "Should have at least " +
         Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
-        " characters"
+        " characters",
     );
     cy.get("button").contains("Change").click();
 
@@ -183,8 +169,6 @@ describe("Login", () => {
     } else {
       cy.get("button").contains("Change").click();
     }
-
-    cy.logout();
   });
 
   after(() => {

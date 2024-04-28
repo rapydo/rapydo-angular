@@ -2,7 +2,7 @@
 /*global cy, Cypress*/
 
 /* mostly copied From AdminUsers */
-import { getpassword, get_random_username } from "../../fixtures/utilities";
+import { getpassword, get_random_username } from "../fixtures/utilities";
 
 if (Cypress.env("AUTH_ROLES").includes(",staff_user,")) {
   describe("StaffUsers", () => {
@@ -67,7 +67,7 @@ if (Cypress.env("AUTH_ROLES").includes(",staff_user,")) {
         2,
         "Should have at least " +
           Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
-          " characters"
+          " characters",
       );
 
       cy.get("@password")

@@ -15,7 +15,10 @@ export class NotificationService {
   readonly WARNING = 3;
   readonly INFO = 4;
 
-  constructor(private toastr: ToastrService, private ssr: SSRService) {}
+  constructor(
+    private toastr: ToastrService,
+    private ssr: SSRService,
+  ) {}
 
   private isDict(dict: any): boolean {
     return typeof dict === "object" && !Array.isArray(dict);

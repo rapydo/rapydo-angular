@@ -2,6 +2,7 @@ import { TestBed, getTestBed } from "@angular/core/testing";
 import { FormControl } from "@angular/forms";
 import { FormlyService } from "@rapydo/services/formly";
 import { Schema, SchemaType } from "@rapydo/types";
+import { DateService } from "@rapydo/services/date";
 import { emailValidator } from "@rapydo/shared.module";
 
 describe("FormlyService", () => {
@@ -86,7 +87,7 @@ describe("FormlyService", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [FormlyService],
+      providers: [FormlyService, DateService],
     });
 
     injector = getTestBed();
@@ -154,7 +155,7 @@ describe("FormlyService", () => {
     expect(service.formatDate(null)).toBeNull();
     expect(service.formatDate("")).toEqual("");
     expect(service.formatDate("01 Jan 1970 00:00:00 GMT")).toEqual(
-      "1970-01-01"
+      "1970-01-01",
     );
     expect(service.formatDate("01/31/1970")).toEqual("1970-01-31");
     expect(service.formatDate("01/31/1970")).toEqual("1970-01-31");
@@ -166,16 +167,16 @@ describe("FormlyService", () => {
     expect(service.formatNgbDatepicker(null)).toBeNull();
     expect(service.formatNgbDatepicker("")).toBeNull();
     expect(service.formatNgbDatepicker("01/31/1970")).toEqual(
-      new Date("01/31/1970")
+      new Date("01/31/1970"),
     );
     expect(service.formatNgbDatepicker("1/31/1970")).toEqual(
-      new Date("01/31/1970")
+      new Date("01/31/1970"),
     );
     expect(service.formatNgbDatepicker("1/4/1970")).toEqual(
-      new Date("01/04/1970")
+      new Date("01/04/1970"),
     );
     expect(service.formatNgbDatepicker("1/04/1970")).toEqual(
-      new Date("01/04/1970")
+      new Date("01/04/1970"),
     );
   });
 
@@ -210,52 +211,52 @@ describe("EmailValidator", () => {
     const fieldConfig = null;
 
     expect(
-      emailValidator(new FormControl("email@example.com"), fieldConfig)
+      emailValidator(new FormControl("email@example.com"), fieldConfig),
     ).toBeNull();
     expect(
       emailValidator(
         new FormControl("email@subdomain.example.com"),
-        fieldConfig
-      )
+        fieldConfig,
+      ),
     ).toBeNull();
     expect(
       emailValidator(
         new FormControl("firstname.lastname@example.com"),
-        fieldConfig
-      )
+        fieldConfig,
+      ),
     ).toBeNull();
     expect(
       emailValidator(
         new FormControl("firstname-lastname@example.com"),
-        fieldConfig
-      )
+        fieldConfig,
+      ),
     ).toBeNull();
 
     expect(
       emailValidator(
         new FormControl("firstname+lastname@example.com"),
-        fieldConfig
-      )
+        fieldConfig,
+      ),
     ).toBeNull();
 
     expect(
-      emailValidator(new FormControl("email@123.123.123.123"), fieldConfig)
+      emailValidator(new FormControl("email@123.123.123.123"), fieldConfig),
     ).toBeNull();
 
     expect(
-      emailValidator(new FormControl("1234567890@example.com"), fieldConfig)
+      emailValidator(new FormControl("1234567890@example.com"), fieldConfig),
     ).toBeNull();
     expect(
-      emailValidator(new FormControl("email@example-one.com"), fieldConfig)
+      emailValidator(new FormControl("email@example-one.com"), fieldConfig),
     ).toBeNull();
     expect(
-      emailValidator(new FormControl("email@example.name"), fieldConfig)
+      emailValidator(new FormControl("email@example.name"), fieldConfig),
     ).toBeNull();
     expect(
-      emailValidator(new FormControl("email@example.museum"), fieldConfig)
+      emailValidator(new FormControl("email@example.museum"), fieldConfig),
     ).toBeNull();
     expect(
-      emailValidator(new FormControl("email@example.co.jp"), fieldConfig)
+      emailValidator(new FormControl("email@example.co.jp"), fieldConfig),
     ).toBeNull();
   });
 
@@ -264,76 +265,76 @@ describe("EmailValidator", () => {
 
     expect(emailValidator(new FormControl(""), fieldConfig)).not.toBeNull();
     expect(
-      emailValidator(new FormControl("plainaddress"), fieldConfig)
+      emailValidator(new FormControl("plainaddress"), fieldConfig),
     ).not.toBeNull();
     expect(
-      emailValidator(new FormControl("#@%^%#$@#$@#.com"), fieldConfig)
+      emailValidator(new FormControl("#@%^%#$@#$@#.com"), fieldConfig),
     ).not.toBeNull();
     expect(
-      emailValidator(new FormControl("@example.com"), fieldConfig)
+      emailValidator(new FormControl("@example.com"), fieldConfig),
     ).not.toBeNull();
     expect(
       emailValidator(
         new FormControl("Joe Smith <email@example.com>"),
-        fieldConfig
-      )
+        fieldConfig,
+      ),
     ).not.toBeNull();
     expect(
       emailValidator(
         new FormControl("firstname$lastname@example.com"),
-        fieldConfig
-      )
+        fieldConfig,
+      ),
     ).not.toBeNull();
     expect(
       emailValidator(
         new FormControl("firstname=lastname@example.com"),
-        fieldConfig
-      )
+        fieldConfig,
+      ),
     ).not.toBeNull();
     expect(
-      emailValidator(new FormControl("email.example.com"), fieldConfig)
+      emailValidator(new FormControl("email.example.com"), fieldConfig),
     ).not.toBeNull();
     expect(
-      emailValidator(new FormControl("email@example@example.com"), fieldConfig)
+      emailValidator(new FormControl("email@example@example.com"), fieldConfig),
     ).not.toBeNull();
     expect(
-      emailValidator(new FormControl(".email@example.com"), fieldConfig)
-    ).not.toBeNull();
-
-    expect(
-      emailValidator(new FormControl("email.@example.com"), fieldConfig)
+      emailValidator(new FormControl(".email@example.com"), fieldConfig),
     ).not.toBeNull();
 
     expect(
-      emailValidator(new FormControl("email..email@example.com"), fieldConfig)
+      emailValidator(new FormControl("email.@example.com"), fieldConfig),
     ).not.toBeNull();
 
     expect(
-      emailValidator(new FormControl("あいうえお@example.com"), fieldConfig)
+      emailValidator(new FormControl("email..email@example.com"), fieldConfig),
+    ).not.toBeNull();
+
+    expect(
+      emailValidator(new FormControl("あいうえお@example.com"), fieldConfig),
     ).not.toBeNull();
     expect(
       emailValidator(
         new FormControl("email@example.com (Joe Smith)"),
-        fieldConfig
-      )
+        fieldConfig,
+      ),
     ).not.toBeNull();
     expect(
-      emailValidator(new FormControl("email@example"), fieldConfig)
+      emailValidator(new FormControl("email@example"), fieldConfig),
     ).not.toBeNull();
     expect(
-      emailValidator(new FormControl("email@-example.com"), fieldConfig)
-    ).not.toBeNull();
-
-    expect(
-      emailValidator(new FormControl("email@111.222.333.44444"), fieldConfig)
+      emailValidator(new FormControl("email@-example.com"), fieldConfig),
     ).not.toBeNull();
 
     expect(
-      emailValidator(new FormControl("email@example..com"), fieldConfig)
+      emailValidator(new FormControl("email@111.222.333.44444"), fieldConfig),
     ).not.toBeNull();
 
     expect(
-      emailValidator(new FormControl("Abc..123@example.com"), fieldConfig)
+      emailValidator(new FormControl("email@example..com"), fieldConfig),
+    ).not.toBeNull();
+
+    expect(
+      emailValidator(new FormControl("Abc..123@example.com"), fieldConfig),
     ).not.toBeNull();
   });
 });

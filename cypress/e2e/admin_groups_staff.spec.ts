@@ -1,6 +1,6 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
-import { getpassword, get_random_username } from "../../fixtures/utilities";
+import { getpassword, get_random_username } from "../fixtures/utilities";
 
 /* mostly copied From AdminUsers */
 
@@ -64,20 +64,20 @@ if (Cypress.env("AUTH_ROLES").includes(",staff_user,")) {
 
       cy.get("datatable-body").contains(
         "datatable-body-cell",
-        "_TestGroup-" + randval
+        "_TestGroup-" + randval,
       );
 
       // Test duplications
       cy.get('button:contains("new group")').click({ force: true });
       cy.get('input[placeholder="Short name"]').type("_TestGroup-" + randval);
       cy.get('input[placeholder="Full name"]').type(
-        "Long name for test Group " + randval
+        "Long name for test Group " + randval,
       );
 
       cy.get("@submit").click({ force: true });
 
       cy.checkalert(
-        "A Group already exists with shortname: _TestGroup-" + randval
+        "A Group already exists with shortname: _TestGroup-" + randval,
       );
 
       cy.get('button:contains("Close")').click({ force: true });

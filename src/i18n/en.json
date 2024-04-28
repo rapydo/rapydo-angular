@@ -1,0 +1,11 @@
+{
+  "navbar": {
+    "group.title": "Group",
+    "admin.title": "Admin",
+    "lang": {
+      "title": "Language",
+      "en": "English",
+      "it": "Italian"
+    }
+  }
+}

@@ -83,7 +83,7 @@ describe("AdminSessions", () => {
       // cy.checkalert("Token successfully copied");
 
       // Clipboard verification requires an additional plugin...
-    }
+    },
   );
 
   // This is the same as in profile.sessions.spec
@@ -107,7 +107,7 @@ describe("AdminSessions", () => {
       cy.get("button").contains("Yes, delete").click();
 
       cy.checkalert("Confirmation: token successfully deleted");
-    }
+    },
   );
 
   it("Backend errors", () => {

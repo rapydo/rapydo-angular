@@ -1,7 +1,7 @@
 // This is to silence ESLint about undefined cy
 /*global cy, Cypress*/
 
-import { get_totp } from "../../fixtures/utilities";
+import { get_totp } from "../fixtures/utilities";
 
 describe("Responsive tests", () => {
   let expected_collapsed_navbar = false;
@@ -78,8 +78,5 @@ describe("Responsive tests", () => {
     });
 
     cy.get("div.card-header h1").contains("Your profile");
-
-    // Logout Confirmation modal is not opened on Cypress when navbar is collapsed...
-    // cy.logout(expected_collapsed_navbar);
   });
 });

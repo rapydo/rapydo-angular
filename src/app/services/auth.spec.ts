@@ -23,6 +23,7 @@ describe("AuthService", () => {
     TestBed.configureTestingModule({
       providers: [AuthService],
       imports: [AppModule, HttpClientTestingModule],
+      teardown: { destroyAfterEach: false },
     });
 
     injector = getTestBed();
@@ -47,14 +48,17 @@ describe("AuthService", () => {
         service.isAuthenticated().subscribe((result) => {
           expect(result).toBeFalsy();
         });
-      }
+      },
     );
 
     const req = httpMock.expectOne(environment.backendURI + "/auth/login");
 
     expect(req.request.method).toEqual("POST");
     req.flush("Invalid access credentials", mock401Response);
-
+    const localizationReq = httpMock.match("app/rapydo/assets/i18n/en.json");
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     httpMock.verify();
   });
 
@@ -76,17 +80,20 @@ describe("AuthService", () => {
     });
 
     const login_req = httpMock.expectOne(
-      environment.backendURI + "/auth/login"
+      environment.backendURI + "/auth/login",
     );
     expect(login_req.request.method).toEqual("POST");
     login_req.flush(token);
 
     const user_req = httpMock.expectOne(
-      environment.backendURI + "/auth/status"
+      environment.backendURI + "/auth/status",
     );
     expect(user_req.request.method).toEqual("GET");
     user_req.flush(user);
-
+    const localizationReq = httpMock.match("app/rapydo/assets/i18n/en.json");
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     httpMock.verify();
   });
 
@@ -97,22 +104,25 @@ describe("AuthService", () => {
         service.isAuthenticated().subscribe((result) => {
           expect(result).toBeFalsy();
         });
-      }
+      },
     );
 
     const logout_req = httpMock.expectOne(
-      environment.backendURI + "/auth/logout"
+      environment.backendURI + "/auth/logout",
     );
 
     expect(logout_req.request.method).toEqual("GET");
     logout_req.flush("", mock401Response);
 
     const profile_req = httpMock.expectOne(
-      environment.backendURI + "/auth/status"
+      environment.backendURI + "/auth/status",
     );
     expect(profile_req.request.method).toEqual("GET");
     profile_req.flush("", mock401Response);
-
+    const localizationReq = httpMock.match("app/rapydo/assets/i18n/en.json");
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     httpMock.verify();
   });
 
@@ -123,19 +133,26 @@ describe("AuthService", () => {
           expect(result).toBeFalsy();
         });
       },
-      (error) => {}
+      (error) => {},
     );
 
     const logout_req = httpMock.expectOne(
-      environment.backendURI + "/auth/logout"
+      environment.backendURI + "/auth/logout",
     );
     expect(logout_req.request.method).toEqual("GET");
     logout_req.flush("");
-
+    const localizationReq = httpMock.match("app/rapydo/assets/i18n/en.json");
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     httpMock.verify();
   });
 
   afterEach(() => {
+    const localizationReq = httpMock.match("app/rapydo/assets/i18n/en.json");
+    if (localizationReq.length > 0) {
+      localizationReq.forEach((req) => req.flush({}));
+    }
     // make sure that there are no outstanding requests
     httpMock.verify();
   });

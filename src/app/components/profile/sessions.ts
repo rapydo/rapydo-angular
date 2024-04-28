@@ -12,7 +12,7 @@ import { ExcelService } from "@rapydo/services/excel";
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
 
 import { environment } from "@rapydo/../environments/environment";
-import * as moment from "moment";
+import { format } from "date-fns";
 
 @Component({
   templateUrl: "sessions.html",
@@ -24,7 +24,10 @@ export class SessionsComponent extends BasePaginationComponent<Session> {
 
   public currentToken: string;
 
-  constructor(protected injector: Injector, private excel: ExcelService) {
+  constructor(
+    protected injector: Injector,
+    private excel: ExcelService,
+  ) {
     super(injector);
     this.init("token", "/auth/tokens", "Sessions");
     this.initPaging();
@@ -96,7 +99,7 @@ export class SessionsComponent extends BasePaginationComponent<Session> {
   }
 
   download() {
-    const m = moment().format("YYYYMMDD_HHmmss");
+    const m = format(new Date(), "yyyyMMdd_HHmmss");
     const filename = `${environment.projectName}_sessions_${m}.xlsx`;
 
     const headers = [
@@ -113,9 +116,13 @@ export class SessionsComponent extends BasePaginationComponent<Session> {
       download_data.push([
         t["IP"],
         t["location"],
-        { t: "d", v: moment(t["emitted"]).format("YYYY-MM-DD HH:mm:ss") },
-        { t: "d", v: moment(t["last_access"]).format("YYYY-MM-DD HH:mm:ss") },
-        { t: "d", v: moment(t["expiration"]).format("YYYY-MM-DD HH:mm:ss") },
+        // datetimes in isoformat and recognized as UTC, this way are correctly converted as local time
+        { t: "d", v: format(new Date(t["emitted"]), "yyyy-MM-dd HH:mm:ss") },
+        {
+          t: "d",
+          v: format(new Date(t["last_access"]), "yyyy-MM-dd HH:mm:ss"),
+        },
+        { t: "d", v: format(new Date(t["expiration"]), "yyyy-MM-dd HH:mm:ss") },
         t["token"],
       ]);
     }

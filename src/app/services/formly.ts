@@ -1,12 +1,14 @@
 import { Injectable } from "@angular/core";
 import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { FormlyFieldConfig } from "@ngx-formly/core";
-import * as moment from "moment";
+import { DateService } from "@rapydo/services/date";
 
 import { Schema, JSON2Form } from "@rapydo/types";
 
 @Injectable()
 export class FormlyService {
+  constructor(private date: DateService) {}
+
   private get_type(s: Schema) {
     if (s.options && s.type !== "radio") {
       return "select";
@@ -39,7 +41,7 @@ export class FormlyService {
       let template_type = "";
 
       let field = {};
-      field["templateOptions"] = {};
+      field["props"] = {};
       field["validators"] = {};
 
       // Uhmm... show to handle with placeholders? Should I raise a warning!??
@@ -50,31 +52,31 @@ export class FormlyService {
         if (s.max && s.max > 256) {
           field_type = "textarea";
           // should be calculated from s.max
-          field["templateOptions"]["rows"] = 5;
+          field["props"]["rows"] = 5;
         } else {
           field_type = "input";
         }
 
         template_type = "text";
 
-        field["templateOptions"]["minLength"] = s.min;
-        field["templateOptions"]["maxLength"] = s.max;
+        field["props"]["minLength"] = s.min;
+        field["props"]["maxLength"] = s.max;
 
         // number is a float/decimal
       } else if (stype === "int" || stype === "number") {
         field_type = "input";
         template_type = "number";
 
-        field["templateOptions"]["min"] = s.min;
-        field["templateOptions"]["max"] = s.max;
+        field["props"]["min"] = s.min;
+        field["props"]["max"] = s.max;
       } else if (stype === "date") {
         floating_labels_supported = false;
         field_type = "simpledatepicker";
         if (typeof s.min !== "undefined") {
-          field["templateOptions"]["min"] = this.getNgbDateStruct(s.min);
+          field["props"]["min"] = this.getNgbDateStruct(s.min);
         }
         if (typeof s.max !== "undefined") {
-          field["templateOptions"]["max"] = this.getNgbDateStruct(s.max);
+          field["props"]["max"] = this.getNgbDateStruct(s.max);
         }
       } else if (stype === "datetime") {
         floating_labels_supported = false;
@@ -91,10 +93,10 @@ export class FormlyService {
         // >>>> All other APIs continue to use NgbDateStruct <<<<
 
         if (typeof s.min !== "undefined") {
-          field["templateOptions"]["min"] = this.getNgbDateStruct(s.min);
+          field["props"]["min"] = this.getNgbDateStruct(s.min);
         }
         if (typeof s.max !== "undefined") {
-          field["templateOptions"]["max"] = this.getNgbDateStruct(s.max);
+          field["props"]["max"] = this.getNgbDateStruct(s.max);
         }
       } else if (stype === "email") {
         field_type = "input";
@@ -105,10 +107,10 @@ export class FormlyService {
         // template_type = "password";
 
         if (typeof s.min !== "undefined") {
-          field["templateOptions"]["minLength"] = s.min;
+          field["props"]["minLength"] = s.min;
         }
         // if (typeof s.max !== "undefined") {
-        //   field["templateOptions"]["maxLength"] = s.max;
+        //   field["props"]["maxLength"] = s.max;
         // }
       } else if (stype === "select") {
         floating_labels_supported = false;
@@ -123,9 +125,9 @@ export class FormlyService {
 
         field_type = "select";
         template_type = "select";
-        field["templateOptions"]["multiple"] = is_array;
+        field["props"]["multiple"] = is_array;
         if ("extra_descriptions" in s) {
-          field["templateOptions"]["extra_descriptions"] = s.extra_descriptions;
+          field["props"]["extra_descriptions"] = s.extra_descriptions;
         }
 
         let options = [];
@@ -135,19 +137,19 @@ export class FormlyService {
           options.push({ value: key, label: s.options[key] });
         }
 
-        field["templateOptions"]["options"] = options;
-        if (!is_array && !field["templateOptions"]["required"]) {
-          if (Array.isArray(field["templateOptions"]["options"])) {
+        field["props"]["options"] = options;
+        if (!is_array && !field["props"]["required"]) {
+          if (Array.isArray(field["props"]["options"])) {
             // prevent duplicated empty options if already provided as valid value
             let empty_option_found = false;
-            for (let opt of field["templateOptions"]["options"]) {
+            for (let opt of field["props"]["options"]) {
               if (opt.value === "") {
                 empty_option_found = true;
                 break;
               }
             }
             if (!empty_option_found) {
-              field["templateOptions"]["options"].unshift({
+              field["props"]["options"].unshift({
                 value: "",
                 label: "",
               });
@@ -162,9 +164,10 @@ export class FormlyService {
           model[s.key] = false;
         }
       } else if (stype === "radio") {
+        floating_labels_supported = false;
         field_type = "radio";
         template_type = "radio";
-        field["templateOptions"]["options"] = s.options;
+        field["props"]["options"] = s.options;
       } else if (stype === "url") {
         field_type = "input";
         template_type = "url";
@@ -172,11 +175,14 @@ export class FormlyService {
       } else if (stype === "autocomplete") {
         floating_labels_supported = false;
         field_type = "autocomplete";
-        field["templateOptions"]["endpoint"] = s.autocomplete_endpoint;
-        field["templateOptions"]["showValue"] = s.autocomplete_show_id;
-        field["templateOptions"]["bindValue"] = s.autocomplete_id_bind;
-        field["templateOptions"]["bindLabel"] = s.autocomplete_label_bind;
-        field["templateOptions"]["multiple"] = is_array;
+        field["props"]["endpoint"] = s.autocomplete_endpoint;
+        field["props"]["showValue"] = s.autocomplete_show_id;
+        field["props"]["bindValue"] = s.autocomplete_id_bind;
+        field["props"]["bindLabel"] = s.autocomplete_label_bind;
+        field["props"]["multiple"] = is_array;
+      } else if (is_array) {
+        field_type = "textarea";
+        field["props"]["rows"] = 5;
       }
 
       if (s.key.includes(".")) {
@@ -204,18 +210,18 @@ export class FormlyService {
         }
       }
 
-      field["templateOptions"]["label"] = s.label;
+      field["props"]["label"] = s.label;
       if (floating_labels_supported) {
-        field["templateOptions"]["labelPosition"] = "floating";
+        field["props"]["labelPosition"] = "floating";
       }
 
       if (stype === "select") {
-        field["templateOptions"]["description"] = s.description;
+        field["props"]["description"] = s.description;
       } else {
-        field["templateOptions"]["placeholder"] = s.description;
+        field["props"]["placeholder"] = s.description;
       }
-      field["templateOptions"]["type"] = template_type;
-      field["templateOptions"]["required"] = s.required;
+      field["props"]["type"] = template_type;
+      field["props"]["required"] = s.required;
 
       fields.push(field);
 
@@ -232,8 +238,8 @@ export class FormlyService {
           } else if (field_type === "datepicker") {
             default_data = this.formatNgbDatepicker(default_data);
           } else if (field_type === "autocomplete") {
-            field["templateOptions"]["selectedItems"] = [...default_data];
-            const idValue = field["templateOptions"]["bindValue"] || "value";
+            field["props"]["selectedItems"] = [...default_data];
+            const idValue = field["props"]["bindValue"] || "value";
             default_data = default_data.map((v) => v[idValue]);
 
             // Replaced by datepicker
@@ -271,7 +277,7 @@ export class FormlyService {
   }
 
   public getSelectIdFromObject(
-    obj: string | Record<"key" | "uuid" | "id" | "name", string | number>
+    obj: string | Record<"key" | "uuid" | "id" | "name", string | number>,
   ): string {
     if (typeof obj["key"] !== "undefined") {
       return obj["key"].toString();
@@ -323,19 +329,11 @@ export class FormlyService {
     return [year, month, day].join("-");
   }
   public getNgbDateStruct(d: Date | string | number): NgbDateStruct {
-    // Can handle both string in standard (ISO?) formats and Date objects
-    const mdt = moment.utc(d);
+    const utc = this.date.toUTCDate(d);
     return {
-      year: mdt.year(),
-      month: 1 + mdt.month(),
-      day: mdt.date(),
+      year: utc.getFullYear(),
+      month: 1 + utc.getMonth(),
+      day: utc.getDate(),
     };
-
-    // Version Date only, no moment conversion:
-    // return {
-    //   year: d.getFullYear(),
-    //   month: d.getMonth() + 1,
-    //   day: d.getDate()
-    // }
   }
 }

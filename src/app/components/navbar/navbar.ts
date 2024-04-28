@@ -1,6 +1,14 @@
-import { Component, ChangeDetectorRef, OnInit } from "@angular/core";
+import {
+  Component,
+  ChangeDetectorRef,
+  OnInit,
+  Input,
+  ElementRef,
+  Renderer2,
+} from "@angular/core";
 import { Router } from "@angular/router";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { TranslateService } from "@ngx-translate/core";
 
 import { environment } from "@rapydo/../environments/environment";
 
@@ -22,6 +30,7 @@ export class NavbarComponent implements OnInit {
 
   public showLogin: boolean = true;
   public allowRegistration: boolean = false;
+  public enableMultiLang: boolean = false;
 
   // This property tracks whether the menu is open.
   // Start with the menu collapsed so that it does not
@@ -29,6 +38,17 @@ export class NavbarComponent implements OnInit {
   public isMenuCollapsed = true;
 
   public admin_entries: AdminMenu[];
+
+  @Input()
+  set display(value: string) {
+    this._display = value;
+    if (value === "none") {
+      this.hide();
+      return;
+    }
+    this.show();
+  }
+  private _display = "block";
 
   constructor(
     private router: Router,
@@ -39,10 +59,14 @@ export class NavbarComponent implements OnInit {
     public ssr: SSRService,
     private auth: AuthService,
     private confirmationModals: ConfirmationModals,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private _el: ElementRef,
+    private _renderer: Renderer2,
+    private translate: TranslateService
   ) {
     this.showLogin = environment.showLogin;
     this.allowRegistration = environment.allowRegistration;
+    this.enableMultiLang = environment.enableMultiLang;
   }
 
   ngOnInit() {
@@ -133,7 +157,26 @@ export class NavbarComponent implements OnInit {
           this.router.navigate([""]);
         });
       },
-      (reason) => {}
+      (reason) => {},
     );
   }
+
+  /** allows to manually show this content */
+  show(): void {
+    this._renderer.setStyle(this._el.nativeElement, "display", this._display);
+  }
+
+  /** allows to manually hide content */
+  hide(): void {
+    this._renderer.setStyle(this._el.nativeElement, "display", "none");
+  }
+
+  changeLang(language: string) {
+    this.translate.use(language);
+  }
+
+  currentLang() {
+    return this.translate.currentLang;
+  }
+
 }

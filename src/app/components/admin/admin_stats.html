@@ -27,7 +27,7 @@
                   <th>Stats updated on</th>
                   <td>
                     <span
-                      ngbTooltip="{{current_date | amFromUtc | date : 'dd MMM yyyy HH:mm:ss' }}"
+                      ngbTooltip="{{current_date | date : 'dd MMM yyyy HH:mm:ss' }}"
                     >
                       {{current_date | date : 'dd MMM yyyy HH:mm:ss'}}
                     </span>
@@ -37,14 +37,10 @@
                   <th>Server startup</th>
                   <td>
                     <span
-                      ngbTooltip="{{stats.system.boot_time | amFromUtc | date : 'dd MMM yyyy HH:mm:ss' }}"
+                      ngbTooltip="{{stats.system.boot_time | date : 'dd MMM yyyy HH:mm:ss' }}"
                     >
-                      {{stats.system.boot_time | amTimeAgo:false}}
-                      <span
-                        class="badge bg-danger"
-                        *ngIf="(current_date | amDifference: stats.system.boot_time :'days' : true) > 90"
-                        >a reboot is suggested</span
-                      >
+                      {{stats.system.boot_time | dfnsParseIso |
+                      dfnsFormatDistanceToNow: {addSuffix:true} }}
                     </span>
                   </td>
                 </tr>

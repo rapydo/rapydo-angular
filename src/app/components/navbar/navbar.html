@@ -37,7 +37,7 @@
             routerLink="/app/group/users"
             routerLinkActive="active"
           >
-            Group
+            {{"navbar.group.title" | translate}}
           </a>
         </li>
       </ul>
@@ -53,7 +53,7 @@
             id="navbarDropdownAdminLink"
             role="button"
           >
-            Admin
+            {{"navbar.admin.title" | translate}}
           </a>
           <div
             ngbDropdownMenu
@@ -77,6 +77,35 @@
 
       <!-- rpd-menu-controls is a hook to let custom styles from projects-->
       <ul class="nav navbar-nav ms-auto rpd-menu-controls" *ngIf="!loading">
+        <customcontrols
+           [user]="user"
+           (onClick)="isMenuCollapsed = true"
+        ></customcontrols>
+        <li class="nav-item dropdown" ngbDropdown *ngIf="enableMultiLang">
+          <a class="nav-link" href="javascript:void(0)" ngbDropdownToggle>
+            <i class="fa fa-language"></i>
+              {{ currentLang() }}
+              <b class="caret"></b>
+          </a>
+          <div class="dropdown-menu-right" ngbDropdownMenu>
+            <a
+              (click)="changeLang('en')"
+              class="dropdown-item"
+              [ngClass]="{active: currentLang() === 'en'}"
+              href="javascript:void(0)"
+            >
+              {{ "navbar.lang.en" | translate }}
+            </a>
+            <a
+              (click)="changeLang('it')"
+              class="dropdown-item"
+              [ngClass]="{active: currentLang() === 'it'}"
+              href="javascript:void(0)"
+            >
+              {{ "navbar.lang.it" | translate }}
+            </a>
+          </div>
+        </li>
         <li class="nav-item" *ngIf="user">
           <a
             class="nav-link"
@@ -93,12 +122,18 @@
         </li>
 
         <li class="nav-item" *ngIf="user">
-          <a class="nav-link" href [routerLink]="">
+          <button
+            class="nav-link btn btn-link"
+            id="logout-icon"
+            href
+            [routerLink]=""
+          >
             <i
               class="fas fa-right-from-bracket fa-lg clickable"
+              ngbTooltip="Click to logout"
               (click)="do_logout()"
             ></i>
-          </a>
+          </button>
         </li>
 
         <li

@@ -1,4 +1,4 @@
-<navbar></navbar>
+<navbar #navbar></navbar>
 
 <div *ngIf="!api.is_online() && ssr.isBrowser">
   <div class="container-fluid">
@@ -37,11 +37,11 @@
 <!-- Used to create a separation between router-outlet and footer -->
 <div class="spacer"></div>
 
-<footer class="footer mt-auto" *ngIf="enableFooter">
+<footer class="footer mt-auto sticky-bottom" *ngIf="enableFooter">
   <customfooter></customfooter>
 </footer>
 
-<cookie-law #cookieLaw>
+<cookie-law #cookieLaw *ngIf="enableCookieLaw">
   <span
     *ngIf="cookieLawText; else defaultText"
     [innerHTML]="cookieLawText"

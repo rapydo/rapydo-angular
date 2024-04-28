@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": "/app/node_modules/",
     "outDir": "/app/dist",
-    "target": "es2015",
+    "target": "ES6",
     "module": "esnext",
     "moduleResolution": "node",
 
@@ -12,6 +12,21 @@
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "importHelpers": true,
+
+    // Added with Angular 15
+    // When this option is set, TypeScript will issue an error if a program tries to include a file by a casing different from the casing on disk.
+    "forceConsistentCasingInFileNames": true,
+    // Prevent sub-classes to get “out of sync” with the functions it overloads when they are renamed in the base class.
+    // to be set true
+    "noImplicitOverride": false,
+    // Without this flag, TypeScript will allow you to use the dot syntax to access fields which are not defined
+    // to be set true
+    "noPropertyAccessFromIndexSignature": false,
+    // When enabled, TypeScript will check all code paths in a function to ensure they return a value.
+    // to be set true
+    "noImplicitReturns": false,
+    // Ensures that any non-empty case inside a switch statement includes either break, return, or throw. This means you won't accidentally ship a case fallthrough bug.
+    "noFallthroughCasesInSwitch": true,
 
     // Enable incremental compilation by reading/writing information from prior compilations to a file on disk.
     "incremental": true,
@@ -82,6 +97,15 @@
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true
+    "strictInjectionParameters": true,
+
+    // Added with Angular 15
+    // Instructs the Angular template compiler to create legacy ids for messages that are tagged in templates by the i18n attribute.
+    "enableI18nLegacyMessageIdFormat": false,
+    // Whether access modifiers such as private/protected/readonly are honored when assigning a binding expression to an @Input()
+    "strictInputAccessModifiers": true,
+    // When true, enables strict template type checking.
+    // to be set true
+    "strictTemplates": false
   }
 }

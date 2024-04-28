@@ -5,7 +5,7 @@ import {
   getpassword,
   get_random_username,
   get_totp,
-} from "../../fixtures/utilities";
+} from "../fixtures/utilities";
 
 describe("ChangePassword", () => {
   // do not directly create the random values here,
@@ -53,10 +53,10 @@ describe("ChangePassword", () => {
     cy.checkvalidation(0, "This field is required");
 
     cy.get('input[placeholder="Type the desidered new password"]').as(
-      "new_password"
+      "new_password",
     );
     cy.get(
-      'input[placeholder="Type again the new password for confirmation"]'
+      'input[placeholder="Type again the new password for confirmation"]',
     ).as("confirm_password");
 
     cy.get("@new_password").clear().type("short");
@@ -77,7 +77,7 @@ describe("ChangePassword", () => {
       0,
       "Should have at least " +
         Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
-        " characters"
+        " characters",
     );
 
     let newPassword = getpassword(1);
@@ -190,8 +190,6 @@ describe("ChangePassword", () => {
   });
 
   after(() => {
-    cy.logout();
-
     cy.login();
     cy.deleteuser(email);
   });

@@ -5,7 +5,7 @@ import { ExcelService } from "@rapydo/services/excel";
 
 import { BasePaginationComponent } from "@rapydo/components/base.pagination.component";
 import { environment } from "@rapydo/../environments/environment";
-import * as moment from "moment";
+import { format, parse } from "date-fns";
 
 @Component({
   templateUrl: "./admin_logins.html",
@@ -16,7 +16,10 @@ export class AdminLoginsComponent extends BasePaginationComponent<Login> {
   @ViewChild("failedCell", { static: false })
   public failedCell: TemplateRef<any>;
 
-  constructor(protected injector: Injector, private excel: ExcelService) {
+  constructor(
+    protected injector: Injector,
+    private excel: ExcelService,
+  ) {
     super(injector);
     this.init("login", "/api/admin/logins", "Logins");
     this.initPaging();
@@ -37,29 +40,6 @@ export class AdminLoginsComponent extends BasePaginationComponent<Login> {
       { name: "Date", prop: "date", flexGrow: 5, cellTemplate: this.dateCell },
       { name: "IP", prop: "IP", flexGrow: 3 },
       { name: "Location", prop: "location", flexGrow: 3 },
-
-      // {
-      //   name: "Members",
-      //   prop: "members",
-      //   flexGrow: 0.3,
-      //   cellTemplate: this.membersCell,
-      // },
-      // {
-      //   name: "Coordinator(s)",
-      //   prop: "coordinators",
-      //   cellTemplate: this.coordinatorsCell,
-      //   sortable: false,
-      //   flexGrow: 1,
-      // },
-      // {
-      //   name: "controls",
-      //   prop: "controls",
-      //   cellTemplate: this.controlsCell,
-      //   headerTemplate: this.emptyHeader,
-      //   sortable: false,
-      //   flexGrow: 0.2,
-      //   minWidth: 60,
-      // },
     ];
   }
 
@@ -79,7 +59,7 @@ export class AdminLoginsComponent extends BasePaginationComponent<Login> {
   }
 
   download() {
-    const m = moment().format("YYYYMMDD_HHmmss");
+    const m = format(new Date(), "yyyyMMdd_HHmmss");
     const filename = `${environment.projectName}_logins_${m}.xlsx`;
 
     const headers = ["Date", "Username", "IP", "Location", "Failed Login"];
@@ -87,7 +67,8 @@ export class AdminLoginsComponent extends BasePaginationComponent<Login> {
 
     for (let d of this.unfiltered_data) {
       download_data.push([
-        { t: "d", v: moment(d["date"]).format("YYYY-MM-DD HH:mm:ss") },
+        // datetimes in isoformat and recognized as UTC, this way are correctly converted as local time
+        { t: "d", v: format(new Date(d["date"]), "yyyy-MM-dd HH:mm:ss") },
         d["username"],
         d["IP"],
         d["location"],

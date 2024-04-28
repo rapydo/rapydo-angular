@@ -19,8 +19,8 @@ import {
   NgbDateStruct,
 } from "@ng-bootstrap/ng-bootstrap";
 
-import { MomentModule } from "ngx-moment";
-import * as moment from "moment";
+import { DateFnsModule } from "ngx-date-fns";
+import { format, parse } from "date-fns";
 
 import { ClipboardModule } from "ngx-clipboard";
 
@@ -37,6 +37,7 @@ import { SelectTypeComponent } from "@rapydo/components/forms/ng-select.type";
 import { AutocompleTypeComponent } from "@rapydo/components/forms/ng-select-autocomplete.type";
 import { RadioTypeComponent } from "@rapydo/components/forms/radio.type";
 import { TermsOfUseTypeComponent } from "@rapydo/components/forms/terms-of-use.type";
+import { LanguageTranslationModule } from "@rapydo/language-translation.module";
 
 import { NgxSpinnerModule } from "ngx-spinner";
 
@@ -53,7 +54,7 @@ import { environment } from "@rapydo/../environments/environment";
 
 export function emailValidator(
   control: AbstractControl,
-  fieldConfig: FormlyFieldConfig
+  fieldConfig: FormlyFieldConfig,
 ): ValidationErrors {
   // Empty email => not valid
   if (!control.value) {
@@ -109,20 +110,20 @@ export function emailValidator(
 
 export function TOTPValidator(
   control: AbstractControl,
-  fieldConfig: FormlyFieldConfig
+  fieldConfig: FormlyFieldConfig,
 ): ValidationErrors {
   return /^[0-9]{6}$/.test(control.value) ? null : { totp: true };
 }
 export function URLValidator(
   control: AbstractControl,
-  fieldConfig: FormlyFieldConfig
+  fieldConfig: FormlyFieldConfig,
 ): ValidationErrors {
   if (control.value === null) {
     return null;
   }
 
   return /^(?:(?:(?:https?|ftp):)?\/\/)?(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(
-    control.value
+    control.value,
   )
     ? null
     : { url: true };
@@ -166,50 +167,48 @@ export function URLValidator(
 }
 
 export function minLengthValidationError(error, field) {
-  return `Should have at least ${field.templateOptions.minLength} characters`;
+  return `Should have at least ${field.props.minLength} characters`;
 }
 
 // Can't be used because inputs are prevented to add more characters then the maximum allowed
 // export function maxLengthValidationError(error, field) {
-//   return `Should have no more than ${field.templateOptions.maxLength} characters`;
+//   return `Should have no more than ${field.props.maxLength} characters`;
 // }
 
 export function minValidationError(error, field) {
-  return `Should be greater than ${field.templateOptions.min}`;
+  return `Should be greater than ${field.props.min}`;
 }
 
 export function maxValidationError(error, field) {
-  return `Should be lower than ${field.templateOptions.max}`;
+  return `Should be lower than ${field.props.max}`;
 }
 
 // ngbDatepicker uses { year: 'yyyy', month: 'mm', day: 'dd'} as date format by default
 // this adapter allow ngbDatepicker to accept js native Dates
 @Injectable()
-export class MomentDateFormatter extends NgbDateParserFormatter {
+export class DateFormatter extends NgbDateParserFormatter {
   // Convert a string formatted as 'DD/MM/YYYY' into {year: 'yyyy', month: 'mm', day:}
   parse(value: string): NgbDateStruct {
-    if (value) {
-      value = value.trim();
-      let mdt = moment(value, "DD/MM/YYYY");
-      return {
-        year: mdt.year(),
-        month: 1 + mdt.month(),
-        day: mdt.date(),
-      };
+    if (!value) {
+      return null;
     }
-    return null;
+    value = value.trim();
+
+    let d = parse(value, "dd/MM/yyyy", new Date());
+
+    return {
+      year: d.getFullYear(),
+      month: 1 + d.getMonth(),
+      day: d.getDate(),
+    };
   }
 
-  // Convert {year: 'yyyy', month: 'mm', day:} 'dd' into DD/MM/YYYY
+  // Convert {year: 'yyyy', month: 'mm', day: 'dd'} into DD/MM/YYYY
   format(date: NgbDateStruct): string {
     if (!date) {
       return "";
     }
-    let mdt = moment([date.year, date.month - 1, date.day]);
-    if (!mdt.isValid()) {
-      return "";
-    }
-    return mdt.format("DD/MM/YYYY");
+    return format(new Date(date.year, date.month - 1, date.day), "dd/MM/yyyy");
   }
 }
 
@@ -217,7 +216,7 @@ let module_imports: any = [
   CommonModule,
 
   NgbModule,
-  MomentModule,
+  DateFnsModule.forRoot(),
   FormsModule,
   ReactiveFormsModule,
   NgxDatatableModule,
@@ -285,6 +284,7 @@ let module_imports: any = [
       { name: "url", validation: URLValidator },
     ],
   }),
+  LanguageTranslationModule,
 ];
 
 let module_declarations = [
@@ -320,7 +320,7 @@ let module_exports = [
 
   NgxDatatableModule,
   NgbModule,
-  MomentModule,
+  DateFnsModule,
   FormsModule,
   ReactiveFormsModule,
   FormlyBootstrapModule,
@@ -330,6 +330,7 @@ let module_exports = [
   UploadxModule,
   ClipboardModule,
   NgxSpinnerModule,
+  LanguageTranslationModule,
 
   IteratePipe,
   SafeHtmlPipe,
@@ -343,7 +344,7 @@ let module_exports = [
 
 let module_providers: any = [
   { provide: NgbDateAdapter, useClass: NgbDateNativeUTCAdapter },
-  { provide: NgbDateParserFormatter, useValue: new MomentDateFormatter() },
+  { provide: NgbDateParserFormatter, useValue: new DateFormatter() },
 ];
 
 @NgModule({

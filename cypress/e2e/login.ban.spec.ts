@@ -5,7 +5,7 @@ import {
   getpassword,
   get_random_username,
   get_totp,
-} from "../../fixtures/utilities";
+} from "../fixtures/utilities";
 
 describe("Login Ban", () => {
   if (Cypress.env("AUTH_MAX_LOGIN_ATTEMPTS") > 0) {
@@ -19,10 +19,10 @@ describe("Login Ban", () => {
       cy.get("div.card-header h1").contains("Invalid unlock token");
 
       cy.get("div.card-body p").contains(
-        "The received token is not valid, if you copied the URL please verify that you copied all parts of it."
+        "The received token is not valid, if you copied the URL please verify that you copied all parts of it.",
       );
       cy.get("div.card-body p").contains(
-        "If the URL is correct the token could be invalid because your credentials are already unlocked."
+        "If the URL is correct the token could be invalid because your credentials are already unlocked.",
       );
       cy.get("div.card-body p").contains("To verify that you can try to");
 
@@ -60,14 +60,14 @@ describe("Login Ban", () => {
         .type(pwd, { parseSpecialCharSequences: false });
       cy.get("button").contains("Login").click();
       cy.checkalert(
-        "Sorry, this account is temporarily blocked due to the number of failed login attempts."
+        "Sorry, this account is temporarily blocked due to the number of failed login attempts.",
       );
 
       cy.visit("/public/reset");
       cy.get("input[id=formly_1_input_reset_email_0]").clear().type(email);
       cy.get("button:contains('Submit request')").click();
       cy.checkalert(
-        "Sorry, this account is temporarily blocked due to the number of failed login attempts."
+        "Sorry, this account is temporarily blocked due to the number of failed login attempts.",
       );
 
       cy.getmail().then((body) => {
@@ -86,7 +86,6 @@ describe("Login Ban", () => {
 
         cy.login(email, pwd);
         cy.goto_profile();
-        cy.logout();
       });
 
       cy.login();
@@ -102,7 +101,7 @@ describe("Login Ban", () => {
         // 10 is the default used by backend (services/authentication) in testing mode
         const max_failures = Math.max(
           Cypress.env("AUTH_MAX_LOGIN_ATTEMPTS"),
-          10
+          10,
         );
 
         cy.visit("/app/login");
@@ -131,14 +130,14 @@ describe("Login Ban", () => {
           .type(get_totp());
         cy.get("button").contains("Authorize").click();
         cy.checkalert(
-          "Sorry, this account is temporarily blocked due to the number of failed login attempts."
+          "Sorry, this account is temporarily blocked due to the number of failed login attempts.",
         );
 
         cy.visit("/public/reset");
         cy.get("input[id=formly_1_input_reset_email_0]").clear().type(email);
         cy.get("button:contains('Submit request')").click();
         cy.checkalert(
-          "Sorry, this account is temporarily blocked due to the number of failed login attempts."
+          "Sorry, this account is temporarily blocked due to the number of failed login attempts.",
         );
 
         cy.getmail().then((body) => {
@@ -157,7 +156,6 @@ describe("Login Ban", () => {
 
           cy.login(email, pwd);
           cy.goto_profile();
-          cy.logout();
         });
 
         cy.login();

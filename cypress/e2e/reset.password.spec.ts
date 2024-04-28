@@ -5,7 +5,7 @@ import {
   getpassword,
   get_random_username,
   get_totp,
-} from "../../fixtures/utilities";
+} from "../fixtures/utilities";
 
 if (Cypress.env("ALLOW_PASSWORD_RESET")) {
   describe("ResetPassword", () => {
@@ -37,7 +37,7 @@ if (Cypress.env("ALLOW_PASSWORD_RESET")) {
       cy.checkvalidation(0, "This field is required");
 
       cy.get(
-        'input[placeholder="Type here your email address to receive the reset link"]'
+        'input[placeholder="Type here your email address to receive the reset link"]',
       ).as("email");
 
       cy.get("@email").clear().type("invalid");
@@ -48,7 +48,7 @@ if (Cypress.env("ALLOW_PASSWORD_RESET")) {
       cy.get("button:contains('Submit request')").click();
 
       cy.checkalert(
-        "Sorry, invalid@sample.com is not recognized as a valid username"
+        "Sorry, invalid@sample.com is not recognized as a valid username",
       );
 
       cy.intercept("POST", "/auth/reset").as("reset");
@@ -60,11 +60,11 @@ if (Cypress.env("ALLOW_PASSWORD_RESET")) {
 
       cy.get("div.card-header h1").contains("Reset your password");
       cy.get("div.card-body").contains(
-        "We'll send instructions to the email provided if it's associated with an account. Please check your spam/junk folder."
+        "We'll send instructions to the email provided if it's associated with an account. Please check your spam/junk folder.",
       );
 
       cy.intercept("PUT", "/auth/reset/token-received-by-email").as(
-        "validate1"
+        "validate1",
       );
 
       cy.visit("/public/reset/token-received-by-email");
@@ -88,10 +88,10 @@ if (Cypress.env("ALLOW_PASSWORD_RESET")) {
         cy.checkvalidation(1, "This field is required");
 
         cy.get('input[placeholder="Type here your new password"]').as(
-          "new_password"
+          "new_password",
         );
         cy.get(
-          'input[placeholder="Type again your new password for confirmation"]'
+          'input[placeholder="Type again your new password for confirmation"]',
         ).as("confirm_password");
 
         cy.get("@new_password").clear().type("short");
@@ -101,7 +101,7 @@ if (Cypress.env("ALLOW_PASSWORD_RESET")) {
           0,
           "Should have at least " +
             Cypress.env("AUTH_MIN_PASSWORD_LENGTH") +
-            " characters"
+            " characters",
         );
         cy.checkvalidation(1, "This field is required");
 
@@ -152,7 +152,7 @@ if (Cypress.env("ALLOW_PASSWORD_RESET")) {
         cy.get("@confirm_password").clear().type(newPassword);
         cy.get("button:contains('Submit')").click();
         cy.checkalert(
-          "Password successfully changed. Please login with your new password"
+          "Password successfully changed. Please login with your new password",
         );
 
         cy.location().should((location) => {
@@ -179,7 +179,7 @@ if (Cypress.env("ALLOW_PASSWORD_RESET")) {
         if (Cypress.env("AUTH_SECOND_FACTOR_AUTHENTICATION")) {
           cy.get("input[placeholder='Your password']").should("not.exist");
           cy.get("div.card-header h1").contains(
-            "Provide the verification code"
+            "Provide the verification code",
           );
           cy.get("input[placeholder='TOTP verification code']")
             .clear()
@@ -193,8 +193,6 @@ if (Cypress.env("ALLOW_PASSWORD_RESET")) {
     });
 
     after(() => {
-      cy.logout();
-
       cy.login();
       cy.deleteuser(email);
     });
