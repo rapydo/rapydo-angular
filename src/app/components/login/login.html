@@ -109,16 +109,28 @@
       (click)="d('Cross click')"
     ></button>
   </div>
+
   <div class="modal-body">
-    <ngb-accordion [closeOthers]="true">
-      <ngb-panel *ngFor="let group of terms_of_use">
-        <ng-template ngbPanelTitle> {{group['label']}} </ng-template>
-        <ng-template ngbPanelContent>
-          <div [innerHTML]="group['text']"></div>
-        </ng-template>
-      </ngb-panel>
-    </ngb-accordion>
+    <div ngbAccordion [closeOthers]="true">
+      <div
+        ngbAccordionItem
+        [collapsed]="false"
+        *ngFor="let group of terms_of_use"
+      >
+        <h2 ngbAccordionHeader>
+          <button ngbAccordionButton>{{group['label']}}</button>
+        </h2>
+        <div ngbAccordionCollapse>
+          <div ngbAccordionBody>
+            <ng-template>
+              <div [innerHTML]="group['text']"></div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
   <div class="modal-footer">
     <h1>Do you accept our Terms of Use?</h1>
     <button
