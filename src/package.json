@@ -54,7 +54,7 @@
     "@swimlane/ngx-datatable": "20.1.0",
     "date-fns": "3.6.0",
     "ngx-date-fns": "11.0.0",
-    "ngx-spinner": "16.0.2",
+    "ngx-spinner": "17.0.0",
     "ngx-clipboard": "16.0.0",
     "ngx-uploadx": "6.2.0",
     "file-saver-es": "2.0.5",
