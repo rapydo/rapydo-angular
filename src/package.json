@@ -83,7 +83,7 @@
     "cypress-file-upload": "5.0.8",
     "cypress-fail-fast": "7.1.0",
     "istanbul-instrumenter-loader": "3.0.1",
-    "nyc": "15.1.0",
+    "nyc": "17.1.0",
     "start-server-and-test": "2.0.3",
     "node-xlsx": "0.24.0"
   },
