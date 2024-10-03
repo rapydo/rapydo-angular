@@ -61,7 +61,7 @@
     "angular2-cookie-law": "7.0.1",
     "generate-password-browser": "1.1.0",
     "ngx-toastr": "18.0.0",
-    "@sentry/browser": "7.112.2",
+    "@sentry/browser": "8.33.0",
     "xlsx": "0.18.5",
     "ajv-formats": "3.0.1",
     "localstorage-polyfill": "1.0.1",
