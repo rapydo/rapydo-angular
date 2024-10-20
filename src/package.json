@@ -65,7 +65,7 @@
     "xlsx": "0.18.5",
     "ajv-formats": "3.0.1",
     "localstorage-polyfill": "1.0.1",
-    "gzipper": "7.2.0",
+    "gzipper": "8.2.0",
     "buffer": "6.0.3",
     "@ngx-translate/core": "15.0.0",
     "@ngx-translate/http-loader": "8.0.0",
