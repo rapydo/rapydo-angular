@@ -69,7 +69,7 @@
     "buffer": "6.0.3",
     "@ngx-translate/core": "15.0.0",
     "@ngx-translate/http-loader": "8.0.0",
-    "@types/node": "20.12.7"
+    "@types/node": "20.17.0"
   },
   "devDependencies": {
     "karma": "6.4.3",
