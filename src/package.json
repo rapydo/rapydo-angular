@@ -23,7 +23,7 @@
   "dependencies": {
     "typescript": "5.3.3",
     "tslib": "2.6.2",
-    "@angular/common": "17.3.6",
+    "@angular/common": "19.2.16",
     "@angular/compiler": "17.3.6",
     "@angular/core": "17.3.6",
     "@angular/forms": "17.3.6",
