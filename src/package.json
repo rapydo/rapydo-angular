@@ -62,7 +62,7 @@
     "generate-password-browser": "1.1.0",
     "ngx-toastr": "18.0.0",
     "@sentry/browser": "7.112.2",
-    "xlsx": "0.18.5",
+    "@e965/xlsx": "0.20.3",
     "ajv-formats": "3.0.1",
     "localstorage-polyfill": "1.0.1",
     "gzipper": "7.2.0",
